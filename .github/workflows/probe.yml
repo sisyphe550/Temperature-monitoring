@@ -1,0 +1,30 @@
+name: Sensor probe
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  probe-tests:
+    name: probe-tests
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: swift --version
+      - name: Unit and white-box tests
+        run: swift test --package-path prototypes/sensor-probe --enable-code-coverage
+      - name: Pure logic coverage gate
+        run: python3 scripts/check-probe-coverage.py
+      - name: Release build
+        run: swift build --package-path prototypes/sensor-probe -c release
+      - name: CLI black-box checks
+        run: python3 scripts/test-probe-cli.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: probe-coverage
+          path: prototypes/sensor-probe/.build/*/debug/codecov/
