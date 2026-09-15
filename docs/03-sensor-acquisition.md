@@ -1,12 +1,21 @@
 # 传感器采集与接口可行性
 
-更新日期：2026-09-14。状态：需求已确认；接口能力待实测；读取路线为候选方案。
+更新日期：2026-09-15。状态：需求已确认；首台 M4 Air 已取得部分接口证据；语义与兼容范围未冻结。
 
 ## 范围与证据边界
 
-产品范围为 Apple Silicon MacBook Air。首个建议验证目标是 M4 MacBook Air；当前没有确切实测的型号标识、系统 build 或传感器列表。不能把 MacBook Pro、Mac mini 或 M4 Pro 上的结果外推为 M4 Air 已通过。
+产品范围为 Apple Silicon MacBook Air。首台实测为 15 英寸 M4 MacBook Air（Mac16,13），macOS 15.7.3 (24G419)。不能把 MacBook Pro、Mac mini 或 M4 Pro 上的结果外推为 M4 Air 已通过。
 
 本次讨论完成了官方资料、开源代码和本机 SDK 检查。SDK 检查使用 **macOS 15.5 SDK**，它证明对应声明在该 SDK 中存在，不证明目标 macOS 15.7.3 或以后版本上一定返回数据。
+
+## 2026-09-15 首轮证据
+
+- 普通用户 uid/euid=501、Release 命令行原型可打开 AppleSMC，枚举 2,147 个键，取得候选温度；HID 返回 47 个温度服务。
+- NVMe SMART 可读取温度字段；原型曾因提前销毁插件导致端口失效，已按 Issue #2 修复并回归。
+- IOPowerSources 没有返回 Temperature 字段；HID 返回多个同名 gas gauge battery 候选来源，不进行平均或去重。IORegistry 同名字段单位保持未知。
+- CPU Package 与物理 Core 映射、真实刷新频率、跨机型／版本兼容性仍未证实。
+
+完整读数、来源状态与五档计时见 [验证报告](validation/2026-09-15-m4-air/validation-report.md)。
 
 ## 接口路线
 

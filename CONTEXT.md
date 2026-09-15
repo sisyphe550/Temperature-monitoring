@@ -1,6 +1,6 @@
 # 项目上下文
 
-更新日期：2026-09-14。状态：已确认范围＋推荐设计。文档入口：[README](README.md)。
+更新日期：2026-09-15。状态：已确认范围＋推荐设计。文档入口：[README](README.md)。
 
 ## 目的与背景
 
@@ -54,6 +54,8 @@
 
 ## 项目现状
 
-本轮检查时目标目录为空，尚未建立 Git 仓库。本次只落地 Markdown 文档；没有创建 GitHub 仓库、提交、Issue、PR 或自动化，没有执行传感器实测。后续项目状态变化需更新本节。
+截至 2026-09-15，已存在 Git 仓库与公开远端 `sisyphe550/Temperature-monitoring`，主分支 `main`。本次按用户授权从最新主分支建立 `feature/v0-sensor-validation`，新增独立只读 Swift/C 原型、测试、CI 与 M4 Air 实测证据。
+
+实测机为 Mac16,13／M4／macOS 15.7.3 (24G419)。已取得候选温度与 SSD SMART 读数；不等于 Package／逐核映射已建立。详见 [报告](docs/validation/2026-09-15-m4-air/validation-report.md)。完整 V0 与生产设计仍未冻结；GitHub 强制门禁尚未完整配置，合并保持待审查。
 
 参考：[来源编号](docs/18-sources.md)、[决策记录](docs/15-decisions-and-corrections.md)。

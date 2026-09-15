@@ -1,0 +1,3257 @@
+{
+  "diagnostics" : {
+    "AppleSMC.failed_key_indices" : "0",
+    "AppleSMC.key_count" : "2147",
+    "AppleSMC.open" : "ok",
+    "HID.open" : "ok",
+    "HID.service_count" : "47",
+    "IOPowerSources.0.power_state" : "Battery Power",
+    "IOPowerSources.count" : "1",
+    "IORegistry.AppleSmartBattery.Temperature.raw" : "3030",
+    "IORegistry.AppleSmartBattery.Temperature.unit" : "unknown; not converted or sampled",
+    "NVMe.discovery" : "ok",
+    "NVMe.smart_capable_count" : "1"
+  },
+  "environment" : {
+    "build" : "24G419",
+    "chip" : "Apple M4",
+    "configuration" : "release",
+    "euid" : "501",
+    "gitRevision" : "3fa99aa491c4ea270e60fbda75c3872f9336e07a",
+    "gitWorktreeStatus" : "?? .github\/\n?? .gitignore\n?? prototypes\/\n?? scripts\/",
+    "macOS" : "15.7.3",
+    "memoryBytes" : "34359738368",
+    "model" : "Mac16,13",
+    "physicalCPUCount" : "10",
+    "sdk" : "15.5",
+    "sourceFreshness" : "unknown; no source timestamp claimed",
+    "swift" : "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)\nTarget: arm64-apple-macosx15.0",
+    "thermalState" : "0",
+    "uid" : "501"
+  },
+  "schemaVersion" : 1,
+  "sensors" : [
+    {
+      "initialReading" : {
+        "celsius" : 30.916061401367188,
+        "rawType" : "flt ",
+        "rawValue" : "1854f741",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "T5SP",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 27.8125,
+        "rawType" : "flt ",
+        "rawValue" : "0080de41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TAOL",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 29.79998779296875,
+        "rawType" : "flt ",
+        "rawValue" : "6066ee41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TB0T",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 29.79998779296875,
+        "rawType" : "flt ",
+        "rawValue" : "6066ee41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TB1T",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 28.399993896484375,
+        "rawType" : "flt ",
+        "rawValue" : "3033e341",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TB2T",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.361328125,
+        "rawType" : "flt ",
+        "rawValue" : "00e4fa41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TCHP",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 58.98586654663086,
+        "rawType" : "flt ",
+        "rawValue" : "87f16b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TCMb",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 77.796875,
+        "rawType" : "flt ",
+        "rawValue" : "00989b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TCMz",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.3125,
+        "rawType" : "flt ",
+        "rawValue" : "0080fa41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TDBP",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.25,
+        "rawType" : "flt ",
+        "rawValue" : "0000f241",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TDeL",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "cccc1d0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TG0B",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "00001c0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TG0C",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "00001d0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TG0H",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "cccc1d0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TG0V",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "cccc1d0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TG1B",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "66661c0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TG2B",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.2518310546875,
+        "rawType" : "flt ",
+        "rawValue" : "e0010142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TH0T",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.8941650390625,
+        "rawType" : "flt ",
+        "rawValue" : "4027ff41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TH0x",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.295623779296875,
+        "rawType" : "flt ",
+        "rawValue" : "705df241",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TIOP",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.072998046875,
+        "rawType" : "flt ",
+        "rawValue" : "c04a0042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TMVR",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 35.25006103515625,
+        "rawType" : "flt ",
+        "rawValue" : "10000d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.89076232910156,
+        "rawType" : "flt ",
+        "rawValue" : "24900742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD1",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.57093811035156,
+        "rawType" : "flt ",
+        "rawValue" : "a4480642",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD2",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.57093811035156,
+        "rawType" : "flt ",
+        "rawValue" : "a4480642",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD3",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.89076232910156,
+        "rawType" : "flt ",
+        "rawValue" : "24900742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD4",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 35.729827880859375,
+        "rawType" : "flt ",
+        "rawValue" : "58eb0e42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD5",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.93023681640625,
+        "rawType" : "flt ",
+        "rawValue" : "90b80b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD6",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.049652099609375,
+        "rawType" : "flt ",
+        "rawValue" : "d8321042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD7",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.37052917480469,
+        "rawType" : "flt ",
+        "rawValue" : "6c7b0942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD8",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.77030944824219,
+        "rawType" : "flt ",
+        "rawValue" : "cc140b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPD9",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.290557861328125,
+        "rawType" : "flt ",
+        "rawValue" : "88290942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDA",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.61039733886719,
+        "rawType" : "flt ",
+        "rawValue" : "0c710a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDB",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.37052917480469,
+        "rawType" : "flt ",
+        "rawValue" : "6c7b0942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDC",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.210601806640625,
+        "rawType" : "flt ",
+        "rawValue" : "a8d70842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDD",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 35.09014892578125,
+        "rawType" : "flt ",
+        "rawValue" : "505c0c42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDE",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.53044128417969,
+        "rawType" : "flt ",
+        "rawValue" : "2c1f0a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDF",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.84822082519531,
+        "rawType" : "flt ",
+        "rawValue" : "94641b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPDX",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.05110168457031,
+        "rawType" : "flt ",
+        "rawValue" : "54340442",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPMP",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.42701721191406,
+        "rawType" : "flt ",
+        "rawValue" : "44b50142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TPSP",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "ecd1330000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TR0Z",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "f014eaffffffffff",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TR1d",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "7cce1f0000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TR2d",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "28e3e9ffffffffff",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TR3d",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "13c6210000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TR4d",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "ioft",
+        "rawValue" : "199b200000000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TR5d",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.13166809082031,
+        "rawType" : "flt ",
+        "rawValue" : "d4860042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.65191650390625,
+        "rawType" : "flt ",
+        "rawValue" : "2037fd41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD1",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.852340698242188,
+        "rawType" : "flt ",
+        "rawValue" : "98d1f641",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD2",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.852340698242188,
+        "rawType" : "flt ",
+        "rawValue" : "98d1f641",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD3",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.772369384765625,
+        "rawType" : "flt ",
+        "rawValue" : "d02df641",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD4",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.172164916992188,
+        "rawType" : "flt ",
+        "rawValue" : "9860f941",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD5",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.692413330078125,
+        "rawType" : "flt ",
+        "rawValue" : "108af541",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD6",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.092208862304688,
+        "rawType" : "flt ",
+        "rawValue" : "d8bcf841",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD7",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.852340698242188,
+        "rawType" : "flt ",
+        "rawValue" : "98d1f641",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRD8",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.13166809082031,
+        "rawType" : "flt ",
+        "rawValue" : "d4860042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TRDX",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.583953857421875,
+        "rawType" : "flt ",
+        "rawValue" : "f8550642",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TSCD",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 23.928499221801758,
+        "rawType" : "flt ",
+        "rawValue" : "916dbf41",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVA0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 58.98586654663086,
+        "rawType" : "flt ",
+        "rawValue" : "87f16b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVD0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "si32",
+        "rawValue" : "06000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVDi",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 37.79232406616211,
+        "rawType" : "flt ",
+        "rawValue" : "572b1742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVM0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVMD",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.665224075317383,
+        "rawType" : "flt ",
+        "rawValue" : "6152f541",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVS0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.10897445678711,
+        "rawType" : "flt ",
+        "rawValue" : "2edff041",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVS1",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.84822082519531,
+        "rawType" : "flt ",
+        "rawValue" : "94641b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVV0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "si32",
+        "rawValue" : "00000000",
+        "status" : "unsupported_type_or_nonfinite"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVVi",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.54502868652344,
+        "rawType" : "flt ",
+        "rawValue" : "1c2e2242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVXh",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 37.79232406616211,
+        "rawType" : "flt ",
+        "rawValue" : "572b1742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVXm",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVXs",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.54502868652344,
+        "rawType" : "flt ",
+        "rawValue" : "1c2e2242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVh0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.253395080566406,
+        "rawType" : "flt ",
+        "rawValue" : "7a031d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVh1",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.54502868652344,
+        "rawType" : "flt ",
+        "rawValue" : "1c2e2242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVh2",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.2905158996582,
+        "rawType" : "flt ",
+        "rawValue" : "7d291942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVm0",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.13798904418945,
+        "rawType" : "flt ",
+        "rawValue" : "4d8d2042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVm1",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 37.79232406616211,
+        "rawType" : "flt ",
+        "rawValue" : "572b1742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVm2",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40,
+        "rawType" : "flt ",
+        "rawValue" : "00002042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVmS",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TVmd",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.69343566894531,
+        "rawType" : "flt ",
+        "rawValue" : "14c60242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "TW0P",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta00",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 5,
+        "rawType" : "flt ",
+        "rawValue" : "0000a040",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta01",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta04",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 5,
+        "rawType" : "flt ",
+        "rawValue" : "0000a040",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta05",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta08",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 5,
+        "rawType" : "flt ",
+        "rawValue" : "0000a040",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta09",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta0K",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 5,
+        "rawType" : "flt ",
+        "rawValue" : "0000a040",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta0L",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta0O",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 5,
+        "rawType" : "flt ",
+        "rawValue" : "0000a040",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta0P",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta0R",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 5,
+        "rawType" : "flt ",
+        "rawValue" : "0000a040",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ta0S",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.43913269042969,
+        "rawType" : "flt ",
+        "rawValue" : "acc11d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te04",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 46.13913345336914,
+        "rawType" : "flt ",
+        "rawValue" : "798e3842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te05",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 52.859375,
+        "rawType" : "flt ",
+        "rawValue" : "00705342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te06",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.29081344604492,
+        "rawType" : "flt ",
+        "rawValue" : "cb291d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te08",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 45.990814208984375,
+        "rawType" : "flt ",
+        "rawValue" : "98f63742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te09",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 52.125,
+        "rawType" : "flt ",
+        "rawValue" : "00805042",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0A",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.53797912597656,
+        "rawType" : "flt ",
+        "rawValue" : "e4261a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0G",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 45.237979888916016,
+        "rawType" : "flt ",
+        "rawValue" : "b1f33442",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0H",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 49.765625,
+        "rawType" : "flt ",
+        "rawValue" : "00104742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0I",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.28086471557617,
+        "rawType" : "flt ",
+        "rawValue" : "9b1f1942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0R",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 44.980865478515625,
+        "rawType" : "flt ",
+        "rawValue" : "68ec3342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0S",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.515625,
+        "rawType" : "flt ",
+        "rawValue" : "00104a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0T",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.880184173583984,
+        "rawType" : "flt ",
+        "rawValue" : "4f852f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0U",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 52.859375,
+        "rawType" : "flt ",
+        "rawValue" : "00705342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0V",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.74353790283203,
+        "rawType" : "flt ",
+        "rawValue" : "62f92a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0W",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.515625,
+        "rawType" : "flt ",
+        "rawValue" : "00104a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Te0X",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.822689056396484,
+        "rawType" : "flt ",
+        "rawValue" : "6f4a1342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0C",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.42268753051758,
+        "rawType" : "flt ",
+        "rawValue" : "d5b02542",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0D",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 37.30013656616211,
+        "rawType" : "flt ",
+        "rawValue" : "57331542",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0G",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.9001350402832,
+        "rawType" : "flt ",
+        "rawValue" : "bd992742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0H",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.38505554199219,
+        "rawType" : "flt ",
+        "rawValue" : "4c8a1942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0K",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.98505401611328,
+        "rawType" : "flt ",
+        "rawValue" : "b2f02b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0L",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.50801467895508,
+        "rawType" : "flt ",
+        "rawValue" : "35081242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0O",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.10801315307617,
+        "rawType" : "flt ",
+        "rawValue" : "9b6e2442",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0P",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.799049377441406,
+        "rawType" : "flt ",
+        "rawValue" : "3a322f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0U",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 48.3990478515625,
+        "rawType" : "flt ",
+        "rawValue" : "a0984142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0V",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.203216552734375,
+        "rawType" : "flt ",
+        "rawValue" : "18d02842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0X",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 46.80321502685547,
+        "rawType" : "flt ",
+        "rawValue" : "7e363b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0Y",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.287227630615234,
+        "rawType" : "flt ",
+        "rawValue" : "1f262142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0d",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 44.88722610473633,
+        "rawType" : "flt ",
+        "rawValue" : "858c3342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0e",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.27450180053711,
+        "rawType" : "flt ",
+        "rawValue" : "17191d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0j",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.8745002746582,
+        "rawType" : "flt ",
+        "rawValue" : "7d7f2f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0k",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.515262603759766,
+        "rawType" : "flt ",
+        "rawValue" : "a10f1a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0m",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.11526107788086,
+        "rawType" : "flt ",
+        "rawValue" : "07762c42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tg0n",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.69343566894531,
+        "rawType" : "flt ",
+        "rawValue" : "14c60242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tm0B",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.560123443603516,
+        "rawType" : "flt ",
+        "rawValue" : "913d2642",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp00",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 48.66012191772461,
+        "rawType" : "flt ",
+        "rawValue" : "f7a34242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp01",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 67.328125,
+        "rawType" : "flt ",
+        "rawValue" : "00a88642",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp02",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.695316314697266,
+        "rawType" : "flt ",
+        "rawValue" : "01c82a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp04",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 49.79531478881836,
+        "rawType" : "flt ",
+        "rawValue" : "672e4742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp05",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 67.03125,
+        "rawType" : "flt ",
+        "rawValue" : "00108642",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp06",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.46577072143555,
+        "rawType" : "flt ",
+        "rawValue" : "f3dc2d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp08",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.56576919555664,
+        "rawType" : "flt ",
+        "rawValue" : "59434a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp09",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 69.21875,
+        "rawType" : "flt ",
+        "rawValue" : "00708a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0A",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.87636184692383,
+        "rawType" : "flt ",
+        "rawValue" : "65812f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0C",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.97636032104492,
+        "rawType" : "flt ",
+        "rawValue" : "cbe74b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0D",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 68.453125,
+        "rawType" : "flt ",
+        "rawValue" : "00e88842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0E",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.974220275878906,
+        "rawType" : "flt ",
+        "rawValue" : "9ae52b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0U",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.07421875,
+        "rawType" : "flt ",
+        "rawValue" : "004c4842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0V",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 77.125,
+        "rawType" : "flt ",
+        "rawValue" : "00409a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0W",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.50190734863281,
+        "rawType" : "flt ",
+        "rawValue" : "f4012e42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0X",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.601905822753906,
+        "rawType" : "flt ",
+        "rawValue" : "5a684a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0Y",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 76.296875,
+        "rawType" : "flt ",
+        "rawValue" : "00989842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0Z",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 43.503936767578125,
+        "rawType" : "flt ",
+        "rawValue" : "08042e42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0a",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.60393524169922,
+        "rawType" : "flt ",
+        "rawValue" : "6e6a4a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0b",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 77.5625,
+        "rawType" : "flt ",
+        "rawValue" : "00209b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0c",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.891639709472656,
+        "rawType" : "flt ",
+        "rawValue" : "0a912b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0d",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 49.99163818359375,
+        "rawType" : "flt ",
+        "rawValue" : "70f74742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0e",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 77.234375,
+        "rawType" : "flt ",
+        "rawValue" : "00789a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp0f",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.83282470703125,
+        "rawType" : "flt ",
+        "rawValue" : "d0542742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1A",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.1328239440918,
+        "rawType" : "flt ",
+        "rawValue" : "03884842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1B",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 64.890625,
+        "rawType" : "flt ",
+        "rawValue" : "00c88142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1C",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 42.155418395996094,
+        "rawType" : "flt ",
+        "rawValue" : "269f2842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1E",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.45541763305664,
+        "rawType" : "flt ",
+        "rawValue" : "59d24942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1F",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 65.3125,
+        "rawType" : "flt ",
+        "rawValue" : "00a08242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1G",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.80103302001953,
+        "rawType" : "flt ",
+        "rawValue" : "42342742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1Q",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 50.10103225708008,
+        "rawType" : "flt ",
+        "rawValue" : "75674842",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1R",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 63.5625,
+        "rawType" : "flt ",
+        "rawValue" : "00407e42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp1S",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 47.953216552734375,
+        "rawType" : "flt ",
+        "rawValue" : "18d03f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp3O",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 77.125,
+        "rawType" : "flt ",
+        "rawValue" : "00409a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp3P",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 46.541378021240234,
+        "rawType" : "flt ",
+        "rawValue" : "5f2a3a42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp3S",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 65.3125,
+        "rawType" : "flt ",
+        "rawValue" : "00a08242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp3T",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 48.27082443237305,
+        "rawType" : "flt ",
+        "rawValue" : "53154142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp3W",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 77.5625,
+        "rawType" : "flt ",
+        "rawValue" : "00209b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tp3X",
+      "role" : "cpu_candidate",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.598270416259766,
+        "rawType" : "flt ",
+        "rawValue" : "a1641242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts00",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.598270416259766,
+        "rawType" : "flt ",
+        "rawValue" : "a1641242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts01",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.984375,
+        "rawType" : "flt ",
+        "rawValue" : "00f01342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts02",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.69163513183594,
+        "rawType" : "flt ",
+        "rawValue" : "3cc41242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts04",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.69163513183594,
+        "rawType" : "flt ",
+        "rawValue" : "3cc41242",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts05",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.96875,
+        "rawType" : "flt ",
+        "rawValue" : "00e01342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts06",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.49869918823242,
+        "rawType" : "flt ",
+        "rawValue" : "abfe1942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts08",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.49869918823242,
+        "rawType" : "flt ",
+        "rawValue" : "abfe1942",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts09",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.953125,
+        "rawType" : "flt ",
+        "rawValue" : "00d01f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0A",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.315792083740234,
+        "rawType" : "flt ",
+        "rawValue" : "5f431d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0C",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.315792083740234,
+        "rawType" : "flt ",
+        "rawValue" : "5f431d42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0D",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.359375,
+        "rawType" : "flt ",
+        "rawValue" : "00702542",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0E",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.82490921020508,
+        "rawType" : "flt ",
+        "rawValue" : "b54c2342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0G",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.82490921020508,
+        "rawType" : "flt ",
+        "rawValue" : "b54c2342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0H",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 45.828125,
+        "rawType" : "flt ",
+        "rawValue" : "00503742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0I",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.48749923706055,
+        "rawType" : "flt ",
+        "rawValue" : "33f32142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0K",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.48749923706055,
+        "rawType" : "flt ",
+        "rawValue" : "33f32142",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0L",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 47.171875,
+        "rawType" : "flt ",
+        "rawValue" : "00b03c42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0M",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.91300964355469,
+        "rawType" : "flt ",
+        "rawValue" : "eca61b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0O",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 28.25,
+        "rawType" : "flt ",
+        "rawValue" : "0000e241",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0P",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 38.91300964355469,
+        "rawType" : "flt ",
+        "rawValue" : "eca61b42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0Q",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 41.484375,
+        "rawType" : "flt ",
+        "rawValue" : "00f02542",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0R",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.78419494628906,
+        "rawType" : "flt ",
+        "rawValue" : "04231f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0S",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 39.78419494628906,
+        "rawType" : "flt ",
+        "rawValue" : "04231f42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0T",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 45.828125,
+        "rawType" : "flt ",
+        "rawValue" : "00503742",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0U",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 40.75390625,
+        "rawType" : "flt ",
+        "rawValue" : "00042342",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0h",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 47.171875,
+        "rawType" : "flt ",
+        "rawValue" : "00b03c42",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts0i",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 27.1875,
+        "rawType" : "flt ",
+        "rawValue" : "0080d941",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Ts1P",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz11",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz12",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz13",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz14",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz15",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz16",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz17",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz18",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 0,
+        "rawType" : "flt ",
+        "rawValue" : "00000000",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "AppleSMC",
+      "rawID" : "Tz1j",
+      "role" : "unmapped",
+      "unitEvidence" : "macmon protocol; Celsius interpretation and physical mapping unverified"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.6824951171875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.6824951171875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "0:PMU2 tdev4",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.03285217285156,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.03285217285156",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "1:PMU tdev4",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.77030944824219,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "34.77030944824219",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "2:PMU tdie5",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.172164916992188,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.172164916992188",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "3:PMU2 tdie10",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.916061401367188,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "30.916061401367188",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "4:PMU tdev6",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.852340698242188,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "30.852340698242188",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "5:PMU2 tdie3",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.49098205566406,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.49098205566406",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "6:PMU tdie9",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "nan",
+        "status" : "error:0xe00002f0"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "7:",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : -22.22589111328125,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "-22.22589111328125",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "8:PMU2 tdev1",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 34.37052917480469,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "34.37052917480469",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "9:PMU tdie2",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.852340698242188,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "30.852340698242188",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "10:PMU2 tdie7",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.81080627441406,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.81080627441406",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "11:PMU tdie13",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.69343566894531,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "32.69343566894531",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "12:PMU tdev2",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.4306640625,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "32.4306640625",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "13:PMU2 tdev5",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 36.44944763183594,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "36.44944763183594",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "14:PMU tdie6",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 51.82000732421875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "51.82000732421875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "15:PMU tcal",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 29.79998779296875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "29.79998779296875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "16:gas gauge battery",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.19708251953125,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "30.19708251953125",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "17:PMU tdev3",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.44891357421875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.44891357421875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "18:PMU tdev7",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.612457275390625,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "30.612457275390625",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "19:PMU2 tdie4",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.57093811035156,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.57093811035156",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "20:PMU tdie10",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.98541259765625,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.98541259765625",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "21:PMU2 tdev2",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.970733642578125,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.970733642578125",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "22:PMU tdie3",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.57196044921875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.57196044921875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "23:PMU2 tdie8",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 29.79998779296875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "29.79998779296875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "24:gas gauge battery",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.65089416503906,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.65089416503906",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "25:PMU tdie14",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 28,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "28.0",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "26:gas gauge battery",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 32.451507568359375,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "32.451507568359375",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "27:PMU2 tdie1",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 35.17010498046875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "35.17010498046875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "28:PMU tdie7",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.80657958984375,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.80657958984375",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "29:PMU tdev8",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.0",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "30:NAND CH0 temp",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.692413330078125,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "30.692413330078125",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "31:PMU2 tdie5",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.89076232910156,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.89076232910156",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "32:PMU tdie11",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 29,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "29.0",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "33:gas gauge battery",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : -22.093231201171875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "-22.093231201171875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "34:PMU2 tdev3",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.65089416503906,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.65089416503906",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "35:PMU tdie4",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.172164916992188,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.172164916992188",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "36:PMU2 tdie9",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.05110168457031,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.05110168457031",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "37:PMU tdev5",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.971755981445312,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.971755981445312",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "38:PMU2 tdie2",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 35.56990051269531,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "35.56990051269531",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "39:PMU tdie8",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : -22.002395629882812,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "-22.002395629882812",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "40:PMU tdev1",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 51.82000732421875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "51.82000732421875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "41:PMU2 tcal",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 28.399993896484375,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "28.399993896484375",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "42:gas gauge battery",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 35.17010498046875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "35.17010498046875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "43:PMU tdie1",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 29.79998779296875,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "29.79998779296875",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "44:gas gauge battery",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 31.49200439453125,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "31.49200439453125",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "45:PMU2 tdie6",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 33.970733642578125,
+        "rawType" : "IOHIDEventFloat",
+        "rawValue" : "33.970733642578125",
+        "status" : "decoded_mapping_unverified"
+      },
+      "physicalMapping" : "unverified",
+      "provider" : "HID",
+      "rawID" : "46:PMU tdie12",
+      "role" : "unmapped",
+      "unitEvidence" : "private HID temperature event 15; ID only stable within this process"
+    },
+    {
+      "initialReading" : {
+        "celsius" : 30.850000000000023,
+        "rawType" : "uint16_le_kelvin",
+        "rawValue" : "304",
+        "status" : "ok"
+      },
+      "physicalMapping" : "provider_defined; device identity session_local",
+      "provider" : "NVMeSMART",
+      "rawID" : "device:0:TEMPERATURE",
+      "role" : "ssd",
+      "unitEvidence" : "NVMe SMART composite temperature, uint16 little-endian Kelvin; Celsius = K - 273.15"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "missing",
+        "rawValue" : "",
+        "status" : "field_absent"
+      },
+      "physicalMapping" : "provider_defined; device identity session_local",
+      "provider" : "IOPowerSources",
+      "rawID" : "source:0:Temperature",
+      "role" : "battery",
+      "unitEvidence" : "IOPSKeys.h kIOPSTemperatureKey: CFNumber, Celsius"
+    }
+  ],
+  "startedAt" : "2026-09-15T01:10:37Z"
+}

@@ -1,0 +1,1301 @@
+{
+  "method": "median; nearest-rank p95; monotonic timestamps; same values remain valid numeric readings",
+  "groups": [
+    {
+      "cpuIntervalMS": 50,
+      "group": "battery",
+      "intervalMS": {
+        "count": 59,
+        "median": 1000.289166,
+        "p95": 1007.939416,
+        "max": 1011.296875
+      },
+      "batchReadMS": {
+        "count": 60,
+        "median": 2.3462505,
+        "p95": 3.420834,
+        "max": 3.43725
+      },
+      "latenessMS": {
+        "count": 60,
+        "median": 26.5062705,
+        "p95": 34.273125,
+        "max": 34.460917
+      }
+    },
+    {
+      "cpuIntervalMS": 50,
+      "group": "cpu_candidates",
+      "intervalMS": {
+        "count": 1198,
+        "median": 49.999166,
+        "p95": 52.664875,
+        "max": 101.741333
+      },
+      "batchReadMS": {
+        "count": 1199,
+        "median": 20.467875,
+        "p95": 27.327208,
+        "max": 51.837125
+      },
+      "latenessMS": {
+        "count": 1199,
+        "median": 4.44575,
+        "p95": 5.025708,
+        "max": 5.090792
+      }
+    },
+    {
+      "cpuIntervalMS": 50,
+      "group": "ssd",
+      "intervalMS": {
+        "count": 119,
+        "median": 500.111875,
+        "p95": 506.067334,
+        "max": 508.379791
+      },
+      "batchReadMS": {
+        "count": 120,
+        "median": 1.3448544999999998,
+        "p95": 2.464875,
+        "max": 2.496583
+      },
+      "latenessMS": {
+        "count": 120,
+        "median": 24.901041499999998,
+        "p95": 31.5325,
+        "max": 31.956542
+      }
+    },
+    {
+      "cpuIntervalMS": 100,
+      "group": "battery",
+      "intervalMS": {
+        "count": 59,
+        "median": 999.982875,
+        "p95": 1008.186792,
+        "max": 1012.459041
+      },
+      "batchReadMS": {
+        "count": 60,
+        "median": 3.3645205000000002,
+        "p95": 3.73325,
+        "max": 3.80375
+      },
+      "latenessMS": {
+        "count": 60,
+        "median": 33.996375,
+        "p95": 34.966333,
+        "max": 35.055917
+      }
+    },
+    {
+      "cpuIntervalMS": 100,
+      "group": "cpu_candidates",
+      "intervalMS": {
+        "count": 599,
+        "median": 100.002666,
+        "p95": 103.897,
+        "max": 104.932708
+      },
+      "batchReadMS": {
+        "count": 600,
+        "median": 26.460708500000003,
+        "p95": 27.437625,
+        "max": 38.636333
+      },
+      "latenessMS": {
+        "count": 600,
+        "median": 4.808332999999999,
+        "p95": 5.033667,
+        "max": 7.910375
+      }
+    },
+    {
+      "cpuIntervalMS": 100,
+      "group": "ssd",
+      "intervalMS": {
+        "count": 119,
+        "median": 499.328709,
+        "p95": 508.750958,
+        "max": 510.858167
+      },
+      "batchReadMS": {
+        "count": 120,
+        "median": 1.531938,
+        "p95": 2.547292,
+        "max": 2.806666
+      },
+      "latenessMS": {
+        "count": 120,
+        "median": 27.936812500000002,
+        "p95": 32.186708,
+        "max": 32.51
+      }
+    },
+    {
+      "cpuIntervalMS": 200,
+      "group": "battery",
+      "intervalMS": {
+        "count": 59,
+        "median": 999.9985,
+        "p95": 1007.675083,
+        "max": 1015.258709
+      },
+      "batchReadMS": {
+        "count": 60,
+        "median": 3.3064999999999998,
+        "p95": 3.74725,
+        "max": 4.271416
+      },
+      "latenessMS": {
+        "count": 60,
+        "median": 31.3759995,
+        "p95": 35.286166,
+        "max": 43.334125
+      }
+    },
+    {
+      "cpuIntervalMS": 200,
+      "group": "cpu_candidates",
+      "intervalMS": {
+        "count": 299,
+        "median": 200.0015,
+        "p95": 203.993584,
+        "max": 205.03625
+      },
+      "batchReadMS": {
+        "count": 300,
+        "median": 25.1830415,
+        "p95": 27.702083,
+        "max": 37.511083
+      },
+      "latenessMS": {
+        "count": 300,
+        "median": 4.4640830000000005,
+        "p95": 5.034458,
+        "max": 5.095291
+      }
+    },
+    {
+      "cpuIntervalMS": 200,
+      "group": "ssd",
+      "intervalMS": {
+        "count": 119,
+        "median": 484.851208,
+        "p95": 528.69075,
+        "max": 537.586041
+      },
+      "batchReadMS": {
+        "count": 120,
+        "median": 1.534,
+        "p95": 2.636583,
+        "max": 3.9605
+      },
+      "latenessMS": {
+        "count": 120,
+        "median": 12.614749499999999,
+        "p95": 32.408208,
+        "max": 42.489166
+      }
+    },
+    {
+      "cpuIntervalMS": 500,
+      "group": "battery",
+      "intervalMS": {
+        "count": 59,
+        "median": 999.943,
+        "p95": 1007.417417,
+        "max": 1011.200875
+      },
+      "batchReadMS": {
+        "count": 60,
+        "median": 3.3821250000000003,
+        "p95": 3.589542,
+        "max": 3.779416
+      },
+      "latenessMS": {
+        "count": 60,
+        "median": 33.0373745,
+        "p95": 35.593125,
+        "max": 35.732291
+      }
+    },
+    {
+      "cpuIntervalMS": 500,
+      "group": "cpu_candidates",
+      "intervalMS": {
+        "count": 119,
+        "median": 499.851667,
+        "p95": 504.134958,
+        "max": 504.7215
+      },
+      "batchReadMS": {
+        "count": 120,
+        "median": 27.285521,
+        "p95": 27.8275,
+        "max": 28.417834
+      },
+      "latenessMS": {
+        "count": 120,
+        "median": 4.228083,
+        "p95": 5.035875,
+        "max": 5.079833
+      }
+    },
+    {
+      "cpuIntervalMS": 500,
+      "group": "ssd",
+      "intervalMS": {
+        "count": 119,
+        "median": 499.927125,
+        "p95": 507.899209,
+        "max": 511.628042
+      },
+      "batchReadMS": {
+        "count": 120,
+        "median": 1.584042,
+        "p95": 2.623125,
+        "max": 3.658083
+      },
+      "latenessMS": {
+        "count": 120,
+        "median": 31.0712495,
+        "p95": 32.847833,
+        "max": 32.988458
+      }
+    },
+    {
+      "cpuIntervalMS": 1000,
+      "group": "battery",
+      "intervalMS": {
+        "count": 59,
+        "median": 1000.047833,
+        "p95": 1009.685875,
+        "max": 1012.948667
+      },
+      "batchReadMS": {
+        "count": 60,
+        "median": 3.395833,
+        "p95": 3.76525,
+        "max": 3.835833
+      },
+      "latenessMS": {
+        "count": 60,
+        "median": 32.278146,
+        "p95": 34.826833,
+        "max": 38.26025
+      }
+    },
+    {
+      "cpuIntervalMS": 1000,
+      "group": "cpu_candidates",
+      "intervalMS": {
+        "count": 59,
+        "median": 1000.133875,
+        "p95": 1003.905833,
+        "max": 1004.994875
+      },
+      "batchReadMS": {
+        "count": 60,
+        "median": 27.0533125,
+        "p95": 27.719333,
+        "max": 27.918042
+      },
+      "latenessMS": {
+        "count": 60,
+        "median": 3.834271,
+        "p95": 5.041208,
+        "max": 5.10975
+      }
+    },
+    {
+      "cpuIntervalMS": 1000,
+      "group": "ssd",
+      "intervalMS": {
+        "count": 119,
+        "median": 485.204041,
+        "p95": 529.825334,
+        "max": 531.753667
+      },
+      "batchReadMS": {
+        "count": 120,
+        "median": 1.6646874999999999,
+        "p95": 2.68975,
+        "max": 5.478125
+      },
+      "latenessMS": {
+        "count": 120,
+        "median": 12.075521,
+        "p95": 32.7215,
+        "max": 32.945292
+      }
+    }
+  ],
+  "sensors": [
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te04",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.036327362060547,
+      "maximumCelsius": 35.041404724121094,
+      "distinctNumericValues": 298,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te05",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 32.736328125,
+      "maximumCelsius": 41.74140548706055,
+      "distinctNumericValues": 298,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te06",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.234375,
+      "maximumCelsius": 47.328125,
+      "distinctNumericValues": 40,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te08",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.41585922241211,
+      "maximumCelsius": 34.52156066894531,
+      "distinctNumericValues": 297,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te09",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.11585998535156,
+      "maximumCelsius": 41.221561431884766,
+      "distinctNumericValues": 297,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0A",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.671875,
+      "maximumCelsius": 46.59375,
+      "distinctNumericValues": 35,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0G",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.508516311645508,
+      "maximumCelsius": 33.24367141723633,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0H",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.20851516723633,
+      "maximumCelsius": 39.94367218017578,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0I",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.71875,
+      "maximumCelsius": 44.953125,
+      "distinctNumericValues": 31,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0R",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.510757446289062,
+      "maximumCelsius": 33.130001068115234,
+      "distinctNumericValues": 299,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0S",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.210758209228516,
+      "maximumCelsius": 39.83000183105469,
+      "distinctNumericValues": 299,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0T",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 37.703125,
+      "maximumCelsius": 44.96875,
+      "distinctNumericValues": 28,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0U",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 31.008636474609375,
+      "maximumCelsius": 39.54310607910156,
+      "distinctNumericValues": 299,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0V",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.71875,
+      "maximumCelsius": 47.328125,
+      "distinctNumericValues": 68,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0W",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 31.010757446289062,
+      "maximumCelsius": 37.633087158203125,
+      "distinctNumericValues": 299,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Te0X",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 37.703125,
+      "maximumCelsius": 44.96875,
+      "distinctNumericValues": 28,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp00",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.099393844604492,
+      "maximumCelsius": 40.28228759765625,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp01",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.19939422607422,
+      "maximumCelsius": 47.382286071777344,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp02",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.140625,
+      "maximumCelsius": 63.28125,
+      "distinctNumericValues": 85,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp04",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.294748306274414,
+      "maximumCelsius": 41.27806854248047,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp05",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.39474868774414,
+      "maximumCelsius": 48.37806701660156,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp06",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.03125,
+      "maximumCelsius": 63.921875,
+      "distinctNumericValues": 96,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp08",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.30824089050293,
+      "maximumCelsius": 36.836795806884766,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp09",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.408241271972656,
+      "maximumCelsius": 43.93679428100586,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0A",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.3125,
+      "maximumCelsius": 62.078125,
+      "distinctNumericValues": 91,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0C",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 27.324575424194336,
+      "maximumCelsius": 37.704132080078125,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0D",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 34.42457580566406,
+      "maximumCelsius": 44.80413055419922,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0E",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.46875,
+      "maximumCelsius": 64.640625,
+      "distinctNumericValues": 90,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0U",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.54410171508789,
+      "maximumCelsius": 43.732234954833984,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0V",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.644100189208984,
+      "maximumCelsius": 50.83223342895508,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0W",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.40625,
+      "maximumCelsius": 75.703125,
+      "distinctNumericValues": 91,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0X",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.320465087890625,
+      "maximumCelsius": 42.52066421508789,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0Y",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.42046356201172,
+      "maximumCelsius": 49.620662689208984,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0Z",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.046875,
+      "maximumCelsius": 75.828125,
+      "distinctNumericValues": 97,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0a",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 25.548734664916992,
+      "maximumCelsius": 36.61872482299805,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0b",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 32.64873504638672,
+      "maximumCelsius": 43.71872329711914,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0c",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 34.328125,
+      "maximumCelsius": 75.1875,
+      "distinctNumericValues": 103,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0d",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.20399284362793,
+      "maximumCelsius": 37.009864807128906,
+      "distinctNumericValues": 298,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0e",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 33.303993225097656,
+      "maximumCelsius": 44.10986328125,
+      "distinctNumericValues": 298,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp0f",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.015625,
+      "maximumCelsius": 78.1875,
+      "distinctNumericValues": 103,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1A",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.259798049926758,
+      "maximumCelsius": 35.751365661621094,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1B",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 34.55979919433594,
+      "maximumCelsius": 44.05136489868164,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1C",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 39.59375,
+      "maximumCelsius": 57.46875,
+      "distinctNumericValues": 47,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1E",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.146440505981445,
+      "maximumCelsius": 35.970882415771484,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1F",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 34.446441650390625,
+      "maximumCelsius": 44.27088165283203,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1G",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.953125,
+      "maximumCelsius": 58.15625,
+      "distinctNumericValues": 50,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1Q",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 26.136232376098633,
+      "maximumCelsius": 35.978485107421875,
+      "distinctNumericValues": 296,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1R",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 34.43623352050781,
+      "maximumCelsius": 44.27848434448242,
+      "distinctNumericValues": 296,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp1S",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 39.671875,
+      "maximumCelsius": 55.640625,
+      "distinctNumericValues": 45,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp3O",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 31.044397354125977,
+      "maximumCelsius": 48.29453659057617,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp3P",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 35.40625,
+      "maximumCelsius": 75.828125,
+      "distinctNumericValues": 113,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp3S",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 30.759756088256836,
+      "maximumCelsius": 40.47234344482422,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp3T",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 39.671875,
+      "maximumCelsius": 58.15625,
+      "distinctNumericValues": 64,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp3W",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 31.824918746948242,
+      "maximumCelsius": 42.19314193725586,
+      "distinctNumericValues": 300,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "AppleSMC",
+      "rawID": "Tp3X",
+      "rows": 2279,
+      "finiteRows": 2279,
+      "statuses": {
+        "decoded_mapping_unverified": 2279
+      },
+      "minimumCelsius": 36.46875,
+      "maximumCelsius": 78.1875,
+      "distinctNumericValues": 105,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "16:gas gauge battery",
+      "rows": 300,
+      "finiteRows": 300,
+      "statuses": {
+        "decoded_mapping_unverified": 300
+      },
+      "minimumCelsius": 23.599990844726562,
+      "maximumCelsius": 24.5,
+      "distinctNumericValues": 10,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "24:gas gauge battery",
+      "rows": 300,
+      "finiteRows": 300,
+      "statuses": {
+        "decoded_mapping_unverified": 300
+      },
+      "minimumCelsius": 23.599990844726562,
+      "maximumCelsius": 24.5,
+      "distinctNumericValues": 10,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "26:gas gauge battery",
+      "rows": 300,
+      "finiteRows": 300,
+      "statuses": {
+        "decoded_mapping_unverified": 300
+      },
+      "minimumCelsius": 22.0,
+      "maximumCelsius": 23.0,
+      "distinctNumericValues": 2,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "30:NAND CH0 temp",
+      "rows": 600,
+      "finiteRows": 600,
+      "statuses": {
+        "decoded_mapping_unverified": 600
+      },
+      "minimumCelsius": 24.0,
+      "maximumCelsius": 27.0,
+      "distinctNumericValues": 4,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "33:gas gauge battery",
+      "rows": 300,
+      "finiteRows": 300,
+      "statuses": {
+        "decoded_mapping_unverified": 300
+      },
+      "minimumCelsius": 23.0,
+      "maximumCelsius": 24.0,
+      "distinctNumericValues": 2,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "42:gas gauge battery",
+      "rows": 300,
+      "finiteRows": 300,
+      "statuses": {
+        "decoded_mapping_unverified": 300
+      },
+      "minimumCelsius": 22.599990844726562,
+      "maximumCelsius": 23.099990844726562,
+      "distinctNumericValues": 6,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "HID",
+      "rawID": "44:gas gauge battery",
+      "rows": 300,
+      "finiteRows": 300,
+      "statuses": {
+        "decoded_mapping_unverified": 300
+      },
+      "minimumCelsius": 23.599990844726562,
+      "maximumCelsius": 24.5,
+      "distinctNumericValues": 10,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "IOPowerSources",
+      "rawID": "source:0:Temperature",
+      "rows": 300,
+      "finiteRows": 0,
+      "statuses": {
+        "field_absent": 300
+      },
+      "minimumCelsius": null,
+      "maximumCelsius": null,
+      "distinctNumericValues": 0,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    },
+    {
+      "provider": "NVMeSMART",
+      "rawID": "device:0:TEMPERATURE",
+      "rows": 600,
+      "finiteRows": 600,
+      "statuses": {
+        "ok": 600
+      },
+      "minimumCelsius": 23.850000000000023,
+      "maximumCelsius": 26.850000000000023,
+      "distinctNumericValues": 4,
+      "mappingAndFreshness": "not inferred from variation or repeated values"
+    }
+  ],
+  "phases": [
+    {
+      "cpuIntervalMS": 50,
+      "elapsedSeconds": 60.003916292,
+      "expectedOpportunities": {
+        "battery": 60,
+        "cpu_candidates": 1200,
+        "ssd": 120
+      },
+      "finiteCPUCandidateReadings": 65945,
+      "finiteReadings": 66545,
+      "missedOpportunities": {
+        "battery": 0,
+        "cpu_candidates": 1,
+        "ssd": 0
+      },
+      "processCPUAveragePercentOfOneCore": 9.04547125488814,
+      "processCPUSeconds": 5.427637000000001,
+      "processMaxRSSBytes": 8650752,
+      "readings": 66605,
+      "requestedSeconds": 60,
+      "startedBatches": {
+        "battery": 60,
+        "cpu_candidates": 1199,
+        "ssd": 120
+      }
+    },
+    {
+      "cpuIntervalMS": 100,
+      "elapsedSeconds": 60.004642542,
+      "expectedOpportunities": {
+        "battery": 60,
+        "cpu_candidates": 600,
+        "ssd": 120
+      },
+      "finiteCPUCandidateReadings": 33000,
+      "finiteReadings": 33600,
+      "missedOpportunities": {
+        "battery": 0,
+        "cpu_candidates": 0,
+        "ssd": 0
+      },
+      "processCPUAveragePercentOfOneCore": 6.252872846253177,
+      "processCPUSeconds": 3.752014,
+      "processMaxRSSBytes": 8749056,
+      "readings": 33660,
+      "requestedSeconds": 60,
+      "startedBatches": {
+        "battery": 60,
+        "cpu_candidates": 600,
+        "ssd": 120
+      }
+    },
+    {
+      "cpuIntervalMS": 200,
+      "elapsedSeconds": 60.004699125,
+      "expectedOpportunities": {
+        "battery": 60,
+        "cpu_candidates": 300,
+        "ssd": 120
+      },
+      "finiteCPUCandidateReadings": 16500,
+      "finiteReadings": 17100,
+      "missedOpportunities": {
+        "battery": 0,
+        "cpu_candidates": 0,
+        "ssd": 0
+      },
+      "processCPUAveragePercentOfOneCore": 3.074417548793933,
+      "processCPUSeconds": 1.8447949999999995,
+      "processMaxRSSBytes": 8929280,
+      "readings": 17160,
+      "requestedSeconds": 60,
+      "startedBatches": {
+        "battery": 60,
+        "cpu_candidates": 300,
+        "ssd": 120
+      }
+    },
+    {
+      "cpuIntervalMS": 500,
+      "elapsedSeconds": 60.004401625,
+      "expectedOpportunities": {
+        "battery": 60,
+        "cpu_candidates": 120,
+        "ssd": 120
+      },
+      "finiteCPUCandidateReadings": 6600,
+      "finiteReadings": 7200,
+      "missedOpportunities": {
+        "battery": 0,
+        "cpu_candidates": 0,
+        "ssd": 0
+      },
+      "processCPUAveragePercentOfOneCore": 1.5147138799586344,
+      "processCPUSeconds": 0.9088949999999993,
+      "processMaxRSSBytes": 8994816,
+      "readings": 7260,
+      "requestedSeconds": 60,
+      "startedBatches": {
+        "battery": 60,
+        "cpu_candidates": 120,
+        "ssd": 120
+      }
+    },
+    {
+      "cpuIntervalMS": 1000,
+      "elapsedSeconds": 60.003692417,
+      "expectedOpportunities": {
+        "battery": 60,
+        "cpu_candidates": 60,
+        "ssd": 120
+      },
+      "finiteCPUCandidateReadings": 3300,
+      "finiteReadings": 3900,
+      "missedOpportunities": {
+        "battery": 0,
+        "cpu_candidates": 0,
+        "ssd": 0
+      },
+      "processCPUAveragePercentOfOneCore": 0.8171430461187512,
+      "processCPUSeconds": 0.490316,
+      "processMaxRSSBytes": 8994816,
+      "readings": 3960,
+      "requestedSeconds": 60,
+      "startedBatches": {
+        "battery": 60,
+        "cpu_candidates": 60,
+        "ssd": 120
+      }
+    }
+  ]
+}

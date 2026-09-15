@@ -10,6 +10,7 @@
 | C02 | [查找官方温度API](chatgpt-conversation://6aa74595-d08c-83e9-946f-6becaaed5b27) | M4 Air 的 API 研究；电池字段结论按 C03 纠正 |
 | C03 | 当前对话：用户要求分析 Mac 接口能否实现需求 | API／SDK 复核、事实纠错、50 ms、映射、峰值、空间、退出边界 |
 | C04 | 当前对话：用户明确不上架 App Store、仅支持 MacBook Air，并询问验证与语言架构 | 最新范围；初步验证、Swift／桥接、原生 UI、模块化单体建议 |
+| C06 | 2026-09-15 当前用户请求：参照项目文件执行最小验证并遵守 Git 流程 | 授权独立原型、实机最小验证与流程执行；证据见 validation/2026-09-15-m4-air |
 | C05 | 当前对话：用户指定 `/Users/sisyphus/Code/Go/Temperature monitoring/` 并要求分类 Markdown | 本文档集的工作目录及整理任务 |
 | ATT-01 | C01 附件《粘贴的文本 (1).txt》 | Ring Buffer、SQLite、EMA、聚合、趋势、时间戳、缺口及数据路径建议 |
 
@@ -57,4 +58,12 @@
 
 未经目标机型验证的逐核心名称、论坛单条反馈、历史版本号、助手声称已经冻结但用户未确认的新行为，以及没有测量支持的频率／精度／能耗承诺。
 
-本轮整理没有运行传感器原型、取得温度实测数据、验证签名权限或完成 72 小时运行测试。
+2026-09-14归档轮次未运行传感器原型；2026-09-15增量实测证据见下节。发布配置权限与72小时测试仍未执行。
+
+## 2026-09-15 固定来源与执行证据
+
+- [Apple 机型识别](https://support.apple.com/en-ge/102869)：Mac16,13 对应15英寸M4 MacBook Air。
+- [macmon 6919d778](https://github.com/vladkens/macmon/blob/6919d7781b6c55a6e3bedff83a210435837e1dfe/src_lib/sources.rs)：SMC/HID ABI，MIT许可随原型保存。
+- [Stats 27c0c343](https://github.com/exelban/stats/blob/27c0c343a0df77ffaca8317c31b4e3aa14754eb7/Modules/Sensors/values.swift)：仅作候选命名参考；不能证明Core映射。
+- 本机 SDK 再次核对 IOPSKeys.h、NVMeSMARTLibExternal.h；Swift6.1.2，SDK15.5。
+- [实测与测试报告](validation/2026-09-15-m4-air/validation-report.md)：固定提交、二进制哈希、原始记录、回归与限制。此前“未实测”的段落只描述2026-09-14归档轮次。

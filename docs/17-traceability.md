@@ -1,25 +1,25 @@
 # 需求到设计、测试的追踪矩阵
 
-更新日期：2026-09-14。此表覆盖全部 134 条 REQ；**所有用例状态均为未执行**。关联代表已有测试计划，不代表已经通过或能力已经实现。
+更新日期：2026-09-15。此表覆盖全部 134 条 REQ；已记录首轮原型局部证据，**不等于产品需求验收通过**。关联代表已有测试计划，不代表已经通过或能力已经实现。
 
 需求原文见 [需求规格](01-requirements.md)，用例组定义见 [测试策略](10-test-strategy.md)，阻塞项见 [待决策](16-open-questions.md)。
 
 | 需求 | 状态 | 设计 | 计划用例组 | 相关未决项 | 执行状态 |
 |---|---|---|---|---|---|
-| REQ-001 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-02 | 未执行 |
-| REQ-002 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 未执行 |
+| REQ-001 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-02 | 原型局部验证；产品未验收 |
+| REQ-002 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-003 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-02 | 未执行 |
-| REQ-004 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 未执行 |
-| REQ-005 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 未执行 |
-| REQ-006 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-08 | 未执行 |
+| REQ-004 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-005 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-006 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-08 | 原型局部验证；产品未验收 |
 | REQ-007 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-08 | 未执行 |
-| REQ-008 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-009 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
+| REQ-008 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-009 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-010 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | OQ-01 | 未执行 |
-| REQ-011 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
+| REQ-011 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-012 | 已确认目标／待验证 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | OQ-01 | 未执行 |
-| REQ-013 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-014 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
+| REQ-013 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-014 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-015 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
 | REQ-016 | 设计基线 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | 按专项设计 | 未执行 |
 | REQ-017 | 已确认 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | OQ-10 | 未执行 |
@@ -90,16 +90,16 @@
 | REQ-082 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
 | REQ-083 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
 | REQ-084 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-085 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
+| REQ-085 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-086 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
 | REQ-087 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-088 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-089 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-090 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
+| REQ-088 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-089 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-090 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-091 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-092 | 设计基线 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-093 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-094 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
+| REQ-092 | 设计基线 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-093 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-094 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-095 | 设计基线 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | OQ-15 | 未执行 |
 | REQ-096 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
 | REQ-097 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
@@ -114,14 +114,14 @@
 | REQ-106 | 已确认 | [编码前文档](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
 | REQ-107 | 已确认 | [补充范围与后续讨论](02-architecture.md) | TC-PLATFORM | 按专项设计 | 未执行 |
 | REQ-108 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-109 | 已确认 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-PLATFORM | OQ-03 | 未执行 |
-| REQ-110 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-PLATFORM | 按专项设计 | 未执行 |
+| REQ-109 | 已确认 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-PLATFORM | OQ-03 | 原型局部验证；产品未验收 |
+| REQ-110 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-PLATFORM | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-111 | 设计基线 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-RELEASE | 按专项设计 | 未执行 |
 | REQ-112 | 已确认 | [补充范围与后续讨论](02-architecture.md) | TC-PLATFORM | 按专项设计 | 未执行 |
 | REQ-113 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01 | 未执行 |
 | REQ-114 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01、OQ-05 | 未执行 |
-| REQ-115 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 未执行 |
-| REQ-116 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 未执行 |
+| REQ-115 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 原型局部验证；产品未验收 |
+| REQ-116 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-117 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-12 | 未执行 |
 | REQ-118 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-05、OQ-12 | 未执行 |
 | REQ-119 | 已确认方向／待设计 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
@@ -133,15 +133,19 @@
 | REQ-125 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
 | REQ-126 | 已确认 | [补充范围与后续讨论](13-operations-distribution.md) | TC-RELEASE | 按专项设计 | 未执行 |
 | REQ-127 | 已确认 | [补充范围与后续讨论](13-operations-distribution.md) | TC-RELEASE | OQ-16 | 未执行 |
-| REQ-128 | 已确认 | [补充范围与后续讨论](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
+| REQ-128 | 已确认 | [补充范围与后续讨论](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-129 | 设计基线 | [补充范围与后续讨论](04-data-storage.md) | TC-SCHEDULE / TC-STORAGE | 按专项设计 | 未执行 |
 | REQ-130 | 推荐方案 | [补充范围与后续讨论](07-native-ui.md) | TC-UI / TC-LIFECYCLE | OQ-08 | 未执行 |
 | REQ-131 | 推荐方案 | [补充范围与后续讨论](05-processing-pipeline.md) | TC-TREND | OQ-06、OQ-08 | 未执行 |
-| REQ-132 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-05 | 未执行 |
+| REQ-132 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-05 | 原型局部验证；产品未验收 |
 | REQ-133 | 推荐修正 | [补充范围与后续讨论](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-134 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR / TC-SCHEDULE | 按专项设计 | 未执行 |
+| REQ-134 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR / TC-SCHEDULE | 按专项设计 | 原型局部验证；产品未验收 |
 
 ## 维护规则
 
 需求正文改变时同步更新设计、用例与决策记录。验证报告必须包含机型、系统 build、应用版本、配置和证据路径，方能将相应测试标为通过。文档已完成链接检查不等于产品测试通过。
 
+
+## 首轮证据索引
+
+统一证据入口：[V0 最小验证报告](validation/2026-09-15-m4-air/validation-report.md)。TC-SENSOR／TC-SCHEDULE 为单机和短时局部证据；TC-WORKFLOW 包含功能分支、Issue、原型CI与PR，但强制门禁未完整配置，未执行merge。REQ-092只取得原型纯逻辑覆盖率，产品采集边界未验收。Package／逐核、UI、数据链和长期测试仍未执行。

@@ -1,0 +1,4 @@
+cpu_interval_ms,group,slot,scheduled_ns,batch_start_ns,batch_end_ns,lateness_ns,readings,finite_readings
+200,ssd,0,0,17500,98958,17500,1,0
+200,battery,0,0,140916,332125,140916,1,0
+200,ssd,1,500000000,505031541,505190083,5031541,1,0

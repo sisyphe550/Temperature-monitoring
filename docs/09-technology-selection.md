@@ -1,6 +1,6 @@
 # 技术选型建议
 
-更新日期：2026-09-14。状态：SQLite、原生 macOS 和本地部署已确认；编程语言及具体框架组合为推荐方案。
+更新日期：2026-09-15。状态：SQLite、原生 macOS 和本地部署已确认；编程语言及具体框架组合为推荐方案。
 
 ## 推荐组合
 
@@ -40,3 +40,7 @@ Swift 可直接与 C／Objective-C API 互操作；SwiftUI 可与 AppKit 双向�
 - App Sandbox 对站外分发为可选项；Hardened Runtime 与 App Sandbox 是不同机制。公证不提供传感器兼容保证。[Apple 分发说明](https://developer.apple.com/documentation/xcode/preparing-your-app-for-distribution)
 
 来源：C01、C03、C04。[来源](18-sources.md)
+
+## V0 工具链实测
+
+独立探索原型采用 Swift＋小型 C 桥接，在 Apple Swift 6.1.2、macOS 15.5 SDK、Command Line Tools 下构建。仅有 Command Line Tools 的本机没有 XCTest，改用随工具链提供的 Swift Testing，见 Issue #1。原型未引入第三方包。此记录不冻结生产 App 的 Xcode、Swift 最低版本或 SQLite 封装选择。

@@ -1,0 +1,132 @@
+[
+  {
+    "cpuIntervalMS" : 50,
+    "elapsedSeconds" : 1.003882209,
+    "expectedOpportunities" : {
+      "battery" : 1,
+      "cpu_candidates" : 20,
+      "ssd" : 2
+    },
+    "finiteCPUCandidateReadings" : 1100,
+    "finiteReadings" : 1110,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "cpu_candidates" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 6.814942967078721,
+    "processCPUSeconds" : 0.068414,
+    "processMaxRSSBytes" : 8437760,
+    "readings" : 1111,
+    "requestedSeconds" : 1,
+    "startedBatches" : {
+      "battery" : 1,
+      "cpu_candidates" : 20,
+      "ssd" : 2
+    }
+  },
+  {
+    "cpuIntervalMS" : 100,
+    "elapsedSeconds" : 1.001709708,
+    "expectedOpportunities" : {
+      "battery" : 1,
+      "cpu_candidates" : 10,
+      "ssd" : 2
+    },
+    "finiteCPUCandidateReadings" : 550,
+    "finiteReadings" : 560,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "cpu_candidates" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 4.074134419789409,
+    "processCPUSeconds" : 0.040810999999999986,
+    "processMaxRSSBytes" : 8568832,
+    "readings" : 561,
+    "requestedSeconds" : 1,
+    "startedBatches" : {
+      "battery" : 1,
+      "cpu_candidates" : 10,
+      "ssd" : 2
+    }
+  },
+  {
+    "cpuIntervalMS" : 200,
+    "elapsedSeconds" : 1.005031167,
+    "expectedOpportunities" : {
+      "battery" : 1,
+      "cpu_candidates" : 5,
+      "ssd" : 2
+    },
+    "finiteCPUCandidateReadings" : 275,
+    "finiteReadings" : 285,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "cpu_candidates" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 1.8267095193476734,
+    "processCPUSeconds" : 0.018359000000000014,
+    "processMaxRSSBytes" : 8749056,
+    "readings" : 286,
+    "requestedSeconds" : 1,
+    "startedBatches" : {
+      "battery" : 1,
+      "cpu_candidates" : 5,
+      "ssd" : 2
+    }
+  },
+  {
+    "cpuIntervalMS" : 500,
+    "elapsedSeconds" : 1.000643542,
+    "expectedOpportunities" : {
+      "battery" : 1,
+      "cpu_candidates" : 2,
+      "ssd" : 2
+    },
+    "finiteCPUCandidateReadings" : 110,
+    "finiteReadings" : 120,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "cpu_candidates" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 0.9857656184223904,
+    "processCPUSeconds" : 0.009864000000000012,
+    "processMaxRSSBytes" : 8781824,
+    "readings" : 121,
+    "requestedSeconds" : 1,
+    "startedBatches" : {
+      "battery" : 1,
+      "cpu_candidates" : 2,
+      "ssd" : 2
+    }
+  },
+  {
+    "cpuIntervalMS" : 1000,
+    "elapsedSeconds" : 1.004788667,
+    "expectedOpportunities" : {
+      "battery" : 1,
+      "cpu_candidates" : 1,
+      "ssd" : 2
+    },
+    "finiteCPUCandidateReadings" : 55,
+    "finiteReadings" : 65,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "cpu_candidates" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 0.669394492682906,
+    "processCPUSeconds" : 0.006725999999999982,
+    "processMaxRSSBytes" : 8847360,
+    "readings" : 66,
+    "requestedSeconds" : 1,
+    "startedBatches" : {
+      "battery" : 1,
+      "cpu_candidates" : 1,
+      "ssd" : 2
+    }
+  }
+]
