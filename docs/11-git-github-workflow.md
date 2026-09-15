@@ -52,3 +52,5 @@ GitHub 不会仅凭“有未解决 Issue”自动阻止所有合并。需要明�
 - 因强制主分支保护、阻塞 Issue 检查、审批规则及产品覆盖率门禁未完整落地，本轮只提交待审查 PR，不执行合并。保留本地与远程功能分支。
 
 原型 CI 成功不能声称 REQ-086/087/091/095/096 已由 GitHub 强制执行。相关配置属于 OQ-15，后续落实后方可执行规定的 merge commit 合并。
+
+本轮待审查产物：[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)。Issue #1～#3 已附修复回归证据并关闭；OQ清单中的未决项继续保留。

@@ -67,7 +67,7 @@ python3 scripts/summarize-probe.py validation-runs/NEW_RUN
 
 CPU百分比以单个逻辑核100%计算，仅本进程user＋system时间。RSS高水位和各组时延在 [summary.json](summary.json)、[analysis.json](analysis.json)。批次读取时间包含墙钟格式化、解码、行序列化，排除批次文件写入；不是纯IOKit调用延时。
 
-分位数使用nearest-rank；同值重复保留。当前没有资源／时延验收阈值，不作“性能达标”判断。
+中位数按通常定义计算；p95使用nearest-rank。同值重复保留。当前没有资源／时延验收阈值，不作“性能达标”判断。
 
 ## 5. 测试、缺陷与复核
 
@@ -98,7 +98,7 @@ CPU百分比以单个逻辑核100%计算，仅本进程user＋system时间。RSS
 | V-07 发布配置 | 仅检查现有adhoc签名；Developer ID/Hardened Runtime/公证下读取未验证 |
 | 72小时与跨机兼容 | 未执行 |
 
-工作流：从最新origin/main `3fa99aa`建立 `feature/v0-sensor-validation`；提交代码、执行测试与CI、关联缺陷，再提交证据和待审查PR。当前GitHub无main分支保护／ruleset，阻塞Issue自动门禁和审批规则未定义；本轮不合并，保留本地／远程功能分支。仓库允许merge commit且关闭自动删除分支，后续满足门禁才能合并。**CI成功不等于强制合并门禁已生效。**
+工作流：从最新origin/main `3fa99aa`建立 `feature/v0-sensor-validation`；提交代码、执行测试与CI、关联缺陷，再提交证据和待审查PR。当前GitHub无main分支保护／ruleset，阻塞Issue自动门禁和审批规则未定义；本轮提交 [Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，不合并，保留本地／远程功能分支。仓库允许merge commit且关闭自动删除分支，后续满足门禁才能合并。**CI成功不等于强制合并门禁已生效。**
 
 ## 7. 证据与下一步
 
