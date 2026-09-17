@@ -1,6 +1,6 @@
 # Git、GitHub 与开发门禁
 
-更新日期：2026-09-15。状态：用户确认流程＋授权设计基线；Git／GitHub 与原型 CI 已存在，强制门禁尚不完整。
+更新日期：2026-09-17。状态：用户确认流程＋授权设计基线；Git／GitHub 与原型 CI 已存在，强制门禁尚不完整。
 
 ## 分支与提交
 
@@ -38,7 +38,7 @@ GitHub 不会仅凭“有未解决 Issue”自动阻止所有合并。需要明�
 
 ## 待落实
 
-仓库地址、主分支名、ruleset、维护者、审批权限、阻塞标签、CI runner 与实机验证机制见 OQ-15。本文描述流程，不等于已创建远端仓库、Issue、PR、分支或规则。
+仓库地址、main、原型CI、Issue与PR已落实；ruleset、维护者审批权限、阻塞标签检查及产品实机验证机制仍见OQ-15。不能将流程文档等同于强制门禁已经生效。
 
 来源：C01。关联：[测试](10-test-strategy.md)、[阶段计划](12-development-plan.md)。
 
@@ -54,3 +54,7 @@ GitHub 不会仅凭“有未解决 Issue”自动阻止所有合并。需要明�
 原型 CI 成功不能声称 REQ-086/087/091/095/096 已由 GitHub 强制执行。相关配置属于 OQ-15，后续落实后方可执行规定的 merge commit 合并。
 
 本轮待审查产物：[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)。Issue #1～#3 已附修复回归证据并关闭；OQ清单中的未决项继续保留。
+
+## 2026-09-17 方案修订范围
+
+刷新远端后main仍为`3fa99aa`，PR #4保持打开且为Draft。本轮是既有V0证据的参考项目复核与设计细化，继续在`feature/v0-sensor-validation`提交文档增量并更新同一PR；未增加独立产品功能，未合并main。后续正式功能仍从最新主分支建立独立feature branch。

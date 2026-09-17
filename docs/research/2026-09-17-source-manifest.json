@@ -1,0 +1,182 @@
+{
+  "reviewDate": "2026-09-17",
+  "scope": "Source inspection only; no upstream application executed; no new upstream code copied",
+  "projects": [
+    {
+      "id": "R01",
+      "repository": "https://github.com/exelban/stats",
+      "commit": "e31d279b3f27aacb19b512b26eb5ab92e166c289",
+      "licenseStatus": "MIT file present; inspect per-file provenance before copying",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "69fb970b0bf4af02925e67c7d967fedfabab4556f419c02796e99612be607f79",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "79a58cb749dcc8b569c432f92ed37cf05527e505e4de4999199aed22b6a6cbf8",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/LICENSE"
+        },
+        {
+          "path": "Modules/Sensors/values.swift",
+          "sha256": "98afb41bc29554c468dcb85fd560da73e4f782e5e72a04bd6659e3e0578edb6f",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/Modules/Sensors/values.swift"
+        },
+        {
+          "path": "Modules/Sensors/readers.swift",
+          "sha256": "369487030c51d545b06c2fdc82918b4c0172ac317c918e453647977d74cb1842",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/Modules/Sensors/readers.swift"
+        },
+        {
+          "path": "Modules/Disk/readers.swift",
+          "sha256": "4d875dad723b5a58b5ee9aafb54ee556388b60cf7c9bb8d7f0058a8bef5ff4e2",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/Modules/Disk/readers.swift"
+        },
+        {
+          "path": "SMC/smc.swift",
+          "sha256": "41a04396d73725c655e213af6a45979dcb644a239e6535b65f5509d2c9352567",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/SMC/smc.swift"
+        }
+      ]
+    },
+    {
+      "id": "R02",
+      "repository": "https://github.com/ryyansafar/MacMonitor",
+      "commit": "2fff106238e17e318f1b48775034c461f6464257",
+      "licenseStatus": "MIT file present; inspect per-file provenance before copying",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "706eaf25786d9726f25f44a1e5a3c3b4edf188814e99f82162fcb3e44ce09154",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "566d59fe3de098ac3325ee1d5a23a3f8f29f839e9674cf4a73612b755b88a03e",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/LICENSE"
+        },
+        {
+          "path": "SENSORS.md",
+          "sha256": "6ceb4fc8b529d564b6f990682d1e91c24afb3ccf5fc5d0fa04eee05d1ca9b423",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/SENSORS.md"
+        },
+        {
+          "path": "Macmonitor/IOReportWrapper.m",
+          "sha256": "864372726a0cebf5cd2dedcf889da14351bc4e3e9679ef479fd67b519abba3dd",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/Macmonitor/IOReportWrapper.m"
+        }
+      ]
+    },
+    {
+      "id": "R03",
+      "repository": "https://github.com/vladkens/macmon",
+      "commit": "6919d7781b6c55a6e3bedff83a210435837e1dfe",
+      "licenseStatus": "MIT file present; inspect per-file provenance before copying",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "1c0346ac677430fc52a4b3b374e4149da2e631a4d975f94b367a0647fe6568e7",
+          "url": "https://github.com/vladkens/macmon/blob/6919d7781b6c55a6e3bedff83a210435837e1dfe/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "65f575b0127a4383e4710c5ffefe2c5a9ab906231013f42ba899f3fa9b9fdaaf",
+          "url": "https://github.com/vladkens/macmon/blob/6919d7781b6c55a6e3bedff83a210435837e1dfe/LICENSE"
+        },
+        {
+          "path": "src_lib/sources.rs",
+          "sha256": "7b726e5bf7b5fb8f667e1b02240be9160c21f0195aad470c12ad995b4e3266e6",
+          "url": "https://github.com/vladkens/macmon/blob/6919d7781b6c55a6e3bedff83a210435837e1dfe/src_lib/sources.rs"
+        },
+        {
+          "path": "src_lib/metrics.rs",
+          "sha256": "08197f42d295b40fe3bc8cd9fb0af477e194cad78aa1f82c2c5c0a4cc2393663",
+          "url": "https://github.com/vladkens/macmon/blob/6919d7781b6c55a6e3bedff83a210435837e1dfe/src_lib/metrics.rs"
+        }
+      ]
+    },
+    {
+      "id": "R04",
+      "repository": "https://github.com/sak0a/MacFanControl",
+      "commit": "e5afaeb51da6d80ac6e26e0bdef7503cceebb7e6",
+      "licenseStatus": "README claims MIT; full license file absent in pinned tree; architecture reference only",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "8a8d4ec2bc500f9a24a26b74938674b8fd70179f182135197d4a7ba00b83e009",
+          "url": "https://github.com/sak0a/MacFanControl/blob/e5afaeb51da6d80ac6e26e0bdef7503cceebb7e6/README.md"
+        },
+        {
+          "path": "Package.swift",
+          "sha256": "90dab8943c77e32a388ffa1e0d8f1b5bbf8279f9e8ccdfeb9dc64b82c4e54d89",
+          "url": "https://github.com/sak0a/MacFanControl/blob/e5afaeb51da6d80ac6e26e0bdef7503cceebb7e6/Package.swift"
+        },
+        {
+          "path": "Sources/MacFanControlCore/SMC.swift",
+          "sha256": "f1b215d862e793ca722659c190fb8cae786f8bd9d6fedbb0d85d61a7175625ed",
+          "url": "https://github.com/sak0a/MacFanControl/blob/e5afaeb51da6d80ac6e26e0bdef7503cceebb7e6/Sources/MacFanControlCore/SMC.swift"
+        },
+        {
+          "path": "Sources/MacFanControlCore/Sensors.swift",
+          "sha256": "7e1b17fe186c3bbd19471026f7735d1b0c0498498fe1264ed00ac29da63d6cc5",
+          "url": "https://github.com/sak0a/MacFanControl/blob/e5afaeb51da6d80ac6e26e0bdef7503cceebb7e6/Sources/MacFanControlCore/Sensors.swift"
+        }
+      ]
+    },
+    {
+      "id": "R05",
+      "repository": "https://github.com/WHYBBE/SwiftTempBar",
+      "commit": "da4b0b54e4e3d56941c3cd902b0bc877349ff190",
+      "licenseStatus": "MIT file present; inspect per-file provenance before copying",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "52351cee5f37f1aa7c9aadc53e7161c5f4a03a497afc951567dce61742595c5e",
+          "url": "https://github.com/WHYBBE/SwiftTempBar/blob/da4b0b54e4e3d56941c3cd902b0bc877349ff190/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "1b9dc0fca13895410c18b96b96ed2a9d8cdfe8f79293f9c879e276bb81747ec5",
+          "url": "https://github.com/WHYBBE/SwiftTempBar/blob/da4b0b54e4e3d56941c3cd902b0bc877349ff190/LICENSE"
+        },
+        {
+          "path": "Sources/TemperatureReader.swift",
+          "sha256": "0732662ac603b508f59a7475bcd356fd65044a5faf10f2acb1fa463ca4c0a169",
+          "url": "https://github.com/WHYBBE/SwiftTempBar/blob/da4b0b54e4e3d56941c3cd902b0bc877349ff190/Sources/TemperatureReader.swift"
+        }
+      ]
+    },
+    {
+      "id": "R06",
+      "repository": "https://github.com/context-labs/mactop",
+      "commit": "eaa2fab31481d10bc7544466434eb74a2e2318c3",
+      "licenseStatus": "MIT file present; inspect per-file provenance before copying",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "79e61be26bdbc478251e45e19fdc79461732d4e81c79e4da5c9be9c404b1fdb8",
+          "url": "https://github.com/context-labs/mactop/blob/eaa2fab31481d10bc7544466434eb74a2e2318c3/README.md"
+        },
+        {
+          "path": "LICENSE",
+          "sha256": "685fb4f861c9a38d7455eca8a2f1581a0f2f2df96c852859a4436d0fca4e1f17",
+          "url": "https://github.com/context-labs/mactop/blob/eaa2fab31481d10bc7544466434eb74a2e2318c3/LICENSE"
+        },
+        {
+          "path": "internal/app/ioreport.m",
+          "sha256": "b8dedf8efbb16c5c3afb82de0fb7f50d79a6fc853aaaf1d98693d48747bcbc09",
+          "url": "https://github.com/context-labs/mactop/blob/eaa2fab31481d10bc7544466434eb74a2e2318c3/internal/app/ioreport.m"
+        }
+      ]
+    },
+    {
+      "id": "R07",
+      "repository": "https://gist.github.com/philipturner/81bed277f2942c87ea8825910e91a766",
+      "revision": "7092b98722f9eed2e169ad515a296b57da3705a2",
+      "rawURL": "https://gist.githubusercontent.com/philipturner/81bed277f2942c87ea8825910e91a766/raw/4ae91baed37eac2924b64d64363314e6c59c031e/TemperatureSensor.swift",
+      "licenseStatus": "No explicit license in inspected single file; methods reference only",
+      "identification": "Matches conversation description; original citation URL unavailable"
+    }
+  ]
+}

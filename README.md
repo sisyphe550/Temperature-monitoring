@@ -1,6 +1,6 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air 本地原生温度监控项目。本文档集整理截至 **2026-09-14** 的有效讨论，用于后续需求评审、接口验证、开发和验收。
+Apple Silicon MacBook Air 本地原生温度监控项目。本文档集整理截至 **2026-09-17** 的有效讨论、首轮实测与开源方案复核，用于后续需求评审、开发和验收。
 
 当前阶段：**已开展 M4 Air 最小传感器验证；生产应用尚未编码，完整 V0 尚未验收。** 本目录名称及其上级 `Go` 目录不表示项目已选择 Go 语言。
 
@@ -50,6 +50,7 @@ Apple Silicon MacBook Air 本地原生温度监控项目。本文档集整理截
 | [16 待决策与风险](docs/16-open-questions.md) | 阻塞事项、解决方法、影响范围 |
 | [17 需求追踪矩阵](docs/17-traceability.md) | 需求→设计→测试；覆盖不等于通过 |
 | [18 来源与证据](docs/18-sources.md) | 对话、附件、官方资料、开源实现 |
+| [19 开源复核与方案优化](docs/19-reference-informed-design.md) | 7 项参考、复用边界、需求修订提案、采集细化与 V0.2 计划 |
 
 建议阅读顺序：项目上下文 → 需求规格 → 待决策与风险 → 初步验证方案 → 架构与专项设计。
 
@@ -58,6 +59,10 @@ Apple Silicon MacBook Air 本地原生温度监控项目。本文档集整理截
 - [验证报告](docs/validation/2026-09-15-m4-air/validation-report.md)
 - [兼容矩阵](docs/validation/2026-09-15-m4-air/compatibility-matrix.md)
 - [只读原型与复现命令](prototypes/sensor-probe/README.md)
+
+## 当前推荐方案
+
+新增 [开源复核方案](docs/19-reference-informed-design.md) 与 [M4 全部 249 个已记录来源](docs/research/2026-09-17-m4-source-candidates.md)。采集改为启动发现、版本化注册表、元数据缓存及有界轮询；真实来源与派生指标分开。推荐首版采用可验证 CPU 热区指标，将逐物理核保证改为后续扩展，SSD／电池缺失单独处理。这些改变产品要求的部分列为 RC-01～04，等待决定，未覆盖原 REQ。
 
 ## 使用边界
 

@@ -1,6 +1,6 @@
 # 技术选型建议
 
-更新日期：2026-09-15。状态：SQLite、原生 macOS 和本地部署已确认；编程语言及具体框架组合为推荐方案。
+更新日期：2026-09-17。状态：SQLite、原生 macOS 和本地部署已确认；编程语言及具体框架组合为推荐方案。
 
 ## 推荐组合
 
@@ -44,3 +44,9 @@ Swift 可直接与 C／Objective-C API 互操作；SwiftUI 可与 AppKit 双向�
 ## V0 工具链实测
 
 独立探索原型采用 Swift＋小型 C 桥接，在 Apple Swift 6.1.2、macOS 15.5 SDK、Command Line Tools 下构建。仅有 Command Line Tools 的本机没有 XCTest，改用随工具链提供的 Swift Testing，见 Issue #1。原型未引入第三方包。此记录不冻结生产 App 的 Xcode、Swift 最低版本或 SQLite 封装选择。
+
+## 开源复用决定（2026-09-17）
+
+[19](19-reference-informed-design.md) 已核查5个主要项目及mactop、Swift实验。保持Swift/C原生路线；借鉴macmon元数据缓存、Stats平台表、MacMonitor研究记录和MacFanControl分层，不引入完整外部监控工具。温度产品不需要为功耗指标增加IOReport采样链。
+
+本轮未复制新第三方代码。MIT完整文件、README声明MIT但缺完整文件、未见明确许可三类分别登记在 [固定来源清单](research/2026-09-17-source-manifest.json)，不能一律写成“全部可直接复制”。
