@@ -1,6 +1,6 @@
 # 需求到设计、测试的追踪矩阵
 
-更新日期：2026-09-17。此表覆盖全部 134 条 REQ；已记录首轮原型局部证据，**不等于产品需求验收通过**。关联代表已有测试计划，不代表已经通过或能力已经实现。
+更新日期：2026-09-17。此表覆盖134个登记REQ编号，其中132项现行、REQ-012/114两项已删除。已记录首轮原型局部证据，**不等于产品需求验收通过**。关联代表已有测试计划，不代表已经通过或能力已经实现。
 
 需求原文见 [需求规格](01-requirements.md)，用例组定义见 [测试策略](10-test-strategy.md)，阻塞项见 [待决策](16-open-questions.md)。
 
@@ -17,7 +17,7 @@
 | REQ-009 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-010 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | OQ-01 | 未执行 |
 | REQ-011 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
-| REQ-012 | 已确认目标／待验证 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | OQ-01 | 未执行 |
+| REQ-012 | 已删除 | [C09删除记录](15-decisions-and-corrections.md) | 不适用 | 无，C09删除 | 不适用（已删除） |
 | REQ-013 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-014 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-015 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
@@ -119,12 +119,12 @@
 | REQ-111 | 设计基线 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-RELEASE | 按专项设计 | 未执行 |
 | REQ-112 | 已确认 | [补充范围与后续讨论](02-architecture.md) | TC-PLATFORM | 按专项设计 | 未执行 |
 | REQ-113 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01 | 未执行 |
-| REQ-114 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01、OQ-05 | 未执行 |
+| REQ-114 | 已删除 | [C09删除记录](15-decisions-and-corrections.md) | 不适用 | 无，C09删除 | 不适用（已删除） |
 | REQ-115 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-116 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 原型局部验证；产品未验收 |
 | REQ-117 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-12 | 未执行 |
 | REQ-118 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-05、OQ-12 | 未执行 |
-| REQ-119 | 已确认方向／待设计 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
+| REQ-119 | 设计基线 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
 | REQ-120 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-12 | 未执行 |
 | REQ-121 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
 | REQ-122 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
@@ -137,7 +137,7 @@
 | REQ-129 | 设计基线 | [补充范围与后续讨论](04-data-storage.md) | TC-SCHEDULE / TC-STORAGE | 按专项设计 | 未执行 |
 | REQ-130 | 推荐方案 | [补充范围与后续讨论](07-native-ui.md) | TC-UI / TC-LIFECYCLE | OQ-08 | 未执行 |
 | REQ-131 | 推荐方案 | [补充范围与后续讨论](05-processing-pipeline.md) | TC-TREND | OQ-06、OQ-08 | 未执行 |
-| REQ-132 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-05 | 原型局部验证；产品未验收 |
+| REQ-132 | 设计基线 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01、OQ-05 | 原型局部验证；产品未验收 |
 | REQ-133 | 推荐修正 | [补充范围与后续讨论](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
 | REQ-134 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR / TC-SCHEDULE | 按专项设计 | 原型局部验证；产品未验收 |
 
@@ -148,19 +148,22 @@
 
 ## 首轮证据索引
 
-统一证据入口：[V0 最小验证报告](validation/2026-09-15-m4-air/validation-report.md)。TC-SENSOR／TC-SCHEDULE 为单机和短时局部证据；TC-WORKFLOW 包含功能分支、Issue、原型CI与PR，但强制门禁未完整配置，未执行merge。REQ-092只取得原型纯逻辑覆盖率，产品采集边界未验收。Package／逐核、UI、数据链和长期测试仍未执行。
+统一证据入口：[V0 最小验证报告](validation/2026-09-15-m4-air/validation-report.md)。TC-SENSOR／TC-SCHEDULE 为单机和短时局部证据；TC-WORKFLOW 包含功能分支、Issue、原型CI与PR，但强制门禁未完整配置，未执行merge。REQ-092只取得原型纯逻辑覆盖率，产品采集边界未验收。CPU主指标、UI、数据链和长期测试仍未完成；逐核需求已由C09删除，不再列为待执行验收。
 
 ## 2026-09-17 方案增量追踪
 
-以下是[19](19-reference-informed-design.md)的提案和推荐细化，未覆盖上表状态。V2为未来测试计划，未执行。
+以下是[19](19-reference-informed-design.md)的提案与设计细化；RC-02已按C09同步到上表，RC-01/03/04仍待决定。V2为未来测试计划，未执行。
 
 | 变更 | 关联REQ | 设计／提案 | 计划验证 |
 |---|---|---|---|
 | CPU主指标定义 | 010/043/044/113 | RC-01；03/05/07/19 | V2-01/05；TC-SENSOR/EMA/UI |
-| 逐核改热区列表 | 009/010/012/114/122/132 | RC-02；03/07/19 | V2-01/04；TC-SENSOR/VALIDATE/UI |
+| 删除逐核，保留温度来源列表 | 009/010/122/132现行；012/114退役 | RC-02已落实；03/07/19 | 退役项不适用；其余来源验证按V2-01/04及TC-SENSOR/VALIDATE/UI |
 | 附件能力隔离 | 054～057/072～078/115/116 | RC-03；06/19 | V2-02/04；TC-ERROR |
 | 按矩阵声明支持 | 109～111 | RC-04；03/19 | V2-06；TC-PLATFORM/RELEASE |
 | 轮询／缓存／串行调度 | 001～007/054/055/129/134 | RC-05；02/03/08/19 | V2-03/04；TC-SCHEDULE/LIFECYCLE |
-| 身份、派生与分段 | 008～015/021/025～029/130～133 | 04/05/08/19 | V2-04/05；TC-EMA/AGG/TREND |
+| 身份、派生与分段 | 008～011/013～015/021/025～029/130～133 | 04/05/08/19 | V2-04/05；TC-EMA/AGG/TREND |
 | 有界且幂等交付 | 017/023/058～060/100 | 04/19 | V2-05；TC-STORAGE/ERROR |
-| 来源与状态核对 | 105/106/128 | 15/18/19；研究清单 | TC-DOCS：链接、134条REQ、249条来源与哈希核对 |
+| 来源与状态核对 | 105/106/128 | 15/18/19；研究清单 | TC-DOCS：链接、134个登记ID（132现行＋2删除）、249条来源与哈希核对 |
+| 原生UI复用基线 | 043～053/117～123/125/130 | C09；07/08/09；固定UI来源清单 | TC-UI：07第8节，产品测试未执行 |
+
+本次范围和界面文档的实际检查见[验证记录](research/2026-09-17-scope-ui-validation.md)。删除需求通过文档核对确认，不以执行或通过逐核硬件测试表示删除成功。

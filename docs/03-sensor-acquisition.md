@@ -21,7 +21,7 @@
 
 | 指标／接口 | 已知事实 | 首选验证动作 |
 |---|---|---|
-| CPU 温度 | 没有在本次核查中找到满足 Package 和逐核摄氏温度需求的稳定公开接口 | 枚举 AppleSMC 与 HID 温度来源 |
+| CPU 温度 | 没有找到可证明物理Package映射的稳定公开接口；原逐核目标已按C09删除 | 枚举 AppleSMC 与 HID 温度来源并验证其含义 |
 | `ProcessInfo.thermalState` | 返回 nominal/fair/serious/critical 等系统热状态，不能换算成摄氏温度 | 可作诊断辅助，不替代温度 |
 | `IOPMGetThermalWarningLevel` | 返回系统热警告等级，不是 CPU 温度计 | 不作为主温度来源 |
 | AppleSMC | 开源实现通过 IOKit 调用读取传感器键 | 检查连接、键类型、数值单位和可用性 |
@@ -44,7 +44,7 @@ C02 中“IOPSKeys.h 没有温度 key”的说法已被纠正。正确字段为 
 ## 指标身份
 
 - CPU Package：必须确定是一个有据可查的硬件读数，还是经确认的派生指标。平均值／最大值不能无说明地继续标为物理 Package 温度。
-- CPU Core：只有存在足够映射证据才建立 core ID；传感器枚举序号不等于核心编号。
+- 逐物理核心温度已按C09删除；不再建立物理core ID。保留每个温度来源的sourceID和热区说明，传感器枚举序号不等于核心编号。
 - 同一传感器可能经多条路径暴露；去重和来源切换规则见 OQ-03。
 - 源码中的传感器名称仅是项目映射。温度对负载的相关性和其他软件一致性不能独立证明逐核拓扑。[Stats 映射](https://github.com/exelban/stats/blob/master/Modules/Sensors/values.swift)
 - 标识设计建议包含来源、原始 key、机型、映射版本；具体持久化字段见 [数据设计](04-data-storage.md)。

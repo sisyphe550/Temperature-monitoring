@@ -13,6 +13,7 @@
 | C06 | 2026-09-15 当前用户请求：参照项目文件执行最小验证并遵守 Git 流程 | 授权独立原型、实机最小验证与流程执行；证据见 validation/2026-09-15-m4-air |
 | C07 | [搜索Mac温度监控软件](https://chatgpt.com/c/6aa93318-6224-83e9-ae3b-33b5f346b09b) | 五个主要项目，以及mactop和未直接给出URL的Swift实验；助手描述均重新核查 |
 | C08 | 2026-09-17 当前用户要求从C07全部项目学习、复用经验并完善方案 | 授权研究与设计修订；不把改动已确认需求的提案标为已批准 |
+| C09 | 2026-09-17 当前用户明确删除“每个物理CPU核心温度”，并要求前端借鉴开源项目、更新全部开发路线文档 | 退役REQ-012/114并同步关联设计和验收；授权按MacMonitor/Stats细化前端方案 |
 | C05 | 当前对话：用户指定 `/Users/sisyphus/Code/Go/Temperature monitoring/` 并要求分类 Markdown | 本文档集的工作目录及整理任务 |
 | ATT-01 | C01 附件《粘贴的文本 (1).txt》 | Ring Buffer、SQLite、EMA、聚合、趋势、时间戳、缺口及数据路径建议 |
 
@@ -75,3 +76,5 @@
 R01～R07的固定链接、检查文件、许可状态和适用边界见 [19第2节](19-reference-informed-design.md) 及 [JSON清单](research/2026-09-17-source-manifest.json)。R01采用本轮新快照，不回写2026-09-15报告使用的旧版本。
 
 通过对话读取工具取得C07完整可用文本。未暴露的实验引用经公开检索定位到Philip Turner的TemperatureSensor.swift，其内容符合描述，但原引文身份仍未确认。记录方法参考，不复制无明确许可的代码。六个仓库仅在临时目录检视源码；本轮没有执行其软件或创建外部监控依赖。
+
+C09前端细化另核查MacMonitor的PopoverView／AppDelegate与面板截图、Stats的Sensors Popup／Widget、SwiftTempBar的StatusBarController及三份MIT文件。固定版本、文件SHA-256与检查范围见[UI来源清单](research/2026-09-17-native-ui-sources.json)，适配方案见[07](07-native-ui.md)。本轮未导入UI源码或品牌资产。

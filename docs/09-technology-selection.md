@@ -50,3 +50,5 @@ Swift 可直接与 C／Objective-C API 互操作；SwiftUI 可与 AppKit 双向�
 [19](19-reference-informed-design.md) 已核查5个主要项目及mactop、Swift实验。保持Swift/C原生路线；借鉴macmon元数据缓存、Stats平台表、MacMonitor研究记录和MacFanControl分层，不引入完整外部监控工具。温度产品不需要为功耗指标增加IOReport采样链。
 
 本轮未复制新第三方代码。MIT完整文件、README声明MIT但缺完整文件、未见明确许可三类分别登记在 [固定来源清单](research/2026-09-17-source-manifest.json)，不能一律写成“全部可直接复制”。
+
+C09已确认前端借鉴开源项目：按[07](07-native-ui.md)适配MacMonitor的SwiftUI分组面板与AppKit入口、Stats来源列表及SwiftTempBar数字展示。具体文件与许可哈希见[UI来源清单](research/2026-09-17-native-ui-sources.json)。本项目的历史图表、EMA和SQLite链路需要自行接入，不把上游完整监控程序作为依赖。

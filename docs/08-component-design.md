@@ -6,7 +6,7 @@
 
 | 构件 | 输入 | 输出 | 关键约束 |
 |---|---|---|---|
-| SensorDiscovery | 机型、系统、候选 provider | 原始传感器描述与能力状态 | 不把未知映射改名为 CPU Core |
+| SensorDiscovery | 机型、系统、候选 provider | 原始传感器描述与能力状态 | 不建立物理Core温度映射；保留温度来源身份 |
 | SourceRegistry | 发现结果、版本化映射与证据 | 有源实例身份的活动集合 | 同名不合并；重连失效元数据缓存 |
 | MetricResolver | 固定成员样本、指标定义 | 派生读数或缺失原因 | 保存成员与批次跨度；单源失败不偷偷缩小集合 |
 | TemperatureProvider | 原始传感器 ID、读取请求 | 读数或结构化错误 | 保留来源单位、底层错误；同步阻塞能力需验证 |
@@ -20,6 +20,8 @@
 | HistoryQuery | 传感器集合、时间范围 | 合适粒度的序列 | 本会话、72 小时、实际保留层级 |
 | RetentionService | 当前时间、各 TTL | 清理结果 | 查询过滤与物理清理分开 |
 | PresentationModel | 实时快照、历史序列、故障状态 | 可显示数据与交互状态 | 不持有底层传感器连接 |
+| StatusItemController／TemperaturePopover | 展示快照、点击事件 | 菜单栏与分组面板 | 按07适配开源组件；主线程不执行硬件读取 |
+| TemperatureDashboard／HistoryChartModel | 来源选择、时间范围、查询结果 | 主窗口、柱状图、带缺口曲线 | 使用sourceID；不建立Core温度网格；关闭窗口不停止采集 |
 | ErrorCoordinator | 构件错误、重试结果 | 重试／报告／退出决策 | 能力不支持与暂时失败区分 |
 | Diagnostics | 错误上下文 | 独立日志与报告 | 数据库失败时仍可尝试记录 |
 | SessionLifecycle | 启动、退出、睡眠与唤醒 | 会话、采样启动／停止事件 | 清理上一会话；唤醒产生缺口 |
