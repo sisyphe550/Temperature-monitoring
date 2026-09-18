@@ -1,54 +1,32 @@
-# 技术选型建议
+# 技术与依赖冻结基线
 
-更新日期：2026-09-17。状态：SQLite、原生 macOS 和本地部署已确认；编程语言及具体框架组合为推荐方案。
+更新：2026-09-17；C10工作基线v1。生产代码尚未实现，以下供接手agent执行。
 
-## 推荐组合
-
-| 部分 | 推荐 | 选择原因／状态 |
+| 部分 | 本版选择 | 依据 |
 |---|---|---|
-| 主语言 | Swift | 与原生系统、界面、并发和测试整合；尚未指定 Swift 小版本 |
-| 传感器边界 | Swift，必要时少量 C／Objective-C | 声明 IOKit 函数、结构体及未公开接口；桥接范围受控 |
-| 主窗口／设置 | SwiftUI | 原生声明式界面 |
-| 菜单栏／弹出面板 | AppKit `NSStatusItem`／`NSPopover` | 控制菜单栏与窗口行为 |
-| 图表 | Swift Charts | 折线、柱状与范围展示 |
-| 存储 | SQLite | 已确认；是否采用 Swift 封装库仍待 OQ-14 |
-| 架构 | 模块化单体；UI 层 MVVM | 当前最适合已讨论的本地单机范围 |
-| 并发组织 | Swift Concurrency＋专用后台执行环境 | 同步硬件／存储调用不阻塞界面 |
-| 开发环境 | Xcode | 编译、调试、签名及原生 UI 测试 |
-| 测试 | Swift Testing／XCTest | 具体职责与版本在工具链冻结时决定 |
-| 协作 | Git＋GitHub Actions | 分支、Issue、门禁由工作流文档定义 |
-| 分发 | Developer ID＋Hardened Runtime＋公证 | 独立分发建议；不代表已经有证书或完成公证 |
+| 主语言 | Swift 6，SwiftPM tools-version 6.0，Swift 6 language mode | 现有原型Swift6.1.2构建；原生并发/值类型 |
+| 硬件桥接 | 少量C，IOKit/CoreFoundation，普通用户worker | 原型及macmon固定版本；SMC只读 |
+| 界面 | SwiftUI＋AppKit NSStatusItem/NSPopover/NSWindow | MacMonitor/Stats固定源码 |
+| 图表 | Swift Charts | 系统原生框架；适配本项目EMA/聚合模型 |
+| 存储 | 系统libsqlite3，窄C module map＋自有Swift封装 | [SQLite官方接口](https://sqlite.org/cintro.html)；不引入ORM |
+| Core测试 | Swift Testing＋虚拟Clock/MockSensorClient | 已有工具链实测；新核心覆盖范围见10 |
+| UI测试 | XCTest/XCUITest，Xcode App scheme | 原生界面黑盒 |
+| 开发工具基线 | Xcode16.4＋macOS15.5 SDK；后续更高版本须跑全套检查 | [Apple版本矩阵](https://developer.apple.com/xcode/system-requirements)列出此组合，不声称它是最新版 |
+| 部署目标 | arm64，MACOSX_DEPLOYMENT_TARGET=15.7.3 | 用户目标；运行时再核对OS与Air profile |
+| 分发 | 本地Debug/Release可先ad-hoc；正式ZIP使用Developer ID、Hardened Runtime、公证 | 13的两级交付 |
 
-Swift 可直接与 C／Objective-C API 互操作；SwiftUI 可与 AppKit 双向集成。[Swift 官方互操作资料](https://www.swift.org/documentation/cxx-interop/)、[Apple AppKit 集成](https://developer.apple.com/documentation/swiftui/appkit-integration)
+本机目前只有Command Line Tools，能做Swift核心/原型与契约验证；Xcode项目和XCUITest阶段需要安装完整Xcode。不能把缺Xcode写成传感器方案不可行，也不能声称UI测试已执行。
 
-## 已比较的方案
+## 依赖与许可
 
-| 方案 | 优点 | 代价／结论 |
-|---|---|---|
-| 全 Swift | 语言一致、调试和构建集中 | 部分低层结构与声明需要维护；可以作为起点 |
-| Swift＋少量 C／Objective-C | 将低层细节封装在窄边界 | 增加桥接，但范围较小；当前推荐 |
-| Swift＋Rust | 可复用某些遥测实现 | 增加 FFI、错误传播和构建维护；当前没有足够证据需要引入 |
+不引入Rust/Go/Web/Electron、第三方数据库包、外部监控CLI、root helper、IOReport功耗链路。SwiftPM核心包与App放在同一仓库，App通过本地Package引用；版本与构建配置一并提交。
 
-路径 `/Code/Go/` 不构成 Go 技术选型。项目没有选择 Web/Electron、Docker 数据库或远端后端，也不因监控工具中存在 HTTP 输出就加入本项目。
+[源清单](research/2026-09-17-source-manifest.json)及[UI清单](research/2026-09-17-native-ui-sources.json)固定上游commit和文件hash。macmon/Stats/MacMonitor/SwiftTempBar/mactop的MIT代码如移植须保留版权、完整许可证、文件来源和修改说明。MacFanControl缺完整许可，PhilipTurner实验无明确许可，仅参考方法不复制代码。项目自有算法、数据模型与生命周期不能伪称来自上游完整实现。
 
-## 选型纪律
+## 工程创建与配置
 
-- 底层路线由 M4 Air 实测决定，不能先按语言偏好宣称所有指标可读。
-- 库版本和最低工具链版本需冻结后记录；不在本轮编造最新 Xcode／Swift 版本。
-- 开源实现仅作路线与映射参考；实际复用代码前检查对应版本许可证及依赖。
-- 普通用户权限首先验证；是否需要辅助进程、XPC 或额外授权由证据决定。
-- App Sandbox 对站外分发为可选项；Hardened Runtime 与 App Sandbox 是不同机制。公证不提供传感器兼容保证。[Apple 分发说明](https://developer.apple.com/documentation/xcode/preparing-your-app-for-distribution)
+创建macOS App target `TemperatureMonitor`和UI testing target，scheme同名；SWIFT_VERSION=6.0，ARCHS=arm64。关闭App Sandbox；不加入临时例外或提权entitlement。Hardened Runtime只在正式签名配置打开并复测；其作用不等于允许私有接口。
 
-来源：C01、C03、C04。[来源](18-sources.md)
+SensorWorker由SwiftPM executable构建，复制到App的Contents/MacOS并作为内嵌可执行文件签名。不得在生产运行时调用swift或从临时目录启动探针。SQLite module.modulemap使用系统`sqlite3.h`和`link "sqlite3"`；最低运行系统自带SQLite的实际版本在启动日志记录，不下载另一套数据库覆盖系统。
 
-## V0 工具链实测
-
-独立探索原型采用 Swift＋小型 C 桥接，在 Apple Swift 6.1.2、macOS 15.5 SDK、Command Line Tools 下构建。仅有 Command Line Tools 的本机没有 XCTest，改用随工具链提供的 Swift Testing，见 Issue #1。原型未引入第三方包。此记录不冻结生产 App 的 Xcode、Swift 最低版本或 SQLite 封装选择。
-
-## 开源复用决定（2026-09-17）
-
-[19](19-reference-informed-design.md) 已核查5个主要项目及mactop、Swift实验。保持Swift/C原生路线；借鉴macmon元数据缓存、Stats平台表、MacMonitor研究记录和MacFanControl分层，不引入完整外部监控工具。温度产品不需要为功耗指标增加IOReport采样链。
-
-本轮未复制新第三方代码。MIT完整文件、README声明MIT但缺完整文件、未见明确许可三类分别登记在 [固定来源清单](research/2026-09-17-source-manifest.json)，不能一律写成“全部可直接复制”。
-
-C09已确认前端借鉴开源项目：按[07](07-native-ui.md)适配MacMonitor的SwiftUI分组面板与AppKit入口、Stats来源列表及SwiftTempBar数字展示。具体文件与许可哈希见[UI来源清单](research/2026-09-17-native-ui-sources.json)。本项目的历史图表、EMA和SQLite链路需要自行接入，不把上游完整监控程序作为依赖。
+最低Xcode用于可重复开发，不固定“最高macOS”的历史字符串。每次RC从Apple正式发布记录更新兼容矩阵；beta不作为默认支持承诺。

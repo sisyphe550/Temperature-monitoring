@@ -1,71 +1,42 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air 本地原生温度监控项目。本文档集整理截至 **2026-09-17** 的有效讨论、首轮实测与开源方案复核，用于后续需求评审、开发和验收。
+Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-18交接设计基线v1**；已有M4 Air只读原型证据，生产App尚未实现。
 
-当前阶段：**已开展 M4 Air 最小传感器验证；生产应用尚未编码，完整 V0 尚未验收。** 本目录名称及其上级 `Go` 目录不表示项目已选择 Go 语言。
+## 接手开发
 
-## 当前范围
+从[Agent交接入口](docs/00-agent-handoff.md)开始，按[实施计划](docs/22-agent-implementation-plan.md)执行。无需依赖聊天记录或临时克隆目录。
 
-- 仅面向 Apple Silicon MacBook Air，不包括 Intel MacBook Air、MacBook Pro、台式 Mac。
-- 本地原生应用；不采用 Web 前端、Docker 或远端业务服务器。
-- 不上架 Mac App Store；独立分发。
-- 目标指标：CPU主指标、可验证的CPU温度来源／热区、SSD、Battery；已删除逐物理核心温度要求。主指标的Package／派生含义仍待决定。
-- CPU 五档采样设置：50 / 100 / 200 / 500 / 1000 ms，默认 200 ms。
-- SQLite＋Ring Buffer＋EMA＋分级时间聚合；监控历史最长 72 小时，限本次应用运行会话。
-- 删除高温告警和登录后自动启动功能。
-- 推荐技术方案：Swift 为主，必要时增加少量 C／Objective-C；SwiftUI＋AppKit；模块化单体。推荐不等于已实施。
+- CPU：固定12个M4温度来源的最高值，EMA展示；不承诺逐物理核心、物理Package或全芯片绝对热点。
+- SSD/Battery：有具体接口与来源选择，不支持或单项失败时显示不可用，CPU继续。
+- 原生SwiftUI/AppKit，前端参考MacMonitor和Stats；五档CPU请求，默认200ms。
+- 实时内存加工与展示，Raw/EMA仍批量入SQLite，分层历史最长72小时、仅当前会话。
+- 自有普通用户采集worker隔离同步接口；不引入root、外部监控CLI、告警、自启动或Web后端。
 
-## 文档状态
+## 权威文档
 
-| 标记 | 含义 | 如何使用 |
-|---|---|---|
-| 已确认 | 用户明确提出或接受的业务要求 | 不因实现方便而自行更改 |
-| 设计基线 | 在用户授权细化范围内形成的工作方案 | 用于后续设计；仍需验证其可实现性 |
-| 推荐方案 | 助手提出、尚未明确冻结的技术选择 | 不能写成用户已批准或已经实现 |
-| 待验证／待决策 | 存在能力、语义或验收缺口 | 关联问题编号；不伪造默认结论 |
-| 已替代／已纠正 | 曾讨论但不再作为当前依据 | 仅保留变更原因与来源 |
-
-“已确认需求”与“已验证能力”是两个维度。当前已删除逐物理核心温度要求；CPU主指标和电池来源仍需语义验证。
-
-## 阅读导航
-
-| 文档 | 内容 |
+| 入口 | 内容 |
 |---|---|
-| [项目上下文](CONTEXT.md) | 背景、边界、术语、讨论解释规则 |
-| [01 需求规格](docs/01-requirements.md) | 带 ID、状态和来源的中文 EARS 规格 |
-| [02 总体架构](docs/02-architecture.md) | 模块划分、数据流、并发、隔离边界 |
-| [03 传感器采集](docs/03-sensor-acquisition.md) | API 路线、权限、标识、采样语义、兼容性 |
-| [04 数据模型与存储](docs/04-data-storage.md) | SQLite、Ring Buffer、保留期、空间控制 |
-| [05 数据加工](docs/05-processing-pipeline.md) | 校验、EMA、Raw 峰值、聚合、趋势 |
-| [06 故障与错误码](docs/06-error-handling.md) | 重试、错误分类、退出流程、错误码表 |
-| [07 原生界面](docs/07-native-ui.md) | 菜单栏、弹出面板、主窗口、数据来源 |
-| [08 构件详细设计草案](docs/08-component-design.md) | 构件职责、输入输出、状态与依赖 |
-| [09 技术选型](docs/09-technology-selection.md) | Swift、桥接、UI、存储与工具选择 |
-| [10 测试策略](docs/10-test-strategy.md) | 单元、白盒、黑盒、实机、长期测试 |
-| [11 Git 与 GitHub 流程](docs/11-git-github-workflow.md) | 分支、Issue、测试门禁、合并节点 |
-| [12 开发阶段计划](docs/12-development-plan.md) | 验证、设计、实现、集成、发布阶段 |
-| [13 运维与分发](docs/13-operations-distribution.md) | 日志、诊断、清理、签名、公证 |
-| [14 初步验证方案](docs/14-feasibility-validation.md) | 首个 M4 Air 采集原型如何验证与交付证据 |
-| [15 决策与纠正记录](docs/15-decisions-and-corrections.md) | 有效决策、历史替代、事实纠错 |
-| [16 待决策与风险](docs/16-open-questions.md) | 阻塞事项、解决方法、影响范围 |
-| [17 需求追踪矩阵](docs/17-traceability.md) | 需求→设计→测试；覆盖不等于通过 |
-| [18 来源与证据](docs/18-sources.md) | 对话、附件、官方资料、开源实现 |
-| [19 开源复核与方案优化](docs/19-reference-informed-design.md) | 7 项参考、复用边界、需求修订提案、采集细化与 V0.2 计划 |
+| [CONTEXT](CONTEXT.md)／[AGENTS](AGENTS.md) | 当前边界与执行纪律 |
+| [00 Agent交接](docs/00-agent-handoff.md) | 阅读顺序、当前状态、启动和完成条件 |
+| [01 需求](docs/01-requirements.md)／[17 追踪](docs/17-traceability.md) | 134编号、132现行、2退役；逐项任务与验收 |
+| [02 架构](docs/02-architecture.md)／[03 接口](docs/03-sensor-acquisition.md) | 数据路径、具体硬件实现与证据 |
+| [04 存储](docs/04-data-storage.md)／[05 算法](docs/05-processing-pipeline.md) | DDL、TTL、EMA、聚合、趋势与幂等 |
+| [06 故障](docs/06-error-handling.md)／[07 界面](docs/07-native-ui.md) | 重试、退出、缓存、布局和交互 |
+| [08 构件](docs/08-component-design.md)／[09 工具链](docs/09-technology-selection.md) | 文件结构、Swift接口、进程协议与依赖 |
+| [10 测试](docs/10-test-strategy.md)／[11 Git](docs/11-git-github-workflow.md) | 验收向量、覆盖率、CI、Issue和merge commit |
+| [12 阶段](docs/12-development-plan.md)／[13 分发](docs/13-operations-distribution.md) | 生命周期、日志、打包、公证和外部凭证 |
+| [14 实测](docs/14-feasibility-validation.md)／[15 决策](docs/15-decisions-and-corrections.md) | 已存证据、变更原因与后续验证 |
+| [16 决策与执行依赖](docs/16-open-questions.md)／[18 来源](docs/18-sources.md) | 原OQ处理、官方及讨论出处 |
+| [19 开源比较](docs/19-reference-informed-design.md)／[20 可行性](docs/20-feasibility-and-reuse.md) | 全部参考项目、复用与自有设计边界 |
+| [21 契约](docs/21-implementation-contracts.md)／[22 执行计划](docs/22-agent-implementation-plan.md) | 精确配置、Swift/SQL、逐任务实现与测试 |
 
-建议阅读顺序：项目上下文 → 需求规格 → 待决策与风险 → 初步验证方案 → 架构与专项设计。
+## 验证入口
 
-## 最小验证入口
+```sh
+python3 scripts/validate-handoff.py
+swiftc -swift-version 6 -typecheck docs/contracts/api-v1.swift
+```
 
-- [验证报告](docs/validation/2026-09-15-m4-air/validation-report.md)
-- [兼容矩阵](docs/validation/2026-09-15-m4-air/compatibility-matrix.md)
-- [只读原型与复现命令](prototypes/sensor-probe/README.md)
+[旧实测报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[原型复现](prototypes/sensor-probe/README.md)、[硬件接口审计](docs/research/2026-09-17-handoff-interface-audit.md)供复核。E1本机读数、E2上游路线、D设计契约分开标注；有方案不等于正式App已测通过。
 
-## 当前推荐方案
-
-新增 [开源复核方案](docs/19-reference-informed-design.md) 与 [M4 全部 249 个已记录来源](docs/research/2026-09-17-m4-source-candidates.md)。采集方案细化为启动发现、版本化注册表、元数据缓存及有界轮询；真实来源与派生指标分开，生产构件尚未实现。C09已删除逐物理核心温度及关联核心标识要求，RC-02已落实，不再预设后续扩展承诺。RC-01主指标定义、RC-03附件可选化、RC-04首发范围仍待决定。前端按[07](docs/07-native-ui.md)复用MacMonitor分组面板、Stats来源列表和SwiftTempBar数字展示经验。
-
-## 使用边界
-
-文档归档已推进到独立采集原型和单机证据阶段；原型不属于生产应用。CPU主指标语义、完整生命周期、数据链、发布配置和长期稳定性仍未验证；逐核映射已不属于当前验收门槛。具体支持的芯片代际、机型尺寸和 macOS 版本由实机证据逐步建立。
-
-后续变更同时更新相关专项文档、决策记录、追踪矩阵与测试。原始附件中的相互冲突内容，不因被引用而重新生效。
+设计已给出可执行选择；剩余工作是实现与验证。完整Xcode、正式签名凭证、仓库管理员权限及目标实机属于明确执行依赖。当前基线在[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，未合并前不要从旧main丢失文档开始开发。

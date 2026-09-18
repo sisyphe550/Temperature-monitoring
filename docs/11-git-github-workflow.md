@@ -1,62 +1,57 @@
-# Git、GitHub 与开发门禁
+# Git、GitHub与执行门禁
 
-更新日期：2026-09-17。状态：用户确认流程＋授权设计基线；Git／GitHub 与原型 CI 已存在，强制门禁尚不完整。
+更新：2026-09-18；C10执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。当前文档基线在`feature/v0-sensor-validation`的[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，**只拉main会遗漏当前设计**。
 
-## 分支与提交
+## 分支与集成
 
-1. 独立功能从最新主分支建立 feature branch，在分支内完成任务。
-2. 分支开发期间执行相应单元、白盒和黑盒测试。
-3. 测试发现可复现缺陷，建立 Issue，记录复现环境、步骤、预期、实际和证据。
-4. 修复提交或 PR 关联 Issue，修复后执行对应回归测试。
-5. 测试通过、阻塞缺陷解决后提交合并申请。
-6. 满足门禁后采用独立 merge commit 合并。
-7. 合并后保留远程开发分支和合并节点，不自动删除 feature branch。
+1. 本轮文档收敛继续原V0分支，保留已有证据，不混入生产App实现。
+2. W00完成门禁、独立审查并由维护者按下述条件合入PR #4；此之前后续agent可审阅/验证文档，不能从旧main创建正式功能并遗漏设计。
+3. 每个独立功能从最新origin/main创建`feature/<功能>`；这是项目对默认分支命名的覆盖。先检查用户未提交改动；需要隔离用独立worktree，不reset用户工作区。
+4. 实现→对应测试→可复现缺陷Issue→修复回归→独立审查→PR；不在main直接提交功能代码。
+5. 所有门禁通过且维护者确认后使用merge commit，禁止squash/rebase代替；保留本地和远端功能分支，不用`--delete-branch`。
 
-现有主分支为 `main`，远端为 `git@github.com:sisyphe550/Temperature-monitoring.git`。本轮使用 `feature/v0-sensor-validation`。维护者审批规则和审批人数仍未冻结。
+GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除独立审查**。PR必须链接非实现者的审查结论和已处理事项，维护者最终决定合并。若未来增加协作者，可另行把GitHub非作者审批提升为1，不把不存在的审批人写成已配置。
 
-## 推荐仓库配置
+## 强制规则目标
 
-| 目标 | 配置／实现方式 |
-|---|---|
-| 禁止直接推送功能代码至主分支 | 主分支保护或 ruleset，限制旁路权限 |
-| 必需测试通过 | 设置必需 status checks |
-| 核心逻辑行覆盖率至少 80% | CI 中执行覆盖率检查；工具与统计范围明示 |
-| 阻塞 Issue 未解决时不得合并 | 明确阻塞标签及 Issue→PR 关联规则，再用检查实现 |
-| 保留独立合并节点 | 采用 merge commit；避免 squash/rebase 取代所需历史 |
-| 保留开发分支 | 关闭自动删除分支选项 |
-| 缺陷可追踪 | PR 描述关联 Issue、测试与需求 ID |
+当前只读查询发现：rulesets为空，允许merge/squash/rebase，delete_branch_on_merge=false。因此以下是W00要落实的配置，未宣称已生效。
 
-GitHub 不会仅凭“有未解决 Issue”自动阻止所有合并。需要明确阻塞判定与可执行检查；未配置前不能宣称门禁已经生效。功能可用性随仓库可见性和账户方案而异，实际建仓时验证。
+- main规则集active，目标`refs/heads/main`，无bypass；禁止删除与force push（non_fast_forward）；要求pull_request并解决review thread。
+- 要求分支与base同步的required_status_checks。现阶段必须`handoff-docs`、`probe-tests`、`blocking-issues`；产品检查创建并至少成功运行一次后，再增加`core-tests`和`app-build`。不能要求一个从未运行的不存在检查而永久锁死PR。
+- 仓库allow_merge_commit=true、allow_squash_merge=false、allow_rebase_merge=false、delete_branch_on_merge=false；不启用required_linear_history（它与merge commit矛盾）。
+- 核心覆盖≥80%；准确分母见10。UI产品PR还须附真实UI测试证据，不以构建成功代替。
 
-## PR 内容
+管理员使用GitHub规则界面或[Rules REST API](https://docs.github.com/en/rest/repos/rules#create-a-repository-ruleset)配置，并重新读取实际结果保存证据；HTTP错误/权限拒绝应记录，不能绕过或假装完成。规则集支持依账户/仓库条件，参考[GitHub rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)。
 
-记录修改的具体问题、变化后的行为、关联需求 ID、设计变更、测试证据、Issue 和已知限制。避免把未验证的传感器适配写成“支持全部 Air”。
+## Issue与机器门禁
 
-## 主分支阶段测试
+固定标签：`bug`可复现缺陷、`blocking`阻塞当前里程碑/合并、`hardware`实机相关。每条缺陷记录环境、SHA、复现步骤、预期/实际、证据；修复PR用`Fixes #N`关联，回归通过才关闭。
 
-数据链阶段执行采集／加工／存储集成；UI 阶段执行菜单栏与窗口黑盒；系统集成执行完整测试；RC 执行 EARS 验收、实机兼容与分发检查。里程碑存在阻塞缺陷时不进入下一阶段。
+采用保守且可执行的规则：**仓库任何open且带blocking标签的Issue阻止当前所有功能PR合并**。PR另有`Related issues: #1, #2`说明影响；没有Issue写`Related issues: none`，不靠自由文本推断是否阻塞。
 
-## 待落实
+W00实现`blocking-issues` check：
 
-仓库地址、main、原型CI、Issue与PR已落实；ruleset、维护者审批权限、阻塞标签检查及产品实机验证机制仍见OQ-15。不能将流程文档等同于强制门禁已经生效。
+- 在PR opened/reopened/synchronize/edited、Issue opened/reopened/closed/labeled/unlabeled以及workflow_dispatch触发。
+- 仅用Issues/Pulls API读取仓库状态，枚举open PR最新head SHA，并给每个head提交成功/失败check；API出错按失败，不把“查不到”当0。
+- Issue状态变化后必须更新同一head的检查；合并前再次触发检查并确认SHA一致。不要只在代码push时运行，留下陈旧绿灯。
+- 使用受信任base/default branch上的workflow，无需checkout或执行PR代码；最小权限issues:read、pull-requests:read、checks:write。任何带写权限的pull_request_target工作流不得执行PR分支脚本。
+- PR自带脚本不能决定自己有没有blocking；检查逻辑由受保护默认分支维护。初次启用的引导workflow由管理员审查部署，再要求check，不作自我证明。
 
-来源：C01。关联：[测试](10-test-strategy.md)、[阶段计划](12-development-plan.md)。
+## 可复核命令
 
-## 2026-09-15 执行记录与未满足门禁
+```sh
+git fetch origin
+git status --short
+gh pr view 4 --json headRefOid,baseRefName,isDraft,state,statusCheckRollup
+gh api repos/sisyphe550/Temperature-monitoring/rulesets
+gh api repos/sisyphe550/Temperature-monitoring/rules/branches/main
+gh api repos/sisyphe550/Temperature-monitoring --jq '{allow_merge_commit,allow_squash_merge,allow_rebase_merge,delete_branch_on_merge}'
+gh issue list --state open --label blocking --json number,title,url
+gh pr checks 4 --watch
+```
 
-- 从最新 `origin/main`（`3fa99aa`）创建功能分支；不直接向 main 提交功能代码。
-- 功能代码提交 `cc5db3c`；实测前工作树干净，报告另行提交以保留代码版本追踪。
-- GitHub Actions `probe-tests` 执行 Swift Testing、原型纯逻辑覆盖率、Release 构建、CLI 黑盒；托管 runner 不提供 Air 传感器证明。
-- 测试／审查发现的缺陷建立 Issue #1、#2、#3，PR 关联修复和回归证据。
-- 读取 GitHub 实际配置：支持 merge commit，`delete_branch_on_merge=false`；当前 main 没有传统分支保护，rulesets 为空。
-- 因强制主分支保护、阻塞 Issue 检查、审批规则及产品覆盖率门禁未完整落地，本轮只提交待审查 PR，不执行合并。保留本地与远程功能分支。
+实际要合并的PR号由当前任务取得，不硬编码4到后续功能脚本。合并前核对exact head、全部required checks、零blocking、审查结果、适用实机/UI证据；管理员若缺权限则保留PR并记录外部依赖。不得以文档已完整为由跳过仓库保护。
 
-原型 CI 成功不能声称 REQ-086/087/091/095/096 已由 GitHub 强制执行。相关配置属于 OQ-15，后续落实后方可执行规定的 merge commit 合并。
+## PR说明
 
-本轮待审查产物：[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)。Issue #1～#3 已附修复回归证据并关闭；OQ清单中的未决项继续保留。
-
-## 2026-09-17 方案修订范围
-
-刷新远端后main仍为`3fa99aa`，PR #4保持打开且为Draft。本轮是既有V0证据的参考项目复核与设计细化，继续在`feature/v0-sensor-validation`提交文档增量并更新同一PR；未增加独立产品功能，未合并main。后续正式功能仍从最新主分支建立独立feature branch。
-
-C09的逐核删除及前端复用基线属于同一V0范围收敛：变更文档、检查需求追踪与固定来源、完成独立审查后提交并更新PR。已有硬件证据、原型代码和历史报告不随范围变化重写。
+写清触发问题、最终行为、关联REQ、文件/接口变更、执行过的测试及未测边界。不把候选可读写成全Air支持；不把方案/模拟/原型证据写成正式产品通过。合并后核对merge commit具有两个parent，并确认远程开发分支仍存在。

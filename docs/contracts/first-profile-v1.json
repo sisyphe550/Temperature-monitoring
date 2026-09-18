@@ -1,0 +1,50 @@
+{
+  "profile_version": 1,
+  "profile_id": "Mac16,13-m4-v1",
+  "model": "Mac16,13",
+  "observed_os": "15.7.3",
+  "observed_os_build": "24G419",
+  "support_status": "prototype-observed; production qualification required",
+  "cpu_provider": "smc",
+  "cpu_keys": [
+    "Te05",
+    "Te0S",
+    "Te09",
+    "Te0H",
+    "Tp01",
+    "Tp05",
+    "Tp09",
+    "Tp0D",
+    "Tp0V",
+    "Tp0Y",
+    "Tp0b",
+    "Tp0e"
+  ],
+  "cpu_formula": "max",
+  "cpu_display_name": "CPU热区最高温度",
+  "cpu_semantic_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+  "cpu_membership": "all listed keys; no silent subset",
+  "battery_provider_priority": [
+    "iops:Temperature",
+    "smc:TB1T",
+    "smc:TB2T",
+    "smc:TB0T"
+  ],
+  "ssd_provider": "nvme-smart",
+  "ssd_semantic": "composite",
+  "automatic_hid_fallback": false,
+  "automatic_unknown_model_profile": false,
+  "diagnostic_only_keys": [
+    "TCMz",
+    "TCMb",
+    "TPMP",
+    "Ts1P",
+    "T5SP"
+  ],
+  "expected_smc_encoding": "flt ",
+  "expected_smc_size_bytes": 4,
+  "generic_decoder_encodings": [
+    "sp78",
+    "flt "
+  ]
+}
