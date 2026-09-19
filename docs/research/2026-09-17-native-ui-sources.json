@@ -1,0 +1,93 @@
+{
+  "date": "2026-09-17",
+  "authorization": "C09",
+  "scope": "Pinned UI implementation, screenshot and license review for docs/07-native-ui.md; no upstream application executed and no UI code or branded asset imported.",
+  "sources": [
+    {
+      "project": "MacMonitor",
+      "repository": "https://github.com/ryyansafar/MacMonitor",
+      "commit": "2fff106238e17e318f1b48775034c461f6464257",
+      "license": "MIT",
+      "reuse_status": "Design reference only in this change; preserve copyright and full license when adapting substantive code.",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "566d59fe3de098ac3325ee1d5a23a3f8f29f839e9674cf4a73612b755b88a03e",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/LICENSE",
+          "inspection": "source or license review"
+        },
+        {
+          "path": "Macmonitor/PopoverView.swift",
+          "sha256": "a21ff9703c71e8e3ed6162beb5b1325c250cbf28c4ac3ad72445364bde9017d2",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/Macmonitor/PopoverView.swift",
+          "inspection": "source or license review"
+        },
+        {
+          "path": "Macmonitor/AppDelegate.swift",
+          "sha256": "86de61401b8e727a09b7569ea31a1a3ee9bacf4475746c51927a6d40ad5c6967",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/Macmonitor/AppDelegate.swift",
+          "inspection": "source or license review"
+        },
+        {
+          "path": "assets/screenshots/dashboard.png",
+          "sha256": "e3e5cf731c4ddf15cb7104778dff3a9a2d7ad363c7f3507a59e0bca9ff534902",
+          "url": "https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/assets/screenshots/dashboard.png",
+          "inspection": "visual layout"
+        }
+      ]
+    },
+    {
+      "project": "stats",
+      "repository": "https://github.com/exelban/stats",
+      "commit": "e31d279b3f27aacb19b512b26eb5ab92e166c289",
+      "license": "MIT",
+      "reuse_status": "Design reference only in this change; preserve copyright and full license when adapting substantive code.",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "79a58cb749dcc8b569c432f92ed37cf05527e505e4de4999199aed22b6a6cbf8",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/LICENSE",
+          "inspection": "source or license review"
+        },
+        {
+          "path": "Modules/Sensors/popup.swift",
+          "sha256": "0a261320fb8b58f215b7ffa44feb2e0405c472bc24e0448057fbe87ac2153a32",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/Modules/Sensors/popup.swift",
+          "inspection": "source or license review"
+        },
+        {
+          "path": "Kit/module/widget.swift",
+          "sha256": "96dccf86f1d2f92615b0e94936a5dd6eda5a1890d4ce506b47a2a6115fb39708",
+          "url": "https://github.com/exelban/stats/blob/e31d279b3f27aacb19b512b26eb5ab92e166c289/Kit/module/widget.swift",
+          "inspection": "source or license review"
+        }
+      ]
+    },
+    {
+      "project": "SwiftTempBar",
+      "repository": "https://github.com/WHYBBE/SwiftTempBar",
+      "commit": "da4b0b54e4e3d56941c3cd902b0bc877349ff190",
+      "license": "MIT",
+      "reuse_status": "Design reference only in this change; preserve copyright and full license when adapting substantive code.",
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "1b9dc0fca13895410c18b96b96ed2a9d8cdfe8f79293f9c879e276bb81747ec5",
+          "url": "https://github.com/WHYBBE/SwiftTempBar/blob/da4b0b54e4e3d56941c3cd902b0bc877349ff190/LICENSE",
+          "inspection": "source or license review"
+        },
+        {
+          "path": "Sources/StatusBarController.swift",
+          "sha256": "e72f6da5bce514647fb3d62a5c6cb7b8a604b540a5ce81fe43d82820fae9cde8",
+          "url": "https://github.com/WHYBBE/SwiftTempBar/blob/da4b0b54e4e3d56941c3cd902b0bc877349ff190/Sources/StatusBarController.swift",
+          "inspection": "source or license review"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    "MacMonitor CoreTile displays CPU utilization percent, not physical-core temperature.",
+    "The main window, EMA integration, SQLite and 72-hour history remain project-specific implementation work.",
+    "Historical sensor evidence and the earlier seven-reference manifest remain unchanged."
+  ]
+}

@@ -1,0 +1,25 @@
+[
+  {
+    "cpuIntervalMS" : 200,
+    "elapsedSeconds" : 0.50527375,
+    "expectedOpportunities" : {
+      "battery" : 1,
+      "ssd" : 2
+    },
+    "finiteCPUCandidateReadings" : 0,
+    "finiteReadings" : 0,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 0.10212285914318636,
+    "processCPUSeconds" : 0.0005159999999999956,
+    "processMaxRSSBytes" : 7061504,
+    "readings" : 3,
+    "requestedSeconds" : 1,
+    "startedBatches" : {
+      "battery" : 1,
+      "ssd" : 2
+    }
+  }
+]

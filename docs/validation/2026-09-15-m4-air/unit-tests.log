@@ -1,0 +1,33 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--1AB21518FC5DEDBE.txt
+[3/7] Emitting module SensorProbe
+[4/7] Compiling SensorProbe main.swift
+[5/7] Compiling SensorProbe Hardware.swift
+[5/8] Write Objects.LinkFileList
+[6/8] Linking sensor-probe
+[7/8] Applying sensor-probe
+Build complete! (2.07s)
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProbeCoreTests started.
+◇ Test testCSVPreservesCommasQuotesAndNewlines() started.
+◇ Test testOptionsApplyDefaultsAndAllFiveIntervals() started.
+◇ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() started.
+◇ Test testMalformedAndNonFiniteSMCValuesHaveNoTemperature() started.
+◇ Test testNVMeKelvinConversionAndMissingValue() started.
+◇ Test testOptionsRejectUnboundedOrAmbiguousRuns() started.
+◇ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() started.
+◇ Test testSMCDecodesFloatAndSignedFixedPoint() started.
+✔ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() passed after 0.001 seconds.
+✔ Test testNVMeKelvinConversionAndMissingValue() passed after 0.001 seconds.
+✔ Test testMalformedAndNonFiniteSMCValuesHaveNoTemperature() passed after 0.001 seconds.
+✔ Test testSMCDecodesFloatAndSignedFixedPoint() passed after 0.001 seconds.
+✔ Test testCSVPreservesCommasQuotesAndNewlines() passed after 0.001 seconds.
+✔ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() passed after 0.001 seconds.
+✔ Test testOptionsApplyDefaultsAndAllFiveIntervals() passed after 0.001 seconds.
+✔ Test testOptionsRejectUnboundedOrAmbiguousRuns() passed after 0.001 seconds.
+✔ Suite ProbeCoreTests passed after 0.001 seconds.
+✔ Test run with 8 tests passed after 0.001 seconds.

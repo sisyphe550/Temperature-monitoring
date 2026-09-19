@@ -1,0 +1,20 @@
+name: Handoff documents
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  handoff-docs:
+    name: handoff-docs
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate requirements, links, JSON and SQLite contract
+        run: python3 scripts/validate-handoff.py
+      - name: Type-check public Swift contract
+        run: swiftc -swift-version 6 -typecheck docs/contracts/api-v1.swift

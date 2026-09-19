@@ -1,0 +1,57 @@
+{
+  "commit": "cc5db3cfbb7ce921153b4fd5be9c6d1ccaa89f3c",
+  "files": [
+    {
+      "path": ".github/workflows/probe.yml",
+      "sha256": "30ff7415535a16529705b689a96d3d4fe319d742ecd6d0aea2d3f8f22063f200"
+    },
+    {
+      "path": "prototypes/sensor-probe/Package.swift",
+      "sha256": "a5244583236c4392528f2459796e1e6b73d29bf98aa53a6f6e114686cb60222d"
+    },
+    {
+      "path": "prototypes/sensor-probe/README.md",
+      "sha256": "f0339fc199ed8e0158b272b0a10a727f61e33407697b65d31aa0705b3705daf7"
+    },
+    {
+      "path": "prototypes/sensor-probe/Sources/ProbeCore/ProbeCore.swift",
+      "sha256": "6252723181b372dd7ac757f08240dbc5c8ecee7f837517771d2c92a2c4828455"
+    },
+    {
+      "path": "prototypes/sensor-probe/Sources/SensorBridge/SensorBridge.c",
+      "sha256": "935d7d4e268bcfb85c236496fac66c3587b5c06e774e1a953978d1e4eef346da"
+    },
+    {
+      "path": "prototypes/sensor-probe/Sources/SensorBridge/include/SensorBridge.h",
+      "sha256": "bdd594938748266b83cfe66246f3fd6c5af7d199dc780efcdbf79cf749b71dc1"
+    },
+    {
+      "path": "prototypes/sensor-probe/Sources/SensorProbe/Hardware.swift",
+      "sha256": "6ea7ee0360d272493b7b8f986d5c56781585429059c7a20e7cf836d9337c3c45"
+    },
+    {
+      "path": "prototypes/sensor-probe/Sources/SensorProbe/main.swift",
+      "sha256": "de29db70dbfbcb3ac30aa2533cd82a40b4f58455c78895755867e0147b4aaf6f"
+    },
+    {
+      "path": "prototypes/sensor-probe/THIRD_PARTY_NOTICES.md",
+      "sha256": "65f575b0127a4383e4710c5ffefe2c5a9ab906231013f42ba899f3fa9b9fdaaf"
+    },
+    {
+      "path": "prototypes/sensor-probe/Tests/ProbeCoreTests/ProbeCoreTests.swift",
+      "sha256": "499592a765ca7e9d78eae74110895e44b2b7002f8b03be765fee5dec14394956"
+    },
+    {
+      "path": "scripts/check-probe-coverage.py",
+      "sha256": "5504d91ac35fe3a068bf6f50d474d838a2e8fcd416a29d65e537b4a3e25703e0"
+    },
+    {
+      "path": "scripts/summarize-probe.py",
+      "sha256": "954676ad3f5b4184f16508d9c9ec30db790234f8f1b9f7736a1eefb70472afdf"
+    },
+    {
+      "path": "scripts/test-probe-cli.py",
+      "sha256": "f7c638565c823864ab312a136ab1e22eab13b967410cecf5fdc12123cee9fe48"
+    }
+  ]
+}

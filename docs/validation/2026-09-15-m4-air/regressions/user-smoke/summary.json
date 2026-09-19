@@ -1,0 +1,28 @@
+[
+  {
+    "cpuIntervalMS" : 200,
+    "elapsedSeconds" : 1.822199,
+    "expectedOpportunities" : {
+      "battery" : 2,
+      "cpu_candidates" : 10,
+      "ssd" : 4
+    },
+    "finiteCPUCandidateReadings" : 550,
+    "finiteReadings" : 550,
+    "missedOpportunities" : {
+      "battery" : 0,
+      "cpu_candidates" : 0,
+      "ssd" : 0
+    },
+    "processCPUAveragePercentOfOneCore" : 2.0277148653906627,
+    "processCPUSeconds" : 0.036948999999999996,
+    "processMaxRSSBytes" : 7929856,
+    "readings" : 556,
+    "requestedSeconds" : 2,
+    "startedBatches" : {
+      "battery" : 2,
+      "cpu_candidates" : 10,
+      "ssd" : 4
+    }
+  }
+]

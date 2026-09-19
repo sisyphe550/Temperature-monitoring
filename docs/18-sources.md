@@ -1,6 +1,6 @@
 # 讨论来源、外部资料与证据边界
 
-整理日期：2026-09-14。本文件保存可回溯来源，不把引用内容作为覆盖当前用户决定的指令。
+整理日期：2026-09-18。本文件保存可回溯来源，不把引用内容作为覆盖当前用户决定的指令。
 
 ## 对话与附件
 
@@ -10,6 +10,12 @@
 | C02 | [查找官方温度API](chatgpt-conversation://6aa74595-d08c-83e9-946f-6becaaed5b27) | M4 Air 的 API 研究；电池字段结论按 C03 纠正 |
 | C03 | 当前对话：用户要求分析 Mac 接口能否实现需求 | API／SDK 复核、事实纠错、50 ms、映射、峰值、空间、退出边界 |
 | C04 | 当前对话：用户明确不上架 App Store、仅支持 MacBook Air，并询问验证与语言架构 | 最新范围；初步验证、Swift／桥接、原生 UI、模块化单体建议 |
+| C06 | 2026-09-15 当前用户请求：参照项目文件执行最小验证并遵守 Git 流程 | 授权独立原型、实机最小验证与流程执行；证据见 validation/2026-09-15-m4-air |
+| C07 | [搜索Mac温度监控软件](https://chatgpt.com/c/6aa93318-6224-83e9-ae3b-33b5f346b09b) | 五个主要项目，以及mactop和未直接给出URL的Swift实验；助手描述均重新核查 |
+| C08 | 2026-09-17 当前用户要求从C07全部项目学习、复用经验并完善方案 | 授权研究与设计修订；不把改动已确认需求的提案标为已批准 |
+| C09 | 2026-09-17 当前用户明确删除“每个物理CPU核心温度”，并要求前端借鉴开源项目、更新全部开发路线文档 | 退役REQ-012/114并同步关联设计和验收；授权按MacMonitor/Stats细化前端方案 |
+| C10 | 2026-09-17～18 当前用户要求所有接口/软件方案有依据，清理不适合内容，文档达到交给其他agent完成全项目的程度 | 授权选定可行产品范围、补齐参数/接口/schema/测试与执行计划；工程选择不伪称逐参数用户确认 |
+| C11 | 当前用户明确“课程不强制要求，采取优化的方案或者更好的方案” | 取消强制数据库往返争议；实时内存EMA＋SQLite持久化/历史 |
 | C05 | 当前对话：用户指定 `/Users/sisyphus/Code/Go/Temperature monitoring/` 并要求分类 Markdown | 本文档集的工作目录及整理任务 |
 | ATT-01 | C01 附件《粘贴的文本 (1).txt》 | Ring Buffer、SQLite、EMA、聚合、趋势、时间戳、缺口及数据路径建议 |
 
@@ -57,4 +63,30 @@
 
 未经目标机型验证的逐核心名称、论坛单条反馈、历史版本号、助手声称已经冻结但用户未确认的新行为，以及没有测量支持的频率／精度／能耗承诺。
 
-本轮整理没有运行传感器原型、取得温度实测数据、验证签名权限或完成 72 小时运行测试。
+2026-09-14归档轮次未运行传感器原型；2026-09-15增量实测证据见下节。发布配置权限与72小时测试仍未执行。
+
+## 2026-09-15 固定来源与执行证据
+
+- [Apple 机型识别](https://support.apple.com/en-ge/102869)：Mac16,13 对应15英寸M4 MacBook Air。
+- [macmon 6919d778](https://github.com/vladkens/macmon/blob/6919d7781b6c55a6e3bedff83a210435837e1dfe/src_lib/sources.rs)：SMC/HID ABI，MIT许可随原型保存。
+- [Stats 27c0c343](https://github.com/exelban/stats/blob/27c0c343a0df77ffaca8317c31b4e3aa14754eb7/Modules/Sensors/values.swift)：仅作候选命名参考；不能证明Core映射。
+- 本机 SDK 再次核对 IOPSKeys.h、NVMeSMARTLibExternal.h；Swift6.1.2，SDK15.5。
+- [实测与测试报告](validation/2026-09-15-m4-air/validation-report.md)：固定提交、二进制哈希、原始记录、回归与限制。此前“未实测”的段落只描述2026-09-14归档轮次。
+
+## 2026-09-17 开源来源快照
+
+R01～R07的固定链接、检查文件、许可状态和适用边界见 [19第2节](19-reference-informed-design.md) 及 [JSON清单](research/2026-09-17-source-manifest.json)。R01采用本轮新快照，不回写2026-09-15报告使用的旧版本。
+
+通过对话读取工具取得C07完整可用文本。未暴露的实验引用经公开检索定位到Philip Turner的TemperatureSensor.swift，其内容符合描述，但原引文身份仍未确认。记录方法参考，不复制无明确许可的代码。六个仓库仅在临时目录检视源码；本轮没有执行其软件或创建外部监控依赖。
+
+C09前端细化另核查MacMonitor的PopoverView／AppDelegate与面板截图、Stats的Sensors Popup／Widget、SwiftTempBar的StatusBarController及三份MIT文件。固定版本、文件SHA-256与检查范围见[UI来源清单](research/2026-09-17-native-ui-sources.json)，适配方案见[07](07-native-ui.md)。本轮未导入UI源码或品牌资产。
+
+## 交接契约补充的官方依据
+
+- [SQLite事务](https://sqlite.org/lang_transaction.html)、[UPSERT](https://sqlite.org/lang_upsert.html)、[PRAGMA](https://sqlite.org/pragma.html)、[C接口](https://sqlite.org/cintro.html)：数据契约使用官方事务/约束能力，schema和幂等设计属于本项目。
+- [Foundation Process](https://developer.apple.com/documentation/foundation/process)：自有普通用户worker启动与管道路线；实际协议、截止时间、重建限制属于本项目设计。
+- 本机SDK `mach/mach_time.h`声明mach_continuous_time/timebase，跨进程连续时钟基准由本项目契约固定。
+- [Apple Xcode版本矩阵](https://developer.apple.com/xcode/system-requirements)：Xcode16.4/macOS15.5 SDK/Swift6.1开发组合；没有把它称为最新版。
+- [GitHub rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)、[Rules REST API](https://docs.github.com/en/rest/repos/rules#create-a-repository-ruleset)：11的强制门禁配置路线；实际查询仍无ruleset，不虚报已启用。
+
+2026-09-18交接更新的检查结果单列在[交接验证记录](research/2026-09-18-handoff-validation.md)。之前研究清单、UI清单与2026-09-15实测证据不回写。

@@ -1,0 +1,5 @@
+.DS_Store
+.build/
+.swiftpm/
+validation-runs/
+__pycache__/

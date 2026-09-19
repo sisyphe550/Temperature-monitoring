@@ -1,67 +1,70 @@
-# 总体架构初步方案
+# 总体架构与运行时边界
 
-更新日期：2026-09-14。状态：**推荐方案，未实施**。业务边界以 [需求规格](01-requirements.md) 为准。
+更新：2026-09-17；C10交接设计基线v1，尚未实现生产App。参数与类型以[契约](21-implementation-contracts.md)为准。
 
-## 架构选择
+## 确定的结构
 
-采用模块化单体：运行时一个本地原生应用进程，内部按明确接口划分构件。界面层使用 MVVM；MVVM 不代表整个应用的系统架构。SQLite 是应用内嵌数据库。
+Swift模块化单体，SwiftUI＋AppKit界面，SQLite嵌入式数据库。主App拥有调度、加工、存储与UI；**一个普通用户权限的自有SensorWorker子进程**拥有同步硬件句柄。它随App启动/结束，不是root服务、登录项或第三方CLI。分进程是为了避免同步驱动调用卡住界面，不改变本地部署边界。
 
-首个验证工具可以是独立命令行目标，其用途是验证和采集证据，不代表最终产品需要常驻命令行子进程。是否增加采集辅助进程／XPC，要根据权限、同步调用阻塞和崩溃测试结果决定，登记为 OQ-09。
+选择依据：原型与macmon证明只读SMC/HID桥接路线；MacFanControl仅参考分层思想；进程隔离属于本项目工程设计，使用系统[Foundation Process](https://developer.apple.com/documentation/foundation/process)，不能说开源项目已经实现了本产品完整架构。
 
-## 逻辑数据路径
+## 唯一数据路径
 
-以下图采用 C03/C04 中的修正建议：Raw 历史聚合与 EMA 实时展示分路。OQ-04 的教学数据库往返要求仍需确认。
+C11用户明确课程不强制数据库往返，采用优化方案：
 
 ```mermaid
 flowchart TD
-    A[传感器适配层] --> B[采集调度与读取]
-    B --> C[标签化与校验]
-    C --> D[Raw Ring Buffer]
-    C --> S[存储服务]
-    D --> E[EMA]
-    D --> F[Raw 时间窗口聚合]
-    E --> T[时间窗口趋势]
-    E --> R[实时展示模型]
-    E --> S
-    F --> S
-    T --> S
-    S --> DB[(SQLite)]
-    DB --> Q[历史查询服务]
-    R --> UI[菜单栏 / 弹出面板 / 主窗口]
-    Q --> UI
+    H[SensorWorker: SMC / SMART / IOPS] --> S[调度与校验]
+    S --> R[Raw Ring Buffer]
+    R --> E[每来源 EMA]
+    R --> A[Raw 聚合 / 峰值]
+    R --> M[固定成员 max]
+    M --> E
+    M --> A
+    E --> T[趋势]
+    E --> V[实时快照与 EMA Buffer]
+    S --> Q[有界持久化队列]
+    M --> Q
+    E --> Q
+    A --> Q
+    T --> Q
+    Q --> W[SQLite 单写入事务]
+    W --> D[(会话数据库)]
+    D --> HQ[历史查询]
+    V --> UI[菜单栏 / 面板 / 主窗口]
+    HQ --> UI
 ```
 
-采集得到的 Raw 与加工结果均入库。实时视图读取加工后的内存数据，历史查询由存储服务完成。若最终确认实时折线必须读取 `ema_samples` 表，则通过查询服务实现，禁止界面直接管理 SQLite 连接。该数据承载位置争议见 OQ-04。
+Raw与EMA都持久化，保留各5分钟。菜单栏、数字、柱图和最近5分钟曲线使用内存EMA；1h/24h/72h历史读SQLite。视图不访问驱动或SQLite连接。实时值可能比已提交历史新至一个批量写入周期；数据库故障时明确显示暂未写入状态并停止新采集，不能把实时显示冒充已经持久化。
 
-## 模块边界
+## 模块与所属执行环境
 
-| 模块 | 职责 | 不承担的职责 |
+| 构件 | 所属环境 | 核心职责 |
 |---|---|---|
-| SensorAdapter | 枚举、读取、解码、报告接口能力 | 业务聚合、UI、数据库 |
-| SamplingService | 不同周期调度、重试协同、实际时间戳 | 直接绘图 |
-| Processing | 校验、EMA、Raw 聚合、趋势、缺口处理 | 硬件接口细节 |
-| Storage | 批量事务、查询、TTL、数据库会话 | 原生视图管理 |
-| Presentation | 展示模型、状态和用户操作 | 直接读取 SMC 或打开数据库 |
-| Diagnostics | 统一错误、独立日志、错误报告 | 自动上传故障材料 |
-| AppLifecycle | 启动、会话、休眠恢复、停止 | 算法内部实现 |
+| SensorWorker | 子进程串行命令循环 | 打开/枚举/读取/关闭；只发送读数和能力；不做EMA/数据库 |
+| WorkerClient | 主进程专用IO队列＋actor状态 | 有界协议、请求截止时间、generation、回收；异步回调返回 |
+| SourceRegistry／MetricResolver | MonitorEngine actor | 来源身份、固定定义、CPU派生；不猜物理核 |
+| SamplingService | MonitorEngine actor＋SystemClock | CPU/SSD/Battery日程、重试、背压预留 |
+| ProcessingEngine | 同一个MonitorEngine actor，构造时注入PersistenceQueue | 顺序推进Raw/EMA/聚合/趋势/缺口；不可重复处理sampleID；接纳方法内部完成队列交付 |
+| StorageWriter | 专用串行DispatchQueue | 一个写连接；不可变批次事务；不在Swift协作线程池阻塞SQLite |
+| HistoryQuery | 一个只读连接＋专用串行队列 | 最多一个当前查询；取消旧请求，结果按requestID匹配 |
+| PresentationModel | MainActor | 最多5Hz快照；隐藏图表停止绘制；保留一个最新查询结果 |
+| SessionCoordinator | 主进程actor；UI操作转MainActor | 单实例锁、启动、休眠、正常退出、Fatal |
 
-## 并发与资源
+对外异步协议见[api-v1.swift](contracts/api-v1.swift)。actor内部不能同步等子进程/SQLite；异步调用前后用generation和会话状态校验，防止actor重入使停止后结果重新进入链路。
 
-- 采样、加工、存储、绘图分别调度；高频采样不要求全界面同频刷新。
-- 硬件同步读取和 SQLite 写入放在专用后台执行环境，不占用主线程。
-- 每个传感器或接口连接的并发策略由实测确定；建议同一读取通道避免重叠任务。
-- 生产者与消费者间使用有界缓冲；容量、满队列策略、最大写入延迟见 OQ-10，不默认丢弃已承诺入库的样本。
-- UI 仅接收所需快照及图表范围，避免不断累积完整历史副本。
-- Swift 的 actor 可隔离可变状态，但不能自动中断底层阻塞调用；超时与取消机制需单独验证。
+## 原子接纳与有界交付
 
-## 可替换与可测试性
+启动每条读取前为最坏输出预留512条记录容量；所有Raw/EMA/聚合/趋势/缺口及在途事务都计数，总上限16384条、序列化载荷32MiB。到12288条暂停新的读取，低于8192条恢复并开启新连续段。必须给在途结果留好预留空间，不能先读完再决定丢弃。
 
-硬件读取通过统一接口接入。测试中注入固定序列、错误序列、间歇缺口和模拟时钟；不要求 CI 拥有真实温度传感器。机型适配变化优先限制在传感器描述和适配层。
+SamplingService先取得只能消费一次的QueueReservation，再随ReadBatch／水位事件／Gap传给MonitorEngine。加工器在临时状态上生成不可变PersistenceBatch，通过注入的PersistenceQueue以该预留入队；收到队列接纳确认后才交换加工状态并发布快照，随后才返回批次的审计副本。调用者不得再次append这个返回值。入队失败则临时状态作废并释放预留。同一requestID重复交付不再次加工。StorageWriter只排空已接纳队列；数据库重试仅重试同一个batchID与原内容。背压暂停、超过截止时间、失败读数产生Gap，不伪造0或重放旧值。
 
-CPU Package 若采用聚合计算，应成为带来源和计算规则的派生指标，与物理传感器分开标记，详见 [采集设计](03-sensor-acquisition.md)。
+队列最老批次超过10秒即`DB-BACKPRESSURE-008` Fatal。容量和期限是v1保护参数，测试中必须验证；它们不是已经测得的性能水平。
 
-## 架构实施前提
+## 进程与状态机
 
-首台 M4 Air 的指标能力、普通用户权限、实际读取耗时和生命周期测试完成后，再冻结采集路径和进程结构。没有这些证据，不能宣称总体设计已满足全部硬件需求。
+`Initializing → Discovering → Running ↔ Paused/Suspended → Stopping → Stopped`；任一关键失败转`FatalReporting → Stopping`。SSD/Battery单项不可用只影响能力状态。
 
-来源：C01、C03、C04；细化补充属于推荐设计。[来源](18-sources.md)
+读取请求1秒、发现10秒截止；超时丢弃请求响应，SIGTERM后250ms未退出则SIGKILL，确认退出后才启动替代worker。禁止靠Task.cancel声称取消驱动调用；若操作系统未回收子进程，停止重建并Fatal，不无界积累。子进程管道EOF自动结束；App单实例生命周期控制见[13](13-operations-distribution.md)。
+
+这一设计允许完成App实现，但发布前必须验证进程签名、实机权限和故障回收。CLI已读通并不等于最终App已验收。

@@ -1,147 +1,148 @@
-# 需求到设计、测试的追踪矩阵
+# 需求到设计、执行任务与验收的追踪矩阵
 
-更新日期：2026-09-14。此表覆盖全部 134 条 REQ；**所有用例状态均为未执行**。关联代表已有测试计划，不代表已经通过或能力已经实现。
+更新：2026-09-18；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
 
-需求原文见 [需求规格](01-requirements.md)，用例组定义见 [测试策略](10-test-strategy.md)，阻塞项见 [待决策](16-open-questions.md)。
-
-| 需求 | 状态 | 设计 | 计划用例组 | 相关未决项 | 执行状态 |
+| 需求 | 当前状态 | 设计 | 执行任务 | 验收组 | 产品结果 |
 |---|---|---|---|---|---|
-| REQ-001 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-02 | 未执行 |
-| REQ-002 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 未执行 |
-| REQ-003 | 已确认 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-02 | 未执行 |
-| REQ-004 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 未执行 |
-| REQ-005 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | 按专项设计 | 未执行 |
-| REQ-006 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-08 | 未执行 |
-| REQ-007 | 设计基线 | [采样与时间](03-sensor-acquisition.md) | TC-SCHEDULE | OQ-08 | 未执行 |
-| REQ-008 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-009 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-010 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | OQ-01 | 未执行 |
-| REQ-011 | 已确认 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-012 | 已确认目标／待验证 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | OQ-01 | 未执行 |
-| REQ-013 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-014 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-015 | 设计基线 | [标签与校验](05-processing-pipeline.md) | TC-VALIDATE | 按专项设计 | 未执行 |
-| REQ-016 | 设计基线 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-017 | 已确认 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | OQ-10 | 未执行 |
-| REQ-018 | 设计基线 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-019 | 已确认 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-020 | 已确认 | [Raw 与 Ring Buffer](04-data-storage.md) | TC-BUFFER / TC-STORAGE | OQ-07 | 未执行 |
-| REQ-021 | 设计基线 | [EMA](05-processing-pipeline.md) | TC-EMA | OQ-06、OQ-08 | 未执行 |
-| REQ-022 | 设计基线 | [EMA](05-processing-pipeline.md) | TC-EMA | 按专项设计 | 未执行 |
-| REQ-023 | 已确认 | [EMA](05-processing-pipeline.md) | TC-EMA | 按专项设计 | 未执行 |
-| REQ-024 | 设计基线 | [EMA](05-processing-pipeline.md) | TC-EMA | OQ-07 | 未执行 |
-| REQ-025 | 设计基线 | [窗口聚合](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-026 | 设计基线 | [窗口聚合](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-027 | 设计基线 | [窗口聚合](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-028 | 设计基线 | [窗口聚合](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-029 | 设计基线 | [窗口聚合](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-030 | 设计基线／需澄清 | [窗口聚合](05-processing-pipeline.md) | TC-AGG | OQ-06、OQ-07 | 未执行 |
-| REQ-031 | 设计基线 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | OQ-07 | 未执行 |
-| REQ-032 | 设计基线 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | OQ-07 | 未执行 |
-| REQ-033 | 已确认 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | 按专项设计 | 未执行 |
-| REQ-034 | 设计基线 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | OQ-06 | 未执行 |
-| REQ-035 | 已确认 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | OQ-12 | 未执行 |
-| REQ-036 | 设计基线 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | 按专项设计 | 未执行 |
-| REQ-037 | 设计基线 | [分级保留与清理](04-data-storage.md) | TC-RETENTION | OQ-07 | 未执行 |
-| REQ-038 | 已确认 | [会话生命周期](13-operations-distribution.md) | TC-LIFECYCLE | 按专项设计 | 未执行 |
-| REQ-039 | 已确认 | [会话生命周期](13-operations-distribution.md) | TC-LIFECYCLE | 按专项设计 | 未执行 |
-| REQ-040 | 已确认 | [会话生命周期](13-operations-distribution.md) | TC-LIFECYCLE | 按专项设计 | 未执行 |
-| REQ-041 | 已确认 | [会话生命周期](13-operations-distribution.md) | TC-LIFECYCLE | 按专项设计 | 未执行 |
-| REQ-042 | 已确认 | [会话生命周期](13-operations-distribution.md) | TC-LIFECYCLE | 按专项设计 | 未执行 |
-| REQ-043 | 已确认目标／待验证 | [实时与历史展示](07-native-ui.md) | TC-UI | OQ-01 | 未执行 |
-| REQ-044 | 已确认 | [实时与历史展示](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-045 | 已确认 | [实时与历史展示](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-046 | 已确认 | [实时与历史展示](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-047 | 设计基线／需澄清 | [实时与历史展示](07-native-ui.md) | TC-UI | OQ-04 | 未执行 |
-| REQ-048 | 设计基线 | [实时与历史展示](07-native-ui.md) | TC-UI | OQ-12 | 未执行 |
-| REQ-049 | 设计基线 | [实时与历史展示](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-050 | 设计基线 | [查询层级](07-native-ui.md) | TC-UI / TC-RETENTION | OQ-04 | 未执行 |
-| REQ-051 | 设计基线 | [查询层级](07-native-ui.md) | TC-UI / TC-RETENTION | OQ-12 | 未执行 |
-| REQ-052 | 设计基线 | [查询层级](07-native-ui.md) | TC-UI / TC-RETENTION | OQ-12 | 未执行 |
-| REQ-053 | 设计基线 | [查询层级](07-native-ui.md) | TC-UI / TC-RETENTION | OQ-12 | 未执行 |
-| REQ-054 | 已确认 | [采集重试](06-error-handling.md) | TC-ERROR / TC-SENSOR | OQ-09 | 未执行 |
-| REQ-055 | 已确认 | [采集重试](06-error-handling.md) | TC-ERROR / TC-SENSOR | 按专项设计 | 未执行 |
-| REQ-056 | 设计基线 | [采集重试](06-error-handling.md) | TC-ERROR / TC-SENSOR | 按专项设计 | 未执行 |
-| REQ-057 | 设计基线 | [采集重试](06-error-handling.md) | TC-ERROR / TC-SENSOR | 按专项设计 | 未执行 |
-| REQ-058 | 已确认 | [数据库重试](06-error-handling.md) | TC-ERROR / TC-STORAGE | OQ-10 | 未执行 |
-| REQ-059 | 已确认 | [数据库重试](06-error-handling.md) | TC-ERROR / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-060 | 设计基线 | [数据库重试](06-error-handling.md) | TC-ERROR / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-061 | 设计基线 | [数据库重试](06-error-handling.md) | TC-ERROR / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-062 | 设计基线 | [数据库重试](06-error-handling.md) | TC-ERROR / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-063 | 设计基线 | [数据库重试](06-error-handling.md) | TC-ERROR / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-064 | 已确认 | [加工重试](06-error-handling.md) | TC-ERROR | OQ-06 | 未执行 |
-| REQ-065 | 设计基线 | [加工重试](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-066 | 设计基线 | [加工重试](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-067 | 设计基线 | [加工重试](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-068 | 已确认 | [UI 读取重试](06-error-handling.md) | TC-ERROR / TC-UI | 按专项设计 | 未执行 |
-| REQ-069 | 已确认 | [UI 读取重试](06-error-handling.md) | TC-ERROR / TC-UI | 按专项设计 | 未执行 |
-| REQ-070 | 设计基线 | [UI 读取重试](06-error-handling.md) | TC-ERROR / TC-UI | OQ-12 | 未执行 |
-| REQ-071 | 设计基线 | [UI 读取重试](06-error-handling.md) | TC-ERROR / TC-UI | 按专项设计 | 未执行 |
-| REQ-072 | 设计基线／需澄清 | [致命故障](06-error-handling.md) | TC-ERROR | OQ-05 | 未执行 |
-| REQ-073 | 设计基线／需澄清 | [致命故障](06-error-handling.md) | TC-ERROR | OQ-05 | 未执行 |
-| REQ-074 | 已确认 | [致命故障](06-error-handling.md) | TC-ERROR | OQ-11 | 未执行 |
-| REQ-075 | 已确认 | [致命故障](06-error-handling.md) | TC-ERROR | OQ-11 | 未执行 |
-| REQ-076 | 已确认 | [致命故障](06-error-handling.md) | TC-ERROR | OQ-11 | 未执行 |
-| REQ-077 | 已确认 | [致命故障](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-078 | 已确认 | [致命故障](06-error-handling.md) | TC-ERROR | OQ-11 | 未执行 |
-| REQ-079 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-080 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-081 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-082 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-083 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-084 | 设计基线 | [错误报告与编码](06-error-handling.md) | TC-ERROR | 按专项设计 | 未执行 |
-| REQ-085 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-086 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-087 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-088 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-089 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-090 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-091 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-092 | 设计基线 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-093 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-094 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-095 | 设计基线 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | OQ-15 | 未执行 |
-| REQ-096 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-097 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-098 | 已确认 | [Git 与 GitHub](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-099 | 设计基线 | [阶段测试](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-100 | 设计基线 | [阶段测试](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-101 | 设计基线 | [阶段测试](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-102 | 设计基线 | [阶段测试](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-103 | 设计基线 | [阶段测试](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-104 | 设计基线 | [阶段测试](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-105 | 已确认 | [编码前文档](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-106 | 已确认 | [编码前文档](12-development-plan.md) | TC-DOCS | 按专项设计 | 未执行 |
-| REQ-107 | 已确认 | [补充范围与后续讨论](02-architecture.md) | TC-PLATFORM | 按专项设计 | 未执行 |
-| REQ-108 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-109 | 已确认 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-PLATFORM | OQ-03 | 未执行 |
-| REQ-110 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-PLATFORM | 按专项设计 | 未执行 |
-| REQ-111 | 设计基线 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-RELEASE | 按专项设计 | 未执行 |
-| REQ-112 | 已确认 | [补充范围与后续讨论](02-architecture.md) | TC-PLATFORM | 按专项设计 | 未执行 |
-| REQ-113 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01 | 未执行 |
-| REQ-114 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-01、OQ-05 | 未执行 |
-| REQ-115 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 未执行 |
-| REQ-116 | 已确认目标／待验证 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | 按专项设计 | 未执行 |
-| REQ-117 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-12 | 未执行 |
-| REQ-118 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-05、OQ-12 | 未执行 |
-| REQ-119 | 已确认方向／待设计 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-120 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | OQ-12 | 未执行 |
-| REQ-121 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-122 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-123 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-124 | 已确认 | [补充范围与后续讨论](04-data-storage.md) | TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-125 | 已确认 | [补充范围与后续讨论](07-native-ui.md) | TC-UI | 按专项设计 | 未执行 |
-| REQ-126 | 已确认 | [补充范围与后续讨论](13-operations-distribution.md) | TC-RELEASE | 按专项设计 | 未执行 |
-| REQ-127 | 已确认 | [补充范围与后续讨论](13-operations-distribution.md) | TC-RELEASE | OQ-16 | 未执行 |
-| REQ-128 | 已确认 | [补充范围与后续讨论](11-git-github-workflow.md) | TC-WORKFLOW | 按专项设计 | 未执行 |
-| REQ-129 | 设计基线 | [补充范围与后续讨论](04-data-storage.md) | TC-SCHEDULE / TC-STORAGE | 按专项设计 | 未执行 |
-| REQ-130 | 推荐方案 | [补充范围与后续讨论](07-native-ui.md) | TC-UI / TC-LIFECYCLE | OQ-08 | 未执行 |
-| REQ-131 | 推荐方案 | [补充范围与后续讨论](05-processing-pipeline.md) | TC-TREND | OQ-06、OQ-08 | 未执行 |
-| REQ-132 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR | OQ-05 | 未执行 |
-| REQ-133 | 推荐修正 | [补充范围与后续讨论](05-processing-pipeline.md) | TC-AGG | OQ-06 | 未执行 |
-| REQ-134 | 推荐方案 | [补充范围与后续讨论](03-sensor-acquisition.md) | TC-SENSOR / TC-SCHEDULE | 按专项设计 | 未执行 |
+| REQ-001 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-002 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-003 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-004 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-005 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-006 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-007 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
+| REQ-008 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-009 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-010 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-011 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-012 | 已删除 | [15](15-decisions-and-corrections.md) | 不适用 | 不适用 | 不适用（已删除） |
+| REQ-013 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-014 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-015 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-016 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-017 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-018 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-019 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-020 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-021 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-022 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-023 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-024 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
+| REQ-025 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04 | TC-AGG | 未完成产品验收 |
+| REQ-026 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04 | TC-AGG | 未完成产品验收 |
+| REQ-027 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04 | TC-AGG | 未完成产品验收 |
+| REQ-028 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04 | TC-AGG | 未完成产品验收 |
+| REQ-029 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04 | TC-AGG | 未完成产品验收 |
+| REQ-030 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04 | TC-AGG | 未完成产品验收 |
+| REQ-031 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-032 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-033 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-034 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-035 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-036 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-037 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-038 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-039 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-040 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-041 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-042 | 现行基线 | [04](04-data-storage.md)、[13](13-operations-distribution.md) | W03/W06 | TC-RETENTION/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-043 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-044 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-045 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-046 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-047 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-048 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-049 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-050 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-051 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-052 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-053 | 现行基线 | [04](04-data-storage.md)、[07](07-native-ui.md) | W03/W07 | TC-UI/TC-HISTORY | 未完成产品验收 |
+| REQ-054 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-055 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-056 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-057 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-058 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-059 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-060 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-061 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-062 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-063 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-064 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-065 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-066 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-067 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-068 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-069 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-070 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-071 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-072 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-073 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-074 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-075 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-076 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-077 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-078 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-079 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-080 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-081 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-082 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-083 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-084 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-085 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-086 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-087 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-088 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-089 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-090 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-091 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-092 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-093 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-094 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-095 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-096 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-097 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-098 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-099 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-100 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-101 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-102 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-103 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-104 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-105 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-106 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-107 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-108 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-109 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-110 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-111 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-112 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-113 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-114 | 已删除 | [15](15-decisions-and-corrections.md) | 不适用 | 不适用 | 不适用（已删除） |
+| REQ-115 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-116 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-117 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-118 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-119 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-120 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-121 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-122 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-123 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 未完成产品验收 |
+| REQ-124 | 现行基线 | [04](04-data-storage.md) | W03 | TC-STORAGE | 未完成产品验收 |
+| REQ-125 | 现行基线 | [07](07-native-ui.md)、[13](13-operations-distribution.md) | W07/W08 | TC-UI/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-126 | 现行基线 | [07](07-native-ui.md)、[13](13-operations-distribution.md) | W07/W08 | TC-UI/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-127 | 现行基线 | [13](13-operations-distribution.md) | W10 | TC-RELEASE | 未完成产品验收 |
+| REQ-128 | 现行基线 | [11](11-git-github-workflow.md) | W00 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-129 | 现行基线 | [04](04-data-storage.md)、[08](08-component-design.md) | W03/W05 | TC-SCHEDULE/TC-STORAGE | 未完成产品验收 |
+| REQ-130 | 现行基线 | [05](05-processing-pipeline.md)、[07](07-native-ui.md) | W04/W07 | TC-TREND/TC-UI | 未完成产品验收 |
+| REQ-131 | 现行基线 | [05](05-processing-pipeline.md)、[07](07-native-ui.md) | W04/W07 | TC-TREND/TC-UI | 未完成产品验收 |
+| REQ-132 | 现行基线 | [03](03-sensor-acquisition.md) | W02/W09 | TC-SENSOR | 未完成产品验收 |
+| REQ-133 | 现行基线 | [05](05-processing-pipeline.md) | W04 | TC-AGG | 未完成产品验收 |
+| REQ-134 | 现行基线 | [03](03-sensor-acquisition.md) | W02/W09 | TC-SENSOR/TC-SCHEDULE | 未完成产品验收 |
 
-## 维护规则
+## 证据与更新规则
 
-需求正文改变时同步更新设计、用例与决策记录。验证报告必须包含机型、系统 build、应用版本、配置和证据路径，方能将相应测试标为通过。文档已完成链接检查不等于产品测试通过。
-
+- 2026-09-15原型证据继续在[报告](validation/2026-09-15-m4-air/validation-report.md)，它只覆盖单机读取和短时调度；不将整条REQ标为通过。
+- 012/114保留退役编号；不新增恢复任务，不按测试通过处理删除。
+- 每项通过须附源码SHA、构建、输入/预期/实际、测试日志；实机另附机型/系统build/权限。
+- 修改需求正文时同时更新JSON的body_sha256、设计、任务和测试；执行`scripts/validate-handoff.py`防止漏项。
+- W00～W11定义见[实施计划](22-agent-implementation-plan.md)，测试组详见[10](10-test-strategy.md)。
