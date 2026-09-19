@@ -1,15 +1,16 @@
 # Agent实施交接入口
 
-更新：2026-09-18；设计基线v1。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
+更新：2026-09-19；设计基线v1。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
 
-## 先读的六份资料
+## 先读的七份资料
 
 1. [现行需求01](01-requirements.md)：132项现行、2项退役。
 2. [可行性与复用20](20-feasibility-and-reuse.md)：E1实测、E2上游路线、D项目设计及局限。
 3. [实施契约21](21-implementation-contracts.md)：JSON默认值/profile、Swift类型、SQL schema、逐REQ映射。
 4. [架构02](02-architecture.md)与[组件08](08-component-design.md)：实时数据路径、worker与模块文件边界。
-5. [执行计划22](22-agent-implementation-plan.md)：W00～W11文件、依赖、测试和完成条件。
-6. [Git流程11](11-git-github-workflow.md)：PR所在分支、强制门禁、Issue和merge commit。
+5. [工作包计划22](22-agent-implementation-plan.md)：W00～W11的设计、文件、测试和完成条件。
+6. [执行任务23](23-execution-task-breakdown.md)：50个可审查任务、依赖图、接口产出和交接边界。
+7. [Git流程11](11-git-github-workflow.md)：PR所在分支、强制门禁、Issue和merge commit。
 
 其他专项03～10/13给出细则；16只登记已决定设计与实际执行依赖。15/18/19和research/validation保存来源与历史，不得用旧记录恢复当前已删除要求。
 
@@ -51,7 +52,7 @@ swift --version
 
 ## 接手任务与证据
 
-执行22，每个任务结束更新17/acceptance-v1映射对应的验证报告（保留设计任务关系，不把pending批量改成pass）。每个报告至少记录：REQ/TC、源码与App/worker哈希、工具链/profile、环境、输入、预期/实际、结果和日志位置。未执行写未执行；替身测试与实机分列。
+以22的W工作包作为里程碑边界，按23的T任务逐项执行；W00按三步引导PR，W01～W11各用一个功能PR。代码/文档任务记录commit，外部Git或实机任务记录目标SHA和不可变报告。每个W结束更新17/acceptance-v1映射对应的验证报告（保留设计任务关系，不把pending批量改成pass）。每个报告至少记录：REQ/TC、T任务证据、源码与App/worker哈希、工具链/profile、环境、输入、预期/实际、结果和日志位置。未执行写未执行；替身测试与实机分列。
 
 遇到真实实现问题：复现→Issue，标blocking则禁止跨阶段/合并；在既定边界内修复并回归。只有发现证据与设计实质冲突才修订契约，不能私自缩CPU成员、丢Raw、改TTL、关闭门禁或恢复逐核目标来减少工作。
 

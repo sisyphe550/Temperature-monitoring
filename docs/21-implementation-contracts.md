@@ -1,6 +1,6 @@
 # 实施契约v1：唯一参数、类型与存储定义
 
-更新：2026-09-18；C10/C11授权细化。本页连同01～13是当前实现依据，历史研究/旧实测报告仅作为证据，不能恢复被替代的需求。
+更新：2026-09-19；C10/C11授权细化。本页连同01～13是当前实现依据，历史研究/旧实测报告仅作为证据，不能恢复被替代的需求。
 
 ## 机器可读交付物
 
@@ -11,6 +11,7 @@
 | [api-v1.swift](contracts/api-v1.swift) | 值类型与服务接口签名 | W01拆入08所列文件；通过typecheck不等于实现 |
 | [schema-v1.sql](contracts/schema-v1.sql) | SQLite DDL、键、索引、视图与PRAGMA | W03初始化资源，事务逻辑遵守04 |
 | [acceptance-v1.json](contracts/acceptance-v1.json) | 134项REQ到任务和测试的映射 | W11逐项附证据；012/114为retired |
+| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T11.3依赖图及W归属 | 23逐task执行；禁止跳过依赖或循环引用 |
 
 ## 命名与转换
 

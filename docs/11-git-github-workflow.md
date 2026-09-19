@@ -1,14 +1,15 @@
 # Git、GitHub与执行门禁
 
-更新：2026-09-18；C10执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。当前文档基线在`feature/v0-sensor-validation`的[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，**只拉main会遗漏当前设计**。
+更新：2026-09-19；C10执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。当前文档基线在`feature/v0-sensor-validation`的[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，**只拉main会遗漏当前设计**。
 
 ## 分支与集成
 
 1. 本轮文档收敛继续原V0分支，保留已有证据，不混入生产App实现。
-2. W00完成门禁、独立审查并由维护者按下述条件合入PR #4；此之前后续agent可审阅/验证文档，不能从旧main创建正式功能并遗漏设计。
-3. 每个独立功能从最新origin/main创建`feature/<功能>`；这是项目对默认分支命名的覆盖。先检查用户未提交改动；需要隔离用独立worktree，不reset用户工作区。
-4. 实现→对应测试→可复现缺陷Issue→修复回归→独立审查→PR；不在main直接提交功能代码。
-5. 所有门禁通过且维护者确认后使用merge commit，禁止squash/rebase代替；保留本地和远端功能分支，不用`--delete-branch`。
+2. W00先让PR #4通过当时已存在的`handoff-docs`、`probe-tests`和独立审查，由维护者merge commit合入完整规范；此之前后续agent可审阅/验证文档，不能从旧main创建正式功能并遗漏设计。
+3. 从合入PR #4后的main创建`feature/w00-repository-gates`，实现并测试`blocking-issues`和配置脚本；用已有检查合入，使特权workflow先成为可信默认分支代码。随后在规则证据PR上触发该检查，确认成功后才把它设为required并回读规则。不得要求尚未部署或从未成功运行的检查。
+4. 每个独立功能从最新origin/main创建`feature/<功能>`；这是项目对默认分支命名的覆盖。先检查用户未提交改动；需要隔离用独立worktree，不reset用户工作区。
+5. 实现→对应测试→可复现缺陷Issue→修复回归→独立审查→PR；不在main直接提交功能代码。
+6. 所有门禁通过且维护者确认后使用merge commit，禁止squash/rebase代替；保留本地和远端功能分支，不用`--delete-branch`。
 
 GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除独立审查**。PR必须链接非实现者的审查结论和已处理事项，维护者最终决定合并。若未来增加协作者，可另行把GitHub非作者审批提升为1，不把不存在的审批人写成已配置。
 

@@ -1,10 +1,10 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-18交接设计基线v1**；已有M4 Air只读原型证据，生产App尚未实现。
+Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-19交接设计基线v1**；已有M4 Air只读原型证据，生产App尚未实现。
 
 ## 接手开发
 
-从[Agent交接入口](docs/00-agent-handoff.md)开始，按[实施计划](docs/22-agent-implementation-plan.md)执行。无需依赖聊天记录或临时克隆目录。
+从[Agent交接入口](docs/00-agent-handoff.md)开始，以[W00～W11工作包](docs/22-agent-implementation-plan.md)作为里程碑边界，按[50个执行任务](docs/23-execution-task-breakdown.md)逐项实现。无需依赖聊天记录或临时克隆目录。
 
 - CPU：固定12个M4温度来源的最高值，EMA展示；不承诺逐物理核心、物理Package或全芯片绝对热点。
 - SSD/Battery：有具体接口与来源选择，不支持或单项失败时显示不可用，CPU继续。
@@ -28,7 +28,7 @@ Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-18交接设�
 | [14 实测](docs/14-feasibility-validation.md)／[15 决策](docs/15-decisions-and-corrections.md) | 已存证据、变更原因与后续验证 |
 | [16 决策与执行依赖](docs/16-open-questions.md)／[18 来源](docs/18-sources.md) | 原OQ处理、官方及讨论出处 |
 | [19 开源比较](docs/19-reference-informed-design.md)／[20 可行性](docs/20-feasibility-and-reuse.md) | 全部参考项目、复用与自有设计边界 |
-| [21 契约](docs/21-implementation-contracts.md)／[22 执行计划](docs/22-agent-implementation-plan.md) | 精确配置、Swift/SQL、逐任务实现与测试 |
+| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | 精确配置、Swift/SQL、W级里程碑与50个可审查任务 |
 
 ## 验证入口
 

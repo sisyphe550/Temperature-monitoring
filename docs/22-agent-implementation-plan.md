@@ -8,7 +8,7 @@
 
 **Tech Stack:** Swift 6、SwiftPM tools-version 6.0、少量C/IOKit、系统SQLite3、SwiftUI/AppKit/Swift Charts、Swift Testing、XCTest/XCUITest、Xcode16.4开发基线。
 
-**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。参数、类型、DDL、profile分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)为准。
+**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义50个可审查执行任务。参数、类型、DDL、profile分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)为准。
 
 ## Global Constraints
 
@@ -35,12 +35,12 @@
 
 | 任务 | 新建或逐步完成的生产文件 |
 |---|---|
-| W01 | `Packages/TemperatureCore/Package.swift`；`Sources/TemperatureCore/{Models,Clock}.swift`；`Sources/TemperatureCore/Diagnostics/MonitorFailure.swift` |
-| W02 | `Sources/TemperatureCore/Registry.swift`；`Sources/SensorRuntime/{WorkerClient,WorkerProtocol}.swift`；`Sources/SensorBridge/{SensorBridge.c,include/SensorBridge.h}`；`Sources/SensorWorker/main.swift` |
+| W01 | `Packages/TemperatureCore/Package.swift`；`Sources/TemperatureCore/{Models,Configuration,Clock}.swift`；`Sources/TemperatureCore/Diagnostics/MonitorFailure.swift` |
+| W02 | `THIRD_PARTY_NOTICES.md`；`Sources/TemperatureCore/Registry.swift`；`Sources/SensorRuntime/{WorkerClient,WorkerProtocol}.swift`；`Sources/SensorBridge/{SensorBridge.c,include/SensorBridge.h}`；`Sources/SensorWorker/main.swift` |
 | W03 | `Sources/CSQLite/{module.modulemap,shim.h}`；`Sources/TemperatureCore/Storage/{SQLiteStore,HistoryQuery,Retention}.swift`；`Sources/TemperatureCore/Resources/schema-v1.sql` |
 | W04 | `Sources/TemperatureCore/MetricResolver.swift`；`Sources/TemperatureCore/Processing/{EMA,Aggregation,Trend,RingBuffer}.swift`；加工部分`Sources/TemperatureCore/MonitorEngine.swift` |
-| W05 | 编排部分`Sources/TemperatureCore/MonitorEngine.swift`；`Sources/SensorRuntime/SamplingService.swift` |
-| W06 | `Sources/TemperatureCore/Diagnostics/ReportWriter.swift`；`App/SessionCoordinator.swift` |
+| W05 | `Sources/TemperatureCore/{MonitorEngine,PersistenceQueue}.swift`；`Sources/TemperatureCore/Storage/StorageWriter.swift`；`Sources/SensorRuntime/SamplingService.swift` |
+| W06 | `Sources/TemperatureCore/SessionLock.swift`；`Sources/TemperatureCore/Storage/SessionCleanup.swift`；`Sources/TemperatureCore/Diagnostics/{RetryPolicy,DiagnosticLogger,ReportWriter}.swift`；`App/SessionCoordinator.swift` |
 | W07 | `App/Presentation/{PresentationModel,StatusItemController,TemperaturePopover,TemperatureDashboard,TemperatureSourceRow,HistoryChartView,SettingsView,FatalView}.swift`；为UI可独立测试先建立`TemperatureMonitor.xcodeproj`、App入口与scheme |
 | W08 | 完成W07创建的`TemperatureMonitor.xcodeproj`与`App/{TemperatureMonitorApp,AppDelegate}.swift`生产装配；`App/Resources/{defaults-v1.json,first-profile-v1.json,Info.plist,ThirdPartyNotices.md}` |
 
@@ -115,7 +115,7 @@ enum Fixtures {
 
 **需求：** REQ-085～106、128；TC-WORKFLOW、TC-DOCS。**依赖：** 仓库管理员权限仅用于强制配置；无权限时准备PR和配置脚本，禁止宣称门禁启用。
 
-**文件：** 使用并检查交接阶段提供的`scripts/validate-handoff.py`和`.github/workflows/handoff-docs.yml`；新建`.github/workflows/blocking-issues.yml`、`scripts/configure-repository.sh`；保留`.github/workflows/probe.yml`；更新`docs/11-git-github-workflow.md`的真实配置证据。
+**文件：** 使用并检查交接阶段提供的`scripts/validate-handoff.py`和`.github/workflows/handoff-docs.yml`；新建`.github/workflows/blocking-issues.yml`、`.github/scripts/{blocking-issues.mjs,blocking-issues.test.mjs}`、`scripts/configure-repository.sh`；保留`.github/workflows/probe.yml`；更新`docs/11-git-github-workflow.md`的真实配置证据。
 
 **接口：** 消费需求/契约/验收映射；产出固定检查名`handoff-docs`、`probe-tests`、`blocking-issues`。W01产生可运行产品测试后再启用`core-tests`；W08产生真实App构建后再启用`app-build`，不创建永久成功的空检查。
 
@@ -129,7 +129,8 @@ swift test --package-path prototypes/sensor-probe --enable-code-coverage
 python3 scripts/check-probe-coverage.py
 ```
 
-- [ ] 实现`blocking-issues`：读取仓库全部分页的open issue，只要存在`blocking`标签就失败；排除API返回中的PR对象。PR opened/reopened/synchronize触发检查；Issue opened/reopened/closed/labeled/unlabeled时，重新检查所有打开PR的**最新head SHA**。API失败、分页不完整或权限不足均失败，不按“零Issue”放行。
+- [ ] PR #4先通过当时已有的`handoff-docs`、`probe-tests`和独立审查，由维护者merge commit合入。核对exact head、两个parent和远端分支保留；再从更新后的main创建`feature/w00-repository-gates`。该次引导合并不得被写成`blocking-issues`已启用。
+- [ ] 在门禁分支实现`blocking-issues`：读取仓库全部分页的open issue，只要存在`blocking`标签就失败；排除API返回中的PR对象。PR opened/reopened/synchronize触发检查；Issue opened/reopened/closed/labeled/unlabeled时，重新检查所有打开PR的**最新head SHA**。API失败、分页不完整或权限不足均失败，不按“零Issue”放行。
 - [ ] 使用受信任默认分支workflow及最小只读Issue/PR权限，状态写入仅用于对应SHA。特权workflow不checkout、import或执行PR代码。逻辑示例必须在测试中覆盖：
 
 ```javascript
@@ -143,8 +144,9 @@ const state = blockers.length === 0 ? "success" : "failure";
 ```
 
 - [ ] 用API fixture验证“无Issue成功、普通Issue成功、blocking失败、第二页blocking失败、关闭后成功、重新打开后失败、期间新push只写最新head、API错误失败”；不为验证而随意操作用户真实Issue。
-- [ ] 配置main禁止直接推功能、必需上述已存在检查、merge commit、保留分支；最低GitHub审批人数0，PR内仍附独立审查结论与已解决问题。把实际API读取结果记录为证据；不把脚本存在等同于规则已启用。
-- [ ] 文档PR通过检查和独立审查后由维护者合入；fetch并确认main包含文档基线，再为W01建立`feature/w01-core-contracts`。后续任务同样从含前置任务的main分支开始。
+- [ ] 门禁分支用已有检查审查和合入，使特权workflow先成为默认分支的可信代码。随后创建规则证据PR，从默认分支触发`blocking-issues`并确认它写到该PR最新head；只有成功运行后才将检查设为required。
+- [ ] 配置main禁止直接推功能、必需已存在且成功运行的检查、merge commit、保留分支；最低GitHub审批人数0，PR内仍附独立审查结论与已解决问题。把ruleset、仓库merge配置、blocking列表和规则证据PR检查状态的API回读写入W00报告；证据PR自身通过新规则后合入。
+- [ ] fetch并确认main同时包含文档基线、门禁实现和规则证据，再为W01建立`feature/w01-core-contracts`。后续任务同样从含前置任务的main分支开始。
 
 **完成条件：** PR #4的基线可从main取得；门禁配置与实际读取一致；没有未解决blocking Issue。W00不能靠跳过保护配置宣称完成。
 

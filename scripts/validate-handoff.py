@@ -173,6 +173,106 @@ def validate_contract_values() -> None:
         fail("first-profile-v1.json: CPU max or unknown-model refusal changed")
 
 
+def validate_task_graph() -> None:
+    contract = load_json(CONTRACTS / "tasks-v1.json")
+    rows = contract.get("tasks", [])
+    if not isinstance(rows, list):
+        fail("tasks-v1.json: tasks must be an array")
+        return
+    if len(rows) != 50:
+        fail(f"tasks-v1.json: expected 50 execution tasks, found {len(rows)}")
+    by_id: dict[str, dict] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            fail("tasks-v1.json: every task must be an object")
+            continue
+        task_id = row.get("id")
+        if not isinstance(task_id, str) or not re.fullmatch(r"T(?:0\d|1[01])\.\d", task_id):
+            fail(f"tasks-v1.json: invalid task ID {task_id!r}")
+            continue
+        if task_id in by_id:
+            fail(f"tasks-v1.json: duplicate {task_id}")
+        by_id[task_id] = row
+        expected_package = f"W{task_id[1:3]}"
+        if row.get("work_package") != expected_package:
+            fail(f"tasks-v1.json: {task_id} must belong to {expected_package}")
+        if not isinstance(row.get("depends_on"), list):
+            fail(f"tasks-v1.json: {task_id}.depends_on must be an array")
+
+    if contract.get("entry_task") != "T00.1" or contract.get("terminal_task") != "T11.3":
+        fail("tasks-v1.json: entry/terminal task must be T00.1/T11.3")
+    roots = {task_id for task_id, row in by_id.items() if row.get("depends_on") == []}
+    if roots != {"T00.1"}:
+        fail(f"tasks-v1.json: only T00.1 may be a root, found {sorted(roots)}")
+
+    order = {row.get("id"): index for index, row in enumerate(rows) if isinstance(row, dict)}
+    for task_id, row in by_id.items():
+        dependencies = row.get("depends_on", [])
+        if len(dependencies) != len(set(dependencies)):
+            fail(f"tasks-v1.json: {task_id} has duplicate dependencies")
+        for dependency in dependencies:
+            if dependency not in by_id:
+                fail(f"tasks-v1.json: {task_id} depends on unknown {dependency}")
+            if dependency == task_id:
+                fail(f"tasks-v1.json: {task_id} depends on itself")
+            if dependency in order and order[dependency] >= order[task_id]:
+                fail(f"tasks-v1.json: {task_id} appears before dependency {dependency}")
+
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def visit(task_id: str) -> None:
+        if task_id in visiting:
+            fail(f"tasks-v1.json: dependency cycle reaches {task_id}")
+            return
+        if task_id in visited or task_id not in by_id:
+            return
+        visiting.add(task_id)
+        for dependency in by_id[task_id].get("depends_on", []):
+            visit(dependency)
+        visiting.remove(task_id)
+        visited.add(task_id)
+
+    for task_id in by_id:
+        visit(task_id)
+
+    ancestors: set[str] = set()
+
+    def collect(task_id: str) -> None:
+        if task_id in ancestors or task_id not in by_id:
+            return
+        ancestors.add(task_id)
+        for dependency in by_id[task_id].get("depends_on", []):
+            collect(dependency)
+
+    collect("T11.3")
+    if ancestors != set(by_id):
+        fail(f"tasks-v1.json: tasks not connected to terminal: {sorted(set(by_id) - ancestors)}")
+
+    plan = (DOCS / "23-execution-task-breakdown.md").read_text(encoding="utf-8")
+    plan_ids = re.findall(r"^\| - \[ \] (T(?:0\d|1[01])\.\d) ", plan, re.MULTILINE)
+    if plan_ids != [row.get("id") for row in rows if isinstance(row, dict)]:
+        fail("23-execution-task-breakdown.md: checkbox task order differs from tasks-v1.json")
+    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[ \] T(?:0\d|1[01])\.\d ", line)]
+    for line in task_lines:
+        columns = [column.strip() for column in line.strip().strip("|").split("|")]
+        if len(columns) != 6 or any(not column for column in columns):
+            fail(f"23-execution-task-breakdown.md: task row must have six non-empty columns: {line[:40]}")
+    for marker in ("TBD", "TODO", "FIXME", "implement later"):
+        if marker in plan:
+            fail(f"23-execution-task-breakdown.md: placeholder marker present: {marker}")
+
+    packages = {row.get("work_package") for row in rows if isinstance(row, dict)}
+    if packages != {f"W{number:02d}" for number in range(12)}:
+        fail(f"tasks-v1.json: work-package coverage mismatch: {sorted(packages)}")
+    expected_counts = {"W00": 5, "W01": 4, "W02": 6, "W03": 4, "W04": 5, "W05": 5,
+                       "W06": 4, "W07": 5, "W08": 3, "W09": 4, "W10": 2, "W11": 3}
+    actual_counts = {package: sum(row.get("work_package") == package for row in rows if isinstance(row, dict))
+                     for package in expected_counts}
+    if actual_counts != expected_counts:
+        fail(f"tasks-v1.json: task counts changed: {actual_counts}")
+
+
 def expect_integrity(connection: sqlite3.Connection, sql: str, parameters: tuple = ()) -> None:
     try:
         connection.execute(sql, parameters)
@@ -252,6 +352,7 @@ def validate_links() -> None:
         [
             DOCS / "research/2026-09-17-handoff-interface-audit.md",
             DOCS / "research/2026-09-18-handoff-validation.md",
+            DOCS / "research/2026-09-19-task-breakdown-validation.md",
         ]
     )
     pattern = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -271,6 +372,7 @@ def validate_links() -> None:
 def main() -> int:
     validate_requirements()
     validate_contract_values()
+    validate_task_graph()
     validate_schema()
     validate_links()
     if ERRORS:
@@ -281,9 +383,9 @@ def main() -> int:
             {
                 "status": "passed",
                 "requirements": {"total": 134, "active": 132, "retired": 2},
-                "tasks": 12,
+                "tasks": {"work_packages": 12, "execution_tasks": 50},
                 "test_groups": 19,
-                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "acceptance-v1.json"],
+                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "acceptance-v1.json", "tasks-v1.json"],
                 "scope": "documentation contracts only; production App and hardware acceptance remain pending",
             },
             ensure_ascii=False,

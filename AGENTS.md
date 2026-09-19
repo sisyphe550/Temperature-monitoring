@@ -8,7 +8,7 @@
 
 ## 开发入口
 
-先读[docs/00-agent-handoff.md](docs/00-agent-handoff.md)、[需求](docs/01-requirements.md)、[契约](docs/21-implementation-contracts.md)、[计划](docs/22-agent-implementation-plan.md)和[Git流程](docs/11-git-github-workflow.md)。这些文件包含当前有效方案，无需依赖聊天记录。
+先读[docs/00-agent-handoff.md](docs/00-agent-handoff.md)、[需求](docs/01-requirements.md)、[契约](docs/21-implementation-contracts.md)、[工作包计划](docs/22-agent-implementation-plan.md)、[细粒度任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)。这些文件包含当前有效方案，无需依赖聊天记录。
 
 - 仅实现现行需求；012/114退役，禁止恢复逐物理核心温度/core_id或物理Package保证。
 - 实时内存EMA、Raw/EMA入SQLite、历史分层、会话清理按唯一契约实施。

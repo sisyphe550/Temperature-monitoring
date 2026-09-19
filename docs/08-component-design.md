@@ -1,19 +1,23 @@
 # 构件接口、文件边界与状态
 
-更新：2026-09-17；C10可实现设计契约v1。规范类型和异步接口见[api-v1.swift](contracts/api-v1.swift)，协议不是已实现的代码。
+更新：2026-09-19；C10可实现设计契约v1。规范类型和异步接口见[api-v1.swift](contracts/api-v1.swift)，协议不是已实现的代码。
 
 ## 目标目录与依赖
 
 ```text
 Packages/TemperatureCore/Package.swift
+  THIRD_PARTY_NOTICES.md
   Sources/TemperatureCore/Models.swift
+  Sources/TemperatureCore/Configuration.swift
   Sources/TemperatureCore/Clock.swift
+  Sources/TemperatureCore/SessionLock.swift
   Sources/TemperatureCore/Registry.swift
   Sources/TemperatureCore/MetricResolver.swift
   Sources/TemperatureCore/MonitorEngine.swift
+  Sources/TemperatureCore/PersistenceQueue.swift
   Sources/TemperatureCore/Processing/{EMA,Aggregation,Trend,RingBuffer}.swift
-  Sources/TemperatureCore/Storage/{SQLiteStore,HistoryQuery,Retention}.swift
-  Sources/TemperatureCore/Diagnostics/{MonitorFailure,ReportWriter}.swift
+  Sources/TemperatureCore/Storage/{SQLiteStore,HistoryQuery,Retention,StorageWriter,SessionCleanup}.swift
+  Sources/TemperatureCore/Diagnostics/{MonitorFailure,RetryPolicy,DiagnosticLogger,ReportWriter}.swift
   Sources/CSQLite/{module.modulemap,shim.h}
   Sources/SensorRuntime/{WorkerClient,WorkerProtocol,SamplingService}.swift
   Sources/SensorBridge/{SensorBridge.c,include/SensorBridge.h}
