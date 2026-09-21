@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Toolchain
         run: swift --version
+      - name: Build worker protocol fixture
+        run: swift build --package-path Packages/TemperatureCore --product ProtocolWorker
       - name: Core unit tests with coverage
         run: swift test --package-path Packages/TemperatureCore --enable-code-coverage
       - name: Core coverage gate
