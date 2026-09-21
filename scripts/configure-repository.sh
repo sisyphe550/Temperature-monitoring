@@ -1,20 +1,26 @@
 #!/usr/bin/env bash
-# Idempotent GitHub repository merge and ruleset configuration for W00.
+# Idempotent GitHub repository merge and ruleset configuration for W00/W01.
 # Do not pass --require-blocking-issues until that check has succeeded on a
 # trusted default-branch workflow run against a real open PR head.
+# Do not pass --require-core-tests until core-tests has succeeded likewise.
 set -euo pipefail
 
 REPO="${GITHUB_REPOSITORY:-sisyphe550/Temperature-monitoring}"
 REQUIRE_BLOCKING=0
+REQUIRE_CORE=0
 
 usage() {
-  echo "Usage: $0 [--require-blocking-issues]" >&2
+  echo "Usage: $0 [--require-blocking-issues] [--require-core-tests]" >&2
 }
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --require-blocking-issues)
       REQUIRE_BLOCKING=1
+      shift
+      ;;
+    --require-core-tests)
+      REQUIRE_CORE=1
       shift
       ;;
     -h|--help)
@@ -65,6 +71,18 @@ ensure_label "hardware" "0e8a16" "实机相关"
 STATUS_CHECKS='[{"context":"handoff-docs"},{"context":"probe-tests"}]'
 if [[ "${REQUIRE_BLOCKING}" -eq 1 ]]; then
   STATUS_CHECKS='[{"context":"handoff-docs"},{"context":"probe-tests"},{"context":"blocking-issues"}]'
+fi
+if [[ "${REQUIRE_CORE}" -eq 1 ]]; then
+  STATUS_CHECKS="$(python3 - "${STATUS_CHECKS}" <<'PY'
+import json
+import sys
+
+checks = json.loads(sys.argv[1])
+if not any(c["context"] == "core-tests" for c in checks):
+    checks.append({"context": "core-tests"})
+print(json.dumps(checks))
+PY
+)"
 fi
 
 RULESET_PAYLOAD="$(python3 - "${STATUS_CHECKS}" <<'PY'
@@ -121,3 +139,4 @@ fi
 gh api "repos/${REPO}" --jq '{allow_merge_commit,allow_squash_merge,allow_rebase_merge,delete_branch_on_merge}'
 gh api "repos/${REPO}/rulesets"
 echo "blocking_required=${REQUIRE_BLOCKING}"
+echo "core_required=${REQUIRE_CORE}"

@@ -31,7 +31,8 @@ python3 scripts/validate-handoff.py → passed
 
 - 新增 workflow：`.github/workflows/core.yml`，检查名 `core-tests`。
 - `scripts/validate-handoff.py` 已登记 `core-tests` 为预期检查名。
-- **尚未**将 `core-tests` 加入 ruleset required contexts；待本 PR 首次 CI 成功后再执行 `configure-repository.sh` 扩展（同 W00 对 blocking-issues 的做法）。
+- PR [#7](https://github.com/sisyphe550/Temperature-monitoring/pull/7) head 上四项检查均 success：`handoff-docs`、`probe-tests`、`blocking-issues`、`core-tests`。
+- 执行 `bash scripts/configure-repository.sh --require-blocking-issues --require-core-tests` 后 ruleset `main-protection` id `23754438` required contexts：`handoff-docs`、`probe-tests`、`blocking-issues`、`core-tests`；`strict_required_status_checks_policy=true`。
 
 ## 未完成（不阻塞 W01 退出）
 
