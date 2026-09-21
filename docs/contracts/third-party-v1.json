@@ -13,7 +13,7 @@
       "license": "MIT",
       "license_sha256": "65f575b0127a4383e4710c5ffefe2c5a9ab906231013f42ba899f3fa9b9fdaaf",
       "notice_path": "THIRD_PARTY_NOTICES.md",
-      "modification_summary": "Read-only SMC ABI bridge; production copy is SMC-only with writes, fan control, and HID/NVMe omitted."
+      "modification_summary": "Read-only SMC/HID/NVMe ABI bridge; production copy omits writes, fan control, and privilege escalation."
     }
   ],
   "method_only": [

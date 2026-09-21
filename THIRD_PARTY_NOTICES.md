@@ -7,7 +7,7 @@ Portions of `Packages/TemperatureCore/Sources/SensorBridge/SensorBridge.c` adapt
 Modifications for Temperature monitoring:
 
 - Production package path under `Packages/TemperatureCore`
-- SMC-only surface in revision 2 (`open` / key index / key info+read / `close`)
+- SMC/HID/NVMe read-only surfaces in revision 2
 - Fan control, SMC writes, and privilege escalation paths omitted
 
 MIT License

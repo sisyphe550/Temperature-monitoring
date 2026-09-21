@@ -1,7 +1,12 @@
-// Read-only Apple SMC bridge. SMC ABI adapted from macmon (MIT).
+// Read-only sensor bridge. SMC/HID ABI adapted from macmon (MIT).
 // See THIRD_PARTY_NOTICES.md. No SMC writes, fan control, or privilege escalation.
 #include "SensorBridge.h"
+#include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
+#include <IOKit/IOCFPlugIn.h>
+#include <IOKit/storage/nvme/NVMeSMARTLibExternal.h>
+#include <dlfcn.h>
+#include <stdlib.h>
 #include <string.h>
 
 typedef struct {
@@ -100,4 +105,201 @@ int32_t sp_smc_read(uint32_t connection, uint32_t key, SPValue *value) {
         memcpy(value->bytes, output.bytes, value->size);
     }
     return status;
+}
+
+struct SPHID {
+    void *library;
+    CFTypeRef client;
+    CFArrayRef services;
+    CFTypeRef (*copyProperty)(CFTypeRef, CFStringRef);
+    CFTypeRef (*copyEvent)(CFTypeRef, int64_t, int32_t, int64_t);
+    double (*floatValue)(CFTypeRef, int64_t);
+};
+
+SPHID *sp_hid_open(int32_t *status) {
+    *status = kIOReturnNoResources;
+    SPHID *probe = calloc(1, sizeof(*probe));
+    if (!probe) {
+        return NULL;
+    }
+    probe->library = dlopen("/System/Library/Frameworks/IOKit.framework/IOKit", RTLD_LAZY);
+    if (!probe->library) {
+        sp_hid_close(probe);
+        return NULL;
+    }
+    CFTypeRef (*create)(CFAllocatorRef) = dlsym(probe->library, "IOHIDEventSystemClientCreate");
+    void (*matching)(CFTypeRef, CFDictionaryRef) = dlsym(probe->library, "IOHIDEventSystemClientSetMatching");
+    CFArrayRef (*services)(CFTypeRef) = dlsym(probe->library, "IOHIDEventSystemClientCopyServices");
+    probe->copyProperty = dlsym(probe->library, "IOHIDServiceClientCopyProperty");
+    probe->copyEvent = dlsym(probe->library, "IOHIDServiceClientCopyEvent");
+    probe->floatValue = dlsym(probe->library, "IOHIDEventGetFloatValue");
+    if (!create || !matching || !services || !probe->copyProperty || !probe->copyEvent || !probe->floatValue) {
+        *status = kIOReturnUnsupported;
+        sp_hid_close(probe);
+        return NULL;
+    }
+    probe->client = create(kCFAllocatorDefault);
+    if (!probe->client) {
+        sp_hid_close(probe);
+        return NULL;
+    }
+    int page = 0xff00;
+    int usage = 5;
+    CFNumberRef pageNumber = CFNumberCreate(NULL, kCFNumberIntType, &page);
+    CFNumberRef usageNumber = CFNumberCreate(NULL, kCFNumberIntType, &usage);
+    const void *keys[] = {CFSTR("PrimaryUsagePage"), CFSTR("PrimaryUsage")};
+    const void *values[] = {pageNumber, usageNumber};
+    CFDictionaryRef filter = CFDictionaryCreate(
+        NULL, keys, values, 2, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+    matching(probe->client, filter);
+    probe->services = services(probe->client);
+    CFRelease(filter);
+    CFRelease(pageNumber);
+    CFRelease(usageNumber);
+    if (!probe->services) {
+        *status = kIOReturnNotFound;
+        sp_hid_close(probe);
+        return NULL;
+    }
+    *status = 0;
+    return probe;
+}
+
+int32_t sp_hid_count(SPHID *probe) {
+    return probe && probe->services ? (int32_t)CFArrayGetCount(probe->services) : 0;
+}
+
+void sp_hid_name(SPHID *probe, int32_t index, char *name, size_t size) {
+    if (!size) {
+        return;
+    }
+    name[0] = 0;
+    if (index < 0 || index >= sp_hid_count(probe)) {
+        return;
+    }
+    CFTypeRef property = probe->copyProperty(CFArrayGetValueAtIndex(probe->services, index), CFSTR("Product"));
+    if (property) {
+        if (CFGetTypeID(property) == CFStringGetTypeID()) {
+            CFStringGetCString(property, name, size, kCFStringEncodingUTF8);
+        }
+        CFRelease(property);
+    }
+}
+
+int32_t sp_hid_read(SPHID *probe, int32_t index, double *value) {
+    if (index < 0 || index >= sp_hid_count(probe)) {
+        return kIOReturnBadArgument;
+    }
+    CFTypeRef event = probe->copyEvent(CFArrayGetValueAtIndex(probe->services, index), 15, 0, 0);
+    if (!event) {
+        return kIOReturnNotFound;
+    }
+    *value = probe->floatValue(event, 15 << 16);
+    CFRelease(event);
+    return 0;
+}
+
+void sp_hid_close(SPHID *probe) {
+    if (!probe) {
+        return;
+    }
+    if (probe->services) {
+        CFRelease(probe->services);
+    }
+    if (probe->client) {
+        CFRelease(probe->client);
+    }
+    if (probe->library) {
+        dlclose(probe->library);
+    }
+    free(probe);
+}
+
+struct SPNVMe {
+    int32_t count;
+    IONVMeSMARTInterface **interfaces[16];
+    IOCFPlugInInterface **plugins[16];
+    int32_t status[16];
+};
+
+SPNVMe *sp_nvme_open(int32_t *status) {
+    SPNVMe *probe = calloc(1, sizeof(*probe));
+    if (!probe) {
+        *status = kIOReturnNoResources;
+        return NULL;
+    }
+    io_iterator_t iterator = 0;
+    *status = IOServiceGetMatchingServices(kIOMainPortDefault, IOServiceMatching("IOBlockStorageDevice"), &iterator);
+    if (*status) {
+        free(probe);
+        return NULL;
+    }
+    io_service_t service;
+    while ((service = IOIteratorNext(iterator))) {
+        CFTypeRef capable = IORegistryEntryCreateCFProperty(service, CFSTR("NVMe SMART Capable"), NULL, 0);
+        if (capable && CFEqual(capable, kCFBooleanTrue)) {
+            if (probe->count == 16) {
+                *status = kIOReturnOverrun;
+                CFRelease(capable);
+                IOObjectRelease(service);
+                break;
+            }
+            int index = probe->count++;
+            IOCFPlugInInterface **plugin = NULL;
+            SInt32 score = 0;
+            probe->status[index] = IOCreatePlugInInterfaceForService(
+                service, kIONVMeSMARTUserClientTypeID, kIOCFPlugInInterfaceID, &plugin, &score);
+            if (!probe->status[index] && plugin) {
+                probe->status[index] = (*plugin)->QueryInterface(
+                    plugin, CFUUIDGetUUIDBytes(kIONVMeSMARTInterfaceID), (void **)&probe->interfaces[index]);
+            } else if (!probe->status[index]) {
+                probe->status[index] = kIOReturnNotFound;
+            }
+            probe->plugins[index] = plugin;
+        }
+        if (capable) {
+            CFRelease(capable);
+        }
+        IOObjectRelease(service);
+    }
+    IOObjectRelease(iterator);
+    return probe;
+}
+
+int32_t sp_nvme_count(SPNVMe *probe) {
+    return probe ? probe->count : 0;
+}
+
+int32_t sp_nvme_read(SPNVMe *probe, int32_t index, uint16_t *kelvin) {
+    if (!probe || index < 0 || index >= probe->count) {
+        return kIOReturnBadArgument;
+    }
+    if (probe->status[index]) {
+        return probe->status[index];
+    }
+    IONVMeSMARTInterface **interface = probe->interfaces[index];
+    if (!interface || !(*interface)->SMARTReadData) {
+        return kIOReturnUnsupported;
+    }
+    NVMeSMARTData data = {0};
+    int32_t readStatus = (*interface)->SMARTReadData(interface, &data);
+    if (!readStatus) {
+        *kelvin = CFSwapInt16LittleToHost(data.TEMPERATURE);
+    }
+    return readStatus;
+}
+
+void sp_nvme_close(SPNVMe *probe) {
+    if (!probe) {
+        return;
+    }
+    for (int i = 0; i < probe->count; i++) {
+        if (probe->interfaces[i]) {
+            (*probe->interfaces[i])->Release(probe->interfaces[i]);
+        }
+        if (probe->plugins[i]) {
+            IODestroyPlugInInterface(probe->plugins[i]);
+        }
+    }
+    free(probe);
 }

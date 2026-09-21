@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import SensorRuntime
+import TemperatureCore
 
 @Suite struct SensorDecodingTests {
     @Test func decodesLittleEndianFloatAs25Point5C() {
@@ -45,6 +45,13 @@ import Testing
         #expect(SensorDecoding.smcTemperatureC(encoding: "FLT ", bytes: bytes) == nil)
         #expect(SensorDecoding.smcTemperatureC(encoding: "sp78", bytes: [0x19, 0x80]) != nil)
         #expect(SensorDecoding.smcTemperatureC(encoding: "SP78", bytes: [0x19, 0x80]) == nil)
+    }
+
+    @Test func decodesSmartKelvinLittleEndian() {
+        let kelvin = UInt16(0x012C)
+        let decoded = SensorDecoding.nvmeTemperatureC(kelvin: kelvin)
+        #expect(decoded != nil)
+        #expect(SensorDecoding.nearlyEqual(decoded!, 26.85))
     }
 
     @Test func rawKeysAreCaseSensitive() {
