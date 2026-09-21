@@ -1,6 +1,6 @@
 # Git、GitHub与执行门禁
 
-更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支。T00.5 规则证据 PR 在该检查对真实 open PR head 成功运行后，才把它设为 required 并回读规则。
+更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支；T00.5 在该检查对真实 open PR head 成功后启用 required 规则。回读证据见 `docs/validation/product-software/W00/`。
 
 ## 分支与集成
 
@@ -25,16 +25,19 @@ GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除�
 
 复制或修改第三方代码前，先在`third-party-v1.json`登记固定commit、上游与本地路径、复用方式、许可证hash、notice路径和修改摘要；同时提交许可证/notice。`method-only`来源不能转成代码导入。契约同步不完整、校验失败或来源登记缺失时，该提交和PR不得合并。
 
-## 强制规则目标
+## 强制规则（T00.5 API 回读）
 
-当前只读查询发现：rulesets为空，允许merge/squash/rebase，delete_branch_on_merge=false。因此以下是W00要落实的配置，未宣称已生效。
+2026-09-21 `gh api` 读取：
 
-- main规则集active，目标`refs/heads/main`，无bypass；禁止删除与force push（non_fast_forward）；要求pull_request并解决review thread。
-- 要求分支与base同步的required_status_checks。现阶段必须`handoff-docs`、`probe-tests`、`blocking-issues`；产品检查创建并至少成功运行一次后，再增加`core-tests`和`app-build`。不能要求一个从未运行的不存在检查而永久锁死PR。
-- 仓库allow_merge_commit=true、allow_squash_merge=false、allow_rebase_merge=false、delete_branch_on_merge=false；不启用required_linear_history（它与merge commit矛盾）。
-- 核心覆盖≥80%；准确分母见10。UI产品PR还须附真实UI测试证据，不以构建成功代替。
+- 仓库：`allow_merge_commit=true`、`allow_squash_merge=false`、`allow_rebase_merge=false`、`delete_branch_on_merge=false`。
+- ruleset `main-protection` id `23754438`，`enforcement=active`，目标 `refs/heads/main`，`bypass_actors=[]`，`current_user_can_bypass=never`。
+- 规则：`deletion`、`non_fast_forward`、`pull_request`（审批人数 0、必须解决 review thread、`allowed_merge_methods=["merge"]`）、`required_status_checks`（strict，contexts：`handoff-docs`、`probe-tests`、`blocking-issues`）。
+- 未要求 `core-tests` / `app-build`：这两个检查尚未创建并成功运行。
+- open blocking Issue：无。
 
-管理员使用GitHub规则界面或[Rules REST API](https://docs.github.com/en/rest/repos/rules#create-a-repository-ruleset)配置，并重新读取实际结果保存证据；HTTP错误/权限拒绝应记录，不能绕过或假装完成。规则集支持依账户/仓库条件，参考[GitHub rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)。
+产品检查创建并至少成功运行一次后，再增加 `core-tests` 和 `app-build`。不能要求一个从未运行的不存在检查而永久锁死 PR。核心覆盖≥80%；准确分母见 10。UI 产品 PR 还须附真实 UI 测试证据。不启用 `required_linear_history`（与 merge commit 矛盾）。
+
+配置脚本：`scripts/configure-repository.sh`。变更规则后必须重新 `gh api` 回读，HTTP 错误不能假装完成。
 
 ## Issue与机器门禁
 

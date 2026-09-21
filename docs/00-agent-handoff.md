@@ -41,7 +41,7 @@ C10用户授权清理不合适内容、补齐完整交接；上述产品收敛�
 
 - 有独立只读原型、8项原型测试、CI及2026-09-15 Mac16,13/15.7.3/24G419证据。
 - 生产Packages/TemperatureCore、App和Xcode工程尚未创建；22里的产品命令用于相应任务完成后执行，不能误报今天已通过。
-- 文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) merge commit 合入 main。`blocking-issues` 实现已由[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 合入；T00.5 规则证据 PR 负责触发该检查并回读 ruleset。其他独立功能从最新 main 起分支。
+- 文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) merge commit 合入 main。`blocking-issues` 实现已由[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 合入；ruleset `main-protection` 已启用。其他独立功能从最新 main 起分支。
 - 既有原型/原始CSV/历史报告不能因产品范围调整而修改；新实测写新目录并记录源码SHA。
 
 ## 执行者启动检查
