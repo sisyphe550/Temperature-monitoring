@@ -6,6 +6,8 @@ let package = Package(
     platforms: [.macOS(.v15)],
     products: [
         .library(name: "TemperatureCore", targets: ["TemperatureCore"]),
+        .library(name: "SensorRuntime", targets: ["SensorRuntime"]),
+        .executable(name: "ProtocolWorker", targets: ["ProtocolWorker"]),
     ],
     targets: [
         .target(
@@ -16,10 +18,25 @@ let package = Package(
                 .copy("Resources/first-profile-v1.json"),
             ]
         ),
+        .target(
+            name: "SensorRuntime",
+            dependencies: ["TemperatureCore"],
+            path: "Sources/SensorRuntime"
+        ),
+        .executableTarget(
+            name: "ProtocolWorker",
+            dependencies: ["SensorRuntime", "TemperatureCore"],
+            path: "Tests/Fixtures/ProtocolWorker"
+        ),
         .testTarget(
             name: "TemperatureCoreTests",
             dependencies: ["TemperatureCore"],
             path: "Tests/TemperatureCoreTests"
+        ),
+        .testTarget(
+            name: "SensorRuntimeTests",
+            dependencies: ["SensorRuntime", "TemperatureCore"],
+            path: "Tests/SensorRuntimeTests"
         ),
     ]
 )
