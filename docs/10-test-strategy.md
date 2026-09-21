@@ -1,65 +1,65 @@
-# 测试策略与验收依据
+# 测试、验收向量与证据标准
 
-更新日期：2026-09-14。状态：测试流程为设计基线；本项目测试尚未执行。
+更新：2026-09-21；实施契约v1族修订2。当前仅原型及文档契约检查有执行证据；下列产品测试供接手agent实施，不能标成已通过。
 
-## 测试层级
+## 自动化和实机分层
 
-| 类型 | 范围 | 运行环境 |
+| 用例组 | 固定输入/操作 | 预期/通过条件 |
 |---|---|---|
-| 单元测试 | 标签、校验、EMA、聚合、趋势、重试策略、查询选择 | 模拟输入与时钟，CI 可运行 |
-| 白盒测试 | 正常、边界、异常分支；状态迁移与幂等 | 核心模块 |
-| 集成测试 | Raw→加工→SQLite→查询、清理与故障传播 | 临时 SQLite 数据库 |
-| UI 黑盒 | 菜单栏、面板、主窗口、档位切换、缓存与错误状态 | 原生 App 测试环境 |
-| 实机能力验证 | 传感器枚举、权限、映射、五档耗时、睡眠唤醒 | 真实受支持 MacBook Air |
-| 长期运行 | 内存、CPU、待写队列、数据库/WAL/日志增长 | 真实 Air，持续覆盖保留周期 |
-| 发布验收 | EARS、签名、公证、安装与升级场景 | 接近最终分发的构建 |
+| TC-PLATFORM | Mac16,13+15.7.3；低版本；非Air；未知Air | 正确profile；不合格机型/版本拒绝；未测build不进入正式支持矩阵 |
+| TC-SENSOR | 12个CPU键齐全/缺1/编码改变；IOPS缺字段；TB1T成功；SMART0K/300K | 完整集合才派生；Battery按优先级固定单源；SSD0不可用、300K=26.85°C；不猜HID/IORegistry单位 |
+| TC-VALIDATE | null、NaN、±Inf、−274°C、重复70、同ID异值、旧generation | 非法拒绝；重复成功值保留；ID冲突报错；晚到旧代不进入算法 |
+| TC-SCHEDULE | TestClock前进，各CPU五档；默认；中途换档；慢调用；退避 | 计划时刻正确，修改后nextDue重算，旧请求沿用旧period；不重叠、不补采积压；skipped/失败计数分开 |
+| TC-BUFFER | 50ms连续>300s、周期切換、32series上限 | 最近300s半开TTL、每Buffer≤8192、无未交付数据被覆盖；32包含派生 |
+| TC-EMA | 80@0s、100@0.5s、100@1s，tau0.5 | 80、92.6424111766、97.2932943353，绝对误差≤1e-8；非正dt拒绝 |
+| TC-AGG | Raw70/71/72/95/74；A60×1+B80×3；稀疏10s；同秒换段 | max95/avg76.4；合并avg75；边界闭合且partial；不同段不同主键 |
+| TC-TREND | 以0.1°C/s增长、0.01°C/s增长、−0.1°C/s、仅2点、覆盖不足80%、含Gap | rising/stable/falling；不足时slopeNULL；不跨Gap |
+| TC-STORAGE | 一个不可变批次两次提交；提交成功但ack丢失；同ID异载荷；rollback | 不重复Raw/EMA/count；异载荷DB-INTEGRITY-010；事务不留下半份加工结果 |
+| TC-RETENTION | 虚拟时间跨300s/1h/24h/72h；父层未提交；sleep>72h；清理失败 | 查询立即过滤；父层先提交；空窗不补0；超过120s宽限失败，不无限增大 |
+| TC-HISTORY | 5min/1h/24h/72h，各8series，超8、无数据、2000点降采样 | 层级正确、≤16000点、max95保留、缺口断线；任意过去范围不提供 |
+| TC-ERROR | 四种重试先失败后成功/全部失败；CPU缺1；可选失败；查询锁竞争 | 次数不含首次且不嵌套；可选继续，CPU主值无法生成耗尽Fatal；固定错误码 |
+| TC-LIFECYCLE | sleep/wake、墙钟±1h、双实例、正常退出、强杀后启动、拒绝清理符号链接 | 同会话保留非过期数据、换段、不回拨TTL；第二实例不清库；只删自己会话 |
+| TC-UI | 菜单栏左右键、Esc、点击外部、⌘W/⌘Q、无值/缓存/过期、浅深色、键盘、小屏 | 符合07；摄氏一位小数；关窗口不断采样；没有逐核温度/告警/自启动 |
+| TC-UPSTREAM-BOUNDARY | Stats旧值回退、SwiftTempBar缺事件/名称分类、12来源对10物理核、同名不同registryID、Release产物扫描、缺第三方登记/许可 | 旧值不生成新样本；缺事件不生成0°C；名称/数量不产生物理语义；不同registryID不合并；无写SMC/root/helper/fixture；copied/modified未登记即失败 |
+| TC-WORKFLOW | 失败CI、open blocking Issue、过期head检查、未保护main | 必须拒绝合并；merge commit且保留远端分支；通过不能只看旧SHA |
+| TC-DOCS | 134ID/132active/2retired、链接、DDL、参数、任务与正文hash | `validate-handoff.py`通过；已删除项不进入实现任务 |
+| TC-RELEASE | 最终ZIP/worker签名、Gatekeeper、公证、离线运行、权限复测 | 与发布清单相同SHA；没有凭证时明确未完成正式分发 |
+| TC-ENDURANCE | 72h真实运行，默认200ms；五档各10min另测；虚拟长时压力 | 队列/Buffer/DB/WAL/日志均未破上限，TTL/缺口正确，无崩溃和未解释丢样本 |
+| TC-ACCEPTANCE | 逐项132现行REQ附日志和构建/环境 | 不留无任务/无测试/无结果项；2退役明确不适用 |
 
-GitHub 托管 macOS 环境不能替代真实 Air 的传感器验证。模拟测试通过、代码覆盖率达标和实际硬件指标可读是不同结论。
+## 必须覆盖的交叉场景
 
-## 测试用例组编号
+1. 同批A/B为(100,20)、(20,100)，算法测试alpha固定0.5：先max再EMA仍100；各源EMA后max为60，不能混淆。
+2. 请求从0.99s开始到1.02s结束；1s封窗等待安全水位，按每源完成时间入窗，不让晚到回复改已经提交的桶。
+3. 在同一秒内重连，旧generation在新请求之后返回；只有新代进入数据链，来源/定义/segment隔离。
+4. 写队列高水位时已有一条在途读取：预留容量足以容纳整批，暂停后不再启动新请求；已接纳数据最终提交或明确Fatal，不能静默丢弃。
+5. SQLite提交成功但返回链路丢ack，使用相同batchID重试；Raw/EMA/聚合各一份。相同ID不同payload必须失败。
+6. 查询取消、锁竞争、WAL过软限、磁盘满、报告目录不可写；UI缓存/过期和独立错误兜底仍可观察。
+7. 默认CPU档位每次新会话为200ms；频率切换不清历史、不重置无Gap的EMA；五分钟内存显示与EMA持久化同时存在。
+8. 构造上游常见错误路径：成功一次后失败、事件字段缺失、显示名相同但registryID不同、12个温度来源但10个物理核。结果必须保持失败/能力状态和独立身份，不能补旧值、补0°C、合并来源或生成Core编号。
+9. 将一个未登记的copied/modified测试文件放入许可门禁夹具，验证CI失败；对正式Release App及worker扫描写SMC符号、root/helper调用和测试fixture，任何命中阻断发布。
 
-以下为计划用例，不是测试通过记录。
+## 产品覆盖率与命令
 
-| 用例组 | 必测内容 | 设计文档 |
-|---|---|---|
-| TC-PLATFORM | Air／非 Air 边界、系统版本目标、独立运行 | 03、09 |
-| TC-SENSOR | 枚举、单位、原始 key、权限、缺失、映射证据 | 03、14 |
-| TC-SCHEDULE | 五档、默认值、动态切换、实际间隔、超时与重试重叠 | 03、06 |
-| TC-VALIDATE | null/NaN/Infinity、来源哨兵值、重复有效值、标签稳定性 | 03、05 |
-| TC-BUFFER | 五分钟窗口、最高档容量、覆盖顺序、档位变化 | 04、05 |
-| TC-EMA | 已知序列、变化 dt、阶跃、初始化、缺口、重试幂等 | 05 |
-| TC-AGG | min/max/latest/count、样本加权、层级合并、空窗口与边界 | 05 |
-| TC-TREND | 上升、下降、稳定、数据不足、缺口、不同 dt | 05 |
-| TC-STORAGE | Raw/EMA/聚合/趋势入库，重复批次与读写并发 | 04 |
-| TC-RETENTION | 各层 TTL、72 小时查询、60 秒清理、WAL 与容量 | 04 |
-| TC-LIFECYCLE | 启动新会话、正常退出删除、异常残留清理、睡眠唤醒 | 08、13 |
-| TC-ERROR | 重试次数及间隔、耗尽、结构性错误、报告字段、退出 | 06 |
-| TC-UI | 摄氏一位小数、EMA、图表、查询层级、缓存标识、缺口 | 07 |
-| TC-WORKFLOW | 必需检查、分支保护、Issue 关联、merge commit、保留分支 | 11 |
-| TC-DOCS | 文档与需求追踪、未决项、来源及变更一致性 | 15、16、17 |
-| TC-RELEASE | 发布构建权限、签名、公证、首次运行与目标机型 | 13 |
-| TC-ENDURANCE | 长期资源、错误恢复、清理持续运行、会话生命周期 | 04、13、14 |
+分母包含`Packages/TemperatureCore/Sources/TemperatureCore/`与`Sources/SensorRuntime/`所有自有Swift业务代码：适配选择、协议/调度、校验、算法、存储、错误、生命周期。仅排除第三方未修改代码、C桥接薄ABI与App纯视图；C桥接由ABI/解码/资源生命周期及实机检查单独验收。不得排除难测的错误分支降低分母。
 
-## 有代表性的算法验收数据
+W01～W08实现以下命令后，CI核心行覆盖率至少80%，并保留LCOV/llvm-cov报告。关键向量与异常测试独立于覆盖率数字：
 
-- Raw `[70, 71, 72, 95, 74]` 的 min=70、max=95、样本 avg=76.4、latest=74、count=5；EMA 的峰值不能替代此 max。
-- 子窗口 A 的 avg=60、count=1，B 的 avg=80、count=3，合并样本 avg=75，不能直接平均为 70。
-- 动态档位用实际 dt 计算 EMA；分别验证平均值口径，避免将样本平均误报为时间平均。
-- 无有效数据的窗口不能被写成有效 0°C；具体 Missing 编码待 OQ-06 决定后固定测试。
-- 休眠前后有缺口的曲线应断开；趋势不得跨缺口产生虚假下降斜率。
+```sh
+swift test --package-path Packages/TemperatureCore --enable-code-coverage
+python3 scripts/check-core-coverage.py
+xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -destination 'platform=macOS,arch=arm64' CODE_SIGNING_ALLOWED=NO test
+python3 scripts/validate-handoff.py
+```
 
-这些数字是测试输入，不是硬件实测值。未决行为先登记，不用测试代码隐式决定产品规则。
+上述产品文件尚待22任务创建，命令是实施后的验收入口。现有可立即执行的原型检查为`swift test --package-path prototypes/sensor-probe --enable-code-coverage`、`python3 scripts/check-probe-coverage.py`、`swift build --package-path prototypes/sensor-probe -c release`及`python3 scripts/test-probe-cli.py`。
 
-## 门禁
+原型8测试与55/55 ProbeCore覆盖不等于产品80%门禁。正式UI黑盒不能只测ViewModel；托管macOS CI不证明Air传感器。
 
-用户已要求 feature branch 测试通过后才申请合并，发现缺陷建 Issue，修复后重测。v0.3 的授权设计基线为核心逻辑代码行覆盖率至少 80%，UI 不纳入该强制覆盖率；覆盖范围包括采集边界、校验、算法、存储与错误处理。
+## 硬件验收口径
 
-覆盖率门槛不替代异常路径、黑盒验收或实机证明；具体覆盖统计工具和排除项在工具链设计时确认。每个阶段的未解决阻塞缺陷阻止进入下一阶段。
+W09首先确认身份、单位、固定集合，再以普通用户的正式App构建测试五档各10分钟，记录实际间隔、批耗时、skipped、失败、CPU/内存与来源新鲜度。正常空闲目标：skipped≤1%，读批p95≤所选周期，p99≤2×周期，首帧/显示延迟p95≤500ms；这些是v1验收门槛，未测通过。超标不删五档，登记缺陷并优化；受控负载段单列，仍要求界面响应、有界且缺口如实记录。
 
-## 记录规范
+CPU/内存/能耗暂无百分比硬指标，资源有界上限按21执行；每个结果保存测量口径（CPU是否单核百分比）。72小时真实测试用默认200ms、记录首末小时与每小时资源，不能用几分钟或虚拟时钟冒充。受控CPU负载只用普通用户、限定时长，不改风扇、不禁用系统保护；出现系统严重热状态就停止负载并如实记录。
 
-每次执行至少记录构建版本／提交、机型、系统 build、配置、用例、输入、预期、实际、结果与证据位置。当前状态统一为“未执行”；[追踪矩阵](17-traceability.md) 仅说明计划覆盖。
-
-资源与时延的通过阈值尚未设定（OQ-02/OQ-07/OQ-10），初步测试先收集数据，不能用“观察正常”替代未定义的量化门槛。
-
-来源：C01、ATT-01、C03、C04。
+每次报告记录源码SHA、App/worker哈希、profile版本、机型/OS build、权限/签名、用例、输入、预期/实际、状态及原始证据。发生可复现缺陷按11建Issue并回归。现有2026-09-15证据原样保存；新增测试另建按日期/提交命名目录。

@@ -1,0 +1,4 @@
+cpu_interval_ms,group,slot,scheduled_ns,read_start_ns,read_end_ns,wall_time,provider,raw_id,raw_type,raw_value,celsius,status,source_updated_at,retry_count
+200,ssd,0,0,17583,70333,2026-09-15T01:07:07.413Z,NVMeSMART,device:0:TEMPERATURE,uint16_le_kelvin,0,,error:0xe00002be,,0
+200,battery,0,0,140958,319208,2026-09-15T01:07:07.413Z,IOPowerSources,source:0:Temperature,missing,,,field_absent,,0
+200,ssd,1,500000000,505041916,505165000,2026-09-15T01:07:07.918Z,NVMeSMART,device:0:TEMPERATURE,uint16_le_kelvin,0,,error:0xe00002be,,0

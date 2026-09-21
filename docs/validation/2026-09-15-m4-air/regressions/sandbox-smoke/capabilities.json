@@ -1,0 +1,58 @@
+{
+  "diagnostics" : {
+    "AppleSMC.open" : "error:0xe00002e2",
+    "HID.open" : "error:0xe00002f0",
+    "HID.service_count" : "0",
+    "IOPowerSources.0.power_state" : "Battery Power",
+    "IOPowerSources.count" : "1",
+    "IORegistry.AppleSmartBattery.Temperature.raw" : "3030",
+    "IORegistry.AppleSmartBattery.Temperature.unit" : "unknown; not converted or sampled",
+    "NVMe.discovery" : "ok",
+    "NVMe.smart_capable_count" : "1"
+  },
+  "environment" : {
+    "build" : "24G419",
+    "chip" : "unavailable",
+    "configuration" : "release",
+    "euid" : "501",
+    "gitRevision" : "3fa99aa491c4ea270e60fbda75c3872f9336e07a",
+    "gitWorktreeStatus" : "?? .github\/\n?? .gitignore\n?? prototypes\/\n?? scripts\/",
+    "macOS" : "15.7.3",
+    "memoryBytes" : "unavailable",
+    "model" : "unavailable",
+    "physicalCPUCount" : "unavailable",
+    "sdk" : "15.5",
+    "sourceFreshness" : "unknown; no source timestamp claimed",
+    "swift" : "Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)\nTarget: arm64-apple-macosx15.0",
+    "thermalState" : "0",
+    "uid" : "501"
+  },
+  "schemaVersion" : 1,
+  "sensors" : [
+    {
+      "initialReading" : {
+        "rawType" : "uint16_le_kelvin",
+        "rawValue" : "0",
+        "status" : "error:0xe00002be"
+      },
+      "physicalMapping" : "provider_defined; device identity session_local",
+      "provider" : "NVMeSMART",
+      "rawID" : "device:0:TEMPERATURE",
+      "role" : "ssd",
+      "unitEvidence" : "NVMe SMART composite temperature, uint16 little-endian Kelvin; Celsius = K - 273.15"
+    },
+    {
+      "initialReading" : {
+        "rawType" : "missing",
+        "rawValue" : "",
+        "status" : "field_absent"
+      },
+      "physicalMapping" : "provider_defined; device identity session_local",
+      "provider" : "IOPowerSources",
+      "rawID" : "source:0:Temperature",
+      "role" : "battery",
+      "unitEvidence" : "IOPSKeys.h kIOPSTemperatureKey: CFNumber, Celsius"
+    }
+  ],
+  "startedAt" : "2026-09-15T01:07:06Z"
+}

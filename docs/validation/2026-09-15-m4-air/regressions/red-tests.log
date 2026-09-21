@@ -1,0 +1,65 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[1/7] Write swift-version--1AB21518FC5DEDBE.txt
+[2/8] Linking sensor-probe
+[3/8] Applying sensor-probe
+[5/8] Compiling ProbeCoreTests ProbeCoreTests.swift
+[6/8] Emitting module ProbeCoreTests
+[7/10] Emitting module SensorProbePackageTests
+[8/10] Compiling SensorProbePackageTests runner.swift
+[8/10] Write Objects.LinkFileList
+[9/10] Linking SensorProbePackageTests
+Build complete! (2.98s)
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProbeCoreTests started.
+◇ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() started.
+◇ Test testOptionsRejectUnboundedOrAmbiguousRuns() started.
+◇ Test testNVMeKelvinConversionAndMissingValue() started.
+◇ Test testCSVPreservesCommasQuotesAndNewlines() started.
+◇ Test testMalformedAndNonFiniteSMCValuesHaveNoTemperature() started.
+◇ Test testSMCDecodesFloatAndSignedFixedPoint() started.
+◇ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() started.
+◇ Test testOptionsApplyDefaultsAndAllFiveIntervals() started.
+✔ Test testMalformedAndNonFiniteSMCValuesHaveNoTemperature() passed after 0.001 seconds.
+✘ Test testCSVPreservesCommasQuotesAndNewlines() recorded an issue at ProbeCoreTests.swift:41:19: Expectation failed: (actual → "") == (expected → "Te05")
+✘ Test testCSVPreservesCommasQuotesAndNewlines() recorded an issue at ProbeCoreTests.swift:42:19: Expectation failed: (actual → "") == (expected → ""a,b"")
+✘ Test testNVMeKelvinConversionAndMissingValue() recorded an issue at ProbeCoreTests.swift:29:9: Expectation failed: Decode.nvme(kelvin: 300) → nil
+✘ Test testCSVPreservesCommasQuotesAndNewlines() recorded an issue at ProbeCoreTests.swift:43:19: Expectation failed: (actual → "") == (expected → ""a""b"")
+✘ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() recorded an issue at ProbeCoreTests.swift:23:19: Expectation failed: (actual → nil) == (expected → 0.0)
+✘ Test testCSVPreservesCommasQuotesAndNewlines() recorded an issue at ProbeCoreTests.swift:44:19: Expectation failed: (actual → "") == (expected → ""a
+b"")
+✘ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() recorded an issue at ProbeCoreTests.swift:24:19: Expectation failed: (actual → nil) == (expected → 50.0)
+✘ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() recorded an issue at ProbeCoreTests.swift:25:19: Expectation failed: (actual → nil) == (expected → 50.0)
+✘ Test testCSVPreservesCommasQuotesAndNewlines() failed after 0.001 seconds with 4 issues.
+✘ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() recorded an issue at ProbeCoreTests.swift:34:19: Expectation failed: (actual → 0) == (expected → 1)
+✘ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() recorded an issue at ProbeCoreTests.swift:35:19: Expectation failed: (actual → 0) == (expected → 1)
+✘ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() recorded an issue at ProbeCoreTests.swift:36:19: Expectation failed: (actual → 0) == (expected → 3)
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testOptionsApplyDefaultsAndAllFiveIntervals() recorded an issue at ProbeCoreTests.swift:52:19: Expectation failed: (actual → [200]) == (expected → [50, 100, 200, 500, 1000])
+✘ Test testSMCDecodesFloatAndSignedFixedPoint() recorded an issue at ProbeCoreTests.swift:7:19: Expectation failed: (actual → nil) == (expected → 50.0)
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testSMCDecodesFloatAndSignedFixedPoint() recorded an issue at ProbeCoreTests.swift:8:19: Expectation failed: (actual → nil) == (expected → 25.5)
+✘ Test testOptionsApplyDefaultsAndAllFiveIntervals() recorded an issue at ProbeCoreTests.swift:53:19: Expectation failed: (actual → 10) == (expected → 120)
+✘ Test testNVMeKelvinConversionAndMissingValue() failed after 0.001 seconds with 1 issue.
+✘ Test testSMCDecodesFloatAndSignedFixedPoint() recorded an issue at ProbeCoreTests.swift:9:19: Expectation failed: (actual → nil) == (expected → -1.5)
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testSMCDecodesFloatAndSignedFixedPoint() failed after 0.001 seconds with 3 issues.
+↳ // Catch wrong endianness and unsigned decoding of signed fixed point.
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testOptionsApplyDefaultsAndAllFiveIntervals() recorded an issue at ProbeCoreTests.swift:54:19: Expectation failed: (actual → "validation-runs/probe") == (expected → "example")
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testOptionsApplyDefaultsAndAllFiveIntervals() failed after 0.001 seconds with 3 issues.
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() failed after 0.001 seconds with 3 issues.
+✘ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() recorded an issue at ProbeCoreTests.swift:37:19: Expectation failed: (actual → 0) == (expected → 4)
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() failed after 0.001 seconds with 4 issues.
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() recorded an issue at ProbeCoreTests.swift:62:13: Expectation failed: an error was expected but none was thrown and "Options(intervals: [200], seconds: 10, output: "validation-runs/probe")" was returned
+✘ Test testOptionsRejectUnboundedOrAmbiguousRuns() failed after 0.001 seconds with 10 issues.
+✘ Suite ProbeCoreTests failed after 0.001 seconds with 28 issues.
+✘ Test run with 8 tests failed after 0.002 seconds with 28 issues.

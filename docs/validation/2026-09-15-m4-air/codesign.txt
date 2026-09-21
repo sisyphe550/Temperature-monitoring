@@ -1,0 +1,23 @@
+Executable=/Users/sisyphus/Code/Go/Temperature monitoring/prototypes/sensor-probe/.build/arm64-apple-macosx/release/sensor-probe
+Identifier=sensor-probe
+Format=Mach-O thin (arm64)
+CodeDirectory v=20400 size=2277 flags=0x20002(adhoc,linker-signed) hashes=68+0 location=embedded
+VersionPlatform=1
+VersionMin=983040
+VersionSDK=984320
+Hash type=sha256 size=32
+CandidateCDHash sha256=d9570ed25048adc41ea4b65a86e495de94d336b1
+CandidateCDHashFull sha256=d9570ed25048adc41ea4b65a86e495de94d336b13582a73ef7cf14a1248ea62b
+Hash choices=sha256
+CMSDigest=d9570ed25048adc41ea4b65a86e495de94d336b13582a73ef7cf14a1248ea62b
+CMSDigestType=2
+Executable Segment base=0
+Executable Segment limit=80252
+Executable Segment flags=0x1
+Page size=4096
+CDHash=d9570ed25048adc41ea4b65a86e495de94d336b1
+Signature=adhoc
+Info.plist=not bound
+TeamIdentifier=not set
+Sealed Resources=none
+Internal requirements=none

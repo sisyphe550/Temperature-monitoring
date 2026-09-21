@@ -1,72 +1,77 @@
-# 数据模型、SQLite 与生命周期
+# 数据模型、SQLite与有界保留
 
-更新日期：2026-09-14。状态：已确认 SQLite 与短期 Raw 入库；分级参数为设计基线；表字段为设计草案。
+更新：2026-09-21；contract revision 2。[schema-v1.sql](contracts/schema-v1.sql)仍是user_version 1的可执行DDL；[api-v1.swift](contracts/api-v1.swift)定义强类型边界。
 
-## 存储职责
+## 身份与表
 
-Ring Buffer 提供有界的实时输入，SQLite 保存短期 Raw／EMA、聚合历史和趋势结果。界面与加工构件通过服务访问存储，不自行管理数据库连接。监控数据库在应用会话结束后删除，独立运维日志保留。
+数据库一会话一个，`user_version=1`。`sources`只保存经过Registry资格化的真实接口实例，`series`保存可绘图序列和定义，`series_members`保存固定成员。真实来源使用SeriesFormula.identity，CPU主指标用maximum。SeriesID在成员/定义变更后新建；MetricID保留可见角色，definitionVersion递增。`segments`记录每次缺口后连续段；所有算法和聚合都按SeriesID＋segment隔离。
 
-## 保留策略
+禁止物理core_id及按核心数预分配槽位。sampleID=`sessionUUID:递增Int64序号`，实际成功重复值仍取得新sampleID；同一已交付结果重试保持旧ID。源时间戳没有就NULL，freshness为unknown。
 
-| 数据集合 | 记录粒度 | 保留时间 | 依据 |
-|---|---|---|---|
-| Raw Ring Buffer | 有效读取样本 | 最近 5 分钟 | 用户接受 Raw 方案，v0.3 落实 |
-| `raw_samples` | 有效读取样本 | 5 分钟 | 已接受的 Raw 短期持久化 |
-| EMA Ring Buffer | 有效加工结果 | 建议与最近 5 分钟实时窗口一致 | 内存实现细节待验证 |
-| `ema_samples` | 与有效 Raw 加工对应 | 5 分钟 | v0.3 设计基线 |
-| `samples_1s` | 1 秒窗口 | 1 小时 | 授权补全的分级设计 |
-| `samples_10s` | 10 秒窗口 | 24 小时 | 授权补全的分级设计 |
-| `samples_1m` | 1 分钟窗口 | 72 小时 | 最大历史范围已确认 |
-| `trend_samples` | 基线按秒级结果组织 | 1 小时 | v0.3 设计基线；触发细节待定 |
+| 实体 | 主键／用途 |
+|---|---|
+| session/sources/series/series_members/segments | 元数据与来源、定义、连续段证据 |
+| raw_samples | sampleID；真实来源读数与明确标记的派生Raw分别成series |
+| sample_members | 派生sampleID→成员sampleID；元数据成员独立长期保留 |
+| ema_samples | sampleID；每条EMA关联其输入Raw身份 |
+| aggregates | seriesID＋segment＋width_s＋start_elapsed_ns；一份存储，多层视图 |
+| samples_1s/10s/1m | aggregates的只读视图；保持REQ命名，写入由width_s区分 |
+| trend_samples | seriesID＋segment＋elapsed_ns；不足数据时slope=NULL |
+| gaps | 每条缺口独立ID；允许尚未结束的缺口 |
+| committed_batches | batchID及载荷SHA-256；幂等提交凭据 |
 
-TTL 清理任务设计为每 60 秒执行一次。**查询窗口与物理删除不能混同：** 数据可能等待下一次清理，查询仍需排除过期数据。严格物理保留上限及允许的清理延迟登记为 OQ-07。
+SMC键COLLATE BINARY区分大小写。原始/EMA/聚合都不能存NaN/Infinity；应用层校验，DDL的NOT NULL不能替代有限数检测。
 
-先完成高层聚合再清理仍需要的低层数据。如果聚合长期失败，不能无限延迟清理；该情况进入故障策略，而不是默许数据库无限增长。
+## Buffer与TTL
 
-## 数据结构草案
+| 层 | 保留期 | 查询边界 |
+|---|---:|---|
+| Raw/EMA内存Buffer | 300s；各8192槽/series | elapsed > now−300s，且elapsed ≤ now |
+| Raw/EMA数据库 | 300s | 同上；内存满覆盖最早已交付记录，绝不覆盖待写队列 |
+| 1s | 3600s | bucket.end > now−3600s |
+| 10s | 86400s | bucket.end > now−86400s |
+| 1min | 259200s | bucket.end > now−259200s |
+| Trend | 3600s | elapsed > now−3600s |
+| gap/series/segments | 72h内仍有引用的数据；活动定义始终保留 | 删除数据后清除无引用且非活动元数据 |
 
-以下为概念字段，不是已批准的 SQL schema。
+32个active series上限**包含派生主指标**。32×2×8192是Buffer槽位硬上限；窗口过期优先于容量覆盖。初始profile只含12 CPU来源＋1派生＋最多1 SSD＋1电池＝15 series。
 
-| 实体 | 已讨论的基本字段 | 推荐补充／待定 |
-|---|---|---|
-| SensorDescriptor | `sensor_id`、`sensor_type`、名称、单位 | provider、原始 key、机型、映射版本、是否派生、映射证据 |
-| RawSample | `timestamp`、`sensor_id`、`sensor_type`、摄氏值 | 会话 ID、样本序号、单调时间、源时间戳、有效性／新鲜度 |
-| EMASample | 传感器、时间、EMA 值 | 对应 Raw 序号、算法／参数版本 |
-| AggregateBucket | 传感器、窗口时间、min/max/avg/latest/count | 窗口结束、覆盖时长、缺失标记、平均值口径 |
-| TrendSample | 传感器、时间、趋势结果 | 斜率、窗口长度、有效点数、置信信息是否需要 |
-| ErrorReport | 错误码、时间、构件、操作、版本、底层错误 | 单独文件；不依赖 SQLite 可用 |
+每60秒清理；睡眠唤醒立即推进窗口并清理。Raw删除前，其1s父结果必须已提交；1s/10s同理。保留边界使用elapsed单调时间，不能因墙钟回拨无限保存。数据查询立即排除过期行，物理清理可滞后至120秒；超过宽限且无法追赶进入`DB-CLEAN-005`，不无限保留。SQL删除条件为`elapsed_ns <= cutoff`或`end_elapsed_ns <= cutoff`。
 
-`last` 与 `latest` 是历史讨论中的同一语义，本版叙述统一称 `latest`；正式 schema 命名在详细设计时统一。不得把最新窗口结束时间误当成最新有效样本时间。
+空窗口不存0值；闭合水位与缺口保存于加工状态/Gap，不要求为72小时休眠生成数十万空行。父层生成在TTL之前，且同一提交批次或较早批次持久化。
 
-传感器身份使用来源和已验证映射，不凭名称匹配不同代机器。跨会话无历史恢复要求，但同一次运行中必须稳定区分传感器。
+## SessionPersistence与提交契约
 
-## 容量估算
+SessionPersistence是唯一公开持久化门面，同一个actor向不同调用者提供reserve/cancel、commit、open/query/prune/close三种窄能力视图。内部队列、StorageWriter和SQLiteStore不得由App或SamplingService自行组合。
 
-单个 CPU 传感器在 50 ms 请求间隔、每次均产生有效样本的假设下：
+每个事件在硬件IO或状态推进前取得PersistenceLease。Lease绑定强类型PersistenceOwner、generation、最多512条逻辑记录和估算字节；它不能编码、不能公开构造，只能成功commit一次或cancel一次。复制同一值不产生新容量，错误owner/generation、超容量和第二次消费均为完整性失败。
 
-- 20 条／秒 × 300 秒＝6000 条 Raw；对应 EMA 约 6000 条。
-- 1 秒层 3600 条；10 秒层 8640 条；1 分钟层 4320 条。
-- 若趋势每秒一条并保留一小时，则 3600 条。
-- 以上数据库保留集合合计约 32160 条／传感器；这是理想稳态记录数估算，不是文件大小保证，不含清理宽限、索引、WAL、元数据和缺口记录。
+正常触发：最老待写记录到200ms或累计512条即刷新。一次事务最多512条逻辑记录；一个不可拆分的加工批次若触及上限独占事务，其上限仍为512。记录计数包含成员引用与元数据；入队同时检查32MiB字节上限。在途事务仍计入队列。重试期间200ms不是提交延迟保证。
 
-多个传感器需要分别乘以其采样率；CPU Package 若为派生指标不得重复计算成独立硬件读数。内存环形容量建议按最高采样率和保留时间预估，再用实际时间过期，避免档位切换后“固定点数”改变保留时长。
+1. `BEGIN IMMEDIATE`；先查committed_batches。
+2. 同batchID、同hash：返回已提交；同ID不同hash：`DB-INTEGRITY-010`。
+3. 先插入来源/定义/segment，再插Raw、成员、EMA、最终聚合/趋势/Gap；已存在相同主键必须逐字段一致，不能无条件IGNORE覆盖冲突。
+4. 已闭合聚合值是最终值，重试不以`count=count+...`累计。Gap结束是唯一允许的单调更新（NULL→确定结束时间）。
+5. 写committed_batches＋hash后COMMIT，收到ack才从内部队列移除并返回ProcessingReceipt。提交成功但响应丢失时用相同BatchID重试，不重复运算。
 
-## SQLite 访问与空间控制
+committed_batches保留10分钟，且有未确认批次时不删其凭据；运行时不允许重试超过10秒的批次。Raw与EMA在一个加工批次提交，避免一半成功。SQLite事务/冲突处理依据[SQLite事务](https://sqlite.org/lang_transaction.html)、[UPSERT](https://sqlite.org/lang_upsert.html)；本项目具体幂等协议自行设计。
 
-推荐单写入通道、参数绑定、事务批量写入与短读取事务。WAL 是附件中的建议配置，实际启用及 `synchronous` 级别需验证；`NORMAL` 在断电场景的最近事务耐久性不能默认为严格保证。
+## SQLite配置与空间
 
-Raw 入库不等于每条 Raw 独立 COMMIT。批量刷新间隔、队列容量、最大入库延迟和异常终止时可丢失的尾部范围尚未定义（OQ-10）。本项目“不跨会话恢复历史”也不自动取消运行期间的入库契约。
+一个写连接、一个历史读连接，各专用队列。WAL＋synchronous=NORMAL，busy_timeout=0，由统一重试层处理SQLITE_BUSY/LOCKED；避免隐式等待再叠加重试。每连接cache_size=-8192；mmap_size=0，prepared statement使用后reset/finalize；连接关闭前释放所有statement。
 
-SQLite 默认删除后复用空闲页，文件不一定缩小。WAL 在长读取事务阻碍检查点时可能增长。需要监测数据库、WAL、SHM 和日志各自体积，定义容量预算及清理措施；不要把频繁全量 VACUUM 当作高频采样的常规操作。[SQLite 空间回收](https://sqlite.org/pragma.html#pragma_auto_vacuum)、[WAL](https://sqlite.org/wal.html)
+WAL checkpoint每60秒PASSIVE，自动阈值1000页；读事务最多250ms，旧图表查询被新请求取消。查询的SQLite progress handler检查取消与截止时间，响应过期时丢弃结果。单次操作的取消属于SQL执行预算，不能保证中断操作系统文件IO。
 
-附件给出的 `(sensor_id, timestamp)` 主键与相同列索引存在重复索引的可能；正式设计需依据实际主键、查询与 TTL 删除路径决定索引，不能照抄两份。
+数据库软限768MiB按`(page_count-freelist_count)×page_size`计算仍被有效数据占用的主库页；主文件物理硬限1GiB，WAL软/硬限32MiB/64MiB。接近任一软限先清理TTL、取消过期读事务、暂停新采集并尝试TRUNCATE checkpoint；有效页和WAL都恢复到各自软限以下后开启Gap新段。这样TTL删除产生的freelist可以解除软限，不依赖文件立即缩小。主文件达到物理硬限、空间不足或最老待写超过10秒则`DB-CAPACITY-009`或`DB-BACKPRESSURE-008`，报告后退出。`max_page_count=262144`在4KiB页面下约束主文件，不代替WAL单独监测。不得删除尚应保留的数据来假装支持72小时。
 
-## 文件位置与退出
+SQLite删行复用空间、不保证缩小主文件，因此主库软限看有效页、物理硬限看文件字节；不在采样路径跑全库VACUUM。[WAL机制](https://sqlite.org/wal.html)、[PRAGMA](https://sqlite.org/pragma.html)。容量是初始保护参数，长期实测达到硬限即验收失败，须优化或显式修订，不能声称已测足够。
 
-附件的 `./data/monitor.db` 是开发目录示例。正式 App 的可写数据目录尚未定，建议使用应用专属用户数据目录，避免依赖启动时工作目录或写入 App 包。运维日志目录独立，见 [运维](13-operations-distribution.md)。
+## 历史查询
 
-正常退出：停止新采样 → 按确定策略收尾写入 → 关闭连接 → 删除本会话数据库及相关文件。异常结束无法保证执行清理；下一次启动清除上次遗留监控数据库。删除范围仅限本应用自己的会话数据，不包括用户目录或其他应用数据。
+仅支持以查询时刻为终点的四档最近范围：5min→EMA内存，1h→1s，24h→10s，72h→1min。首版不提供任意过去区间或跨层拼接。查询结果携带层级、实际覆盖和persistedThrough；尚未闭合的最后窗口作为暂未形成历史处理，不补值。
 
-历史查询限制为“本会话存在的数据”与“最近 72 小时”交集；重启后的曲线从新会话开始。睡眠缺口不能被伪造为连续数据。
+最多同时8条series、每条2000个显示点。SQL按时间范围读本层（最多约8640行/series），再按屏幕分箱，保留min/max包络、加权avg与最新点；不能先LIMIT丢掉较早历史。结果总点数≤16000，旧快照释放。
 
-来源：C01、ATT-01、C03、C04。[来源](18-sources.md)
+## 文件与损坏
+
+目录/单实例/清理顺序见[13](13-operations-distribution.md)。异常会话数据库不恢复、不迁移；拿到实例锁后只删除有本应用会话标识的残留目录，再创建新库。当前活动库的user_version不匹配或quick_check损坏直接Fatal，不能悄悄删除当前会话继续运行。

@@ -1,49 +1,73 @@
-# 运维、诊断与独立分发
+# 会话、诊断、构建与分发
 
-更新日期：2026-09-14。状态：日志保留和独立分发方向已确认；目录、预算、发布机制为待细化设计。
+更新：2026-09-21；实施契约v1族修订2。正式签名凭证是外部发布输入，不阻塞本地App开发。
 
-## 运行生命周期
+## 标识与目录
 
-- 启动时建立本次会话数据库；清除本应用上次异常结束遗留的监控历史。
-- 正常退出时结束采集与数据任务、关闭数据库，再清除本会话监控数据库。
-- 强制终止、崩溃或断电不保证执行退出钩子；下次启动承担残留清理。
-- 休眠恢复重新检查读取通道，记录缺口；不把睡眠结束当成连续采样，也不自动抹除当前会话已有历史。
-- 监控数据库删除不删除独立错误日志与报告。
+工作产品名`TemperatureMonitor`，Bundle ID=`io.github.sisyphe550.TemperatureMonitor`，版本从0.1.0开始，build number由提交计数或CI单调编号生成并记录SHA。可以在发布前由维护者改名，但必须统一App、worker、目录、测试及签名配置。
 
-## 错误诊断
+- 会话：`~/Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions/<sessionUUID>/monitor.sqlite`。
+- 实例锁：上级应用目录`instance.lock`，用`flock(LOCK_EX|LOCK_NB)`持有FD直到退出。第二实例只提示已有运行实例并退出，不能清理活跃数据。
+- 日志：`~/Library/Logs/io.github.sisyphe550.TemperatureMonitor/monitor.jsonl`。
+- 报告：日志目录下`Reports/<UTC时间>-<错误码>-<UUID>.json`。
+- 每会话有包含bundleID/sessionID/schemaVersion的marker；启动残留清理必须取得锁、检查marker、拒绝符号链接与越界路径，只处理本应用Sessions子目录。
 
-错误码、构件、操作、时间、重试次数、传感器、应用版本、系统版本、机型和底层错误属于报告基础字段。具体编码见 [错误处理](06-error-handling.md)。
+## 生命周期
 
-推荐包含 provider、映射版本、系统 build、会话 ID；故障材料记录满足诊断所需信息，默认不收集机器序列号等与本任务无关的身份信息。项目没有自动上传错误报告的已确认需求；用户如何查看、导出或提交报告待设计。
+启动：平台/profile检查 → 获取锁 → 清理带marker的残留会话 → 建新库quick_check/schema → 启worker与来源定义 → 开始采样/UI。数据库文件默认用户私有权限，日志同样仅当前用户可写。
 
-日志必须有轮转与容量控制，不能因数据库有限而忽视日志无限增长。保留时长、最大体积、报告格式、采样诊断详细程度见 OQ-11。
+休眠：暂停新日程、停止worker并终结在途、记录Gap、闭合可完成窗口、刷新队列。唤醒：连续时间已前进，重发现产生新源实例/定义/段，推进父层窗口并清理TTL，再恢复；没有数据的长睡眠不补样本、不生成空桶。
 
-## 文件位置
+正常退出/⌘Q：停止调度 → 处理或终结在途 → 闭合部分窗口/停止加工 → 交付已接纳队列 → 关闭查询与写入连接 → 删除本会话DB/WAL/SHM及marker目录 → 释放锁。预算5秒，不能完成记录原因；下次启动补清理。关闭主窗口/⌘W只隐藏窗口，保持会话与菜单栏运行。
 
-开发期 `./data/monitor.db` 为附件示例。正式运行建议使用应用专属用户数据目录，监控数据与诊断日志分开。最终应用标识、目录和访问权限需在打包设计中确定。
+强杀/断电不能保证退出钩子。日志与错误报告独立保留；不跨启动恢复监控历史。当前活动库损坏/schema冲突走Fatal，不能自动清空后伪装连续运行。
 
-清理只作用于本应用识别的文件。WAL/SHM 的处理遵守连接关闭及 SQLite 生命周期，不在活跃连接期间随意移除文件。
+## 诊断保留与入口
 
-## 故障处置示例
+结构化JSONL，每文件5MiB，最多5个文件；超过14天清理。报告最多20份、单份1MiB、14天TTL。采样正常路径不逐条写诊断日志，按60秒汇总计数；原始证据导出仅用于显式验证运行并有独立目录。
 
-| 现象 | 诊断重点 | 不能据此直接推断 |
+设置中提供“打开日志文件夹”“开源许可”；Fatal窗口提供“打开报告”“复制错误详情”“退出”。没有自动上传、联网更新、高温通知或登录自启动。报告写失败使用OSLog/stderr与可复制文本，保留原始错误码，不递归报错。
+
+## 两级交付
+
+| 产物 | 可执行条件 | 不能声称的事 |
 |---|---|---|
-| CPU 指标不可用 | 机型、provider、原始 key、系统 build、权限 | 所有 Apple Silicon 温度接口都失效 |
-| SSD／电池字段缺失 | 公开接口返回、驱动暴露能力、源单位 | 重启必然恢复 |
-| 温度长时间相同 | 源时间戳、读取成功状态、数据年龄 | 必然是缓存或传感器坏了 |
-| 数据库体积不缩小 | freelist、WAL、读取事务、TTL | 删除完全没有生效 |
-| 内存随时间增长 | 队列、UI 副本、缓冲区、底层资源释放 | 只调整采样档位即可修复 |
+| 本地可运行App | 完整Xcode、Core/Runtime/UI测试、ad-hoc签名、已测试本机能力 | 不能声称Developer ID公证或全部Air支持 |
+| 正式独立分发ZIP | 前项＋Developer ID Application证书/Team ID＋公证凭证＋最终配置实机复测 | 不能以CLI或Debug结果代替正式构建权限验证 |
 
-## 分发方案
+正式格式选ZIP，手动下载与替换App，不实现自动更新。关闭App Sandbox，正式签名启用Hardened Runtime；worker与主App同一Team，先签worker再签App，不依赖`--deep`掩盖嵌套签名错误。参考[Apple公证](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)。
 
-用户已明确不走 Mac App Store。推荐使用 Developer ID 签名、Hardened Runtime 和公证，再对候选最终构建执行传感器复测。App Sandbox 为站外分发的可选项，与 Hardened Runtime 分开评估。
+维护者在本机Keychain或CI secrets提供`DEVELOPER_ID_APPLICATION`、`APPLE_TEAM_ID`及名为`temperature-monitor-notary`的notarytool Keychain profile；禁止将私钥/密码写进仓库。未提供时交付本地App和测试报告，正式发布任务标为等待凭证，不能伪造证书。
 
-公证是安全扫描及签名检查，不是 App Store 审核，也不保证未公开接口的长期兼容。[Apple 公证说明](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)、[分发准备](https://developer.apple.com/documentation/xcode/preparing-your-app-for-distribution)
+## 平台与来源发布清单
 
-当前没有证书、Team ID、Bundle ID、发布包格式或自动更新机制的已确认信息。ZIP／DMG、手动下载或其他更新方式留待 OQ-16；不自动加入常驻更新服务或登录启动功能。
+每次本地候选和正式ZIP都生成同名机器可读清单，四类字段分别记录，禁止用一个“兼容版本”字符串混合：
 
-## 发布前检查
+| 字段 | 必需内容 | 证据来源 |
+|---|---|---|
+| `build_toolchain` | Xcode、Swift编译器、SDK完整版本及构建主机系统 | `xcodebuild -version`、`swiftc --version`、`xcrun --show-sdk-version` |
+| `deployment_target` | `MACOSX_DEPLOYMENT_TARGET`、架构及最终App/worker的LC_BUILD_VERSION | 构建设置与`otool -l`结果 |
+| `runtime_profile` | profile版本、机型标识、最低OS、固定CPU成员定义 | 打包资源及启动检查 |
+| `qualified_combinations` | App/worker SHA、签名身份、机型、OS版本/build、测试集合与结果 | W09/W10正式App实机报告；CLI原型不得写入 |
 
-测试最终权限与签名配置下的指标可用性；核对受支持 Air 与正式 macOS 版本矩阵；验证首次运行、退出、异常残留、报告可获取性、日志轮转、数据库清理。默认不承诺尚未测试的新芯片或系统版本。
+清单同时列源码SHA、schema/contract/profile版本、配置hash和[third-party-v1.json](contracts/third-party-v1.json)的hash。App资源中的ThirdPartyNotices必须覆盖contract中每个copied/modified条目的版权与许可；未登记实际本地路径、缺许可或notice不一致时构建失败。研究manifest只说明检查过的上游，不得代替实际导入清单。
 
-来源：C01、C03、C04。
+## 发布命令契约
+
+W08先实现`scripts/build-app.sh`，产物`build/TemperatureMonitor.app`；W10实现`scripts/package-release.sh`，包装以下顺序：
+
+```sh
+xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -configuration Release -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
+codesign --force --options runtime --timestamp --sign "$DEVELOPER_ID_APPLICATION" build/TemperatureMonitor.app/Contents/MacOS/SensorWorker
+codesign --force --options runtime --timestamp --sign "$DEVELOPER_ID_APPLICATION" build/TemperatureMonitor.app
+codesign --verify --deep --strict --verbose=2 build/TemperatureMonitor.app
+ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor.zip
+xcrun notarytool submit build/TemperatureMonitor.zip --keychain-profile temperature-monitor-notary --wait
+xcrun stapler staple build/TemperatureMonitor.app
+spctl --assess --type execute --verbose=2 build/TemperatureMonitor.app
+ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-notarized.zip
+```
+
+构建脚本必须从DerivedData的Products/Release复制App到上述路径，并嵌入同一构建的worker与资源；路径不存在就失败，不能继续给旧包签名。最终ZIP与App生成SHA-256及上一节完整发布清单。上传分发属于后续用户发布操作，本轮只定义方案。
+
+正式构建重跑来源、五档、sleep/wake、无网络本地运行、双实例、退出清理、日志不可写、72小时及平台矩阵验收。协议与UI只标实际观察证据等级；同型号不同OS build仍需登记该组合。
