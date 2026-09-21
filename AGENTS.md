@@ -22,6 +22,6 @@
 
 ## Git与验收
 
-当前基线在PR4的feature/v0-sensor-validation。按W00先完成门禁并由维护者合入，再从最新main建feature/<功能>。不可reset或覆盖用户改动。缺陷建GitHub Issue，blocking未解决不得合并/跨阶段；CI和独立审查通过才交维护者合并。使用merge commit，保留开发分支。
+当前基线在已合入 main 的 PR #4 文档与 PR #5 门禁实现。按 W00 T00.5 完成规则回读后，从最新 main 建 `feature/<功能>`。不可reset或覆盖用户改动。缺陷建GitHub Issue，blocking未解决不得合并/跨阶段；CI和独立审查通过才交维护者合并。使用merge commit，保留开发分支。
 
 每次修改运行适用检查；文档入口`python3 scripts/validate-handoff.py`。产品核心覆盖≥80%且必须含异常路径；UI、硬件与72小时验收不能用原型或短时模拟替代。没有Xcode/凭证/目标机时记录具体外部依赖，继续独立可做工作，不伪造完成。
