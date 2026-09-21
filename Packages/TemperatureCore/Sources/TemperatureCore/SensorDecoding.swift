@@ -20,6 +20,10 @@ public enum SensorDecoding {
         return value.isFinite ? value : nil
     }
 
+    public static func nvmeTemperatureC(kelvin: UInt16) -> Double? {
+        kelvin == 0 ? nil : Double(kelvin) - 273.15
+    }
+
     public static func rawKeyMatches(profileKey: String, discoveredKey: String) -> Bool {
         profileKey == discoveredKey
     }
