@@ -1,6 +1,6 @@
 # 会话、诊断、构建与分发
 
-更新：2026-09-17；C10设计基线v1。正式签名凭证是外部发布输入，不阻塞本地App开发。
+更新：2026-09-21；实施契约v1族修订2。正式签名凭证是外部发布输入，不阻塞本地App开发。
 
 ## 标识与目录
 
@@ -39,6 +39,19 @@
 
 维护者在本机Keychain或CI secrets提供`DEVELOPER_ID_APPLICATION`、`APPLE_TEAM_ID`及名为`temperature-monitor-notary`的notarytool Keychain profile；禁止将私钥/密码写进仓库。未提供时交付本地App和测试报告，正式发布任务标为等待凭证，不能伪造证书。
 
+## 平台与来源发布清单
+
+每次本地候选和正式ZIP都生成同名机器可读清单，四类字段分别记录，禁止用一个“兼容版本”字符串混合：
+
+| 字段 | 必需内容 | 证据来源 |
+|---|---|---|
+| `build_toolchain` | Xcode、Swift编译器、SDK完整版本及构建主机系统 | `xcodebuild -version`、`swiftc --version`、`xcrun --show-sdk-version` |
+| `deployment_target` | `MACOSX_DEPLOYMENT_TARGET`、架构及最终App/worker的LC_BUILD_VERSION | 构建设置与`otool -l`结果 |
+| `runtime_profile` | profile版本、机型标识、最低OS、固定CPU成员定义 | 打包资源及启动检查 |
+| `qualified_combinations` | App/worker SHA、签名身份、机型、OS版本/build、测试集合与结果 | W09/W10正式App实机报告；CLI原型不得写入 |
+
+清单同时列源码SHA、schema/contract/profile版本、配置hash和[third-party-v1.json](contracts/third-party-v1.json)的hash。App资源中的ThirdPartyNotices必须覆盖contract中每个copied/modified条目的版权与许可；未登记实际本地路径、缺许可或notice不一致时构建失败。研究manifest只说明检查过的上游，不得代替实际导入清单。
+
 ## 发布命令契约
 
 W08先实现`scripts/build-app.sh`，产物`build/TemperatureMonitor.app`；W10实现`scripts/package-release.sh`，包装以下顺序：
@@ -55,6 +68,6 @@ spctl --assess --type execute --verbose=2 build/TemperatureMonitor.app
 ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-notarized.zip
 ```
 
-构建脚本必须从DerivedData的Products/Release复制App到上述路径，并嵌入同一构建的worker与资源；路径不存在就失败，不能继续给旧包签名。最终ZIP与App生成SHA-256、源码SHA、工具链/SDK、配置、profile和许可清单。上传分发属于后续用户发布操作，本轮只定义方案。
+构建脚本必须从DerivedData的Products/Release复制App到上述路径，并嵌入同一构建的worker与资源；路径不存在就失败，不能继续给旧包签名。最终ZIP与App生成SHA-256及上一节完整发布清单。上传分发属于后续用户发布操作，本轮只定义方案。
 
 正式构建重跑来源、五档、sleep/wake、无网络本地运行、双实例、退出清理、日志不可写、72小时及平台矩阵验收。协议与UI只标实际观察证据等级；同型号不同OS build仍需登记该组合。

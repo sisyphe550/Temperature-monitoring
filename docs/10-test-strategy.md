@@ -1,6 +1,6 @@
 # 测试、验收向量与证据标准
 
-更新：2026-09-18；C10基线v1。当前仅原型及文档契约检查有执行证据；下列产品测试供接手agent实施，不能标成已通过。
+更新：2026-09-21；实施契约v1族修订2。当前仅原型及文档契约检查有执行证据；下列产品测试供接手agent实施，不能标成已通过。
 
 ## 自动化和实机分层
 
@@ -20,6 +20,7 @@
 | TC-ERROR | 四种重试先失败后成功/全部失败；CPU缺1；可选失败；查询锁竞争 | 次数不含首次且不嵌套；可选继续，CPU主值无法生成耗尽Fatal；固定错误码 |
 | TC-LIFECYCLE | sleep/wake、墙钟±1h、双实例、正常退出、强杀后启动、拒绝清理符号链接 | 同会话保留非过期数据、换段、不回拨TTL；第二实例不清库；只删自己会话 |
 | TC-UI | 菜单栏左右键、Esc、点击外部、⌘W/⌘Q、无值/缓存/过期、浅深色、键盘、小屏 | 符合07；摄氏一位小数；关窗口不断采样；没有逐核温度/告警/自启动 |
+| TC-UPSTREAM-BOUNDARY | Stats旧值回退、SwiftTempBar缺事件/名称分类、12来源对10物理核、同名不同registryID、Release产物扫描、缺第三方登记/许可 | 旧值不生成新样本；缺事件不生成0°C；名称/数量不产生物理语义；不同registryID不合并；无写SMC/root/helper/fixture；copied/modified未登记即失败 |
 | TC-WORKFLOW | 失败CI、open blocking Issue、过期head检查、未保护main | 必须拒绝合并；merge commit且保留远端分支；通过不能只看旧SHA |
 | TC-DOCS | 134ID/132active/2retired、链接、DDL、参数、任务与正文hash | `validate-handoff.py`通过；已删除项不进入实现任务 |
 | TC-RELEASE | 最终ZIP/worker签名、Gatekeeper、公证、离线运行、权限复测 | 与发布清单相同SHA；没有凭证时明确未完成正式分发 |
@@ -35,6 +36,8 @@
 5. SQLite提交成功但返回链路丢ack，使用相同batchID重试；Raw/EMA/聚合各一份。相同ID不同payload必须失败。
 6. 查询取消、锁竞争、WAL过软限、磁盘满、报告目录不可写；UI缓存/过期和独立错误兜底仍可观察。
 7. 默认CPU档位每次新会话为200ms；频率切换不清历史、不重置无Gap的EMA；五分钟内存显示与EMA持久化同时存在。
+8. 构造上游常见错误路径：成功一次后失败、事件字段缺失、显示名相同但registryID不同、12个温度来源但10个物理核。结果必须保持失败/能力状态和独立身份，不能补旧值、补0°C、合并来源或生成Core编号。
+9. 将一个未登记的copied/modified测试文件放入许可门禁夹具，验证CI失败；对正式Release App及worker扫描写SMC符号、root/helper调用和测试fixture，任何命中阻断发布。
 
 ## 产品覆盖率与命令
 

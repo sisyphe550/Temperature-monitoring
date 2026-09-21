@@ -1,10 +1,10 @@
 # 校验、EMA、Raw聚合与趋势契约
 
-更新：2026-09-17；C10/C11基线v1。以下参数是实现选择，不是传感器精度或实测性能结论。机器可读值见[defaults-v1.json](contracts/defaults-v1.json)。
+更新：2026-09-21；contract revision 2。以下参数是实现选择，不是传感器精度或实测性能结论。机器可读值见[defaults-v1.json](contracts/defaults-v1.json)。
 
 ## 输入与顺序
 
-接口成功、来源身份存在、单位证据成立且值有限时接纳；null/NaN/Infinity、长度/编码错误、源定义的无效哨兵按读取失败处理。没有统一“高于110°C就丢弃”规则，也不能把0°C通用地当错误。重复数值照常计数。
+输入必须来自QualifiedSensorClient。ReadingOutcome.success只有在来源身份、单位证据成立且值有限时接纳；failure不能携带温度。类型系统禁止值/错误同时存在或同时缺失。null/NaN/Infinity、长度/编码错误、源定义的无效哨兵按读取失败处理。没有统一“高于110°C就丢弃”规则，也不能把0°C通用地当错误。重复数值照常计数。
 
 同一requestID仅处理一次；旧worker generation、同sampleID重复交付、同一series的非递增elapsed时间拒绝且记录。真正重复请求ID不触发Fatal；相同ID不同内容为协议/一致性失败。一个CPU批次内每source必须恰好一次。
 
@@ -50,4 +50,4 @@ coverageNS定义为同段内有效观测所覆盖的时间并集：每个点从�
 
 ## 串行与幂等
 
-加工器一个actor串行处理。临时输出整体成功入持久化队列后交换内部状态；重试相同batch只做存储，不重跑EMA或累计count。纯算法违反不变量直接结构性错误；只有外部暂时执行失败可按06重试。算法断言与验收向量见[10](10-test-strategy.md)。
+加工器一个actor串行处理。每个ReadBatch、水位或Gap都携带对应PersistenceLease；临时输出经SessionPersistence commit接纳并取得ProcessingReceipt后才交换内部状态。变更方法不向生产调用者返回完整PersistenceBatch。重试相同BatchID只做存储，不重跑EMA或累计count。纯算法违反不变量直接结构性错误；只有外部暂时执行失败可按06重试。算法断言与验收向量见[10](10-test-strategy.md)。

@@ -1,6 +1,6 @@
 # 原生界面与开源复用基线
 
-更新日期：2026-09-18。来源：C01既有界面需求、C09开源前端复用、C10完整交接与C11实时内存路径。**开源复用方向已确认；下述布局与交互为授权细化的设计基线，尚未实现为App。**
+更新日期：2026-09-21；实施契约v1族修订2。来源：C01既有界面需求、C09开源前端复用、C10完整交接与C11实时内存路径。**开源复用方向已确认；下述布局与交互为授权细化的设计基线，尚未实现为App。**
 
 ## 1. 选定参考与复用范围
 
@@ -92,6 +92,13 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 日常界面显示温度和易懂状态；原始key、provider、mappingVersion、definitionVersion、底层返回码放在可展开详情。源新鲜度未知时写“测量更新时间未知”，不能把刚完成API读取标成传感器刚刚测量。
 
+`PresentationModel`在MainActor上把`Snapshot`和`HistoryResult`转换为唯一`PresentationState`。StatusItem、Popover、Dashboard和Chart只绑定这一状态，不读取驱动、SQLite或算法对象，也不自行判断TTL、能力优先级或Fatal：
+
+- `PresentationState.running(RunningPresentationState)`包含CPU周期、CPU主值、三个分组和历史图；`.fatal(FatalPresentationState)`只包含固定错误、报告路径和退出期限。二者不能同时出现。
+- `TemperatureValueState`只能是`loading`、`live`、`cached`、`stale`、`unavailable`之一。cached必须携带最后成功值和原因；stale隐藏数值；unavailable携带能力与原因。
+- `HistoryChartState`只能是`loading(previous:)`、`ready(series:gaps:)`或`failed(_:previous:)`之一。加载和失败不能用两个布尔值同时表达；previous只用于保持已展示内容，不得伪装成新结果。
+- PresentationModel按`Snapshot.generation`拒绝倒退发布；Fatal进入后不接受新的running快照。相同状态可跳过重绘，但不能跳过数据链或持久化。
+
 | 状态 | 可见结果 | 数据行为 |
 |---|---|---|
 | 初始化/尚无有效值 | `— °C`、正在读取 | 不生成0值 |
@@ -111,12 +118,13 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 ## 7. 实现构件与复用步骤
 
-1. `StatusItemController`：参考两项目的NSStatusItem生命周期，只读取展示快照。
-2. `TemperaturePopover`：改造MacMonitor分组/行结构；删除GPU、内存、功率、进程和helper提示等无关模块。
-3. `TemperatureSourceRow`：参考Stats列表，接入本项目sourceID、EMA和质量状态；不使用上游Core标签或SMC写入。
-4. `TemperatureDashboard`：复用相同Section/Row/状态组件，新增本项目的图表工作区；视图不持有SQLite连接。
-5. `HistoryChartModel`：查询服务选择可用层级、输出带缺口/定义版本的图表快照，按显示点数降采样且保留min/max。
-6. 移植实质代码前逐文件登记来源、MIT版权/许可和修改范围；保持业务模型与上游遥测对象解耦。
+1. `PresentationModel`：把核心快照和历史结果转换为互斥展示状态，作为所有界面的唯一数据源。
+2. `StatusItemController`：参考两项目的NSStatusItem生命周期，只读取`PresentationState`。
+3. `TemperaturePopover`：改造MacMonitor分组/行结构；删除GPU、内存、功率、进程和helper提示等无关模块。
+4. `TemperatureSourceRow`：参考Stats列表，接入本项目sourceID、EMA和`TemperatureValueState`；不使用上游Core标签或SMC写入。
+5. `TemperatureDashboard`：复用相同Section/Row/状态组件，新增本项目的图表工作区；视图不持有SQLite连接。
+6. `HistoryChartModel`：查询服务选择可用层级，转换为`HistoryChartState`，按显示点数降采样且保留min/max、缺口与定义版本。
+7. 移植实质代码前先更新`contracts/third-party-v1.json`及ThirdPartyNotices，逐文件登记来源、MIT版权/许可和修改范围；保持业务模型与上游遥测对象解耦。
 
 采样、存储与渲染分别调度；快照发布上限每200ms一次，隐藏窗口停止绘图。该UI节奏不改变用户CPU五档设置，性能通过W09实测验收。
 

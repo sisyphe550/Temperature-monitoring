@@ -1,6 +1,6 @@
 # 传感器接口、首版配置与可行性结论
 
-更新：2026-09-18；C10基线v1。逐物理核心温度已删除；物理Package和全芯片绝对最高温不再作为产品承诺。完整函数、ABI、来源与证据见[硬件审计](research/2026-09-17-handoff-interface-audit.md)。
+更新：2026-09-21；contract revision 2。逐物理核心温度已删除；物理Package和全芯片绝对最高温不再作为产品承诺。完整函数、ABI、来源与证据见[硬件审计](research/2026-09-17-handoff-interface-audit.md)。
 
 ## 可行性与证据
 
@@ -14,6 +14,17 @@
 | 权限/隔离 | 普通用户只读；自有SensorWorker | 原型沙箱外普通用户读通；Process系统能力 | 正式签名配置与进程故障测试 |
 
 E1=目标机读取证据，E2=固定开源/SDK路线，D=本项目设计。E1/E2支持开发方案，不能据此宣称已完成正式产品验收或计量校准。原记录`decoded_mapping_unverified`保持原样。
+
+## 发现事实与合格来源
+
+SensorWorker通过内部SensorTransport返回DiscoveredCatalog。DiscoveredSource只记录provider、rawKey、registryID、encoding、字节长度、transport handle和generation等底层事实，不能自行声明CPU、SSD或Battery语义。
+
+Registry按机型profile完成成员、编码、长度、单位、证据和generation校验后生成QualifiedSourceCatalog：
+
+- available中的QualifiedSource才取得SourceID并允许进入SamplingService、加工、存储和UI。
+- unsupported、permissionDenied、mappingUnknown和failed写入SourceCapabilityRecord，不伪装成可读取来源。
+- WorkerClient只实现SensorTransport；QualifiedSensorClient实现公开SensorClient，并负责SourceID到本代transport handle的映射。
+- 原始发现结果、未知handle和旧generation不能绕过Registry形成ReadBatch。
 
 ## 首版唯一生产候选profile
 
@@ -50,6 +61,6 @@ HID仅在诊断模式按需开启并在停止后释放；不将PMU标签猜成CP
 
 CPU五档50/100/200/500/1000ms默认200；SSD500ms、Battery1000ms。它们是请求日程，不保证硬件刷新频率；具体串行调度、批次时间和漏采计数见[08](08-component-design.md)。所有读数记录开始/结束elapsed及真实wall时间；无源时间戳则freshness=unknown。
 
-sourceID是连接代次内实例UUID，另存原始键/Registry ID/机型/系统/映射版本/出处。重连不能以同名或同数组位置复用旧ID；定义改变新seriesID和definitionVersion，曲线断开。
+SourceID是连接代次内的小写标准UUID强类型，另存原始键/Registry ID/机型/系统/映射版本/出处。RequestID、SeriesID、BatchID、GapID和WatermarkEventID使用不同类型，不能互换或用自由文本拼接。重连不能以同名或同数组位置复用旧ID；定义改变新SeriesID和definitionVersion，曲线断开。
 
 App Sandbox关闭、无管理员权限、无私有entitlement。权限拒绝按能力状态与必需性处理，不能要求用户关闭SIP或提权。正式Developer ID/Hardened Runtime构建按[13](13-operations-distribution.md)再测。

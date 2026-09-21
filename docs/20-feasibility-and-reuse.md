@@ -1,6 +1,6 @@
 # 全项目可行性、来源与设计覆盖
 
-更新：2026-09-18；C10交接审计。**现行需求均有具体实施路线；不等于所有功能已实测，也不等于每个细节都能从上游直接复制。** 本表区分三类依据：E1本机证据、E2开源/官方实现路线、D本项目确定的组合设计。
+更新：2026-09-21；实施契约v1族修订2交接审计。**现行需求均有具体实施路线；不等于所有功能已实测，也不等于每个细节都能从上游直接复制。** 本表区分三类依据：E1本机证据、E2开源/官方实现路线、D本项目确定的组合设计。
 
 ## 接口与受物理限制的要求
 
@@ -32,6 +32,17 @@
 
 不能说这些参考软件已经替本项目实现了Raw/EMA双写、72小时会话历史、教学验收或全部故障策略；对应D设计已经给出接口、参数、DDL和测试向量，可直接开发。
 
+## 复用执行边界
+
+| 范围 | 允许方式 | 固定门禁 |
+|---|---|---|
+| macmon现有原型桥接 | `modified`，只读SMC/HID ABI | third-party-v1登记固定commit/路径/许可hash/notice；Release不得出现写SMC |
+| Stats、MacMonitor、SwiftTempBar、mactop MIT文件 | method-only，或未来逐文件copied/modified | 实际复制前更新third-party-v1与ThirdPartyNotices；保留版权、许可和修改说明 |
+| MacFanControl R04、Philip Turner R07 | method-only | 当前许可材料不足，禁止复制或近似改写源码 |
+| 项目算法、持久化、生命周期、展示状态 | 本项目实现 | 按21的ReadingOutcome、资格化来源、SessionPersistence、Lease/Receipt、PresentationState实现，不归因于上游 |
+
+source/UI manifest记录研究输入，third-party-v1记录实际导入；二者均不能替代正式App验证。`TC-UPSTREAM-BOUNDARY`验证失败不补旧值/0°C、名称与数量不产生物理语义、同名不同registryID不合并、Release无root/helper/风扇写入/fixture，以及所有copied/modified文件均有登记。
+
 ## 仍依赖外部环境的完成条件
 
 - 完整Xcode：本机目前只有CLT。W01可完成核心包；W07/W08的原生App/UI测试需要Xcode。
@@ -40,3 +51,5 @@
 - 仓库管理员权限：W00/W11启用强制门禁需要权限；无权限仍可形成完整PR，但不能声称已受保护或擅自合并。
 
 这些是明确执行依赖，不是尚未选择的架构。当前没有残留“要先发明逐核温度API”这样的设计前置条件。C11已确认无需数据库强制往返，实时内存路线生效。
+
+因此，CPU温度核心目标具有已跑通的原型读取路径和明确产品实现契约；UI、存储、加工、故障及发布也均有可执行设计。尚未完成的是生产实现与正式App实机/72小时/签名验收，不能表述为“只需照抄上游即可完成”。

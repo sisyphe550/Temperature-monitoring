@@ -1,6 +1,6 @@
 # 总体架构与运行时边界
 
-更新：2026-09-17；C10交接设计基线v1，尚未实现生产App。参数与类型以[契约](21-implementation-contracts.md)为准。
+更新：2026-09-21；contract revision 2，尚未实现生产App。参数与类型以[契约](21-implementation-contracts.md)为准。
 
 ## 确定的结构
 
@@ -14,25 +14,29 @@ C11用户明确课程不强制数据库往返，采用优化方案：
 
 ```mermaid
 flowchart TD
-    H[SensorWorker: SMC / SMART / IOPS] --> S[调度与校验]
-    S --> R[Raw Ring Buffer]
+    H[SensorWorker: SMC / SMART / IOPS] --> ST[SensorTransport原始发现/读取]
+    ST --> C[Registry资格化目录]
+    C --> S[QualifiedSensorClient / 调度与校验]
+    S --> L[预留PersistenceLease]
+    L --> R[Raw Ring Buffer]
     R --> E[每来源 EMA]
     R --> A[Raw 聚合 / 峰值]
     R --> M[固定成员 max]
     M --> E
     M --> A
-    E --> T[趋势]
+    E --> TR[趋势]
     E --> V[实时快照与 EMA Buffer]
-    S --> Q[有界持久化队列]
+    S --> Q[SessionPersistence原子接纳]
     M --> Q
     E --> Q
     A --> Q
-    T --> Q
-    Q --> W[SQLite 单写入事务]
+    TR --> Q
+    Q --> W[内部队列 / SQLite 单写入事务]
     W --> D[(会话数据库)]
     D --> HQ[历史查询]
-    V --> UI[菜单栏 / 面板 / 主窗口]
-    HQ --> UI
+    V --> P[PresentationState]
+    HQ --> P
+    P --> UI[菜单栏 / 面板 / 主窗口]
 ```
 
 Raw与EMA都持久化，保留各5分钟。菜单栏、数字、柱图和最近5分钟曲线使用内存EMA；1h/24h/72h历史读SQLite。视图不访问驱动或SQLite连接。实时值可能比已提交历史新至一个批量写入周期；数据库故障时明确显示暂未写入状态并停止新采集，不能把实时显示冒充已经持久化。
@@ -42,13 +46,14 @@ Raw与EMA都持久化，保留各5分钟。菜单栏、数字、柱图和最近5
 | 构件 | 所属环境 | 核心职责 |
 |---|---|---|
 | SensorWorker | 子进程串行命令循环 | 打开/枚举/读取/关闭；只发送读数和能力；不做EMA/数据库 |
-| WorkerClient | 主进程专用IO队列＋actor状态 | 有界协议、请求截止时间、generation、回收；异步回调返回 |
-| SourceRegistry／MetricResolver | MonitorEngine actor | 来源身份、固定定义、CPU派生；不猜物理核 |
+| WorkerClient: SensorTransport | 主进程专用IO队列＋actor状态 | 有界原始协议、请求截止时间、generation和回收；不赋予传感器语义 |
+| Registry／QualifiedSensorClient | SensorRuntime actor | 将底层事实资格化为QualifiedSourceCatalog；映射SourceID与本代handle |
+| MetricResolver | MonitorEngine actor | 固定定义、CPU派生；只消费合格来源，不猜物理核 |
 | SamplingService | MonitorEngine actor＋SystemClock | CPU/SSD/Battery日程、重试、背压预留 |
-| ProcessingEngine | 同一个MonitorEngine actor，构造时注入PersistenceQueue | 顺序推进Raw/EMA/聚合/趋势/缺口；不可重复处理sampleID；接纳方法内部完成队列交付 |
-| StorageWriter | 专用串行DispatchQueue | 一个写连接；不可变批次事务；不在Swift协作线程池阻塞SQLite |
+| ProcessingEngine | 同一个MonitorEngine actor，注入SessionPersistence提交能力 | 顺序推进Raw/EMA/聚合/趋势/缺口；commit确认后换状态并返回ProcessingReceipt |
+| SessionPersistence | actor门面＋内部专用SQLite队列 | 提供reserve/commit/session-store三个窄能力视图；内部拥有队列、writer和store |
 | HistoryQuery | 一个只读连接＋专用串行队列 | 最多一个当前查询；取消旧请求，结果按requestID匹配 |
-| PresentationModel | MainActor | 最多5Hz快照；隐藏图表停止绘制；保留一个最新查询结果 |
+| PresentationModel | MainActor | Snapshot/History唯一转换为互斥PresentationState；最多5Hz；隐藏图表停止绘制 |
 | SessionCoordinator | 主进程actor；UI操作转MainActor | 单实例锁、启动、休眠、正常退出、Fatal |
 
 对外异步协议见[api-v1.swift](contracts/api-v1.swift)。actor内部不能同步等子进程/SQLite；异步调用前后用generation和会话状态校验，防止actor重入使停止后结果重新进入链路。
@@ -57,7 +62,9 @@ Raw与EMA都持久化，保留各5分钟。菜单栏、数字、柱图和最近5
 
 启动每条读取前为最坏输出预留512条记录容量；所有Raw/EMA/聚合/趋势/缺口及在途事务都计数，总上限16384条、序列化载荷32MiB。到12288条暂停新的读取，低于8192条恢复并开启新连续段。必须给在途结果留好预留空间，不能先读完再决定丢弃。
 
-SamplingService先取得只能消费一次的QueueReservation，再随ReadBatch／水位事件／Gap传给MonitorEngine。加工器在临时状态上生成不可变PersistenceBatch，通过注入的PersistenceQueue以该预留入队；收到队列接纳确认后才交换加工状态并发布快照，随后才返回批次的审计副本。调用者不得再次append这个返回值。入队失败则临时状态作废并释放预留。同一requestID重复交付不再次加工。StorageWriter只排空已接纳队列；数据库重试仅重试同一个batchID与原内容。背压暂停、超过截止时间、失败读数产生Gap，不伪造0或重放旧值。
+SamplingService先取得只能消费一次的PersistenceLease，再随ReadBatch、水位事件或Gap传给MonitorEngine。Lease的owner只能是强类型request、watermark或gap事件，并绑定generation、记录数和字节上限。加工器在临时状态上生成不可变PersistenceBatch，通过SessionPersistence提交能力消费同一Lease；收到接纳确认和ProcessingReceipt后才交换加工状态并发布快照。生产调用者不取得完整批次，不能再次写入。提交失败则临时状态作废并释放尚未消费的Lease。同一RequestID重复交付不再次加工；SQLite重试只重试相同BatchID与原内容。背压暂停、超过截止时间和失败读数产生Gap，不伪造0或重放旧值。
+
+SessionPersistence由同一个actor实现，但SamplingService只能看到reserve/cancel能力，MonitorEngine只能看到commit能力，SessionCoordinator/HistoryQuery只能看到open/query/prune/close能力。内部StorageWriter和SQLiteStore不作为App装配接口暴露。
 
 队列最老批次超过10秒即`DB-BACKPRESSURE-008` Fatal。容量和期限是v1保护参数，测试中必须验证；它们不是已经测得的性能水平。
 

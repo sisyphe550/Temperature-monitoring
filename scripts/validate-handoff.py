@@ -75,8 +75,8 @@ def validate_requirements() -> None:
 
     test_text = (DOCS / "10-test-strategy.md").read_text(encoding="utf-8")
     defined_tests = set(re.findall(r"^\| (TC-[A-Z0-9-]+) \|", test_text, re.MULTILINE))
-    if len(defined_tests) != 19:
-        fail(f"10-test-strategy.md: expected 19 TC groups, found {len(defined_tests)}")
+    if len(defined_tests) != 20:
+        fail(f"10-test-strategy.md: expected 20 TC groups, found {len(defined_tests)}")
 
     for requirement_id, section in sections.items():
         row = by_id[requirement_id]
@@ -458,7 +458,7 @@ def main() -> int:
                 "status": "passed",
                 "requirements": {"total": 134, "active": 132, "retired": 2},
                 "tasks": {"work_packages": 12, "execution_tasks": 50},
-                "test_groups": 19,
+                "test_groups": 20,
                 "contract_revision": 2,
                 "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json"],
                 "scope": "documentation contracts only; production App and hardware acceptance remain pending",

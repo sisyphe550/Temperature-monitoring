@@ -1,6 +1,6 @@
 # 开源项目复核与方案优化
 
-更新：2026-09-18。C07/C08提供研究来源，C09删除逐核并确定UI借鉴方向，C10/C11形成当前交接基线。**本页保留开源比较依据；具体实现以01～13/21/22为准，未宣称生产功能或新增实机验收完成。**
+更新：2026-09-21。C07/C08提供研究来源，C09删除逐核并确定UI借鉴方向，C10/C11形成当前交接基线，实施契约v1族修订2固定复用门禁。**本页保留开源比较依据；具体实现以01～13/21/22为准，未宣称生产功能或新增实机验收完成。**
 
 ## 1. 结论
 
@@ -28,6 +28,10 @@ CPU 摄氏温度读取已有可行路径；**逐个物理核心和物理 Package
 - R04 README 标示 MIT，但该 commit 的仓库树没有完整 LICENSE 文件；本轮只参考架构，代码移植等待许可材料完整。
 - R07 所查单文件没有明确许可文本；只借鉴观测问题与方法，不复制代码。
 - 本轮未导入新的第三方源代码。已有 macmon 桥接的许可仍在 [THIRD_PARTY_NOTICES](../prototypes/sensor-probe/THIRD_PARTY_NOTICES.md)。
+
+研究清单和实际导入清单职责不同：[source manifest](research/2026-09-17-source-manifest.json)及[UI manifest](research/2026-09-17-native-ui-sources.json)固定研究输入；[third-party-v1.json](contracts/third-party-v1.json)固定实际copied/modified本地路径、许可hash和notice。研究过某项目不等于获准复制其代码；MIT项目也必须逐文件登记。R04和R07保持method-only。
+
+下列上游行为明确禁止进入产品：失败时把旧值当成新Raw、缺事件返回0°C、按名称或数组序号赋予物理核心/E-P域/Package含义、把12个来源映射成10个物理核、合并同名但registryID不同的来源、写SMC、风扇控制、root/helper、外部监控CLI及把测试fixture装入Release。`TC-UPSTREAM-BOUNDARY`必须同时覆盖行为反例、Release扫描与缺登记失败。
 
 ## 3. 从冲突中建立本机候选表
 
@@ -63,5 +67,6 @@ C11明确实时路径可以走内存；不再保留强制数据库往返的并�
 - 多项目不同定义→真实来源与派生series分离，sourceID/definitionVersion/segment三层记录。
 - 同步调用与失败路径→自有普通用户worker、单在途请求、有限重试、不可取消时进程隔离。
 - 上游没有完整实现的部分→04/05定义Raw峰值、分层聚合、TTL、幂等和有界队列，不谎称来自现成完整方案。
+- 复制/修改的实质代码→先更新third-party-v1和ThirdPartyNotices；method-only来源只可重新实现方法，不能逐行改写规避许可。
 
 实现路线完整对照见[20](20-feasibility-and-reuse.md)，精确参数/接口/DDL见[21](21-implementation-contracts.md)，逐任务执行见[22](22-agent-implementation-plan.md)。此前V2研究动作已收敛为[14](14-feasibility-validation.md)的资格测试，不保留未选择的生产路径。

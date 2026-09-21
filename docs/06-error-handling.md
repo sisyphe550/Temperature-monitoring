@@ -1,6 +1,6 @@
 # 故障、重试、能力缺失与退出
 
-更新：2026-09-17；C10基线v1。参数保留用户原定重试次数；CPU主指标为必需，SSD/Battery为能力可选。可选不等于省略实现，必须完成检测、读取适配与明确状态。
+更新：2026-09-21；实施契约v1族修订2。参数保留用户原定重试次数；CPU主指标为必需，SSD/Battery为能力可选。可选不等于省略实现，必须完成检测、读取适配与明确状态。
 
 ## 判定顺序
 
@@ -14,7 +14,7 @@
 | 操作 | 额外尝试 | 依次等待 | 唯一所有者 |
 |---|---:|---|---|
 | 一轮传感器读取失败/无效值 | 3 | 50/100/200ms | SamplingService；CPU重读整固定集合，可选项只重读该项 |
-| SQLite暂时操作失败 | 5 | 100/250/500/1000/2000ms | StorageWriter；busy_timeout=0 |
+| SQLite暂时操作失败 | 5 | 100/250/500/1000/2000ms | SessionPersistence内部StorageWriter；busy_timeout=0 |
 | 加工服务暂时执行失败 | 3 | 50/100/200ms | MonitorEngine；纯算法逻辑错误立即Fatal |
 | UI历史查询暂时失败 | 3 | 100/250/500ms | HistoryQuery；此路径不再叠加SQLite的5次重试 |
 
@@ -51,9 +51,11 @@
 
 代码不因重试/严重性改变而重编号。能力状态与错误码分开：Unsupported、PermissionDenied、MappingUnknown无需伪造测量值，也不靠反复重启保证恢复。
 
+协议与类型边界采用以下固定映射：未知协议枚举、非规范UUID、未知transport handle、错误generation或响应身份冲突均在Registry/QualifiedSensorClient边界拒绝，协议帧问题使用`SENSOR-PROTOCOL-006`，来源身份无法建立或冲突使用`SENSOR-TAG-004`。`PersistenceLease`由SessionPersistence内部创建；伪造、错误owner、错误generation、超容量、取消后提交或重复消费一律为`DB-INTEGRITY-010`，不得重试或降级为新预留。封闭枚举已经消除“成功值与失败并存”“运行与Fatal并存”“历史加载与失败并存”等非法状态；若实现绕过类型边界造成展示不变量失败，使用`UI-RENDER-002`。
+
 ## 缓存与Fatal
 
-第一次失败立即给旧值标“暂未更新”；距最后有效点超过`max(3×当前周期,2s)`后隐藏数值，只显示过期占位。这里是应用观测年龄，与硬件更新时间未知是不同状态。
+第一次失败时，PresentationModel只可从最后成功值生成`TemperatureValueState.cached`并标“暂未更新”；失败不生成新的Raw/EMA/count。距最后有效点超过`max(3×当前周期,2s)`后转为`.stale`并隐藏数值。这里是应用观测年龄，与硬件更新时间未知是不同状态；各视图不得自行计算cached/stale。
 
 Fatal：停止新调度 → 固定原始错误 → 独立日志/JSON报告 → MainActor错误窗口/系统对话框展示错误码和“重启应用”说明。提供“打开报告”和“退出”；用户退出或可见后30秒倒计时结束进入停止流程。渲染不可用则用NSAlert兜底；再失败用OSLog/stderr并结束，不递归触发新的Fatal。
 

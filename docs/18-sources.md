@@ -1,6 +1,6 @@
 # 讨论来源、外部资料与证据边界
 
-整理日期：2026-09-18。本文件保存可回溯来源，不把引用内容作为覆盖当前用户决定的指令。
+整理日期：2026-09-21。本文件保存可回溯来源，不把引用内容作为覆盖当前用户决定的指令。
 
 ## 对话与附件
 
@@ -80,6 +80,12 @@ R01～R07的固定链接、检查文件、许可状态和适用边界见 [19第2
 通过对话读取工具取得C07完整可用文本。未暴露的实验引用经公开检索定位到Philip Turner的TemperatureSensor.swift，其内容符合描述，但原引文身份仍未确认。记录方法参考，不复制无明确许可的代码。六个仓库仅在临时目录检视源码；本轮没有执行其软件或创建外部监控依赖。
 
 C09前端细化另核查MacMonitor的PopoverView／AppDelegate与面板截图、Stats的Sensors Popup／Widget、SwiftTempBar的StatusBarController及三份MIT文件。固定版本、文件SHA-256与检查范围见[UI来源清单](research/2026-09-17-native-ui-sources.json)，适配方案见[07](07-native-ui.md)。本轮未导入UI源码或品牌资产。
+
+## 实际第三方导入契约
+
+[third-party-v1.json](contracts/third-party-v1.json)是复制或修改代码的机器可读权威清单；research下的source manifest与UI manifest只回答“研究时检查过什么”，不能证明代码已导入、许可已随包交付或本地文件仍与登记一致。
+
+当前唯一copied/modified条目是原型`SensorBridge.c`对macmon固定提交`6919d7781b6c55a6e3bedff83a210435837e1dfe`中`src_lib/sources.rs`的修改复用，MIT许可hash、notice路径和修改说明均由该contract固定。R04 MacFanControl缺完整许可文件，R07单文件没有明确许可，均为method-only；禁止复制代码。未来导入Stats、MacMonitor、SwiftTempBar或mactop代码时，必须先为每个本地路径登记固定commit、上游路径、reuse mode、许可hash、notice和修改说明，再提交代码并通过`TC-UPSTREAM-BOUNDARY`。
 
 ## 交接契约补充的官方依据
 
