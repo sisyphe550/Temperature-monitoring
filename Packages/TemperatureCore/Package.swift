@@ -23,6 +23,15 @@ let package = Package(
             dependencies: ["TemperatureCore"],
             path: "Sources/SensorRuntime"
         ),
+        .target(
+            name: "SensorBridge",
+            path: "Sources/SensorBridge",
+            publicHeadersPath: "include",
+            linkerSettings: [
+                .linkedFramework("IOKit"),
+                .linkedFramework("CoreFoundation"),
+            ]
+        ),
         .executableTarget(
             name: "ProtocolWorker",
             dependencies: ["SensorRuntime", "TemperatureCore"],
@@ -35,7 +44,7 @@ let package = Package(
         ),
         .testTarget(
             name: "SensorRuntimeTests",
-            dependencies: ["SensorRuntime", "TemperatureCore"],
+            dependencies: ["SensorRuntime", "TemperatureCore", "SensorBridge"],
             path: "Tests/SensorRuntimeTests"
         ),
     ]

@@ -6,13 +6,14 @@
       "upstream_commit": "6919d7781b6c55a6e3bedff83a210435837e1dfe",
       "upstream_path": "src_lib/sources.rs",
       "local_paths": [
-        "prototypes/sensor-probe/Sources/SensorBridge/SensorBridge.c"
+        "prototypes/sensor-probe/Sources/SensorBridge/SensorBridge.c",
+        "Packages/TemperatureCore/Sources/SensorBridge/SensorBridge.c"
       ],
       "reuse_mode": "modified",
       "license": "MIT",
       "license_sha256": "65f575b0127a4383e4710c5ffefe2c5a9ab906231013f42ba899f3fa9b9fdaaf",
-      "notice_path": "prototypes/sensor-probe/THIRD_PARTY_NOTICES.md",
-      "modification_summary": "Read-only exploratory SMC/HID ABI bridge; fan control and writes omitted."
+      "notice_path": "THIRD_PARTY_NOTICES.md",
+      "modification_summary": "Read-only SMC ABI bridge; production copy is SMC-only with writes, fan control, and HID/NVMe omitted."
     }
   ],
   "method_only": [
