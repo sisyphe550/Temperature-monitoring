@@ -78,6 +78,17 @@ def validate_requirements() -> None:
     if len(defined_tests) != 20:
         fail(f"10-test-strategy.md: expected 20 TC groups, found {len(defined_tests)}")
 
+    upstream_boundary_ids = (
+        "REQ-009", "REQ-013", "REQ-014", "REQ-070", "REQ-079", "REQ-083",
+        "REQ-098", "REQ-105", "REQ-110", "REQ-132", "REQ-134",
+    )
+    for requirement_id in upstream_boundary_ids:
+        if "TC-UPSTREAM-BOUNDARY" not in by_id[requirement_id].get("tests", []):
+            fail(f"{requirement_id}: missing TC-UPSTREAM-BOUNDARY mapping")
+    for requirement_id in ("REQ-012", "REQ-114"):
+        if "TC-UPSTREAM-BOUNDARY" in by_id[requirement_id].get("tests", []):
+            fail(f"{requirement_id}: retired item must not map TC-UPSTREAM-BOUNDARY")
+
     for requirement_id, section in sections.items():
         row = by_id[requirement_id]
         if requirement_id in retired_ids:

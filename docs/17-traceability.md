@@ -1,6 +1,6 @@
 # 需求到设计、执行任务与验收的追踪矩阵
 
-更新：2026-09-18；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
+更新：2026-09-21；实施契约v1族修订2；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
 
 | 需求 | 当前状态 | 设计 | 执行任务 | 验收组 | 产品结果 |
 |---|---|---|---|---|---|
@@ -12,12 +12,12 @@
 | REQ-006 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
 | REQ-007 | 现行基线 | [03](03-sensor-acquisition.md)、[08](08-component-design.md) | W05 | TC-SCHEDULE | 未完成产品验收 |
 | REQ-008 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
-| REQ-009 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-009 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-010 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
 | REQ-011 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
 | REQ-012 | 已删除 | [15](15-decisions-and-corrections.md) | 不适用 | 不适用 | 不适用（已删除） |
-| REQ-013 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
-| REQ-014 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
+| REQ-013 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
+| REQ-014 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-015 | 现行基线 | [03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md) | W01/W02/W04 | TC-SENSOR/TC-VALIDATE | 未完成产品验收 |
 | REQ-016 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
 | REQ-017 | 现行基线 | [04](04-data-storage.md)、[05](05-processing-pipeline.md) | W03/W04/W05 | TC-BUFFER/TC-EMA/TC-STORAGE | 未完成产品验收 |
@@ -73,7 +73,7 @@
 | REQ-067 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-068 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-069 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
-| REQ-070 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-070 | 现行基线 | [06](06-error-handling.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W05/W06/W07 | TC-ERROR/TC-UI/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-071 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-072 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-073 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
@@ -82,11 +82,11 @@
 | REQ-076 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-077 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-078 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
-| REQ-079 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-079 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md) | W01/W05/W06 | TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-080 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-081 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-082 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
-| REQ-083 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
+| REQ-083 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md) | W01/W05/W06 | TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-084 | 现行基线 | [06](06-error-handling.md)、[13](13-operations-distribution.md) | W05/W06 | TC-ERROR | 未完成产品验收 |
 | REQ-085 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
 | REQ-086 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
@@ -101,19 +101,19 @@
 | REQ-095 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
 | REQ-096 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
 | REQ-097 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
-| REQ-098 | 现行基线 | [11](11-git-github-workflow.md)、[10](10-test-strategy.md) | W00/W11 | TC-WORKFLOW | 未完成产品验收 |
+| REQ-098 | 现行基线 | [11](11-git-github-workflow.md)、[18](18-sources.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md) | W00/W08/W11 | TC-WORKFLOW/TC-DOCS/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-099 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
 | REQ-100 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
 | REQ-101 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
 | REQ-102 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
 | REQ-103 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
 | REQ-104 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
-| REQ-105 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
+| REQ-105 | 现行基线 | [00](00-agent-handoff.md)、[10](10-test-strategy.md)、[12](12-development-plan.md)、[21](21-implementation-contracts.md) | W11 | TC-DOCS/TC-ACCEPTANCE/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-106 | 现行基线 | [12](12-development-plan.md)、[10](10-test-strategy.md) | W11 | TC-DOCS/TC-ACCEPTANCE | 未完成产品验收 |
 | REQ-107 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
 | REQ-108 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
 | REQ-109 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
-| REQ-110 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
+| REQ-110 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-111 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
 | REQ-112 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
 | REQ-113 | 现行基线 | [03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[20](20-feasibility-and-reuse.md) | W02/W08/W09 | TC-PLATFORM/TC-SENSOR | 未完成产品验收 |
@@ -135,9 +135,9 @@
 | REQ-129 | 现行基线 | [04](04-data-storage.md)、[08](08-component-design.md) | W03/W05 | TC-SCHEDULE/TC-STORAGE | 未完成产品验收 |
 | REQ-130 | 现行基线 | [05](05-processing-pipeline.md)、[07](07-native-ui.md) | W04/W07 | TC-TREND/TC-UI | 未完成产品验收 |
 | REQ-131 | 现行基线 | [05](05-processing-pipeline.md)、[07](07-native-ui.md) | W04/W07 | TC-TREND/TC-UI | 未完成产品验收 |
-| REQ-132 | 现行基线 | [03](03-sensor-acquisition.md) | W02/W09 | TC-SENSOR | 未完成产品验收 |
+| REQ-132 | 现行基线 | [03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md) | W02/W09 | TC-SENSOR/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 | REQ-133 | 现行基线 | [05](05-processing-pipeline.md) | W04 | TC-AGG | 未完成产品验收 |
-| REQ-134 | 现行基线 | [03](03-sensor-acquisition.md) | W02/W09 | TC-SENSOR/TC-SCHEDULE | 未完成产品验收 |
+| REQ-134 | 现行基线 | [03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W02/W07/W09 | TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY | 未完成产品验收 |
 
 ## 证据与更新规则
 

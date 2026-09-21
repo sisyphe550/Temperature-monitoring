@@ -138,7 +138,8 @@
       "status": "active",
       "design": [
         "03-sensor-acquisition.md",
-        "05-processing-pipeline.md"
+        "05-processing-pipeline.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W01",
@@ -147,9 +148,10 @@
       ],
       "tests": [
         "TC-SENSOR",
-        "TC-VALIDATE"
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "2ebc8d5524bbe7afb85562fd61f9eb0c8837aba879eb575cacbafe42f96aa40b",
+      "body_sha256": "77835073a9ae26e91e2f989b2ad41caaef4d4f233e066a34e779d26ffb98988d",
       "verification": "pending-product-acceptance"
     },
     {
@@ -205,7 +207,8 @@
       "status": "active",
       "design": [
         "03-sensor-acquisition.md",
-        "05-processing-pipeline.md"
+        "05-processing-pipeline.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W01",
@@ -214,9 +217,10 @@
       ],
       "tests": [
         "TC-SENSOR",
-        "TC-VALIDATE"
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "ba61c03c678f0e2e8e5f880c3fee06a2cb506b2ae98ecac4a179d15dbed4b262",
+      "body_sha256": "16395d139379ef4b0adafe71579ebba74059551f45c2139fc1f89d78601a8991",
       "verification": "pending-product-acceptance"
     },
     {
@@ -224,7 +228,8 @@
       "status": "active",
       "design": [
         "03-sensor-acquisition.md",
-        "05-processing-pipeline.md"
+        "05-processing-pipeline.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W01",
@@ -233,9 +238,10 @@
       ],
       "tests": [
         "TC-SENSOR",
-        "TC-VALIDATE"
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "6110a4869b299936ae626ee832c790072d448d342f875e51a5abbd6758358cf9",
+      "body_sha256": "9b3093502339257aec38e45cc697df7fea645215b2eddfd1641e7a05baef703c",
       "verification": "pending-product-acceptance"
     },
     {
@@ -1230,16 +1236,20 @@
       "status": "active",
       "design": [
         "06-error-handling.md",
-        "13-operations-distribution.md"
+        "07-native-ui.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W05",
-        "W06"
+        "W06",
+        "W07"
       ],
       "tests": [
-        "TC-ERROR"
+        "TC-ERROR",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "00aabc71e4dc516f599b4116cef426488dca25a00e701e9c431516e0f00d28e9",
+      "body_sha256": "b9d9b844425953103a90683f503d722b6c0b99a12d635c0ea4211609000332f4",
       "verification": "pending-product-acceptance"
     },
     {
@@ -1383,16 +1393,20 @@
       "status": "active",
       "design": [
         "06-error-handling.md",
-        "13-operations-distribution.md"
+        "13-operations-distribution.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
+        "W01",
         "W05",
         "W06"
       ],
       "tests": [
-        "TC-ERROR"
+        "TC-ERROR",
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "3384e04b0b1b85ade6e3d759ef744c95e449de7e709879a6399ca8bf4707917c",
+      "body_sha256": "6702e0c7506f4d93f0d62b04866085f828d7a205aa8c9f0bb37fc7e51e15e60e",
       "verification": "pending-product-acceptance"
     },
     {
@@ -1451,16 +1465,20 @@
       "status": "active",
       "design": [
         "06-error-handling.md",
-        "13-operations-distribution.md"
+        "13-operations-distribution.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
+        "W01",
         "W05",
         "W06"
       ],
       "tests": [
-        "TC-ERROR"
+        "TC-ERROR",
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "2e3e3cca7882f2c0f7ef5f7d038a2ddec182681ca170c369c9a6baacd48b1602",
+      "body_sha256": "e9b8c3f15405d135b2ef8dc566095d6fafd085433e2dc6b52b09c6dd8af6eb81",
       "verification": "pending-product-acceptance"
     },
     {
@@ -1706,16 +1724,21 @@
       "status": "active",
       "design": [
         "11-git-github-workflow.md",
-        "10-test-strategy.md"
+        "18-sources.md",
+        "19-reference-informed-design.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W00",
+        "W08",
         "W11"
       ],
       "tests": [
-        "TC-WORKFLOW"
+        "TC-WORKFLOW",
+        "TC-DOCS",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "67f9f54e94e9669517d793a45d4888a4285d86c153a022db8af709c6044a7190",
+      "body_sha256": "67fce1756c71ec4369149522c96ad2ac2737056c053dc350cc69383c14b9d896",
       "verification": "pending-product-acceptance"
     },
     {
@@ -1824,17 +1847,20 @@
       "id": "REQ-105",
       "status": "active",
       "design": [
+        "00-agent-handoff.md",
+        "10-test-strategy.md",
         "12-development-plan.md",
-        "10-test-strategy.md"
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W11"
       ],
       "tests": [
         "TC-DOCS",
-        "TC-ACCEPTANCE"
+        "TC-ACCEPTANCE",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "604c78d943acd6efaa13c4e14e41adcb0f5d85bfca3ad28a5c30febb02dc90f6",
+      "body_sha256": "9cbf9babd9ff5ac2098ce8613c7a7a9d3b2c22a7b3907c6af8806221917ec376",
       "verification": "pending-product-acceptance"
     },
     {
@@ -1920,7 +1946,8 @@
       "design": [
         "03-sensor-acquisition.md",
         "09-technology-selection.md",
-        "20-feasibility-and-reuse.md"
+        "13-operations-distribution.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W02",
@@ -1929,9 +1956,10 @@
       ],
       "tests": [
         "TC-PLATFORM",
-        "TC-SENSOR"
+        "TC-SENSOR",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "7c7050ac4359b9e1bb41fe3470e1c955462856ca14f407aff4684d4aa42821f7",
+      "body_sha256": "e88dcb6071d84129e4ee60655f9010d1e29177b73e1bc3fe514600e5b3e7b5a7",
       "verification": "pending-product-acceptance"
     },
     {
@@ -2288,16 +2316,19 @@
       "id": "REQ-132",
       "status": "active",
       "design": [
-        "03-sensor-acquisition.md"
+        "03-sensor-acquisition.md",
+        "19-reference-informed-design.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W02",
         "W09"
       ],
       "tests": [
-        "TC-SENSOR"
+        "TC-SENSOR",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "b52cd75a2b67dd57e5e369bd865a72870a23cb7f87f8443c2a41bda17169408e",
+      "body_sha256": "d577f229000ab1e3425068cf2fe3c22348053f6e99127fc33702f99a08a31bbb",
       "verification": "pending-product-acceptance"
     },
     {
@@ -2319,17 +2350,22 @@
       "id": "REQ-134",
       "status": "active",
       "design": [
-        "03-sensor-acquisition.md"
+        "03-sensor-acquisition.md",
+        "07-native-ui.md",
+        "21-implementation-contracts.md"
       ],
       "tasks": [
         "W02",
+        "W07",
         "W09"
       ],
       "tests": [
         "TC-SENSOR",
-        "TC-SCHEDULE"
+        "TC-SCHEDULE",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY"
       ],
-      "body_sha256": "e58ab31ae4b408d3a1c25ebb1524c2c93c6d065605f33122bbd8753094de947e",
+      "body_sha256": "145758d60bf9e4697d867877c18001089209ab64127f95108dde821e8455388b",
       "verification": "pending-product-acceptance"
     }
   ]
