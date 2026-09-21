@@ -41,4 +41,4 @@ swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -ty
 
 [契约修订2迁移记录](docs/research/2026-09-21-contract-documentation-migration.md)、[旧实测报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[原型复现](prototypes/sensor-probe/README.md)、[硬件接口审计](docs/research/2026-09-17-handoff-interface-audit.md)供复核。E1本机读数、E2上游路线、D设计契约分开标注；有方案不等于正式App已测通过。
 
-设计已给出可执行选择；剩余工作是实现与验证。完整Xcode、正式签名凭证、仓库管理员权限及目标实机属于明确执行依赖。当前基线在[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，未合并前不要从旧main丢失文档开始开发。
+设计已给出可执行选择；剩余工作是实现与验证。完整Xcode、正式签名凭证、仓库管理员权限及目标实机属于明确执行依赖。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入 main；后续功能从最新 main 创建 `feature/<功能>`。

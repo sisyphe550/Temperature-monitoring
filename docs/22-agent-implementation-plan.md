@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - 本计划是后续实施步骤；**生产代码、App项目和本页标为“新建”的脚本尚未存在**。命令块是对应文件完成后的执行命令，不是已执行记录。
-- 当前文档基线在`feature/v0-sensor-validation`及PR #4；先按W00评审并合入文档，后续功能分支才能从包含该基线的最新`main`创建。不得只拉当前旧main然后重新发明设计。
+- 文档基线已由 PR #4 合入 main；`blocking-issues` 已由 PR #5 进入默认分支。T00.5 完成规则回读后，后续功能分支从包含该基线的最新 `main` 创建。不得只拉更旧的 main 然后重新发明设计。
 - 新功能使用`feature/**`分支；测试、独立审查、阻塞Issue检查通过后由维护者手动merge commit；保留远程分支。GitHub最低审批人数为0，独立审查证据仍是合并条件。
 - 预期部署目标arm64、macOS15.7.3；完整Xcode必须验证工具链能否表达patch级deployment target。首版runtime profile是`Mac16,13`。已有CLI证据来自15.7.3/build24G419；正式App通过W09之前qualified combinations为空。
 - CPU固定12键Raw max→EMA，显示“CPU热区最高温度”。不是物理Package、逐物理核心温度或全芯片绝对最高温；REQ-012/114退役，不实现、不验收、不复用编号。

@@ -1,6 +1,6 @@
 # Git、GitHub与执行门禁
 
-更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。当前文档基线在`feature/v0-sensor-validation`的[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，**只拉main会遗漏当前设计**。
+更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支。T00.5 规则证据 PR 在该检查对真实 open PR head 成功运行后，才把它设为 required 并回读规则。
 
 ## 分支与集成
 
