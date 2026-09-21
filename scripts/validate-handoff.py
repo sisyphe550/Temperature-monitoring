@@ -132,7 +132,7 @@ def validate_requirements() -> None:
 def validate_contract_values() -> None:
     defaults = load_json(CONTRACTS / "defaults-v1.json")
     exact = {
-        "contract_version": 1,
+        "contract_version": 2,
         "cpu_intervals_ms": [50, 100, 200, 500, 1000],
         "cpu_default_ms": 200,
         "ssd_interval_ms": 500,
@@ -171,6 +171,79 @@ def validate_contract_values() -> None:
         fail("first-profile-v1.json: first profile must require flt-space/4-byte SMC values")
     if profile.get("cpu_formula") != "max" or profile.get("automatic_unknown_model_profile") is not False:
         fail("first-profile-v1.json: CPU max or unknown-model refusal changed")
+
+
+def validate_third_party_contract() -> None:
+    contract = load_json(CONTRACTS / "third-party-v1.json")
+    if contract.get("version") != 1:
+        fail("third-party-v1.json: version must be 1")
+
+    imports = contract.get("imports")
+    if not isinstance(imports, list) or not imports:
+        fail("third-party-v1.json: imports must be a non-empty array")
+        imports = []
+    local_paths: set[str] = set()
+    for index, row in enumerate(imports):
+        prefix = f"third-party-v1.json: imports[{index}]"
+        if not isinstance(row, dict):
+            fail(f"{prefix} must be an object")
+            continue
+        if row.get("reuse_mode") not in {"copied", "modified"}:
+            fail(f"{prefix}.reuse_mode must be copied or modified")
+        commit = row.get("upstream_commit")
+        if not isinstance(commit, str) or not re.fullmatch(r"[0-9a-f]{40}", commit):
+            fail(f"{prefix}.upstream_commit must be a 40-character lowercase SHA")
+        license_hash = row.get("license_sha256")
+        if not isinstance(license_hash, str) or not re.fullmatch(r"[0-9a-f]{64}", license_hash):
+            fail(f"{prefix}.license_sha256 must be a 64-character lowercase hash")
+        if row.get("upstream_project") in {"MacFanControl", "Philip Turner experiment"}:
+            fail(f"{prefix}: R04/R07 sources must remain method-only")
+        paths = row.get("local_paths")
+        if not isinstance(paths, list) or not paths:
+            fail(f"{prefix}.local_paths must be a non-empty array")
+            paths = []
+        for local_path in paths:
+            if not isinstance(local_path, str) or not local_path:
+                fail(f"{prefix}.local_paths contains an invalid path")
+                continue
+            if local_path in local_paths:
+                fail(f"third-party-v1.json: duplicate local path {local_path}")
+            local_paths.add(local_path)
+            if not (ROOT / local_path).is_file():
+                fail(f"{prefix}: local file does not exist: {local_path}")
+        notice_path = row.get("notice_path")
+        if not isinstance(notice_path, str) or not (ROOT / notice_path).is_file():
+            fail(f"{prefix}: notice file does not exist: {notice_path!r}")
+        elif "MIT License" not in (ROOT / notice_path).read_text(encoding="utf-8"):
+            fail(f"{prefix}: notice does not contain the declared MIT license")
+        for field in ("upstream_project", "upstream_path", "license", "modification_summary"):
+            if not isinstance(row.get(field), str) or not row[field].strip():
+                fail(f"{prefix}.{field} must be a non-empty string")
+
+    method_only = contract.get("method_only")
+    if not isinstance(method_only, list):
+        fail("third-party-v1.json: method_only must be an array")
+        method_only = []
+    method_ids = {
+        row.get("source_id") for row in method_only
+        if isinstance(row, dict) and isinstance(row.get("source_id"), str)
+    }
+    if method_ids != {"R04", "R07"}:
+        fail(f"third-party-v1.json: method_only IDs must be R04/R07, found {sorted(method_ids)}")
+    for index, row in enumerate(method_only):
+        if not isinstance(row, dict) or not isinstance(row.get("reason"), str) or not row["reason"].strip():
+            fail(f"third-party-v1.json: method_only[{index}] needs a reason")
+
+    api = (CONTRACTS / "api-v1.swift").read_text(encoding="utf-8")
+    for token in (
+        "ReadingOutcome", "QualifiedSourceCatalog", "PersistenceLease",
+        "PersistenceOwner", "ProcessingReceipt", "PresentationState",
+    ):
+        if token not in api:
+            fail(f"api-v1.swift: missing {token}")
+    for forbidden in ("public struct QueueReservation", "valueC: Double?", "failure: MonitorFailure?"):
+        if forbidden in api:
+            fail(f"api-v1.swift: obsolete API remains: {forbidden}")
 
 
 def validate_task_graph() -> None:
@@ -372,6 +445,7 @@ def validate_links() -> None:
 def main() -> int:
     validate_requirements()
     validate_contract_values()
+    validate_third_party_contract()
     validate_task_graph()
     validate_schema()
     validate_links()
@@ -385,7 +459,8 @@ def main() -> int:
                 "requirements": {"total": 134, "active": 132, "retired": 2},
                 "tasks": {"work_packages": 12, "execution_tasks": 50},
                 "test_groups": 19,
-                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "acceptance-v1.json", "tasks-v1.json"],
+                "contract_revision": 2,
+                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json"],
                 "scope": "documentation contracts only; production App and hardware acceptance remain pending",
             },
             ensure_ascii=False,
