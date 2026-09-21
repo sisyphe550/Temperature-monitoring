@@ -6,16 +6,16 @@
 
 **Architecture:** Swift模块化单体；普通用户SensorWorker串行读取硬件，主进程按真实时间加工。实时显示读有界EMA内存，Raw/EMA/聚合/趋势批量写SQLite，历史读SQLite；会话结束删除监控数据库。
 
-**Tech Stack:** Swift 6、SwiftPM tools-version 6.0、少量C/IOKit、系统SQLite3、SwiftUI/AppKit/Swift Charts、Swift Testing、XCTest/XCUITest、Xcode16.4开发基线。
+**Tech Stack:** Swift 6、SwiftPM tools-version 6.0、少量C/IOKit、系统SQLite3、SwiftUI/AppKit/Swift Charts、Swift Testing、XCTest/XCUITest；build toolchain、deployment target、runtime profile和qualified combinations分别记录。
 
-**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义50个可审查执行任务。参数、类型、DDL、profile分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)为准。
+**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义50个可审查执行任务。参数、类型、DDL、profile和实际第三方导入分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)、[third-party](contracts/third-party-v1.json)为准；只接受`contract_version=2`。
 
 ## Global Constraints
 
 - 本计划是后续实施步骤；**生产代码、App项目和本页标为“新建”的脚本尚未存在**。命令块是对应文件完成后的执行命令，不是已执行记录。
 - 当前文档基线在`feature/v0-sensor-validation`及PR #4；先按W00评审并合入文档，后续功能分支才能从包含该基线的最新`main`创建。不得只拉当前旧main然后重新发明设计。
 - 新功能使用`feature/**`分支；测试、独立审查、阻塞Issue检查通过后由维护者手动merge commit；保留远程分支。GitHub最低审批人数为0，独立审查证据仍是合并条件。
-- 部署目标arm64、macOS15.7.3；首版profile是`Mac16,13`。已有硬件证据来自15.7.3/build24G419；正式App通过W09之前不能标为产品兼容已验证。
+- 预期部署目标arm64、macOS15.7.3；完整Xcode必须验证工具链能否表达patch级deployment target。首版runtime profile是`Mac16,13`。已有CLI证据来自15.7.3/build24G419；正式App通过W09之前qualified combinations为空。
 - CPU固定12键Raw max→EMA，显示“CPU热区最高温度”。不是物理Package、逐物理核心温度或全芯片绝对最高温；REQ-012/114退役，不实现、不验收、不复用编号。
 - CPU五档50/100/200/500/1000ms、默认200ms；SSD500ms、Battery1000ms。周期是请求日程，不等于硬件测量更新时间。
 - CPU必需；SSD/Battery必须实现能力检测、适配与不可用状态，单项缺失不终止CPU。不能因“可选”而省略适配代码和测试。
@@ -23,6 +23,7 @@
 - Raw/EMA保留300s，1s层3600s、10s层86400s、1min层259200s、趋势3600s；每60s清理、物理宽限120s。年龄使用包含睡眠的elapsed时间。
 - 参数JSON中的tau、趋势、队列、期限、容量是冻结的v1设计值，尚未宣称性能实测达标。实现者不得静默减成员、降档、删历史或丢样本来获得“通过”。
 - 不引入服务器、Web前端、Docker、第三方采集CLI、root服务、高温告警、登录自启动、自动更新、SMC写入或风扇控制。
+- copied/modified第三方文件必须先登记third-party-v1、许可hash、notice和修改说明；R04/R07只允许method-only。研究manifest不能代替实际导入契约。
 - 完整Xcode、真实目标机、仓库管理员权限、正式签名凭证是执行环境依赖。缺少其中一项时完成其余可独立任务，将对应交付标为未执行或等待外部条件，不能写假通过。
 
 ## 任务顺序、文件与证据约定
@@ -35,14 +36,14 @@
 
 | 任务 | 新建或逐步完成的生产文件 |
 |---|---|
-| W01 | `Packages/TemperatureCore/Package.swift`；`Sources/TemperatureCore/{Models,Configuration,Clock}.swift`；`Sources/TemperatureCore/Diagnostics/MonitorFailure.swift` |
-| W02 | `THIRD_PARTY_NOTICES.md`；`Sources/TemperatureCore/Registry.swift`；`Sources/SensorRuntime/{WorkerClient,WorkerProtocol}.swift`；`Sources/SensorBridge/{SensorBridge.c,include/SensorBridge.h}`；`Sources/SensorWorker/main.swift` |
-| W03 | `Sources/CSQLite/{module.modulemap,shim.h}`；`Sources/TemperatureCore/Storage/{SQLiteStore,HistoryQuery,Retention}.swift`；`Sources/TemperatureCore/Resources/schema-v1.sql` |
+| W01 | `Packages/TemperatureCore/Package.swift`；`Sources/TemperatureCore/Contracts/{Identifiers,SensorTypes,PersistenceTypes,PresentationTypes}.swift`；`Sources/TemperatureCore/{Configuration,Clock}.swift`；`Sources/TemperatureCore/Diagnostics/MonitorFailure.swift` |
+| W02 | `THIRD_PARTY_NOTICES.md`；`Sources/TemperatureCore/{Registry,QualifiedSensorClient}.swift`；`Sources/SensorRuntime/{SensorTransport,WorkerClient,WorkerProtocol}.swift`；`Sources/SensorBridge/{SensorBridge.c,include/SensorBridge.h}`；`Sources/SensorWorker/main.swift` |
+| W03 | `Sources/CSQLite/{module.modulemap,shim.h}`；`Sources/TemperatureCore/Storage/{SQLiteStore,HistoryQuery,Retention}.swift`；`Sources/TemperatureCore/Persistence/SessionPersistence.swift`基础会话能力；`Sources/TemperatureCore/Resources/schema-v1.sql` |
 | W04 | `Sources/TemperatureCore/MetricResolver.swift`；`Sources/TemperatureCore/Processing/{EMA,Aggregation,Trend,RingBuffer}.swift`；加工部分`Sources/TemperatureCore/MonitorEngine.swift` |
-| W05 | `Sources/TemperatureCore/{MonitorEngine,PersistenceQueue}.swift`；`Sources/TemperatureCore/Storage/StorageWriter.swift`；`Sources/SensorRuntime/SamplingService.swift` |
+| W05 | `Sources/TemperatureCore/MonitorEngine.swift`；`Sources/TemperatureCore/Persistence/{SessionPersistence,BoundedQueue,StorageWriter}.swift`；`Sources/SensorRuntime/SamplingService.swift` |
 | W06 | `Sources/TemperatureCore/SessionLock.swift`；`Sources/TemperatureCore/Storage/SessionCleanup.swift`；`Sources/TemperatureCore/Diagnostics/{RetryPolicy,DiagnosticLogger,ReportWriter}.swift`；`App/SessionCoordinator.swift` |
-| W07 | `App/Presentation/{PresentationModel,StatusItemController,TemperaturePopover,TemperatureDashboard,TemperatureSourceRow,HistoryChartView,SettingsView,FatalView}.swift`；为UI可独立测试先建立`TemperatureMonitor.xcodeproj`、App入口与scheme |
-| W08 | 完成W07创建的`TemperatureMonitor.xcodeproj`与`App/{TemperatureMonitorApp,AppDelegate}.swift`生产装配；`App/Resources/{defaults-v1.json,first-profile-v1.json,Info.plist,ThirdPartyNotices.md}` |
+| W07 | `App/Presentation/{PresentationModel,PresentationState,StatusItemController,TemperaturePopover,TemperatureDashboard,TemperatureSourceRow,HistoryChartModel,HistoryChartView,SettingsView,FatalView}.swift`；为UI可独立测试先建立`TemperatureMonitor.xcodeproj`、App入口与scheme |
+| W08 | 完成W07创建的`TemperatureMonitor.xcodeproj`与`App/{TemperatureMonitorApp,AppDelegate}.swift`生产装配；`App/Resources/{defaults-v1.json,first-profile-v1.json,third-party-v1.json,Info.plist,ThirdPartyNotices.md}` |
 
 上表`Sources/`相对`Packages/TemperatureCore/`。测试放该包的`Tests/TemperatureCoreTests/`和`Tests/SensorRuntimeTests/`；App测试放`UITests/TemperatureMonitorUITests.swift`。资源复制必须逐字匹配规范文件，不能形成第二套默认值。
 
@@ -64,37 +65,43 @@ enum Fixtures {
         Timestamp(elapsedNS: ms * 1_000_000,
                   wallUnixNS: 1_700_000_000_000_000_000 + ms * 1_000_000)
     }
-    static func source(id: String = "source-0", key: String = "Tp01") -> SourceDescriptor {
-        SourceDescriptor(sourceID: id, provider: .smc, rawKey: key,
-            registryID: nil, connectionGeneration: 1, kind: .cpuZone,
-            encoding: "flt ", unitEvidence: "test-fixture-celsius",
-            evidence: .referenceClassified, mappingVersion: "fixture-v1",
-            capability: .available)
+    static func uuid(_ ordinal: Int) -> UUID {
+        UUID(uuidString: String(format: "00000000-0000-4000-8000-%012d", ordinal))!
     }
-    static func definition() -> SeriesDefinition {
-        SeriesDefinition(seriesID: "series-0", metricID: "fixture.cpu",
+    static func source(index: Int = 1, key: String = "Tp01") -> QualifiedSource {
+        QualifiedSource(sourceID: SourceID(uuid(index)), transportHandle: "handle-\(index)",
+            provider: .smc, rawKey: key, registryID: nil,
+            connectionGeneration: 1, kind: .cpuZone, encoding: "flt ",
+            unitEvidence: "test-fixture-celsius", evidence: .referenceClassified,
+            mappingVersion: "fixture-v1")
+    }
+    static func definition() throws -> SeriesDefinition {
+        SeriesDefinition(seriesID: SeriesID(uuid(101)),
+            metricID: try MetricID(validating: "fixture.cpu"),
             definitionVersion: 1, kind: .cpuZone, displayName: "测试来源",
-            memberSourceIDs: ["source-0"], formula: "identity")
+            memberSourceIDs: [SourceID(uuid(1))], formula: .identity)
     }
-    static func read(id: String, ms: Int64, values: [Double]) -> ReadBatch {
+    static func read(id: RequestID, ms: Int64, values: [Double]) -> ReadBatch {
         ReadBatch(requestID: id, generation: 1,
             readings: values.enumerated().map { index, value in
-                Reading(sourceID: "source-\(index)", valueC: value,
+                Reading(sourceID: SourceID(uuid(index + 1)),
                     started: timestamp(ms: ms), finished: timestamp(ms: ms),
-                    sourceWallUnixNS: nil, freshness: .unknown, failure: nil)
+                    outcome: .success(valueC: value,
+                        sourceWallUnixNS: nil, freshness: .unknown))
             })
     }
-    static func persistence(id: String, value: Double, ms: Int64) -> PersistenceBatch {
+    static func persistence(id: BatchID, value: Double, ms: Int64) throws -> PersistenceBatch {
         let t = timestamp(ms: ms)
-        return PersistenceBatch(batchID: id, sources: [source()], definitions: [definition()],
-            segments: [Segment(seriesID: "series-0", number: 1,
-                started: timestamp(ms: 0), reason: "start")],
-            raw: [Sample(sampleID: "fixture-session:1", seriesID: "series-0",
+        let batch = PersistenceBatch(batchID: id, sources: [source()], definitions: [try definition()],
+            segments: [Segment(seriesID: SeriesID(uuid(101)), number: 1,
+                started: timestamp(ms: 0), reason: .sessionStart)],
+            raw: [Sample(sampleID: "fixture-session:1", seriesID: SeriesID(uuid(101)),
                 segment: 1, timestamp: t, periodMS: 200, valueC: value,
                 freshness: .unknown, sourceWallUnixNS: nil, memberSampleIDs: [])],
-            ema: [EMAValue(sampleID: "fixture-session:1", seriesID: "series-0",
+            ema: [EMAValue(sampleID: "fixture-session:1", seriesID: SeriesID(uuid(101)),
                 segment: 1, timestamp: t, valueC: value)],
             buckets: [], trends: [], gaps: [])
+        return batch
     }
 }
 ```
@@ -104,10 +111,10 @@ enum Fixtures {
 | 文件／接口 | 实现要求 |
 |---|---|
 | W01 `TestSupport/TestClock.swift`：`final class TestClock: MonitorClock, @unchecked Sendable`；`init(now: Timestamp)`、`now()`、`sleep(untilElapsedNS:)`、`advance(to:)` | 锁保护时间和等待continuation；advance只前进elapsed，唤醒到期等待；取消睡眠移除continuation。`@unchecked`必须伴随线程安全测试，不允许真实sleep。 |
-| W02 `TestSupport/WorkerFixture.swift`：`WorkerFixture.make(scenario: String) async throws -> WorkerFixture`；属性`client: any SensorClient`、`childProcessIDs: [Int32]`；`close() async` | 构建测试专用子进程模拟协议；scenario为`success/timeout/oversize/badJSON/wrongID/oldGeneration/crash`。只在测试target可用，绝不能作为生产硬件fallback。 |
-| W03 `TestSupport/TemporaryStoreFixture.swift`：`TemporaryStoreFixture.make() async throws -> TemporaryStoreFixture`；属性`store: any SampleStore`、`databaseURL: URL`；`rows(in: String) throws -> Int` | 每测试独立临时目录，建真实SQLiteStore，以完整SessionMetadata open固定测试session并register测试来源/定义。rows只允许测试内部固定表名白名单；结束调用closeAndDeleteSession。 |
-| W04 `TestSupport/ProcessorFixture.swift`：`ProcessorFixture.make(cpuMembers: Int = 1) async throws -> ProcessorFixture`；属性`engine: any ProcessingEngine`；方法`reservation(ownerID:generation:) async throws` | 注入TestClock、测试registry和始终成功的有界PersistenceQueue；单源用identity，12源模式按规范CPU集合构造主指标。reservation返回生产Queue实现创建的一次性预留；只驱动真实Processing代码，不运行定时采集。 |
-| W05 `TestSupport/ControllerFixture.swift`：`ControllerFixture.make() async throws -> ControllerFixture`；属性`controller: any MonitorController`、`clock: TestClock`、`requests: [ReadRequest]` | MockSensorClient使用受控响应，真实MonitorEngine/队列＋临时SQLite；记录调用日程。提供脚本事件`advance/respond/fail/blockWriter/unblockWriter/stop`的确定性驱动，事件数据见W05。 |
+| W02 `TestSupport/WorkerFixture.swift`：`WorkerFixture.make(scenario: String) async throws -> WorkerFixture`；属性`transport`、`client: any SensorClient`、`childProcessIDs: [Int32]`；`close() async` | 构建测试专用子进程模拟原始协议，并通过真实Registry/QualifiedSensorClient得到公开client；scenario为`success/timeout/oversize/badJSON/wrongID/oldGeneration/crash`。只在测试target可用，绝不能作为生产硬件fallback。 |
+| W03 `TestSupport/TemporaryStoreFixture.swift`：`TemporaryStoreFixture.make() async throws -> TemporaryStoreFixture`；属性`session: any SessionStoreCapability`、`databaseURL: URL`；方法`appendForTesting(_:)`、`rows(in:)` | 每测试独立临时目录，建真实SessionPersistence及其内部SQLiteStore，以完整SessionMetadata打开固定测试session。appendForTesting只进入内部真实事务，不成为生产接口；结束调用closeAndDeleteSession。 |
+| W04 `TestSupport/ProcessorFixture.swift`：`ProcessorFixture.make(cpuMembers: Int = 1) async throws -> ProcessorFixture`；属性`engine: any ProcessingEngine`；方法`lease(owner:generation:)`和`committedBatch(for:)` | 注入TestClock、测试registry和记录批次的TestCommitCapability；单源用identity，12源模式按规范CPU集合构造主指标。Lease使用强类型PersistenceOwner；批次只从测试spy观察，生产接口只返回ProcessingReceipt。 |
+| W05 `TestSupport/ControllerFixture.swift`：`ControllerFixture.make() async throws -> ControllerFixture`；属性`controller: any MonitorController`、`clock: TestClock`、`requests: [ReadRequest]` | MockSensorClient使用受控响应，真实MonitorEngine/SessionPersistence＋临时SQLite；记录调用日程。提供脚本事件`advance/respond/fail/blockWriter/unblockWriter/stop`的确定性驱动，事件数据见W05。 |
 
 以上fixture提供构造与观察边界，不改变[api-v1.swift](contracts/api-v1.swift)的协议签名。各任务可增加内部测试观察方法，但须在fixture文件中明确定义，不暴露给生产UI。
 
@@ -152,14 +159,14 @@ const state = blockers.length === 0 ? "success" : "failure";
 
 ## W01：核心类型、配置、时钟与测试基础
 
-**需求：** REQ-001～015、107～112、124、129～134中的类型/时间边界；TC-VALIDATE、TC-SCHEDULE、TC-PLATFORM。
+**需求：** REQ-001～015、107～112、124、129～134中的类型/时间边界；TC-VALIDATE、TC-SCHEDULE、TC-PLATFORM、TC-UPSTREAM-BOUNDARY。
 
-**文件：** 新建Package、Models、Clock、MonitorFailure；`Tests/TemperatureCoreTests/{ContractTests,ClockTests,ConfigurationTests}.swift`及上述TestSupport；`scripts/check-core-coverage.py`、`.github/workflows/core.yml`。
+**文件：** 新建Package、Contracts四文件、Configuration、Clock、MonitorFailure；`Tests/TemperatureCoreTests/{ContractTests,ClockTests,ConfigurationTests}.swift`及上述TestSupport；`scripts/check-core-coverage.py`、`.github/workflows/core.yml`。
 
-**接口：** 按API逐字拆分公开enum/struct/protocol及public初始化器；`SystemClock: MonitorClock`，`now() -> Timestamp`、`sleep(untilElapsedNS: Int64) async throws`。在Models定义`RuntimeConfiguration: Decodable, Sendable`与`SensorProfile: Decodable, Sendable`，字段/CodingKeys逐项匹配两个JSON；入口分别为`static func load(from: URL) throws -> Self`。
+**接口：** 按修订2 API逐字拆分强类型UUID、ReadingOutcome、SeriesFormula、SegmentReason、MonitorErrorCode、PersistenceLease/Owner/Receipt、Presentation状态和协议；`SystemClock: MonitorClock`。在Configuration定义`RuntimeConfiguration`与`SensorProfile`，字段/CodingKeys逐项匹配JSON；入口为`load(from:)`且只接受`contract_version=2`。
 
 - [ ] 建最小SwiftPM library与TemperatureCoreTests target；先加入合同编译测试及拒绝非法配置的测试，再运行确认缺实现时失败。Package只声明已经有源文件的target，后续W02/W03再加入Runtime/Bridge/Worker/CSQLite。
-- [ ] 复制API类型；测试必须由独立模块`import TemperatureCore`构造Timestamp、ReadRequest和Sample，不能只靠`@testable`掩盖缺少public initializer。
+- [ ] 复制修订2 API类型；独立模块测试构造Timestamp、规范UUID的ReadRequest和Sample。无效/非规范UUID、非法MetricID和未知封闭枚举必须解码失败；ReadingOutcome、PresentationState、HistoryChartState的互斥分支必须无法表达“双状态”。源码门禁确认旧可空读数和旧预留类型token不存在。
 
 ```swift
 @Test func timestampPreservesNanoseconds() throws {
@@ -171,7 +178,7 @@ const state = blockers.length === 0 ? "success" : "failure";
 }
 ```
 
-- [ ] 配置加载验证：CPU五档精确集合、默认200、tau均>0、TTL递增、resume<pause<max、单事件预留≤事务上限、profile12键无重复且区分大小写、active series含派生。坏JSON、未知版本、负容量、删除必填参数必须抛错；不得静默退回硬编码默认值。
+- [ ] 配置加载验证：`contract_version=2`、CPU五档精确集合、默认200、tau均>0、TTL递增、resume<pause<max、单事件预留≤事务上限、profile12键无重复且区分大小写、active series含派生。坏JSON、版本1/未知版本、负容量、删除必填参数必须抛错；不得静默退回硬编码默认值。
 - [ ] 以主进程共享的`mach_continuous_time`基准和`mach_timebase_info`生成elapsed；跨进程沿用同一基准。整数商余/宽乘防溢出；ContinuousClock只负责异步等待剩余时长。TestClock模拟睡眠前进、墙钟回拨及取消，不等待真实72小时。
 - [ ] Clock测试输入elapsed=10s、wall回退3600s，预期elapsed继续增加；整数时间往返不丢纳秒；同时登记多sleep等待和取消一个等待，其他到期等待各恢复一次。
 - [ ] 运行以下计划命令，预期所有测试通过且Swift 6并发检查通过。`check-core-coverage.py`统计Core和SensorRuntime生产Swift可执行行，不包含测试、App UI、C桥接与worker入口；未达到80%时失败，并报告各文件分母，不能沿用ProbeCore的55行分母。
@@ -185,29 +192,30 @@ python3 scripts/check-core-coverage.py
 
 - [ ] 使`core-tests`在`feature/**`及PR运行实际Swift测试和80%门禁，加入main必需检查；提交可独立评审的类型/时钟工作，附红绿测试证据。
 
-**完成条件：** 配置无重复来源、协议跨模块可用、测试时钟可控、Core测试门禁实际执行。此阶段不读硬件。
+**完成条件：** 修订2身份与互斥状态跨模块可用、配置拒绝旧版本、测试时钟可控、Core测试门禁实际执行。此阶段不读硬件。
 
 ## W02：来源注册、SensorWorker协议与硬件边界
 
-**需求：** REQ-008～015、054～057、109～116、132、134；TC-SENSOR、TC-VALIDATE、TC-PLATFORM。
+**需求：** REQ-008～015、054～057、109～116、132、134；TC-SENSOR、TC-VALIDATE、TC-PLATFORM、TC-UPSTREAM-BOUNDARY。
 
-**文件：** Registry、SensorRuntime/WorkerClient/WorkerProtocol、SensorBridge、SensorWorker入口；`Tests/SensorRuntimeTests/{WorkerProtocolTests,WorkerLifecycleTests,SourceRegistryTests,SensorDecodingTests}.swift`；测试专用`Tests/Fixtures/ProtocolWorker/main.swift`及构建配置。
+**文件：** Registry、QualifiedSensorClient、SensorRuntime/SensorTransport/WorkerClient/WorkerProtocol、SensorBridge、SensorWorker入口；`Tests/SensorRuntimeTests/{WorkerProtocolTests,WorkerLifecycleTests,SourceRegistryTests,SensorDecodingTests}.swift`；测试专用`Tests/Fixtures/ProtocolWorker/main.swift`及构建配置。
 
-**接口：** `WorkerClient: SensorClient`；`discover() async throws -> [SourceDescriptor]`、`read(_ request: ReadRequest) async throws -> ReadBatch`、`close() async`。Wire frame与公共ReadRequest不同，由WorkerProtocol封装version/generation/command；不得向公开协议暗加第二条读取路径。
+**接口：** `WorkerClient: SensorTransport`只交付DiscoveredCatalog/TransportReadBatch；Registry把底层事实资格化为QualifiedSourceCatalog；`QualifiedSensorClient: SensorClient`才接受ReadRequest并输出ReadBatch。transport handle不向算法/UI公开，SourceID不发送给worker。
 
 - [ ] 先实现协议fixture程序，以行JSON接收并按scenario响应；success例：
 
 ```json
-{"version":1,"requestID":"r1","generation":1,"command":"read","sourceIDs":["source-0"],"periodMS":200}
+{"version":1,"requestID":"00000000-0000-4000-8000-000000000201","generation":1,"command":"read","transportHandles":["smc:Tp01"],"periodMS":200}
 ```
 
 - [ ] 写失败测试：1MiB+1字节帧、错误JSON、错requestID、旧generation、EOF、1s读取超时、10s发现超时、stderr持续输出。预期协议错误为SENSOR-PROTOCOL-006；超时回收旧worker，旧回复不产生Sample，stderr不会堵住stdout。
-- [ ] 实现WorkerClient：绝对路径启动、不用shell；独立IO队列读写和排空stderr；同时最多一个请求；超时SIGTERM→250ms→SIGKILL，确认退出再创建替代实例。测试每次close幂等，连续故障不积累子进程；OS不回收时停止重建并上报。
+- [ ] 实现WorkerClient的SensorTransport：绝对路径启动、不用shell；独立IO队列读写和排空stderr；同时最多一个请求；超时SIGTERM→250ms→SIGKILL，确认退出再创建替代实例。测试每次close幂等，连续故障不积累子进程；OS不回收时停止重建并上报。
 - [ ] 从原型逐函数移植只读SMC/NVMe/HID桥接，保留MIT声明、ABI静态断言和正确plugin/interface释放顺序；新增KeyInfo按generation+FourCC缓存。C头只暴露open/discover/read/close，不暴露写入操作。
 - [ ] 编码测试以字节验收：`sp78 [0x19,0x80] → 25.5°C`；`flt [0x00,0x00,0xCC,0x41] → 25.5°C`；长度不符、NaN/Infinity、未知编码拒绝；SMART `[0x2C,0x01] → 26.85°C`、Kelvin0未报告。浮点误差容限1e-8。
-- [ ] 按profile发现12个CPU键，逐键校验本profile必须`flt `且4字节。通用sp78解码成功不意味着profile允许类型变化。生成source UUID，connectionGeneration变化后旧sourceID失效；`Tp0b`与`Tp0B`不合并。
+- [ ] Worker原始发现只记录provider/rawKey/registryID/encoding/长度/handle。Registry按profile资格化12个CPU键并逐键要求`flt `与4字节；通用sp78解码成功不意味着profile允许类型变化。QualifiedSensorClient生成SourceID并映射本代handle；旧generation、未知handle和原始发现结果不能形成ReadRequest/ReadBatch。
 - [ ] Battery严格执行IOPS CFNumber且非CFBoolean→TB1T→TB2T→TB0T；不使用AppleSmartBattery未证实单位字段。SSD仅唯一Internal NVMe，父树最多16层，多个/未知/循环都Unavailable。用模拟服务树覆盖这些分支；不选device:0，不平均电池源。
-- [ ] HID仅诊断模式启用；同名不同registryID分别保存；没有本机CPU分类则不回退。未知机型APP-PLATFORM-002，缺少固定CPU成员SENSOR-DISCOVER-001，可选缺失只影响capability。
+- [ ] HID仅诊断模式启用；同名不同registryID分别保存且分配不同SourceID；没有本机CPU分类则不回退。未知机型APP-PLATFORM-002，缺少固定CPU成员SENSOR-DISCOVER-001，可选缺失只进入QualifiedSourceCatalog.unavailable。
+- [ ] 加入边界反例：上游名称不能产生物理语义，12来源不生成10个Core编号，事件缺失不产生0°C，失败不重放旧值，同名不同registryID不合并；这些用例归入TC-UPSTREAM-BOUNDARY。
 - [ ] 运行以下计划命令，预期协议/解码/身份测试通过、worker可构建；真实硬件温度结果留到W09，不在CI伪造。
 
 ```sh
@@ -220,7 +228,7 @@ swift build --package-path Packages/TemperatureCore --product SensorWorker -c re
 
 - [ ] 提交桥接、协议、来源测试及第三方声明；独立审查重点检查所有权、超时回收与无提权路径。
 
-**完成条件：** SensorClient在进程边界可测试，来源和单位选择确定；普通用户生产读通仍需W09证明。
+**完成条件：** 原始transport与合格SensorClient边界可测试，来源和单位选择确定；普通用户生产读通仍需W09证明。
 
 ## W03：SQLite、幂等事务、查询与TTL
 
@@ -228,7 +236,7 @@ swift build --package-path Packages/TemperatureCore --product SensorWorker -c re
 
 **文件：** CSQLite模块、Storage三文件和schema资源；`Tests/TemperatureCoreTests/{SQLiteStoreTests,RetentionTests,HistoryQueryTests,StorageFaultTests}.swift`及TemporaryStoreFixture。
 
-**接口：** `SQLiteStore: SampleStore`，实现API所有六类方法；SQL资源与规范DDL一致。Core用单写/单读连接的专用串行队列，不在MainActor或Swift协作线程池同步阻塞。
+**接口：** SessionPersistence在本阶段实现SessionStoreCapability并内部拥有SQLiteStore/HistoryQuery/Retention；SQL资源与规范DDL一致。SQLite批次写方法保持内部，W05再补reserve/commit能力视图。专用串行队列执行单写/单读连接，不在MainActor或Swift协作线程池同步阻塞。
 
 - [ ] 创建系统SQLite module map，Package增加systemLibrary和资源，不下载数据库或引入ORM：
 
@@ -250,13 +258,13 @@ module CSQLite [system] {
 ```swift
 @Test func repeatedBatchIsIdempotent() async throws {
     let f = try await TemporaryStoreFixture.make()
-    let batch = Fixtures.persistence(id: "batch-1", value: 80, ms: 100)
-    try await f.store.append(batch)
-    try await f.store.append(batch)
+    let batch = try Fixtures.persistence(id: BatchID(Fixtures.uuid(301)), value: 80, ms: 100)
+    try await f.appendForTesting(batch)
+    try await f.appendForTesting(batch)
     #expect(try f.rows(in: "raw_samples") == 1)
     #expect(try f.rows(in: "ema_samples") == 1)
     #expect(try f.rows(in: "committed_batches") == 1)
-    try await f.store.closeAndDeleteSession()
+    try await f.session.closeAndDeleteSession()
 }
 ```
 
@@ -279,23 +287,29 @@ swift test --package-path Packages/TemperatureCore --filter StorageFaultTests
 
 ## W04：Raw、EMA、聚合、趋势与缺口
 
-**需求：** REQ-013～034、043～053、064～067、129～134；TC-BUFFER、TC-EMA、TC-AGG、TC-TREND。
+**需求：** REQ-013～034、043～053、064～067、129～134；TC-BUFFER、TC-EMA、TC-AGG、TC-TREND、TC-UPSTREAM-BOUNDARY。
 
 **文件：** MetricResolver、Processing四文件、MonitorEngine加工部分；`Tests/TemperatureCoreTests/{EMAProcessorTests,AggregationTests,TrendTests,RingBufferTests,ProcessingIdentityTests}.swift`及ProcessorFixture。
 
-**接口：** MonitorEngine实现`ProcessingEngine.accept/advance/markGap/snapshot/realtime`，并在构造时注入PersistenceQueue；三个变更状态的方法都显式接收QueueReservation，在临时状态计算，完成入队确认后才交换状态，返回批次仅供测试/审计。advance的时间参数只接收安全watermark。私有算法类型不依赖SMC、SQLite或SwiftUI。
+**接口：** MonitorEngine实现`ProcessingEngine.accept/advance/markGap/snapshot/realtime`，并在构造时只注入PersistenceCommitCapability；三个变更方法都显式接收PersistenceLease，在临时状态计算，commit取得ProcessingReceipt后才交换状态。测试通过注入commit spy观察批次；生产接口只暴露receipt。advance的时间参数只接收安全watermark。
 
 - [ ] 先写以下对生产ProcessingEngine的数值测试；fixture为单identity来源且不启动定时采集：
 
 ```swift
 @Test func emaUsesActualElapsedTime() async throws {
     let f = try await ProcessorFixture.make()
-    let ar = try await f.reservation(ownerID: "a", generation: 1)
-    let br = try await f.reservation(ownerID: "b", generation: 1)
-    let cr = try await f.reservation(ownerID: "c", generation: 1)
-    let a = try await f.engine.accept(Fixtures.read(id: "a", ms: 0, values: [80]), reservation: ar)
-    let b = try await f.engine.accept(Fixtures.read(id: "b", ms: 500, values: [100]), reservation: br)
-    let c = try await f.engine.accept(Fixtures.read(id: "c", ms: 1000, values: [100]), reservation: cr)
+    let aID = RequestID(Fixtures.uuid(201))
+    let bID = RequestID(Fixtures.uuid(202))
+    let cID = RequestID(Fixtures.uuid(203))
+    let ar = try await f.lease(owner: .request(aID), generation: 1)
+    let br = try await f.lease(owner: .request(bID), generation: 1)
+    let cr = try await f.lease(owner: .request(cID), generation: 1)
+    let arx = try await f.engine.accept(Fixtures.read(id: aID, ms: 0, values: [80]), lease: ar)
+    let brx = try await f.engine.accept(Fixtures.read(id: bID, ms: 500, values: [100]), lease: br)
+    let crx = try await f.engine.accept(Fixtures.read(id: cID, ms: 1000, values: [100]), lease: cr)
+    let a = try #require(await f.committedBatch(for: arx.batchID))
+    let b = try #require(await f.committedBatch(for: brx.batchID))
+    let c = try #require(await f.committedBatch(for: crx.batchID))
     #expect(a.ema.first?.valueC == 80)
     #expect(abs(try #require(b.ema.first).valueC - 92.6424111766) < 1e-8)
     #expect(abs(try #require(c.ema.first).valueC - 97.2932943353) < 1e-8)
@@ -308,7 +322,7 @@ swift test --package-path Packages/TemperatureCore --filter StorageFaultTests
 - [ ] 实现窗口`[k×width,(k+1)×width)`、同series+segment分层合并、latest时间/序号裁决、coverage时间并集；不以EMA生成历史max，不用子avg简单平均，不跨缺口补旧值。
 - [ ] 趋势测试使用固定EMA点：t=0/4/8s、v=20/20.08/20.16，CPU主指标窗口10s、3点和80%覆盖满足，斜率0.02为stable；改v=20/20.12/20.24为rising，反向为falling。仅两点或覆盖7.999s为insufficient；任何Gap后旧点不可参与。
 - [ ] Gap测试覆盖明确失败、sleep、overload、sourceChange、clockChange，以及`dt > max(3×max(previousPeriod,currentPeriod),1s)`；正常200→1000ms改变不误判。新segment首EMA=Raw，Raw历史仍保留；重复同一连续故障不无限创建Gap。
-- [ ] 处理临时状态先生成PersistenceBatch，成功进入预留输出队列才交换状态并发布；拒绝接纳时EMA、聚合count、sample序号、已处理ID都不能部分前移。将此失败注入作为独立回归测试，不只测算术。
+- [ ] 处理临时状态先生成PersistenceBatch，用同一Lease完成commit并取得匹配的ProcessingReceipt后才交换状态和发布；拒绝接纳、receipt BatchID/记录数/generation不匹配时，EMA、聚合count、sample序号和已处理ID都不能部分前移。测试spy观察批次，不给生产调用者第二次写入入口。
 - [ ] 执行计划命令，预期所有数值在明确容限内、时序/幂等严格相等；提交算法与验收向量。
 
 ```sh
@@ -323,11 +337,11 @@ swift test --package-path Packages/TemperatureCore --filter ProcessingIdentityTe
 
 ## W05：串行调度、背压、持久化与快照编排
 
-**需求：** REQ-001～007、016～018、054～071、100、129；TC-SCHEDULE、TC-STORAGE、TC-ERROR。
+**需求：** REQ-001～007、016～018、054～071、100、129；TC-SCHEDULE、TC-STORAGE、TC-ERROR、TC-UPSTREAM-BOUNDARY。
 
-**文件：** MonitorEngine编排、SensorRuntime/SamplingService；`Tests/TemperatureCoreTests/{MonitorIntegrationTests,BackpressureTests,WatermarkTests}.swift`；`Tests/SensorRuntimeTests/SamplingServiceTests.swift`及ControllerFixture。
+**文件：** MonitorEngine编排、Persistence/SessionPersistence/BoundedQueue/StorageWriter、SensorRuntime/SamplingService；`Tests/TemperatureCoreTests/{MonitorIntegrationTests,BackpressureTests,WatermarkTests}.swift`；`Tests/SensorRuntimeTests/SamplingServiceTests.swift`及ControllerFixture。
 
-**接口：** `MonitorController.start/setCPUPeriod/snapshots/history/stop`；构造时注入SensorClient、MonitorClock、SampleStore和配置/profile。Core只依赖SensorClient协议，不能为使用SamplingService反向import SensorRuntime而形成循环；Runtime调度器调用Core定义的入口。
+**接口：** 同一个SessionPersistence actor向SamplingService提供reserve/cancel、向MonitorEngine提供commit、向SessionCoordinator/HistoryQuery提供open/query/prune/close能力；内部独占队列、writer和store。MonitorController构造时按窄能力注入同一实例，Core不反向import SensorRuntime。
 
 - [ ] 先写受控事件脚本，fixture逐事件执行真实编排，输出实际request时刻/ID、队列计数、快照和提交批次：
 
@@ -345,12 +359,13 @@ swift test --package-path Packages/TemperatureCore --filter ProcessingIdentityTe
 ```
 
 - [ ] 实现CPU/SSD/Battery三日程共用一个worker；nextDue按计划时刻推进，结束后跳过过期机会、不追赶；同到期CPU优先。周期变更nextDue=变更时刻+新周期，在途任务沿用旧周期。不存在可选来源时无对应调度。
-- [ ] start以SessionMetadata打开数据库，首次发现后在启动任何读取前register全部来源/定义。重发现产生的新source/definition随首个PersistenceBatch写入sources/definitions并与引用它的segment/sample同事务提交；旧定义不改写。注册或首批提交失败不得发布新来源快照。
+- [ ] start以SessionMetadata通过SessionStoreCapability打开数据库；首次合格目录生成定义后才能启动读取。新source/definition随首个PersistenceBatch写入并与引用它的segment/sample同事务提交；旧定义不改写。首批commit失败不得发布新来源快照。
 - [ ] 将普通读取与重试放同一串行通道；成功终止本轮重试，失败次数与skipped分开计数。测试50ms下读取持续120ms，不能累计补发定时任务或同时运行第二条worker调用。
-- [ ] 每事件先预留512逻辑记录及最坏序列化容量；总含在途事务≤16384条/32MiB。达到12288暂停，低于8192恢复并分段；队列阻塞仍保留已接纳批次。200ms或512条触发flush，事务≤512条，最老年龄>10s Fatal。
-- [ ] 背压测试驱动writer停止响应，验证采集在高水位前停止、在途结果有预留空间、所有接纳sampleID最终恰好一次持久化；释放writer后低水位恢复，Gap显式结束。饱和时禁止覆盖持久化队列或仅保留最新Raw。
+- [ ] 每事件以强类型PersistenceOwner取得PersistenceLease，预留最多512逻辑记录及最坏序列化容量；总含在途事务≤16384条/32MiB。无Lease不启动IO或推进Gap/watermark。达到12288暂停，低于8192恢复并分段；200ms或512条触发flush，最老年龄>10s Fatal。
+- [ ] Lease由SessionPersistence内部创建且不能编码/公开构造；验证错误owner、错误generation、超容量、取消后提交、值复制双消费和伪造reservation UUID均为DB-INTEGRITY-010且不重试。SamplingService无法访问commit，MonitorEngine无法访问reserve/session生命周期。
+- [ ] 背压测试驱动内部writer停止响应，验证采集在高水位前停止、在途结果有Lease容量、所有receipt确认的sampleID最终恰好一次持久化；释放writer后低水位恢复，Gap显式结束。饱和时禁止覆盖内部队列或仅保留最新Raw。
 - [ ] 实现安全watermark：请求start<窗口end且未完成时不得封窗；返回后先加工再advance，超时后旧generation结果丢弃。测试请求0.95s开始、1.05s完成，源点进1～2s桶，不能先写错误0～1s结果再重开。
-- [ ] snapshots使用`AsyncStream(bufferingPolicy: .bufferingNewest(1))`、最多每200ms发布一次；允许UI覆盖旧快照，不允许覆盖写队列。history五分钟走ProcessingEngine.realtime，其余SampleStore.query；结果携带persistedThrough。
+- [ ] snapshots使用`AsyncStream(bufferingPolicy: .bufferingNewest(1))`、最多每200ms发布一次；允许UI覆盖旧快照，不允许覆盖内部写队列。history五分钟走ProcessingEngine.realtime，其余通过SessionStoreCapability.query；结果携带persistedThrough。
 - [ ] stop和actor重入测试：start/await read期间stop，迟到响应不得重启采集、写新批或发布“运行中”；连续两次stop都结束。任何await返回后校验session/generation/state。
 - [ ] 运行计划命令，预期单一worker、无追赶、预算不越界、Raw/EMA/聚合最终匹配；提交集成证据。
 
@@ -398,13 +413,13 @@ swift test --package-path Packages/TemperatureCore --filter DiagnosticsTests
 
 ## W07：原生菜单栏、面板、主窗口与图表
 
-**需求：** REQ-043～053、068～078、108、117～123、125、130；TC-UI。
+**需求：** REQ-043～053、068～078、108、117～123、125、130、134；TC-UI、TC-UPSTREAM-BOUNDARY。
 
-**文件：** App/Presentation全部文件；`UITests/TemperatureMonitorUITests.swift`；UI资源许可记录；先创建用于运行这些视图的`TemperatureMonitor.xcodeproj`及`App/{TemperatureMonitorApp,AppDelegate}.swift`最小入口。完整Xcode是本任务运行UI测试的条件，W08完成生产装配及最终打包脚本。
+**文件：** App/Presentation全部文件，包含PresentationState和HistoryChartModel；`UITests/TemperatureMonitorUITests.swift`；UI资源许可记录；先创建用于运行这些视图的Xcode工程及最小入口。完整Xcode是本任务运行UI测试的条件，W08完成生产装配及最终打包脚本。
 
-**接口：** PresentationModel为MainActor，只消费`Snapshot`、`HistoryResult`、`MonitorFailure`及MonitorController；不直接import SensorBridge或持有SQLite连接。公开绑定名称由本任务统一定义，所有视图共享同一CPU设置状态。
+**接口：** PresentationModel为MainActor，是Snapshot/HistoryResult/MonitorFailure到PresentationState的唯一转换器；running/fatal、五种TemperatureValueState和三种HistoryChartState由封闭枚举互斥表达。StatusItem、Popover、Dashboard、Chart和FatalView只绑定该状态，不自行计算TTL、能力优先级或错误严重性。
 
-- [ ] 创建最小macOS App target、UI test target及共享scheme`TemperatureMonitor`，使用09的Swift6/arm64/15.7.3/Bundle ID并连接本地Package，使W07无需等待W08即可运行UI测试。测试专用数据注入仅Debug/Test配置接受`--ui-fixture basic/gap/stale/fatal`，生产Release必须拒绝该入口。fixture在界面显著写“测试数据”，不作为硬件验收来源。
+- [ ] 先实现PresentationModel状态转换测试：running与fatal不能并存，loading/live/cached/stale/unavailable互斥，历史loading/ready/failed互斥，snapshot generation不倒退，Fatal后拒绝running。再创建最小macOS App target、UI test target及共享scheme；测试fixture仅Debug/Test接受，Release拒绝。
 - [ ] 先写菜单栏显示/交互测试和主窗口关闭后会话持续测试；为控件设置稳定accessibilityIdentifier：`status.temperature`、`cpu.period`、`history.range`、`source.list`、`fatal.code`、`fatal.quit`。
 
 ```swift
@@ -420,9 +435,9 @@ func testCPUPeriodPicker() throws {
 }
 ```
 
-- [ ] 按07固定来源移植NSStatusItem/NSPopover与分组行，逐文件登记上游commit/版权/许可/修改范围。完成左键切换、右键命令、Esc/点击外部关闭；340×640pt面板按屏幕限高，960×680pt主窗最小800×560pt，关闭窗口采集继续。
-- [ ] 数值始终EMA、一位小数和°C，缺失为`— °C`；暂时失败显示缓存/观测时间，超过`max(3×当前周期,2s)`隐藏数值为过期；不可用显示原因；freshness未知不写“刚测量”。CPU标题固定profile主指标。
-- [ ] 图表实现5min内存EMA、其余历史avg和min/max包络，默认CPU主指标、最多8源、每源2000点；绘线按series+segment分组，Gap断开；不以曲线平滑制造Raw峰值。无历史写“本会话暂无数据”，隐藏窗口停止绘图。
+- [ ] 按07固定来源实现NSStatusItem/NSPopover与分组行；若复制/修改上游文件，先登记third-party-v1和ThirdPartyNotices。完成左键切换、右键命令、Esc/点击外部关闭；340×640pt面板按屏幕限高，960×680pt主窗最小800×560pt，关闭窗口采集继续。
+- [ ] 所有数值视图只消费TemperatureValueState：live/cached显示EMA和一位小数°C，loading/stale隐藏为`— °C`，unavailable显示原因；cached失败不生成样本，freshness未知不写“刚测量”。CPU标题固定profile主指标。
+- [ ] HistoryChartModel把查询结果转换为HistoryChartState；视图只消费该状态。实现5min内存EMA、其余历史avg和min/max包络，默认CPU主指标、最多8源、每源2000点；按series+segment断线，不以平滑制造Raw峰值。
 - [ ] Settings提供五档、来源显示、日志文件夹、版本/许可；无高温告警、登录项、更新网络入口。来源详情暴露key/provider/evidence，正常页面不显示调试堆栈。
 - [ ] FatalView连接W06展示回执与30s倒计时，错误文本和报告操作可访问；渲染失败NSAlert兜底。检查浅/深色、减少透明度、键盘导航、窄屏、滚动和辅助功能文本。
 - [ ] 用本任务创建的scheme执行下列计划命令；XCUITest及需人工的菜单栏/视觉项目分别留证，不能因为automation未识别菜单栏就跳过：
@@ -437,14 +452,14 @@ xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -con
 
 ## W08：App工程、worker嵌入、本地构建与端到端
 
-**需求：** REQ-100～108、112、124、126/127；TC-PLATFORM、TC-LIFECYCLE、TC-UI、TC-RELEASE。
+**需求：** REQ-098、100～108、112、124、126/127；TC-PLATFORM、TC-LIFECYCLE、TC-UI、TC-RELEASE、TC-UPSTREAM-BOUNDARY。
 
 **文件：** Xcode项目、TemperatureMonitorApp/AppDelegate、App资源、`scripts/build-app.sh`、`.github/workflows/app.yml`；扩展UITests与`Tests/TemperatureCoreTests/EndToEndTests.swift`。
 
 **接口：** App通过本地Swift Package使用Core/Runtime；创建唯一SessionCoordinator与PresentationModel。构建脚本产物固定为`build/TemperatureMonitor.app`，内嵌同一构建的`Contents/MacOS/SensorWorker`。
 
-- [ ] 完成W07创建的macOS App、UI test target和共享scheme`TemperatureMonitor`的生产装配；复核Swift6、arm64、deployment15.7.3、Bundle ID按defaults。接入唯一真实SessionCoordinator与PresentationModel，链接本地Package，关闭App Sandbox，无root/private entitlement。
-- [ ] 将规范defaults/profile资源复制到App，schema作为Package资源加载；CI逐字比对资源，修改规范后未更新拷贝必须失败。把所有实际移植的MIT版权与完整许可纳入ThirdPartyNotices。
+- [ ] 完成W07创建的macOS App、UI test target和共享scheme的生产装配；复核Swift6、arm64、预期deployment15.7.3、Bundle ID按defaults。用`xcodebuild -showBuildSettings`验证工具链接受目标设置，失败则阻止RC并提出契约修订。接入唯一真实SessionCoordinator与PresentationModel，关闭App Sandbox，无root/private entitlement。
+- [ ] 将contract revision 2的defaults/profile/third-party资源复制到App，schema作为Package资源加载；CI逐字比对资源。为third-party-v1中每个copied/modified本地路径生成或核对ThirdPartyNotices；缺固定commit、许可hash、版权、修改说明或notice时失败。R04/R07不得出现复制代码。
 - [ ] 实现build-app.sh：`set -euo pipefail`，校验完整Xcode、构建Release与SensorWorker、从本次DerivedData复制App、嵌入worker/资源；路径或新产物缺失立即失败，不能签/测旧包。本地先worker后App进行ad-hoc签名。
 
 ```sh
@@ -454,7 +469,8 @@ bash scripts/build-app.sh
 codesign --verify --deep --strict --verbose=2 build/TemperatureMonitor.app
 ```
 
-- [ ] 端到端测试使用测试配置：12源→Raw→CPU派生→EMA→聚合→SQLite→历史→展示；重放请求、注入缺成员/DB BUSY/背压/Gap、退出后验证DB/WAL/SHM消失且日志保留。Release拒绝测试数据开关，不在最终产品自动fallback到fixture。
+- [ ] 端到端测试使用测试配置：raw transport→资格化12源→Raw→CPU派生→EMA→聚合→SQLite→历史→PresentationState；重放请求、注入缺成员/DB BUSY/背压/Gap、退出后验证DB/WAL/SHM消失且日志保留。Release拒绝测试数据开关，不在最终产品fallback到fixture。
+- [ ] 执行TC-UPSTREAM-BOUNDARY：未登记copied/modified夹具应失败；Release App与worker扫描确认无SMC写入、风扇控制、root/helper、外部监控CLI及测试fixture入口；名称/数量反例测试必须通过。
 - [ ] 执行Core全套、coverage、App构建、UI测试及文档检查。CI新增真实`app-build`并设必需；runner必须有选定完整Xcode，固定选择工具链且保存版本。无硬件runner只证明构建/软件测试。
 
 ```sh
@@ -471,13 +487,13 @@ python3 scripts/validate-handoff.py
 
 ## W09：首台实机资格、五档与长期运行
 
-**需求：** REQ-001～015、054～057、109～116、129～134及资源/生命周期要求；TC-SENSOR、TC-SCHEDULE、TC-PLATFORM、TC-ENDURANCE。
+**需求：** REQ-001～015、054～057、109～116、129～134及资源/生命周期要求；TC-SENSOR、TC-SCHEDULE、TC-PLATFORM、TC-ENDURANCE、TC-UPSTREAM-BOUNDARY。
 
 **文件：** 新建`scripts/run-hardware-qualification.sh`、`scripts/summarize-product-qualification.py`及产品实机证据目录；必要缺陷修复回到对应模块，并保留失败证据。
 
-**接口：** 验证脚本运行W08生成的实际App/内嵌worker，以显式诊断配置导出计时和来源信息，不调用旧原型代替App。输出capabilities.json、timing.csv、sampling-results.csv、summary.json和报告，字段含提交/应用版本/机型/OS build/配置/profile/签名/日期。
+**接口：** 验证脚本运行W08生成的实际App/内嵌worker，不调用旧原型代替App。环境与报告分别输出build_toolchain、deployment_target、runtime_profile和qualified_combinations；后者每项绑定App/worker SHA、签名、机型、OS版本/build和通过用例。
 
-- [ ] 首先确认真实机器为Mac16,13、普通用户且profile允许的系统；保存构建SHA与App签名。只有目标环境执行真实资格；其他环境不得伪造机型或通过fixture冒充。
+- [ ] 先记录Xcode/Swift/SDK构成build_toolchain，从最终App/worker load command核对deployment_target，再确认真实机器、系统和profile构成runtime_profile。任何字段不一致都阻止资格运行，不写入qualified combinations。
 - [ ] 逐键核对12CPU来源、flt4字节、单位证据、固定成员、未知freshness；SSD明确Internal唯一NVMe composite；Battery记录实际选中IOPS或TB键和优先级判定。周期读取失败按规范显式失败，不补0/旧值。
 - [ ] 对五档分别执行至少10分钟空闲及10分钟可控负载，记录计划/实际开始结束/批跨度/读取失败/重试/skipped/source时间信息；负载必须使用维护者批准的本地工具并记录命令。不得用相同温度比例推断硬件刷新频率。
 - [ ] 确认所有派生CPU批次12成员完整且跨度≤200ms；超范围被正确拒绝并重试。调度是否按日程/跳过过期机会由事件证据判定；CPU/内存/能耗只报告实测分布，不编造用户已暂缓的性能SLO。
@@ -490,7 +506,7 @@ bash scripts/run-hardware-qualification.sh --app build/TemperatureMonitor.app --
 python3 scripts/summarize-product-qualification.py --input docs/validation/product-hardware
 ```
 
-- [ ] 报告逐项声明available/unavailable及理由；通过的机型+OS build组合才列入正式兼容矩阵，其他组合保持未验收。仅在有生产证据的定义上升为targetQualified，不改写历史原型证据。
+- [ ] 报告逐项声明available/unavailable及理由；只有同一正式App SHA完成指定用例后，才把该机型+OS版本/build+签名加入qualified combinations。其他组合保持未验收；仅有生产证据的定义上升为targetQualified，不改写历史原型证据。
 
 **完成条件：** 首个组合产品硬件/生命周期/73h验收通过；失败或未运行项目不隐藏。缺实机时可以完成脚本和软件测试，但W09状态只能为未执行。
 
@@ -515,20 +531,20 @@ shasum -a 256 build/TemperatureMonitor-notarized.zip
 ```
 
 - [ ] 对正式签名App重跑W09来源、五档、sleep/wake、本地断网、双实例、退出清理、日志不可写及73h验收；最终配置有变化就不能沿用Debug/ad-hoc权限结论。保存App身份、ticket、证据及已发布最高稳定macOS核对日期。
-- [ ] 发布manifest包含version/build/source SHA、App/ZIP SHA-256、工具链/SDK、签名Team、profile版本、兼容机型/OS build、许可证。保留手动下载/替换说明；对外上传或发布由维护者按授权执行，不能把本地打包成功写成已发布。
+- [ ] 发布manifest包含version/build/source SHA、App/ZIP SHA-256、build_toolchain、deployment_target、runtime_profile、qualified_combinations、签名Team及third-party contract/notice hash。保留手动下载/替换说明；对外上传由维护者按授权执行，不能把本地打包成功写成已发布。
 - [ ] 提交发布脚本和非敏感证据；等待维护者审查及发布决定。
 
 **完成条件：** 有凭证时完成正式ZIP和最终构建资格；无凭证时明确列为外部发布条件未满足，W01～W09的本地产品工作仍完整交付。
 
 ## W11：逐REQ验收、最终审查与交接
 
-**需求：** 全部REQ-001～134，其中012/114退役；TC-DOCS、TC-WORKFLOW及全套产品用例。
+**需求：** 全部REQ-001～134，其中012/114退役；TC-DOCS、TC-WORKFLOW、TC-UPSTREAM-BOUNDARY及其余17组产品用例，共20组。
 
 **文件：** 更新`docs/contracts/acceptance-v1.json`对应证据字段、`docs/17-traceability.md`、产品软件/实机/发布报告；保持原始需求来源与历史报告不被覆盖。
 
 **接口：** 逐REQ使用现有映射的任务/测试组及证据路径；不凭任务标题批量标“通过”。新增/变更规则必须同步需求、决策、契约和测试，不只修改实现。
 
-- [ ] 检查134个ID唯一且齐全，132个现行各有实现任务、自动或人工验收、结果与证据；012/114仅为retired/不适用。C10/C11改动已覆盖Package改名、可选指标、Raw峰值和内存实时路径。
+- [ ] 检查134个ID唯一且齐全，132个现行各有实现任务、20组测试中的适用映射、结果与证据；012/114仅为retired/不适用。核对contract revision 2、强类型接口和TC-UPSTREAM-BOUNDARY映射未被旧实现回退。
 - [ ] 以测试产物逐项核对REQ：模拟软件、实机、签名分发三类证据分开；“已实现”“软件通过”“目标组合通过”“正式公证通过”不得互换。不存在测试日志的项目保持未执行。
 - [ ] 在最终commit运行以下计划命令，保存输出；变更后只重跑相关及规定总门禁，不重复无变化的昂贵实机测试：
 
@@ -543,7 +559,7 @@ xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -con
 git diff --check
 ```
 
-- [ ] 独立审查对照设计而非仅看测试成功：检查所有权/退出、固定成员、缺口、水位、幂等/背压、私密目录、代码许可、Release无测试fallback。发现可复现缺陷建Issue，阻塞级加`blocking`，修复并附回归。
+- [ ] 独立审查对照设计而非仅看测试成功：检查资格化来源、Lease所有权/单次消费、退出、固定成员、缺口、水位、幂等/背压、Presentation互斥状态、私密目录、third-party-v1与notice、Release无测试fallback。发现可复现缺陷建Issue并回归。
 - [ ] 读取最新PR head上的五个required checks、仓库全部open blocking Issue和保护配置；确保head未变。审查证据入PR，由维护者手动merge commit，保留远程feature分支。无管理员权限或外部门禁失败时交付完整待审PR，不能自行绕过。
 - [ ] 最终报告包含本地App路径、已完成任务、134项映射结果、实际支持组合、失败/未执行项、正式ZIP状态、外部凭证或设备依赖、操作与诊断入口。没有公证凭证时明确“本地App完成，正式发布未完成”；不能将全部项目称为完全验收通过。
 
