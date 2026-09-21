@@ -8,6 +8,7 @@ enum ProtocolWorkerScenario: String {
     case badJSON
     case wrongID
     case oldGeneration
+    case crash
 }
 
 @main
@@ -16,6 +17,10 @@ struct ProtocolWorker {
         let scenario = ProtocolWorkerScenario(
             rawValue: ProcessInfo.processInfo.environment["WORKER_SCENARIO"] ?? "success"
         ) ?? .success
+
+        if scenario == .crash {
+            exit(1)
+        }
 
         guard let line = readLine(strippingNewline: true) else {
             return
@@ -58,7 +63,7 @@ struct ProtocolWorker {
                 command: request.command,
                 payload: .closed
             )
-        case .success, .badJSON, .oversize:
+        case .success, .badJSON, .oversize, .crash:
             break
         }
 
