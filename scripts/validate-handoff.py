@@ -478,6 +478,18 @@ def validate_required_check_names() -> None:
         if re.search(r"(?m)^ +if: success\(\)$", text):
             fail(f"{relative}: must not self-skip via if: success()")
 
+    blocking = ROOT / ".github/workflows/blocking-issues.yml"
+    if blocking.is_file():
+        text = blocking.read_text(encoding="utf-8")
+        if parse_job_check_names(text) != ["blocking-issues"]:
+            fail("blocking-issues.yml: check names must be exactly ['blocking-issues']")
+        if "pull_request_target:" not in text:
+            fail("blocking-issues.yml: must use pull_request_target from the default branch")
+        if "github.event.pull_request.head" in text or "ref: ${{ github.head_ref }}" in text:
+            fail("blocking-issues.yml: must not check out pull request code")
+        if "ref: ${{ github.event.repository.default_branch }}" not in text:
+            fail("blocking-issues.yml: checkout must pin the default branch")
+
 
 def validate_entry_contracts() -> None:
     entry_paths = [

@@ -1,0 +1,30 @@
+name: Blocking issues
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, edited]
+  issues:
+    types: [opened, reopened, closed, labeled, unlabeled]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+  checks: write
+
+jobs:
+  blocking-issues:
+    name: blocking-issues
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out default branch only
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - name: Evaluate open blocking issues against latest PR heads
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node .github/scripts/blocking-issues.mjs
