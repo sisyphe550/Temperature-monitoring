@@ -1,0 +1,28 @@
+name: Core tests
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  core-tests:
+    name: core-tests
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: swift --version
+      - name: Core unit tests with coverage
+        run: swift test --package-path Packages/TemperatureCore --enable-code-coverage
+      - name: Core coverage gate
+        run: python3 scripts/check-core-coverage.py
+      - name: Coverage red fixture
+        run: python3 scripts/test-core-coverage-gate.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: core-coverage
+          path: Packages/TemperatureCore/.build/*/debug/codecov/

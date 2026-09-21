@@ -461,6 +461,7 @@ def validate_required_check_names() -> None:
     expected = {
         ".github/workflows/handoff-docs.yml": ["handoff-docs"],
         ".github/workflows/probe.yml": ["probe-tests"],
+        ".github/workflows/core.yml": ["core-tests"],
     }
     for relative, names in expected.items():
         path = ROOT / relative
