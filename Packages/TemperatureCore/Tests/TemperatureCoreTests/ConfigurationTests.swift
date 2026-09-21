@@ -59,6 +59,36 @@ import Testing
         }
     }
 
+    @Test func rejectsInvalidWriterWatermarkOrdering() throws {
+        let json = try mutatedDefaults {
+            $0["writer_resume_below_records"] = NSNumber(value: 20_000)
+            $0["writer_pause_at_records"] = NSNumber(value: 10_000)
+        }
+        #expect(throws: ConfigurationError.invalidValue("writer watermarks")) {
+            _ = try Configuration.decodeConfiguration(json)
+        }
+    }
+
+    @Test func rejectsReserveExceedingFlush() throws {
+        let json = try mutatedDefaults {
+            $0["writer_reserve_records_per_event"] = NSNumber(value: 999)
+            $0["writer_flush_records"] = NSNumber(value: 512)
+        }
+        #expect(throws: ConfigurationError.invalidValue("writer_reserve_records_per_event")) {
+            _ = try Configuration.decodeConfiguration(json)
+        }
+    }
+
+    @Test func rejectsInvalidRetentionOrdering() throws {
+        let json = try mutatedDefaults {
+            let retention = ($0["retention_seconds"] as! NSMutableDictionary)
+            retention["raw"] = NSNumber(value: 999_999)
+        }
+        #expect(throws: ConfigurationError.invalidValue("retention_seconds")) {
+            _ = try Configuration.decodeConfiguration(json)
+        }
+    }
+
     @Test func rejectsDuplicateOrReorderedCPUKeys() throws {
         let url = Fixtures.packageRoot.appendingPathComponent("Sources/TemperatureCore/Resources/first-profile-v1.json")
         let object = try JSONSerialization.jsonObject(with: Data(contentsOf: url), options: [.mutableContainers]) as! NSMutableDictionary
