@@ -144,4 +144,151 @@ import TemperatureCore
         ]
         #expect(Registry.hidDiagnosticSources(services).count == 2)
     }
+
+    @Test func profileRegistryQualifiesAllTwelveCPUKeys() throws {
+        let profile = try Configuration.bundledProfile()
+        let catalog = try QualifyFixture.fullCPUCatalog(for: profile)
+        let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
+        #expect(qualified.available.count == 12)
+        #expect(qualified.unavailable.isEmpty)
+    }
+
+    @Test func profileRegistryMarksMissingCPUKeyUnavailable() throws {
+        let profile = try Configuration.bundledProfile()
+        let catalog = try QualifyFixture.fullCPUCatalog(for: profile, omitting: "Tp01")
+        let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
+        #expect(qualified.available.count == 11)
+        #expect(qualified.unavailable.contains(where: { $0.rawKey == "Tp01" }))
+    }
+
+    @Test func profileRegistryRejectsDuplicateCPUKey() throws {
+        let profile = try Configuration.bundledProfile()
+        var catalog = try QualifyFixture.fullCPUCatalog(for: profile)
+        if let duplicate = catalog.sources.first(where: { $0.rawKey == "Tp01" }) {
+            catalog = DiscoveredCatalog(
+                generation: catalog.generation,
+                sources: catalog.sources + [duplicate]
+            )
+        }
+        let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
+        #expect(qualified.available.count == 11)
+        #expect(qualified.unavailable.contains(where: { $0.reason == "duplicate_profile_cpu_key" }))
+    }
+
+    @Test func profileRegistryRejectsEncodingMismatch() throws {
+        let profile = try Configuration.bundledProfile()
+        let catalog = try QualifyFixture.fullCPUCatalog(for: profile, encodingOverride: "sp78")
+        let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
+        #expect(qualified.available.isEmpty)
+        #expect(qualified.unavailable.allSatisfy { $0.reason == "encoding_or_length_mismatch" })
+    }
+
+    @Test func profileRegistryKeepsDistinctHIDRegistryIDs() throws {
+        let profile = try Configuration.bundledProfile()
+        let catalog = DiscoveredCatalog(
+            generation: 1,
+            sources: [
+                DiscoveredSource(
+                    transportHandle: "hid:0",
+                    provider: .hid,
+                    rawKey: "eACC CPU",
+                    registryID: "00000000-0000-4000-8000-000000000101",
+                    encoding: "event",
+                    byteCount: 0
+                ),
+                DiscoveredSource(
+                    transportHandle: "hid:1",
+                    provider: .hid,
+                    rawKey: "eACC CPU",
+                    registryID: "00000000-0000-4000-8000-000000000102",
+                    encoding: "event",
+                    byteCount: 0
+                ),
+            ]
+        )
+        let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
+        let hidRecords = qualified.unavailable.filter { $0.provider == .hid }
+        #expect(hidRecords.count == 2)
+        #expect(Set(hidRecords.compactMap(\.registryID)).count == 2)
+    }
+
+    @Test func metricResolverDoesNotInferTenPhysicalCores() throws {
+        let profile = try Configuration.bundledProfile()
+        let catalog = try QualifyFixture.fullCPUCatalog(for: profile)
+        let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
+        #expect(MetricResolver.infersPhysicalCoreCount(from: qualified.available.count) == nil)
+        let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+        #expect(metrics.count == 1)
+        #expect(try metrics[0].rawValue == "cpu.zone.max")
+    }
+
+    @Test func qualifiedClientMapsSourceIDsToReadBatch() async throws {
+        let profile = try Configuration.bundledProfile()
+        let catalog = try QualifyFixture.fullCPUCatalog(for: profile)
+        let transport = QualifyFixture.StubTransport(catalog: catalog)
+        let client = QualifiedSensorClient(
+            transport: transport,
+            registry: ProfileRegistry(profile: profile)
+        )
+        let qualified = try await client.discover()
+        let first = try #require(qualified.available.first)
+        let request = ReadRequest(
+            requestID: try RequestID(validating: "00000000-0000-4000-8000-000000000301"),
+            sourceIDs: [first.sourceID],
+            requestedPeriodMS: 200
+        )
+        let batch = try await client.read(request)
+        #expect(batch.readings.count == 1)
+        #expect(batch.readings[0].sourceID == first.sourceID)
+        await client.close()
+    }
+}
+
+private enum QualifyFixture {
+    struct StubTransport: SensorTransport {
+        let catalog: DiscoveredCatalog
+
+        func discoverRaw() async throws -> DiscoveredCatalog {
+            catalog
+        }
+
+        func readRaw(_ request: TransportReadRequest) async throws -> TransportReadBatch {
+            TransportReadBatch(
+                requestID: request.requestID,
+                generation: request.generation,
+                readings: request.transportHandles.map { handle in
+                    TransportReading(
+                        transportHandle: handle,
+                        started: Timestamp(elapsedNS: 0, wallUnixNS: 1),
+                        finished: Timestamp(elapsedNS: 1_000_000, wallUnixNS: 2),
+                        outcome: .success(valueC: 25.5, sourceWallUnixNS: nil, freshness: .unknown)
+                    )
+                }
+            )
+        }
+
+        func close() async {}
+    }
+
+    static func fullCPUCatalog(
+        for profile: SensorProfile,
+        omitting omittedKey: String? = nil,
+        encodingOverride: String? = nil
+    ) throws -> DiscoveredCatalog {
+        let encoding = encodingOverride ?? profile.expectedSMCEncoding
+        let sources = profile.cpuKeys.compactMap { key -> DiscoveredSource? in
+            if key == omittedKey {
+                return nil
+            }
+            return DiscoveredSource(
+                transportHandle: "smc:\(key)",
+                provider: .smc,
+                rawKey: key,
+                registryID: "reg-\(key)",
+                encoding: encoding,
+                byteCount: profile.expectedSMCSizeBytes
+            )
+        }
+        return DiscoveredCatalog(generation: 1, sources: sources)
+    }
 }

@@ -524,6 +524,12 @@ public struct Segment: Codable, Sendable, Equatable {
     }
 }
 
+public protocol SensorTransport: Sendable {
+    func discoverRaw() async throws -> DiscoveredCatalog
+    func readRaw(_ request: TransportReadRequest) async throws -> TransportReadBatch
+    func close() async
+}
+
 public protocol SourceRegistry: Sendable {
     func qualify(_ catalog: DiscoveredCatalog) throws -> QualifiedSourceCatalog
 }

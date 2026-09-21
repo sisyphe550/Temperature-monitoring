@@ -182,3 +182,131 @@ public enum Registry {
         return value
     }
 }
+
+public struct ProfileRegistry: SourceRegistry {
+    public let profile: SensorProfile
+    public let mappingVersion: String
+
+    public init(profile: SensorProfile, mappingVersion: String = "mac16-13-v1") {
+        self.profile = profile
+        self.mappingVersion = mappingVersion
+    }
+
+    public func qualify(_ catalog: DiscoveredCatalog) throws -> QualifiedSourceCatalog {
+        var available: [QualifiedSource] = []
+        var unavailable: [SourceCapabilityRecord] = []
+
+        qualifyCPUSources(from: catalog, available: &available, unavailable: &unavailable)
+        recordHIDDiagnostics(from: catalog, unavailable: &unavailable)
+
+        return QualifiedSourceCatalog(
+            generation: catalog.generation,
+            available: available,
+            unavailable: unavailable
+        )
+    }
+
+    private func qualifyCPUSources(
+        from catalog: DiscoveredCatalog,
+        available: inout [QualifiedSource],
+        unavailable: inout [SourceCapabilityRecord]
+    ) {
+        let smcSources = catalog.sources.filter { $0.provider == .smc }
+
+        for (index, key) in profile.cpuKeys.enumerated() {
+            let matches = smcSources.filter { $0.rawKey == key }
+            if matches.isEmpty {
+                unavailable.append(
+                    SourceCapabilityRecord(
+                        provider: .smc,
+                        rawKey: key,
+                        registryID: nil,
+                        intendedKind: .cpuZone,
+                        capability: .failed,
+                        reason: "missing_profile_cpu_key"
+                    )
+                )
+                continue
+            }
+            if matches.count > 1 {
+                unavailable.append(
+                    SourceCapabilityRecord(
+                        provider: .smc,
+                        rawKey: key,
+                        registryID: nil,
+                        intendedKind: .cpuZone,
+                        capability: .failed,
+                        reason: "duplicate_profile_cpu_key"
+                    )
+                )
+                continue
+            }
+
+            let discovered = matches[0]
+            if discovered.encoding != profile.expectedSMCEncoding
+                || discovered.byteCount != profile.expectedSMCSizeBytes
+            {
+                unavailable.append(
+                    SourceCapabilityRecord(
+                        provider: .smc,
+                        rawKey: key,
+                        registryID: discovered.registryID,
+                        intendedKind: .cpuZone,
+                        capability: .unsupported,
+                        reason: "encoding_or_length_mismatch"
+                    )
+                )
+                continue
+            }
+
+            guard let sourceID = try? cpuSourceID(keyIndex: index) else {
+                continue
+            }
+
+            available.append(
+                QualifiedSource(
+                    sourceID: sourceID,
+                    transportHandle: discovered.transportHandle,
+                    provider: discovered.provider,
+                    rawKey: discovered.rawKey,
+                    registryID: discovered.registryID,
+                    connectionGeneration: catalog.generation,
+                    kind: .cpuZone,
+                    encoding: discovered.encoding,
+                    unitEvidence: profile.cpuSemanticEvidence,
+                    evidence: .targetQualified,
+                    mappingVersion: mappingVersion
+                )
+            )
+        }
+    }
+
+    private func recordHIDDiagnostics(
+        from catalog: DiscoveredCatalog,
+        unavailable: inout [SourceCapabilityRecord]
+    ) {
+        guard !profile.automaticHIDFallback else {
+            return
+        }
+        for source in catalog.sources where source.provider == .hid {
+            unavailable.append(
+                SourceCapabilityRecord(
+                    provider: .hid,
+                    rawKey: source.rawKey,
+                    registryID: source.registryID,
+                    intendedKind: .cpuZone,
+                    capability: .unsupported,
+                    reason: "hid_diagnostic_only"
+                )
+            )
+        }
+    }
+
+    private func cpuSourceID(keyIndex: Int) throws -> SourceID {
+        try SourceID(validating: String(format: "00000000-0000-4000-8000-%012d", keyIndex + 1))
+    }
+
+    public func sourceID(forRegistryID registryID: String) throws -> SourceID {
+        try SourceID(validating: registryID)
+    }
+}
