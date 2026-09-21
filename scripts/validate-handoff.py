@@ -453,6 +453,44 @@ def validate_links() -> None:
                 fail(f"{path.relative_to(ROOT)}: broken local link {target}")
 
 
+def parse_job_check_names(workflow_text: str) -> list[str]:
+    return re.findall(r"^    name: ([A-Za-z0-9._-]+)$", workflow_text, re.MULTILINE)
+
+
+def validate_required_check_names() -> None:
+    expected = {
+        ".github/workflows/handoff-docs.yml": ["handoff-docs"],
+        ".github/workflows/probe.yml": ["probe-tests"],
+    }
+    for relative, names in expected.items():
+        path = ROOT / relative
+        if not path.is_file():
+            fail(f"{relative}: missing workflow")
+            continue
+        text = path.read_text(encoding="utf-8")
+        actual = parse_job_check_names(text)
+        if actual != names:
+            fail(f"{relative}: check names {actual}, expected {names}")
+        if not re.search(r"(?m)^on:\n  push:", text):
+            fail(f"{relative}: must run on push")
+        if "pull_request:" not in text:
+            fail(f"{relative}: must run on pull_request")
+        if re.search(r"(?m)^ +if: success\(\)$", text):
+            fail(f"{relative}: must not self-skip via if: success()")
+
+    blocking = ROOT / ".github/workflows/blocking-issues.yml"
+    if blocking.is_file():
+        text = blocking.read_text(encoding="utf-8")
+        if parse_job_check_names(text) != ["blocking-issues"]:
+            fail("blocking-issues.yml: check names must be exactly ['blocking-issues']")
+        if "pull_request_target:" not in text:
+            fail("blocking-issues.yml: must use pull_request_target from the default branch")
+        if "github.event.pull_request.head" in text or "ref: ${{ github.head_ref }}" in text:
+            fail("blocking-issues.yml: must not check out pull request code")
+        if "ref: ${{ github.event.repository.default_branch }}" not in text:
+            fail("blocking-issues.yml: checkout must pin the default branch")
+
+
 def validate_entry_contracts() -> None:
     entry_paths = [
         ROOT / "README.md",
@@ -497,6 +535,7 @@ def main() -> int:
     validate_schema()
     validate_entry_contracts()
     validate_links()
+    validate_required_check_names()
     if ERRORS:
         print(json.dumps({"status": "failed", "errors": ERRORS}, ensure_ascii=False, indent=2))
         return 1
