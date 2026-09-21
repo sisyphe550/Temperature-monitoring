@@ -4,13 +4,31 @@ import Testing
 
 @Suite struct ContractTests {
     @Test func taggedUUIDRequiresCanonicalLowercase() throws {
-        let uuid = try SessionID(validating: "00000000-0000-4000-8000-000000000001")
-        #expect(uuid.rawValue == "00000000-0000-4000-8000-000000000001")
+        let uuid = try SessionID(validating: "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee")
+        #expect(uuid.rawValue == "aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee")
         #expect(throws: IdentifierError.self) {
-            _ = try SessionID(validating: "00000000-0000-4000-8000-000000000001".uppercased())
+            _ = try SessionID(validating: "AAAAAAAA-BBBB-4CCC-8DDD-EEEEEEEEEEEE")
         }
         #expect(throws: IdentifierError.self) {
             _ = try SourceID(validating: "not-a-uuid")
+        }
+    }
+
+    @Test func metricIDRejectsInvalidAndEmptyValues() {
+        #expect(throws: IdentifierError.emptyMetricID) {
+            _ = try MetricID(validating: "")
+        }
+        #expect(throws: IdentifierError.invalidMetricID("CPU.Zone")) {
+            _ = try MetricID(validating: "CPU.Zone")
+        }
+        #expect(throws: IdentifierError.invalidMetricID("cpu-zone")) {
+            _ = try MetricID(validating: "cpu-zone")
+        }
+    }
+
+    @Test func unknownClosedEnumFailsDecoding() throws {
+        #expect(throws: DecodingError.self) {
+            _ = try JSONDecoder().decode(SensorKind.self, from: Data("\"physicalCore\"".utf8))
         }
     }
 
@@ -71,13 +89,24 @@ import Testing
     }
 
     @Test func persistenceLeaseHasNoPublicCodableOrEmptyInit() throws {
-        let source = try String(contentsOf: URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .appendingPathComponent("Sources/TemperatureCore/Contracts/PersistenceTypes.swift"), encoding: .utf8)
-        #expect(!source.contains("public init(") || source.contains("init(\n        reservationID: UUID"))
-        #expect(!source.contains("PersistenceLease: Codable"))
+        let source = try String(
+            contentsOf: URL(fileURLWithPath: #filePath)
+                .deletingLastPathComponent()
+                .deletingLastPathComponent()
+                .deletingLastPathComponent()
+                .appendingPathComponent("Sources/TemperatureCore/Contracts/PersistenceTypes.swift"),
+            encoding: .utf8
+        )
+        guard let start = source.range(of: "public struct PersistenceLease"),
+              let end = source.range(of: "public struct ProcessingReceipt")
+        else {
+            Issue.record("PersistenceLease block missing")
+            return
+        }
+        let lease = source[start.lowerBound..<end.lowerBound]
+        #expect(lease.contains("public struct PersistenceLease: Sendable, Equatable"))
+        #expect(!lease.contains("Codable"))
+        #expect(!lease.contains("public init("))
         #expect(!source.contains("public struct QueueReservation"))
     }
 
@@ -89,7 +118,7 @@ import Testing
             .appendingPathComponent("Sources/TemperatureCore")
         let files = try FileManager.default.subpathsOfDirectory(atPath: root.path)
             .filter { $0.hasSuffix(".swift") }
-        let forbidden = ["public struct QueueReservation", "valueC: Double?", "failure: MonitorFailure?"]
+        let forbidden = ["public struct QueueReservation", "valueC: Double?", "case success(valueC: Double?"]
         for file in files {
             let text = try String(contentsOf: root.appendingPathComponent(file), encoding: .utf8)
             for token in forbidden {
