@@ -1,6 +1,6 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-19交接设计基线v1**；已有M4 Air只读原型证据，生产App尚未实现。
+Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-21实施契约v1族，contract revision 2**；已有M4 Air只读原型证据，生产App尚未实现。
 
 ## 接手开发
 
@@ -11,6 +11,8 @@ Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-19交接设�
 - 原生SwiftUI/AppKit，前端参考MacMonitor和Stats；五档CPU请求，默认200ms。
 - 实时内存加工与展示，Raw/EMA仍批量入SQLite，分层历史最长72小时、仅当前会话。
 - 自有普通用户采集worker隔离同步接口；不引入root、外部监控CLI、告警、自启动或Web后端。
+
+修订2的实现边界固定为：SensorTransport只交付`DiscoveredCatalog`底层事实，Registry生成`QualifiedSourceCatalog`后才允许采样；`ReadingOutcome`互斥表达成功或失败；`PersistenceLease`经SessionPersistence提交并取得receipt后才交换算法状态；所有界面只绑定`PresentationState`。实际复制/修改的上游代码由[third-party-v1.json](docs/contracts/third-party-v1.json)登记，`TC-UPSTREAM-BOUNDARY`验证旧值回退、名称物理语义、补0°C、root/helper/写SMC、Release fixture及许可缺失均被拒绝。
 
 ## 权威文档
 
@@ -28,15 +30,15 @@ Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-19交接设�
 | [14 实测](docs/14-feasibility-validation.md)／[15 决策](docs/15-decisions-and-corrections.md) | 已存证据、变更原因与后续验证 |
 | [16 决策与执行依赖](docs/16-open-questions.md)／[18 来源](docs/18-sources.md) | 原OQ处理、官方及讨论出处 |
 | [19 开源比较](docs/19-reference-informed-design.md)／[20 可行性](docs/20-feasibility-and-reuse.md) | 全部参考项目、复用与自有设计边界 |
-| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | 精确配置、Swift/SQL、W级里程碑与50个可审查任务 |
+| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | contract revision 2精确配置、Swift/SQL、第三方边界、W级里程碑与50个可审查任务 |
 
 ## 验证入口
 
 ```sh
 python3 scripts/validate-handoff.py
-swiftc -swift-version 6 -typecheck docs/contracts/api-v1.swift
+swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -typecheck docs/contracts/api-v1.swift
 ```
 
-[旧实测报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[原型复现](prototypes/sensor-probe/README.md)、[硬件接口审计](docs/research/2026-09-17-handoff-interface-audit.md)供复核。E1本机读数、E2上游路线、D设计契约分开标注；有方案不等于正式App已测通过。
+[契约修订2迁移记录](docs/research/2026-09-21-contract-documentation-migration.md)、[旧实测报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[原型复现](prototypes/sensor-probe/README.md)、[硬件接口审计](docs/research/2026-09-17-handoff-interface-audit.md)供复核。E1本机读数、E2上游路线、D设计契约分开标注；有方案不等于正式App已测通过。
 
 设计已给出可执行选择；剩余工作是实现与验证。完整Xcode、正式签名凭证、仓库管理员权限及目标实机属于明确执行依赖。当前基线在[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，未合并前不要从旧main丢失文档开始开发。

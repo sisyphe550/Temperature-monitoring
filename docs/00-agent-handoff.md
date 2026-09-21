@@ -1,18 +1,18 @@
 # Agent实施交接入口
 
-更新：2026-09-19；设计基线v1。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
+更新：2026-09-21；实施契约v1族，contract revision 2。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
 
 ## 先读的七份资料
 
 1. [现行需求01](01-requirements.md)：132项现行、2项退役。
 2. [可行性与复用20](20-feasibility-and-reuse.md)：E1实测、E2上游路线、D项目设计及局限。
-3. [实施契约21](21-implementation-contracts.md)：JSON默认值/profile、Swift类型、SQL schema、逐REQ映射。
+3. [实施契约21](21-implementation-contracts.md)：contract revision 2、JSON默认值/profile、Swift类型、SQL schema、第三方来源和逐REQ映射。
 4. [架构02](02-architecture.md)与[组件08](08-component-design.md)：实时数据路径、worker与模块文件边界。
 5. [工作包计划22](22-agent-implementation-plan.md)：W00～W11的设计、文件、测试和完成条件。
 6. [执行任务23](23-execution-task-breakdown.md)：50个可审查任务、依赖图、接口产出和交接边界。
 7. [Git流程11](11-git-github-workflow.md)：PR所在分支、强制门禁、Issue和merge commit。
 
-其他专项03～10/13给出细则；16只登记已决定设计与实际执行依赖。15/18/19和research/validation保存来源与历史，不得用旧记录恢复当前已删除要求。
+其他专项03～10/13给出细则；16只登记已决定设计与实际执行依赖。[修订2迁移记录](research/2026-09-21-contract-documentation-migration.md)给出提交与校验结果。15/18/19和research/validation保存来源与历史，不得用旧记录恢复当前已删除要求。
 
 ## 已经决定，不重新开题
 
@@ -29,6 +29,14 @@
 
 C10用户授权清理不合适内容、补齐完整交接；上述产品收敛和工程参数在授权下形成设计基线，不虚构逐参数用户确认。C11用户明确课程不强制数据库往返，优化内存路径已确定。
 
+## 修订2接口边界
+
+- SensorTransport只输出`DiscoveredCatalog`底层事实；Registry验证profile、单位、编码、证据和generation后输出`QualifiedSourceCatalog`，只有Qualified来源可进入ReadRequest、算法、存储和UI。
+- `ReadingOutcome`只能是success或failure；失败不得生成0°C、复用旧值或携带温度。
+- SamplingService取得强类型owner的`PersistenceLease`后才启动IO或推进事件；MonitorEngine经SessionPersistence commit取得ProcessingReceipt后才交换状态。
+- PresentationModel是Snapshot/HistoryResult到`PresentationState`的唯一转换器；running/fatal、温度值和历史图状态互斥。
+- [third-party-v1.json](contracts/third-party-v1.json)记录实际copied/modified代码，research manifest只记录研究输入。`TC-UPSTREAM-BOUNDARY`验证上游行为反例、Release禁用符号及许可/notice完整性。
+
 ## 当前仓库实际状态
 
 - 有独立只读原型、8项原型测试、CI及2026-09-15 Mac16,13/15.7.3/24G419证据。
@@ -43,12 +51,12 @@ git status --short
 git branch --show-current
 git log -3 --oneline
 python3 scripts/validate-handoff.py
-swiftc -swift-version 6 -typecheck docs/contracts/api-v1.swift
+swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -typecheck docs/contracts/api-v1.swift
 xcode-select -p
 swift --version
 ```
 
-先检查用户改动，不覆盖或reset。CLT可完成文档/核心验证；App/UI阶段需要完整Xcode16.4或通过相同测试的兼容版本。需要上游代码时按manifest的repository＋commit取只读副本，校验hash并保留许可；不要依赖本次审查临时目录，也不要直接运行第三方监控软件替代产品。
+先检查用户改动，不覆盖或reset。CLT可完成文档/核心验证；App/UI阶段需要完整Xcode并验证工具链能表达预期15.7.3 deployment target。需要上游代码时先按研究manifest固定来源，再按third-party-v1登记实际本地路径、许可hash、notice和修改说明；不要依赖临时目录，也不要直接运行第三方监控软件替代产品。
 
 ## 接手任务与证据
 

@@ -1,6 +1,6 @@
 # Git、GitHub与执行门禁
 
-更新：2026-09-19；C10执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。当前文档基线在`feature/v0-sensor-validation`的[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，**只拉main会遗漏当前设计**。
+更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。当前文档基线在`feature/v0-sensor-validation`的[Draft PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4)，**只拉main会遗漏当前设计**。
 
 ## 分支与集成
 
@@ -12,6 +12,18 @@
 6. 所有门禁通过且维护者确认后使用merge commit，禁止squash/rebase代替；保留本地和远端功能分支，不用`--delete-branch`。
 
 GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除独立审查**。PR必须链接非实现者的审查结论和已处理事项，维护者最终决定合并。若未来增加协作者，可另行把GitHub非作者审批提升为1，不把不存在的审批人写成已配置。
+
+## 契约变更的原子同步规则
+
+当前实现基线是`contract revision 2`。修改公开类型、默认值、profile、数据库schema、来源资格、持久化所有权、展示状态或第三方复用边界时，必须在同一提交中同步所有受影响的权威层，不能用多个暂时互相矛盾的提交传播契约：
+
+1. 更新`docs/contracts/`中的API、defaults、profile、schema或`third-party-v1.json`；文件名中的`v1`是产品契约族，兼容性修订以`contract_version`判断。
+2. 同步`01-requirements.md`、`acceptance-v1.json`正文hash和`17-traceability.md`；不得只改叙述而留下旧机器映射。
+3. 同步实际定义行为的02～13、19～21专项设计；错误码、状态互斥、单位、缺口和幂等语义必须保持一致。
+4. 接口、依赖或验收发生变化时同步22、23和`tasks-v1.json`；若任务DAG确实不变，记录不改的理由，不制造无意义版本漂移。
+5. 同步10中的测试组和`scripts/validate-handoff.py`，先建立会失败的门禁，再更新文档使其通过。涉及上游经验边界时必须覆盖`TC-UPSTREAM-BOUNDARY`。
+
+复制或修改第三方代码前，先在`third-party-v1.json`登记固定commit、上游与本地路径、复用方式、许可证hash、notice路径和修改摘要；同时提交许可证/notice。`method-only`来源不能转成代码导入。契约同步不完整、校验失败或来源登记缺失时，该提交和PR不得合并。
 
 ## 强制规则目标
 

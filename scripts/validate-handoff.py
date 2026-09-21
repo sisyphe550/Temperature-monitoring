@@ -453,12 +453,49 @@ def validate_links() -> None:
                 fail(f"{path.relative_to(ROOT)}: broken local link {target}")
 
 
+def validate_entry_contracts() -> None:
+    entry_paths = [
+        ROOT / "README.md",
+        ROOT / "CONTEXT.md",
+        ROOT / "AGENTS.md",
+        DOCS / "00-agent-handoff.md",
+        DOCS / "21-implementation-contracts.md",
+    ]
+    required_tokens = (
+        "contract revision 2",
+        "Discovered",
+        "Qualified",
+        "ReadingOutcome",
+        "PersistenceLease",
+        "PresentationState",
+        "third-party-v1.json",
+    )
+    for path in entry_paths:
+        text = path.read_text(encoding="utf-8")
+        for token in required_tokens:
+            if token not in text:
+                fail(f"{path.relative_to(ROOT)}: missing current handoff token {token}")
+    for path in entry_paths[:4]:
+        if "TC-UPSTREAM-BOUNDARY" not in path.read_text(encoding="utf-8"):
+            fail(f"{path.relative_to(ROOT)}: missing current handoff token TC-UPSTREAM-BOUNDARY")
+
+    current_files = [ROOT / "README.md", ROOT / "CONTEXT.md", ROOT / "AGENTS.md"]
+    current_files.extend(sorted(DOCS.glob("[0-2][0-9]-*.md")))
+    forbidden_tokens = ("QueueReservation", "valueC: Double?", "failure: MonitorFailure?")
+    for path in current_files:
+        text = path.read_text(encoding="utf-8")
+        for token in forbidden_tokens:
+            if token in text:
+                fail(f"{path.relative_to(ROOT)}: obsolete contract token remains: {token}")
+
+
 def main() -> int:
     validate_requirements()
     validate_contract_values()
     validate_third_party_contract()
     validate_task_graph()
     validate_schema()
+    validate_entry_contracts()
     validate_links()
     if ERRORS:
         print(json.dumps({"status": "failed", "errors": ERRORS}, ensure_ascii=False, indent=2))

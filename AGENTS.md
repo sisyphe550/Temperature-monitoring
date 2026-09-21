@@ -8,15 +8,17 @@
 
 ## 开发入口
 
-先读[docs/00-agent-handoff.md](docs/00-agent-handoff.md)、[需求](docs/01-requirements.md)、[契约](docs/21-implementation-contracts.md)、[工作包计划](docs/22-agent-implementation-plan.md)、[细粒度任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)。这些文件包含当前有效方案，无需依赖聊天记录。
+先读[docs/00-agent-handoff.md](docs/00-agent-handoff.md)、[需求](docs/01-requirements.md)、[契约](docs/21-implementation-contracts.md)、[工作包计划](docs/22-agent-implementation-plan.md)、[细粒度任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)。当前唯一接口为实施契约v1族的`contract revision 2`；这些文件包含有效方案，无需依赖聊天记录。
 
 - 仅实现现行需求；012/114退役，禁止恢复逐物理核心温度/core_id或物理Package保证。
 - 实时内存EMA、Raw/EMA入SQLite、历史分层、会话清理按唯一契约实施。
 - CPU12成员、单项可选故障、来源身份、单位、缺口与幂等不能被静默简化。
+- SensorTransport的`DiscoveredCatalog`必须经Registry成为`QualifiedSourceCatalog`；只有Qualified来源可进入采样、加工、存储和展示。
+- `ReadingOutcome`、`PersistenceLease`/ProcessingReceipt及`PresentationState`是唯一状态边界，禁止恢复可空值/错误、公开预留或独立UI布尔状态。
 - 默认值、profile、类型、schema见docs/contracts；变更它们同时更新需求、设计、追踪、测试及版本。
 - 真实硬件证据与模拟数据分开；不得将CI/源码推断当作正式App实机通过。
 - 历史validation/research记录不可回写状态；新验证新增按日期/提交命名的证据。
-- 复用实质开源代码必须保留对应版本许可和版权；缺完整许可的项目只参考方法。
+- 复用实质开源代码必须先更新[third-party-v1.json](docs/contracts/third-party-v1.json)，保留固定版本、许可、版权、notice和修改说明；缺完整许可的项目只参考方法。运行`TC-UPSTREAM-BOUNDARY`，禁止旧值补样、名称推断物理语义、补0°C、root/helper、写SMC和Release fixture。
 
 ## Git与验收
 
