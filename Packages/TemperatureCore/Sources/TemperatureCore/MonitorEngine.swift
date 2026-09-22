@@ -25,8 +25,13 @@ public actor MonitorEngine: ProcessingEngine {
     private var seriesDefinitions: [SeriesID: SeriesDefinition]
     private var seriesState: [SeriesID: SeriesState]
     private var lastEMABySeries: [SeriesID: EMAValue] = [:]
+    private var lastSuccessfulAtBySeries: [SeriesID: Timestamp] = [:]
+    private var lastFailureBySeries: [SeriesID: MonitorFailure] = [:]
     private var openGapBySeries: [SeriesID: GapID] = [:]
     private var activeGapIDs: Set<GapID> = []
+    private let qualifiedSources: [QualifiedSource]
+    private let sessionStartedAt: Timestamp
+    private var initialMetadataCommitted = false
     private var acceptedGeneration: UInt64 = 0
     private var nextSampleSequence: Int64 = 1
     private var deliveredSampleIDs: Set<String> = []
@@ -40,12 +45,16 @@ public actor MonitorEngine: ProcessingEngine {
         session: SessionMetadata,
         configuration: RuntimeConfiguration,
         definitions: [SeriesDefinition],
-        cpuPeriodMS: Int
+        cpuPeriodMS: Int,
+        qualifiedSources: [QualifiedSource] = [],
+        sessionStartedAt: Timestamp? = nil
     ) {
         self.clock = clock
         self.commit = commit
         sessionID = session.sessionID
         self.configuration = configuration
+        self.qualifiedSources = qualifiedSources
+        self.sessionStartedAt = sessionStartedAt ?? clock.now()
         sourceToSeries = Dictionary(
             uniqueKeysWithValues: definitions
                 .filter { $0.formula == .identity }
@@ -100,19 +109,16 @@ public actor MonitorEngine: ProcessingEngine {
         }
         acceptedGeneration = max(acceptedGeneration, batch.generation)
 
-        let inFlightStarts = batch.readings.map(\.started.elapsedNS)
-        aggregation.beginInFlight(startElapsedNS: inFlightStarts)
-        defer {
-            aggregation.endInFlight(startElapsedNS: inFlightStarts)
-        }
-
         let now = clock.now()
         var rawSamples: [Sample] = []
         var emaSamples: [EMAValue] = []
         var batchMemberSamples: [SourceID: Sample] = [:]
         for reading in batch.readings {
             switch reading.outcome {
-            case .failure:
+            case let .failure(failure):
+                if let definition = sourceToSeries[reading.sourceID] {
+                    lastFailureBySeries[definition.seriesID] = failure
+                }
                 continue
             case let .success(valueC, sourceWallUnixNS, freshness):
                 do {
@@ -167,6 +173,8 @@ public actor MonitorEngine: ProcessingEngine {
                 batchMemberSamples[reading.sourceID] = sample
                 let ema = try computeEMA(for: sample, kind: definition.kind)
                 emaSamples.append(ema)
+                lastSuccessfulAtBySeries[definition.seriesID] = reading.finished
+                lastFailureBySeries.removeValue(forKey: definition.seriesID)
                 state.lastElapsedNS = elapsedNS
                 seriesState[definition.seriesID] = state
             }
@@ -192,12 +200,7 @@ public actor MonitorEngine: ProcessingEngine {
             }
         }
 
-        let batchID = BatchID(UUID())
-        let persistenceBatch = PersistenceBatch(
-            batchID: batchID,
-            sources: [],
-            definitions: [],
-            segments: [],
+        let persistenceBatch = makePersistenceBatch(
             raw: rawSamples,
             ema: emaSamples,
             buckets: [],
@@ -207,6 +210,7 @@ public actor MonitorEngine: ProcessingEngine {
 
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
 
         let bufferNow = max(now.elapsedNS, rawSamples.map(\.timestamp.elapsedNS).max() ?? now.elapsedNS)
         for sample in rawSamples {
@@ -227,16 +231,38 @@ public actor MonitorEngine: ProcessingEngine {
         return receipt
     }
 
+    public func setCPUPeriod(milliseconds: Int) {
+        cpuPeriodMS = milliseconds
+    }
+
+    public func registerInFlightReading(startElapsedNS: Int64) {
+        aggregation.beginInFlight(startElapsedNS: [startElapsedNS])
+    }
+
+    public func unregisterInFlightReading(startElapsedNS: Int64) {
+        aggregation.endInFlight(startElapsedNS: [startElapsedNS])
+    }
+
+    public func safeWatermarkElapsedNS(at timestamp: Timestamp) -> Int64 {
+        SafeWatermark.maximumClosureElapsedNS(
+            nowElapsedNS: timestamp.elapsedNS,
+            inFlightStartElapsedNS: aggregation.activeInFlightStarts()
+        )
+    }
+
     public func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt {
         try validateWatermarkLease(lease)
+        let safeWatermark = safeWatermarkElapsedNS(at: timestamp)
+        guard timestamp.elapsedNS <= safeWatermark else {
+            throw Self.failure(
+                code: .processingValidate,
+                operation: "advance",
+                underlyingCode: "unsafe_watermark"
+            )
+        }
         let buckets = aggregation.advance(to: timestamp.elapsedNS)
         let trends = computeTrends(at: timestamp)
-        let batchID = BatchID(UUID())
-        let persistenceBatch = PersistenceBatch(
-            batchID: batchID,
-            sources: [],
-            definitions: [],
-            segments: [],
+        let persistenceBatch = makePersistenceBatch(
             raw: [],
             ema: [],
             buckets: buckets,
@@ -245,6 +271,7 @@ public actor MonitorEngine: ProcessingEngine {
         )
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
         snapshotGeneration = receipt.snapshotGeneration
         return receipt
     }
@@ -260,12 +287,7 @@ public actor MonitorEngine: ProcessingEngine {
             )
         }
 
-        let batchID = BatchID(UUID())
-        let persistenceBatch = PersistenceBatch(
-            batchID: batchID,
-            sources: [],
-            definitions: [],
-            segments: [],
+        let persistenceBatch = makePersistenceBatch(
             raw: [],
             ema: [],
             buckets: [],
@@ -274,6 +296,7 @@ public actor MonitorEngine: ProcessingEngine {
         )
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
 
         activeGapIDs.insert(gap.gapID)
         if gap.endedElapsedNS == nil {
@@ -287,9 +310,25 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func snapshot(at timestamp: Timestamp) async -> Snapshot {
-        Snapshot(
+        let values = seriesDefinitions.values
+            .sorted { $0.displayName < $1.displayName }
+            .map { definition -> LatestValue in
+                let segment = seriesState[definition.seriesID]?.segment ?? 1
+                if let ema = lastEMABySeries[definition.seriesID], ema.segment == segment {
+                    return LatestValue(
+                        definition: definition,
+                        state: .available(
+                            ema: ema,
+                            lastSuccessfulAt: lastSuccessfulAtBySeries[definition.seriesID] ?? ema.timestamp,
+                            lastFailure: lastFailureBySeries[definition.seriesID]
+                        )
+                    )
+                }
+                return LatestValue(definition: definition, state: .loading)
+            }
+        return Snapshot(
             asOf: timestamp,
-            values: [],
+            values: values,
             gapIDs: Array(activeGapIDs),
             cpuPeriodMS: cpuPeriodMS,
             generation: snapshotGeneration
@@ -334,6 +373,55 @@ public actor MonitorEngine: ProcessingEngine {
 
     func activeSeriesCount() -> Int {
         buffers.activeSeriesCount
+    }
+
+    private func makePersistenceBatch(
+        raw: [Sample],
+        ema: [EMAValue],
+        buckets: [Bucket],
+        trends: [TrendValue],
+        gaps: [Gap]
+    ) -> PersistenceBatch {
+        let metadata = initialMetadataPayload()
+        return PersistenceBatch(
+            batchID: BatchID(UUID()),
+            sources: metadata.sources,
+            definitions: metadata.definitions,
+            segments: metadata.segments,
+            raw: raw,
+            ema: ema,
+            buckets: buckets,
+            trends: trends,
+            gaps: gaps
+        )
+    }
+
+    private func initialMetadataPayload() -> (
+        sources: [QualifiedSource],
+        definitions: [SeriesDefinition],
+        segments: [Segment]
+    ) {
+        guard !initialMetadataCommitted, !qualifiedSources.isEmpty else {
+            return ([], [], [])
+        }
+        return (
+            qualifiedSources,
+            Array(seriesDefinitions.values),
+            seriesDefinitions.values.map { definition in
+                Segment(
+                    seriesID: definition.seriesID,
+                    number: 1,
+                    started: sessionStartedAt,
+                    reason: .sessionStart
+                )
+            }
+        )
+    }
+
+    private func markInitialMetadataCommittedIfNeeded(for batch: PersistenceBatch) {
+        if !initialMetadataCommitted, !batch.sources.isEmpty {
+            initialMetadataCommitted = true
+        }
     }
 
     private func computeTrends(at timestamp: Timestamp) -> [TrendValue] {
@@ -424,7 +512,7 @@ public actor MonitorEngine: ProcessingEngine {
                 underlyingCode: "receipt_batch_mismatch"
             )
         }
-        let expectedRecords = batch.raw.count + batch.ema.count + batch.buckets.count + batch.trends.count + batch.gaps.count
+        let expectedRecords = PersistenceBatchMetrics.logicalRecordCount(batch)
         guard receipt.acceptedRecords == expectedRecords else {
             throw Self.failure(
                 code: .databaseIntegrity,

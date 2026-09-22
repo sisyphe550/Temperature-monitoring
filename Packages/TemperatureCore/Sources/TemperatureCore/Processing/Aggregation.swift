@@ -269,4 +269,8 @@ struct AggregationEngine {
     private func blocksClosure(until windowEndNS: Int64) -> Bool {
         inFlightStartElapsedNS.contains { $0 < windowEndNS }
     }
+
+    func activeInFlightStarts() -> [Int64] {
+        inFlightStartElapsedNS
+    }
 }

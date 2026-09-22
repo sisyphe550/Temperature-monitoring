@@ -14,7 +14,7 @@ actor TestCommitCapability: PersistenceCommitCapability {
         _ = lease
         committed.append(batch)
         snapshotGeneration += 1
-        let recordCount = batch.raw.count + batch.ema.count + batch.buckets.count + batch.trends.count + batch.gaps.count
+        let recordCount = PersistenceBatchMetrics.logicalRecordCount(batch)
         if rejectNextReceipt {
             rejectNextReceipt = false
             return ProcessingReceipt(
