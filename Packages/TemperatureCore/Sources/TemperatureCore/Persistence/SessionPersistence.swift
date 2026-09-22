@@ -1,0 +1,146 @@
+import Foundation
+
+public actor SessionPersistenceActor: SessionStoreCapability {
+    private let databaseURL: URL
+    private let ioQueue = DispatchQueue(label: "com.temperaturemonitor.session-persistence.io")
+    private var store: SQLiteStore?
+    private var openedSession: SessionMetadata?
+
+    public init(databaseURL: URL) {
+        self.databaseURL = databaseURL
+    }
+
+    public func open(_ session: SessionMetadata) async throws {
+        guard store == nil else {
+            throw Self.failure(
+                code: .databaseInit,
+                operation: "open",
+                underlyingCode: "already_open"
+            )
+        }
+
+        let url = databaseURL
+        do {
+            let store = try await runIO {
+                try Self.openStore(at: url, session: session)
+            }
+            self.store = store
+            openedSession = session
+        } catch let error as SQLiteStoreError {
+            throw Self.mapStoreError(error, operation: "open")
+        }
+    }
+
+    public func query(_ request: HistoryRequest) async throws -> HistoryResult {
+        _ = request
+        throw Self.failure(
+            code: .databaseRead,
+            operation: "query",
+            underlyingCode: "not_implemented"
+        )
+    }
+
+    public func prune(nowElapsedNS: Int64) async throws {
+        _ = nowElapsedNS
+        throw Self.failure(
+            code: .databaseClean,
+            operation: "prune",
+            underlyingCode: "not_implemented"
+        )
+    }
+
+    public func closeAndDeleteSession() async throws {
+        let url = databaseURL
+        if let store {
+            await runIO { store.close() }
+        }
+        store = nil
+        openedSession = nil
+        try await runIO {
+            try Self.deleteDatabaseFiles(at: url)
+        }
+    }
+
+    var openedSessionMetadata: SessionMetadata? {
+        openedSession
+    }
+
+    private func runIO<T: Sendable>(
+        _ work: @escaping @Sendable () throws -> T
+    ) async throws -> T {
+        try await withCheckedThrowingContinuation { continuation in
+            ioQueue.async {
+                do {
+                    continuation.resume(returning: try work())
+                } catch {
+                    continuation.resume(throwing: error)
+                }
+            }
+        }
+    }
+
+    private func runIO(
+        _ work: @escaping @Sendable () -> Void
+    ) async {
+        await withCheckedContinuation { continuation in
+            ioQueue.async {
+                work()
+                continuation.resume()
+            }
+        }
+    }
+
+    private static func openStore(at databaseURL: URL, session: SessionMetadata) throws -> SQLiteStore {
+        let parent = databaseURL.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: parent, withIntermediateDirectories: true)
+
+        let store = try SQLiteStore(databaseURL: databaseURL)
+        try store.applyBundledSchemaIfNeeded()
+        try store.quickCheck()
+        try store.insertSession(session)
+        return store
+    }
+
+    private static func deleteDatabaseFiles(at databaseURL: URL) throws {
+        let fm = FileManager.default
+        let paths = [
+            databaseURL,
+            URL(fileURLWithPath: databaseURL.path + "-wal"),
+            URL(fileURLWithPath: databaseURL.path + "-shm"),
+        ]
+        for url in paths where fm.fileExists(atPath: url.path) {
+            try fm.removeItem(at: url)
+        }
+    }
+
+    private static func mapStoreError(_ error: SQLiteStoreError, operation: String) -> MonitorFailure {
+        switch error {
+        case .openFailed(_, let message):
+            return failure(code: .databaseOpen, operation: operation, underlyingCode: message)
+        case .quickCheckFailed(let result):
+            return failure(code: .databaseCorrupt, operation: operation, underlyingCode: result)
+        case .schemaMismatch(let detail):
+            return failure(code: .databaseSchema, operation: operation, underlyingCode: detail)
+        case .execFailed(_, let message), .prepareFailed(_, let message), .stepFailed(_, let message):
+            return failure(code: .databaseInit, operation: operation, underlyingCode: message)
+        case .closed:
+            return failure(code: .databaseInit, operation: operation, underlyingCode: "closed")
+        }
+    }
+
+    private static func failure(
+        code: MonitorErrorCode,
+        operation: String,
+        underlyingCode: String
+    ) -> MonitorFailure {
+        MonitorFailure(
+            code: code,
+            severity: .fatal,
+            component: "SessionPersistence",
+            operation: operation,
+            retryCount: 0,
+            sourceID: nil,
+            underlyingCode: underlyingCode
+        )
+    }
+}
