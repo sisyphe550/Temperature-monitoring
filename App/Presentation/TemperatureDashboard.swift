@@ -1,4 +1,5 @@
 import SwiftUI
+import TemperatureCore
 import TemperaturePresentation
 
 struct TemperatureDashboard: View {
@@ -38,7 +39,7 @@ struct TemperatureDashboard: View {
             HSplitView {
                 sourceList(running)
                     .frame(minWidth: 240, idealWidth: 280, maxWidth: 360)
-                chartPlaceholder(running)
+                chartArea(running)
             }
         case let .fatal(fatal):
             VStack(alignment: .leading, spacing: 12) {
@@ -91,27 +92,16 @@ struct TemperatureDashboard: View {
     }
 
     @ViewBuilder
-    private func chartPlaceholder(_ running: RunningPresentationState) -> some View {
+    private func chartArea(_ running: RunningPresentationState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("历史图表")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-            switch running.chart {
-            case .loading:
-                Text("正在加载历史…")
-                    .foregroundStyle(.secondary)
-            case let .ready(series, _):
-                Text("已加载 \(series.count) 条序列")
-                    .foregroundStyle(.secondary)
-            case let .failed(failure, _):
-                Text(failure.code.rawValue)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
+            HistoryRangePicker(
+                selectedRange: actions?.currentHistoryRange() ?? .fiveMinutes,
+                onSelect: { actions?.setHistoryRange($0) }
+            )
+            HistoryChartView(chartState: running.chart)
         }
         .padding(16)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .accessibilityIdentifier("history.chart")
     }
 
     private func overviewRow(title: String, value: TemperatureValueState) -> some View {

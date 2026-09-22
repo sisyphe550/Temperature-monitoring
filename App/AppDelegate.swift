@@ -11,6 +11,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     private var settingsController: SettingsWindowController?
     private var fixtureName: String?
     private var fixtureGeneration: UInt64 = 1
+    private var selectedHistoryRange: HistoryRange = .fiveMinutes
 
     override init() {
         presentationModel = PresentationModel(
@@ -86,6 +87,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
         settingsController?.showWindow()
     }
 
+    func currentHistoryRange() -> HistoryRange {
+        selectedHistoryRange
+    }
+
+    func setHistoryRange(_ range: HistoryRange) {
+        guard fixtureName != nil else {
+            return
+        }
+        selectedHistoryRange = range
+        UIFixtures.applyHistory(to: presentationModel, range: range)
+    }
+
     func setCPUPeriod(milliseconds: Int) {
         guard TemperatureFormatting.cpuPeriodOptionsMS.contains(milliseconds) else {
             return
@@ -102,6 +115,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             cpuPeriodMS: milliseconds,
             generation: fixtureGeneration
         )
+        UIFixtures.applyHistory(to: presentationModel, range: selectedHistoryRange)
     }
 
     func quit() {

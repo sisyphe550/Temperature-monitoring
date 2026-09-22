@@ -8,8 +8,10 @@ enum UIFixtures {
         switch name {
         case "basic":
             applyBasic(to: model, cpuPeriodMS: 200, generation: 1)
+            applyHistory(to: model, range: .fiveMinutes)
         case "sources":
             applySources(to: model)
+            applyHistory(to: model, range: .fiveMinutes)
         case "stale":
             applyStale(to: model)
         case "fatal":
@@ -182,6 +184,52 @@ enum UIFixtures {
             displayName: displayName,
             memberSourceIDs: [(try? SourceID(validating: sourceUUID))!],
             formula: formula
+        )
+    }
+
+    static func applyHistory(to model: PresentationModel, range: HistoryRange) {
+        let seriesID = (try? SeriesID(validating: "00000000-0000-4000-8000-000000000101"))!
+        let layer = HistoryChartModel.layer(for: range)
+        let pointCount = switch range {
+        case .fiveMinutes: 30
+        case .oneHour: 60
+        case .oneDay: 80
+        case .threeDays: 100
+        }
+        var points: [HistoryPoint] = []
+        points.reserveCapacity(pointCount)
+        for index in 0 ..< pointCount {
+            let elapsedMS = Int64(100 + index * 100)
+            let valueC = 50.0 + Double(index % 10)
+            let maxC = index == pointCount / 2 ? 95.0 : valueC
+            points.append(
+                HistoryPoint(
+                    seriesID: seriesID,
+                    segment: index < pointCount / 2 ? 1 : 2,
+                    elapsedNS: elapsedMS * 1_000_000,
+                    wallUnixNS: nil,
+                    valueC: valueC,
+                    minC: min(valueC, maxC),
+                    maxC: maxC,
+                    count: 1
+                )
+            )
+        }
+        model.beginHistoryLoad()
+        model.apply(
+            history: HistoryResult(
+                layer: layer,
+                points: points,
+                gaps: [],
+                availableFromElapsedNS: 100_000_000,
+                persistedThroughElapsedNS: Int64(100 + pointCount * 100) * 1_000_000
+            ),
+            request: HistoryRequest(
+                seriesIDs: [seriesID],
+                range: range,
+                asOfElapsedNS: Int64(100 + pointCount * 100) * 1_000_000,
+                pointLimit: 2000
+            )
         )
     }
 

@@ -34,8 +34,7 @@ public final class PresentationModel {
         guard !isFatal else {
             return
         }
-        let previous = chartPreviousSeries()
-        chartState = .loading(previous: previous)
+        chartState = HistoryChartModel.beginLoading(previous: chartPreviousSeries())
         if case let .running(running) = state {
             state = .running(
                 RunningPresentationState(
@@ -53,8 +52,7 @@ public final class PresentationModel {
         guard !isFatal else {
             return
         }
-        let series = makeHistorySeries(from: history, request: request)
-        chartState = .ready(series: series, gaps: history.gaps)
+        chartState = HistoryChartModel.makeReadyState(from: history, request: request)
         refreshRunningChart()
     }
 
@@ -62,7 +60,7 @@ public final class PresentationModel {
         guard !isFatal else {
             return
         }
-        chartState = .failed(failure, previous: chartPreviousSeries())
+        chartState = HistoryChartModel.makeFailedState(failure, previous: chartPreviousSeries())
         refreshRunningChart()
     }
 
@@ -197,34 +195,8 @@ public final class PresentationModel {
         }
     }
 
-    private func makeHistorySeries(
-        from history: HistoryResult,
-        request: HistoryRequest
-    ) -> [HistorySeriesState] {
-        let grouped = Dictionary(grouping: history.points, by: \.seriesID)
-        return request.seriesIDs.compactMap { seriesID in
-            guard let points = grouped[seriesID], !points.isEmpty else {
-                return nil
-            }
-            return HistorySeriesState(
-                seriesID: seriesID,
-                displayName: seriesID.rawValue,
-                colorToken: seriesID.rawValue,
-                layer: history.layer,
-                points: points
-            )
-        }
-    }
-
     private func chartPreviousSeries() -> [HistorySeriesState] {
-        switch chartState {
-        case let .loading(previous):
-            return previous
-        case let .ready(series, _):
-            return series
-        case let .failed(_, previous):
-            return previous
-        }
+        HistoryChartModel.previousSeries(from: chartState)
     }
 
     public static func staleThresholdNS(periodMS: Int) -> Int64 {

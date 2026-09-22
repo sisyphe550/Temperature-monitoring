@@ -33,6 +33,14 @@ final class TemperatureMonitorUITests: XCTestCase {
         XCTAssertTrue(app.popUpButtons["cpu.period"].exists)
     }
 
+    func testHistoryChartLoadsInDashboard() throws {
+        let app = launch(fixture: "basic", open: "dashboard")
+        let dashboardWindow = app.windows["温度监测"]
+        XCTAssertTrue(dashboardWindow.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.descendants(matching: .any)["history.range"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["history.chart"].firstMatch.waitForExistence(timeout: 5))
+    }
+
     func testCPUPeriodPicker() throws {
         let app = launch(fixture: "basic", open: "dashboard")
         let dashboardWindow = app.windows["温度监测"]

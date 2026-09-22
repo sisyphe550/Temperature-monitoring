@@ -1,0 +1,5 @@
+import TemperaturePresentation
+
+public typealias HistoryChartModel = TemperaturePresentation.HistoryChartModel
+public typealias HistoryChartPlotPoint = TemperaturePresentation.HistoryChartPlotPoint
+public typealias HistoryChartPlotSegment = TemperaturePresentation.HistoryChartPlotSegment
