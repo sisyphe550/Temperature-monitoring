@@ -18,10 +18,12 @@ if ! xcode-select -p 2>/dev/null | grep -q "Xcode.app"; then
   exit 1
 fi
 
-echo "building ${WORKER_PRODUCT} (release)..."
-swift build --package-path "${PACKAGE_PATH}" --product "${WORKER_PRODUCT}" -c release
+WORKER_BUILD_FLAGS=(-Xswiftc -target -Xswiftc arm64-apple-macos15.7.3)
 
-WORKER_BIN="$(swift build --package-path "${PACKAGE_PATH}" --product "${WORKER_PRODUCT}" -c release --show-bin-path)/${WORKER_PRODUCT}"
+echo "building ${WORKER_PRODUCT} (release)..."
+swift build --package-path "${PACKAGE_PATH}" --product "${WORKER_PRODUCT}" -c release "${WORKER_BUILD_FLAGS[@]}"
+
+WORKER_BIN="$(swift build --package-path "${PACKAGE_PATH}" --product "${WORKER_PRODUCT}" -c release "${WORKER_BUILD_FLAGS[@]}" --show-bin-path)/${WORKER_PRODUCT}"
 if [[ ! -x "${WORKER_BIN}" ]]; then
   echo "error: missing worker binary at ${WORKER_BIN}" >&2
   exit 1

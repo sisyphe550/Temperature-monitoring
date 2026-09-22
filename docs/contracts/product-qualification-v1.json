@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "product-hardware-qualification",
+  "required_sections": [
+    "build_toolchain",
+    "deployment_target",
+    "runtime_profile",
+    "qualified_combinations"
+  ],
+  "build_toolchain_fields": [
+    "xcode_version",
+    "swift_version",
+    "sdk_version",
+    "host_product_version",
+    "host_build_version"
+  ],
+  "deployment_target_fields": [
+    "configured_macosx_deployment_target",
+    "architectures",
+    "app_load_command",
+    "worker_load_command",
+    "load_commands_match_configuration"
+  ],
+  "runtime_profile_fields": [
+    "profile_id",
+    "profile_version",
+    "profile_sha256",
+    "bundled_profile_sha256",
+    "profile_matches_bundle",
+    "model_identifier",
+    "host_product_version",
+    "host_build_version",
+    "minimum_os",
+    "cpu_key_count"
+  ],
+  "qualified_combination_fields": [
+    "app_sha256",
+    "worker_sha256",
+    "codesign_identity",
+    "model_identifier",
+    "host_product_version",
+    "host_build_version",
+    "suite",
+    "result"
+  ],
+  "suites": [
+    "dry-run",
+    "sources",
+    "schedules",
+    "lifecycle",
+    "endurance",
+    "full"
+  ],
+  "forbidden_backends": [
+    "prototypes/sensor-probe/.build/release/sensor-probe",
+    "sensor-probe"
+  ],
+  "notes": "Four platform sections must remain separate top-level keys. CLI prototype evidence must not populate qualified_combinations."
+}
