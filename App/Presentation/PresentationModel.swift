@@ -1,0 +1,3 @@
+import TemperaturePresentation
+
+public typealias PresentationModel = TemperaturePresentation.PresentationModel

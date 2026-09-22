@@ -1,0 +1,8 @@
+import Foundation
+import TemperatureCore
+
+public typealias PresentationState = TemperatureCore.PresentationState
+public typealias RunningPresentationState = TemperatureCore.RunningPresentationState
+public typealias FatalPresentationState = TemperatureCore.FatalPresentationState
+public typealias TemperatureValueState = TemperatureCore.TemperatureValueState
+public typealias HistoryChartState = TemperatureCore.HistoryChartState
