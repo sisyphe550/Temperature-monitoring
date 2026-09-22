@@ -1,0 +1,54 @@
+name: TemperatureMonitor
+options:
+  bundleIdPrefix: io.github.sisyphe550
+  deploymentTarget:
+    macOS: "15.7.3"
+  createIntermediateGroups: true
+packages:
+  TemperatureCore:
+    path: Packages/TemperatureCore
+targets:
+  TemperatureMonitor:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+    settings:
+      PRODUCT_NAME: TemperatureMonitor
+      PRODUCT_BUNDLE_IDENTIFIER: io.github.sisyphe550.TemperatureMonitor
+      SWIFT_VERSION: "6.0"
+      MACOSX_DEPLOYMENT_TARGET: "15.7.3"
+      ENABLE_APP_SANDBOX: NO
+      CODE_SIGNING_ALLOWED: NO
+      GENERATE_INFOPLIST_FILE: YES
+      INFOPLIST_KEY_LSUIElement: YES
+      INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright © 2026"
+    dependencies:
+      - package: TemperatureCore
+        product: TemperatureCore
+      - package: TemperatureCore
+        product: SensorRuntime
+      - package: TemperatureCore
+        product: TemperaturePresentation
+  TemperatureMonitorUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: TemperatureMonitor
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: io.github.sisyphe550.TemperatureMonitorUITests
+      SWIFT_VERSION: "6.0"
+      MACOSX_DEPLOYMENT_TARGET: "15.7.3"
+      CODE_SIGNING_ALLOWED: NO
+      GENERATE_INFOPLIST_FILE: YES
+      TEST_TARGET_NAME: TemperatureMonitor
+schemes:
+  TemperatureMonitor:
+    build:
+      targets:
+        TemperatureMonitor: all
+    test:
+      targets:
+        - TemperatureMonitorUITests

@@ -7,6 +7,7 @@ let package = Package(
     products: [
         .library(name: "TemperatureCore", targets: ["TemperatureCore"]),
         .library(name: "SensorRuntime", targets: ["SensorRuntime"]),
+        .library(name: "TemperaturePresentation", targets: ["TemperaturePresentation"]),
         .executable(name: "ProtocolWorker", targets: ["ProtocolWorker"]),
     ],
     targets: [
@@ -30,6 +31,11 @@ let package = Package(
             path: "Sources/SensorRuntime"
         ),
         .target(
+            name: "TemperaturePresentation",
+            dependencies: ["TemperatureCore"],
+            path: "Sources/TemperaturePresentation"
+        ),
+        .target(
             name: "SensorBridge",
             path: "Sources/SensorBridge",
             publicHeadersPath: "include",
@@ -45,7 +51,7 @@ let package = Package(
         ),
         .testTarget(
             name: "TemperatureCoreTests",
-            dependencies: ["TemperatureCore", "SensorRuntime"],
+            dependencies: ["TemperatureCore", "SensorRuntime", "TemperaturePresentation"],
             path: "Tests/TemperatureCoreTests"
         ),
         .testTarget(
