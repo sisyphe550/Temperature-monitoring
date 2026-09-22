@@ -204,6 +204,117 @@ import Testing
         }
     }
 
+    @Test func cpuMaxTracksHotspotAcrossBatches() async throws {
+        let fixture = try await ProcessorFixture.make(cpuMembers: 12)
+        let maxSeriesID = try #require(fixture.cpuMaxSeriesID)
+        var batchOne = Array(repeating: 20.0, count: 12)
+        batchOne[0] = 100
+        var batchTwo = Array(repeating: 20.0, count: 12)
+        batchTwo[1] = 100
+
+        let firstID = RequestID(Fixtures.uuid(401))
+        let secondID = RequestID(Fixtures.uuid(402))
+        _ = try await fixture.accept(
+            Fixtures.read(id: firstID, ms: 0, values: batchOne),
+            lease: fixture.lease(owner: .request(firstID), generation: 1)
+        )
+        let second = try await fixture.accept(
+            Fixtures.read(id: secondID, ms: 500, values: batchTwo),
+            lease: fixture.lease(owner: .request(secondID), generation: 1)
+        )
+
+        let committed = try #require(await fixture.committedBatch(for: second))
+        let derived = try #require(committed.raw.first { $0.seriesID == maxSeriesID })
+        #expect(derived.valueC == 100)
+        #expect(derived.memberSampleIDs.count == 12)
+    }
+
+    @Test func cpuMaxSkippedWhenMemberMissing() async throws {
+        let fixture = try await ProcessorFixture.make(cpuMembers: 12)
+        let maxSeriesID = try #require(fixture.cpuMaxSeriesID)
+        let requestID = RequestID(Fixtures.uuid(411))
+        let values = Array(repeating: 50.0, count: 11)
+
+        let receipt = try await fixture.accept(
+            Fixtures.read(id: requestID, ms: 0, values: values),
+            lease: fixture.lease(owner: .request(requestID), generation: 1)
+        )
+        let committed = try #require(await fixture.committedBatch(for: receipt))
+        #expect(committed.raw.contains { $0.seriesID == maxSeriesID } == false)
+        #expect(committed.raw.count == 11)
+    }
+
+    @Test func cpuMaxSkippedWhenDuplicateSource() async throws {
+        let fixture = try await ProcessorFixture.make(cpuMembers: 12)
+        let maxSeriesID = try #require(fixture.cpuMaxSeriesID)
+        let requestID = RequestID(Fixtures.uuid(412))
+        let sourceID = SourceID(Fixtures.uuid(1))
+        var readings = Fixtures.read(id: requestID, ms: 0, values: Array(repeating: 30.0, count: 12)).readings
+        readings.append(
+            Reading(
+                sourceID: sourceID,
+                started: Fixtures.timestamp(ms: 1),
+                finished: Fixtures.timestamp(ms: 1),
+                outcome: .success(valueC: 99, sourceWallUnixNS: nil, freshness: .unknown)
+            )
+        )
+
+        let receipt = try await fixture.accept(
+            ReadBatch(requestID: requestID, generation: 1, readings: readings),
+            lease: fixture.lease(owner: .request(requestID), generation: 1)
+        )
+        let committed = try #require(await fixture.committedBatch(for: receipt))
+        #expect(committed.raw.contains { $0.seriesID == maxSeriesID } == false)
+    }
+
+    @Test func cpuMaxSkippedWhenBatchSpanTooLarge() async throws {
+        let fixture = try await ProcessorFixture.make(cpuMembers: 12)
+        let maxSeriesID = try #require(fixture.cpuMaxSeriesID)
+        let requestID = RequestID(Fixtures.uuid(413))
+        let readings = (1...12).map { index in
+            Reading(
+                sourceID: SourceID(Fixtures.uuid(index)),
+                started: Fixtures.timestamp(ms: index == 1 ? 0 : 201),
+                finished: Fixtures.timestamp(ms: index == 1 ? 0 : 201),
+                outcome: .success(valueC: Double(index), sourceWallUnixNS: nil, freshness: .unknown)
+            )
+        }
+
+        let receipt = try await fixture.accept(
+            ReadBatch(requestID: requestID, generation: 1, readings: readings),
+            lease: fixture.lease(owner: .request(requestID), generation: 1)
+        )
+        let committed = try #require(await fixture.committedBatch(for: receipt))
+        #expect(committed.raw.contains { $0.seriesID == maxSeriesID } == false)
+    }
+
+    @Test func cpuMaxEMAFollowsDerivedSeries() async throws {
+        let fixture = try await ProcessorFixture.make(cpuMembers: 12)
+        let maxSeriesID = try #require(fixture.cpuMaxSeriesID)
+        var batchOne = Array(repeating: 20.0, count: 12)
+        batchOne[0] = 100
+        var batchTwo = Array(repeating: 20.0, count: 12)
+        batchTwo[1] = 100
+
+        let firstID = RequestID(Fixtures.uuid(421))
+        let secondID = RequestID(Fixtures.uuid(422))
+        _ = try await fixture.accept(
+            Fixtures.read(id: firstID, ms: 0, values: batchOne),
+            lease: fixture.lease(owner: .request(firstID), generation: 1)
+        )
+        let second = try await fixture.accept(
+            Fixtures.read(id: secondID, ms: 500, values: batchTwo),
+            lease: fixture.lease(owner: .request(secondID), generation: 1)
+        )
+
+        let committed = try #require(await fixture.committedBatch(for: second))
+        let derivedEMA = try #require(committed.ema.first { $0.seriesID == maxSeriesID })
+        let memberEMAs = committed.ema.filter { $0.seriesID != maxSeriesID }
+        let memberMaxEMA = memberEMAs.map(\.valueC).max() ?? 0
+        #expect(derivedEMA.valueC == 100)
+        #expect(memberMaxEMA < derivedEMA.valueC)
+    }
+
     @Test func thirtyThirdSeriesIsRejected() async throws {
         let configuration = try Configuration.bundledDefaults()
         let clock = TestClock(now: Fixtures.timestamp(ms: 0))

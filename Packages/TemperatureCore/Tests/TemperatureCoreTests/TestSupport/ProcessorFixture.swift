@@ -27,11 +27,12 @@ struct ProcessorFixture {
     let clock: TestClock
     let commit: TestCommitCapability
     let seriesID: SeriesID
+    let cpuMaxSeriesID: SeriesID?
     let sessionID: SessionID
+    let cpuMemberCount: Int
 
     static func make(cpuMembers: Int = 1) async throws -> ProcessorFixture {
         let sessionID = try SessionID(validating: "00000000-0000-4000-8000-000000000401")
-        let seriesID = SeriesID(Fixtures.uuid(101))
         let clock = TestClock(now: Fixtures.timestamp(ms: 0))
         let commit = TestCommitCapability()
         let configuration = try Configuration.bundledDefaults()
@@ -40,17 +41,44 @@ struct ProcessorFixture {
         for index in 1...cpuMembers {
             memberSourceIDs.append(SourceID(Fixtures.uuid(index)))
         }
-        definitions.append(
-            SeriesDefinition(
-                seriesID: seriesID,
-                metricID: try MetricID(validating: "fixture.cpu"),
-                definitionVersion: 1,
-                kind: .cpuZone,
-                displayName: "测试来源",
-                memberSourceIDs: memberSourceIDs,
-                formula: cpuMembers == 1 ? .identity : .maximum
+
+        let seriesID: SeriesID
+        let cpuMaxSeriesID: SeriesID?
+
+        if cpuMembers == 1 {
+            seriesID = SeriesID(Fixtures.uuid(101))
+            cpuMaxSeriesID = nil
+            definitions.append(
+                SeriesDefinition(
+                    seriesID: seriesID,
+                    metricID: try MetricID(validating: "fixture.cpu"),
+                    definitionVersion: 1,
+                    kind: .cpuZone,
+                    displayName: "测试来源",
+                    memberSourceIDs: memberSourceIDs,
+                    formula: .identity
+                )
             )
-        )
+        } else {
+            seriesID = SeriesID(Fixtures.uuid(101))
+            for index in 1...cpuMembers {
+                definitions.append(
+                    try MetricResolver.makeCPUZoneIdentityDefinition(
+                        seriesID: SeriesID(Fixtures.uuid(100 + index)),
+                        sourceID: SourceID(Fixtures.uuid(index)),
+                        displayName: "CPU来源 \(index)"
+                    )
+                )
+            }
+            cpuMaxSeriesID = SeriesID(Fixtures.uuid(200))
+            definitions.append(
+                try MetricResolver.makeCPUMaximumDefinition(
+                    seriesID: cpuMaxSeriesID!,
+                    memberSourceIDs: memberSourceIDs
+                )
+            )
+        }
+
         let engine = MonitorEngine(
             clock: clock,
             commit: commit,
@@ -70,7 +98,9 @@ struct ProcessorFixture {
             clock: clock,
             commit: commit,
             seriesID: seriesID,
-            sessionID: sessionID
+            cpuMaxSeriesID: cpuMaxSeriesID,
+            sessionID: sessionID,
+            cpuMemberCount: cpuMembers
         )
     }
 
@@ -97,7 +127,15 @@ struct ProcessorFixture {
         return receipt
     }
 
-    func rawSamples(nowMS: Int64) async -> [Sample] {
+    func rawSamples(for seriesID: SeriesID, nowMS: Int64) async -> [Sample] {
         await engine.rawSamples(for: seriesID, nowElapsedNS: nowMS * 1_000_000)
+    }
+
+    func rawSamples(nowMS: Int64) async -> [Sample] {
+        await rawSamples(for: seriesID, nowMS: nowMS)
+    }
+
+    func emaSamples(for seriesID: SeriesID, nowMS: Int64) async -> [EMAValue] {
+        await engine.emaSamples(for: seriesID, nowElapsedNS: nowMS * 1_000_000)
     }
 }

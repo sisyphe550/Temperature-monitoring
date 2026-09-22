@@ -16,7 +16,9 @@ public actor MonitorEngine: ProcessingEngine {
     private let sessionID: SessionID
     private let configuration: RuntimeConfiguration
     private let sourceToSeries: [SourceID: SeriesDefinition]
+    private let maximumDefinitions: [SeriesDefinition]
     private let emaProcessor: EMAProcessor
+    private let cpuMaxDerivation: CPUMaxDerivation
     private var buffers: RingBufferStore
     private var seriesState: [SeriesID: SeriesState]
     private var lastEMABySeries: [SeriesID: EMAValue] = [:]
@@ -40,11 +42,15 @@ public actor MonitorEngine: ProcessingEngine {
         sessionID = session.sessionID
         self.configuration = configuration
         sourceToSeries = Dictionary(
-            uniqueKeysWithValues: definitions.flatMap { definition in
-                definition.memberSourceIDs.map { ($0, definition) }
-            }
+            uniqueKeysWithValues: definitions
+                .filter { $0.formula == .identity }
+                .flatMap { definition in
+                    definition.memberSourceIDs.map { ($0, definition) }
+                }
         )
+        maximumDefinitions = definitions.filter { $0.formula == .maximum }
         emaProcessor = EMAProcessor(tauSeconds: configuration.emaTauSeconds)
+        cpuMaxDerivation = CPUMaxDerivation(maxBatchSpanMS: configuration.cpuMaxBatchSpanMS)
         buffers = RingBufferStore(
             configuration: RingBufferConfiguration(
                 capacity: configuration.ringCapacityPerSeries,
@@ -89,6 +95,7 @@ public actor MonitorEngine: ProcessingEngine {
         let now = clock.now()
         var rawSamples: [Sample] = []
         var emaSamples: [EMAValue] = []
+        var batchMemberSamples: [SourceID: Sample] = [:]
         for reading in batch.readings {
             switch reading.outcome {
             case .failure:
@@ -103,7 +110,7 @@ public actor MonitorEngine: ProcessingEngine {
                         underlyingCode: "invalid_temperature"
                     )
                 }
-                guard let definition = sourceToSeries[reading.sourceID] else {
+                guard let definition = sourceToSeries[reading.sourceID], definition.formula == .identity else {
                     throw Self.failure(
                         code: .processingValidate,
                         operation: "accept",
@@ -143,10 +150,31 @@ public actor MonitorEngine: ProcessingEngine {
                     memberSampleIDs: []
                 )
                 rawSamples.append(sample)
+                batchMemberSamples[reading.sourceID] = sample
                 let ema = try computeEMA(for: sample, kind: definition.kind)
                 emaSamples.append(ema)
                 state.lastElapsedNS = elapsedNS
                 seriesState[definition.seriesID] = state
+            }
+        }
+
+        for maximumDefinition in maximumDefinitions {
+            let segment = seriesState[maximumDefinition.seriesID]?.segment ?? 1
+            if let derived = cpuMaxDerivation.derive(
+                definition: maximumDefinition,
+                memberSamples: batchMemberSamples,
+                readings: batch.readings,
+                sessionID: sessionID,
+                sampleSequence: &nextSampleSequence,
+                segment: segment,
+                periodMS: cpuPeriodMS
+            ) {
+                rawSamples.append(derived)
+                let ema = try computeEMA(for: derived, kind: maximumDefinition.kind)
+                emaSamples.append(ema)
+                var state = seriesState[maximumDefinition.seriesID] ?? SeriesState(segment: segment, lastElapsedNS: Int64.min)
+                state.lastElapsedNS = derived.timestamp.elapsedNS
+                seriesState[maximumDefinition.seriesID] = state
             }
         }
 
