@@ -14,6 +14,13 @@
 		A10000000000000000000095 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* AppDelegate.swift */; };
 		A10000000000000000000096 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* StatusItemController.swift */; };
 		A10000000000000000000097 /* TemperaturePopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000016 /* TemperaturePopover.swift */; };
+		A1000000000000000000009C /* TemperatureFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000017 /* TemperatureFormatting.swift */; };
+		A1000000000000000000009D /* TemperatureSourceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000018 /* TemperatureSourceRow.swift */; };
+		A1000000000000000000009E /* UIFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000019 /* UIFixtures.swift */; };
+		A1000000000000000000009F /* PresentationActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001A /* PresentationActions.swift */; };
+		A100000000000000000000A2 /* DashboardWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001B /* DashboardWindowController.swift */; };
+		A100000000000000000000A3 /* TemperatureDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001C /* TemperatureDashboard.swift */; };
+		A100000000000000000000A4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001D /* SettingsView.swift */; };
 		A10000000000000000000098 /* TemperatureMonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* TemperatureMonitorUITests.swift */; };
 		A10000000000000000000099 /* TemperatureCore in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000081 /* TemperatureCore */; };
 		A1000000000000000000009A /* SensorRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000082 /* SensorRuntime */; };
@@ -38,6 +45,13 @@
 		A10000000000000000000014 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A10000000000000000000015 /* StatusItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusItemController.swift; sourceTree = "<group>"; };
 		A10000000000000000000016 /* TemperaturePopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperaturePopover.swift; sourceTree = "<group>"; };
+		A10000000000000000000017 /* TemperatureFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureFormatting.swift; sourceTree = "<group>"; };
+		A10000000000000000000018 /* TemperatureSourceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureSourceRow.swift; sourceTree = "<group>"; };
+		A10000000000000000000019 /* UIFixtures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFixtures.swift; sourceTree = "<group>"; };
+		A1000000000000000000001A /* PresentationActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationActions.swift; sourceTree = "<group>"; };
+		A1000000000000000000001B /* DashboardWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardWindowController.swift; sourceTree = "<group>"; };
+		A1000000000000000000001C /* TemperatureDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureDashboard.swift; sourceTree = "<group>"; };
+		A1000000000000000000001D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A10000000000000000000020 /* TemperatureMonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMonitorUITests.swift; sourceTree = "<group>"; };
 		A10000000000000000000050 /* TemperatureMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemperatureMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000051 /* TemperatureMonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemperatureMonitorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +115,13 @@
 				A10000000000000000000013 /* PresentationState.swift */,
 				A10000000000000000000015 /* StatusItemController.swift */,
 				A10000000000000000000016 /* TemperaturePopover.swift */,
+				A10000000000000000000017 /* TemperatureFormatting.swift */,
+				A10000000000000000000018 /* TemperatureSourceRow.swift */,
+				A10000000000000000000019 /* UIFixtures.swift */,
+				A1000000000000000000001A /* PresentationActions.swift */,
+				A1000000000000000000001B /* DashboardWindowController.swift */,
+				A1000000000000000000001C /* TemperatureDashboard.swift */,
+				A1000000000000000000001D /* SettingsView.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -214,6 +235,13 @@
 				A10000000000000000000094 /* PresentationState.swift in Sources */,
 				A10000000000000000000096 /* StatusItemController.swift in Sources */,
 				A10000000000000000000097 /* TemperaturePopover.swift in Sources */,
+				A1000000000000000000009C /* TemperatureFormatting.swift in Sources */,
+				A1000000000000000000009D /* TemperatureSourceRow.swift in Sources */,
+				A1000000000000000000009E /* UIFixtures.swift in Sources */,
+				A1000000000000000000009F /* PresentationActions.swift in Sources */,
+				A100000000000000000000A2 /* DashboardWindowController.swift in Sources */,
+				A100000000000000000000A3 /* TemperatureDashboard.swift in Sources */,
+				A100000000000000000000A4 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

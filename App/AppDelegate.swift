@@ -4,10 +4,13 @@ import TemperatureCore
 import TemperaturePresentation
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     private let presentationModel: PresentationModel
     private var statusItemController: StatusItemController?
+    private var dashboardController: DashboardWindowController?
+    private var settingsController: SettingsWindowController?
     private var fixtureName: String?
+    private var fixtureGeneration: UInt64 = 1
 
     override init() {
         presentationModel = PresentationModel(
@@ -29,57 +32,80 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             fixtureName: fixtureName,
             isDebugBuild: Self.isDebugBuild
         ) {
-            applyFixture(named: fixtureName)
+            UIFixtures.apply(named: fixtureName, to: presentationModel)
         }
-        statusItemController = StatusItemController(presentationModel: presentationModel)
+        statusItemController = StatusItemController(
+            presentationModel: presentationModel,
+            actions: self
+        )
         statusItemController?.install()
+        applyUILaunchOptions(from: CommandLine.arguments)
+    }
+
+    private func applyUILaunchOptions(from arguments: [String]) {
+        guard Self.isDebugBuild else {
+            return
+        }
+        guard let index = arguments.firstIndex(of: "--ui-open"),
+              arguments.indices.contains(index + 1) else {
+            return
+        }
+        switch arguments[index + 1] {
+        case "dashboard":
+            openDashboard()
+        case "settings":
+            openSettings()
+        case "popover":
+            statusItemController?.showPopoverForTesting()
+        default:
+            break
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
         statusItemController?.uninstall()
     }
 
-    private func applyFixture(named name: String) {
-        switch name {
-        case "basic":
-            let now = Timestamp(elapsedNS: 200_000_000, wallUnixNS: 1_700_000_000_200_000_000)
-            let seriesID = (try? SeriesID(validating: "00000000-0000-4000-8000-000000000101"))!
-            let definition = SeriesDefinition(
-                seriesID: seriesID,
-                metricID: (try? MetricID(validating: "cpu.zone.max"))!,
-                definitionVersion: 1,
-                kind: .cpuZone,
-                displayName: "CPU Max",
-                memberSourceIDs: [(try? SourceID(validating: "00000000-0000-4000-8000-000000000001"))!],
-                formula: .maximum
+    func openDashboard() {
+        if dashboardController == nil {
+            dashboardController = DashboardWindowController(
+                presentationModel: presentationModel,
+                actions: self
             )
-            _ = presentationModel.apply(
-                snapshot: Snapshot(
-                    asOf: now,
-                    values: [
-                        LatestValue(
-                            definition: definition,
-                            state: .available(
-                                ema: EMAValue(
-                                    sampleID: "fixture:1",
-                                    seriesID: seriesID,
-                                    segment: 1,
-                                    timestamp: now,
-                                    valueC: 58.3
-                                ),
-                                lastSuccessfulAt: now,
-                                lastFailure: nil
-                            )
-                        )
-                    ],
-                    gapIDs: [],
-                    cpuPeriodMS: 200,
-                    generation: 1
-                )
-            )
-        default:
-            break
         }
+        dashboardController?.showWindow()
+    }
+
+    func openSettings() {
+        if settingsController == nil {
+            settingsController = SettingsWindowController(
+                presentationModel: presentationModel,
+                actions: self
+            )
+        }
+        settingsController?.showWindow()
+    }
+
+    func setCPUPeriod(milliseconds: Int) {
+        guard TemperatureFormatting.cpuPeriodOptionsMS.contains(milliseconds) else {
+            return
+        }
+        guard fixtureName != nil else {
+            return
+        }
+        guard case .running = presentationModel.state else {
+            return
+        }
+        fixtureGeneration += 1
+        UIFixtures.applyBasic(
+            to: presentationModel,
+            cpuPeriodMS: milliseconds,
+            generation: fixtureGeneration
+        )
+    }
+
+    func quit() {
+        NSApp.terminate(nil)
     }
 
     private static var isDebugBuild: Bool {
