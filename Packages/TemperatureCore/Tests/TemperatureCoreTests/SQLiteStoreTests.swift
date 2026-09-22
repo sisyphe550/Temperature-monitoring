@@ -87,6 +87,19 @@ import Testing
         }
     }
 
+    @Test func repeatedBatchIsIdempotentThroughFixture() async throws {
+        let fixture = try await TemporaryStoreFixture.make()
+
+        let batch = try Fixtures.persistence(id: BatchID(Fixtures.uuid(311)), value: 80, ms: 100)
+        _ = try await fixture.appendForTesting(batch)
+        _ = try await fixture.appendForTesting(batch)
+
+        #expect(try await fixture.rows(in: "raw_samples") == 1)
+        #expect(try await fixture.rows(in: "ema_samples") == 1)
+        #expect(try await fixture.rows(in: "committed_batches") == 1)
+        try await fixture.closeAndDeleteSession()
+    }
+
     @Test func callerCannotAccessRawSQLiteConnection() {
         let persistence = SessionPersistenceActor(databaseURL: URL(fileURLWithPath: "/tmp/unused.sqlite"))
         #expect(Mirror(reflecting: persistence).children.contains(where: { $0.label == "handle" }) == false)

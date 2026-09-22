@@ -5,6 +5,7 @@ public actor SessionPersistenceActor: SessionStoreCapability {
     private let ioQueue = DispatchQueue(label: "com.temperaturemonitor.session-persistence.io")
     private var store: SQLiteStore?
     private var openedSession: SessionMetadata?
+    private var snapshotGeneration: UInt64 = 0
 
     public init(databaseURL: URL) {
         self.databaseURL = databaseURL
@@ -65,6 +66,55 @@ public actor SessionPersistenceActor: SessionStoreCapability {
         openedSession
     }
 
+    func appendForTesting(_ batch: PersistenceBatch) async throws -> ProcessingReceipt {
+        guard let store, let session = openedSession else {
+            throw Self.failure(
+                code: .databaseInit,
+                operation: "appendForTesting",
+                underlyingCode: "session_not_open"
+            )
+        }
+
+        let nextGeneration = snapshotGeneration + 1
+        do {
+            let (receipt, inserted) = try await runIO {
+                try store.commitBatch(
+                    batch,
+                    sessionID: session.sessionID,
+                    snapshotGeneration: nextGeneration
+                )
+            }
+            if inserted {
+                snapshotGeneration = nextGeneration
+                return receipt
+            }
+            return ProcessingReceipt(
+                batchID: receipt.batchID,
+                acceptedRecords: receipt.acceptedRecords,
+                snapshotGeneration: snapshotGeneration
+            )
+        } catch let error as SQLiteStoreError {
+            throw Self.mapStoreError(error, operation: "appendForTesting")
+        }
+    }
+
+    func rows(in table: String) async throws -> Int {
+        guard let store else {
+            throw Self.failure(
+                code: .databaseInit,
+                operation: "rows",
+                underlyingCode: "session_not_open"
+            )
+        }
+        do {
+            return try await runIO {
+                try store.rowCount(in: table)
+            }
+        } catch let error as SQLiteStoreError {
+            throw Self.mapStoreError(error, operation: "rows")
+        }
+    }
+
     private func runIO<T: Sendable>(
         _ work: @escaping @Sendable () throws -> T
     ) async throws -> T {
@@ -121,6 +171,8 @@ public actor SessionPersistenceActor: SessionStoreCapability {
             return failure(code: .databaseCorrupt, operation: operation, underlyingCode: result)
         case .schemaMismatch(let detail):
             return failure(code: .databaseSchema, operation: operation, underlyingCode: detail)
+        case .integrityConflict(let detail):
+            return failure(code: .databaseIntegrity, operation: operation, underlyingCode: detail)
         case .execFailed(_, let message), .prepareFailed(_, let message), .stepFailed(_, let message):
             return failure(code: .databaseInit, operation: operation, underlyingCode: message)
         case .closed:

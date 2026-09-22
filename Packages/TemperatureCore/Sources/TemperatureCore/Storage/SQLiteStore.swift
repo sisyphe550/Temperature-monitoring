@@ -8,6 +8,7 @@ enum SQLiteStoreError: Error, Sendable, Equatable {
     case stepFailed(code: Int32, message: String)
     case quickCheckFailed(result: String)
     case schemaMismatch(detail: String)
+    case integrityConflict(detail: String)
     case closed
 }
 
@@ -165,7 +166,7 @@ final class SQLiteStore: @unchecked Sendable {
         return try queryExists(sql: sql, bindings: [.text(name)])
     }
 
-    private func exec(_ sql: String) throws {
+    func exec(_ sql: String) throws {
         guard let handle else { throw SQLiteStoreError.closed }
         var errorMessage: UnsafeMutablePointer<CChar>?
         let code = sqlite3_exec(handle, sql, nil, nil, &errorMessage)
@@ -180,12 +181,16 @@ final class SQLiteStore: @unchecked Sendable {
         }
     }
 
-    private enum Binding {
+    enum Binding {
         case text(String)
+        case optionalText(String?)
         case int64(Int64)
+        case optionalInt64(Int64?)
+        case double(Double)
+        case optionalDouble(Double?)
     }
 
-    private func bindAndRun(sql: String, bindings: [Binding]) throws {
+    func bindAndRun(sql: String, bindings: [Binding]) throws {
         guard let handle else { throw SQLiteStoreError.closed }
         var statement: OpaquePointer?
         guard sqlite3_prepare_v2(handle, sql, -1, &statement, nil) == SQLITE_OK, let statement else {
@@ -202,8 +207,28 @@ final class SQLiteStore: @unchecked Sendable {
             switch binding {
             case .text(let value):
                 code = value.withCString { sqlite3_bind_text(statement, position, $0, -1, SQLITE_TRANSIENT) }
+            case .optionalText(let value):
+                if let value {
+                    code = value.withCString { sqlite3_bind_text(statement, position, $0, -1, SQLITE_TRANSIENT) }
+                } else {
+                    code = sqlite3_bind_null(statement, position)
+                }
             case .int64(let value):
                 code = sqlite3_bind_int64(statement, position, value)
+            case .optionalInt64(let value):
+                if let value {
+                    code = sqlite3_bind_int64(statement, position, value)
+                } else {
+                    code = sqlite3_bind_null(statement, position)
+                }
+            case .double(let value):
+                code = sqlite3_bind_double(statement, position, value)
+            case .optionalDouble(let value):
+                if let value {
+                    code = sqlite3_bind_double(statement, position, value)
+                } else {
+                    code = sqlite3_bind_null(statement, position)
+                }
             }
             guard code == SQLITE_OK else {
                 throw SQLiteStoreError.prepareFailed(code: code, message: Self.lastErrorMessage(from: handle))
@@ -216,11 +241,11 @@ final class SQLiteStore: @unchecked Sendable {
         }
     }
 
-    private func queryExists(sql: String, bindings: [Binding]) throws -> Bool {
+    func queryExists(sql: String, bindings: [Binding]) throws -> Bool {
         try queryRow(sql: sql, bindings: bindings) { _ in true } != nil
     }
 
-    private func queryInt64(_ sql: String) throws -> Int64? {
+    func queryInt64(_ sql: String) throws -> Int64? {
         try queryRow(sql: sql, bindings: []) { statement in
             sqlite3_column_int64(statement, 0)
         }
@@ -251,7 +276,7 @@ final class SQLiteStore: @unchecked Sendable {
         }
     }
 
-    private func queryRow<T>(
+    func queryRow<T>(
         sql: String,
         bindings: [Binding],
         map: (OpaquePointer) throws -> T
@@ -271,8 +296,28 @@ final class SQLiteStore: @unchecked Sendable {
             switch binding {
             case .text(let value):
                 _ = value.withCString { sqlite3_bind_text(statement, position, $0, -1, SQLITE_TRANSIENT) }
+            case .optionalText(let value):
+                if let value {
+                    _ = value.withCString { sqlite3_bind_text(statement, position, $0, -1, SQLITE_TRANSIENT) }
+                } else {
+                    _ = sqlite3_bind_null(statement, position)
+                }
             case .int64(let value):
                 _ = sqlite3_bind_int64(statement, position, value)
+            case .optionalInt64(let value):
+                if let value {
+                    _ = sqlite3_bind_int64(statement, position, value)
+                } else {
+                    _ = sqlite3_bind_null(statement, position)
+                }
+            case .double(let value):
+                _ = sqlite3_bind_double(statement, position, value)
+            case .optionalDouble(let value):
+                if let value {
+                    _ = sqlite3_bind_double(statement, position, value)
+                } else {
+                    _ = sqlite3_bind_null(statement, position)
+                }
             }
         }
 
