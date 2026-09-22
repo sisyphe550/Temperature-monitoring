@@ -15,9 +15,16 @@ public actor SessionPersistenceActor: SessionStoreCapability {
     private var openedSession: SessionMetadata?
     private var snapshotGeneration: UInt64 = 0
     private var currentQueryToken: QueryCancellationToken?
+    private var retentionPolicy: RetentionPolicy?
+    private var lastPruneElapsedNS: Int64?
 
     public init(databaseURL: URL) {
         self.databaseURL = databaseURL
+    }
+
+    init(databaseURL: URL, retentionPolicy: RetentionPolicy) {
+        self.databaseURL = databaseURL
+        self.retentionPolicy = retentionPolicy
     }
 
     public func open(_ session: SessionMetadata) async throws {
@@ -83,12 +90,25 @@ public actor SessionPersistenceActor: SessionStoreCapability {
     }
 
     public func prune(nowElapsedNS: Int64) async throws {
-        _ = nowElapsedNS
-        throw Self.failure(
-            code: .databaseClean,
-            operation: "prune",
-            underlyingCode: "not_implemented"
-        )
+        guard let store else {
+            throw Self.failure(
+                code: .databaseInit,
+                operation: "prune",
+                underlyingCode: "session_not_open"
+            )
+        }
+
+        do {
+            let policy = try resolvedRetentionPolicy()
+            try await runIO {
+                try RetentionEngine(store: store, policy: policy).prune(nowElapsedNS: nowElapsedNS)
+            }
+            lastPruneElapsedNS = nowElapsedNS
+        } catch let error as RetentionError {
+            throw Self.mapRetentionError(error, operation: "prune")
+        } catch let error as SQLiteStoreError {
+            throw Self.mapStoreError(error, operation: "prune")
+        }
     }
 
     public func closeAndDeleteSession() async throws {
@@ -201,6 +221,24 @@ public actor SessionPersistenceActor: SessionStoreCapability {
         ]
         for url in paths where fm.fileExists(atPath: url.path) {
             try fm.removeItem(at: url)
+        }
+    }
+
+    private func resolvedRetentionPolicy() throws -> RetentionPolicy {
+        if let retentionPolicy {
+            return retentionPolicy
+        }
+        let policy = RetentionPolicy(configuration: try Configuration.bundledDefaults())
+        retentionPolicy = policy
+        return policy
+    }
+
+    private static func mapRetentionError(_ error: RetentionError, operation: String) -> MonitorFailure {
+        switch error {
+        case .cleanupGraceExceeded:
+            return failure(code: .databaseClean, operation: operation, underlyingCode: "grace_exceeded")
+        case .capacityExceeded, .walCapacityExceeded:
+            return failure(code: .databaseCapacity, operation: operation, underlyingCode: "capacity_exceeded")
         }
     }
 

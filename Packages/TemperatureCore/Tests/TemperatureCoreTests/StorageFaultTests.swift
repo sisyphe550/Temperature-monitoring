@@ -110,6 +110,43 @@ import Testing
         try await fixture.closeAndDeleteSession()
     }
 
+    @Test func walHardLimitTriggersCapacityFailure() async throws {
+        let policy = RetentionPolicy(
+            retention: RetentionSeconds(
+                raw: 300,
+                ema: 300,
+                oneSecond: 3600,
+                tenSeconds: 86400,
+                oneMinute: 259_200,
+                trend: 3600
+            ),
+            graceSeconds: 120,
+            dbSoftBytes: 805_306_368,
+            dbHardBytes: 1_073_741_824,
+            walSoftBytes: 16_384,
+            walHardBytes: 32_768
+        )
+        let fixture = try await TemporaryStoreFixture.make(retentionPolicy: policy)
+        for index in 0..<120 {
+            let batchID = try BatchID(validating: String(format: "00000000-0000-4000-8000-%012x", 510 + index))
+            _ = try await fixture.appendForTesting(try metadataBootstrap(batchID: batchID))
+        }
+
+        let walURL = URL(fileURLWithPath: fixture.databaseURL.path + "-wal")
+        let walBytes = (try FileManager.default.attributesOfItem(atPath: walURL.path)[.size] as? NSNumber)?
+            .int64Value ?? 0
+        #expect(walBytes > policy.walHardBytes)
+
+        do {
+            try await fixture.session.prune(nowElapsedNS: 400_000_000_000)
+            Issue.record("expected wal capacity failure")
+        } catch let failure as MonitorFailure {
+            #expect(failure.code == .databaseCapacity)
+            #expect(failure.underlyingCode == "capacity_exceeded")
+        }
+        try await fixture.closeAndDeleteSession()
+    }
+
     @Test func gapEndRejectsConflictingClosure() async throws {
         let fixture = try await TemporaryStoreFixture.make()
 
@@ -165,6 +202,27 @@ private func invalidPersistenceBatchMissingSegment() throws -> PersistenceBatch 
                 memberSampleIDs: []
             )
         ],
+        ema: [],
+        buckets: [],
+        trends: [],
+        gaps: []
+    )
+}
+
+private func metadataBootstrap(batchID: BatchID) throws -> PersistenceBatch {
+    PersistenceBatch(
+        batchID: batchID,
+        sources: [Fixtures.source()],
+        definitions: [try Fixtures.definition()],
+        segments: [
+            Segment(
+                seriesID: SeriesID(Fixtures.uuid(101)),
+                number: 1,
+                started: Fixtures.timestamp(ms: 0),
+                reason: .sessionStart
+            )
+        ],
+        raw: [],
         ema: [],
         buckets: [],
         trends: [],
