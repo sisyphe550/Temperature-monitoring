@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+@testable import SensorRuntime
 @testable import TemperatureCore
 
 @Suite struct SessionLifecycleTests {
@@ -198,6 +199,114 @@ import Testing
         }
 
         #expect(FileManager.default.fileExists(atPath: paths.databaseURL(sessionID: sessionID).path))
+    }
+
+    @Test func stopIsIdempotent() async throws {
+        let fixture = try await ControllerFixture.make()
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+        ])
+        await fixture.controller.stop()
+        await fixture.controller.stop()
+        #expect(await fixture.controller.isStopped)
+        try await fixture.closeAndDeleteSession()
+    }
+
+    @Test func stopDuringReadDoesNotAcceptLateResponse() async throws {
+        let fixture = try await ControllerFixture.make()
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+            TimedControllerEvent(atMS: 200, event: .expectRead(kind: .cpu)),
+        ])
+        await fixture.controller.stop()
+        await fixture.client.respond(allMembersCelsius: 88)
+        fixture.clock.advance(to: Fixtures.timestamp(ms: 500))
+        #expect(await fixture.client.readCount == 1)
+        #expect(try await fixture.session.rows(in: "raw_samples") == 0)
+        try await fixture.closeAndDeleteSession()
+    }
+
+    @Test func fatalDisplayReceiptExpiresAfterConfiguredDuration() throws {
+        let configuration = try Configuration.bundledDefaults()
+        let visibleAt = Timestamp(elapsedNS: 1_000_000_000, wallUnixNS: 1_700_000_000_000_000_000)
+        let receipt = FatalDisplayReceipt(
+            failure: MonitorFailure(
+                code: .sensorRead,
+                severity: .fatal,
+                component: "test",
+                operation: "read",
+                retryCount: 0,
+                sourceID: nil,
+                underlyingCode: nil
+            ),
+            visibleAt: visibleAt,
+            configuration: configuration,
+            reportPath: nil
+        )
+        let beforeDeadline = Timestamp(
+            elapsedNS: visibleAt.elapsedNS + Int64(configuration.fatalDisplayMS - 1) * 1_000_000,
+            wallUnixNS: visibleAt.wallUnixNS
+        )
+        let atDeadline = Timestamp(
+            elapsedNS: visibleAt.elapsedNS + Int64(configuration.fatalDisplayMS) * 1_000_000,
+            wallUnixNS: visibleAt.wallUnixNS
+        )
+        #expect(receipt.hasExpired(at: beforeDeadline) == false)
+        #expect(receipt.hasExpired(at: atDeadline))
+        #expect(receipt.remainingMS(at: beforeDeadline) == 1)
+    }
+
+    @Test func shutdownRecordsCompletedSteps() async throws {
+        let fixture = try await ControllerFixture.make()
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+        ])
+        await fixture.controller.stop()
+        let outcome = await fixture.controller.lastShutdownOutcome()
+        let steps = try #require(outcome?.stepResults.map(\.name))
+        #expect(steps.contains("stop_snapshot_loop"))
+        #expect(steps.contains("stop_coordinator"))
+        #expect(steps.contains("close_client"))
+        #expect(outcome?.incompleteSteps.isEmpty == true)
+        try await fixture.closeAndDeleteSession()
+    }
+
+    @Test func sleepWakeOpensAndClosesSleepGap() async throws {
+        let fixture = try await ControllerFixture.make()
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+            TimedControllerEvent(atMS: 200, event: .expectRead(kind: .cpu)),
+            TimedControllerEvent(atMS: 210, event: .respond(allMembersCelsius: 70)),
+        ])
+        try await fixture.controller.suspendForSleep()
+        #expect(try await fixture.session.rows(in: "gaps") >= 1)
+        fixture.clock.advance(to: Fixtures.timestamp(ms: 5_000))
+        try await fixture.controller.resumeAfterWake()
+        #expect(try await fixture.session.rows(in: "segments") >= 2)
+        await fixture.controller.stop()
+        try await fixture.closeAndDeleteSession()
+    }
+
+    @Test func sleepAcrossRetentionPrunesWithoutCreatingBuckets() async throws {
+        let fixture = try await ControllerFixture.make()
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+            TimedControllerEvent(atMS: 200, event: .expectRead(kind: .cpu)),
+            TimedControllerEvent(atMS: 210, event: .respond(allMembersCelsius: 70)),
+        ])
+        try await fixture.controller.suspendForSleep()
+        let configuration = try Configuration.bundledDefaults()
+        let jumpNS = (configuration.retentionSeconds.raw + 50) * 1_000_000_000
+        fixture.clock.advance(
+            to: Timestamp(
+                elapsedNS: jumpNS,
+                wallUnixNS: Fixtures.timestamp(ms: 0).wallUnixNS + jumpNS
+            )
+        )
+        try await fixture.controller.resumeAfterWake()
+        #expect(try await fixture.session.rows(in: "aggregates") == 0)
+        await fixture.controller.stop()
+        try await fixture.closeAndDeleteSession()
     }
 }
 
