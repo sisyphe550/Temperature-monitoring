@@ -100,12 +100,6 @@ public actor MonitorEngine: ProcessingEngine {
         }
         acceptedGeneration = max(acceptedGeneration, batch.generation)
 
-        let inFlightStarts = batch.readings.map(\.started.elapsedNS)
-        aggregation.beginInFlight(startElapsedNS: inFlightStarts)
-        defer {
-            aggregation.endInFlight(startElapsedNS: inFlightStarts)
-        }
-
         let now = clock.now()
         var rawSamples: [Sample] = []
         var emaSamples: [EMAValue] = []
@@ -227,8 +221,31 @@ public actor MonitorEngine: ProcessingEngine {
         return receipt
     }
 
+    public func registerInFlightReading(startElapsedNS: Int64) {
+        aggregation.beginInFlight(startElapsedNS: [startElapsedNS])
+    }
+
+    public func unregisterInFlightReading(startElapsedNS: Int64) {
+        aggregation.endInFlight(startElapsedNS: [startElapsedNS])
+    }
+
+    public func safeWatermarkElapsedNS(at timestamp: Timestamp) -> Int64 {
+        SafeWatermark.maximumClosureElapsedNS(
+            nowElapsedNS: timestamp.elapsedNS,
+            inFlightStartElapsedNS: aggregation.activeInFlightStarts()
+        )
+    }
+
     public func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt {
         try validateWatermarkLease(lease)
+        let safeWatermark = safeWatermarkElapsedNS(at: timestamp)
+        guard timestamp.elapsedNS <= safeWatermark else {
+            throw Self.failure(
+                code: .processingValidate,
+                operation: "advance",
+                underlyingCode: "unsafe_watermark"
+            )
+        }
         let buckets = aggregation.advance(to: timestamp.elapsedNS)
         let trends = computeTrends(at: timestamp)
         let batchID = BatchID(UUID())

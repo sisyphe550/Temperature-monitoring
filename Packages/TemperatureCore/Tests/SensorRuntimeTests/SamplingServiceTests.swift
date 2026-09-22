@@ -9,9 +9,17 @@ import TemperatureCore
         let catalog = try makeCatalog(kinds: [.cpuZone])
         let client = MockScheduleSensorClient(clock: clock, catalog: catalog, readDurationMS: 120)
         let configuration = try Configuration.bundledDefaults()
-        let service = SamplingService(clock: clock, client: client, configuration: configuration)
+        let reservation = try await makeReservation()
+        let service = SamplingService(
+            clock: clock,
+            client: client,
+            reservation: reservation,
+            configuration: configuration
+        )
 
-        await service.start(catalog: catalog) { _ in }
+        await service.start(catalog: catalog) { event in
+            await reservation.cancel(event.lease)
+        }
         await service.setCPUPeriod(milliseconds: 50)
         clock.advance(to: timestamp(ms: 50))
         try await waitUntil { await client.readCount >= 1 }
@@ -29,11 +37,18 @@ import TemperatureCore
         let catalog = try makeCatalog(kinds: [.cpuZone, .ssd])
         let client = MockScheduleSensorClient(clock: clock, catalog: catalog)
         let configuration = try makeScheduleConfiguration(cpuMS: 1000, ssdMS: 1000)
-        let service = SamplingService(clock: clock, client: client, configuration: configuration)
+        let reservation = try await makeReservation()
+        let service = SamplingService(
+            clock: clock,
+            client: client,
+            reservation: reservation,
+            configuration: configuration
+        )
 
         let events = EventCollector()
         await service.start(catalog: catalog) { event in
             await events.append(event.kind)
+            await reservation.cancel(event.lease)
         }
         clock.advance(to: timestamp(ms: 1000))
         try await waitUntil { await client.readCount >= 2 }
@@ -47,9 +62,17 @@ import TemperatureCore
         let catalog = try makeCatalog(kinds: [.cpuZone])
         let client = MockScheduleSensorClient(clock: clock, catalog: catalog)
         let configuration = try Configuration.bundledDefaults()
-        let service = SamplingService(clock: clock, client: client, configuration: configuration)
+        let reservation = try await makeReservation()
+        let service = SamplingService(
+            clock: clock,
+            client: client,
+            reservation: reservation,
+            configuration: configuration
+        )
 
-        await service.start(catalog: catalog) { _ in }
+        await service.start(catalog: catalog) { event in
+            await reservation.cancel(event.lease)
+        }
         clock.advance(to: timestamp(ms: 200))
         try await waitUntil { await client.readCount == 1 }
 
@@ -71,9 +94,17 @@ import TemperatureCore
         let catalog = try makeCatalog(kinds: [.cpuZone])
         let client = MockScheduleSensorClient(clock: clock, catalog: catalog, readDurationMS: 80)
         let configuration = try Configuration.bundledDefaults()
-        let service = SamplingService(clock: clock, client: client, configuration: configuration)
+        let reservation = try await makeReservation()
+        let service = SamplingService(
+            clock: clock,
+            client: client,
+            reservation: reservation,
+            configuration: configuration
+        )
 
-        await service.start(catalog: catalog) { _ in }
+        await service.start(catalog: catalog) { event in
+            await reservation.cancel(event.lease)
+        }
         clock.advance(to: timestamp(ms: 200))
         try await waitUntil { await client.readCount == 1 }
         await service.setCPUPeriod(milliseconds: 500)
@@ -87,9 +118,17 @@ import TemperatureCore
         let catalog = try makeCatalog(kinds: [.cpuZone])
         let client = MockScheduleSensorClient(clock: clock, catalog: catalog)
         let configuration = try Configuration.bundledDefaults()
-        let service = SamplingService(clock: clock, client: client, configuration: configuration)
+        let reservation = try await makeReservation()
+        let service = SamplingService(
+            clock: clock,
+            client: client,
+            reservation: reservation,
+            configuration: configuration
+        )
 
-        await service.start(catalog: catalog) { _ in }
+        await service.start(catalog: catalog) { event in
+            await reservation.cancel(event.lease)
+        }
         try await Task.sleep(nanoseconds: 20_000_000)
         await service.stop()
         clock.advance(to: timestamp(ms: 500))
@@ -102,9 +141,17 @@ import TemperatureCore
         let catalog = try makeCatalog(kinds: [.cpuZone])
         let client = MockScheduleSensorClient(clock: clock, catalog: catalog)
         let configuration = try Configuration.bundledDefaults()
-        let service = SamplingService(clock: clock, client: client, configuration: configuration)
+        let reservation = try await makeReservation()
+        let service = SamplingService(
+            clock: clock,
+            client: client,
+            reservation: reservation,
+            configuration: configuration
+        )
 
-        await service.start(catalog: catalog) { _ in }
+        await service.start(catalog: catalog) { event in
+            await reservation.cancel(event.lease)
+        }
         #expect(await service.nextDueElapsedNS(for: .cpu) != nil)
         #expect(await service.nextDueElapsedNS(for: .ssd) == nil)
         #expect(await service.nextDueElapsedNS(for: .battery) == nil)
@@ -120,6 +167,25 @@ import TemperatureCore
         #expect(skipped == 2)
         #expect(nextDue == 200 * 1_000_000)
     }
+}
+
+private func makeReservation() async throws -> PersistenceReservationCapability {
+    let directory = FileManager.default.temporaryDirectory
+        .appendingPathComponent("SamplingServiceTests-\(UUID().uuidString)", isDirectory: true)
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    let session = SessionPersistenceActor(
+        databaseURL: directory.appendingPathComponent("session.sqlite")
+    )
+    try await session.open(
+        SessionMetadata(
+            sessionID: try SessionID(validating: "00000000-0000-4000-8000-000000000601"),
+            startedWallUnixNS: 1_700_000_000_000_000_000,
+            model: "Mac16,13",
+            osBuild: "24G419",
+            appVersion: "0.1.0-test"
+        )
+    )
+    return await session.reservationCapability()
 }
 
 private func timestamp(ms: Int64) -> Timestamp {

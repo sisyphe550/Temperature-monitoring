@@ -26,6 +26,7 @@ public struct SamplingReadEvent: Sendable, Equatable {
     public let plannedElapsedNS: Int64
     public let requestID: RequestID
     public let requestedPeriodMS: Int
+    public let lease: PersistenceLease
     public let batch: ReadBatch
 
     public init(
@@ -33,12 +34,14 @@ public struct SamplingReadEvent: Sendable, Equatable {
         plannedElapsedNS: Int64,
         requestID: RequestID,
         requestedPeriodMS: Int,
+        lease: PersistenceLease,
         batch: ReadBatch
     ) {
         self.kind = kind
         self.plannedElapsedNS = plannedElapsedNS
         self.requestID = requestID
         self.requestedPeriodMS = requestedPeriodMS
+        self.lease = lease
         self.batch = batch
     }
 }
@@ -87,9 +90,11 @@ struct ScheduleState: Equatable {
 
 public actor SamplingService {
     public typealias ReadHandler = @Sendable (SamplingReadEvent) async -> Void
+    public typealias WillReadHandler = @Sendable (RequestID, Int64) async -> Void
 
     private let clock: MonitorClock
     private let client: any SensorClient
+    private let reservation: PersistenceReservationCapability
     private let configuration: RuntimeConfiguration
     private var schedules: [SamplingScheduleKind: ScheduleState] = [:]
     private var cpuPeriodMS: Int
@@ -97,6 +102,7 @@ public actor SamplingService {
     private var running = false
     private var loopTask: Task<Void, Never>?
     private var onRead: ReadHandler?
+    private var willRead: WillReadHandler?
     private var stats = SamplingStatistics()
     private var nextRequestOrdinal: Int64 = 1
     private var readInFlight = false
@@ -104,15 +110,21 @@ public actor SamplingService {
     public init(
         clock: MonitorClock,
         client: any SensorClient,
+        reservation: PersistenceReservationCapability,
         configuration: RuntimeConfiguration
     ) {
         self.clock = clock
         self.client = client
+        self.reservation = reservation
         self.configuration = configuration
         cpuPeriodMS = configuration.cpuDefaultMS
     }
 
-    public func start(catalog: QualifiedSourceCatalog, onRead: @escaping ReadHandler) async {
+    public func start(
+        catalog: QualifiedSourceCatalog,
+        willRead: WillReadHandler? = nil,
+        onRead: @escaping ReadHandler
+    ) async {
         stopLoopTask()
         schedules = Self.makeSchedules(
             catalog: catalog,
@@ -124,6 +136,7 @@ public actor SamplingService {
         catalogGeneration = catalog.generation
         stats = SamplingStatistics()
         nextRequestOrdinal = 1
+        self.willRead = willRead
         self.onRead = onRead
         running = true
         loopTask = Task { [weak self] in
@@ -145,6 +158,7 @@ public actor SamplingService {
         running = false
         stopLoopTask()
         onRead = nil
+        willRead = nil
         catalogGeneration = nil
         schedules = [:]
     }
@@ -207,6 +221,32 @@ public actor SamplingService {
         defer { readInFlight = false }
 
         let requestID = makeRequestID()
+        let generation = catalogGeneration ?? 0
+        let lease: PersistenceLease
+        do {
+            lease = try await reservation.reserve(
+                owner: .request(requestID),
+                generation: generation,
+                maxRecords: configuration.writerReserveRecordsPerEvent,
+                maxBytes: configuration.writerMaxPayloadBytes
+            )
+        } catch {
+            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
+            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
+                plannedDueElapsedNS: plannedDueElapsedNS,
+                periodMS: requestedPeriodMS,
+                nowElapsedNS: clock.now().elapsedNS
+            )
+            schedule.nextDueElapsedNS = nextDue
+            schedules[kind] = schedule
+            recordSkipped(kind: kind, count: skipped)
+            return
+        }
+
+        if let willRead {
+            await willRead(requestID, plannedDueElapsedNS)
+        }
+
         let batch: ReadBatch
         do {
             batch = try await client.read(
@@ -217,6 +257,21 @@ public actor SamplingService {
                 )
             )
         } catch {
+            await reservation.cancel(lease)
+            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
+            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
+                plannedDueElapsedNS: plannedDueElapsedNS,
+                periodMS: requestedPeriodMS,
+                nowElapsedNS: clock.now().elapsedNS
+            )
+            schedule.nextDueElapsedNS = nextDue
+            schedules[kind] = schedule
+            recordSkipped(kind: kind, count: skipped)
+            return
+        }
+
+        if batch.generation < generation {
+            await reservation.cancel(lease)
             skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
             let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
                 plannedDueElapsedNS: plannedDueElapsedNS,
@@ -236,6 +291,7 @@ public actor SamplingService {
                     plannedElapsedNS: plannedDueElapsedNS,
                     requestID: requestID,
                     requestedPeriodMS: requestedPeriodMS,
+                    lease: lease,
                     batch: batch
                 )
             )

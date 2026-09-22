@@ -182,6 +182,51 @@ import Testing
         #expect(receipt.acceptedRecords == 0)
     }
 
+    @Test func engineCommitFailureDoesNotAdvanceSnapshotGeneration() async throws {
+        let fixture = try await ProcessorFixture.make()
+        let commit = TestCommitCapability(rejectNextReceipt: true)
+        let configuration = try Configuration.bundledDefaults()
+        let engine = MonitorEngine(
+            clock: fixture.clock,
+            commit: commit,
+            session: SessionMetadata(
+                sessionID: fixture.sessionID,
+                startedWallUnixNS: 1_700_000_000_000_000_000,
+                model: "Mac16,13",
+                osBuild: "24G419",
+                appVersion: "0.1.0-test"
+            ),
+            configuration: configuration,
+            definitions: [
+                SeriesDefinition(
+                    seriesID: fixture.seriesID,
+                    metricID: try MetricID(validating: "fixture.cpu"),
+                    definitionVersion: 1,
+                    kind: .cpuZone,
+                    displayName: "测试来源",
+                    memberSourceIDs: [SourceID(Fixtures.uuid(1))],
+                    formula: .identity
+                )
+            ],
+            cpuPeriodMS: configuration.cpuDefaultMS
+        )
+        let requestID = RequestID(Fixtures.uuid(810))
+        let batch = Fixtures.read(id: requestID, ms: 100, values: [70])
+        do {
+            _ = try await engine.accept(
+                batch,
+                lease: fixture.lease(owner: .request(requestID), generation: 1)
+            )
+            Issue.record("expected receipt mismatch failure")
+        } catch let failure as MonitorFailure {
+            #expect(failure.code == .databaseIntegrity)
+        }
+        let snapshot = await engine.snapshot(at: Fixtures.timestamp(ms: 100))
+        #expect(snapshot.generation == 0)
+        let raw = await engine.rawSamples(for: fixture.seriesID, nowElapsedNS: 100 * 1_000_000)
+        #expect(raw.isEmpty)
+    }
+
     @Test func commitPersistsExactlyOnce() async throws {
         let fixture = try await PersistenceLeaseFixture.make()
         let owner = PersistenceOwner.request(RequestID(Fixtures.uuid(808)))
