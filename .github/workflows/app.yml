@@ -1,0 +1,46 @@
+name: App build
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  app-build:
+    name: app-build
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select full Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+      - name: Toolchain versions
+        run: |
+          xcode-select -p
+          xcodebuild -version
+          swift --version
+          xcrun --show-sdk-version
+      - name: End-to-end core tests
+        run: swift test --package-path Packages/TemperatureCore --filter 'EndToEndTests|TC-UPSTREAM-BOUNDARY'
+      - name: Build production app
+        run: bash scripts/build-app.sh
+      - name: Verify ad-hoc signature
+        run: codesign --verify --deep --strict --verbose=2 build/TemperatureMonitor.app
+      - name: TC-UPSTREAM-BOUNDARY release scan
+        run: python3 scripts/check-upstream-boundary.py
+      - name: Upstream boundary red fixture
+        run: python3 scripts/test-upstream-boundary-gate.py
+      - name: UI tests
+        run: >-
+          xcodebuild
+          -project TemperatureMonitor.xcodeproj
+          -scheme TemperatureMonitor
+          -configuration Debug
+          -destination 'platform=macOS,arch=arm64'
+          -derivedDataPath build/DerivedData
+          CODE_SIGNING_ALLOWED=NO
+          test
+      - name: Handoff docs
+        run: python3 scripts/validate-handoff.py
