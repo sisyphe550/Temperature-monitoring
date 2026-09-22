@@ -58,6 +58,7 @@ struct FatalView: View {
     }
 }
 
+@MainActor
 enum FatalViewFallback {
     static func presentAlert(for state: FatalPresentationState) {
         let alert = NSAlert()
