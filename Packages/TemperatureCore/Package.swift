@@ -10,12 +10,18 @@ let package = Package(
         .executable(name: "ProtocolWorker", targets: ["ProtocolWorker"]),
     ],
     targets: [
+        .systemLibrary(
+            name: "CSQLite",
+            path: "Sources/CSQLite"
+        ),
         .target(
             name: "TemperatureCore",
+            dependencies: ["CSQLite"],
             path: "Sources/TemperatureCore",
             resources: [
                 .copy("Resources/defaults-v1.json"),
                 .copy("Resources/first-profile-v1.json"),
+                .copy("Resources/schema-v1.sql"),
             ]
         ),
         .target(
