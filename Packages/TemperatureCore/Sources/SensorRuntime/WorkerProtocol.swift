@@ -238,6 +238,30 @@ public enum WorkerProtocol {
         )
     }
 
+    public static func timeoutFailure(operation: String) -> MonitorFailure {
+        MonitorFailure(
+            code: .sensorTimeout,
+            severity: .degraded,
+            component: "SensorRuntime",
+            operation: operation,
+            retryCount: 0,
+            sourceID: nil,
+            underlyingCode: "deadline_exceeded"
+        )
+    }
+
+    public static func recoveryFailure(operation: String) -> MonitorFailure {
+        MonitorFailure(
+            code: .appInit,
+            severity: .fatal,
+            component: "SensorRuntime",
+            operation: operation,
+            retryCount: 0,
+            sourceID: nil,
+            underlyingCode: "worker_recovery_failed"
+        )
+    }
+
     public static func monitorFailure(for error: WorkerProtocolError, operation: String) -> MonitorFailure {
         protocolFailure(operation: operation, underlyingCode: String(describing: error))
     }

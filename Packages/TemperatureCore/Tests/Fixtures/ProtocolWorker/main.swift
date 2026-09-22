@@ -1,3 +1,4 @@
+import Darwin
 import Foundation
 import SensorRuntime
 import TemperatureCore
@@ -9,10 +10,16 @@ enum ProtocolWorkerScenario: String {
     case wrongID
     case oldGeneration
     case crash
+    case hangDiscover
+    case hangRead
+    case ignoreTerm
+    case lateRead
 }
 
 @main
 struct ProtocolWorker {
+    private static let stdoutHandle = FileHandle.standardOutput
+
     static func main() throws {
         let scenario = ProtocolWorkerScenario(
             rawValue: ProcessInfo.processInfo.environment["WORKER_SCENARIO"] ?? "success"
@@ -22,25 +29,49 @@ struct ProtocolWorker {
             exit(1)
         }
 
-        guard let line = readLine(strippingNewline: true) else {
-            return
+        if scenario == .ignoreTerm {
+            signal(SIGTERM, SIG_IGN)
         }
 
-        switch scenario {
-        case .badJSON:
-            print("{not-json")
-        case .oversize:
-            print(String(repeating: "x", count: WorkerProtocol.frameLimitBytes + 1))
-        default:
+        while let line = readLine(strippingNewline: true) {
             let requestData = Data(line.utf8)
             let request = try WorkerProtocol.decodeRequest(from: requestData)
-            let response = try makeResponse(for: request, scenario: scenario)
-            let responseData = try WorkerProtocol.encodeResponse(response)
-            guard let responseLine = String(data: responseData, encoding: .utf8) else {
-                throw WorkerProtocolError.invalidJSON
+
+            switch scenario {
+            case .hangDiscover where request.command == .discover:
+                while true {
+                    Thread.sleep(forTimeInterval: 3600)
+                }
+            case .hangRead where request.command == .read:
+                while true {
+                    Thread.sleep(forTimeInterval: 3600)
+                }
+            case .ignoreTerm:
+                while true {
+                    Thread.sleep(forTimeInterval: 3600)
+                }
+            case .badJSON:
+                try writeResponseLine("{not-json")
+            case .oversize:
+                try writeResponseLine(String(repeating: "x", count: WorkerProtocol.frameLimitBytes + 1))
+            case .lateRead where request.command == .read:
+                Thread.sleep(forTimeInterval: 2)
+                fallthrough
+            default:
+                let response = try makeResponse(for: request, scenario: scenario)
+                let responseData = try WorkerProtocol.encodeResponse(response)
+                guard let responseLine = String(data: responseData, encoding: .utf8) else {
+                    throw WorkerProtocolError.invalidJSON
+                }
+                try writeResponseLine(responseLine)
             }
-            print(responseLine)
         }
+    }
+
+    private static func writeResponseLine(_ line: String) throws {
+        var payload = Data(line.utf8)
+        payload.append(0x0A)
+        try stdoutHandle.write(contentsOf: payload)
     }
 
     private static func makeResponse(
@@ -63,7 +94,7 @@ struct ProtocolWorker {
                 command: request.command,
                 payload: .closed
             )
-        case .success, .badJSON, .oversize, .crash:
+        case .success, .badJSON, .oversize, .crash, .hangDiscover, .hangRead, .ignoreTerm, .lateRead:
             break
         }
 
