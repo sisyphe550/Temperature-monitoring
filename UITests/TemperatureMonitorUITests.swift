@@ -1,5 +1,6 @@
 import XCTest
 
+@MainActor
 final class TemperatureMonitorUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
