@@ -52,6 +52,66 @@ public actor ProcessingCoordinator {
         await sampling.stop()
     }
 
+    public func suspendForSleep() async throws {
+        watermarkTask?.cancel()
+        watermarkTask = nil
+        await sampling.stop()
+        await advanceWatermarkIfDue()
+        let timestamp = clock.now()
+        let gaps = try await engine.openSleepGaps(at: timestamp)
+        guard !gaps.isEmpty else {
+            return
+        }
+        let gapID = makeGapID()
+        let lease = try await reservation.reserve(
+            owner: .gap(gapID),
+            generation: catalogGeneration,
+            maxRecords: configuration.writerReserveRecordsPerEvent,
+            maxBytes: configuration.writerMaxPayloadBytes
+        )
+        do {
+            _ = try await engine.commitLifecycleTransition(gaps: gaps, segments: [], lease: lease)
+        } catch {
+            await reservation.cancel(lease)
+            throw error
+        }
+    }
+
+    public func resumeAfterWake(catalog: QualifiedSourceCatalog) async throws {
+        catalogGeneration = catalog.generation
+        let timestamp = clock.now()
+        let transition = try await engine.closeOpenGapsForWake(at: timestamp)
+        if !transition.gaps.isEmpty {
+            let gapID = makeGapID()
+            let lease = try await reservation.reserve(
+                owner: .gap(gapID),
+                generation: catalogGeneration,
+                maxRecords: configuration.writerReserveRecordsPerEvent,
+                maxBytes: configuration.writerMaxPayloadBytes
+            )
+            do {
+                _ = try await engine.commitLifecycleTransition(
+                    gaps: transition.gaps,
+                    segments: transition.segments,
+                    lease: lease
+                )
+            } catch {
+                await reservation.cancel(lease)
+                throw error
+            }
+        }
+        await sampling.start(
+            catalog: catalog,
+            willRead: { [engine] _, plannedStart in
+                await engine.registerInFlightReading(startElapsedNS: plannedStart)
+            },
+            onRead: { [weak self] event in
+                await self?.handleRead(event)
+            }
+        )
+        startWatermarkLoop()
+    }
+
     public func setCPUPeriod(milliseconds: Int) async {
         await sampling.setCPUPeriod(milliseconds: milliseconds)
     }
@@ -144,5 +204,12 @@ public actor ProcessingCoordinator {
         nextWatermarkOrdinal += 1
         let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
         return (try? WatermarkEventID(validating: raw)) ?? WatermarkEventID(UUID())
+    }
+
+    private func makeGapID() -> GapID {
+        let ordinal = nextWatermarkOrdinal
+        nextWatermarkOrdinal += 1
+        let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
+        return (try? GapID(validating: raw)) ?? GapID(UUID())
     }
 }

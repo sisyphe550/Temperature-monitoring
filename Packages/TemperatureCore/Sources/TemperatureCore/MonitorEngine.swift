@@ -28,7 +28,9 @@ public actor MonitorEngine: ProcessingEngine {
     private var lastSuccessfulAtBySeries: [SeriesID: Timestamp] = [:]
     private var lastFailureBySeries: [SeriesID: MonitorFailure] = [:]
     private var openGapBySeries: [SeriesID: GapID] = [:]
+    private var openGapStartedElapsedNSBySeries: [SeriesID: Int64] = [:]
     private var activeGapIDs: Set<GapID> = []
+    private var nextLifecycleOrdinal: Int64 = 1
     private let qualifiedSources: [QualifiedSource]
     private let sessionStartedAt: Timestamp
     private var initialMetadataCommitted = false
@@ -235,6 +237,98 @@ public actor MonitorEngine: ProcessingEngine {
         cpuPeriodMS = milliseconds
     }
 
+    public func trackedSeriesIDs() -> [SeriesID] {
+        Array(seriesDefinitions.keys)
+    }
+
+    public func replaceDefinitions(_ definitions: [SeriesDefinition]) {
+        seriesDefinitions = Dictionary(uniqueKeysWithValues: definitions.map { ($0.seriesID, $0) })
+        for definition in definitions where seriesState[definition.seriesID] == nil {
+            seriesState[definition.seriesID] = SeriesState(segment: 1, lastElapsedNS: Int64.min)
+            try? buffers.registerSeries(definition.seriesID)
+        }
+    }
+
+    public func openSleepGaps(at timestamp: Timestamp) throws -> [Gap] {
+        try trackedSeriesIDs().compactMap { seriesID in
+            guard openGapBySeries[seriesID] == nil else {
+                return nil
+            }
+            let gapID = try makeLifecycleGapID()
+            return Gap(
+                gapID: gapID,
+                seriesID: seriesID,
+                startedElapsedNS: timestamp.elapsedNS,
+                endedElapsedNS: nil,
+                reason: .sleep
+            )
+        }
+    }
+
+    public func closeOpenGapsForWake(at timestamp: Timestamp) throws -> (gaps: [Gap], segments: [Segment]) {
+        var gaps: [Gap] = []
+        var segments: [Segment] = []
+        for seriesID in trackedSeriesIDs() {
+            guard let gapID = openGapBySeries[seriesID] else {
+                continue
+            }
+            let startedElapsedNS = openGapStartedElapsedNSBySeries[seriesID] ?? timestamp.elapsedNS
+            gaps.append(
+                Gap(
+                    gapID: gapID,
+                    seriesID: seriesID,
+                    startedElapsedNS: startedElapsedNS,
+                    endedElapsedNS: timestamp.elapsedNS,
+                    reason: .sleep
+                )
+            )
+            beginSegment(for: seriesID, afterElapsedNS: timestamp.elapsedNS)
+            let segmentNumber = seriesState[seriesID]?.segment ?? 1
+            segments.append(
+                Segment(
+                    seriesID: seriesID,
+                    number: segmentNumber,
+                    started: timestamp,
+                    reason: .wake
+                )
+            )
+        }
+        return (gaps, segments)
+    }
+
+    public func commitLifecycleTransition(
+        gaps: [Gap],
+        segments: [Segment],
+        lease: PersistenceLease
+    ) async throws -> ProcessingReceipt {
+        try validateLifecycleLease(lease)
+        let persistenceBatch = makePersistenceBatch(
+            raw: [],
+            ema: [],
+            buckets: [],
+            trends: [],
+            gaps: gaps,
+            segments: segments
+        )
+        let receipt = try await commit.commit(persistenceBatch, using: lease)
+        try validateReceipt(receipt, for: persistenceBatch)
+        markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
+
+        for gap in gaps {
+            activeGapIDs.insert(gap.gapID)
+            if gap.endedElapsedNS == nil {
+                openGapBySeries[gap.seriesID] = gap.gapID
+                openGapStartedElapsedNSBySeries[gap.seriesID] = gap.startedElapsedNS
+            } else {
+                openGapBySeries.removeValue(forKey: gap.seriesID)
+                openGapStartedElapsedNSBySeries.removeValue(forKey: gap.seriesID)
+                activeGapIDs.remove(gap.gapID)
+            }
+        }
+        snapshotGeneration = receipt.snapshotGeneration
+        return receipt
+    }
+
     public func registerInFlightReading(startElapsedNS: Int64) {
         aggregation.beginInFlight(startElapsedNS: [startElapsedNS])
     }
@@ -301,8 +395,10 @@ public actor MonitorEngine: ProcessingEngine {
         activeGapIDs.insert(gap.gapID)
         if gap.endedElapsedNS == nil {
             openGapBySeries[gap.seriesID] = gap.gapID
+            openGapStartedElapsedNSBySeries[gap.seriesID] = gap.startedElapsedNS
         } else {
             openGapBySeries.removeValue(forKey: gap.seriesID)
+            openGapStartedElapsedNSBySeries.removeValue(forKey: gap.seriesID)
             beginSegment(for: gap.seriesID, afterElapsedNS: gap.endedElapsedNS ?? timestampFromGap(gap))
         }
         snapshotGeneration = receipt.snapshotGeneration
@@ -380,20 +476,38 @@ public actor MonitorEngine: ProcessingEngine {
         ema: [EMAValue],
         buckets: [Bucket],
         trends: [TrendValue],
-        gaps: [Gap]
+        gaps: [Gap],
+        segments: [Segment] = []
     ) -> PersistenceBatch {
         let metadata = initialMetadataPayload()
         return PersistenceBatch(
             batchID: BatchID(UUID()),
             sources: metadata.sources,
             definitions: metadata.definitions,
-            segments: metadata.segments,
+            segments: metadata.segments + segments,
             raw: raw,
             ema: ema,
             buckets: buckets,
             trends: trends,
             gaps: gaps
         )
+    }
+
+    private func makeLifecycleGapID() throws -> GapID {
+        let ordinal = nextLifecycleOrdinal
+        nextLifecycleOrdinal += 1
+        let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
+        return try GapID(validating: raw)
+    }
+
+    private func validateLifecycleLease(_ lease: PersistenceLease) throws {
+        guard case .gap = lease.owner else {
+            throw Self.failure(
+                code: .databaseIntegrity,
+                operation: "commitLifecycleTransition",
+                underlyingCode: "invalid_lease_owner"
+            )
+        }
     }
 
     private func initialMetadataPayload() -> (

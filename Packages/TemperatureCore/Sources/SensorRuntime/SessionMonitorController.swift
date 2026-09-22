@@ -109,12 +109,17 @@ public actor SessionMonitorController: MonitorController {
         return try await session.query(request)
     }
 
+    public var isStopped: Bool {
+        stopped
+    }
+
     public func stop() async {
         guard !stopped else {
             return
         }
         stopped = true
         running = false
+
         snapshotTask?.cancel()
         snapshotTask = nil
         snapshotContinuation?.finish()
@@ -125,7 +130,52 @@ public actor SessionMonitorController: MonitorController {
         coordinator = nil
         engine = nil
         await client.close()
+        lastShutdownResult = ShutdownResult(stepResults: [
+            ShutdownStepResult(name: "stop_snapshot_loop", completed: true),
+            ShutdownStepResult(name: "stop_coordinator", completed: true),
+            ShutdownStepResult(name: "close_client", completed: true),
+        ])
     }
+
+    public func suspendForSleep() async throws {
+        guard running, !stopped, let coordinator else {
+            throw Self.failure(
+                code: .processingValidate,
+                operation: "suspendForSleep",
+                underlyingCode: "not_running"
+            )
+        }
+        running = false
+        snapshotTask?.cancel()
+        snapshotTask = nil
+        try await coordinator.suspendForSleep()
+        await client.close()
+    }
+
+    public func resumeAfterWake() async throws {
+        guard !stopped, let coordinator, let engine else {
+            throw Self.failure(
+                code: .processingValidate,
+                operation: "resumeAfterWake",
+                underlyingCode: "not_suspended"
+            )
+        }
+        let catalog = try await client.discover()
+        let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
+        await engine.replaceDefinitions(definitions)
+        try await session.prune(nowElapsedNS: clock.now().elapsedNS)
+        try await coordinator.resumeAfterWake(catalog: catalog)
+        running = true
+        if snapshotContinuation != nil {
+            startSnapshotLoop()
+        }
+    }
+
+    public func lastShutdownOutcome() -> ShutdownResult? {
+        lastShutdownResult
+    }
+
+    private var lastShutdownResult: ShutdownResult?
 
     private func startSnapshotLoop() {
         snapshotTask?.cancel()
