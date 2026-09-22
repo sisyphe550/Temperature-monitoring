@@ -19,6 +19,7 @@ public actor MonitorEngine: ProcessingEngine {
     private let maximumDefinitions: [SeriesDefinition]
     private let emaProcessor: EMAProcessor
     private let cpuMaxDerivation: CPUMaxDerivation
+    private var aggregation: AggregationEngine
     private var buffers: RingBufferStore
     private var seriesState: [SeriesID: SeriesState]
     private var lastEMABySeries: [SeriesID: EMAValue] = [:]
@@ -51,6 +52,7 @@ public actor MonitorEngine: ProcessingEngine {
         maximumDefinitions = definitions.filter { $0.formula == .maximum }
         emaProcessor = EMAProcessor(tauSeconds: configuration.emaTauSeconds)
         cpuMaxDerivation = CPUMaxDerivation(maxBatchSpanMS: configuration.cpuMaxBatchSpanMS)
+        aggregation = AggregationEngine()
         buffers = RingBufferStore(
             configuration: RingBufferConfiguration(
                 capacity: configuration.ringCapacityPerSeries,
@@ -91,6 +93,12 @@ public actor MonitorEngine: ProcessingEngine {
             )
         }
         acceptedGeneration = max(acceptedGeneration, batch.generation)
+
+        let inFlightStarts = batch.readings.map(\.started.elapsedNS)
+        aggregation.beginInFlight(startElapsedNS: inFlightStarts)
+        defer {
+            aggregation.endInFlight(startElapsedNS: inFlightStarts)
+        }
 
         let now = clock.now()
         var rawSamples: [Sample] = []
@@ -196,6 +204,7 @@ public actor MonitorEngine: ProcessingEngine {
 
         let bufferNow = max(now.elapsedNS, rawSamples.map(\.timestamp.elapsedNS).max() ?? now.elapsedNS)
         for sample in rawSamples {
+            aggregation.ingest(sample)
             try buffers.appendRaw(sample, nowElapsedNS: bufferNow)
             deliveredSampleIDs.insert(sample.sampleID)
         }
@@ -213,13 +222,24 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt {
-        _ = timestamp
-        _ = lease
-        throw Self.failure(
-            code: .processingValidate,
-            operation: "advance",
-            underlyingCode: "not_implemented"
+        try validateWatermarkLease(lease)
+        let buckets = aggregation.advance(to: timestamp.elapsedNS)
+        let batchID = BatchID(UUID())
+        let persistenceBatch = PersistenceBatch(
+            batchID: batchID,
+            sources: [],
+            definitions: [],
+            segments: [],
+            raw: [],
+            ema: [],
+            buckets: buckets,
+            trends: [],
+            gaps: []
         )
+        let receipt = try await commit.commit(persistenceBatch, using: lease)
+        try validateReceipt(receipt, for: persistenceBatch)
+        snapshotGeneration = receipt.snapshotGeneration
+        return receipt
     }
 
     public func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt {
@@ -291,6 +311,16 @@ public actor MonitorEngine: ProcessingEngine {
                 code: .processingEMA,
                 operation: "accept",
                 underlyingCode: "non_positive_dt"
+            )
+        }
+    }
+
+    private func validateWatermarkLease(_ lease: PersistenceLease) throws {
+        guard case .watermark = lease.owner else {
+            throw Self.failure(
+                code: .databaseIntegrity,
+                operation: "advance",
+                underlyingCode: "invalid_lease_owner"
             )
         }
     }

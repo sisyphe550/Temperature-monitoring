@@ -138,4 +138,14 @@ struct ProcessorFixture {
     func emaSamples(for seriesID: SeriesID, nowMS: Int64) async -> [EMAValue] {
         await engine.emaSamples(for: seriesID, nowElapsedNS: nowMS * 1_000_000)
     }
+
+    @discardableResult
+    func advance(toMS: Int64, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        let receipt = try await engine.advance(
+            to: Fixtures.timestamp(ms: toMS),
+            lease: lease
+        )
+        clock.advance(to: Fixtures.timestamp(ms: toMS))
+        return receipt
+    }
 }
