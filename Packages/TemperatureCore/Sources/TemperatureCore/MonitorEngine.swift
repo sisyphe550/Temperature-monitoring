@@ -16,8 +16,10 @@ public actor MonitorEngine: ProcessingEngine {
     private let sessionID: SessionID
     private let configuration: RuntimeConfiguration
     private let sourceToSeries: [SourceID: SeriesDefinition]
+    private let emaProcessor: EMAProcessor
     private var buffers: RingBufferStore
     private var seriesState: [SeriesID: SeriesState]
+    private var lastEMABySeries: [SeriesID: EMAValue] = [:]
     private var acceptedGeneration: UInt64 = 0
     private var nextSampleSequence: Int64 = 1
     private var deliveredSampleIDs: Set<String> = []
@@ -42,6 +44,7 @@ public actor MonitorEngine: ProcessingEngine {
                 definition.memberSourceIDs.map { ($0, definition) }
             }
         )
+        emaProcessor = EMAProcessor(tauSeconds: configuration.emaTauSeconds)
         buffers = RingBufferStore(
             configuration: RingBufferConfiguration(
                 capacity: configuration.ringCapacityPerSeries,
@@ -85,6 +88,7 @@ public actor MonitorEngine: ProcessingEngine {
 
         let now = clock.now()
         var rawSamples: [Sample] = []
+        var emaSamples: [EMAValue] = []
         for reading in batch.readings {
             switch reading.outcome {
             case .failure:
@@ -139,6 +143,8 @@ public actor MonitorEngine: ProcessingEngine {
                     memberSampleIDs: []
                 )
                 rawSamples.append(sample)
+                let ema = try computeEMA(for: sample, kind: definition.kind)
+                emaSamples.append(ema)
                 state.lastElapsedNS = elapsedNS
                 seriesState[definition.seriesID] = state
             }
@@ -151,7 +157,7 @@ public actor MonitorEngine: ProcessingEngine {
             definitions: [],
             segments: [],
             raw: rawSamples,
-            ema: [],
+            ema: emaSamples,
             buckets: [],
             trends: [],
             gaps: []
@@ -164,6 +170,10 @@ public actor MonitorEngine: ProcessingEngine {
         for sample in rawSamples {
             try buffers.appendRaw(sample, nowElapsedNS: bufferNow)
             deliveredSampleIDs.insert(sample.sampleID)
+        }
+        for ema in emaSamples {
+            try buffers.appendEMA(ema, nowElapsedNS: bufferNow)
+            lastEMABySeries[ema.seriesID] = ema
         }
         buffers.prune(nowElapsedNS: bufferNow)
         snapshotGeneration = receipt.snapshotGeneration
@@ -242,6 +252,19 @@ public actor MonitorEngine: ProcessingEngine {
 
     func activeSeriesCount() -> Int {
         buffers.activeSeriesCount
+    }
+
+    private func computeEMA(for sample: Sample, kind: SensorKind) throws -> EMAValue {
+        let previous = lastEMABySeries[sample.seriesID]
+        do {
+            return try emaProcessor.nextEMA(raw: sample, previous: previous, kind: kind)
+        } catch EMAError.nonPositiveDeltaTime {
+            throw Self.failure(
+                code: .processingEMA,
+                operation: "accept",
+                underlyingCode: "non_positive_dt"
+            )
+        }
     }
 
     private func validateLease(_ lease: PersistenceLease, for batch: ReadBatch) throws {
