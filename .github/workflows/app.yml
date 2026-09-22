@@ -42,5 +42,7 @@ jobs:
           -derivedDataPath build/DerivedData
           CODE_SIGNING_ALLOWED=NO
           test
+      - name: Product qualification schema
+        run: python3 scripts/test-product-qualification-schema.py
       - name: Handoff docs
         run: python3 scripts/validate-handoff.py
