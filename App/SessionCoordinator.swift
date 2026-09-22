@@ -101,4 +101,22 @@ public actor SessionCoordinator {
     public func currentFatalReceipt() -> FatalDisplayReceipt? {
         fatalReceipt
     }
+
+    public func snapshots() async -> AsyncStream<Snapshot>? {
+        await controller?.snapshots()
+    }
+
+    public func queryHistory(_ request: HistoryRequest) async throws -> HistoryResult {
+        guard let controller else {
+            throw SessionCoordinatorError.notRunning
+        }
+        return try await controller.history(request)
+    }
+
+    public func setCPUPeriod(milliseconds: Int) async throws {
+        guard let controller else {
+            throw SessionCoordinatorError.notRunning
+        }
+        try await controller.setCPUPeriod(milliseconds: milliseconds)
+    }
 }

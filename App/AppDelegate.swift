@@ -6,17 +6,18 @@ import TemperaturePresentation
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     private let presentationModel: PresentationModel
+    private let primaryCPUMetricID: MetricID
     private var statusItemController: StatusItemController?
     private var dashboardController: DashboardWindowController?
     private var settingsController: SettingsWindowController?
+    private var sessionRuntime: AppSessionRuntime?
     private var fixtureName: String?
     private var fixtureGeneration: UInt64 = 1
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
 
     override init() {
-        presentationModel = PresentationModel(
-            primaryCPUMetricID: try! MetricID(validating: "cpu.zone.max")
-        )
+        primaryCPUMetricID = try! MetricID(validating: "cpu.zone.max")
+        presentationModel = PresentationModel(primaryCPUMetricID: primaryCPUMetricID)
         super.init()
     }
 
@@ -34,6 +35,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             isDebugBuild: Self.isDebugBuild
         ) {
             UIFixtures.apply(named: fixtureName, to: presentationModel)
+        } else if Bundle.main.sensorWorkerExecutableURL != nil {
+            sessionRuntime = try? AppSessionRuntime.makeProduction(
+                presentationModel: presentationModel,
+                primaryCPUMetricID: primaryCPUMetricID
+            )
+            sessionRuntime?.start()
         }
         statusItemController = StatusItemController(
             presentationModel: presentationModel,
@@ -65,6 +72,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
 
     func applicationWillTerminate(_ notification: Notification) {
         statusItemController?.uninstall()
+        Task {
+            await sessionRuntime?.stop()
+        }
     }
 
     func openDashboard() {
@@ -88,10 +98,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     }
 
     func currentHistoryRange() -> HistoryRange {
-        selectedHistoryRange
+        sessionRuntime?.currentHistoryRange() ?? selectedHistoryRange
     }
 
     func setHistoryRange(_ range: HistoryRange) {
+        if let sessionRuntime {
+            sessionRuntime.setHistoryRange(range)
+            return
+        }
         guard fixtureName != nil else {
             return
         }
@@ -101,6 +115,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
 
     func setCPUPeriod(milliseconds: Int) {
         guard TemperatureFormatting.cpuPeriodOptionsMS.contains(milliseconds) else {
+            return
+        }
+        if let sessionRuntime {
+            Task {
+                try? await sessionRuntime.setCPUPeriod(milliseconds: milliseconds)
+            }
             return
         }
         guard fixtureName != nil else {

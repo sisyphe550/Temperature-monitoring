@@ -24,6 +24,12 @@
 		A100000000000000000000A5 /* HistoryChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001E /* HistoryChartModel.swift */; };
 		A100000000000000000000A6 /* HistoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001F /* HistoryChartView.swift */; };
 		A100000000000000000000A7 /* FatalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* FatalView.swift */; };
+		A100000000000000000000A8 /* AppBundleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000022 /* AppBundleConfiguration.swift */; };
+		A100000000000000000000A9 /* AppSessionRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000023 /* AppSessionRuntime.swift */; };
+		A100000000000000000000AA /* defaults-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000024 /* defaults-v1.json */; };
+		A100000000000000000000AB /* first-profile-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000025 /* first-profile-v1.json */; };
+		A100000000000000000000AC /* third-party-v1.json in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000026 /* third-party-v1.json */; };
+		A100000000000000000000AD /* ThirdPartyNotices.md in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000027 /* ThirdPartyNotices.md */; };
 		A10000000000000000000098 /* TemperatureMonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* TemperatureMonitorUITests.swift */; };
 		A10000000000000000000099 /* TemperatureCore in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000081 /* TemperatureCore */; };
 		A1000000000000000000009A /* SensorRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000082 /* SensorRuntime */; };
@@ -58,6 +64,12 @@
 		A1000000000000000000001E /* HistoryChartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartModel.swift; sourceTree = "<group>"; };
 		A1000000000000000000001F /* HistoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartView.swift; sourceTree = "<group>"; };
 		A10000000000000000000021 /* FatalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalView.swift; sourceTree = "<group>"; };
+		A10000000000000000000022 /* AppBundleConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBundleConfiguration.swift; sourceTree = "<group>"; };
+		A10000000000000000000023 /* AppSessionRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionRuntime.swift; sourceTree = "<group>"; };
+		A10000000000000000000024 /* defaults-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "defaults-v1.json"; sourceTree = "<group>"; };
+		A10000000000000000000025 /* first-profile-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "first-profile-v1.json"; sourceTree = "<group>"; };
+		A10000000000000000000026 /* third-party-v1.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "third-party-v1.json"; sourceTree = "<group>"; };
+		A10000000000000000000027 /* ThirdPartyNotices.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ThirdPartyNotices.md; sourceTree = "<group>"; };
 		A10000000000000000000020 /* TemperatureMonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMonitorUITests.swift; sourceTree = "<group>"; };
 		A10000000000000000000050 /* TemperatureMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemperatureMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000051 /* TemperatureMonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemperatureMonitorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +94,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A10000000000000000000042 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A100000000000000000000AA /* defaults-v1.json in Resources */,
+				A100000000000000000000AB /* first-profile-v1.json in Resources */,
+				A100000000000000000000AC /* third-party-v1.json in Resources */,
+				A100000000000000000000AD /* ThirdPartyNotices.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXGroup section */
 		A10000000000000000000002 = {
@@ -108,10 +134,24 @@
 			children = (
 				A10000000000000000000010 /* TemperatureMonitorApp.swift */,
 				A10000000000000000000014 /* AppDelegate.swift */,
+				A10000000000000000000022 /* AppBundleConfiguration.swift */,
+				A10000000000000000000023 /* AppSessionRuntime.swift */,
 				A10000000000000000000011 /* SessionCoordinator.swift */,
+				A10000000000000000000008 /* Resources */,
 				A10000000000000000000007 /* Presentation */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000008 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000024 /* defaults-v1.json */,
+				A10000000000000000000025 /* first-profile-v1.json */,
+				A10000000000000000000026 /* third-party-v1.json */,
+				A10000000000000000000027 /* ThirdPartyNotices.md */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		A10000000000000000000007 /* Presentation */ = {
@@ -158,6 +198,7 @@
 			buildConfigurationList = A10000000000000000000061 /* Build configuration list for PBXNativeTarget "TemperatureMonitor" */;
 			buildPhases = (
 				A10000000000000000000040 /* Sources */,
+				A10000000000000000000042 /* Resources */,
 				A10000000000000000000041 /* Frameworks */,
 			);
 			buildRules = (
@@ -254,6 +295,8 @@
 				A100000000000000000000A5 /* HistoryChartModel.swift in Sources */,
 				A100000000000000000000A6 /* HistoryChartView.swift in Sources */,
 				A100000000000000000000A7 /* FatalView.swift in Sources */,
+				A100000000000000000000A8 /* AppBundleConfiguration.swift in Sources */,
+				A100000000000000000000A9 /* AppSessionRuntime.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
