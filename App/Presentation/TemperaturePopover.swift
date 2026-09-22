@@ -1,78 +1,117 @@
+import AppKit
 import SwiftUI
 import TemperaturePresentation
 
 struct TemperaturePopoverView: View {
-    let presentationModel: PresentationModel
+    @Bindable var presentationModel: PresentationModel
+    var actions: (any PresentationActions)?
+    var onClose: () -> Void = {}
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(spacing: 0) {
+            header
+            Divider()
+            scrollContent
+                .frame(maxHeight: .infinity)
+            Divider()
+            footer
+        }
+        .frame(width: 340, height: 640)
+        .onExitCommand(perform: onClose)
+    }
+
+    private var header: some View {
+        HStack {
             Text("温度监测")
                 .font(.headline)
-            content
-            Spacer(minLength: 0)
+            Spacer()
+            Button("设置") {
+                actions?.openSettings()
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("settings.entry")
         }
-        .padding(16)
-        .frame(width: 340)
-        .frame(maxHeight: 640)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+    }
+
+    @ViewBuilder
+    private var scrollContent: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                content
+            }
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
     }
 
     @ViewBuilder
     private var content: some View {
         switch presentationModel.state {
         case let .running(running):
-            VStack(alignment: .leading, spacing: 12) {
-                Text(primaryTemperatureText(running.primaryCPU))
-                    .font(.system(.title2, design: .monospaced))
-                    .accessibilityIdentifier("status.temperature")
-                ForEach(running.sections, id: \.id) { section in
-                    Text(section.title)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    ForEach(section.rows, id: \.metricID.rawValue) { row in
-                        HStack {
-                            Text(row.title)
-                            Spacer()
-                            Text(rowTemperatureText(row.value))
-                                .font(.system(.body, design: .monospaced))
-                        }
-                        .accessibilityIdentifier("source.list")
-                    }
-                }
-            }
+            runningContent(running)
         case let .fatal(fatal):
-            VStack(alignment: .leading, spacing: 8) {
-                Text(fatal.failure.code.rawValue)
-                    .accessibilityIdentifier("fatal.code")
-                Button("退出") {
-                    NSApplication.shared.terminate(nil)
-                }
-                .accessibilityIdentifier("fatal.quit")
-            }
+            fatalContent(fatal)
         case .none:
-            Text("— °C")
+            Text(TemperatureFormatting.placeholder)
                 .font(.system(.title2, design: .monospaced))
+                .accessibilityIdentifier("status.temperature")
         }
     }
 
-    private func primaryTemperatureText(_ state: TemperatureValueState) -> String {
-        switch state {
-        case let .live(valueC, _), let .cached(valueC, _, _):
-            return String(format: "%.1f °C", valueC)
-        case .loading, .stale:
-            return "— °C"
-        case let .unavailable(_, reason):
-            return reason
+    @ViewBuilder
+    private func runningContent(_ running: RunningPresentationState) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(TemperatureFormatting.primaryText(running.primaryCPU))
+                .font(.system(.title2, design: .monospaced))
+                .accessibilityIdentifier("status.temperature")
+            ForEach(Array(running.sections.enumerated()), id: \.element.id) { index, section in
+                if index > 0 {
+                    Divider()
+                }
+                Text(section.title)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                ForEach(section.rows, id: \.metricID.rawValue) { row in
+                    TemperatureSourceRow(row: row)
+                }
+            }
         }
     }
 
-    private func rowTemperatureText(_ state: TemperatureValueState) -> String {
-        switch state {
-        case let .live(valueC, _), let .cached(valueC, _, _):
-            return String(format: "%.1f °C", valueC)
-        case .loading, .stale:
-            return "— °C"
-        case let .unavailable(_, reason):
-            return reason
+    @ViewBuilder
+    private func fatalContent(_ fatal: FatalPresentationState) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(fatal.failure.code.rawValue)
+                .font(.headline)
+                .accessibilityIdentifier("fatal.code")
+            if let reportPath = fatal.reportPath {
+                Text(reportPath)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .textSelection(.enabled)
+            }
+            Button("退出") {
+                actions?.quit()
+            }
+            .accessibilityIdentifier("fatal.quit")
         }
+    }
+
+    private var footer: some View {
+        HStack {
+            Button("打开主窗口") {
+                actions?.openDashboard()
+            }
+            .accessibilityIdentifier("dashboard.open")
+            Spacer()
+            Button("退出") {
+                actions?.quit()
+            }
+            .accessibilityIdentifier("app.quit")
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
     }
 }

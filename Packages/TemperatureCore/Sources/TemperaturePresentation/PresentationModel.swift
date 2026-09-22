@@ -1,7 +1,9 @@
 import Foundation
+import Observation
 import TemperatureCore
 
 @MainActor
+@Observable
 public final class PresentationModel {
     public private(set) var state: PresentationState?
     public private(set) var lastAppliedSnapshotGeneration: UInt64 = 0
