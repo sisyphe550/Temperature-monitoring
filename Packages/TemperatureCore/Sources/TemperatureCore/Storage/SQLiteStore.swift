@@ -276,6 +276,65 @@ final class SQLiteStore: @unchecked Sendable {
         }
     }
 
+    func queryRows<T>(
+        sql: String,
+        bindings: [Binding],
+        map: (OpaquePointer) throws -> T
+    ) throws -> [T] {
+        guard let handle else { throw SQLiteStoreError.closed }
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(handle, sql, -1, &statement, nil) == SQLITE_OK, let statement else {
+            throw SQLiteStoreError.prepareFailed(
+                code: sqlite3_errcode(handle),
+                message: Self.lastErrorMessage(from: handle)
+            )
+        }
+        defer { sqlite3_finalize(statement) }
+
+        for (index, binding) in bindings.enumerated() {
+            let position = Int32(index + 1)
+            switch binding {
+            case .text(let value):
+                _ = value.withCString { sqlite3_bind_text(statement, position, $0, -1, SQLITE_TRANSIENT) }
+            case .optionalText(let value):
+                if let value {
+                    _ = value.withCString { sqlite3_bind_text(statement, position, $0, -1, SQLITE_TRANSIENT) }
+                } else {
+                    _ = sqlite3_bind_null(statement, position)
+                }
+            case .int64(let value):
+                _ = sqlite3_bind_int64(statement, position, value)
+            case .optionalInt64(let value):
+                if let value {
+                    _ = sqlite3_bind_int64(statement, position, value)
+                } else {
+                    _ = sqlite3_bind_null(statement, position)
+                }
+            case .double(let value):
+                _ = sqlite3_bind_double(statement, position, value)
+            case .optionalDouble(let value):
+                if let value {
+                    _ = sqlite3_bind_double(statement, position, value)
+                } else {
+                    _ = sqlite3_bind_null(statement, position)
+                }
+            }
+        }
+
+        var rows: [T] = []
+        while true {
+            let stepCode = sqlite3_step(statement)
+            if stepCode == SQLITE_ROW {
+                rows.append(try map(statement))
+                continue
+            }
+            if stepCode == SQLITE_DONE {
+                return rows
+            }
+            throw SQLiteStoreError.stepFailed(code: stepCode, message: Self.lastErrorMessage(from: handle))
+        }
+    }
+
     func queryRow<T>(
         sql: String,
         bindings: [Binding],

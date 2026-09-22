@@ -1,11 +1,20 @@
 import Foundation
 
+final class QueryCancellationToken: @unchecked Sendable {
+    private(set) var isCancelled = false
+
+    func cancel() {
+        isCancelled = true
+    }
+}
+
 public actor SessionPersistenceActor: SessionStoreCapability {
     private let databaseURL: URL
     private let ioQueue = DispatchQueue(label: "com.temperaturemonitor.session-persistence.io")
     private var store: SQLiteStore?
     private var openedSession: SessionMetadata?
     private var snapshotGeneration: UInt64 = 0
+    private var currentQueryToken: QueryCancellationToken?
 
     public init(databaseURL: URL) {
         self.databaseURL = databaseURL
@@ -33,12 +42,44 @@ public actor SessionPersistenceActor: SessionStoreCapability {
     }
 
     public func query(_ request: HistoryRequest) async throws -> HistoryResult {
-        _ = request
-        throw Self.failure(
-            code: .databaseRead,
-            operation: "query",
-            underlyingCode: "not_implemented"
-        )
+        guard let store else {
+            throw Self.failure(
+                code: .databaseInit,
+                operation: "query",
+                underlyingCode: "session_not_open"
+            )
+        }
+
+        currentQueryToken?.cancel()
+        let token = QueryCancellationToken()
+        currentQueryToken = token
+
+        do {
+            let result = try await runIO {
+                try HistoryQueryEngine(store: store).execute(request) {
+                    token.isCancelled
+                }
+            }
+            if token.isCancelled {
+                throw Self.failure(
+                    code: .databaseRead,
+                    operation: "query",
+                    underlyingCode: "superseded"
+                )
+            }
+            return result
+        } catch let error as HistoryQueryError {
+            if token.isCancelled {
+                throw Self.failure(
+                    code: .databaseRead,
+                    operation: "query",
+                    underlyingCode: "superseded"
+                )
+            }
+            throw Self.mapHistoryQueryError(error, operation: "query")
+        } catch let error as SQLiteStoreError {
+            throw Self.mapStoreError(error, operation: "query")
+        }
     }
 
     public func prune(nowElapsedNS: Int64) async throws {
@@ -160,6 +201,23 @@ public actor SessionPersistenceActor: SessionStoreCapability {
         ]
         for url in paths where fm.fileExists(atPath: url.path) {
             try fm.removeItem(at: url)
+        }
+    }
+
+    private static func mapHistoryQueryError(_ error: HistoryQueryError, operation: String) -> MonitorFailure {
+        switch error {
+        case .unsupportedRange:
+            return failure(code: .databaseRead, operation: operation, underlyingCode: "unsupported_range")
+        case .emptySeries:
+            return failure(code: .databaseRead, operation: operation, underlyingCode: "empty_series")
+        case .tooManySeries:
+            return failure(code: .databaseRead, operation: operation, underlyingCode: "too_many_series")
+        case .invalidPointLimit:
+            return failure(code: .databaseRead, operation: operation, underlyingCode: "invalid_point_limit")
+        case .duplicateSeries:
+            return failure(code: .databaseIntegrity, operation: operation, underlyingCode: "duplicate_series")
+        case .cancelled, .deadlineExceeded:
+            return failure(code: .databaseRead, operation: operation, underlyingCode: "cancelled")
         }
     }
 
