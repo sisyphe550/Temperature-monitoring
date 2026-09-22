@@ -350,6 +350,7 @@ actor MockCoordinatorSensorClient: SensorClient {
     let readDurationMS: Int64
     let forcedGeneration: UInt64?
     private(set) var readCount = 0
+    private(set) var lastReadKind: SamplingScheduleKind?
 
     init(
         clock: CoordinatorTestClock,

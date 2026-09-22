@@ -45,7 +45,7 @@ let package = Package(
         ),
         .testTarget(
             name: "TemperatureCoreTests",
-            dependencies: ["TemperatureCore"],
+            dependencies: ["TemperatureCore", "SensorRuntime"],
             path: "Tests/TemperatureCoreTests"
         ),
         .testTarget(

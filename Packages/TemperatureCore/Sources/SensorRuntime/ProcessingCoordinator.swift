@@ -10,6 +10,7 @@ public actor ProcessingCoordinator {
     private var catalogGeneration: UInt64 = 0
     private var watermarkTask: Task<Void, Never>?
     private var nextWatermarkOrdinal: Int64 = 1
+    private(set) var lastAcceptFailure: MonitorFailure?
 
     public init(
         clock: MonitorClock,
@@ -71,7 +72,9 @@ public actor ProcessingCoordinator {
 
         do {
             _ = try await engine.accept(event.batch, lease: event.lease)
+            lastAcceptFailure = nil
         } catch {
+            lastAcceptFailure = error as? MonitorFailure
             await reservation.cancel(event.lease)
             for start in starts {
                 await engine.unregisterInFlightReading(startElapsedNS: start)
