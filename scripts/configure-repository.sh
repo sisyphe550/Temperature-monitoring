@@ -8,9 +8,10 @@ set -euo pipefail
 REPO="${GITHUB_REPOSITORY:-sisyphe550/Temperature-monitoring}"
 REQUIRE_BLOCKING=0
 REQUIRE_CORE=0
+REQUIRE_APP=0
 
 usage() {
-  echo "Usage: $0 [--require-blocking-issues] [--require-core-tests]" >&2
+  echo "Usage: $0 [--require-blocking-issues] [--require-core-tests] [--require-app-build]" >&2
 }
 
 while [[ $# -gt 0 ]]; do
@@ -21,6 +22,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --require-core-tests)
       REQUIRE_CORE=1
+      shift
+      ;;
+    --require-app-build)
+      REQUIRE_APP=1
       shift
       ;;
     -h|--help)
@@ -80,6 +85,18 @@ import sys
 checks = json.loads(sys.argv[1])
 if not any(c["context"] == "core-tests" for c in checks):
     checks.append({"context": "core-tests"})
+print(json.dumps(checks))
+PY
+)"
+fi
+if [[ "${REQUIRE_APP}" -eq 1 ]]; then
+  STATUS_CHECKS="$(python3 - "${STATUS_CHECKS}" <<'PY'
+import json
+import sys
+
+checks = json.loads(sys.argv[1])
+if not any(c["context"] == "app-build" for c in checks):
+    checks.append({"context": "app-build"})
 print(json.dumps(checks))
 PY
 )"
