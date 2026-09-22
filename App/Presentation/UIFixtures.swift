@@ -150,6 +150,7 @@ enum UIFixtures {
 
     static func applyFatal(to model: PresentationModel) {
         applyBasic(to: model, cpuPeriodMS: 200, generation: 1)
+        let nowWallNS = Int64(Date().timeIntervalSince1970 * 1_000_000_000)
         model.enterFatal(
             FatalDisplayReceipt(
                 failure: MonitorFailure(
@@ -161,7 +162,7 @@ enum UIFixtures {
                     sourceID: nil,
                     underlyingCode: "timeout"
                 ),
-                visibleAt: Timestamp(elapsedNS: 200_000_000, wallUnixNS: 1_700_000_000_200_000_000),
+                visibleAt: Timestamp(elapsedNS: 200_000_000, wallUnixNS: nowWallNS),
                 configuration: (try? Configuration.bundledDefaults())!,
                 reportPath: "/tmp/temperature-monitor-fixture-report.json"
             )

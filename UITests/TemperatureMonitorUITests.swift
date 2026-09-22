@@ -24,6 +24,9 @@ final class TemperatureMonitorUITests: XCTestCase {
         let fatalCode = app.staticTexts["fatal.code"]
         XCTAssertTrue(fatalCode.waitForExistence(timeout: 10))
         XCTAssertEqual(fatalCode.value as? String ?? fatalCode.title, "SENSOR-READ-002")
+        XCTAssertTrue(app.staticTexts["fatal.countdown"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["fatal.quit"].exists)
+        XCTAssertTrue(app.buttons["fatal.copy"].exists)
     }
 
     func testSettingsWindowOpens() throws {

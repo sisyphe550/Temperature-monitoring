@@ -23,6 +23,7 @@
 		A100000000000000000000A4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001D /* SettingsView.swift */; };
 		A100000000000000000000A5 /* HistoryChartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001E /* HistoryChartModel.swift */; };
 		A100000000000000000000A6 /* HistoryChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000001F /* HistoryChartView.swift */; };
+		A100000000000000000000A7 /* FatalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000021 /* FatalView.swift */; };
 		A10000000000000000000098 /* TemperatureMonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000020 /* TemperatureMonitorUITests.swift */; };
 		A10000000000000000000099 /* TemperatureCore in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000081 /* TemperatureCore */; };
 		A1000000000000000000009A /* SensorRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000082 /* SensorRuntime */; };
@@ -56,6 +57,7 @@
 		A1000000000000000000001D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A1000000000000000000001E /* HistoryChartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartModel.swift; sourceTree = "<group>"; };
 		A1000000000000000000001F /* HistoryChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryChartView.swift; sourceTree = "<group>"; };
+		A10000000000000000000021 /* FatalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FatalView.swift; sourceTree = "<group>"; };
 		A10000000000000000000020 /* TemperatureMonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMonitorUITests.swift; sourceTree = "<group>"; };
 		A10000000000000000000050 /* TemperatureMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemperatureMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000051 /* TemperatureMonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemperatureMonitorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +130,7 @@
 				A1000000000000000000001D /* SettingsView.swift */,
 				A1000000000000000000001E /* HistoryChartModel.swift */,
 				A1000000000000000000001F /* HistoryChartView.swift */,
+				A10000000000000000000021 /* FatalView.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				A100000000000000000000A4 /* SettingsView.swift in Sources */,
 				A100000000000000000000A5 /* HistoryChartModel.swift in Sources */,
 				A100000000000000000000A6 /* HistoryChartView.swift in Sources */,
+				A100000000000000000000A7 /* FatalView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

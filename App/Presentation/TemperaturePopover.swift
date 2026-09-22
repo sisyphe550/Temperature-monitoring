@@ -82,21 +82,7 @@ struct TemperaturePopoverView: View {
 
     @ViewBuilder
     private func fatalContent(_ fatal: FatalPresentationState) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(fatal.failure.code.rawValue)
-                .font(.headline)
-                .accessibilityIdentifier("fatal.code")
-            if let reportPath = fatal.reportPath {
-                Text(reportPath)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .textSelection(.enabled)
-            }
-            Button("退出") {
-                actions?.quit()
-            }
-            .accessibilityIdentifier("fatal.quit")
-        }
+        FatalView(state: fatal, actions: actions)
     }
 
     private var footer: some View {

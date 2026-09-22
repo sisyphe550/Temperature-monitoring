@@ -42,22 +42,8 @@ struct TemperatureDashboard: View {
                 chartArea(running)
             }
         case let .fatal(fatal):
-            VStack(alignment: .leading, spacing: 12) {
-                Text(fatal.failure.code.rawValue)
-                    .font(.title2)
-                    .accessibilityIdentifier("fatal.code")
-                if let reportPath = fatal.reportPath {
-                    Text(reportPath)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                Button("退出") {
-                    actions?.quit()
-                }
-                .accessibilityIdentifier("fatal.quit")
-            }
-            .padding(24)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            FatalView(state: fatal, actions: actions)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         case .none:
             Text("正在读取…")
                 .foregroundStyle(.secondary)
