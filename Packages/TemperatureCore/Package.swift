@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "SensorRuntime", targets: ["SensorRuntime"]),
         .library(name: "TemperaturePresentation", targets: ["TemperaturePresentation"]),
         .executable(name: "ProtocolWorker", targets: ["ProtocolWorker"]),
+        .executable(name: "SensorWorker", targets: ["SensorWorker"]),
     ],
     targets: [
         .systemLibrary(
@@ -48,6 +49,15 @@ let package = Package(
             name: "ProtocolWorker",
             dependencies: ["SensorRuntime", "TemperatureCore"],
             path: "Tests/Fixtures/ProtocolWorker"
+        ),
+        .executableTarget(
+            name: "SensorWorker",
+            dependencies: ["SensorRuntime", "TemperatureCore", "SensorBridge"],
+            path: "Sources/SensorWorker",
+            linkerSettings: [
+                .linkedFramework("IOKit"),
+                .linkedFramework("CoreFoundation"),
+            ]
         ),
         .testTarget(
             name: "TemperatureCoreTests",
