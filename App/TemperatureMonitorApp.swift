@@ -2,13 +2,11 @@ import SwiftUI
 
 @main
 struct TemperatureMonitorApp: App {
+    @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+
     var body: some Scene {
-        WindowGroup {
-            Text("TemperatureMonitor")
-                .frame(minWidth: 800, minHeight: 560)
-        }
-        .commands {
-            CommandGroup(replacing: .newItem) {}
+        Settings {
+            EmptyView()
         }
     }
 }
