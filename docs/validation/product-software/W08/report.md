@@ -1,7 +1,7 @@
 # W08 App 集成验证报告
 
 记录时间：2026-09-22。
-分支：`feature/w08-app-integration`。
+分支 HEAD：`39ddc06`（`feature/w08-app-integration`）。
 
 ## 任务范围
 
@@ -9,7 +9,7 @@
 |---|---|---|
 | T08.1 | `78b9515` | 生产资源、AppSessionRuntime、SessionCoordinator 扩展 |
 | T08.2 | `48fa445` | SensorWorker、build-app.sh、嵌入与 ad-hoc 签名 |
-| T08.3 | 本提交 | EndToEndTests、app-build CI、TC-UPSTREAM-BOUNDARY、本报告 |
+| T08.3 | `39ddc06` | EndToEndTests、app-build CI、TC-UPSTREAM-BOUNDARY、本报告 |
 
 ## Core / E2E 测试
 
