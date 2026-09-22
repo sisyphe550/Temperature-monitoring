@@ -131,14 +131,22 @@ public actor SessionMonitorController: MonitorController {
         snapshotTask?.cancel()
         snapshotTask = Task {
             while !Task.isCancelled {
-                await publishSnapshotIfDue()
-                let nextPublish = await nextSnapshotPublishElapsedNS()
-                do {
-                    try await clock.sleep(untilElapsedNS: nextPublish)
-                } catch {
+                let shouldContinue = await self.runSnapshotCycle()
+                if !shouldContinue {
                     return
                 }
             }
+        }
+    }
+
+    private func runSnapshotCycle() async -> Bool {
+        await publishSnapshotIfDue()
+        let nextPublish = await nextSnapshotPublishElapsedNS()
+        do {
+            try await clock.sleep(untilElapsedNS: nextPublish)
+            return true
+        } catch {
+            return false
         }
     }
 

@@ -182,6 +182,100 @@ import Testing
         await fixture.controller.stop()
         try await fixture.closeAndDeleteSession()
     }
+
+    @Test func fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory() async throws {
+        let fixture = try await ControllerFixture.makeFullCPU()
+        let cpuMaxSeriesID = try #require(fixture.cpuMaxSeriesID)
+        #expect(fixture.cpuMemberCount == 12)
+
+        var memberValues = Array(repeating: 70.0, count: 12)
+        memberValues[0] = 95.0
+
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+            TimedControllerEvent(atMS: 200, event: .expectRead(kind: .cpu)),
+            TimedControllerEvent(atMS: 210, event: .respondMembers(celsius: memberValues)),
+        ])
+
+        #expect(await fixture.client.readCount == 1)
+        #expect(await fixture.client.lastReadSourceCount == 12)
+        #expect(try await fixture.session.rows(in: "sources") == 12)
+        #expect(try await fixture.session.rows(in: "series") == 13)
+        #expect(try await fixture.session.rows(in: "raw_samples") == 13)
+        #expect(try await fixture.session.rows(in: "ema_samples") == 13)
+        #expect(try await fixture.session.rows(in: "sample_members") == 12)
+        #expect(try await fixture.session.rows(in: "committed_batches") == 1)
+
+        let snapshots = await fixture.controller.snapshots()
+        let snapshotCollector = SnapshotCollector<Snapshot>()
+        let consumer = Task {
+            for await snapshot in snapshots {
+                await snapshotCollector.append(snapshot)
+                if snapshot.generation >= 1 {
+                    break
+                }
+            }
+        }
+        try await Task.sleep(nanoseconds: 100_000_000)
+        consumer.cancel()
+
+        let captured = await snapshotCollector.values
+        let snapshot = try #require(captured.last)
+        #expect(snapshot.generation >= 1)
+        let maxValue = try #require(
+            snapshot.values.first { $0.definition.seriesID == cpuMaxSeriesID }
+        )
+        if case let .available(ema, _, _) = maxValue.state {
+            #expect(ema.valueC == 95)
+        } else {
+            Issue.record("expected cpu max series to be available in snapshot")
+        }
+
+        let realtime = try await fixture.controller.history(
+            HistoryRequest(
+                seriesIDs: [cpuMaxSeriesID],
+                range: .fiveMinutes,
+                asOfElapsedNS: 250_000_000,
+                pointLimit: 100
+            )
+        )
+        #expect(realtime.layer == .ema)
+        #expect(realtime.persistedThroughElapsedNS == nil)
+        #expect(realtime.points.contains { $0.valueC == 95 })
+        #expect(realtime.points.allSatisfy { $0.segment == 1 })
+
+        await fixture.controller.stop()
+        try await fixture.closeAndDeleteSession()
+    }
+
+    @Test func fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords() async throws {
+        let fixture = try await ControllerFixture.makeFullCPU()
+        let memberValues = Array(repeating: 80.0, count: 12)
+
+        try await fixture.run([
+            TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
+            TimedControllerEvent(atMS: 200, event: .expectRead(kind: .cpu)),
+            TimedControllerEvent(atMS: 210, event: .respondMembers(celsius: memberValues)),
+        ])
+
+        let rawCount = try await fixture.session.rows(in: "raw_samples")
+        let emaCount = try await fixture.session.rows(in: "ema_samples")
+        let batchCount = try await fixture.session.rows(in: "committed_batches")
+        #expect(batchCount == 1)
+        #expect(rawCount == emaCount)
+        #expect(rawCount == 13)
+
+        try await fixture.run([
+            TimedControllerEvent(atMS: 1_400, event: .expectRead(kind: .cpu)),
+            TimedControllerEvent(atMS: 1_410, event: .respondMembers(celsius: memberValues)),
+        ])
+        #expect(await fixture.client.readCount == 2)
+        #expect(try await fixture.session.rows(in: "raw_samples") == 26)
+        #expect(try await fixture.session.rows(in: "committed_batches") == 2)
+
+        await fixture.controller.stop()
+        try await fixture.closeAndDeleteSession()
+    }
 }
 
 private func populateDayHistoryBuckets(

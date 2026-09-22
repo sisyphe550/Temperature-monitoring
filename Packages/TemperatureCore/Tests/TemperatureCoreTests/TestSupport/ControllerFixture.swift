@@ -8,6 +8,7 @@ enum ControllerScriptEvent: Equatable {
     case expectRead(kind: SamplingScheduleKind)
     case expectNoCPURead
     case respond(allMembersCelsius: Double)
+    case respondMembers(celsius: [Double])
     case setCPUPeriod(ms: Int)
     case stop
 }
@@ -23,6 +24,14 @@ struct ControllerFixture {
     let client: ScriptableSensorClient
     let session: SessionPersistenceActor
     let seriesID: SeriesID
+    let cpuMaxSeriesID: SeriesID?
+    let cpuMemberCount: Int
+
+    static var fullCPUMaxSeriesID: SeriesID {
+        get throws {
+            try SeriesID(validating: "00000000-0000-4000-8000-000000000200")
+        }
+    }
 
     static func make() async throws -> ControllerFixture {
         let clock = TestClock(now: Fixtures.timestamp(ms: 0))
@@ -67,7 +76,42 @@ struct ControllerFixture {
             clock: clock,
             client: client,
             session: session,
-            seriesID: seriesID
+            seriesID: seriesID,
+            cpuMaxSeriesID: nil,
+            cpuMemberCount: 1
+        )
+    }
+
+    static func makeFullCPU() async throws -> ControllerFixture {
+        let clock = TestClock(now: Fixtures.timestamp(ms: 0))
+        let profile = try Configuration.bundledProfile()
+        let discovered = try FullCPUQualifyFixture.fullCPUCatalog(for: profile)
+        let catalog = try ProfileRegistry(profile: profile).qualify(discovered)
+        let firstSource = try #require(catalog.available.first)
+        let seriesID = try SeriesID(validating: firstSource.sourceID.rawValue)
+        let client = ScriptableSensorClient(clock: clock, catalog: catalog)
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent("ControllerFixture-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let session = SessionPersistenceActor(
+            databaseURL: directory.appendingPathComponent("session.sqlite")
+        )
+        let configuration = try Configuration.bundledDefaults()
+        let controller = SessionMonitorController(
+            clock: clock,
+            client: client,
+            session: session,
+            sessionMetadata: try testSessionMetadata(),
+            configuration: configuration
+        )
+        return ControllerFixture(
+            controller: controller,
+            clock: clock,
+            client: client,
+            session: session,
+            seriesID: seriesID,
+            cpuMaxSeriesID: try fullCPUMaxSeriesID,
+            cpuMemberCount: catalog.available.filter { $0.kind == .cpuZone }.count
         )
     }
 
@@ -96,6 +140,9 @@ struct ControllerFixture {
                 }
             case let .respond(celsius):
                 await client.respond(allMembersCelsius: celsius)
+                try await Task.sleep(nanoseconds: 50_000_000)
+            case let .respondMembers(celsius):
+                await client.respond(membersCelsius: celsius)
                 try await Task.sleep(nanoseconds: 50_000_000)
             case let .setCPUPeriod(ms):
                 try await controller.setCPUPeriod(milliseconds: ms)
@@ -134,12 +181,30 @@ struct ControllerFixture {
     }
 }
 
+private enum FullCPUQualifyFixture {
+    static func fullCPUCatalog(for profile: SensorProfile) throws -> DiscoveredCatalog {
+        let sources = profile.cpuKeys.map { key in
+            DiscoveredSource(
+                transportHandle: "smc:\(key)",
+                provider: .smc,
+                rawKey: key,
+                registryID: "reg-\(key)",
+                encoding: profile.expectedSMCEncoding,
+                byteCount: profile.expectedSMCSizeBytes
+            )
+        }
+        return DiscoveredCatalog(generation: 1, sources: sources)
+    }
+}
+
 actor ScriptableSensorClient: SensorClient {
     private let clock: TestClock
     private let catalog: QualifiedSourceCatalog
     private var pendingResponses: [Double] = []
+    private var pendingMemberResponses: [[Double]] = []
     private(set) var readCount = 0
     private(set) var lastReadKind: SamplingScheduleKind?
+    private(set) var lastReadSourceCount = 0
 
     init(clock: TestClock, catalog: QualifiedSourceCatalog) {
         self.clock = clock
@@ -161,16 +226,24 @@ actor ScriptableSensorClient: SensorClient {
             kind = .battery
         }
         lastReadKind = kind
-        while pendingResponses.isEmpty {
+        lastReadSourceCount = request.sourceIDs.count
+        while pendingResponses.isEmpty && pendingMemberResponses.isEmpty {
             try await Task.sleep(nanoseconds: 5_000_000)
         }
-        let celsius = pendingResponses.removeFirst()
+        let memberValues: [Double]
+        if let members = pendingMemberResponses.first {
+            pendingMemberResponses.removeFirst()
+            memberValues = members
+        } else {
+            let celsius = pendingResponses.removeFirst()
+            memberValues = Array(repeating: celsius, count: request.sourceIDs.count)
+        }
         let finished = clock.now()
         let started = Timestamp(
             elapsedNS: finished.elapsedNS - Int64(request.requestedPeriodMS) * 1_000_000,
             wallUnixNS: finished.wallUnixNS - Int64(request.requestedPeriodMS) * 1_000_000
         )
-        let readings = request.sourceIDs.map { sourceID in
+        let readings = zip(request.sourceIDs, memberValues).map { sourceID, celsius in
             Reading(
                 sourceID: sourceID,
                 started: started,
@@ -187,6 +260,10 @@ actor ScriptableSensorClient: SensorClient {
 
     func respond(allMembersCelsius: Double) {
         pendingResponses.append(allMembersCelsius)
+    }
+
+    func respond(membersCelsius: [Double]) {
+        pendingMemberResponses.append(membersCelsius)
     }
 
     func currentReadKind() -> SamplingScheduleKind? {

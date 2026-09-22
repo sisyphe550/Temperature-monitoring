@@ -90,20 +90,25 @@ public actor ProcessingCoordinator {
 
     private func startWatermarkLoop() {
         watermarkTask?.cancel()
-        watermarkTask = Task { [weak self] in
+        watermarkTask = Task {
             while !Task.isCancelled {
-                guard let self else {
-                    return
-                }
-                await self.advanceWatermarkIfDue()
-                let now = self.clock.now().elapsedNS
-                let nextSecond = ((now / 1_000_000_000) + 1) * 1_000_000_000
-                do {
-                    try await self.clock.sleep(untilElapsedNS: nextSecond)
-                } catch {
+                let shouldContinue = await self.runWatermarkCycle()
+                if !shouldContinue {
                     return
                 }
             }
+        }
+    }
+
+    private func runWatermarkCycle() async -> Bool {
+        await advanceWatermarkIfDue()
+        let now = clock.now().elapsedNS
+        let nextSecond = ((now / 1_000_000_000) + 1) * 1_000_000_000
+        do {
+            try await clock.sleep(untilElapsedNS: nextSecond)
+            return true
+        } catch {
+            return false
         }
     }
 
