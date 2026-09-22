@@ -22,20 +22,33 @@ public actor QualifiedSensorClient: SensorClient {
     }
 
     public func discover() async throws -> QualifiedSourceCatalog {
-        let raw = try await transport.discoverRaw()
-        let qualified = try registry.qualify(raw)
-        catalog = qualified
-        return qualified
+        do {
+            let raw = try await transport.discoverRaw()
+            let qualified = try registry.qualify(raw)
+            catalog = qualified
+            return qualified
+        } catch {
+            catalog = nil
+            throw error
+        }
     }
 
     public func read(_ request: ReadRequest) async throws -> ReadBatch {
-        guard let catalog else {
+        guard let activeCatalog = catalog else {
             throw QualifiedSensorClientError.notDiscovered
+        }
+
+        if let generational = transport as? any SensorConnectionGeneration {
+            let liveGeneration = await generational.currentConnectionGeneration()
+            if liveGeneration != activeCatalog.generation {
+                self.catalog = nil
+                throw QualifiedSensorClientError.generationMismatch
+            }
         }
 
         var handles: [String] = []
         for sourceID in request.sourceIDs {
-            guard let source = catalog.available.first(where: { $0.sourceID == sourceID }) else {
+            guard let source = activeCatalog.available.first(where: { $0.sourceID == sourceID }) else {
                 throw MonitorFailure(
                     code: .sensorTag,
                     severity: .capability,
@@ -46,45 +59,63 @@ public actor QualifiedSensorClient: SensorClient {
                     underlyingCode: "unknown_source_id"
                 )
             }
-            guard source.connectionGeneration == catalog.generation else {
+            guard source.connectionGeneration == activeCatalog.generation else {
                 throw QualifiedSensorClientError.generationMismatch
             }
             handles.append(source.transportHandle)
         }
 
-        let transportBatch = try await transport.readRaw(
-            TransportReadRequest(
-                requestID: request.requestID,
-                generation: catalog.generation,
-                transportHandles: handles,
-                requestedPeriodMS: request.requestedPeriodMS
-            )
-        )
-
-        guard transportBatch.generation == catalog.generation else {
-            throw QualifiedSensorClientError.generationMismatch
-        }
-
-        var readings: [Reading] = []
-        for (sourceID, handle) in zip(request.sourceIDs, handles) {
-            guard let transportReading = transportBatch.readings.first(where: { $0.transportHandle == handle }) else {
-                throw QualifiedSensorClientError.missingTransportReading
-            }
-            readings.append(
-                Reading(
-                    sourceID: sourceID,
-                    started: transportReading.started,
-                    finished: transportReading.finished,
-                    outcome: mapOutcome(transportReading.outcome)
+        do {
+            let transportBatch = try await transport.readRaw(
+                TransportReadRequest(
+                    requestID: request.requestID,
+                    generation: activeCatalog.generation,
+                    transportHandles: handles,
+                    requestedPeriodMS: request.requestedPeriodMS
                 )
             )
-        }
 
-        return ReadBatch(
-            requestID: request.requestID,
-            generation: catalog.generation,
-            readings: readings
-        )
+            guard transportBatch.generation == activeCatalog.generation else {
+                self.catalog = nil
+                throw QualifiedSensorClientError.generationMismatch
+            }
+
+            var readings: [Reading] = []
+            for (sourceID, handle) in zip(request.sourceIDs, handles) {
+                guard let transportReading = transportBatch.readings.first(where: { $0.transportHandle == handle }) else {
+                    throw QualifiedSensorClientError.missingTransportReading
+                }
+                readings.append(
+                    Reading(
+                        sourceID: sourceID,
+                        started: transportReading.started,
+                        finished: transportReading.finished,
+                        outcome: mapOutcome(transportReading.outcome)
+                    )
+                )
+            }
+
+            return ReadBatch(
+                requestID: request.requestID,
+                generation: activeCatalog.generation,
+                readings: readings
+            )
+        } catch {
+            if errorInvalidatesCatalog(error) {
+                self.catalog = nil
+            }
+            throw error
+        }
+    }
+
+    private func errorInvalidatesCatalog(_ error: Error) -> Bool {
+        if error is QualifiedSensorClientError {
+            return true
+        }
+        if let failure = error as? MonitorFailure {
+            return failure.code == .sensorTimeout || failure.code == .sensorProtocol
+        }
+        return false
     }
 
     public func close() async {

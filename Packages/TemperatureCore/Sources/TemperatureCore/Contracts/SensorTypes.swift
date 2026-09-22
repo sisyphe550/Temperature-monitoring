@@ -530,6 +530,10 @@ public protocol SensorTransport: Sendable {
     func close() async
 }
 
+public protocol SensorConnectionGeneration: SensorTransport {
+    func currentConnectionGeneration() async -> UInt64
+}
+
 public protocol SourceRegistry: Sendable {
     func qualify(_ catalog: DiscoveredCatalog) throws -> QualifiedSourceCatalog
 }

@@ -37,14 +37,24 @@ enum WorkerTestSupport {
         throw WorkerTestSupportError.protocolWorkerNotBuilt("Could not locate Package.swift from test support")
     }
 
-    static func client(scenario: String) throws -> WorkerClient {
+    static func client(
+        scenario: String,
+        timeouts: WorkerClientTimeouts = .production
+    ) throws -> WorkerClient {
         WorkerClient(
             configuration: WorkerClientConfiguration(
                 executableURL: try protocolWorkerURL(),
-                environment: ["WORKER_SCENARIO": scenario]
+                environment: ["WORKER_SCENARIO": scenario],
+                timeouts: timeouts
             )
         )
     }
+
+    static let fastTimeouts = WorkerClientTimeouts(
+        readDeadlineMS: 150,
+        discoverDeadlineMS: 200,
+        terminateGraceMS: 50
+    )
 }
 
 enum WorkerTestSupportError: Error, CustomStringConvertible {
