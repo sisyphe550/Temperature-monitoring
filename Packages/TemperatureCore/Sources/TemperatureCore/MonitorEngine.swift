@@ -19,10 +19,14 @@ public actor MonitorEngine: ProcessingEngine {
     private let maximumDefinitions: [SeriesDefinition]
     private let emaProcessor: EMAProcessor
     private let cpuMaxDerivation: CPUMaxDerivation
+    private let trendCalculator: TrendCalculator
     private var aggregation: AggregationEngine
     private var buffers: RingBufferStore
+    private var seriesDefinitions: [SeriesID: SeriesDefinition]
     private var seriesState: [SeriesID: SeriesState]
     private var lastEMABySeries: [SeriesID: EMAValue] = [:]
+    private var openGapBySeries: [SeriesID: GapID] = [:]
+    private var activeGapIDs: Set<GapID> = []
     private var acceptedGeneration: UInt64 = 0
     private var nextSampleSequence: Int64 = 1
     private var deliveredSampleIDs: Set<String> = []
@@ -52,7 +56,9 @@ public actor MonitorEngine: ProcessingEngine {
         maximumDefinitions = definitions.filter { $0.formula == .maximum }
         emaProcessor = EMAProcessor(tauSeconds: configuration.emaTauSeconds)
         cpuMaxDerivation = CPUMaxDerivation(maxBatchSpanMS: configuration.cpuMaxBatchSpanMS)
+        trendCalculator = TrendCalculator(configuration: configuration)
         aggregation = AggregationEngine()
+        seriesDefinitions = Dictionary(uniqueKeysWithValues: definitions.map { ($0.seriesID, $0) })
         buffers = RingBufferStore(
             configuration: RingBufferConfiguration(
                 capacity: configuration.ringCapacityPerSeries,
@@ -224,6 +230,7 @@ public actor MonitorEngine: ProcessingEngine {
     public func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt {
         try validateWatermarkLease(lease)
         let buckets = aggregation.advance(to: timestamp.elapsedNS)
+        let trends = computeTrends(at: timestamp)
         let batchID = BatchID(UUID())
         let persistenceBatch = PersistenceBatch(
             batchID: batchID,
@@ -233,7 +240,7 @@ public actor MonitorEngine: ProcessingEngine {
             raw: [],
             ema: [],
             buckets: buckets,
-            trends: [],
+            trends: trends,
             gaps: []
         )
         let receipt = try await commit.commit(persistenceBatch, using: lease)
@@ -243,20 +250,47 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt {
-        _ = gap
-        _ = lease
-        throw Self.failure(
-            code: .processingValidate,
-            operation: "markGap",
-            underlyingCode: "not_implemented"
+        try validateGapLease(lease, for: gap)
+
+        if gap.endedElapsedNS == nil, openGapBySeries[gap.seriesID] != nil {
+            throw Self.failure(
+                code: .processingValidate,
+                operation: "markGap",
+                underlyingCode: "duplicate_open_gap"
+            )
+        }
+
+        let batchID = BatchID(UUID())
+        let persistenceBatch = PersistenceBatch(
+            batchID: batchID,
+            sources: [],
+            definitions: [],
+            segments: [],
+            raw: [],
+            ema: [],
+            buckets: [],
+            trends: [],
+            gaps: [gap]
         )
+        let receipt = try await commit.commit(persistenceBatch, using: lease)
+        try validateReceipt(receipt, for: persistenceBatch)
+
+        activeGapIDs.insert(gap.gapID)
+        if gap.endedElapsedNS == nil {
+            openGapBySeries[gap.seriesID] = gap.gapID
+        } else {
+            openGapBySeries.removeValue(forKey: gap.seriesID)
+            beginSegment(for: gap.seriesID, afterElapsedNS: gap.endedElapsedNS ?? timestampFromGap(gap))
+        }
+        snapshotGeneration = receipt.snapshotGeneration
+        return receipt
     }
 
     public func snapshot(at timestamp: Timestamp) async -> Snapshot {
         Snapshot(
             asOf: timestamp,
             values: [],
-            gapIDs: [],
+            gapIDs: Array(activeGapIDs),
             cpuPeriodMS: cpuPeriodMS,
             generation: snapshotGeneration
         )
@@ -302,8 +336,38 @@ public actor MonitorEngine: ProcessingEngine {
         buffers.activeSeriesCount
     }
 
+    private func computeTrends(at timestamp: Timestamp) -> [TrendValue] {
+        seriesDefinitions.values.map { definition in
+            let segment = seriesState[definition.seriesID]?.segment ?? 1
+            let emaSamples = buffers.emaSamples(
+                for: definition.seriesID,
+                nowElapsedNS: timestamp.elapsedNS
+            )
+            return trendCalculator.compute(
+                seriesID: definition.seriesID,
+                segment: segment,
+                kind: definition.kind,
+                emaSamples: emaSamples,
+                at: timestamp
+            )
+        }
+    }
+
+    private func beginSegment(for seriesID: SeriesID, afterElapsedNS: Int64) {
+        var state = seriesState[seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
+        state.segment += 1
+        state.lastElapsedNS = afterElapsedNS
+        seriesState[seriesID] = state
+        lastEMABySeries.removeValue(forKey: seriesID)
+    }
+
+    private func timestampFromGap(_ gap: Gap) -> Int64 {
+        gap.endedElapsedNS ?? gap.startedElapsedNS
+    }
+
     private func computeEMA(for sample: Sample, kind: SensorKind) throws -> EMAValue {
-        let previous = lastEMABySeries[sample.seriesID]
+        let stored = lastEMABySeries[sample.seriesID]
+        let previous = stored?.segment == sample.segment ? stored : nil
         do {
             return try emaProcessor.nextEMA(raw: sample, previous: previous, kind: kind)
         } catch EMAError.nonPositiveDeltaTime {
@@ -320,6 +384,16 @@ public actor MonitorEngine: ProcessingEngine {
             throw Self.failure(
                 code: .databaseIntegrity,
                 operation: "advance",
+                underlyingCode: "invalid_lease_owner"
+            )
+        }
+    }
+
+    private func validateGapLease(_ lease: PersistenceLease, for gap: Gap) throws {
+        guard case let .gap(gapID) = lease.owner, gapID == gap.gapID else {
+            throw Self.failure(
+                code: .databaseIntegrity,
+                operation: "markGap",
                 underlyingCode: "invalid_lease_owner"
             )
         }

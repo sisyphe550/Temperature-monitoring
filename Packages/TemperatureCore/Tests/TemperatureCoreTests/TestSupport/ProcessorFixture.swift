@@ -4,12 +4,25 @@ import Foundation
 actor TestCommitCapability: PersistenceCommitCapability {
     private(set) var committed: [PersistenceBatch] = []
     private var snapshotGeneration: UInt64 = 0
+    private var rejectNextReceipt = false
+
+    init(rejectNextReceipt: Bool = false) {
+        self.rejectNextReceipt = rejectNextReceipt
+    }
 
     func commit(_ batch: PersistenceBatch, using lease: PersistenceLease) async throws -> ProcessingReceipt {
         _ = lease
         committed.append(batch)
         snapshotGeneration += 1
         let recordCount = batch.raw.count + batch.ema.count + batch.buckets.count + batch.trends.count + batch.gaps.count
+        if rejectNextReceipt {
+            rejectNextReceipt = false
+            return ProcessingReceipt(
+                batchID: BatchID(UUID()),
+                acceptedRecords: recordCount + 1,
+                snapshotGeneration: snapshotGeneration
+            )
+        }
         return ProcessingReceipt(
             batchID: batch.batchID,
             acceptedRecords: recordCount,
@@ -137,6 +150,11 @@ struct ProcessorFixture {
 
     func emaSamples(for seriesID: SeriesID, nowMS: Int64) async -> [EMAValue] {
         await engine.emaSamples(for: seriesID, nowElapsedNS: nowMS * 1_000_000)
+    }
+
+    @discardableResult
+    func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        try await engine.markGap(gap, lease: lease)
     }
 
     @discardableResult
