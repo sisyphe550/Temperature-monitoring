@@ -1,0 +1,96 @@
+{
+  "artifactKind": "product-hardware-sources",
+  "battery": {
+    "kind": "battery",
+    "provider": "smc",
+    "rawKey": "TB1T",
+    "status": "selected"
+  },
+  "cpuAvailableCount": 12,
+  "cpuExpectedCount": 12,
+  "cpuKeys": [
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Te05",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Te0S",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Te09",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Te0H",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp01",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp05",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp09",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp0D",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp0V",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp0Y",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp0b",
+      "status": "available"
+    },
+    {
+      "byteCount": 4,
+      "encoding": "flt ",
+      "rawKey": "Tp0e",
+      "status": "available"
+    }
+  ],
+  "generation": 1,
+  "hidDiagnosticCount": 47,
+  "mappingAndFreshness": "not inferred from names or repeated values",
+  "recordedAt": "2026-09-23T11:30:03Z",
+  "schemaVersion": 1,
+  "ssd": {
+    "kind": "ssd",
+    "provider": "nvme",
+    "reason": "nvme_interconnect_lookup_failed",
+    "status": "unavailable"
+  }
+}
