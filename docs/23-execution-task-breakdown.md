@@ -182,8 +182,8 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T10.1 可重复发布脚本 | T09.4 | `scripts/package-release.sh`、`scripts/tests/test-package-release.sh`、`docs/validation/releases/<version>/report.md` | 验证凭证；重建；worker→App签名；ZIP→notary→staple→spctl→最终ZIP；日志不泄密 | 缺证书/profile、notary拒绝、staple失败、旧App、worker签名错均失败 | 有凭证输出notarized ZIP；无凭证明确外部依赖；`build: add notarized release packaging` |
-| - [ ] T10.2 正式配置复测或阻塞边界 | T10.1 | release manifest/block文件、正式App实机证据、资格矩阵 | manifest保存四类平台字段、App/ZIP SHA、Team/ticket和third-party/notice hash；正式配置重跑全套；无凭证只记录阻塞 | 交叉验证SHA/ticket/许可；任何配置变化禁止复用ad-hoc结论；阻塞文件不得伪造资格 | W11取得正式或pending的明确状态；`test: qualify signed release configuration` |
+| - [ ] T10.1 可重复发布脚本 | T09.4 | `scripts/package-release.sh`、`scripts/tests/test-package-release.sh`、`docs/validation/releases/<version>/report.md` | 验证凭证；重建；worker→App签名；ZIP→notary→staple→spctl→最终ZIP；日志不泄密 | **2026-09-23 维护者豁免公证**；脚本作为可选工具交付；本机 ad-hoc App 为正式交付 | 有凭证时可输出notarized ZIP；无凭证/无需求时明确waived；`build: add notarized release packaging` |
+| - [ ] T10.2 正式配置复测或阻塞边界 | T10.1 | release manifest/block文件、正式App实机证据、资格矩阵 | manifest保存四类平台字段、App/ZIP SHA、Team/ticket和third-party/notice hash；正式配置重跑全套；无凭证只记录阻塞 | **waived** with T10.1 for local-only target；W09 ad-hoc 资格仍有效 | W11从明确 local-complete 状态开始；`test: qualify signed release configuration` |
 
 ## W11：逐需求验收与最终交付
 

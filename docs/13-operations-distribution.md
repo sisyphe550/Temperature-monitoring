@@ -33,7 +33,7 @@
 | 产物 | 可执行条件 | 不能声称的事 |
 |---|---|---|
 | 本地可运行App | 完整Xcode、Core/Runtime/UI测试、ad-hoc签名、已测试本机能力 | 不能声称Developer ID公证或全部Air支持 |
-| 正式独立分发ZIP | 前项＋Developer ID Application证书/Team ID＋公证凭证＋最终配置实机复测 | 不能以CLI或Debug结果代替正式构建权限验证 |
+| 正式独立分发ZIP | 前项＋Developer ID Application证书/Team ID＋公证凭证＋最终配置实机复测 | 不能以CLI或Debug结果代替正式构建权限验证；**2026-09-23 维护者豁免**：本项目以本机 ad-hoc App 为交付目标，不要求公证 ZIP |
 
 正式格式选ZIP，手动下载与替换App，不实现自动更新。关闭App Sandbox，正式签名启用Hardened Runtime；worker与主App同一Team，先签worker再签App，不依赖`--deep`掩盖嵌套签名错误。参考[Apple公证](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)。
 

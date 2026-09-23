@@ -1,24 +1,22 @@
-# Release 0.1.0 — blocked
+# Release 0.1.0 — waived (local-only delivery)
 
-**Status:** pending external credentials  
-**Scope:** W10 T10.1 packaging script delivered; formal notarization not executed in CI or agent environment.
+**Status:** not required  
+**Decision:** 2026-09-23 maintainer — app runs locally only; no Mac App Store; no notarized distribution to other users.
 
-## Blocker
+## Delivery tier
 
-Developer ID Application certificate, Apple Team ID, and Keychain profile `temperature-monitor-notary` are maintainer-supplied secrets and are not available in this repository.
+| Tier | Status |
+|------|--------|
+| Local ad-hoc App (`build/TemperatureMonitor.app`) | **complete** (W08/W09) |
+| Notarized ZIP (`TemperatureMonitor-notarized.zip`) | **waived** |
 
-## Local delivery (complete)
+`scripts/package-release.sh` remains optional tooling if distribution requirements change later. It is not a project exit gate.
 
-W01–W09 local ad-hoc App: `build/TemperatureMonitor.app`  
-Hardware qualification: `docs/validation/product-hardware/Mac16,13-24G419/14cac6f…/`
-
-## To produce notarized ZIP (maintainer machine)
+## Build locally
 
 ```sh
-export DEVELOPER_ID_APPLICATION="Developer ID Application: …"
-export APPLE_TEAM_ID="…"
-# Keychain profile temperature-monitor-notary must exist (xcrun notarytool store-credentials)
-bash scripts/package-release.sh
+bash scripts/build-app.sh
+open build/TemperatureMonitor.app
 ```
 
-Expected artifacts: `build/TemperatureMonitor-notarized.zip`, `build/release-manifest.json`, updated manifest under this directory.
+Hardware qualification: `docs/validation/product-hardware/Mac16,13-24G419/14cac6f…/`
