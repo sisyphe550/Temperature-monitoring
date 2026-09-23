@@ -118,13 +118,22 @@ public actor WorkerClient: SensorTransport, SensorConnectionGeneration {
 
     public func releaseConnection() async {
         guard !closed else { return }
+        await waitForIdle()
         try? await terminateWorker()
     }
 
     public func close() async {
         guard !closed else { return }
+        await waitForIdle()
         closed = true
         try? await terminateWorker()
+    }
+
+    private func waitForIdle() async {
+        while inFlight {
+            await Task.yield()
+            try? await Task.sleep(nanoseconds: 1_000_000)
+        }
     }
 
     private func perform(command: WorkerCommand) async throws -> WorkerProtocol.Response {

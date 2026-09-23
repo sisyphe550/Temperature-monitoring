@@ -117,6 +117,20 @@ public actor SessionMonitorController: MonitorController {
         await coordinator?.samplingStatistics() ?? SamplingStatistics()
     }
 
+    public func persistenceQueueSnapshot() async -> PersistenceQueueSnapshot {
+        await session.persistenceQueueSnapshot()
+    }
+
+    public func waitForPersistenceDrain(maxSeconds: Int) async {
+        for _ in 0..<maxSeconds {
+            let snapshot = await session.persistenceQueueSnapshot()
+            if snapshot.acceptsNewReservations {
+                return
+            }
+            try? await Task.sleep(nanoseconds: 200_000_000)
+        }
+    }
+
     public func lastAcceptFailure() async -> MonitorFailure? {
         await coordinator?.lastAcceptFailure
     }

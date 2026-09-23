@@ -155,6 +155,7 @@ enum LifecycleCollector {
         var rounds: [LifecycleReport.SleepWakeRound] = []
         for round in 1...Self.sleepWakeRoundCount {
             await waitForSamplingDrain(context.controller, maxSeconds: 10)
+            await context.controller.waitForPersistenceDrain(maxSeconds: 30)
             let before = try SQLiteEvidence.lifecycle(databaseURL: databaseURL)
             try await context.controller.suspendForSleep()
             let afterSleep = try SQLiteEvidence.lifecycle(databaseURL: databaseURL)
@@ -201,9 +202,11 @@ enum LifecycleCollector {
         defer { sink.cancel() }
         try await sleepSeconds(10)
         await waitForSamplingDrain(context.controller, maxSeconds: 10)
+        await context.controller.waitForPersistenceDrain(maxSeconds: 30)
         try await context.controller.setCPUPeriod(milliseconds: 500)
         try await sleepSeconds(10)
         await waitForSamplingDrain(context.controller, maxSeconds: 10)
+        await context.controller.waitForPersistenceDrain(maxSeconds: 30)
         let evidence = try SQLiteEvidence.lifecycle(databaseURL: databaseURL)
         await context.shutdown()
         guard evidence.committedBatches > 0 else {
@@ -458,9 +461,6 @@ enum LifecycleCollector {
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(decoding: data, as: UTF8.self)
-        if launchPath.hasSuffix("pkill"), process.terminationStatus == 1 {
-            return output
-        }
         if launchPath.hasSuffix("pkill"), process.terminationStatus == 1 {
             return output
         }
