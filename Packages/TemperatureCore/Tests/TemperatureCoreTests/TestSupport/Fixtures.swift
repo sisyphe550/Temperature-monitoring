@@ -42,10 +42,11 @@ enum Fixtures {
         )
     }
 
-    static func read(id: RequestID, ms: Int64, values: [Double]) -> ReadBatch {
+    static func read(id: RequestID, ms: Int64, values: [Double], requestedPeriodMS: Int = 200) -> ReadBatch {
         ReadBatch(
             requestID: id,
             generation: 1,
+            requestedPeriodMS: requestedPeriodMS,
             readings: values.enumerated().map { index, value in
                 Reading(
                     sourceID: SourceID(uuid(index + 1)),

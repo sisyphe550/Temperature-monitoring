@@ -1,0 +1,70 @@
+{
+  "artifactKind": "product-hardware-schedules",
+  "durationSeconds": 600,
+  "intervalsMS": [
+    50,
+    100,
+    200,
+    500,
+    1000
+  ],
+  "phases": [
+    {
+      "actualDurationSeconds": 606.898167014122,
+      "committedBatches": 11971,
+      "cpuPeriodMS": 50,
+      "cpuRawSamples": 155623,
+      "expectedOpportunities": 12000,
+      "gaps": 0,
+      "mappingAndFreshness": "not inferred from variation or repeated values",
+      "missedOpportunities": 29,
+      "plannedDurationSeconds": 600
+    },
+    {
+      "actualDurationSeconds": 611.363785982132,
+      "committedBatches": 6092,
+      "cpuPeriodMS": 100,
+      "cpuRawSamples": 79196,
+      "expectedOpportunities": 6000,
+      "gaps": 0,
+      "mappingAndFreshness": "not inferred from variation or repeated values",
+      "missedOpportunities": 0,
+      "plannedDurationSeconds": 600
+    },
+    {
+      "actualDurationSeconds": 620.0696760416031,
+      "committedBatches": 3098,
+      "cpuPeriodMS": 200,
+      "cpuRawSamples": 40274,
+      "expectedOpportunities": 3000,
+      "gaps": 0,
+      "mappingAndFreshness": "not inferred from variation or repeated values",
+      "missedOpportunities": 0,
+      "plannedDurationSeconds": 600
+    },
+    {
+      "actualDurationSeconds": 625.0013239383698,
+      "committedBatches": 1249,
+      "cpuPeriodMS": 500,
+      "cpuRawSamples": 16237,
+      "expectedOpportunities": 1200,
+      "gaps": 0,
+      "mappingAndFreshness": "not inferred from variation or repeated values",
+      "missedOpportunities": 0,
+      "plannedDurationSeconds": 600
+    },
+    {
+      "actualDurationSeconds": 626.6017570495605,
+      "committedBatches": 5,
+      "cpuPeriodMS": 1000,
+      "cpuRawSamples": 26,
+      "expectedOpportunities": 600,
+      "gaps": 0,
+      "mappingAndFreshness": "not inferred from variation or repeated values",
+      "missedOpportunities": 595,
+      "plannedDurationSeconds": 600
+    }
+  ],
+  "recordedAt": "2026-09-23T01:23:52Z",
+  "schemaVersion": 1
+}

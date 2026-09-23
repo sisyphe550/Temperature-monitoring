@@ -8,10 +8,11 @@ APP=""
 PROFILE=""
 SUITE=""
 OUTPUT=""
+DURATION=""
 USE_PROBE=0
 
 usage() {
-  echo "Usage: $0 --app PATH --profile PATH --suite NAME --output DIR [--dry-run]" >&2
+  echo "Usage: $0 --app PATH --profile PATH --suite NAME --output DIR [--duration-seconds N] [--dry-run]" >&2
   echo "Suites: dry-run, sources, schedules, lifecycle, endurance, full" >&2
 }
 
@@ -36,6 +37,10 @@ while [[ $# -gt 0 ]]; do
     --dry-run)
       SUITE="dry-run"
       shift
+      ;;
+    --duration-seconds)
+      DURATION="$2"
+      shift 2
       ;;
     --use-probe)
       USE_PROBE=1
@@ -69,6 +74,9 @@ if [[ "${SUITE}" != "dry-run" && -x "${ROOT}/prototypes/sensor-probe/.build/rele
 fi
 
 ARGS=(collect --app "${APP}" --profile "${PROFILE}" --suite "${SUITE}" --output "${OUTPUT}")
+if [[ -n "${DURATION}" ]]; then
+  ARGS+=(--duration-seconds "${DURATION}")
+fi
 if [[ "${USE_PROBE}" -eq 1 ]]; then
   ARGS+=(--use-probe)
 fi

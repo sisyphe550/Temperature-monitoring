@@ -39,6 +39,7 @@ import Testing
         let batch = ReadBatch(
             requestID: requestID,
             generation: 1,
+            requestedPeriodMS: 200,
             readings: [
                 Reading(
                     sourceID: SourceID(Fixtures.uuid(1)),
@@ -77,6 +78,7 @@ import Testing
         let stale = ReadBatch(
             requestID: staleID,
             generation: 0,
+            requestedPeriodMS: 200,
             readings: [
                 Reading(
                     sourceID: SourceID(Fixtures.uuid(1)),

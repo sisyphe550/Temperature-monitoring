@@ -126,6 +126,43 @@ def test_use_probe_is_rejected() -> None:
         assert "sensor-probe" in result.stderr
 
 
+def test_validate_sources_report_fixture() -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from product_qualification import validate_sources_report  # type: ignore
+
+    fixture = {
+        "artifactKind": "product-hardware-sources",
+        "cpuExpectedCount": 12,
+        "cpuAvailableCount": 12,
+        "cpuKeys": [
+            {
+                "rawKey": key,
+                "status": "available",
+                "encoding": "flt ",
+                "byteCount": 4,
+            }
+            for key in [
+                "Te05",
+                "Te0S",
+                "Te09",
+                "Te0H",
+                "Tp01",
+                "Tp05",
+                "Tp09",
+                "Tp0D",
+                "Tp0V",
+                "Tp0Y",
+                "Tp0b",
+                "Tp0e",
+            ]
+        ],
+        "ssd": {"status": "unavailable", "kind": "ssd"},
+        "battery": {"status": "selected", "kind": "battery"},
+        "mappingAndFreshness": "not inferred from names or repeated values",
+    }
+    assert validate_sources_report(fixture) == []
+
+
 def test_full_suite_rejects_probe_backend() -> None:
     probe_dir = ROOT / "prototypes" / "sensor-probe" / ".build" / "release"
     probe_dir.mkdir(parents=True, exist_ok=True)
@@ -163,6 +200,7 @@ def main() -> int:
         test_missing_section_fails_validation,
         test_load_command_mismatch_fails,
         test_use_probe_is_rejected,
+        test_validate_sources_report_fixture,
         test_full_suite_rejects_probe_backend,
     ]
     for test in tests:

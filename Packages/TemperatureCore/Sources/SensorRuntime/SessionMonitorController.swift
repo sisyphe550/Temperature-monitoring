@@ -113,6 +113,14 @@ public actor SessionMonitorController: MonitorController {
         stopped
     }
 
+    public func samplingStatistics() async -> SamplingStatistics {
+        await coordinator?.samplingStatistics() ?? SamplingStatistics()
+    }
+
+    public func lastAcceptFailure() async -> MonitorFailure? {
+        await coordinator?.lastAcceptFailure
+    }
+
     public func stop() async {
         guard !stopped else {
             return

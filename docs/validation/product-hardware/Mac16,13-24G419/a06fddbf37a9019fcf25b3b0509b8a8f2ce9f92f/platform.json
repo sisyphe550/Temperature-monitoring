@@ -1,0 +1,69 @@
+{
+  "app_path": "/Users/sisyphus/Code/Go/Temperature monitoring/build/TemperatureMonitor.app",
+  "app_sha256": "0af70879c6a5f8f1feaed5dc63abfd3e2f8eb574d6ca2c5005a359ab7bbfe6a4",
+  "artifact_kind": "product-hardware-qualification",
+  "build_toolchain": {
+    "host_build_version": "24G419",
+    "host_product_version": "15.7.3",
+    "sdk_version": "26.2",
+    "swift_version": "Apple Swift version 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)",
+    "xcode_build": "Build version 17C529",
+    "xcode_version": "Xcode 26.3"
+  },
+  "codesign_identity": "adhoc",
+  "deployment_target": {
+    "app_load_command": {
+      "minos": "15.7.3",
+      "platform": "1",
+      "sdk": "26.2"
+    },
+    "architectures": {
+      "app": [],
+      "worker": [
+        "arm64"
+      ]
+    },
+    "configured_macosx_deployment_target": "15.7.3",
+    "load_commands_match_configuration": true,
+    "worker_load_command": {
+      "minos": "15.7.3",
+      "platform": "1",
+      "sdk": "26.2"
+    }
+  },
+  "execution_backend": "TemperatureMonitor.app",
+  "execution_status": "passed",
+  "qualified_combinations": [
+    {
+      "app_sha256": "0af70879c6a5f8f1feaed5dc63abfd3e2f8eb574d6ca2c5005a359ab7bbfe6a4",
+      "codesign_identity": "adhoc",
+      "host_build_version": "24G419",
+      "host_product_version": "15.7.3",
+      "model_identifier": "Mac16,13",
+      "result": "passed",
+      "suites": [
+        "sources",
+        "schedules"
+      ],
+      "worker_sha256": "0bbbeb526144ba59b1f00a15db5dbeeb1d8566f3bc8135f8daf00ead58225939"
+    }
+  ],
+  "recorded_at": "2026-09-23T00:31:55+00:00",
+  "runtime_profile": {
+    "bundled_profile_sha256": "39e444d22ab6d51a7bc6768e0cbcdef02cb992a21e069e08f709ded69864c108",
+    "cpu_key_count": 12,
+    "host_build_version": "24G419",
+    "host_product_version": "15.7.3",
+    "minimum_os": "15.7.3",
+    "model_identifier": "Mac16,13",
+    "profile_id": "Mac16,13-m4-v1",
+    "profile_matches_bundle": true,
+    "profile_model": "Mac16,13",
+    "profile_sha256": "39e444d22ab6d51a7bc6768e0cbcdef02cb992a21e069e08f709ded69864c108",
+    "profile_version": 1
+  },
+  "schema_version": 1,
+  "source_tree_sha": "a06fddbf37a9019fcf25b3b0509b8a8f2ce9f92f",
+  "suite": "full",
+  "worker_sha256": "0bbbeb526144ba59b1f00a15db5dbeeb1d8566f3bc8135f8daf00ead58225939"
+}

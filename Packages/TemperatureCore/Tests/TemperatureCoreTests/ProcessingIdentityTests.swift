@@ -10,6 +10,7 @@ import Testing
         let batch = ReadBatch(
             requestID: requestID,
             generation: 1,
+            requestedPeriodMS: 200,
             readings: [
                 Reading(
                     sourceID: SourceID(Fixtures.uuid(1)),
@@ -46,6 +47,7 @@ import Testing
             let batch = ReadBatch(
                 requestID: requestID,
                 generation: 1,
+                requestedPeriodMS: 200,
                 readings: [
                     Reading(
                         sourceID: SourceID(Fixtures.uuid(1)),
@@ -115,6 +117,7 @@ import Testing
         let altered = ReadBatch(
             requestID: requestID,
             generation: 1,
+            requestedPeriodMS: 200,
             readings: [
                 Reading(
                     sourceID: SourceID(Fixtures.uuid(1)),
@@ -142,6 +145,7 @@ import Testing
             ReadBatch(
                 requestID: RequestID(Fixtures.uuid(333)),
                 generation: 2,
+                requestedPeriodMS: 200,
                 readings: Fixtures.read(id: RequestID(Fixtures.uuid(333)), ms: 0, values: [70]).readings
             ),
             lease: fixture.lease(owner: .request(RequestID(Fixtures.uuid(333))), generation: 2)
@@ -152,6 +156,7 @@ import Testing
                 ReadBatch(
                     requestID: requestID,
                     generation: 1,
+                    requestedPeriodMS: 200,
                     readings: Fixtures.read(id: requestID, ms: 50, values: [71]).readings
                 ),
                 lease: fixture.lease(owner: .request(requestID), generation: 1)
@@ -260,7 +265,7 @@ import Testing
         )
 
         let receipt = try await fixture.accept(
-            ReadBatch(requestID: requestID, generation: 1, readings: readings),
+            ReadBatch(requestID: requestID, generation: 1, requestedPeriodMS: 200, readings: readings),
             lease: fixture.lease(owner: .request(requestID), generation: 1)
         )
         let committed = try #require(await fixture.committedBatch(for: receipt))
@@ -281,7 +286,7 @@ import Testing
         }
 
         let receipt = try await fixture.accept(
-            ReadBatch(requestID: requestID, generation: 1, readings: readings),
+            ReadBatch(requestID: requestID, generation: 1, requestedPeriodMS: 200, readings: readings),
             lease: fixture.lease(owner: .request(requestID), generation: 1)
         )
         let committed = try #require(await fixture.committedBatch(for: receipt))
@@ -355,6 +360,7 @@ import Testing
         let batch = ReadBatch(
             requestID: requestID,
             generation: 1,
+            requestedPeriodMS: 200,
             readings: [
                 Reading(
                     sourceID: extraSource,

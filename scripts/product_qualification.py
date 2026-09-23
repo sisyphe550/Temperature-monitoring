@@ -16,7 +16,13 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "docs" / "contracts" / "product-qualification-v1.json"
+PACKAGE = ROOT / "Packages" / "TemperatureCore"
 FORBIDDEN_PROBE = ROOT / "prototypes" / "sensor-probe" / ".build" / "release" / "sensor-probe"
+WORKER_FLAGS = ["-Xswiftc", "-target", "-Xswiftc", "arm64-apple-macos15.7.3"]
+MIN_SCHEDULE_DURATION = int(
+    __import__("os").environ.get("QUALIFICATION_MIN_SCHEDULE_SECONDS", "600")
+)
+DEFAULT_INTERVALS = [50, 100, 200, 500, 1000]
 
 
 def sha256_file(path: Path) -> str:
@@ -282,8 +288,166 @@ def validate_report(report: dict[str, Any]) -> list[str]:
     return errors
 
 
-def write_report(output_dir: Path, report: dict[str, Any]) -> Path:
-    output_dir.mkdir(parents=True, exist_ok=False)
+def host_model() -> str:
+    return run_command(["sysctl", "-n", "hw.model"]).strip()
+
+
+def assert_target_host(profile_path: Path) -> None:
+    profile = load_profile(profile_path)
+    expected = profile.get("model", "")
+    actual = host_model()
+    if actual != expected:
+        raise RuntimeError(
+            f"host model {actual} does not match profile model {expected}; "
+            "hardware qualification must run on the target machine"
+        )
+
+
+def qualification_binaries() -> tuple[Path, Path]:
+    run_command(
+        [
+            "swift",
+            "build",
+            "--package-path",
+            str(PACKAGE),
+            "--product",
+            "SensorWorker",
+            "-c",
+            "release",
+            *WORKER_FLAGS,
+        ]
+    )
+    run_command(
+        [
+            "swift",
+            "build",
+            "--package-path",
+            str(PACKAGE),
+            "--product",
+            "ProductQualification",
+            "-c",
+            "release",
+        ]
+    )
+    bin_path = Path(
+        run_command(
+            [
+                "swift",
+                "build",
+                "--package-path",
+                str(PACKAGE),
+                "--product",
+                "ProductQualification",
+                "-c",
+                "release",
+                "--show-bin-path",
+            ]
+        ).strip()
+    )
+    worker_path = Path(
+        run_command(
+            [
+                "swift",
+                "build",
+                "--package-path",
+                str(PACKAGE),
+                "--product",
+                "SensorWorker",
+                "-c",
+                "release",
+                *WORKER_FLAGS,
+                "--show-bin-path",
+            ]
+        ).strip()
+    )
+    return bin_path / "ProductQualification", worker_path / "SensorWorker"
+
+
+def run_product_qualification(command: list[str]) -> dict[str, Any]:
+    result = subprocess.run(command, capture_output=True, text=True, check=False, cwd=ROOT)
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"ProductQualification failed ({result.returncode}): "
+            f"{' '.join(command)}\n{result.stderr.strip()}"
+        )
+    return json.loads(result.stdout)
+
+
+def validate_sources_report(report: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if report.get("artifactKind") != "product-hardware-sources":
+        errors.append("sources artifactKind mismatch")
+    expected = report.get("cpuExpectedCount")
+    available = report.get("cpuAvailableCount")
+    if expected != 12:
+        errors.append(f"cpuExpectedCount must be 12, got {expected}")
+    if available != expected:
+        errors.append(f"cpuAvailableCount {available} != expected {expected}")
+    cpu_keys = report.get("cpuKeys", [])
+    if len(cpu_keys) != 12:
+        errors.append("cpuKeys must contain 12 entries")
+    for entry in cpu_keys:
+        if entry.get("status") != "available":
+            errors.append(f"cpu key {entry.get('rawKey')} not available")
+        if entry.get("encoding") != "flt ":
+            errors.append(f"cpu key {entry.get('rawKey')} encoding must be flt ")
+        if entry.get("byteCount") != 4:
+            errors.append(f"cpu key {entry.get('rawKey')} must be 4 bytes")
+    for kind in ("ssd", "battery"):
+        section = report.get(kind)
+        if not isinstance(section, dict) or "status" not in section:
+            errors.append(f"{kind} section missing status")
+    if "not inferred" not in str(report.get("mappingAndFreshness", "")):
+        errors.append("sources must declare mapping/freshness non-inference")
+    return errors
+
+
+def validate_schedules_report(report: dict[str, Any], *, min_duration: int) -> list[str]:
+    errors: list[str] = []
+    if report.get("artifactKind") != "product-hardware-schedules":
+        errors.append("schedules artifactKind mismatch")
+    phases = report.get("phases", [])
+    if len(phases) != len(DEFAULT_INTERVALS):
+        errors.append("schedules must include all five CPU intervals")
+    for phase in phases:
+        if phase.get("cpuPeriodMS") not in DEFAULT_INTERVALS:
+            errors.append(f"unexpected interval {phase.get('cpuPeriodMS')}")
+        if phase.get("plannedDurationSeconds", 0) < min_duration:
+            errors.append(f"planned duration below {min_duration}s for {phase.get('cpuPeriodMS')}")
+        if phase.get("actualDurationSeconds", 0) < min_duration:
+            errors.append(f"actual duration below {min_duration}s for {phase.get('cpuPeriodMS')}")
+        if phase.get("committedBatches", 0) <= 0:
+            errors.append(f"no committed batches for {phase.get('cpuPeriodMS')}")
+        if phase.get("cpuRawSamples", 0) <= 0:
+            errors.append(f"no cpu raw samples for {phase.get('cpuPeriodMS')}")
+    return errors
+
+
+def maybe_qualified_combination(
+    report: dict[str, Any],
+    *,
+    suites_passed: list[str],
+) -> list[dict[str, Any]]:
+    runtime = report.get("runtime_profile", {})
+    if "sources" not in suites_passed or "schedules" not in suites_passed:
+        return []
+    return [
+        {
+            "app_sha256": report.get("app_sha256"),
+            "worker_sha256": report.get("worker_sha256"),
+            "codesign_identity": report.get("codesign_identity"),
+            "model_identifier": runtime.get("model_identifier"),
+            "host_product_version": runtime.get("host_product_version"),
+            "host_build_version": runtime.get("host_build_version"),
+            "suites": suites_passed,
+            "result": "passed",
+        }
+    ]
+
+
+def write_report(output_dir: Path, report: dict[str, Any], *, create: bool = True) -> Path:
+    if create:
+        output_dir.mkdir(parents=True, exist_ok=False)
     platform_path = output_dir / "platform.json"
     platform_path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     manifest = {
@@ -300,27 +464,124 @@ def write_report(output_dir: Path, report: dict[str, Any]) -> Path:
 def collect_command(args: argparse.Namespace) -> int:
     if args.use_probe:
         raise SystemExit("sensor-probe backend is forbidden for product qualification")
-    if FORBIDDEN_PROBE.is_file() and args.suite != "dry-run":
-        pass
-    report = collect_platform(Path(args.app), Path(args.profile), args.suite)
+    app_path = Path(args.app)
+    profile_path = Path(args.profile)
+    suite = args.suite
+    output_dir = Path(args.output)
+    if output_dir.exists():
+        raise SystemExit(f"output already exists: {output_dir}")
+
+    report = collect_platform(app_path, profile_path, suite)
     report["execution_backend"] = "TemperatureMonitor.app"
     errors = validate_report(report)
     if errors:
         for error in errors:
             print(f"error: {error}", file=sys.stderr)
         return 1
-    if args.suite != "dry-run":
+
+    suites_passed: list[str] = []
+    if suite == "dry-run":
+        report["execution_status"] = "schema_validated"
+        path = write_report(output_dir, report)
+        print(json.dumps({"output": str(output_dir), "platform": str(path)}, indent=2))
+        return 0
+
+    try:
+        assert_target_host(profile_path)
+    except RuntimeError as error:
+        print(f"error: {error}", file=sys.stderr)
+        return 1
+
+    output_dir.mkdir(parents=True, exist_ok=False)
+
+    worker_path = app_path / "Contents" / "MacOS" / "SensorWorker"
+    defaults_path = app_path / "Contents/Resources/defaults-v1.json"
+    if not worker_path.is_file():
+        tool_binary, built_worker = qualification_binaries()
+        worker_path = built_worker
+    else:
+        tool_binary, _ = qualification_binaries()
+
+    duration = args.duration_seconds
+    allow_short = __import__("os").environ.get("QUALIFICATION_ALLOW_SHORT") == "1"
+    if suite in ("schedules", "full") and duration < MIN_SCHEDULE_DURATION and not allow_short:
         print(
-            f"suite {args.suite} requires target hardware execution (T09.2+); "
-            "platform schema validated only",
+            f"error: schedule duration {duration}s below required {MIN_SCHEDULE_DURATION}s",
             file=sys.stderr,
         )
-        return 2
-    output_dir = Path(args.output)
-    if output_dir.exists():
-        raise SystemExit(f"output already exists: {output_dir}")
-    path = write_report(output_dir, report)
-    print(json.dumps({"output": str(output_dir), "platform": str(path)}, indent=2))
+        return 1
+
+    if suite in ("sources", "full"):
+        sources = run_product_qualification(
+            [
+                str(tool_binary),
+                "sources",
+                "--worker",
+                str(worker_path),
+                "--profile",
+                str(profile_path),
+            ]
+        )
+        source_errors = validate_sources_report(sources)
+        if source_errors:
+            for error in source_errors:
+                print(f"error: {error}", file=sys.stderr)
+            return 1
+        (output_dir / "sources.json").write_text(
+            json.dumps(sources, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        suites_passed.append("sources")
+
+    if suite in ("schedules", "full"):
+        schedules = run_product_qualification(
+            [
+                str(tool_binary),
+                "schedules",
+                "--worker",
+                str(worker_path),
+                "--profile",
+                str(profile_path),
+                "--defaults",
+                str(defaults_path),
+                "--output",
+                str(output_dir),
+                "--duration-seconds",
+                str(duration),
+                "--intervals",
+                ",".join(str(value) for value in DEFAULT_INTERVALS),
+            ]
+        )
+        schedule_errors = validate_schedules_report(
+            schedules,
+            min_duration=1 if allow_short else MIN_SCHEDULE_DURATION,
+        )
+        if schedule_errors:
+            for error in schedule_errors:
+                print(f"error: {error}", file=sys.stderr)
+            return 1
+        (output_dir / "schedules.json").write_text(
+            json.dumps(schedules, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        suites_passed.append("schedules")
+
+    report["execution_status"] = "passed" if suites_passed else "pending"
+    report["qualified_combinations"] = maybe_qualified_combination(
+        report,
+        suites_passed=suites_passed,
+    )
+    path = write_report(output_dir, report, create=False)
+    print(
+        json.dumps(
+            {
+                "output": str(output_dir),
+                "platform": str(path),
+                "suites_passed": suites_passed,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 
@@ -370,6 +631,7 @@ def main() -> int:
     collect.add_argument("--profile", required=True)
     collect.add_argument("--suite", required=True)
     collect.add_argument("--output", required=True)
+    collect.add_argument("--duration-seconds", type=int, default=MIN_SCHEDULE_DURATION)
     collect.add_argument("--use-probe", action="store_true")
     collect.set_defaults(func=collect_command)
 
