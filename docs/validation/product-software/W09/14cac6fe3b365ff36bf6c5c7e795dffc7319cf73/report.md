@@ -29,4 +29,4 @@ Hardware evidence: `docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b3
 
 ## W09 status
 
-**Complete** for local ad-hoc App on Mac16,13 / 24G419. W10 may proceed (formal signing / notarization).
+**Complete** for local ad-hoc App on Mac16,13 / 24G419. W10 notarization waived (local-only delivery).
