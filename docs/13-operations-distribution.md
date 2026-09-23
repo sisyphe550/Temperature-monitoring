@@ -78,6 +78,6 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 
 | 机型 | OS build | 证据 SHA | sources | schedules | lifecycle | endurance | 签名 |
 |---|---|---|---|---|---|---|---|
-| Mac16,13 | 24G419 | `a06fddb…` / `15cada6…` | passed | passed | passed | cancelled（维护者豁免） | ad-hoc |
+| Mac16,13 | 24G419 | `14cac6f…` | passed | passed | passed | cancelled（维护者豁免） | ad-hoc |
 
-登记前须在同一二进制上重跑 `--suite full`（不含 endurance）以生成原子 `qualified_combinations`；当前证据分属两次构建，见 W09 报告。
+`qualified_combinations` 已登记：`72339d42…` / `83e14d5e…`，suites=`[sources, schedules, lifecycle]`。证据目录见 `docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/`。
