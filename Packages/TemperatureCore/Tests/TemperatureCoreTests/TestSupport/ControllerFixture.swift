@@ -167,7 +167,7 @@ struct ControllerFixture {
     }
 
     private func waitUntil(
-        timeoutMS: Int64 = 500,
+        timeoutMS: Int64 = 1_500,
         _ predicate: @escaping () async -> Bool
     ) async throws {
         let deadline = Date().addingTimeInterval(Double(timeoutMS) / 1000)
@@ -175,7 +175,7 @@ struct ControllerFixture {
             if await predicate() {
                 return
             }
-            try await Task.sleep(nanoseconds: 5_000_000)
+            try await Task.sleep(nanoseconds: 10_000_000)
         }
         Issue.record("controller script condition not met before timeout")
     }

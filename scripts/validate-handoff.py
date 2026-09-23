@@ -405,10 +405,10 @@ def validate_task_graph() -> None:
         fail(f"tasks-v1.json: tasks not connected to terminal: {sorted(set(by_id) - ancestors)}")
 
     plan = (DOCS / "23-execution-task-breakdown.md").read_text(encoding="utf-8")
-    plan_ids = re.findall(r"^\| - \[ \] (T(?:0\d|1[01])\.\d) ", plan, re.MULTILINE)
+    plan_ids = re.findall(r"^\| - \[[ x]\] (T(?:0\d|1[01])\.\d) ", plan, re.MULTILINE)
     if plan_ids != [row.get("id") for row in rows if isinstance(row, dict)]:
         fail("23-execution-task-breakdown.md: checkbox task order differs from tasks-v1.json")
-    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[ \] T(?:0\d|1[01])\.\d ", line)]
+    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[[ x]\] T(?:0\d|1[01])\.\d ", line)]
     for line in task_lines:
         columns = [column.strip() for column in line.strip().strip("|").split("|")]
         if len(columns) != 6 or any(not column for column in columns):

@@ -63,3 +63,12 @@ codesign --force --sign - "${MACOS_DIR}/SensorWorker"
 codesign --force --sign - "${OUTPUT_APP}"
 
 echo "built ${OUTPUT_APP}"
+cat <<EOF
+
+Launch:
+  open "${OUTPUT_APP}"
+
+This is a menu bar app (LSUIElement): it does not appear in the Dock.
+Look for "— °C" or a temperature reading in the top menu bar (near the clock),
+then click it to open the popover. Use the popover menu to open the main window.
+EOF
