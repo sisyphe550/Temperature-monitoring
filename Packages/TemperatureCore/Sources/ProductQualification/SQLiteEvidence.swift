@@ -10,6 +10,18 @@ struct LifecycleSQLiteEvidence {
     let series: Int
 }
 
+struct EnduranceSQLiteEvidence {
+    let committedBatches: Int
+    let cpuRawSamples: Int
+    let gaps: Int
+    let rawSampleRows: Int
+    let emaSampleRows: Int
+    let aggregateRows: Int
+    let aggregate1sRows: Int
+    let aggregate10sRows: Int
+    let aggregate1mRows: Int
+}
+
 struct SQLiteEvidence {
     let committedBatches: Int
     let cpuRawSamples: Int
@@ -31,6 +43,37 @@ struct SQLiteEvidence {
             segments: try scalarInt(connection, "SELECT COUNT(*) FROM segments"),
             sources: try scalarInt(connection, "SELECT COUNT(*) FROM sources"),
             series: try scalarInt(connection, "SELECT COUNT(*) FROM series")
+        )
+    }
+
+    static func endurance(databaseURL: URL) throws -> EnduranceSQLiteEvidence {
+        var connection: OpaquePointer?
+        guard sqlite3_open_v2(databaseURL.path, &connection, SQLITE_OPEN_READONLY, nil) == SQLITE_OK,
+              let connection else {
+            throw QualificationError.invalidValue("sqlite")
+        }
+        defer {
+            sqlite3_close(connection)
+        }
+        return EnduranceSQLiteEvidence(
+            committedBatches: try scalarInt(connection, "SELECT COUNT(*) FROM committed_batches"),
+            cpuRawSamples: try scalarInt(connection, "SELECT COUNT(*) FROM raw_samples"),
+            gaps: try scalarInt(connection, "SELECT COUNT(*) FROM gaps"),
+            rawSampleRows: try scalarInt(connection, "SELECT COUNT(*) FROM raw_samples"),
+            emaSampleRows: try scalarInt(connection, "SELECT COUNT(*) FROM ema_samples"),
+            aggregateRows: try scalarInt(connection, "SELECT COUNT(*) FROM aggregates"),
+            aggregate1sRows: try scalarInt(
+                connection,
+                "SELECT COUNT(*) FROM aggregates WHERE width_s = 1"
+            ),
+            aggregate10sRows: try scalarInt(
+                connection,
+                "SELECT COUNT(*) FROM aggregates WHERE width_s = 10"
+            ),
+            aggregate1mRows: try scalarInt(
+                connection,
+                "SELECT COUNT(*) FROM aggregates WHERE width_s = 60"
+            )
         )
     }
 

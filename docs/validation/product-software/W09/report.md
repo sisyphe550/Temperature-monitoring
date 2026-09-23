@@ -9,7 +9,8 @@
 |------|--------|----------|
 | T09.1 schema + dry-run collector | merged PR #20 | `scripts/product_qualification.py`, contract schema |
 | T09.2 sources + schedules | merged PR #21 | `docs/validation/product-hardware/Mac16,13-24G419/a06fddbf37a9019fcf25b3b0509b8a8f2ce9f92f/` |
-| T09.3 lifecycle collector + sleep/wake fix | PR #22 | `docs/validation/product-hardware/Mac16,13-24G419/15cada6…/` |
+| T09.3 lifecycle collector + sleep/wake fix | merged PR #22 | `docs/validation/product-hardware/Mac16,13-24G419/15cada6…/` |
+| T09.4 endurance collector + qualification matrix | this branch | tooling ready; ≥73h hardware run pending |
 
 ## Software gates (local)
 
@@ -27,7 +28,7 @@
 
 ## Pending (W09)
 
-- T09.4 endurance ≥73h and qualified-combination finalization in ops matrix
+- T09.4 hardware: run endurance ≥73h on Mac16,13 / 24G419, record evidence, finalize `qualified_combinations`
 - W09 exit: full software report at `docs/validation/product-software/W09/<head-sha>/report.md` after all tasks merge
 
 ## Fix included in T09.3
