@@ -1,0 +1,61 @@
+{
+  "artifactKind": "product-hardware-lifecycle",
+  "mappingAndFreshness": "not inferred from variation or repeated values",
+  "recordedAt": "2026-09-23T10:17:56Z",
+  "scenarios": [
+    {
+      "detail": "committedBatches=145",
+      "name": "period_switch",
+      "status": "passed"
+    },
+    {
+      "detail": "firstSession=a8f9e870-43cf-44c0-b2ed-91a33735b0cd secondSession=d5f271c8-dd8e-42a0-ab9f-e1cd065fb7bc",
+      "name": "exit_restart",
+      "status": "passed"
+    },
+    {
+      "detail": "second lock rejected with alreadyHeld",
+      "name": "double_instance",
+      "status": "passed"
+    },
+    {
+      "detail": "sensorWorkerMatchesAfterStop=0",
+      "name": "orphan_worker_after_stop",
+      "status": "passed"
+    },
+    {
+      "detail": "afterQuitMonitor=0 afterRelaunchMonitor=2",
+      "name": "app_quit_relaunch",
+      "status": "passed"
+    },
+    {
+      "detail": "SMC/IOPS sources are local; sampling does not require network",
+      "name": "offline_sampling",
+      "status": "passed"
+    }
+  ],
+  "schemaVersion": 1,
+  "sleepWakeRounds": [
+    {
+      "committedBatchesAfterWake": 105,
+      "gapsAfterSleep": 13,
+      "gapsBefore": 0,
+      "round": 1,
+      "segmentsAfterWake": 26
+    },
+    {
+      "committedBatchesAfterWake": 107,
+      "gapsAfterSleep": 26,
+      "gapsBefore": 13,
+      "round": 2,
+      "segmentsAfterWake": 39
+    },
+    {
+      "committedBatchesAfterWake": 109,
+      "gapsAfterSleep": 39,
+      "gapsBefore": 26,
+      "round": 3,
+      "segmentsAfterWake": 52
+    }
+  ]
+}

@@ -9,7 +9,7 @@
 |------|--------|----------|
 | T09.1 schema + dry-run collector | merged PR #20 | `scripts/product_qualification.py`, contract schema |
 | T09.2 sources + schedules | merged PR #21 | `docs/validation/product-hardware/Mac16,13-24G419/a06fddbf37a9019fcf25b3b0509b8a8f2ce9f92f/` |
-| T09.3 lifecycle collector + sleep/wake fix | this branch | lifecycle/processes JSON under current HEAD after commit |
+| T09.3 lifecycle collector + sleep/wake fix | PR #22 | `docs/validation/product-hardware/Mac16,13-24G419/15cada6…/` |
 
 ## Software gates (local)
 
@@ -32,4 +32,4 @@
 
 ## Fix included in T09.3
 
-`suspendForSleep` previously called terminal `WorkerClient.close()`, blocking `resumeAfterWake` on real hardware. Added `releaseConnection()` on transport/client so sleep terminates the worker without permanently closing the client.
+`suspendForSleep` previously called terminal `WorkerClient.close()`, blocking `resumeAfterWake` on real hardware. Added `releaseConnection()` on transport/client so sleep terminates the worker without permanently closing the client. Follow-up hardening waits for in-flight worker I/O and sampling reads before `releaseConnection()`, and drains persistence backpressure before lifecycle suspend checkpoints.
