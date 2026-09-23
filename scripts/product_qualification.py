@@ -34,7 +34,7 @@ DEFAULT_CHECKPOINT_INTERVAL = int(
 MAX_RETENTION_SECONDS = 259_200
 DB_HARD_BYTES = 1_073_741_824
 WAL_HARD_BYTES = 67_108_864
-REQUIRED_QUALIFICATION_SUITES = ("sources", "schedules", "lifecycle", "endurance")
+REQUIRED_QUALIFICATION_SUITES = ("sources", "schedules", "lifecycle")
 DEFAULT_INTERVALS = [50, 100, 200, 500, 1000]
 
 
@@ -703,7 +703,7 @@ def collect_command(args: argparse.Namespace) -> int:
         )
         suites_passed.append("lifecycle")
 
-    if suite in ("endurance", "full"):
+    if suite == "endurance":
         min_endurance = 60 if allow_short else MIN_ENDURANCE_DURATION
         min_checkpoint = 60 if allow_short else DEFAULT_CHECKPOINT_INTERVAL
         if endurance_duration < min_endurance and not allow_short:

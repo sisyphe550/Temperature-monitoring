@@ -1,6 +1,6 @@
 # 会话、诊断、构建与分发
 
-更新：2026-09-21；实施契约v1族修订2。正式签名凭证是外部发布输入，不阻塞本地App开发。
+更新：2026-09-23；实施契约v1族修订2。正式签名凭证是外部发布输入，不阻塞本地App开发。
 
 ## 标识与目录
 
@@ -70,24 +70,14 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 
 构建脚本必须从DerivedData的Products/Release复制App到上述路径，并嵌入同一构建的worker与资源；路径不存在就失败，不能继续给旧包签名。最终ZIP与App生成SHA-256及上一节完整发布清单。上传分发属于后续用户发布操作，本轮只定义方案。
 
-正式构建重跑来源、五档、sleep/wake、无网络本地运行、双实例、退出清理、日志不可写、72小时及平台矩阵验收。协议与UI只标实际观察证据等级；同型号不同OS build仍需登记该组合。
+正式构建重跑来源、五档、sleep/wake、无网络本地运行、双实例、退出清理、日志不可写及平台矩阵验收。协议与UI只标实际观察证据等级；同型号不同OS build仍需登记该组合。
 
 ## 目标机型资格矩阵
 
-`qualified_combinations` 只在同一 App/worker SHA 完成 sources、schedules、lifecycle、endurance 四套实机套件后原子登记；任一失败、断档、旧 SHA 或未执行 endurance 时不得写入。
+`qualified_combinations` 在**同一 App/worker SHA** 完成 sources、schedules、lifecycle 三套实机套件后登记。2026-09-23 维护者决定**取消 ≥73h endurance 长跑**作为 W09 门禁；`endurance` 套件保留为可选诊断工具，不写入 `qualified_combinations`。
 
-| 机型 | OS build | App/worker SHA | sources | schedules | lifecycle | endurance | 签名 |
+| 机型 | OS build | 证据 SHA | sources | schedules | lifecycle | endurance | 签名 |
 |---|---|---|---|---|---|---|---|
-| Mac16,13 | 24G419 | `a06fddb…`（T09.2） | passed | passed | passed（`15cada6…`） | pending ≥73h | ad-hoc |
+| Mac16,13 | 24G419 | `a06fddb…` / `15cada6…` | passed | passed | passed | cancelled（维护者豁免） | ad-hoc |
 
-73 小时 endurance 命令：
-
-```sh
-bash scripts/run-hardware-qualification.sh \
-  --app build/TemperatureMonitor.app \
-  --profile docs/contracts/first-profile-v1.json \
-  --suite endurance \
-  --output docs/validation/product-hardware/Mac16,13-24G419/<head-sha>
-```
-
-通过后更新上表 endurance 列与 `qualified_combinations`，并运行 `python3 scripts/summarize-product-qualification.py --input docs/validation/product-hardware`。
+登记前须在同一二进制上重跑 `--suite full`（不含 endurance）以生成原子 `qualified_combinations`；当前证据分属两次构建，见 W09 报告。

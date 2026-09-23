@@ -37,6 +37,8 @@ struct EnduranceReport: Encodable {
     let mappingAndFreshness = "not inferred from variation or repeated values"
 }
 
+/// Optional diagnostic suite. The ≥73h hardware gate was cancelled by maintainer (2026-09-23);
+/// results do not populate `qualified_combinations`.
 enum EnduranceCollector {
     private static let maxTTLSeconds = 259_200
 
