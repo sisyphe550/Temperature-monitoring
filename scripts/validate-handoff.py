@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import re
@@ -15,6 +16,24 @@ ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 CONTRACTS = DOCS / "contracts"
 ERRORS: list[str] = []
+PRODUCT_ACCEPTANCE = False
+
+VERIFICATION_PENDING = "pending-product-acceptance"
+VERIFICATION_LOCAL = "product-accepted-local"
+VERIFICATION_WAIVED = "product-waived"
+VERIFICATION_NOT_APPLICABLE = "not-applicable"
+ALLOWED_VERIFICATION = {
+    VERIFICATION_PENDING,
+    VERIFICATION_LOCAL,
+    VERIFICATION_WAIVED,
+    VERIFICATION_NOT_APPLICABLE,
+}
+TRACE_RESULT = {
+    VERIFICATION_PENDING: "未完成产品验收",
+    VERIFICATION_LOCAL: "本地验收通过",
+    VERIFICATION_WAIVED: "已豁免（本地交付）",
+    VERIFICATION_NOT_APPLICABLE: "不适用（已删除）",
+}
 
 
 def fail(message: str) -> None:
@@ -105,8 +124,11 @@ def validate_requirements() -> None:
         digest = hashlib.sha256(body_match.group(1).encode("utf-8")).hexdigest()
         if row.get("body_sha256") != digest:
             fail(f"{requirement_id}: body_sha256 is stale")
-        if row.get("verification") != "pending-product-acceptance":
-            fail(f"{requirement_id}: must remain pending-product-acceptance")
+        verification = row.get("verification")
+        if verification not in ALLOWED_VERIFICATION:
+            fail(f"{requirement_id}: unknown verification {verification!r}")
+        if verification != VERIFICATION_PENDING:
+            validate_requirement_evidence(requirement_id, row, verification)
         tasks = row.get("tasks")
         tests = row.get("tests")
         design = row.get("design")
@@ -136,8 +158,57 @@ def validate_requirements() -> None:
         if row.get("status") == "retired":
             if status.strip() != "已删除" or result.strip() != "不适用（已删除）":
                 fail(f"17-traceability.md: {requirement_id} retired labels are inconsistent")
-        elif status.strip() != "现行基线" or result.strip() != "未完成产品验收":
-            fail(f"17-traceability.md: {requirement_id} active labels are inconsistent")
+        elif status.strip() != "现行基线":
+            fail(f"17-traceability.md: {requirement_id} active status label is inconsistent")
+        else:
+            expected = TRACE_RESULT.get(row.get("verification"), TRACE_RESULT[VERIFICATION_PENDING])
+            if result.strip() != expected:
+                fail(f"17-traceability.md: {requirement_id} result must be {expected}")
+
+
+def validate_product_acceptance_complete() -> None:
+    contract = load_json(CONTRACTS / "acceptance-v1.json")
+    rows = contract.get("requirements", [])
+    pending = [
+        row.get("id")
+        for row in rows
+        if isinstance(row, dict)
+        and row.get("status") == "active"
+        and row.get("verification") == VERIFICATION_PENDING
+    ]
+    if pending:
+        fail(f"product acceptance incomplete: {len(pending)} active requirements still pending")
+
+
+def validate_requirement_evidence(requirement_id: str, row: dict, verification: str) -> None:
+    evidence = row.get("evidence")
+    if verification == VERIFICATION_PENDING:
+        if evidence:
+            fail(f"{requirement_id}: pending requirement must not carry evidence")
+        return
+    if not isinstance(evidence, list) or not evidence:
+        fail(f"{requirement_id}: accepted requirement must include evidence[]")
+        return
+    tests = set(row.get("tests", []))
+    evidence_tcs = {item.get("tc") for item in evidence if isinstance(item, dict)}
+    if evidence_tcs != tests:
+        fail(f"{requirement_id}: evidence TCs {sorted(evidence_tcs)} must match tests {sorted(tests)}")
+    for index, item in enumerate(evidence):
+        if not isinstance(item, dict):
+            fail(f"{requirement_id}: evidence[{index}] must be an object")
+            continue
+        kind = item.get("kind")
+        if kind not in {"ci", "hardware", "mixed", "waived"}:
+            fail(f"{requirement_id}: evidence[{index}] has invalid kind {kind!r}")
+        source_sha = item.get("source_sha256", "")
+        if not re.fullmatch(r"[0-9a-f]{40}", source_sha):
+            fail(f"{requirement_id}: evidence[{index}] source_sha256 is invalid")
+        reports = item.get("reports", [])
+        if kind != "waived" and not reports:
+            fail(f"{requirement_id}: evidence[{index}] must include reports")
+        for report in reports:
+            if not (ROOT / report).is_file():
+                fail(f"{requirement_id}: evidence report missing: {report}")
 
 
 def validate_contract_values() -> None:
@@ -530,6 +601,16 @@ def validate_entry_contracts() -> None:
 
 
 def main() -> int:
+    global PRODUCT_ACCEPTANCE
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--product-acceptance",
+        action="store_true",
+        help="validate bound product acceptance evidence in acceptance-v1.json",
+    )
+    args = parser.parse_args()
+    PRODUCT_ACCEPTANCE = args.product_acceptance
+
     validate_requirements()
     validate_contract_values()
     validate_third_party_contract()
@@ -538,6 +619,8 @@ def main() -> int:
     validate_entry_contracts()
     validate_links()
     validate_required_check_names()
+    if PRODUCT_ACCEPTANCE:
+        validate_product_acceptance_complete()
     if ERRORS:
         print(json.dumps({"status": "failed", "errors": ERRORS}, ensure_ascii=False, indent=2))
         return 1
@@ -550,7 +633,11 @@ def main() -> int:
                 "test_groups": 20,
                 "contract_revision": 2,
                 "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json"],
-                "scope": "documentation contracts only; production App and hardware acceptance remain pending",
+                "scope": (
+                    "product acceptance evidence validated"
+                    if PRODUCT_ACCEPTANCE
+                    else "documentation contracts only; production App and hardware acceptance remain pending"
+                ),
             },
             ensure_ascii=False,
             indent=2,

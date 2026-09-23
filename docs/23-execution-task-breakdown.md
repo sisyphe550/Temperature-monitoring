@@ -182,14 +182,14 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T10.1 可重复发布脚本 | T09.4 | `scripts/package-release.sh`、`scripts/tests/test-package-release.sh`、`docs/validation/releases/<version>/report.md` | 验证凭证；重建；worker→App签名；ZIP→notary→staple→spctl→最终ZIP；日志不泄密 | **2026-09-23 维护者豁免公证**；脚本作为可选工具交付；本机 ad-hoc App 为正式交付 | 有凭证时可输出notarized ZIP；无凭证/无需求时明确waived；`build: add notarized release packaging` |
-| - [ ] T10.2 正式配置复测或阻塞边界 | T10.1 | release manifest/block文件、正式App实机证据、资格矩阵 | manifest保存四类平台字段、App/ZIP SHA、Team/ticket和third-party/notice hash；正式配置重跑全套；无凭证只记录阻塞 | **waived** with T10.1 for local-only target；W09 ad-hoc 资格仍有效 | W11从明确 local-complete 状态开始；`test: qualify signed release configuration` |
+| - [x] T10.1 可重复发布脚本 | T09.4 | `scripts/package-release.sh`、`scripts/tests/test-package-release.sh`、`docs/validation/releases/<version>/report.md` | 验证凭证；重建；worker→App签名；ZIP→notary→staple→spctl→最终ZIP；日志不泄密 | **2026-09-23 维护者豁免公证**；脚本作为可选工具交付；本机 ad-hoc App 为正式交付 | 有凭证时可输出notarized ZIP；无凭证/无需求时明确waived；`build: add notarized release packaging` |
+| - [x] T10.2 正式配置复测或阻塞边界 | T10.1 | release manifest/block文件、正式App实机证据、资格矩阵 | manifest保存四类平台字段、App/ZIP SHA、Team/ticket和third-party/notice hash；正式配置重跑全套；无凭证只记录阻塞 | **waived** with T10.1 for local-only target；W09 ad-hoc 资格仍有效 | W11从明确 local-complete 状态开始；`test: qualify signed release configuration` |
 
 ## W11：逐需求验收与最终交付
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T11.1 逐REQ与20组测试证据绑定 | T10.2 | acceptance JSON、追踪矩阵、third-party contract、W11验收报告 | 132项逐条绑定SHA/TC/环境；20组测试定义与映射完整；012/114只retired；copied/modified都有许可证据 | validator拒绝空证据、错SHA、模拟冒充实机、退役项pass、缺TC-UPSTREAM/third-party notice | 产出机器可审计验收表；`docs: bind requirement acceptance evidence` |
+| - [ ] T11.1 逐REQ与20组测试证据绑定 | T10.2 | acceptance JSON、追踪矩阵、third-party contract、W11验收报告 | 132项逐条绑定SHA/TC/环境；20组测试定义与映射完整；012/114只retired；copied/modified都有许可证据 | **进行中**：123/132 已绑定本地证据；REQ-127 waived；REQ-099..106 待 TC-ACCEPTANCE 元门禁 | 产出机器可审计验收表；`docs: bind requirement acceptance evidence` |
 | - [ ] T11.2 全分支独立审查 | T11.1 | independent-review、GitHub Issues及修复commit | 检查资格化来源、Lease能力、退出、固定成员、缺口、水位、幂等、Presentation状态、路径/许可/Release fallback | 全套文档/Core/App/UI/实机/发布门禁；open blocking必须为0 | 得到非实现者审查结论；`docs: record final independent review` |
 | - [ ] T11.3 exact-head合并与交付 | T11.2 | W11 PR说明、`docs/validation/product-software/W11/<head>/delivery.md` | 核对最新head五检查、ruleset、blocking、支持矩阵、本地App/ZIP状态；维护者merge commit并保留分支 | `gh pr checks`、rules API、merge commit两个parent、远端分支存在 | 项目状态准确分为本地完成/正式发布完成；`docs: finalize project delivery` |
 
