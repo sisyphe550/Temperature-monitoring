@@ -9,10 +9,11 @@ PROFILE=""
 SUITE=""
 OUTPUT=""
 DURATION=""
+CHECKPOINT_INTERVAL=""
 USE_PROBE=0
 
 usage() {
-  echo "Usage: $0 --app PATH --profile PATH --suite NAME --output DIR [--duration-seconds N] [--dry-run]" >&2
+  echo "Usage: $0 --app PATH --profile PATH --suite NAME --output DIR [--duration-seconds N] [--checkpoint-interval-seconds N] [--dry-run]" >&2
   echo "Suites: dry-run, sources, schedules, lifecycle, endurance, full" >&2
 }
 
@@ -40,6 +41,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --duration-seconds)
       DURATION="$2"
+      shift 2
+      ;;
+    --checkpoint-interval-seconds)
+      CHECKPOINT_INTERVAL="$2"
       shift 2
       ;;
     --use-probe)
@@ -76,6 +81,9 @@ fi
 ARGS=(collect --app "${APP}" --profile "${PROFILE}" --suite "${SUITE}" --output "${OUTPUT}")
 if [[ -n "${DURATION}" ]]; then
   ARGS+=(--duration-seconds "${DURATION}")
+fi
+if [[ -n "${CHECKPOINT_INTERVAL}" ]]; then
+  ARGS+=(--checkpoint-interval-seconds "${CHECKPOINT_INTERVAL}")
 fi
 if [[ "${USE_PROBE}" -eq 1 ]]; then
   ARGS+=(--use-probe)

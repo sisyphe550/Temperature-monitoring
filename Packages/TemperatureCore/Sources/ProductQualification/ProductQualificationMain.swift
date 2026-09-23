@@ -6,6 +6,7 @@ enum ProductQualificationCommand: String {
     case sources
     case schedules
     case lifecycle
+    case endurance
 }
 
 struct ProductQualificationOptions {
@@ -16,6 +17,7 @@ struct ProductQualificationOptions {
     let appURL: URL?
     let outputURL: URL?
     let durationSeconds: Int
+    let checkpointIntervalSeconds: Int
     let intervalsMS: [Int]
 }
 
@@ -63,6 +65,22 @@ enum ProductQualificationMain {
                 try data.write(to: outputURL.appendingPathComponent("lifecycle.json"))
                 FileHandle.standardOutput.write(data)
                 try FileHandle.standardOutput.write(contentsOf: Data("\n".utf8))
+            case .endurance:
+                guard let outputURL = options.outputURL else {
+                    throw QualificationError.missingArgument("--output")
+                }
+                let report = try await EnduranceCollector.collect(
+                    workerURL: options.workerURL,
+                    profileURL: options.profileURL,
+                    defaultsURL: options.defaultsURL,
+                    durationSeconds: options.durationSeconds,
+                    checkpointIntervalSeconds: options.checkpointIntervalSeconds,
+                    outputDirectory: outputURL
+                )
+                let data = try JSONEncoder.pretty.encode(report)
+                try data.write(to: outputURL.appendingPathComponent("endurance.json"))
+                FileHandle.standardOutput.write(data)
+                try FileHandle.standardOutput.write(contentsOf: Data("\n".utf8))
             }
         } catch {
             FileHandle.standardError.write(Data("product-qualification: \(error)\n".utf8))
@@ -84,6 +102,7 @@ enum ProductQualificationMain {
         var appURL: URL?
         var outputURL: URL?
         var durationSeconds = 600
+        var checkpointIntervalSeconds = 3600
         var intervalsMS = [50, 100, 200, 500, 1000]
 
         while !arguments.isEmpty {
@@ -101,6 +120,8 @@ enum ProductQualificationMain {
                 outputURL = try requiredURL(from: &arguments, flag: flag)
             case "--duration-seconds":
                 durationSeconds = try requiredInt(from: &arguments, flag: flag)
+            case "--checkpoint-interval-seconds":
+                checkpointIntervalSeconds = try requiredInt(from: &arguments, flag: flag)
             case "--intervals":
                 intervalsMS = try requiredIntervals(from: &arguments, flag: flag)
             default:
@@ -116,6 +137,8 @@ enum ProductQualificationMain {
             throw QualificationError.missingArgument("--defaults and --output")
         case .lifecycle where defaultsURL == nil || outputURL == nil:
             throw QualificationError.missingArgument("--defaults and --output")
+        case .endurance where defaultsURL == nil || outputURL == nil:
+            throw QualificationError.missingArgument("--defaults and --output")
         default:
             break
         }
@@ -128,6 +151,7 @@ enum ProductQualificationMain {
             appURL: appURL,
             outputURL: outputURL,
             durationSeconds: durationSeconds,
+            checkpointIntervalSeconds: checkpointIntervalSeconds,
             intervalsMS: intervalsMS
         )
     }
@@ -176,6 +200,7 @@ enum QualificationError: Error, CustomStringConvertible {
             usage: ProductQualification sources --worker PATH --profile PATH
                    ProductQualification schedules --worker PATH --profile PATH --defaults PATH --output DIR [--duration-seconds N] [--intervals 50,100,200,500,1000]
                    ProductQualification lifecycle --worker PATH --profile PATH --defaults PATH --output DIR [--app PATH]
+                   ProductQualification endurance --worker PATH --profile PATH --defaults PATH --output DIR [--duration-seconds N] [--checkpoint-interval-seconds N]
             """
         case .missingArgument(let flag):
             return "missing value for \(flag)"

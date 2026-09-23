@@ -22,6 +22,19 @@ WORKER_FLAGS = ["-Xswiftc", "-target", "-Xswiftc", "arm64-apple-macos15.7.3"]
 MIN_SCHEDULE_DURATION = int(
     __import__("os").environ.get("QUALIFICATION_MIN_SCHEDULE_SECONDS", "600")
 )
+MIN_ENDURANCE_DURATION = int(
+    __import__("os").environ.get("QUALIFICATION_MIN_ENDURANCE_SECONDS", "262800")
+)
+DEFAULT_ENDURANCE_DURATION = int(
+    __import__("os").environ.get("QUALIFICATION_ENDURANCE_SECONDS", str(MIN_ENDURANCE_DURATION))
+)
+DEFAULT_CHECKPOINT_INTERVAL = int(
+    __import__("os").environ.get("QUALIFICATION_CHECKPOINT_INTERVAL_SECONDS", "3600")
+)
+MAX_RETENTION_SECONDS = 259_200
+DB_HARD_BYTES = 1_073_741_824
+WAL_HARD_BYTES = 67_108_864
+REQUIRED_QUALIFICATION_SUITES = ("sources", "schedules", "lifecycle")
 DEFAULT_INTERVALS = [50, 100, 200, 500, 1000]
 
 
@@ -441,6 +454,56 @@ def validate_processes_report(report: dict[str, Any]) -> list[str]:
     return errors
 
 
+def validate_endurance_report(
+    report: dict[str, Any],
+    *,
+    min_duration: int,
+    min_checkpoint_interval: int,
+) -> list[str]:
+    errors: list[str] = []
+    if report.get("artifactKind") != "product-hardware-endurance":
+        errors.append("endurance artifactKind mismatch")
+    planned = report.get("plannedDurationSeconds", 0)
+    actual = report.get("actualDurationSeconds", 0.0)
+    interval = report.get("checkpointIntervalSeconds", 0)
+    if planned < min_duration:
+        errors.append(f"planned duration {planned}s below required {min_duration}s")
+    if actual < planned * 0.99:
+        errors.append(f"actual duration {actual}s below planned {planned}s")
+    if interval < min_checkpoint_interval:
+        errors.append(
+            f"checkpoint interval {interval}s below required {min_checkpoint_interval}s"
+        )
+    checkpoints = report.get("checkpoints", [])
+    expected_checkpoints = max(1, (planned + interval - 1) // interval)
+    if len(checkpoints) < expected_checkpoints:
+        errors.append(
+            f"expected at least {expected_checkpoints} checkpoints, got {len(checkpoints)}"
+        )
+    for entry in checkpoints:
+        if entry.get("committedBatchesDelta", 0) <= 0:
+            errors.append(f"checkpoint hour {entry.get('hour')} had no committed batch progress")
+        database_bytes = entry.get("databaseBytes", 0) + entry.get("walBytes", 0)
+        if database_bytes > DB_HARD_BYTES:
+            errors.append(f"checkpoint hour {entry.get('hour')} exceeded database hard limit")
+        if entry.get("walBytes", 0) > WAL_HARD_BYTES:
+            errors.append(f"checkpoint hour {entry.get('hour')} exceeded WAL hard limit")
+    if planned > MAX_RETENTION_SECONDS and len(checkpoints) >= 2:
+        ttl_index = min(
+            len(checkpoints) - 1,
+            max(0, (MAX_RETENTION_SECONDS + interval - 1) // interval - 1),
+        )
+        ttl_rows = checkpoints[ttl_index].get("rawSampleRows", 0)
+        final_rows = checkpoints[-1].get("rawSampleRows", 0)
+        if ttl_rows > 0 and final_rows > ttl_rows * 2:
+            errors.append("raw sample rows grew without bound after 72h TTL window")
+    if checkpoints and checkpoints[-1].get("queueAcceptsNewReservations") is False:
+        errors.append("final checkpoint persistence queue still rejected reservations")
+    if "not inferred" not in str(report.get("mappingAndFreshness", "")):
+        errors.append("endurance must declare mapping/freshness non-inference")
+    return errors
+
+
 def validate_schedules_report(report: dict[str, Any], *, min_duration: int) -> list[str]:
     errors: list[str] = []
     if report.get("artifactKind") != "product-hardware-schedules":
@@ -468,7 +531,7 @@ def maybe_qualified_combination(
     suites_passed: list[str],
 ) -> list[dict[str, Any]]:
     runtime = report.get("runtime_profile", {})
-    if "sources" not in suites_passed or "schedules" not in suites_passed:
+    if not all(suite in suites_passed for suite in REQUIRED_QUALIFICATION_SUITES):
         return []
     return [
         {
@@ -541,11 +604,13 @@ def collect_command(args: argparse.Namespace) -> int:
     else:
         tool_binary, _ = qualification_binaries()
 
-    duration = args.duration_seconds
     allow_short = __import__("os").environ.get("QUALIFICATION_ALLOW_SHORT") == "1"
-    if suite in ("schedules", "full") and duration < MIN_SCHEDULE_DURATION and not allow_short:
+    schedule_duration = args.duration_seconds or MIN_SCHEDULE_DURATION
+    endurance_duration = args.duration_seconds or DEFAULT_ENDURANCE_DURATION
+    checkpoint_interval = args.checkpoint_interval_seconds or DEFAULT_CHECKPOINT_INTERVAL
+    if suite in ("schedules", "full") and schedule_duration < MIN_SCHEDULE_DURATION and not allow_short:
         print(
-            f"error: schedule duration {duration}s below required {MIN_SCHEDULE_DURATION}s",
+            f"error: schedule duration {schedule_duration}s below required {MIN_SCHEDULE_DURATION}s",
             file=sys.stderr,
         )
         return 1
@@ -586,7 +651,7 @@ def collect_command(args: argparse.Namespace) -> int:
                 "--output",
                 str(output_dir),
                 "--duration-seconds",
-                str(duration),
+                str(schedule_duration),
                 "--intervals",
                 ",".join(str(value) for value in DEFAULT_INTERVALS),
             ]
@@ -637,6 +702,48 @@ def collect_command(args: argparse.Namespace) -> int:
             encoding="utf-8",
         )
         suites_passed.append("lifecycle")
+
+    if suite == "endurance":
+        min_endurance = 60 if allow_short else MIN_ENDURANCE_DURATION
+        min_checkpoint = 60 if allow_short else DEFAULT_CHECKPOINT_INTERVAL
+        if endurance_duration < min_endurance and not allow_short:
+            print(
+                f"error: endurance duration {endurance_duration}s below required {min_endurance}s",
+                file=sys.stderr,
+            )
+            return 1
+        endurance = run_product_qualification(
+            [
+                str(tool_binary),
+                "endurance",
+                "--worker",
+                str(worker_path),
+                "--profile",
+                str(profile_path),
+                "--defaults",
+                str(defaults_path),
+                "--output",
+                str(output_dir),
+                "--duration-seconds",
+                str(endurance_duration),
+                "--checkpoint-interval-seconds",
+                str(checkpoint_interval),
+            ]
+        )
+        endurance_errors = validate_endurance_report(
+            endurance,
+            min_duration=min_endurance,
+            min_checkpoint_interval=min_checkpoint,
+        )
+        if endurance_errors:
+            for error in endurance_errors:
+                print(f"error: {error}", file=sys.stderr)
+            return 1
+        (output_dir / "endurance.json").write_text(
+            json.dumps(endurance, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        suites_passed.append("endurance")
 
     report["execution_status"] = "passed" if suites_passed else "pending"
     report["qualified_combinations"] = maybe_qualified_combination(
@@ -703,7 +810,8 @@ def main() -> int:
     collect.add_argument("--profile", required=True)
     collect.add_argument("--suite", required=True)
     collect.add_argument("--output", required=True)
-    collect.add_argument("--duration-seconds", type=int, default=MIN_SCHEDULE_DURATION)
+    collect.add_argument("--duration-seconds", type=int)
+    collect.add_argument("--checkpoint-interval-seconds", type=int)
     collect.add_argument("--use-probe", action="store_true")
     collect.set_defaults(func=collect_command)
 

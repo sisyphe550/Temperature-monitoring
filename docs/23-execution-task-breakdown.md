@@ -176,7 +176,7 @@ flowchart LR
 | - [ ] T09.1 资格脚本与四类平台schema | T08.3 | 资格脚本/总结器及测试 | 输入App/profile/suite；分开记录build_toolchain、二进制deployment_target、runtime_profile、qualified_combinations | 缺任一字段、load command与配置不符、dry-run调用旧probe均失败 | T09.2取得可审计采集入口；`test: add product qualification schema` |
 | - [ ] T09.2 来源与五档实机 | T09.1 | 新的`product-hardware/<model-build>/<sha>/`证据 | 绑定App/worker SHA、签名、机型和OS build；确认12键、SSD、Battery；五档各≥10min；不推断刷新率 | summary阈值、来源证据、名称/数量不产生物理语义；失败组合不得进入qualified list | 固定通过组合或blocking Issue；`test: qualify target sensor sources and schedules` |
 | - [ ] T09.3 生命周期与负载实机 | T09.2 | `product-hardware/<model-build>/<sha>/{lifecycle,processes,report}.json`、GitHub Issue/回归报告 | 3轮sleep/wake、换档、关窗、退出重启、双实例、断网；停止无孤儿worker | 验证source/definition/segment/Gap/TTL和进程清单 | T09.4取得稳定候选App；`test: qualify target lifecycle behavior` |
-| - [ ] T09.4 73小时耐久与组合登记 | T09.3 | endurance证据、`docs/13-operations-distribution.md`资格矩阵 | 连续≥73h越过72h TTL；资源/DB/WAL/log/队列；全部套件通过后原子登记qualified combination | 断档、超限、无小时样本、旧SHA或任一用例失败时不得登记 | W10只接收此SHA/报告；`test: qualify long-running target build` |
+| - [ ] T09.4 73小时耐久与组合登记 | T09.3 | endurance证据、`docs/13-operations-distribution.md`资格矩阵 | 连续≥73h越过72h TTL；资源/DB/WAL/log/队列；全部套件通过后原子登记qualified combination | **2026-09-23 维护者取消≥73h实机长跑**；可选 endurance 工具保留；`qualified_combinations` 门禁为 sources+schedules+lifecycle | W10只接收此SHA/报告；`test: qualify long-running target build` |
 
 ## W10：正式签名与公证
 

@@ -191,6 +191,52 @@ def test_validate_lifecycle_report_fixture() -> None:
     assert validate_lifecycle_report(fixture) == []
 
 
+def test_validate_endurance_report_fixture() -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from product_qualification import validate_endurance_report  # type: ignore
+
+    fixture = {
+        "artifactKind": "product-hardware-endurance",
+        "plannedDurationSeconds": 262800,
+        "actualDurationSeconds": 262820.5,
+        "checkpointIntervalSeconds": 3600,
+        "cpuPeriodMS": 200,
+        "crossedTTLSeconds": 259200,
+        "checkpoints": [
+            {
+                "hour": hour,
+                "elapsedSeconds": hour * 3600,
+                "committedBatches": hour * 1000,
+                "committedBatchesDelta": 1000,
+                "cpuRawSamples": hour * 900,
+                "cpuRawSamplesDelta": 900,
+                "gaps": 0,
+                "databaseBytes": hour * 1024,
+                "walBytes": 4096,
+                "shmBytes": 32768,
+                "queueTotalRecords": 0,
+                "queueAcceptsNewReservations": True,
+                "rawSampleRows": min(hour * 900, 180000),
+                "emaSampleRows": hour * 900,
+                "aggregateRows": hour * 100,
+                "aggregate1sRows": hour * 80,
+                "aggregate10sRows": hour * 15,
+                "aggregate1mRows": hour * 5,
+            }
+            for hour in range(1, 74)
+        ],
+        "mappingAndFreshness": "not inferred from variation or repeated values",
+    }
+    assert (
+        validate_endurance_report(
+            fixture,
+            min_duration=262800,
+            min_checkpoint_interval=3600,
+        )
+        == []
+    )
+
+
 def test_full_suite_rejects_probe_backend() -> None:
     probe_dir = ROOT / "prototypes" / "sensor-probe" / ".build" / "release"
     probe_dir.mkdir(parents=True, exist_ok=True)
@@ -230,6 +276,7 @@ def main() -> int:
         test_use_probe_is_rejected,
         test_validate_sources_report_fixture,
         test_validate_lifecycle_report_fixture,
+        test_validate_endurance_report_fixture,
         test_full_suite_rejects_probe_backend,
     ]
     for test in tests:
