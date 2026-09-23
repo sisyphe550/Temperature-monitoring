@@ -165,7 +165,7 @@ public actor MonitorEngine: ProcessingEngine {
                     seriesID: definition.seriesID,
                     segment: state.segment,
                     timestamp: reading.finished,
-                    periodMS: batch.requestedPeriodMS(from: reading),
+                    periodMS: batch.requestedPeriodMS,
                     valueC: valueC,
                     freshness: freshness,
                     sourceWallUnixNS: sourceWallUnixNS,
@@ -663,11 +663,5 @@ public actor MonitorEngine: ProcessingEngine {
             sourceID: nil,
             underlyingCode: underlyingCode
         )
-    }
-}
-
-private extension ReadBatch {
-    func requestedPeriodMS(from reading: Reading) -> Int {
-        max(1, Int((reading.finished.elapsedNS - reading.started.elapsedNS) / 1_000_000))
     }
 }

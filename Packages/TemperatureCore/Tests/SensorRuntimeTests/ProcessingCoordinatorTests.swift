@@ -387,6 +387,7 @@ actor MockCoordinatorSensorClient: SensorClient {
         return ReadBatch(
             requestID: request.requestID,
             generation: forcedGeneration ?? catalog.generation,
+            requestedPeriodMS: request.requestedPeriodMS,
             readings: readings
         )
     }

@@ -98,6 +98,7 @@ public actor QualifiedSensorClient: SensorClient {
             return ReadBatch(
                 requestID: request.requestID,
                 generation: activeCatalog.generation,
+                requestedPeriodMS: request.requestedPeriodMS,
                 readings: readings
             )
         } catch {

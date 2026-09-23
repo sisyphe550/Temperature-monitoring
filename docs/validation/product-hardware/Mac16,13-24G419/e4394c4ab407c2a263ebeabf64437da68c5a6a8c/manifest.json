@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "product-hardware-summary",
+  "generated_at": "2026-09-23T01:23:52+00:00",
+  "reports": [
+    "platform.json"
+  ],
+  "qualified_combinations": [
+    {
+      "app_sha256": "0af70879c6a5f8f1feaed5dc63abfd3e2f8eb574d6ca2c5005a359ab7bbfe6a4",
+      "worker_sha256": "0bbbeb526144ba59b1f00a15db5dbeeb1d8566f3bc8135f8daf00ead58225939",
+      "codesign_identity": "adhoc",
+      "model_identifier": "Mac16,13",
+      "host_product_version": "15.7.3",
+      "host_build_version": "24G419",
+      "suites": [
+        "sources",
+        "schedules"
+      ],
+      "result": "passed"
+    }
+  ]
+}

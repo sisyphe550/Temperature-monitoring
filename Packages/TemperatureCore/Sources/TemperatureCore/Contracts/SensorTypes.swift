@@ -349,11 +349,18 @@ public struct Reading: Codable, Sendable, Equatable {
 public struct ReadBatch: Codable, Sendable, Equatable {
     public let requestID: RequestID
     public let generation: UInt64
+    public let requestedPeriodMS: Int
     public let readings: [Reading]
 
-    public init(requestID: RequestID, generation: UInt64, readings: [Reading]) {
+    public init(
+        requestID: RequestID,
+        generation: UInt64,
+        requestedPeriodMS: Int,
+        readings: [Reading]
+    ) {
         self.requestID = requestID
         self.generation = generation
+        self.requestedPeriodMS = requestedPeriodMS
         self.readings = readings
     }
 }

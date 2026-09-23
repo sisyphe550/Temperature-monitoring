@@ -361,6 +361,7 @@ actor MockScheduleSensorClient: SensorClient {
         return ReadBatch(
             requestID: request.requestID,
             generation: catalog.generation,
+            requestedPeriodMS: request.requestedPeriodMS,
             readings: readings
         )
     }

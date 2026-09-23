@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "TemperaturePresentation", targets: ["TemperaturePresentation"]),
         .executable(name: "ProtocolWorker", targets: ["ProtocolWorker"]),
         .executable(name: "SensorWorker", targets: ["SensorWorker"]),
+        .executable(name: "ProductQualification", targets: ["ProductQualification"]),
     ],
     targets: [
         .systemLibrary(
@@ -58,6 +59,11 @@ let package = Package(
                 .linkedFramework("IOKit"),
                 .linkedFramework("CoreFoundation"),
             ]
+        ),
+        .executableTarget(
+            name: "ProductQualification",
+            dependencies: ["SensorRuntime", "TemperatureCore", "CSQLite"],
+            path: "Sources/ProductQualification"
         ),
         .testTarget(
             name: "TemperatureCoreTests",
