@@ -119,6 +119,11 @@ public actor QualifiedSensorClient: SensorClient {
         return false
     }
 
+    public func releaseConnection() async {
+        catalog = nil
+        await transport.releaseConnection()
+    }
+
     public func close() async {
         catalog = nil
         await transport.close()

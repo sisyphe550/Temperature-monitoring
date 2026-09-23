@@ -157,7 +157,7 @@ public actor SessionMonitorController: MonitorController {
         snapshotTask?.cancel()
         snapshotTask = nil
         try await coordinator.suspendForSleep()
-        await client.close()
+        await client.releaseConnection()
     }
 
     public func resumeAfterWake() async throws {

@@ -116,6 +116,11 @@ public actor WorkerClient: SensorTransport, SensorConnectionGeneration {
         return batch
     }
 
+    public func releaseConnection() async {
+        guard !closed else { return }
+        try? await terminateWorker()
+    }
+
     public func close() async {
         guard !closed else { return }
         closed = true

@@ -5,6 +5,7 @@ import TemperatureCore
 enum ProductQualificationCommand: String {
     case sources
     case schedules
+    case lifecycle
 }
 
 struct ProductQualificationOptions {
@@ -12,6 +13,7 @@ struct ProductQualificationOptions {
     let workerURL: URL
     let profileURL: URL
     let defaultsURL: URL?
+    let appURL: URL?
     let outputURL: URL?
     let durationSeconds: Int
     let intervalsMS: [Int]
@@ -46,6 +48,21 @@ enum ProductQualificationMain {
                 try data.write(to: outputURL.appendingPathComponent("schedules.json"))
                 FileHandle.standardOutput.write(data)
                 try FileHandle.standardOutput.write(contentsOf: Data("\n".utf8))
+            case .lifecycle:
+                guard let outputURL = options.outputURL else {
+                    throw QualificationError.missingArgument("--output")
+                }
+                let report = try await LifecycleCollector.collect(
+                    workerURL: options.workerURL,
+                    profileURL: options.profileURL,
+                    defaultsURL: options.defaultsURL,
+                    appURL: options.appURL,
+                    outputDirectory: outputURL
+                )
+                let data = try JSONEncoder.pretty.encode(report)
+                try data.write(to: outputURL.appendingPathComponent("lifecycle.json"))
+                FileHandle.standardOutput.write(data)
+                try FileHandle.standardOutput.write(contentsOf: Data("\n".utf8))
             }
         } catch {
             FileHandle.standardError.write(Data("product-qualification: \(error)\n".utf8))
@@ -64,6 +81,7 @@ enum ProductQualificationMain {
         var workerURL: URL?
         var profileURL: URL?
         var defaultsURL: URL?
+        var appURL: URL?
         var outputURL: URL?
         var durationSeconds = 600
         var intervalsMS = [50, 100, 200, 500, 1000]
@@ -77,6 +95,8 @@ enum ProductQualificationMain {
                 profileURL = try requiredURL(from: &arguments, flag: flag)
             case "--defaults":
                 defaultsURL = try requiredURL(from: &arguments, flag: flag)
+            case "--app":
+                appURL = try requiredURL(from: &arguments, flag: flag)
             case "--output":
                 outputURL = try requiredURL(from: &arguments, flag: flag)
             case "--duration-seconds":
@@ -91,8 +111,13 @@ enum ProductQualificationMain {
         guard let workerURL, let profileURL else {
             throw QualificationError.usage
         }
-        if command == .schedules, defaultsURL == nil || outputURL == nil {
+        switch command {
+        case .schedules where defaultsURL == nil || outputURL == nil:
             throw QualificationError.missingArgument("--defaults and --output")
+        case .lifecycle where defaultsURL == nil || outputURL == nil:
+            throw QualificationError.missingArgument("--defaults and --output")
+        default:
+            break
         }
 
         return ProductQualificationOptions(
@@ -100,6 +125,7 @@ enum ProductQualificationMain {
             workerURL: workerURL,
             profileURL: profileURL,
             defaultsURL: defaultsURL,
+            appURL: appURL,
             outputURL: outputURL,
             durationSeconds: durationSeconds,
             intervalsMS: intervalsMS
@@ -149,6 +175,7 @@ enum QualificationError: Error, CustomStringConvertible {
             return """
             usage: ProductQualification sources --worker PATH --profile PATH
                    ProductQualification schedules --worker PATH --profile PATH --defaults PATH --output DIR [--duration-seconds N] [--intervals 50,100,200,500,1000]
+                   ProductQualification lifecycle --worker PATH --profile PATH --defaults PATH --output DIR [--app PATH]
             """
         case .missingArgument(let flag):
             return "missing value for \(flag)"
