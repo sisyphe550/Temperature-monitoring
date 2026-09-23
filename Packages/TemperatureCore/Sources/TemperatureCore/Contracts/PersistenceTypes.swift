@@ -118,3 +118,8 @@ public protocol MonitorController: Sendable {
     func history(_ request: HistoryRequest) async throws -> HistoryResult
     func stop() async
 }
+
+public struct PersistenceQueueSnapshot: Sendable, Equatable {
+    public let totalRecords: Int
+    public let acceptsNewReservations: Bool
+}

@@ -56,6 +56,7 @@ public actor ProcessingCoordinator {
         watermarkTask?.cancel()
         watermarkTask = nil
         await sampling.stop()
+        await waitForSamplingIdle()
         await advanceWatermarkIfDue()
         let timestamp = clock.now()
         let gaps = try await engine.openSleepGaps(at: timestamp)
@@ -211,5 +212,11 @@ public actor ProcessingCoordinator {
         nextWatermarkOrdinal += 1
         let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
         return (try? GapID(validating: raw)) ?? GapID(UUID())
+    }
+
+    private func waitForSamplingIdle() async {
+        while await sampling.isReadInFlight {
+            try? await Task.sleep(nanoseconds: 1_000_000)
+        }
     }
 }

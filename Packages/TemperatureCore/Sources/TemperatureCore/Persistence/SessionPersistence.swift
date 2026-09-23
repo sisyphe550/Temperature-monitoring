@@ -322,6 +322,13 @@ public actor SessionPersistenceActor: SessionPersistence {
         queue?.backpressureLatched ?? false
     }
 
+    public func persistenceQueueSnapshot() -> PersistenceQueueSnapshot {
+        PersistenceQueueSnapshot(
+            totalRecords: queue?.totalRecords ?? 0,
+            acceptsNewReservations: queue?.acceptsNewReservations ?? true
+        )
+    }
+
     func setWriterPausedForTesting(_ paused: Bool) {
         writer?.pausedForTesting = paused
     }

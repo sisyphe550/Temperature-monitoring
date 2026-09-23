@@ -402,6 +402,45 @@ def validate_sources_report(report: dict[str, Any]) -> list[str]:
     return errors
 
 
+def validate_lifecycle_report(report: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if report.get("artifactKind") != "product-hardware-lifecycle":
+        errors.append("lifecycle artifactKind mismatch")
+    rounds = report.get("sleepWakeRounds", [])
+    if len(rounds) < 3:
+        errors.append("lifecycle must include at least three sleep/wake rounds")
+    for entry in rounds:
+        if entry.get("gapsAfterSleep", 0) <= entry.get("gapsBefore", 0):
+            errors.append(f"sleep/wake round {entry.get('round')} did not open a gap")
+        if entry.get("segmentsAfterWake", 0) < 2:
+            errors.append(f"sleep/wake round {entry.get('round')} did not advance segments")
+    scenarios = {item.get("name"): item for item in report.get("scenarios", [])}
+    for required in (
+        "period_switch",
+        "exit_restart",
+        "double_instance",
+        "orphan_worker_after_stop",
+    ):
+        scenario = scenarios.get(required)
+        if not isinstance(scenario, dict):
+            errors.append(f"missing lifecycle scenario {required}")
+        elif scenario.get("status") != "passed":
+            errors.append(f"lifecycle scenario {required} not passed")
+    if "not inferred" not in str(report.get("mappingAndFreshness", "")):
+        errors.append("lifecycle must declare mapping/freshness non-inference")
+    return errors
+
+
+def validate_processes_report(report: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if report.get("artifactKind") != "product-hardware-processes":
+        errors.append("processes artifactKind mismatch")
+    snapshots = report.get("snapshots", [])
+    if not snapshots:
+        errors.append("processes report must include snapshots")
+    return errors
+
+
 def validate_schedules_report(report: dict[str, Any], *, min_duration: int) -> list[str]:
     errors: list[str] = []
     if report.get("artifactKind") != "product-hardware-schedules":
@@ -565,6 +604,39 @@ def collect_command(args: argparse.Namespace) -> int:
             encoding="utf-8",
         )
         suites_passed.append("schedules")
+
+    if suite in ("lifecycle", "full"):
+        lifecycle_command = [
+            str(tool_binary),
+            "lifecycle",
+            "--worker",
+            str(worker_path),
+            "--profile",
+            str(profile_path),
+            "--defaults",
+            str(defaults_path),
+            "--output",
+            str(output_dir),
+            "--app",
+            str(app_path),
+        ]
+        lifecycle = run_product_qualification(lifecycle_command)
+        lifecycle_errors = validate_lifecycle_report(lifecycle)
+        processes_path = output_dir / "processes.json"
+        if not processes_path.is_file():
+            lifecycle_errors.append("missing processes.json")
+        else:
+            processes = json.loads(processes_path.read_text(encoding="utf-8"))
+            lifecycle_errors.extend(validate_processes_report(processes))
+        if lifecycle_errors:
+            for error in lifecycle_errors:
+                print(f"error: {error}", file=sys.stderr)
+            return 1
+        (output_dir / "lifecycle.json").write_text(
+            json.dumps(lifecycle, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        suites_passed.append("lifecycle")
 
     report["execution_status"] = "passed" if suites_passed else "pending"
     report["qualified_combinations"] = maybe_qualified_combination(

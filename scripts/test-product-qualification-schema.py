@@ -163,6 +163,34 @@ def test_validate_sources_report_fixture() -> None:
     assert validate_sources_report(fixture) == []
 
 
+def test_validate_lifecycle_report_fixture() -> None:
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from product_qualification import validate_lifecycle_report  # type: ignore
+
+    fixture = {
+        "artifactKind": "product-hardware-lifecycle",
+        "sleepWakeRounds": [
+            {
+                "round": index,
+                "gapsBefore": 0,
+                "gapsAfterSleep": index,
+                "segmentsAfterWake": 2,
+                "committedBatchesAfterWake": 3,
+            }
+            for index in range(1, 4)
+        ],
+        "scenarios": [
+            {"name": "period_switch", "status": "passed", "detail": "ok"},
+            {"name": "exit_restart", "status": "passed", "detail": "ok"},
+            {"name": "double_instance", "status": "passed", "detail": "ok"},
+            {"name": "orphan_worker_after_stop", "status": "passed", "detail": "ok"},
+            {"name": "app_quit_relaunch", "status": "passed", "detail": "ok"},
+        ],
+        "mappingAndFreshness": "not inferred from variation or repeated values",
+    }
+    assert validate_lifecycle_report(fixture) == []
+
+
 def test_full_suite_rejects_probe_backend() -> None:
     probe_dir = ROOT / "prototypes" / "sensor-probe" / ".build" / "release"
     probe_dir.mkdir(parents=True, exist_ok=True)
@@ -201,6 +229,7 @@ def main() -> int:
         test_load_command_mismatch_fails,
         test_use_probe_is_rejected,
         test_validate_sources_report_fixture,
+        test_validate_lifecycle_report_fixture,
         test_full_suite_rejects_probe_backend,
     ]
     for test in tests:

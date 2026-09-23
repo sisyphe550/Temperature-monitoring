@@ -1,10 +1,38 @@
 import CSQLite
 import Foundation
 
+struct LifecycleSQLiteEvidence {
+    let sessionID: String
+    let committedBatches: Int
+    let gaps: Int
+    let segments: Int
+    let sources: Int
+    let series: Int
+}
+
 struct SQLiteEvidence {
     let committedBatches: Int
     let cpuRawSamples: Int
     let gaps: Int
+
+    static func lifecycle(databaseURL: URL) throws -> LifecycleSQLiteEvidence {
+        var connection: OpaquePointer?
+        guard sqlite3_open_v2(databaseURL.path, &connection, SQLITE_OPEN_READONLY, nil) == SQLITE_OK,
+              let connection else {
+            throw QualificationError.invalidValue("sqlite")
+        }
+        defer {
+            sqlite3_close(connection)
+        }
+        return LifecycleSQLiteEvidence(
+            sessionID: try scalarText(connection, "SELECT session_id FROM session LIMIT 1"),
+            committedBatches: try scalarInt(connection, "SELECT COUNT(*) FROM committed_batches"),
+            gaps: try scalarInt(connection, "SELECT COUNT(*) FROM gaps"),
+            segments: try scalarInt(connection, "SELECT COUNT(*) FROM segments"),
+            sources: try scalarInt(connection, "SELECT COUNT(*) FROM sources"),
+            series: try scalarInt(connection, "SELECT COUNT(*) FROM series")
+        )
+    }
 
     static func read(databaseURL: URL, periodMS: Int) throws -> SQLiteEvidence {
         var connection: OpaquePointer?
@@ -55,5 +83,23 @@ struct SQLiteEvidence {
             throw QualificationError.invalidValue("sqlite_step")
         }
         return Int(sqlite3_column_int(statement, 0))
+    }
+
+    private static func scalarText(_ connection: OpaquePointer, _ sql: String) throws -> String {
+        var statement: OpaquePointer?
+        guard sqlite3_prepare_v2(connection, sql, -1, &statement, nil) == SQLITE_OK,
+              let statement else {
+            throw QualificationError.invalidValue("sqlite_prepare")
+        }
+        defer {
+            sqlite3_finalize(statement)
+        }
+        guard sqlite3_step(statement) == SQLITE_ROW else {
+            throw QualificationError.invalidValue("sqlite_step")
+        }
+        guard let cString = sqlite3_column_text(statement, 0) else {
+            throw QualificationError.invalidValue("sqlite_text")
+        }
+        return String(cString: cString)
     }
 }

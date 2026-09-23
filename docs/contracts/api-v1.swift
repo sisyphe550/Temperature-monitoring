@@ -977,7 +977,14 @@ public protocol MonitorClock: Sendable {
 protocol SensorTransport: Sendable {
     func discoverRaw() async throws -> DiscoveredCatalog
     func readRaw(_ request: TransportReadRequest) async throws -> TransportReadBatch
+    func releaseConnection() async
     func close() async
+}
+
+extension SensorTransport {
+    func releaseConnection() async {
+        await close()
+    }
 }
 
 public protocol SourceRegistry: Sendable {
@@ -987,7 +994,14 @@ public protocol SourceRegistry: Sendable {
 public protocol SensorClient: Sendable {
     func discover() async throws -> QualifiedSourceCatalog
     func read(_ request: ReadRequest) async throws -> ReadBatch
+    func releaseConnection() async
     func close() async
+}
+
+extension SensorClient {
+    public func releaseConnection() async {
+        await close()
+    }
 }
 
 public protocol PersistenceReservationCapability: Sendable {
