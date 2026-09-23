@@ -35,12 +35,16 @@ final class DashboardWindowController: NSWindowController, NSWindowDelegate {
     }
 
     func showWindow() {
+        NSApp.setActivationPolicy(.regular)
         window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         sender.orderOut(nil)
+        if NSApp.windows.filter({ $0.isVisible && $0 !== sender }).isEmpty {
+            NSApp.setActivationPolicy(.accessory)
+        }
         return false
     }
 }
@@ -78,12 +82,16 @@ final class SettingsWindowController: NSWindowController, NSWindowDelegate {
     }
 
     func showWindow() {
+        NSApp.setActivationPolicy(.regular)
         window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps: true)
     }
 
     func windowShouldClose(_ sender: NSWindow) -> Bool {
         sender.orderOut(nil)
+        if NSApp.windows.filter({ $0.isVisible && $0 !== sender }).isEmpty {
+            NSApp.setActivationPolicy(.accessory)
+        }
         return false
     }
 }

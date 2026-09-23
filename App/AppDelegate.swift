@@ -47,26 +47,80 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             actions: self
         )
         statusItemController?.install()
-        applyUILaunchOptions(from: CommandLine.arguments)
+        applyLaunchOptions(from: CommandLine.arguments)
     }
 
-    private func applyUILaunchOptions(from arguments: [String]) {
-        guard Self.isDebugBuild else {
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            openDashboard()
+        } else {
+            NSApp.activate(ignoringOtherApps: true)
+        }
+        return true
+    }
+
+    private func applyLaunchOptions(from arguments: [String]) {
+        if let target = Self.launchTarget(from: arguments) {
+            applyLaunchTarget(target)
             return
         }
-        guard let index = arguments.firstIndex(of: "--ui-open"),
+        if Self.shouldOpenDashboardOnFirstLaunch() {
+            Self.markDashboardOpenedOnFirstLaunch()
+            openDashboard()
+        }
+    }
+
+    private func applyLaunchTarget(_ target: LaunchTarget) {
+        switch target {
+        case .dashboard:
+            openDashboard()
+        case .settings:
+            openSettings()
+        case .popover:
+            statusItemController?.showPopoverForTesting()
+        }
+    }
+
+    private enum LaunchTarget {
+        case dashboard
+        case settings
+        case popover
+    }
+
+    private static let firstLaunchDefaultsKey = "io.github.sisyphe550.TemperatureMonitor.hasOpenedDashboard"
+
+    private static func shouldOpenDashboardOnFirstLaunch() -> Bool {
+        !UserDefaults.standard.bool(forKey: firstLaunchDefaultsKey)
+    }
+
+    private static func markDashboardOpenedOnFirstLaunch() {
+        UserDefaults.standard.set(true, forKey: firstLaunchDefaultsKey)
+    }
+
+    private static func launchTarget(from arguments: [String]) -> LaunchTarget? {
+        if arguments.contains("--open-dashboard") {
+            return .dashboard
+        }
+        if arguments.contains("--open-settings") {
+            return .settings
+        }
+        if arguments.contains("--open-popover") {
+            return .popover
+        }
+        guard isDebugBuild,
+              let index = arguments.firstIndex(of: "--ui-open"),
               arguments.indices.contains(index + 1) else {
-            return
+            return nil
         }
         switch arguments[index + 1] {
         case "dashboard":
-            openDashboard()
+            return .dashboard
         case "settings":
-            openSettings()
+            return .settings
         case "popover":
-            statusItemController?.showPopoverForTesting()
+            return .popover
         default:
-            break
+            return nil
         }
     }
 

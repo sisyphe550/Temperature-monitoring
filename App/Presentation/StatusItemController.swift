@@ -164,8 +164,19 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     private func refreshStatusButton(_ button: NSStatusBarButton) {
         let title = TemperatureFormatting.statusTitle(for: presentationModel.state)
         button.title = title
+        if button.image == nil {
+            button.image = Self.statusSymbol
+            button.image?.isTemplate = true
+        }
+        button.imagePosition = .imageLeading
         button.setAccessibilityIdentifier("status.temperature")
-        button.setAccessibilityLabel(title)
+        button.setAccessibilityLabel("温度监测 \(title)")
         button.setAccessibilityValue(title)
     }
+
+    private static let statusSymbol: NSImage? = {
+        let image = NSImage(systemSymbolName: "thermometer.medium", accessibilityDescription: "温度监测")
+        image?.size = NSSize(width: 16, height: 16)
+        return image
+    }()
 }

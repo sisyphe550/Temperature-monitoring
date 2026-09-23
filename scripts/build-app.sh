@@ -61,5 +61,14 @@ install -m 755 "${WORKER_BIN}" "${MACOS_DIR}/SensorWorker"
 echo "ad-hoc signing worker and app..."
 codesign --force --sign - "${MACOS_DIR}/SensorWorker"
 codesign --force --sign - "${OUTPUT_APP}"
+xattr -cr "${OUTPUT_APP}" 2>/dev/null || true
 
 echo "built ${OUTPUT_APP}"
+cat <<EOF
+
+Launch (recommended):
+  bash scripts/launch-app.sh
+
+First launch opens the main dashboard window automatically.
+The menu bar also shows a thermometer icon with the current reading.
+EOF

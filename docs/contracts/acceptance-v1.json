@@ -16,7 +16,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "9b043847023fc23bc69d43b1ed7aa836d7e334d9e1ee902a3dd12169d88c1ec9",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-002",
@@ -32,7 +45,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "833a2f3753f35feaee96043176729df29e418d6539cc8baaac30ee56c0191b7b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-003",
@@ -48,7 +74,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "72b446d889d75664eae55f316c9a43eb75289a39f2a1b2bafd325fe2920e2b60",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-004",
@@ -64,7 +103,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "fdf701d93dcf136f831f291e308a987c357ce984f730e2b1d6aa46ea13e54501",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-005",
@@ -80,7 +132,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "a1b46b1a63b7d36937f4a4301953fa552257ffe79aa4e2db48e33c4d360e181e",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-006",
@@ -96,7 +161,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "8a71506bb33aed33ae8cedc9920afc6e6e8223faf132ac0f54603ad19ff1fa5f",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-007",
@@ -112,7 +190,20 @@
         "TC-SCHEDULE"
       ],
       "body_sha256": "e31017220fb3771f39b2176a434d7722297d7c86675948a154e6281397730a86",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-008",
@@ -131,7 +222,29 @@
         "TC-VALIDATE"
       ],
       "body_sha256": "f28d915a0d093f1e3348a4c9b49dbecb27e1ceba6336132d86cba7679c7000de",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-009",
@@ -152,7 +265,41 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "77835073a9ae26e91e2f989b2ad41caaef4d4f233e066a34e779d26ffb98988d",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-010",
@@ -171,7 +318,29 @@
         "TC-VALIDATE"
       ],
       "body_sha256": "7393659996a49c34fd8f248c0607d38219188c08b5781b1bafab3e3093581029",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-011",
@@ -190,7 +359,29 @@
         "TC-VALIDATE"
       ],
       "body_sha256": "5e586378d8632e565ba93bd4b0723905d737d9b424b23c11017b740aa8786d56",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-012",
@@ -221,7 +412,41 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "16395d139379ef4b0adafe71579ebba74059551f45c2139fc1f89d78601a8991",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-014",
@@ -242,7 +467,41 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "9b3093502339257aec38e45cc697df7fea645215b2eddfd1641e7a05baef703c",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-015",
@@ -261,7 +520,29 @@
         "TC-VALIDATE"
       ],
       "body_sha256": "2cee3bec8bfa669248c799ec2f450a9a2e1de525e847e695e62d47d55de66e95",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-016",
@@ -281,7 +562,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "4d9120356416c9d4092bc9766283fb0af059a9d224908d8de28ffcc2a85d5125",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-017",
@@ -301,7 +618,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "1b36d17aaa1ad179f2f46c97df7ee69c7cc60069dab7885111c5b16fd6b59dd8",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-018",
@@ -321,7 +674,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "4dfcf9eebc4df0fc082539e1b668b90d3b9246ed19f8a1d33d15d69f7db95ef1",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-019",
@@ -341,7 +730,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "0f0ab7c10c543ebd32fde3d9d6b29ce6c4279d55ddffde58096d01b547f3bda2",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-020",
@@ -361,7 +786,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "6f987572e1c5e53f748e9563edf60906b934821ae63263135f24e62fbc739380",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-021",
@@ -381,7 +842,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "8ec7b6c0ae689f0aa6f8b1e5e7ba2371fefe8f9fb4b5fd2fb7805976ebd5c51c",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-022",
@@ -401,7 +898,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "5dbc9b89377fb88d07ce499fd566cf6fedc4d1223fe7782adcc306682bd8b41d",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-023",
@@ -421,7 +954,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "93020b3aa9697755df661b2723b7ace869cb3662d4404648306c238f08f37728",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-024",
@@ -441,7 +1010,43 @@
         "TC-STORAGE"
       ],
       "body_sha256": "30e9c392e70e18a90f7159b5dba88977f5fb489258003c1833a5115e3dc2f124",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-BUFFER",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-EMA",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-025",
@@ -458,7 +1063,20 @@
         "TC-AGG"
       ],
       "body_sha256": "4b6a42de4ac1a05d274a825591d932ef6241b476b36ff29ba7d4b432edf68cef",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-026",
@@ -475,7 +1093,20 @@
         "TC-AGG"
       ],
       "body_sha256": "d28259111e4f9b05757c24abf08702717fb7023aba0e33ee7b7f64b00fecfe35",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-027",
@@ -492,7 +1123,20 @@
         "TC-AGG"
       ],
       "body_sha256": "51ce3c063571fe4764b4ad6b651a916c4362209ec396828c0f13bbeb7e8dc579",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-028",
@@ -509,7 +1153,20 @@
         "TC-AGG"
       ],
       "body_sha256": "177ecb3c01aea78c705c39a8748cf453f42bca15834e045e71ce2359485d7846",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-029",
@@ -526,7 +1183,20 @@
         "TC-AGG"
       ],
       "body_sha256": "35a3fc1210cd7b621703fb62af2f2bfb25b589d1dc57756388bfa4ea224e95e9",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-030",
@@ -543,7 +1213,20 @@
         "TC-AGG"
       ],
       "body_sha256": "035c01e61ade59d82f197edd6474adb07d0204a71340a7154aba76b1782da264",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-031",
@@ -561,7 +1244,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "3ac816f8d7bdc1b4a7f6528e00d6e0e1a141d44e4656e0b699eebed71d252d5e",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-032",
@@ -579,7 +1284,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "ceb40584ffce6be0fc927f5ccde6a2dbab9b639550ea8dea6e9105da008fb532",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-033",
@@ -597,7 +1324,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "ec4fede471c396366126b4823141905ddf5f844a048f312e2ab83d6a0e08e021",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-034",
@@ -615,7 +1364,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "e63b52165f5c5feb4e4bfd1de91d5258a84a5bb95e90d1f4c29bcd9e85441475",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-035",
@@ -633,7 +1404,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "30c0ea1dec88ddead9fa00a9584924cb6ce2c39bd61cf2906bcfef4b0955c8c3",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-036",
@@ -651,7 +1444,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "99a8872d5b1ec0a146581fd231c5ad3a5447b61eb5776f79d29a9e9ff981e9e1",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-037",
@@ -669,7 +1484,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "8d1aeedb9fd62c1a615f1662edc93ec8b22d4961a69a411ce1594b0765713261",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-038",
@@ -687,7 +1524,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "95d315335e37a2e998f5a4d1c0027b1cc1f125bdc29c611e7f98c0d2a5ee0d9f",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-039",
@@ -705,7 +1564,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "c72febd656ce9c46e1b167254721215ed2b07962fb981ab4277b6b6ccc96ad2b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-040",
@@ -723,7 +1604,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "4c03d5d9c3f5006728c98296765fd6ecb5f98807ccff8bed87c996721727c581",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-041",
@@ -741,7 +1644,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "7f5d34944a8560518af3bb645ec6cc98a60936bad56c9acab29cedb0f6d7fc7b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-042",
@@ -759,7 +1684,29 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "1ea589714e671b9b1d6e49656fde26e0eb4522d7cc63e7b2f1b97adb7ccd5b7b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-RETENTION",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-043",
@@ -777,7 +1724,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "e6344239f6e9b8238088e8ace59af96b6efc2f40fa7956ea372da3ab10f52e22",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-044",
@@ -795,7 +1767,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "8cbc8b9888f5be972bd92958e5cd7f91491e0acc62b457cc06bdf52805a594cd",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-045",
@@ -813,7 +1810,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "ae375695df5ffaf8ec2195e2353163d6914e731770ea0209fce801adb72994e3",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-046",
@@ -831,7 +1853,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "5a39d6c8fb0a511d6c4f3fd564b9b17e19f570d51da880ca8672e8d5abc739b2",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-047",
@@ -849,7 +1896,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "b8773b034b4efba6e8aed1c11400a6e5685c8315049707d2aa90fe8fb6cd6452",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-048",
@@ -867,7 +1939,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "5feae2e9259c2ebaab9cc89b0395fa3d929eeb70f1b5d3a68bb6c195ee3c18d2",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-049",
@@ -885,7 +1982,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "2575092fa203d9ac048e7efb118e3d1b3f7342e7e8773172a17048933ae28f00",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-050",
@@ -903,7 +2025,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "4e69847f38ebaa63150bf32b53261843dd2f66275427f3d622cbcd8fbdd71c20",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-051",
@@ -921,7 +2068,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "11072eaee2d55d3a6476dc3d6d390dc5d166fbd10344ca1d67a37cbfc49106b0",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-052",
@@ -939,7 +2111,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "e81f09ed39a066565f1b48a93e9cbd7f7b992132ddd28f0e19a2d2c924e050d1",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-053",
@@ -957,7 +2154,32 @@
         "TC-HISTORY"
       ],
       "body_sha256": "aa2b1545af7308d2ac4a759e870ebff7a1f6f551dfd86b20a77e72f1d810c631",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-HISTORY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-054",
@@ -974,7 +2196,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "a4ce6a0694bb8b55caf298dfb17be34a295ea7cbcb8dcc660544943bd0b44b05",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-055",
@@ -991,7 +2226,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "294a897abc94bc82794dfc1aa26a793bba72f0f0472cca687a00fed00a8be75c",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-056",
@@ -1008,7 +2256,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "fe26a171da9d6cb42c4e14fa142addd40e2397e09ed6d6790bb75caeb13ab01a",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-057",
@@ -1025,7 +2286,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "1380264b0eb37c8fac1af38d64bbdb69ae1093744a670021a0bf63545ee83548",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-058",
@@ -1042,7 +2316,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "2825452e25f5fd4d602005d715fed1019258d30cc388534d74cd5ae94e937a6b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-059",
@@ -1059,7 +2346,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "796485fc1b8b1873659508d1b81ac0699a60e8b1a88cf2ea3a6c426916e2b49e",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-060",
@@ -1076,7 +2376,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "7f20aa426d9100d129badbfcd590aa0a1ec5159fbc7fe5231717703ad4f84293",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-061",
@@ -1093,7 +2406,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "1ba28e70dd1a5d573a90cdc2cac7527afefc147d3549f45d4b670c40e0c862d5",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-062",
@@ -1110,7 +2436,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "0d87a79bea96a82854c24d807776a670a463234754fd3147c6c17f24beda5341",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-063",
@@ -1127,7 +2466,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "56ce8c38db4542db6ea8f1dab90a5903e34c7663a205b0003d567dce2756e357",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-064",
@@ -1144,7 +2496,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "cd6506bb14f32415418237d79d05b1e989e30cd0992146d168e33e1c30a05656",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-065",
@@ -1161,7 +2526,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "e5861cedd3f0157ff9da4ffea210d26ec22eb969c565d484c6dbed5c86a54324",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-066",
@@ -1178,7 +2556,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "1492cfeab7247035607b189891b98e0f7d495efe57cc2c4ce22bcae1f41d917d",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-067",
@@ -1195,7 +2586,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "c94dda56f31711f4c36fed6bd247200da36fa4d13b1bc216e68e0ff43a977472",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-068",
@@ -1212,7 +2616,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "daebda38ae5fc2e576151b73897408de14a693d0095a035c320593cdead1d734",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-069",
@@ -1229,7 +2646,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "3333d09afa19626ce1b5e97f43ea2b3ee3fcc7a6d818e4f402d5d2cd66a00361",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-070",
@@ -1250,7 +2680,44 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "b9d9b844425953103a90683f503d722b6c0b99a12d635c0ea4211609000332f4",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-071",
@@ -1267,7 +2734,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "39e0577c38b82f259fe5e8ff3fdbb8905d65217083238dd840667ed4027ec032",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-072",
@@ -1284,7 +2764,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "cd628c0731b0583208ee4b7ffb1a46d56a80ac4d2fb5d870222873f234e8f0a7",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-073",
@@ -1301,7 +2794,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "1f5fe81f170b7f8f100ce54b04d34b436f191b052e1be51912f7b9ca0f6993a1",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-074",
@@ -1318,7 +2824,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "d51959e9165b2a577ad44f2d5f69066086d4925980f6045aab77ea104290b80b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-075",
@@ -1335,7 +2854,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "9853ab82e7f99518543f2c706ca1c91697713fff9791ad8f950ed5096fab6c95",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-076",
@@ -1352,7 +2884,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "198ea096eabe0c986391eaf93d13cbf509fc1d7d8313f51ae074087547bbfc45",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-077",
@@ -1369,7 +2914,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "85baef15fa5304d5e691ac6ece9c7de037859d436f21960212e72140939f597c",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-078",
@@ -1386,7 +2944,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "11ac0c5046f0cf1d6993120d237e9b3e7f8a7949cbd63b72fefcc48c17bae287",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-079",
@@ -1407,7 +2978,43 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "6702e0c7506f4d93f0d62b04866085f828d7a205aa8c9f0bb37fc7e51e15e60e",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-080",
@@ -1424,7 +3031,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "b775c9b12b2d926814c14d9248155440e1dff28db305ab1a8687ecaa5ad7ea8a",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-081",
@@ -1441,7 +3061,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "42978436f219bc7e1117ccdd465aab8fec56a16cf738d768a0b11a19975246d7",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-082",
@@ -1458,7 +3091,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "82e5f4f7351d5f0402551e0b3455e51b4a95e720347e1d5a678593e85f933292",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-083",
@@ -1479,7 +3125,43 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "e9b8c3f15405d135b2ef8dc566095d6fafd085433e2dc6b52b09c6dd8af6eb81",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-VALIDATE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-084",
@@ -1496,7 +3178,20 @@
         "TC-ERROR"
       ],
       "body_sha256": "cb0394c5940c1f0f8b12cc30229d419cbdad62b0808b0958a628171e9fa34aca",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-ERROR",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-085",
@@ -1513,7 +3208,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "cf393d2d27ca57d062c26e429e20d39f524563bd445395edfa9c797c98a3a392",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-086",
@@ -1530,7 +3240,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "767061be672e715cde920b6b9b167fc1ff954dcdbf4b259f9ce55c6dd14cefdb",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-087",
@@ -1547,7 +3272,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "5414e0881cc3cf1a498217a99f66d7fe5f11570d1bc44fc18dc33803be570b8f",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-088",
@@ -1564,7 +3304,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "e84c2e1927fa192df435a3fbf01622cff8541a8eb7154a4cffb1f76942fa4ddd",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-089",
@@ -1581,7 +3336,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "74b06ecf2135efdc76e7f6123e145ff51997191ce29a6e935c4f297394f9a490",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-090",
@@ -1598,7 +3368,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "2d8a6bd7417ec272fe61e1a58318c24d5f777ac704d56f9b00cd0f9051712446",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-091",
@@ -1615,7 +3400,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "cf969a3afdecadff4fe166d664b5a9a07dd23475754dd359ccb5a084a78cbbb0",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-092",
@@ -1632,7 +3432,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "bdd57b123e7ada2b41ef29ae6f0d572b827b5ee5674daef60b7611465774783f",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-093",
@@ -1649,7 +3464,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "54569753f64c08ebcd4d9b98fc78eea275caa835b70add344b569752f94949d4",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-094",
@@ -1666,7 +3496,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "ea60f8bf680879ea368e8a8ec877a7a6bf525c195a5298cf3426b1c375078f31",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-095",
@@ -1683,7 +3528,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "af2545535d556f33e03e8ece2ea04c24db565f572305c2fd83552ec094c9745c",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-096",
@@ -1700,7 +3560,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "4f08d4a86a27a004253f82ee52c11fe152f12d0f34a7fd72c6d1f546c7f9e594",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-097",
@@ -1717,7 +3592,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "eca1588229ad029771ff73328e78c3303f6dec76d9f295b4af1477c42cf8b4e9",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-098",
@@ -1739,7 +3629,45 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "67fce1756c71ec4369149522c96ad2ac2737056c053dc350cc69383c14b9d896",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        },
+        {
+          "tc": "TC-DOCS",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md"
+          ],
+          "commands": [
+            "python3 scripts/validate-handoff.py"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-099",
@@ -1898,7 +3826,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "26e48a4e436989e32a549e7d70aea2d8974f17f15ed8f73894fb4595350726e0",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-108",
@@ -1918,7 +3866,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "71915557359aa5ecfaae95d5cbabfb901dafda922ad8a8f13d95fb5840c59b66",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-109",
@@ -1938,7 +3906,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "8245ff2cb504e91a8c7c2668533a866fc5b8974d6054b0bbfc8f80123c973483",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-110",
@@ -1960,7 +3948,39 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "e88dcb6071d84129e4ee60655f9010d1e29177b73e1bc3fe514600e5b3e7b5a7",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-111",
@@ -1980,7 +4000,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "bab2d2d176a840885ef4d000c3c555e3e9ee33698693246a629e7d4a9a158f51",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-112",
@@ -2000,7 +4040,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "8ccbbd78557b57dc544924813bc44d4230ada9835e9c7a03a9cd93b963166f84",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-113",
@@ -2020,7 +4080,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "543eef36484e5ae9169b3750d741258ad0e06c44294e1e43b2ad52a433b05983",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-114",
@@ -2050,7 +4130,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "f092a800a8c24136cebc5f095623e546a3985a3b8693af50870e7725e75f008a",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-116",
@@ -2070,7 +4170,27 @@
         "TC-SENSOR"
       ],
       "body_sha256": "5fcef8bd8882e63fdfc781bf1e6e5eefd8ce279cf7357b4ac5ba9f911634764f",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-PLATFORM",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        },
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-117",
@@ -2085,7 +4205,21 @@
         "TC-UI"
       ],
       "body_sha256": "da366e563aff1293c7de01eb03d130f0ec02fc3759e4b4b551fd725a6416ee25",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-118",
@@ -2100,7 +4234,21 @@
         "TC-UI"
       ],
       "body_sha256": "8dc20ac34509eb669f237035f899580d0695276398c1af672c76325be5af8889",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-119",
@@ -2115,7 +4263,21 @@
         "TC-UI"
       ],
       "body_sha256": "83ea06b4d6246f268f00a805312634001ad69fa4ce33d733fc3bf92bc5f2b5e7",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-120",
@@ -2130,7 +4292,21 @@
         "TC-UI"
       ],
       "body_sha256": "a3463f47e0ac4ce084b2d30cd20376df9cc630afc0dc9d696264ef516e9a1827",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-121",
@@ -2145,7 +4321,21 @@
         "TC-UI"
       ],
       "body_sha256": "00939ea518576c68ee76b4a7ad5253e8cd14e387bd25f6ac95c242dde1723d84",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-122",
@@ -2160,7 +4350,21 @@
         "TC-UI"
       ],
       "body_sha256": "92ec4ef60a92991f2348494fdd122177166593150ec122518886080b4984ceb5",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-123",
@@ -2175,7 +4379,21 @@
         "TC-UI"
       ],
       "body_sha256": "d5409cfa49d813139f944ef94c881c4ad26f7589629aeff819508d4024bf29aa",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-124",
@@ -2190,7 +4408,21 @@
         "TC-STORAGE"
       ],
       "body_sha256": "75d0f85236fb66394a4c4d57f138db9614d05f4edd68a05038e04c9cc0aa9d8a",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-125",
@@ -2208,7 +4440,30 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "2964ede59e39c1acef59ea22e8575839d9d430e4f8331d783a42fc6dd59665ae",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-126",
@@ -2226,7 +4481,30 @@
         "TC-LIFECYCLE"
       ],
       "body_sha256": "db6d12ba841e5c8de2e435907eb5934669b0d439984871a231334e06f9580a8a",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-LIFECYCLE",
+          "kind": "hardware",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+            "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-127",
@@ -2241,7 +4519,19 @@
         "TC-RELEASE"
       ],
       "body_sha256": "8242161667da3c5a9d1d96c51b93bf0037e7e4fc2d269546e69efb588059a79b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-waived",
+      "evidence": [
+        {
+          "tc": "TC-RELEASE",
+          "kind": "waived",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/releases/0.1.0/report.md",
+            "docs/validation/product-software/W10/report.md"
+          ],
+          "note": "local-only delivery; notarization not required"
+        }
+      ]
     },
     {
       "id": "REQ-128",
@@ -2256,7 +4546,22 @@
         "TC-WORKFLOW"
       ],
       "body_sha256": "ea1d0bf436f185c1d7e8d14765929d3913ad567a4b9f4c986ccc89b17c8b8054",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-WORKFLOW",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+            "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+          ],
+          "commands": [
+            "gh pr checks",
+            "node scripts/tests/test-blocking-issues.js"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-129",
@@ -2274,7 +4579,32 @@
         "TC-STORAGE"
       ],
       "body_sha256": "0f595cc27ff10f86c3380bb14c8647d3ef4129a021c4721af3d9fab5b039e765",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-STORAGE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore",
+            "python3 scripts/validate-handoff.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-130",
@@ -2292,7 +4622,32 @@
         "TC-UI"
       ],
       "body_sha256": "ada08c5c6f020a8e07f771daf92fa897c11bdec3d7976e47fd41033135654197",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-TREND",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-131",
@@ -2310,7 +4665,32 @@
         "TC-UI"
       ],
       "body_sha256": "0da0f6f2af5e4a97c50ae8042e8d5f645b23f8ba52964fee4a5bfb2a89acecc2",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-TREND",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-132",
@@ -2329,7 +4709,30 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "d577f229000ab1e3425068cf2fe3c22348053f6e99127fc33702f99a08a31bbb",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-133",
@@ -2344,7 +4747,20 @@
         "TC-AGG"
       ],
       "body_sha256": "1461edee7ed9f01b33e74ec6740ae2cd92524cf4c420fd2fde03624373953b93",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-AGG",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        }
+      ]
     },
     {
       "id": "REQ-134",
@@ -2366,7 +4782,53 @@
         "TC-UPSTREAM-BOUNDARY"
       ],
       "body_sha256": "145758d60bf9e4697d867877c18001089209ab64127f95108dde821e8455388b",
-      "verification": "pending-product-acceptance"
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "tc": "TC-SENSOR",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+            "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+          ]
+        },
+        {
+          "tc": "TC-SCHEDULE",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+          ],
+          "commands": [
+            "swift test --package-path Packages/TemperatureCore"
+          ]
+        },
+        {
+          "tc": "TC-UI",
+          "kind": "mixed",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+            "docs/validation/product-software/W08/report.md"
+          ],
+          "commands": [
+            "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+          ]
+        },
+        {
+          "tc": "TC-UPSTREAM-BOUNDARY",
+          "kind": "ci",
+          "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+          "reports": [
+            "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+          ],
+          "commands": [
+            "python3 scripts/check-upstream-boundary.py",
+            "python3 scripts/test-upstream-boundary-gate.py"
+          ]
+        }
+      ]
     }
   ]
 }

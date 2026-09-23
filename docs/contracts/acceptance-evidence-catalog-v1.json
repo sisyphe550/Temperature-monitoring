@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "date": "2026-09-23",
+  "source_sha256": "0b720deb1d7fe170e55999f2709a3665634746da",
+  "environment": "github-actions-macos-arm64 + Mac16,13/24G419 local ad-hoc",
+  "tc_evidence": {
+    "TC-DOCS": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md"
+      ],
+      "commands": [
+        "python3 scripts/validate-handoff.py"
+      ]
+    },
+    "TC-WORKFLOW": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W00/683f5d72279fcc8efe8b9eb076beaf4628165346/report.md",
+        "docs/validation/product-software/W00/79cfacd5d11c5a125117350365db85d7821bcf16/gate.md"
+      ],
+      "commands": [
+        "gh pr checks",
+        "node scripts/tests/test-blocking-issues.js"
+      ]
+    },
+    "TC-UPSTREAM-BOUNDARY": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W01/3f1c9c16e43467ce5ee9118bdd98a8bbc5874841/report.md"
+      ],
+      "commands": [
+        "python3 scripts/check-upstream-boundary.py",
+        "python3 scripts/test-upstream-boundary-gate.py"
+      ]
+    },
+    "TC-RELEASE": {
+      "kind": "waived",
+      "reports": [
+        "docs/validation/releases/0.1.0/report.md",
+        "docs/validation/product-software/W10/report.md"
+      ],
+      "note": "local-only delivery; notarization not required"
+    },
+    "TC-SCHEDULE": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-SENSOR": {
+      "kind": "mixed",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md",
+        "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/sources.json"
+      ]
+    },
+    "TC-VALIDATE": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-BUFFER": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-EMA": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-AGG": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-TREND": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-STORAGE": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore",
+        "python3 scripts/validate-handoff.py"
+      ]
+    },
+    "TC-RETENTION": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-HISTORY": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-ERROR": {
+      "kind": "ci",
+      "reports": [
+        "docs/validation/product-software/W05/c8669876f0787a151f29e60a920410e73ba4b59f/report.md"
+      ],
+      "commands": [
+        "swift test --package-path Packages/TemperatureCore"
+      ]
+    },
+    "TC-LIFECYCLE": {
+      "kind": "hardware",
+      "reports": [
+        "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/lifecycle.json",
+        "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+      ]
+    },
+    "TC-PLATFORM": {
+      "kind": "hardware",
+      "reports": [
+        "docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/platform.json",
+        "docs/validation/product-software/W09/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/report.md"
+      ]
+    },
+    "TC-UI": {
+      "kind": "mixed",
+      "reports": [
+        "docs/validation/product-software/W07/a260e51b806049f5b7cf770b579b533a16952f9e/report.md",
+        "docs/validation/product-software/W08/report.md"
+      ],
+      "commands": [
+        "xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor test"
+      ]
+    },
+    "TC-ACCEPTANCE": {
+      "kind": "pending",
+      "note": "W11 meta gate; binds only after all applicable TC evidence is attached"
+    }
+  }
+}
