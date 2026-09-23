@@ -1,0 +1,9 @@
+{
+  "artifact_kind": "product-hardware-summary",
+  "generated_at": "2026-09-23T09:51:48+00:00",
+  "qualified_combinations": [],
+  "reports": [
+    "platform.json"
+  ],
+  "schema_version": 1
+}

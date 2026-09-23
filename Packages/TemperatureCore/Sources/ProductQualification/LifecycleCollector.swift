@@ -56,6 +56,7 @@ enum LifecycleCollector {
             throw QualificationError.missingArgument("--defaults")
         }
         let configuration = try Configuration.load(from: defaultsURL)
+        try cleanupProductionAppState(configuration: configuration)
         try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
 
         let lifecycleDirectory = outputDirectory.appendingPathComponent("lifecycle-run", isDirectory: true)
@@ -149,10 +150,11 @@ enum LifecycleCollector {
         try await context.controller.setCPUPeriod(milliseconds: configuration.cpuDefaultMS)
         let sink = await drainSnapshots(from: context.controller)
         defer { sink.cancel() }
-        try await sleepSeconds(Self.settleSeconds)
+        try await sleepSeconds(10)
 
         var rounds: [LifecycleReport.SleepWakeRound] = []
         for round in 1...Self.sleepWakeRoundCount {
+            await waitForSamplingDrain(context.controller, maxSeconds: 10)
             let before = try SQLiteEvidence.lifecycle(databaseURL: databaseURL)
             try await context.controller.suspendForSleep()
             let afterSleep = try SQLiteEvidence.lifecycle(databaseURL: databaseURL)
@@ -197,9 +199,11 @@ enum LifecycleCollector {
         try await context.controller.setCPUPeriod(milliseconds: 200)
         let sink = await drainSnapshots(from: context.controller)
         defer { sink.cancel() }
-        try await sleepSeconds(Self.settleSeconds)
+        try await sleepSeconds(10)
+        await waitForSamplingDrain(context.controller, maxSeconds: 10)
         try await context.controller.setCPUPeriod(milliseconds: 500)
-        try await sleepSeconds(Self.settleSeconds)
+        try await sleepSeconds(10)
+        await waitForSamplingDrain(context.controller, maxSeconds: 10)
         let evidence = try SQLiteEvidence.lifecycle(databaseURL: databaseURL)
         await context.shutdown()
         guard evidence.committedBatches > 0 else {
@@ -413,6 +417,36 @@ enum LifecycleCollector {
         }
     }
 
+    private static func waitForSamplingDrain(
+        _ controller: SessionMonitorController,
+        maxSeconds: Int
+    ) async {
+        var previous = await controller.samplingStatistics()
+        for _ in 0..<maxSeconds {
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
+            let current = await controller.samplingStatistics()
+            if current.completedReads == previous.completedReads {
+                return
+            }
+            previous = current
+        }
+    }
+
+    private static func cleanupProductionAppState(configuration: RuntimeConfiguration) throws {
+        _ = try? runCommand("/usr/bin/pkill", ["-f", "TemperatureMonitor"])
+        _ = try? runCommand("/usr/bin/pkill", ["-f", "SensorWorker"])
+        let support = FileManager.default.urls(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask
+        ).first!
+        let lockURL = support
+            .appendingPathComponent(configuration.bundleID, isDirectory: true)
+            .appendingPathComponent(SessionPaths.lockFileName)
+        if FileManager.default.fileExists(atPath: lockURL.path) {
+            try? FileManager.default.removeItem(at: lockURL)
+        }
+    }
+
     private static func runCommand(_ launchPath: String, _ arguments: [String]) throws -> String {
         let process = Process()
         process.executableURL = URL(fileURLWithPath: launchPath)
@@ -424,6 +458,12 @@ enum LifecycleCollector {
         process.waitUntilExit()
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(decoding: data, as: UTF8.self)
+        if launchPath.hasSuffix("pkill"), process.terminationStatus == 1 {
+            return output
+        }
+        if launchPath.hasSuffix("pkill"), process.terminationStatus == 1 {
+            return output
+        }
         guard process.terminationStatus == 0 else {
             throw QualificationError.invalidValue("\(launchPath) failed: \(output)")
         }
