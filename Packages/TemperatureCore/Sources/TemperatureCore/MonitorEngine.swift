@@ -40,6 +40,10 @@ public actor MonitorEngine: ProcessingEngine {
     private var processedRequests: [RequestID: ProcessedRequest] = [:]
     private var snapshotGeneration: UInt64 = 0
     private var cpuPeriodMS: Int
+    // An actor is reentrant across commit(). Serialize state-changing events
+    // while allowing snapshots and in-flight IO registration to proceed.
+    private var mutationInProgress = false
+    private var mutationWaiters: [CheckedContinuation<Void, Never>] = []
 
     public init(
         clock: MonitorClock,
@@ -89,6 +93,8 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func accept(_ batch: ReadBatch, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateLease(lease, for: batch)
         if let processed = processedRequests[batch.requestID] {
             let fingerprint = Self.fingerprint(for: batch)
@@ -109,7 +115,10 @@ public actor MonitorEngine: ProcessingEngine {
                 underlyingCode: "stale_generation"
             )
         }
-        acceptedGeneration = max(acceptedGeneration, batch.generation)
+        var stagedSeriesState = seriesState
+        var stagedSequence = nextSampleSequence
+        var stagedSuccessfulAt = lastSuccessfulAtBySeries
+        var stagedFailures = lastFailureBySeries
 
         let now = clock.now()
         var rawSamples: [Sample] = []
@@ -119,7 +128,7 @@ public actor MonitorEngine: ProcessingEngine {
             switch reading.outcome {
             case let .failure(failure):
                 if let definition = sourceToSeries[reading.sourceID] {
-                    lastFailureBySeries[definition.seriesID] = failure
+                    stagedFailures[definition.seriesID] = failure
                 }
                 continue
             case let .success(valueC, sourceWallUnixNS, freshness):
@@ -140,7 +149,7 @@ public actor MonitorEngine: ProcessingEngine {
                     )
                 }
                 let elapsedNS = reading.finished.elapsedNS
-                var state = seriesState[definition.seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
+                var state = stagedSeriesState[definition.seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
                 if elapsedNS < state.lastElapsedNS {
                     continue
                 }
@@ -151,8 +160,8 @@ public actor MonitorEngine: ProcessingEngine {
                         underlyingCode: "non_monotonic_elapsed"
                     )
                 }
-                let sampleID = Self.makeSampleID(sessionID: sessionID, sequence: nextSampleSequence)
-                nextSampleSequence += 1
+                let sampleID = Self.makeSampleID(sessionID: sessionID, sequence: stagedSequence)
+                stagedSequence += 1
                 if deliveredSampleIDs.contains(sampleID) {
                     throw Self.failure(
                         code: .processingValidate,
@@ -175,30 +184,30 @@ public actor MonitorEngine: ProcessingEngine {
                 batchMemberSamples[reading.sourceID] = sample
                 let ema = try computeEMA(for: sample, kind: definition.kind)
                 emaSamples.append(ema)
-                lastSuccessfulAtBySeries[definition.seriesID] = reading.finished
-                lastFailureBySeries.removeValue(forKey: definition.seriesID)
+                stagedSuccessfulAt[definition.seriesID] = reading.finished
+                stagedFailures.removeValue(forKey: definition.seriesID)
                 state.lastElapsedNS = elapsedNS
-                seriesState[definition.seriesID] = state
+                stagedSeriesState[definition.seriesID] = state
             }
         }
 
         for maximumDefinition in maximumDefinitions {
-            let segment = seriesState[maximumDefinition.seriesID]?.segment ?? 1
+            let segment = stagedSeriesState[maximumDefinition.seriesID]?.segment ?? 1
             if let derived = cpuMaxDerivation.derive(
                 definition: maximumDefinition,
                 memberSamples: batchMemberSamples,
                 readings: batch.readings,
                 sessionID: sessionID,
-                sampleSequence: &nextSampleSequence,
+                sampleSequence: &stagedSequence,
                 segment: segment,
-                periodMS: cpuPeriodMS
+                periodMS: batch.requestedPeriodMS
             ) {
                 rawSamples.append(derived)
                 let ema = try computeEMA(for: derived, kind: maximumDefinition.kind)
                 emaSamples.append(ema)
-                var state = seriesState[maximumDefinition.seriesID] ?? SeriesState(segment: segment, lastElapsedNS: Int64.min)
+                var state = stagedSeriesState[maximumDefinition.seriesID] ?? SeriesState(segment: segment, lastElapsedNS: Int64.min)
                 state.lastElapsedNS = derived.timestamp.elapsedNS
-                seriesState[maximumDefinition.seriesID] = state
+                stagedSeriesState[maximumDefinition.seriesID] = state
             }
         }
 
@@ -212,6 +221,12 @@ public actor MonitorEngine: ProcessingEngine {
 
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        acceptedGeneration = max(acceptedGeneration, batch.generation)
+        nextSampleSequence = stagedSequence
+        // Definitions may have been extended during the awaited commit.
+        for sample in rawSamples { seriesState[sample.seriesID] = stagedSeriesState[sample.seriesID] }
+        lastSuccessfulAtBySeries = stagedSuccessfulAt
+        lastFailureBySeries = stagedFailures
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
 
         let bufferNow = max(now.elapsedNS, rawSamples.map(\.timestamp.elapsedNS).max() ?? now.elapsedNS)
@@ -282,8 +297,7 @@ public actor MonitorEngine: ProcessingEngine {
                     reason: .sleep
                 )
             )
-            beginSegment(for: seriesID, afterElapsedNS: timestamp.elapsedNS)
-            let segmentNumber = seriesState[seriesID]?.segment ?? 1
+            let segmentNumber = (seriesState[seriesID]?.segment ?? 1) + 1
             segments.append(
                 Segment(
                     seriesID: seriesID,
@@ -301,6 +315,8 @@ public actor MonitorEngine: ProcessingEngine {
         segments: [Segment],
         lease: PersistenceLease
     ) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateLifecycleLease(lease)
         let persistenceBatch = makePersistenceBatch(
             raw: [],
@@ -325,6 +341,10 @@ public actor MonitorEngine: ProcessingEngine {
                 activeGapIDs.remove(gap.gapID)
             }
         }
+        for segment in segments {
+            seriesState[segment.seriesID] = SeriesState(segment: segment.number, lastElapsedNS: segment.started.elapsedNS)
+            lastEMABySeries.removeValue(forKey: segment.seriesID)
+        }
         snapshotGeneration = receipt.snapshotGeneration
         return receipt
     }
@@ -345,6 +365,8 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateWatermarkLease(lease)
         let safeWatermark = safeWatermarkElapsedNS(at: timestamp)
         guard timestamp.elapsedNS <= safeWatermark else {
@@ -354,7 +376,8 @@ public actor MonitorEngine: ProcessingEngine {
                 underlyingCode: "unsafe_watermark"
             )
         }
-        let buckets = aggregation.advance(to: timestamp.elapsedNS)
+        var stagedAggregation = aggregation
+        let buckets = stagedAggregation.advance(to: timestamp.elapsedNS)
         let trends = computeTrends(at: timestamp)
         let persistenceBatch = makePersistenceBatch(
             raw: [],
@@ -365,12 +388,15 @@ public actor MonitorEngine: ProcessingEngine {
         )
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        aggregation.commitWindows(from: stagedAggregation)
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
         snapshotGeneration = receipt.snapshotGeneration
         return receipt
     }
 
     public func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateGapLease(lease, for: gap)
 
         if gap.endedElapsedNS == nil, openGapBySeries[gap.seriesID] != nil {
@@ -469,6 +495,22 @@ public actor MonitorEngine: ProcessingEngine {
 
     func activeSeriesCount() -> Int {
         buffers.activeSeriesCount
+    }
+
+    private func beginMutation() async {
+        if mutationInProgress {
+            await withCheckedContinuation { mutationWaiters.append($0) }
+        } else {
+            mutationInProgress = true
+        }
+    }
+
+    private func endMutation() {
+        if mutationWaiters.isEmpty {
+            mutationInProgress = false
+        } else {
+            mutationWaiters.removeFirst().resume()
+        }
     }
 
     private func makePersistenceBatch(

@@ -5,3 +5,5 @@ build/DerivedData/
 .swiftpm/
 validation-runs/
 __pycache__/
+
+.superpowers/
