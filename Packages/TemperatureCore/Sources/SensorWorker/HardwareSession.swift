@@ -27,7 +27,9 @@ final class HardwareSession {
     private var smcKeys: [String: SMCKeyInfo] = [:]
     private var hidServices: [HIDServiceInfo] = []
     private var nvmeDevices: [NVMeDeviceInfo] = []
-    private let clock = WorkerClock()
+    private let clock: WorkerClock
+
+    init(clock: WorkerClock) { self.clock = clock }
 
     deinit {
         closeConnections()

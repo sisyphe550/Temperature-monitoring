@@ -75,3 +75,7 @@ SessionPersistence由同一个actor实现，但SamplingService只能看到reserv
 读取请求1秒、发现10秒截止；超时丢弃请求响应，SIGTERM后250ms未退出则SIGKILL，确认退出后才启动替代worker。禁止靠Task.cancel声称取消驱动调用；若操作系统未回收子进程，停止重建并Fatal，不无界积累。子进程管道EOF自动结束；App单实例生命周期控制见[13](13-operations-distribution.md)。
 
 这一设计允许完成App实现，但发布前必须验证进程签名、实机权限和故障回收。CLI已读通并不等于最终App已验收。
+
+## 运行接线修复（2026-10-02）
+
+父会话创建唯一 SystemClock，WorkerClientConfiguration 的内部启动环境 `TEMPERATURE_MONITOR_ORIGIN_TICKS` 传递 mach continuous 原点；重连复用同一配置，worker 拒绝缺失、畸形或未来原点。该内部启动事实实现修订2既定共享时钟语义，不改变公开 SensorTransport/ReadBatch 契约。App 元数据和历史查询复用父 clock；首次 Snapshot 选定序列后装载历史，自动刷新保留已有曲线，过期查询结果不能覆盖新范围。

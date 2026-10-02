@@ -134,6 +134,21 @@ import Testing
         #expect(await runtime.commit.acceptCount == 0)
     }
 
+    @Test func temporaryReservationBackpressurePausesInsteadOfLosingDueRead() async throws {
+        let clock = CoordinatorTestClock(now: timestamp(ms: 0))
+        let catalog = try makeCatalog(kinds: [.cpuZone])
+        let client = MockCoordinatorSensorClient(clock: clock, catalog: catalog)
+        let config = try Configuration.bundledDefaults()
+        let reservation = NoopReservation(rejectFirstReservation: true)
+        let engine = try makeCoordinatorEngine(clock: clock, commit: CoordinatorCommitSpy(), configuration: config, catalog: catalog)
+        let coordinator = ProcessingCoordinator(clock: clock, client: client, reservation: reservation, engine: engine, configuration: config)
+        await coordinator.start(catalog: catalog)
+        clock.advance(to: timestamp(ms: 201))
+        try await waitUntil { await client.readCount == 1 }
+        #expect((await client.readCount) == 1)
+        await coordinator.stop()
+    }
+
 }
 
 private struct CoordinatorRuntime {
@@ -276,13 +291,19 @@ private enum CoordinatorFixtures {
 }
 
 private actor NoopReservation: PersistenceReservationCapability {
+    private var rejectFirstReservation: Bool
+    init(rejectFirstReservation: Bool = false) { self.rejectFirstReservation = rejectFirstReservation }
     func reserve(
         owner: PersistenceOwner,
         generation: UInt64,
         maxRecords: Int,
         maxBytes: Int
     ) async throws -> PersistenceLease {
-        PersistenceLease(
+        if rejectFirstReservation {
+            rejectFirstReservation = false
+            throw MonitorFailure(code: .databaseBackpressure, severity: .degraded, component: "fixture", operation: "reserve", retryCount: 0, sourceID: nil, underlyingCode: "backpressure")
+        }
+        return PersistenceLease(
             reservationID: UUID(),
             owner: owner,
             generation: generation,

@@ -10,6 +10,8 @@ public actor ProcessingCoordinator {
     private var catalogGeneration: UInt64 = 0
     private var watermarkTask: Task<Void, Never>?
     private var nextWatermarkOrdinal: Int64 = 1
+    private var watermarkAdvanceInFlight = false
+    private var lastWatermarkElapsedNS: Int64 = 0
     private(set) var lastAcceptFailure: MonitorFailure?
 
     public init(
@@ -171,9 +173,13 @@ public actor ProcessingCoordinator {
     }
 
     private func advanceWatermarkIfDue() async {
+        guard !watermarkAdvanceInFlight else { return }
+        watermarkAdvanceInFlight = true
+        defer { watermarkAdvanceInFlight = false }
         let now = clock.now()
         let safeElapsed = await engine.safeWatermarkElapsedNS(at: now)
-        guard safeElapsed >= 1_000_000_000 else {
+        let closedThrough = (safeElapsed / 1_000_000_000) * 1_000_000_000
+        guard closedThrough > lastWatermarkElapsedNS else {
             return
         }
         let watermarkID = makeWatermarkID()
@@ -189,9 +195,10 @@ public actor ProcessingCoordinator {
             return
         }
 
-        let timestamp = Timestamp(elapsedNS: safeElapsed, wallUnixNS: now.wallUnixNS)
+        let timestamp = Timestamp(elapsedNS: closedThrough, wallUnixNS: now.wallUnixNS)
         do {
             _ = try await engine.advance(to: timestamp, lease: lease)
+            lastWatermarkElapsedNS = closedThrough
         } catch {
             await reservation.cancel(lease)
         }

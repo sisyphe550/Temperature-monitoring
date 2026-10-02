@@ -231,8 +231,7 @@ public actor SamplingService {
         let lease: PersistenceLease
         do {
             try Task.checkCancellation()
-            lease = try await reservation.reserve(owner: .request(requestID), generation: generation,
-                maxRecords: configuration.writerReserveRecordsPerEvent, maxBytes: configuration.writerMaxPayloadBytes)
+            lease = try await reserveWhenWritable(requestID: requestID, generation: generation)
         } catch {
             advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
             return
@@ -260,6 +259,22 @@ public actor SamplingService {
         }
         if registered, let finishHandler { await finishHandler(requestID, plannedDueElapsedNS) }
         advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
+    }
+
+    private func reserveWhenWritable(requestID: RequestID, generation: UInt64) async throws -> PersistenceLease {
+        let deadline = ContinuousClock.now.advanced(by: .milliseconds(configuration.writerMaxOldestAgeMS))
+        while true {
+            try Task.checkCancellation()
+            do {
+                return try await reservation.reserve(owner: .request(requestID), generation: generation,
+                    maxRecords: configuration.writerReserveRecordsPerEvent, maxBytes: configuration.writerMaxPayloadBytes)
+            } catch let failure as MonitorFailure where failure.code == .databaseBackpressure {
+                guard ContinuousClock.now < deadline else { throw failure }
+                // Backpressure pauses IO. A brief watermark write must not discard
+                // the only due CPU opportunity before the writer becomes free.
+                try await ContinuousClock().sleep(for: .milliseconds(configuration.writerFlushMS))
+            }
+        }
     }
 
     private func advanceScheduleAfterRead(kind: SamplingScheduleKind, schedule: ScheduleState, generation: UInt64, plannedDue: Int64) {

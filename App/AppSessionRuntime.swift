@@ -11,23 +11,29 @@ enum AppSessionError: Error, Sendable {
 @MainActor
 final class AppSessionRuntime {
     private let presentationModel: PresentationModel
+    private let clock: MonitorClock
     private let coordinator: SessionCoordinator
     private let configuration: RuntimeConfiguration
     private let profile: SensorProfile
     private let primaryCPUMetricID: MetricID
     private var snapshotTask: Task<Void, Never>?
+    private var historyTask: Task<Void, Never>?
+    private var historyRequestOrdinal: UInt64 = 0
+    private var lastHistoryRefreshElapsedNS: Int64?
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
     private var selectedSeriesIDs: [SeriesID] = []
 
     init(
         presentationModel: PresentationModel,
         coordinator: SessionCoordinator,
+        clock: MonitorClock,
         configuration: RuntimeConfiguration,
         profile: SensorProfile,
         primaryCPUMetricID: MetricID
     ) {
         self.presentationModel = presentationModel
         self.coordinator = coordinator
+        self.clock = clock
         self.configuration = configuration
         self.profile = profile
         self.primaryCPUMetricID = primaryCPUMetricID
@@ -46,15 +52,17 @@ final class AppSessionRuntime {
             for: .applicationSupportDirectory,
             in: .userDomainMask
         ).first!
-        let transport = WorkerClient(
-            configuration: WorkerClientConfiguration(executableURL: workerURL)
-        )
+        let clock = SystemClock()
+        let transport = WorkerClient(configuration: WorkerClientConfiguration(
+            executableURL: workerURL,
+            environment: ["TEMPERATURE_MONITOR_ORIGIN_TICKS": String(clock.basis.originTicks)]
+        ))
         let client = QualifiedSensorClient(
             transport: transport,
             registry: ProfileRegistry(profile: profile)
         )
         let coordinator = SessionCoordinator(
-            clock: SystemClock(),
+            clock: clock,
             client: client,
             configuration: configuration,
             applicationSupportBase: supportBase
@@ -62,6 +70,7 @@ final class AppSessionRuntime {
         return AppSessionRuntime(
             presentationModel: presentationModel,
             coordinator: coordinator,
+            clock: clock,
             configuration: configuration,
             profile: profile,
             primaryCPUMetricID: primaryCPUMetricID
@@ -84,6 +93,9 @@ final class AppSessionRuntime {
     func stop() async {
         snapshotTask?.cancel()
         snapshotTask = nil
+        historyTask?.cancel()
+        historyTask = nil
+        historyRequestOrdinal += 1
         await coordinator.stop()
     }
 
@@ -93,7 +105,7 @@ final class AppSessionRuntime {
 
     func setHistoryRange(_ range: HistoryRange) {
         selectedHistoryRange = range
-        Task { await reloadHistory() }
+        requestHistoryReload(force: true)
     }
 
     func setCPUPeriod(milliseconds: Int) async throws {
@@ -103,7 +115,7 @@ final class AppSessionRuntime {
     private func run() async {
         do {
             let sessionID = SessionID(UUID())
-            let now = SystemClock().now()
+            let now = clock.now()
             let metadata = SessionMetadata(
                 sessionID: sessionID,
                 startedWallUnixNS: now.wallUnixNS,
@@ -115,13 +127,13 @@ final class AppSessionRuntime {
             guard let stream = await coordinator.snapshots() else {
                 throw AppSessionError.startupFailed("snapshot stream unavailable")
             }
-            await reloadHistory()
             for await snapshot in stream {
                 if Task.isCancelled {
                     break
                 }
                 presentationModel.apply(snapshot: snapshot)
                 updateSelectedSeries(from: snapshot, primaryMetricID: primaryCPUMetricID)
+                requestHistoryReload()
             }
         } catch {
             let receipt = await coordinator.recordFatal(
@@ -140,32 +152,36 @@ final class AppSessionRuntime {
         }
     }
 
-    private func reloadHistory() async {
-        guard !selectedSeriesIDs.isEmpty else {
-            return
+    private func requestHistoryReload(force: Bool = false) {
+        guard !selectedSeriesIDs.isEmpty else { return }
+        let now = clock.now().elapsedNS
+        let refreshNS = selectedHistoryRange == .fiveMinutes
+            ? Int64(configuration.uiPublishMS) * 1_000_000 : 1_000_000_000
+        if !force {
+            guard historyTask == nil else { return }
+            if let lastHistoryRefreshElapsedNS, now - lastHistoryRefreshElapsedNS < refreshNS { return }
         }
-        presentationModel.beginHistoryLoad()
-        let request = HistoryRequest(
-            seriesIDs: selectedSeriesIDs,
-            range: selectedHistoryRange,
-            asOfElapsedNS: SystemClock().now().elapsedNS,
-            pointLimit: configuration.historyMaxPointsPerSeries
-        )
-        do {
-            let result = try await coordinator.queryHistory(request)
-            presentationModel.apply(history: result, request: request)
-        } catch {
-            presentationModel.applyHistoryFailure(
-                MonitorFailure(
-                    code: .databaseRead,
-                    severity: .degraded,
-                    component: "AppSessionRuntime",
-                    operation: "history",
-                    retryCount: 0,
-                    sourceID: nil,
-                    underlyingCode: String(describing: error)
-                )
-            )
+        historyTask?.cancel()
+        historyRequestOrdinal += 1
+        let ordinal = historyRequestOrdinal
+        let request = HistoryRequest(seriesIDs: selectedSeriesIDs, range: selectedHistoryRange,
+            asOfElapsedNS: now, pointLimit: configuration.historyMaxPointsPerSeries)
+        lastHistoryRefreshElapsedNS = now
+        // Keep an existing chart visible during automatic refresh.
+        if force || ordinal == 1 { presentationModel.beginHistoryLoad() }
+        historyTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                let result = try await coordinator.queryHistory(request)
+                guard !Task.isCancelled, ordinal == historyRequestOrdinal else { return }
+                presentationModel.apply(history: result, request: request)
+            } catch {
+                guard !Task.isCancelled, ordinal == historyRequestOrdinal else { return }
+                presentationModel.applyHistoryFailure(MonitorFailure(code: .databaseRead, severity: .degraded,
+                    component: "AppSessionRuntime", operation: "history", retryCount: 0, sourceID: nil,
+                    underlyingCode: String(describing: error)))
+            }
+            if ordinal == historyRequestOrdinal { historyTask = nil }
         }
     }
 
