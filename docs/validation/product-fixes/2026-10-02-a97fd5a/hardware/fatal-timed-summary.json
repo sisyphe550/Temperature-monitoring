@@ -1,0 +1,41 @@
+{
+  "seen_running": true,
+  "automatic_exit_without_input": true,
+  "process_observed_running_seconds": 31.46391754085198,
+  "fatal_report": {
+    "app_version": "0.1.0",
+    "component": "AppDelegate",
+    "error_code": "APP-INIT-001",
+    "incomplete_shutdown_steps": [],
+    "model": "startup",
+    "operation": "makeProduction",
+    "os_build": "Version 15.7.3 (Build 24G419)",
+    "retry_count": 0,
+    "session_id": "1410ff0d-917f-4ec3-a23a-8c1c51eb764a",
+    "severity": "fatal",
+    "underlying_error": "missingSensorWorker",
+    "written_at": "2026-10-02T15:24:07Z"
+  },
+  "scope": "controlled copied Release startup missing-worker failure; no user input or forced termination; not running-session fatal cleanup",
+  "first_observation": {
+    "observed_utc": "2026-10-02T15:24:07.185203+00:00",
+    "since_first_observed_seconds": 0.0002099159173667431,
+    "matching_pids": [
+      14468
+    ]
+  },
+  "last_running_observation": {
+    "observed_utc": "2026-10-02T15:24:38.513307+00:00",
+    "since_first_observed_seconds": 31.327966457698494,
+    "matching_pids": [
+      14468
+    ]
+  },
+  "first_stopped_observation": {
+    "observed_utc": "2026-10-02T15:24:38.649256+00:00",
+    "since_first_observed_seconds": 31.46391754085198,
+    "matching_pids": []
+  },
+  "force_termination": false,
+  "test_app": "/tmp/temperature-monitor-review-20261002.1G0KnN/negative-fatal/TemperatureMonitor.app"
+}

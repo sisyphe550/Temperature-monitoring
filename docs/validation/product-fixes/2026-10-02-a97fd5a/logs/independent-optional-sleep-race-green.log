@@ -1,0 +1,37 @@
+warning: /Users/sisyphus/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/sisyphus/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+Building for debugging...
+[0/10] Write sources
+[2/10] Write swift-version--58304C5D6DBC2206.txt
+[4/12] Compiling SensorRuntime SamplingService.swift
+[5/12] Emitting module SensorRuntime
+[6/14] Compiling SensorRuntime SessionMonitorController.swift
+[7/14] Compiling SensorRuntime ProcessingCoordinator.swift
+[7/15] Write Objects.LinkFileList
+[10/21] Linking ProtocolWorker
+[11/21] Linking ProductQualification
+[12/21] Linking SensorWorker
+[13/21] Applying ProductQualification
+[13/21] Applying ProtocolWorker
+[15/21] Applying SensorWorker
+[17/21] Compiling SensorRuntimeTests SamplingServiceTests.swift
+[18/21] Emitting module SensorRuntimeTests
+[19/21] Compiling TemperatureCoreTests OptionalSleepAdmissionRaceRegressionTests.swift
+[20/21] Emitting module TemperatureCoreTests
+[20/22] Write Objects.LinkFileList
+[21/22] Linking TemperatureCorePackageTests
+Build complete! (2.66s)
+Test Suite 'Selected tests' started at 2026-10-02 22:32:07.004.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 22:32:07.005.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 22:32:07.005.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 22:32:07.005.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite OptionalSleepAdmissionRaceRegressionTests started.
+◇ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() started.
+✔ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() passed after 0.605 seconds.
+✔ Suite OptionalSleepAdmissionRaceRegressionTests passed after 0.605 seconds.
+✔ Test run with 1 test in 1 suite passed after 0.605 seconds.

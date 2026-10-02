@@ -1,0 +1,377 @@
+{
+  "codeSHA": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+  "evidenceKind": "real_production_release_read_only_sqlite_snapshot",
+  "originalSnapshot": "snapshot-053.json",
+  "observedUTC": "2026-10-02T15:18:40.300107+00:00",
+  "sessionID": "f33062e7-91c8-4e0b-8735-3a33ff1a7bf5",
+  "model": "Mac16,13",
+  "osBuild": "Version 15.7.3 (Build 24G419)",
+  "rowCounts": {
+    "raw_samples": 5650,
+    "ema_samples": 5650,
+    "aggregates": 1064,
+    "gaps": 0,
+    "committed_batches": 674
+  },
+  "aggregateWidths": [
+    {
+      "width_s": 1,
+      "count": 959,
+      "sample_count": 5650
+    },
+    {
+      "width_s": 10,
+      "count": 90,
+      "sample_count": 5586
+    },
+    {
+      "width_s": 60,
+      "count": 15,
+      "sample_count": 5586
+    }
+  ],
+  "cpuMaxIntegrity": [
+    {
+      "checked": 420,
+      "mismatches": 0
+    }
+  ],
+  "cpuMaxRequestedPeriods": [
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9905684458,
+      "last_ns": 19731240333
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19842144000,
+      "last_ns": 29544818000
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510749208,
+      "last_ns": 39419560083
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40093767416,
+      "last_ns": 49102766458
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50528756833,
+      "last_ns": 63525571791
+    }
+  ],
+  "sources": [
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te05",
+      "registry_id": "Te05",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te0S",
+      "registry_id": "Te0S",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te09",
+      "registry_id": "Te09",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te0H",
+      "registry_id": "Te0H",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp01",
+      "registry_id": "Tp01",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp05",
+      "registry_id": "Tp05",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp09",
+      "registry_id": "Tp09",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0D",
+      "registry_id": "Tp0D",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0V",
+      "registry_id": "Tp0V",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0Y",
+      "registry_id": "Tp0Y",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0b",
+      "registry_id": "Tp0b",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0e",
+      "registry_id": "Tp0e",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "battery",
+      "provider": "smc",
+      "raw_key": "TB1T",
+      "registry_id": "TB1T",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b battery-temperature classification; profile flt/4 bytes in Celsius",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "referenceClassified"
+    },
+    {
+      "kind": "ssd",
+      "provider": "nvme",
+      "raw_key": "TEMPERATURE",
+      "registry_id": "4294969347",
+      "connection_generation": 1,
+      "encoding": "uint16_le_kelvin",
+      "unit_evidence": "macOS NVMeSMARTData TEMPERATURE: uint16 little-endian Kelvin; zero is not reported; unique Internal device composite",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "referenceClassified"
+    }
+  ],
+  "seriesCounts": [
+    {
+      "metric_id": "cpu.zone.1",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509283750,
+      "last_ns": 63523824291,
+      "min_c": 65.74382781982422,
+      "max_c": 81.544921875
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509414416,
+      "last_ns": 63524076458,
+      "min_c": 62.829689025878906,
+      "max_c": 76.08625030517578
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509547125,
+      "last_ns": 63524200625,
+      "min_c": 64.99554443359375,
+      "max_c": 80.22647857666016
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509680500,
+      "last_ns": 63524322958,
+      "min_c": 63.30265808105469,
+      "max_c": 76.39991760253906
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509812500,
+      "last_ns": 63524445208,
+      "min_c": 74.54090118408203,
+      "max_c": 98.69541931152344
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509944000,
+      "last_ns": 63524646041,
+      "min_c": 75.2763900756836,
+      "max_c": 100.47013854980469
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510078041,
+      "last_ns": 63524909958,
+      "min_c": 69.13580322265625,
+      "max_c": 100.8440933227539
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510210666,
+      "last_ns": 63525040250,
+      "min_c": 69.0330581665039,
+      "max_c": 102.0304183959961
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510352375,
+      "last_ns": 63525170750,
+      "min_c": 77.65352630615234,
+      "max_c": 103.81758117675781
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510482416,
+      "last_ns": 63525304083,
+      "min_c": 77.45587158203125,
+      "max_c": 105.78146362304688
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510618416,
+      "last_ns": 63525437833,
+      "min_c": 69.44932556152344,
+      "max_c": 105.05040740966797
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510749208,
+      "last_ns": 63525571791,
+      "min_c": 67.83697509765625,
+      "max_c": 105.4537582397461
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "kind": "cpuMain",
+      "count": 420,
+      "first_ns": 510749208,
+      "last_ns": 63525571791,
+      "min_c": 77.65352630615234,
+      "max_c": 105.78146362304688
+    },
+    {
+      "metric_id": "storage.ssd",
+      "kind": "ssd",
+      "count": 127,
+      "first_ns": 799592833,
+      "last_ns": 63799515333,
+      "min_c": 39.85000000000002,
+      "max_c": 48.85000000000002
+    },
+    {
+      "metric_id": "power.battery",
+      "kind": "battery",
+      "count": 63,
+      "first_ns": 1304957458,
+      "last_ns": 63305853125,
+      "min_c": 33.79998779296875,
+      "max_c": 34.59999084472656
+    }
+  ],
+  "schemaVersion": 1,
+  "foreignKeyViolations": [],
+  "cleanup": {
+    "observed_utc": "2026-10-02T15:18:42.313543+00:00",
+    "session_databases_remaining": 0
+  },
+  "integrityMethod": "SQL joins cpuMain derived samples through sample_members to member Raw; mismatch if member count !=12 or abs(derived Raw - member max)>0.00001.",
+  "limits": "Last snapshot covers the current short session. It does not independently recompute EMA, measure 5x10-minute scheduling, validate real TTL expiry, or qualify 72-hour operation."
+}

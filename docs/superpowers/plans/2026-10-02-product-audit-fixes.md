@@ -76,27 +76,27 @@
 **Files:** App/AppDelegate.swift、SessionCoordinator.swift、AppSessionRuntime.swift、Presentation/FatalView.swift；SensorRuntime/SessionMonitorController.swift、TemperatureCore/Diagnostics/MonitorShutdown.swift。
 **Interfaces:** Consumes Tasks 1～5；OS 睡眠通知串行调用 suspend/resume；应用终止有有界等待且 closeAndDeleteSession 完成后退出。Fatal 复用同一终止路径。
 
-- [ ] 先测 runtime stop 等待 worker/持久化关闭并删除 SQLite/WAL/SHM、重复 stop、sleep/wake 顺序；Expected RED: session 文件残留或异步清理未等待。
-- [ ] App 接 NSWorkspace 通知；applicationShouldTerminate 返回稍后答复，等待现行 deadline 内清理；Fatal deadline 真正触发退出。
-- [ ] core tests、Release 构建、短时正常退出验证；Expected: 无遗留本次会话目录与 worker。提交 #30/#33。
+- [x] 先测 runtime stop 等待 worker/持久化关闭并删除 SQLite/WAL/SHM、重复 stop、sleep/wake 顺序；Expected RED: session 文件残留或异步清理未等待。
+- [x] App 接 NSWorkspace 通知；applicationShouldTerminate 返回稍后答复，等待现行 deadline 内清理；Fatal deadline 真正触发退出。
+- [x] core tests、Release 构建、短时正常退出验证；Expected: 无遗留本次会话目录与 worker。提交 #30/#33。
 
 ## Task 7: 可选来源资格化与公平调度（R09 / #35）
 
 **Files:** TemperatureCore/Registry.swift、QualifiedSensorClient.swift、SensorRuntime/SeriesCatalogBuilder.swift、SamplingService.swift、SensorWorker/HardwareSession.swift、ProductQualification/SourcesCollector.swift；对应 tests。
 **Interfaces:** Consumes Task 4 资格/故障通道；Battery/SSD 从 Discovered facts 进入 Qualified catalog，保留 unavailable 原因；串行 IO 对同相位来源公平，绝不补样。
 
-- [ ] 先测有非零 IO 的 CPU+Battery/SSD 调度、Battery 候选、SSD NVMe ancestry 查找与单位、缺属性 unavailable；Expected RED: 可选被跳过/未资格化。
-- [ ] 复用已登记 bridge 方法；查询真实 parent interconnect/property；优先级按 profile；资格报告使用正式 Registry 结果；新增NVMe位置/查询状态事实，原子同步契约修订3，schema/数值/DAG保持。复制新上游代码前登记许可，否则只参考方法。
-- [ ] core tests、边界检查及本机 sources 实测；Expected: Battery 正式展示，SSD 按真实证据可用或明确不可用。提交 #35。
+- [x] 先测有非零 IO 的 CPU+Battery/SSD 调度、Battery 候选、SSD NVMe ancestry 查找与单位、缺属性 unavailable；Expected RED: 可选被跳过/未资格化。
+- [x] 复用已登记 bridge 方法；查询真实 parent interconnect/property；优先级按 profile；资格报告使用正式 Registry 结果；新增NVMe位置/查询状态事实，原子同步契约修订3，schema/数值/DAG保持。复制新上游代码前登记许可，否则只参考方法。
+- [x] core tests、边界检查及本机 sources 实测；Expected: Battery 正式展示，SSD 按真实证据可用或明确不可用。提交 #35。
 
 ## Task 8: 完整历史范围与前端需求（R10 / #36、R01 / #27、R03 / #29）
 
 **Files:** TemperaturePresentation/HistoryChartModel.swift、PresentationModel.swift、PresentationState.swift；App/Presentation/HistoryChartView.swift、TemperatureDashboard.swift、TemperaturePopover.swift、TemperatureFormatting.swift、TemperatureSourceRow.swift、SettingsView.swift；UI tests。
 **Interfaces:** Consumes Tasks 3/4/7 时间、错误、来源状态；沿用唯一 PresentationState。跨完整请求范围减点，按 series/segment/gap 分隔，保留 min/max 峰值。App/Presentation 核心模型副本同步。
 
-- [ ] 先测50ms/100ms五分钟完整范围、峰值、segment/gap、可选 unavailable 行及 cached/stale 原因；Expected RED: suffix 截断/缺行。
-- [ ] 修正点数上限为全范围减点，增加时间轴、来源选择、温度条形比较及明确状态/来源说明；绑定统一 actions。
-- [ ] core/presentation tests、适用 UI tests、正式 App 人机界面短时验证；Expected: 完整范围、当前 CPU 及所有能力状态可见。提交 #36。
+- [x] 先测50ms/100ms五分钟完整范围、峰值、segment/gap、可选 unavailable 行及 cached/stale 原因；Expected RED: suffix 截断/缺行。
+- [x] 修正点数上限为全范围减点，增加时间轴、来源选择、温度条形比较及明确状态/来源说明；绑定统一 actions。
+- [x] core/presentation tests、适用 UI tests、正式 App 人机界面短时验证；Expected: 完整范围、当前 CPU 及所有能力状态可见。提交 #36。
 
 ## 补充缺陷 R13 / #39：运行缺口与EMA分段
 
@@ -115,26 +115,32 @@
 ## 实机补充 R17 / #43：菜单栏隐藏时的可达入口
 
 - [x] 正式App AX与测试录像复现隐藏状态项无法右键打开菜单，记录NSScreen刘海安全区域；不把AX exists当物理可点击。
-- [ ] 正式启动打开主窗口；标准reopen显示原窗口与原会话；主窗口正常退出按钮。
-- [ ] Fixture UI与最终Release本机验证这些入口、五档及退出清理；菜单栏隐藏条件单独记录，不能宣称右键通过。
+- [x] 正式启动打开主窗口；标准reopen显示原窗口与原会话；主窗口正常退出按钮。
+- [x] Fixture UI与最终Release本机验证这些入口、五档及退出清理；菜单栏隐藏条件单独记录，不能宣称右键通过。
 
 ## Task 9: 交付文档、集成验收与独立审查
 
 **Files:** README.md、docs/00-agent-handoff.md、docs/01-requirements.md（状态）、docs/validation/product-review/、新修复证据；涉及契约变动时同步 docs/contracts、17、21～23、10。
 **Interfaces:** Consumes 全部任务结果；当前入口陈述验证范围，原始审查/研究记录保持历史；Issue 状态以实际修复和证据为准。
 
-- [ ] 全量 `swift test --package-path Packages/TemperatureCore --enable-code-coverage`、coverage≥80%、handoff、upstream boundary、qualification schema、Release 构建/签名检查。Expected: 全部适用检查通过。
-- [ ] 正式无 fixture App 验证CPU12/max/EMA、历史/聚合、五档/改周期、可选状态、正常退出；记录当前 SHA、二进制 hash、环境及时间范围。豁免长测仍明确保留。
-- [ ] 更新入口/需求状态和证据，避免“测试全绿=全部REQ完成”的表述；保存具体未验证边界。
-- [ ] 生成整分支 review package，委派独立 reviewer；重要发现用 RED→GREEN 修复并跑全量；minor 和裁决如实记录。
+- [x] 全量 `swift test --package-path Packages/TemperatureCore --enable-code-coverage`、coverage≥80%、handoff、upstream boundary、qualification schema、Release 构建/签名检查。Expected: 全部适用检查通过。
+- [x] 正式无 fixture App 验证CPU12/max/EMA、历史/聚合、五档/改周期、可选状态、正常退出；记录当前 SHA、二进制 hash、环境及时间范围。豁免长测仍明确保留。
+- [x] 更新入口/需求状态和证据，避免“测试全绿=全部REQ完成”的表述；保存具体未验证边界。
+- [x] 生成整分支 review package，委派独立 reviewer；重要发现用 RED→GREEN 修复并跑全量；minor 和裁决如实记录。
 - [ ] 符合实际修复证据后关闭相应 Issue；推送修复分支、创建/更新 PR，链接 review 和证据，检查 exact head CI。仅在用户已授权本轮合并且全部阻塞项解决时按 merge commit 合并；否则保留可审阅 PR。
 
 ## 执行记录
 
 任务开始/完成、测试输出和裁决记录在本计划独立执行目录的 progress.md；交付时将有效修复状态汇总到新日期/提交的证据目录。未完成任务不能勾选，实机未测不能写“通过”。
 
-### 2026-10-02 软件集成阶段结果
+### 2026-10-02 提交前软件集成阶段结果（保留中间测量）
 
-当前337项核心测试／52 suites通过，覆盖7069/7966=88.74%。独立审查同源337项亦通过。UI Runner复用unsigned构建目录曾启动失败，独立签名目录已正常启动；15项UI的5个失败经AX现场定位并修复；最终18项中16项执行通过、2项条件跳过，包含窗口重复打开／退出回归。正式Release的初步真实采样证据已观察CPU12/Raw max/EMA/SSD/Battery及三层聚合与周期TTL，但需按最终代码SHA重新构建并执行明确可选的本机UI用例。不得据此宣称全部REQ或长测完成。
+该阶段337项核心测试／52 suites通过，覆盖7069/7966=88.74%。独立审查同源337项亦通过。UI Runner复用unsigned构建目录曾启动失败，独立签名目录已正常启动；15项UI的5个失败经AX现场定位并修复；最终18项中16项执行通过、2项条件跳过，包含窗口重复打开／退出回归。正式Release的初步真实采样证据已观察CPU12/Raw max/EMA/SSD/Battery及三层聚合与周期TTL，但需按最终代码SHA重新构建并执行明确可选的本机UI用例。不得据此宣称全部REQ或长测完成。
 
 查询测试裁决：Swift任务创建顺序不保证actor入场顺序，也不保证两次查询重叠。两个并发创建请求均须返回各自正确层级，或明确superseded；合法串行完成允许两者成功。测试不以固定sleep制造重叠，也不宣称每次都覆盖到取消路径。
+
+### 最终代码a97fd5a本机验证
+
+337项／52 suites通过，最终覆盖7059/7966=88.61%；独立同源全量与源码审查通过。正式Release重新构建并验证签名/上游边界，最终本机UI 1项84.800s通过，CPU12/Raw max/EMA、Battery/SSD、五档各8s、5min/1h历史、标准reopen同会话及app.quit清理有新证据。受控缺worker副本启动Fatal显示原始错误并自动退出，首观察至消失31.4639s，含启动/收尾；范围只为startup fallback。
+
+[最终修复报告](../../validation/product-fixes/2026-10-02-a97fd5a/report.md)及机器结果按代码SHA归档。菜单栏右键、真实睡眠/运行中故障、五档各10min、真24h/72h历史和最终SHA的真实TTL长时观察未验收；用户豁免项保持不执行。Task9的Issue/PR/CI条目在实际交付后记录，原W11 PR #26不可沿用旧SHA作修复验收。

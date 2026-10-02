@@ -1,6 +1,6 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本地原生温度监控项目。**2026-10-02实施契约v1族，contract revision 3**。生产Core、SensorWorker、App与Xcode工程已存在；当前处于产品审查缺陷修复和重新验收阶段。
+Apple Silicon MacBook Air本地原生温度监控项目。**2026-10-02实施契约v1族，contract revision 3**。生产Core、SensorWorker、App与Xcode工程已存在；本轮17项产品审查缺陷已修复并完成本机短时验证，等待修复PR门禁与维护者合并。
 
 ## 接手开发
 
@@ -41,4 +41,4 @@ swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -ty
 
 [契约修订2迁移记录](docs/research/2026-09-21-contract-documentation-migration.md)、[旧实测报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[原型复现](prototypes/sensor-probe/README.md)、[硬件接口审计](docs/research/2026-09-17-handoff-interface-audit.md)供复核。E1本机读数、E2上游路线、D设计契约分开标注；有方案不等于正式App已测通过。
 
-本机已具备Xcode 26.3和Mac16,13目标机；[2026-10-02产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)确认CPU12正式读取链路可运行，同时发现历史、故障恢复、持久化和退出缺陷。本轮仅本机使用，用户豁免72/73小时长测、公证、公开发行与跨机型认证；分层历史最长72小时的功能保留。修复后需重新验证正式Release App，不能沿用旧审查结果标记通过。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入 main；后续功能从最新 main 创建 `feature/<功能>`。
+本机已具备Xcode 26.3和Mac16,13目标机；[2026-10-02产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)确认CPU12正式读取链路可运行，同时发现历史、故障恢复、持久化和退出缺陷。本轮仅本机使用，用户豁免72/73小时长测、公证、公开发行与跨机型认证；分层历史最长72小时的功能保留。[a97fd5a修复验证](docs/validation/product-fixes/2026-10-02-a97fd5a/report.md)已完成：核心337项通过、行覆盖88.61%、fixture UI16项执行通过、正式Release实机1项通过；五档各8秒、CPU12/max/EMA、历史与正常退出清理有新证据。菜单栏隐藏时已提供主窗口/reopen/退出入口；物理右键菜单、真实系统睡眠和五档各10分钟未在最终构建验收，不声明全部132项完成。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入 main；后续功能从最新 main 创建 `feature/<功能>`。

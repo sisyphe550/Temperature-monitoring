@@ -31,7 +31,7 @@
 | 输入/结果 | 当前状态 | 对接手agent的动作 |
 |---|---|---|
 | 完整Xcode | 本机Xcode26.3/17C529已具备 | 继续构建正式App与UI测试，记录实际工具链 |
-| 普通用户目标Air测试 | Mac16,13已具备；48cd967d正式App审查发现缺陷 | 完成当前修复后新增正式Release App报告，不能复用旧报告盖章 |
+| 普通用户目标Air测试 | Mac16,13已具备；a97fd5a正式Release短测通过 | 参照[新报告](validation/product-fixes/2026-10-02-a97fd5a/report.md)；五档各10min、真系统睡眠、长历史和物理右键菜单仍未验收，不能复用旧报告盖章 |
 | 仓库管理员设置 | main-protection active（2026-10-02 API回读） | PR按CI、blocking Issue与独立审查门禁执行 |
 | Developer ID/Team/公证凭证 | 未作为本项目输入提供 | 可完成本地App；正式分发明确等待凭证 |
 | 更多Air机型/系统 | 没有对应证据 | 不扩大支持声明；有实机后新增profile和验收 |

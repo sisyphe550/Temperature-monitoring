@@ -39,6 +39,10 @@ GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除�
 
 配置脚本：`scripts/configure-repository.sh`。变更规则后必须重新 `gh api` 回读，HTTP 错误不能假装完成。
 
+## 本轮规则回读（2026-10-02）
+
+[本轮API证据](validation/product-fixes/2026-10-02-a97fd5a/github-ruleset.json)确认main-protection为active、无bypass、strict required contexts已增加core-tests/app-build，共五项。仓库仅允许merge commit，delete_branch_on_merge=false；[仓库设置](validation/product-fixes/2026-10-02-a97fd5a/github-repository-policy.json)保留回读。上方2026-09-21快照是历史记录，不回写其当时状态。修复PR须核对当前head和零blocking，独立审查通过后交维护者决定合并。
+
 ## Issue与机器门禁
 
 固定标签：`bug`可复现缺陷、`blocking`阻塞当前里程碑/合并、`hardware`实机相关。每条缺陷记录环境、SHA、复现步骤、预期/实际、证据；修复PR用`Fixes #N`关联，回归通过才关闭。

@@ -1,0 +1,146 @@
+{
+  "source": "/Users/sisyphus/Code/Go/Temperature monitoring/docs/validation/product-review/2026-10-02-48cd967d",
+  "copy": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/docs/validation/product-review/2026-10-02-48cd967d",
+  "source_file_count": 16,
+  "copy_file_count": 16,
+  "source_paths_match_manifest": true,
+  "copy_paths_match_manifest": true,
+  "all_byte_identical": true,
+  "all_match_parent_sha": true,
+  "json_parse_count": 5,
+  "files": [
+    {
+      "path": "after-quit-db.json",
+      "bytes": 1286,
+      "byte_identical": true,
+      "sha256": "2b5550f40f679b5b0a48d0b0dcb2c1dac60f227fc891f0ee48a60d39ac7da8fd",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": false,
+      "original_and_copy_json_parse": true
+    },
+    {
+      "path": "fresh-binary-hashes.json",
+      "bytes": 180,
+      "byte_identical": true,
+      "sha256": "b714ea4a34b71c71698d60bfcb5ef0f4555e094b1b2fd92aaa3cafd39416e123",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": false,
+      "original_and_copy_json_parse": true
+    },
+    {
+      "path": "github-issues.json",
+      "bytes": 3211,
+      "byte_identical": true,
+      "sha256": "42839c5a7e11874d2320c829161fa4b93ad4445fca2d56770300e4171d675c7a",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true,
+      "original_and_copy_json_parse": true
+    },
+    {
+      "path": "hardware-sources.json",
+      "bytes": 1973,
+      "byte_identical": true,
+      "sha256": "b302c407a825504985ba4f6a66f0da00eb320cb90e75f3f98f8f110b3524c1a1",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true,
+      "original_and_copy_json_parse": true
+    },
+    {
+      "path": "logs/audit-commit-regression.log",
+      "bytes": 2041,
+      "byte_identical": true,
+      "sha256": "d06d85761f929212ce97e54a7f3daf3503428c60fd1c1f5c36a5571fc8edf865",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "logs/audit-regressions.log",
+      "bytes": 14231,
+      "byte_identical": true,
+      "sha256": "754662f093874cdceb08578af53b04d7380636acfe5d1ecb1d0326024f13e006",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "logs/audit-sensor-regressions.log",
+      "bytes": 2111,
+      "byte_identical": true,
+      "sha256": "3e72f85dcdbe801afed17d5ba622c6a8759e9b6fe32a409cf90c45897a6eab07",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "logs/core-coverage.log",
+      "bytes": 6232,
+      "byte_identical": true,
+      "sha256": "42cf8494bdef33d941eefd20ac554a777914c4c1a68e2dca7c97b8c7508d23df",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "logs/core-tests.log",
+      "bytes": 46110,
+      "byte_identical": true,
+      "sha256": "193bbc7f0e320afb471a050ccb90199d83a81a0510f7bd59bd85c8df235c7477",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "logs/qualification-schema-tests.log",
+      "bytes": 46,
+      "byte_identical": true,
+      "sha256": "8ad61d74be5ab6636a365794de8de9585e717444333e5bb9eadcc1f8b7784e2f",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "logs/ui-summary.txt",
+      "bytes": 2456,
+      "byte_identical": true,
+      "sha256": "734460f62a343c0758fa840b2e566d6fa8b7276e5a8e1bb63fd8232e65ffcb1a",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "regressions/ProductAuditCommitRegressionTests.swift",
+      "bytes": 2647,
+      "byte_identical": true,
+      "sha256": "703b0d4f5bcb6c0737789b0fac934e40157e4e44148fd598c26dea37e39b33f1",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "regressions/ProductAuditRegressionTests.swift",
+      "bytes": 8245,
+      "byte_identical": true,
+      "sha256": "28d4f06827454ec00da05775b376023da903c57950daa246a20288c46dde13a4",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "regressions/ProductAuditSensorRegressionTests.swift",
+      "bytes": 5050,
+      "byte_identical": true,
+      "sha256": "155dabab619b653316b3e72bada80e2bbb76a5b1095b90c980ca6eeefe8805ee",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "report.md",
+      "bytes": 36894,
+      "byte_identical": true,
+      "sha256": "9023dfc8e93f769223916bf1b21ea348ed262a67680c79663d6d8111a6db27be",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true
+    },
+    {
+      "path": "verification.json",
+      "bytes": 5798,
+      "byte_identical": true,
+      "sha256": "28f93bf9f092532c3a02076b7d8fc61e805a29f5fce151c7a05a2bbc3ed10029",
+      "matches_parent_sha": true,
+      "original_ends_with_lf": true,
+      "original_and_copy_json_parse": true
+    }
+  ]
+}

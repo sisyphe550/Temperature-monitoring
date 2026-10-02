@@ -1,0 +1,27 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Emitting module TemperatureCoreTests
+[4/6] Compiling TemperatureCoreTests RuntimeShutdownRegressionTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.13s)
+Test Suite 'Selected tests' started at 2026-10-02 20:31:55.269.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 20:31:55.270.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 20:31:55.270.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 20:31:55.270.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite RuntimeShutdownRegressionTests started.
+◇ Test stopWaitsForSessionDeletionAndIsIdempotent() started.
+✘ Test stopWaitsForSessionDeletionAndIsIdempotent() recorded an issue at RuntimeShutdownRegressionTests.swift:24:9: Expectation failed: !((FileManager.default → <NSFileManager: 0x600002f5cf80>).fileExists(atPath: database.path → "/var/folders/_2/tp_79hbj6lz6f30g2chp7m540000gn/T/AwaitedStop-2C345D9D-2660-4AD5-B0F0-91366376509D/monitor.sqlite") → true)
+✘ Test stopWaitsForSessionDeletionAndIsIdempotent() recorded an issue at RuntimeShutdownRegressionTests.swift:25:9: Expectation failed: !((FileManager.default → <NSFileManager: 0x600002f5cf80>).fileExists(atPath: database.path + "-wal" → "/var/folders/_2/tp_79hbj6lz6f30g2chp7m540000gn/T/AwaitedStop-2C345D9D-2660-4AD5-B0F0-91366376509D/monitor.sqlite-wal") → true)
+✘ Test stopWaitsForSessionDeletionAndIsIdempotent() recorded an issue at RuntimeShutdownRegressionTests.swift:26:9: Expectation failed: !((FileManager.default → <NSFileManager: 0x600002f5cf80>).fileExists(atPath: database.path + "-shm" → "/var/folders/_2/tp_79hbj6lz6f30g2chp7m540000gn/T/AwaitedStop-2C345D9D-2660-4AD5-B0F0-91366376509D/monitor.sqlite-shm") → true)
+✘ Test stopWaitsForSessionDeletionAndIsIdempotent() recorded an issue at RuntimeShutdownRegressionTests.swift:29:9: Expectation failed: result.stepResults.contains { $0.name == "close_and_delete_session" && $0.completed }
+✘ Test stopWaitsForSessionDeletionAndIsIdempotent() failed after 0.020 seconds with 4 issues.
+✘ Suite RuntimeShutdownRegressionTests failed after 0.020 seconds with 4 issues.
+✘ Test run with 1 test in 1 suite failed after 0.020 seconds with 4 issues.

@@ -43,4 +43,4 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 ## 当前实现状态
 
-已有生产Core、SensorWorker、App、Xcode工程及CI；2026-10-02正式App审查确认本机CPU12→Raw max→EMA可运行，历史与故障/清理存在已登记缺陷，当前按产品审查修复计划推进重新验收。用户仅本机使用，豁免72/73h、公证、公开发行与跨机型认证；72h会话历史功能保留。文档基线与 `blocking-issues` 已合入 main；T00.5 启用 `main-protection` ruleset。其他 agent 按 22 完成任务及证据；不应重新研究已删除的逐核接口。
+已有生产Core、SensorWorker、App、Xcode工程及CI；2026-10-02正式App审查确认本机CPU12→Raw max→EMA可运行，历史与故障/清理等17项缺陷已按修复计划解决；a97fd5a核心337测试、独立审查及正式Release本机短测通过，详细范围见docs/validation/product-fixes/2026-10-02-a97fd5a/report.md。修复PR和原W11验收PR分开处理，不能将短测标为全部正式验收。用户仅本机使用，豁免72/73h、公证、公开发行与跨机型认证；72h会话历史功能保留。文档基线与 `blocking-issues` 已合入 main；T00.5 启用 `main-protection` ruleset。其他 agent 按 22 完成任务及证据；不应重新研究已删除的逐核接口。

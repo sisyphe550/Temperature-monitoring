@@ -1,0 +1,916 @@
+{
+  "observed_utc": "2026-10-02T15:18:40.300107+00:00",
+  "database": "/Users/sisyphus/Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions/f33062e7-91c8-4e0b-8735-3a33ff1a7bf5/monitor.sqlite",
+  "session": [
+    {
+      "session_id": "f33062e7-91c8-4e0b-8735-3a33ff1a7bf5",
+      "started_wall_ns": 1790954256332992000,
+      "model": "Mac16,13",
+      "os_build": "Version 15.7.3 (Build 24G419)",
+      "app_version": "0.1.0"
+    }
+  ],
+  "sources": [
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te05",
+      "registry_id": "Te05",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te0S",
+      "registry_id": "Te0S",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te09",
+      "registry_id": "Te09",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Te0H",
+      "registry_id": "Te0H",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp01",
+      "registry_id": "Tp01",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp05",
+      "registry_id": "Tp05",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp09",
+      "registry_id": "Tp09",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0D",
+      "registry_id": "Tp0D",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0V",
+      "registry_id": "Tp0V",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0Y",
+      "registry_id": "Tp0Y",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0b",
+      "registry_id": "Tp0b",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "cpuZone",
+      "provider": "smc",
+      "raw_key": "Tp0e",
+      "registry_id": "Tp0e",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b CPU-zone classification; not physical-core or package mapping",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "targetQualified"
+    },
+    {
+      "kind": "battery",
+      "provider": "smc",
+      "raw_key": "TB1T",
+      "registry_id": "TB1T",
+      "connection_generation": 1,
+      "encoding": "flt ",
+      "unit_evidence": "Stats e31d279b battery-temperature classification; profile flt/4 bytes in Celsius",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "referenceClassified"
+    },
+    {
+      "kind": "ssd",
+      "provider": "nvme",
+      "raw_key": "TEMPERATURE",
+      "registry_id": "4294969347",
+      "connection_generation": 1,
+      "encoding": "uint16_le_kelvin",
+      "unit_evidence": "macOS NVMeSMARTData TEMPERATURE: uint16 little-endian Kelvin; zero is not reported; unique Internal device composite",
+      "mapping_version": "mac16-13-v1",
+      "evidence": "referenceClassified"
+    }
+  ],
+  "series_counts": [
+    {
+      "metric_id": "cpu.zone.1",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509283750,
+      "last_ns": 63523824291,
+      "min_c": 65.74382781982422,
+      "max_c": 81.544921875
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509414416,
+      "last_ns": 63524076458,
+      "min_c": 62.829689025878906,
+      "max_c": 76.08625030517578
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509547125,
+      "last_ns": 63524200625,
+      "min_c": 64.99554443359375,
+      "max_c": 80.22647857666016
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509680500,
+      "last_ns": 63524322958,
+      "min_c": 63.30265808105469,
+      "max_c": 76.39991760253906
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509812500,
+      "last_ns": 63524445208,
+      "min_c": 74.54090118408203,
+      "max_c": 98.69541931152344
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 509944000,
+      "last_ns": 63524646041,
+      "min_c": 75.2763900756836,
+      "max_c": 100.47013854980469
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510078041,
+      "last_ns": 63524909958,
+      "min_c": 69.13580322265625,
+      "max_c": 100.8440933227539
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510210666,
+      "last_ns": 63525040250,
+      "min_c": 69.0330581665039,
+      "max_c": 102.0304183959961
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510352375,
+      "last_ns": 63525170750,
+      "min_c": 77.65352630615234,
+      "max_c": 103.81758117675781
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510482416,
+      "last_ns": 63525304083,
+      "min_c": 77.45587158203125,
+      "max_c": 105.78146362304688
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510618416,
+      "last_ns": 63525437833,
+      "min_c": 69.44932556152344,
+      "max_c": 105.05040740966797
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "kind": "cpuZone",
+      "count": 420,
+      "first_ns": 510749208,
+      "last_ns": 63525571791,
+      "min_c": 67.83697509765625,
+      "max_c": 105.4537582397461
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "kind": "cpuMain",
+      "count": 420,
+      "first_ns": 510749208,
+      "last_ns": 63525571791,
+      "min_c": 77.65352630615234,
+      "max_c": 105.78146362304688
+    },
+    {
+      "metric_id": "storage.ssd",
+      "kind": "ssd",
+      "count": 127,
+      "first_ns": 799592833,
+      "last_ns": 63799515333,
+      "min_c": 39.85000000000002,
+      "max_c": 48.85000000000002
+    },
+    {
+      "metric_id": "power.battery",
+      "kind": "battery",
+      "count": 63,
+      "first_ns": 1304957458,
+      "last_ns": 63305853125,
+      "min_c": 33.79998779296875,
+      "max_c": 34.59999084472656
+    }
+  ],
+  "row_counts": {
+    "raw_samples": 5650,
+    "ema_samples": 5650,
+    "aggregates": 1064,
+    "gaps": 0,
+    "committed_batches": 674
+  },
+  "aggregates": [
+    {
+      "width_s": 1,
+      "count": 959,
+      "sample_count": 5650
+    },
+    {
+      "width_s": 10,
+      "count": 90,
+      "sample_count": 5586
+    },
+    {
+      "width_s": 60,
+      "count": 15,
+      "sample_count": 5586
+    }
+  ],
+  "periods": [
+    {
+      "metric_id": "cpu.zone.1",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9902716791,
+      "last_ns": 19728430291
+    },
+    {
+      "metric_id": "cpu.zone.1",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19839263625,
+      "last_ns": 29542436291
+    },
+    {
+      "metric_id": "cpu.zone.1",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 509283750,
+      "last_ns": 39416236250
+    },
+    {
+      "metric_id": "cpu.zone.1",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40090459333,
+      "last_ns": 49099962708
+    },
+    {
+      "metric_id": "cpu.zone.1",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50526153041,
+      "last_ns": 63523824291
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9905021125,
+      "last_ns": 19730792333
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19841631708,
+      "last_ns": 29544559666
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510482416,
+      "last_ns": 39419045250
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40093020000,
+      "last_ns": 49102257416
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50528244416,
+      "last_ns": 63525304083
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9905347916,
+      "last_ns": 19731048125
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19841891250,
+      "last_ns": 29544680125
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510618416,
+      "last_ns": 39419302041
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40093220875,
+      "last_ns": 49102512125
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50528504500,
+      "last_ns": 63525437833
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9905684458,
+      "last_ns": 19731240333
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19842144000,
+      "last_ns": 29544818000
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510749208,
+      "last_ns": 39419560083
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40093767416,
+      "last_ns": 49102766458
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50528756833,
+      "last_ns": 63525571791
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9902973666,
+      "last_ns": 19728687583
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19839518666,
+      "last_ns": 29542626208
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 509414416,
+      "last_ns": 39416600291
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40090758250,
+      "last_ns": 49100233458
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50526339708,
+      "last_ns": 63524076458
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9903644625,
+      "last_ns": 19729000666
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19839771041,
+      "last_ns": 29542877250
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 509547125,
+      "last_ns": 39416959375
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40091024125,
+      "last_ns": 49100491500
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50526463000,
+      "last_ns": 63524200625
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9903902750,
+      "last_ns": 19729258166
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19840036750,
+      "last_ns": 29543070875
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 509680500,
+      "last_ns": 39417316041
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40091328416,
+      "last_ns": 49100751083
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50526663875,
+      "last_ns": 63524322958
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9904150875,
+      "last_ns": 19729510541
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19840294750,
+      "last_ns": 29543676166
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 509812500,
+      "last_ns": 39417665666
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40091588666,
+      "last_ns": 49101005000
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50526935500,
+      "last_ns": 63524445208
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9904343416,
+      "last_ns": 19729769208
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19840554250,
+      "last_ns": 29543867083
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 509944000,
+      "last_ns": 39417969958
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40091881541,
+      "last_ns": 49101266166
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50527199416,
+      "last_ns": 63524646041
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9904468625,
+      "last_ns": 19730021833
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19840816000,
+      "last_ns": 29544056208
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510078041,
+      "last_ns": 39418226291
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40092141083,
+      "last_ns": 49101524833
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50527447750,
+      "last_ns": 63524909958
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9904661500,
+      "last_ns": 19730273958
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19841070250,
+      "last_ns": 29544180291
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510210666,
+      "last_ns": 39418486083
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40092496458,
+      "last_ns": 49101799250
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50527710708,
+      "last_ns": 63525040250
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9904887250,
+      "last_ns": 19730535166
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19841333583,
+      "last_ns": 29544375500
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510352375,
+      "last_ns": 39418740083
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40092769041,
+      "last_ns": 49102063958
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50527987000,
+      "last_ns": 63525170750
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 50,
+      "count": 194,
+      "first_ns": 9905684458,
+      "last_ns": 19731240333
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 100,
+      "count": 98,
+      "first_ns": 19842144000,
+      "last_ns": 29544818000
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 200,
+      "count": 95,
+      "first_ns": 510749208,
+      "last_ns": 39419560083
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 500,
+      "count": 19,
+      "first_ns": 40093767416,
+      "last_ns": 49102766458
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "period_ms": 1000,
+      "count": 14,
+      "first_ns": 50528756833,
+      "last_ns": 63525571791
+    },
+    {
+      "metric_id": "power.battery",
+      "period_ms": 1000,
+      "count": 63,
+      "first_ns": 1304957458,
+      "last_ns": 63305853125
+    },
+    {
+      "metric_id": "storage.ssd",
+      "period_ms": 500,
+      "count": 127,
+      "first_ns": 799592833,
+      "last_ns": 63799515333
+    }
+  ],
+  "latest": [
+    {
+      "metric_id": "power.battery",
+      "raw_c": 34.59999084472656,
+      "ema_c": 34.51342501653392,
+      "period_ms": 1000,
+      "elapsed_ns": 63305853125
+    },
+    {
+      "metric_id": "cpu.zone.1",
+      "raw_c": 77.69499969482422,
+      "ema_c": 77.76207957096533,
+      "period_ms": 1000,
+      "elapsed_ns": 63523824291
+    },
+    {
+      "metric_id": "cpu.zone.2",
+      "raw_c": 74.14562225341797,
+      "ema_c": 74.18728048515926,
+      "period_ms": 1000,
+      "elapsed_ns": 63524076458
+    },
+    {
+      "metric_id": "cpu.zone.3",
+      "raw_c": 76.80812072753906,
+      "ema_c": 76.87560439404317,
+      "period_ms": 1000,
+      "elapsed_ns": 63524200625
+    },
+    {
+      "metric_id": "cpu.zone.4",
+      "raw_c": 74.39765167236328,
+      "ema_c": 74.42791188071931,
+      "period_ms": 1000,
+      "elapsed_ns": 63524322958
+    },
+    {
+      "metric_id": "cpu.zone.5",
+      "raw_c": 90.36343383789062,
+      "ema_c": 90.46243310450195,
+      "period_ms": 1000,
+      "elapsed_ns": 63524445208
+    },
+    {
+      "metric_id": "cpu.zone.6",
+      "raw_c": 91.52800750732422,
+      "ema_c": 91.5743563560491,
+      "period_ms": 1000,
+      "elapsed_ns": 63524646041
+    },
+    {
+      "metric_id": "cpu.zone.7",
+      "raw_c": 88.95093536376953,
+      "ema_c": 89.03063112555336,
+      "period_ms": 1000,
+      "elapsed_ns": 63524909958
+    },
+    {
+      "metric_id": "cpu.zone.8",
+      "raw_c": 88.55537414550781,
+      "ema_c": 88.77235301409576,
+      "period_ms": 1000,
+      "elapsed_ns": 63525040250
+    },
+    {
+      "metric_id": "cpu.zone.9",
+      "raw_c": 92.9245834350586,
+      "ema_c": 93.09929152126564,
+      "period_ms": 1000,
+      "elapsed_ns": 63525170750
+    },
+    {
+      "metric_id": "cpu.zone.10",
+      "raw_c": 94.40540313720703,
+      "ema_c": 94.44215926737071,
+      "period_ms": 1000,
+      "elapsed_ns": 63525304083
+    },
+    {
+      "metric_id": "cpu.zone.11",
+      "raw_c": 90.6355972290039,
+      "ema_c": 90.70645118203045,
+      "period_ms": 1000,
+      "elapsed_ns": 63525437833
+    },
+    {
+      "metric_id": "cpu.zone.12",
+      "raw_c": 88.56632232666016,
+      "ema_c": 88.90052728046638,
+      "period_ms": 1000,
+      "elapsed_ns": 63525571791
+    },
+    {
+      "metric_id": "cpu.zone.max",
+      "raw_c": 94.40540313720703,
+      "ema_c": 94.4421712120519,
+      "period_ms": 1000,
+      "elapsed_ns": 63525571791
+    },
+    {
+      "metric_id": "storage.ssd",
+      "raw_c": 48.85000000000002,
+      "ema_c": 47.72294086400189,
+      "period_ms": 500,
+      "elapsed_ns": 63799515333
+    }
+  ],
+  "max_integrity": [
+    {
+      "checked": 420,
+      "mismatches": 0
+    }
+  ],
+  "schema_version": 1,
+  "foreign_key_violations": []
+}

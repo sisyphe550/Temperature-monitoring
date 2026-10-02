@@ -1,0 +1,14 @@
+{
+  "app_version": "0.1.0",
+  "component": "AppDelegate",
+  "error_code": "APP-INIT-001",
+  "incomplete_shutdown_steps": [],
+  "model": "startup",
+  "operation": "makeProduction",
+  "os_build": "Version 15.7.3 (Build 24G419)",
+  "retry_count": 0,
+  "session_id": "1410ff0d-917f-4ec3-a23a-8c1c51eb764a",
+  "severity": "fatal",
+  "underlying_error": "missingSensorWorker",
+  "written_at": "2026-10-02T15:24:07Z"
+}

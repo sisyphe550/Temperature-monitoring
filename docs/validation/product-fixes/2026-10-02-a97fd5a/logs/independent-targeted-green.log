@@ -1,0 +1,77 @@
+warning: /Users/sisyphus/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/sisyphus/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+Building for debugging...
+[0/8] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.10s)
+Test Suite 'Selected tests' started at 2026-10-02 21:53:10.240.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 21:53:10.241.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 21:53:10.241.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 21:53:10.241.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite RuntimeShutdownRegressionTests started.
+◇ Suite HistoryBudgetRegressionTests started.
+◇ Suite LongSleepRecoveryRegressionTests started.
+◇ Suite EngineGapRegressionTests started.
+◇ Suite StorageLifecycleRegressionTests started.
+◇ Test sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts() started.
+◇ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() started.
+◇ Suite RecoveredSourceGapRegressionTests started.
+◇ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() started.
+◇ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() started.
+◇ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() started.
+◇ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() started.
+◇ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() started.
+◇ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() started.
+◇ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() started.
+◇ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() started.
+◇ Test normalLongerPeriodDoesNotCreateFalseGap() started.
+◇ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() started.
+◇ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() started.
+◇ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() started.
+◇ Test finalizedReservationMetadataDoesNotGrowWithSessionReads() started.
+✔ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() passed after 0.004 seconds.
+✔ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() passed after 0.004 seconds.
+✔ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() passed after 0.004 seconds.
+✔ Test normalLongerPeriodDoesNotCreateFalseGap() passed after 0.004 seconds.
+✔ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() passed after 0.004 seconds.
+✔ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() passed after 0.005 seconds.
+✔ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() passed after 0.005 seconds.
+✔ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() passed after 0.005 seconds.
+✔ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() passed after 0.005 seconds.
+✔ Test finalizedReservationMetadataDoesNotGrowWithSessionReads() passed after 0.020 seconds.
+◇ Test forgedCancellationDoesNotInvalidateTheAuthenticLease() started.
+✔ Test sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts() passed after 0.021 seconds.
+✔ Suite HistoryBudgetRegressionTests passed after 0.021 seconds.
+✔ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() passed after 0.022 seconds.
+✔ Suite EngineGapRegressionTests passed after 0.022 seconds.
+✔ Test forgedCancellationDoesNotInvalidateTheAuthenticLease() passed after 0.005 seconds.
+◇ Test temporaryWriteFailureRetriesSameBatchAndPayload() started.
+✔ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() passed after 0.033 seconds.
+✔ Suite LongSleepRecoveryRegressionTests passed after 0.033 seconds.
+✔ Test temporaryWriteFailureRetriesSameBatchAndPayload() passed after 0.006 seconds.
+◇ Test lostCommitAcknowledgementRetriesWithoutDuplicateSamples() started.
+✔ Test lostCommitAcknowledgementRetriesWithoutDuplicateSamples() passed after 0.005 seconds.
+◇ Test reservationCreatedDuringWriteSurvivesActorReentry() started.
+✔ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() passed after 0.042 seconds.
+◇ Test stopWaitsForSessionDeletionAndIsIdempotent() started.
+✔ Test reservationCreatedDuringWriteSurvivesActorReentry() passed after 0.007 seconds.
+◇ Test writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError() started.
+✔ Test stopWaitsForSessionDeletionAndIsIdempotent() passed after 0.005 seconds.
+✔ Suite RuntimeShutdownRegressionTests passed after 0.048 seconds.
+✔ Test writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError() passed after 0.014 seconds.
+◇ Test integrityConflictIsNotRetried() started.
+✔ Test integrityConflictIsNotRetried() passed after 0.004 seconds.
+◇ Test walSoftLimitAttemptsTruncateCheckpoint() started.
+✔ Test walSoftLimitAttemptsTruncateCheckpoint() passed after 0.005 seconds.
+◇ Test effectiveDatabaseSoftLimitPausesNewReservations() started.
+✔ Test effectiveDatabaseSoftLimitPausesNewReservations() passed after 0.004 seconds.
+◇ Test closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles() started.
+✔ Test closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles() passed after 0.018 seconds.
+✔ Suite StorageLifecycleRegressionTests passed after 0.093 seconds.
+✔ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() passed after 1.086 seconds.
+✔ Suite RecoveredSourceGapRegressionTests passed after 1.087 seconds.
+✔ Test run with 25 tests in 6 suites passed after 1.087 seconds.

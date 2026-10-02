@@ -40,7 +40,7 @@ C10用户授权清理不合适内容、补齐完整交接；上述产品收敛�
 ## 当前仓库实际状态
 
 - 有独立只读原型、8项原型测试、CI及2026-09-15 Mac16,13/15.7.3/24G419证据。
-- 生产Packages/TemperatureCore、SensorWorker、App和Xcode工程已创建；当前按[产品审查修复计划](superpowers/plans/2026-10-02-product-audit-fixes.md)修复#27～#39。[48cd967d审查](validation/product-review/2026-10-02-48cd967d/report.md)保留原始结论，修复后新增证据，不能直接改旧报告。
+- 生产Packages/TemperatureCore、SensorWorker、App和Xcode工程已创建；已按[产品审查修复计划](superpowers/plans/2026-10-02-product-audit-fixes.md)修复#27～#43；[最终代码a97fd5a报告](validation/product-fixes/2026-10-02-a97fd5a/report.md)记录337核心测试、88.61%覆盖、独立审查、16项fixture UI及正式Release本机短测。修复分支等待PR当前head CI与维护者合并。[48cd967d审查](validation/product-review/2026-10-02-48cd967d/report.md)保留原始结论，新修复证据单独归档，不能直接改旧报告。原W11验收PR #26仍基于旧SHA，修复合入后须重新核对其证据。
 - 文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) merge commit 合入 main。`blocking-issues` 实现已由[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 合入；ruleset `main-protection` 已启用。其他独立功能从最新 main 起分支。
 - 既有原型/原始CSV/历史报告不能因产品范围调整而修改；新实测写新目录并记录源码SHA。
 

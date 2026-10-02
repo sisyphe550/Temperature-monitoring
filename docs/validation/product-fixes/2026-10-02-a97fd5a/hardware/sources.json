@@ -1,0 +1,107 @@
+{
+  "artifactKind" : "product-hardware-sources",
+  "battery" : {
+    "kind" : "battery",
+    "provider" : "smc",
+    "rawKey" : "TB1T",
+    "registryID" : "TB1T",
+    "status" : "selected",
+    "unitEvidence" : "Stats e31d279b battery-temperature classification; profile flt\/4 bytes in Celsius"
+  },
+  "cpuAvailableCount" : 12,
+  "cpuExpectedCount" : 12,
+  "cpuKeys" : [
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Te05",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Te0S",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Te09",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Te0H",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp01",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp05",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp09",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp0D",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp0V",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp0Y",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp0b",
+      "status" : "available"
+    },
+    {
+      "byteCount" : 4,
+      "encoding" : "flt ",
+      "rawKey" : "Tp0e",
+      "status" : "available"
+    }
+  ],
+  "generation" : 1,
+  "hidDiagnosticCount" : 47,
+  "mappingAndFreshness" : "not inferred from names or repeated values",
+  "nvmeDiscovery" : [
+    {
+      "interconnectLookupStatus" : "found",
+      "physicalInterconnectLocation" : "Internal",
+      "registryID" : "4294969347"
+    }
+  ],
+  "recordedAt" : "2026-10-02T13:32:46Z",
+  "schemaVersion" : 1,
+  "ssd" : {
+    "kind" : "ssd",
+    "provider" : "nvme",
+    "rawKey" : "TEMPERATURE",
+    "registryID" : "4294969347",
+    "status" : "selected",
+    "unitEvidence" : "macOS NVMeSMARTData TEMPERATURE: uint16 little-endian Kelvin; zero is not reported; unique Internal device composite"
+  }
+}
