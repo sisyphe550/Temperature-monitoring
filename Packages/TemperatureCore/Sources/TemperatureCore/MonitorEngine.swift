@@ -15,8 +15,8 @@ public actor MonitorEngine: ProcessingEngine {
     private let commit: PersistenceCommitCapability
     private let sessionID: SessionID
     private let configuration: RuntimeConfiguration
-    private let sourceToSeries: [SourceID: SeriesDefinition]
-    private let maximumDefinitions: [SeriesDefinition]
+    private var sourceToSeries: [SourceID: SeriesDefinition]
+    private var maximumDefinitions: [SeriesDefinition]
     private let emaProcessor: EMAProcessor
     private let cpuMaxDerivation: CPUMaxDerivation
     private let trendCalculator: TrendCalculator
@@ -31,9 +31,10 @@ public actor MonitorEngine: ProcessingEngine {
     private var openGapStartedElapsedNSBySeries: [SeriesID: Int64] = [:]
     private var activeGapIDs: Set<GapID> = []
     private var nextLifecycleOrdinal: Int64 = 1
-    private let qualifiedSources: [QualifiedSource]
-    private let sessionStartedAt: Timestamp
+    private var qualifiedSources: [QualifiedSource]
+    private var sessionStartedAt: Timestamp
     private var initialMetadataCommitted = false
+    private var initialSegmentReason: SegmentReason = .sessionStart
     private var acceptedGeneration: UInt64 = 0
     private var nextSampleSequence: Int64 = 1
     private var deliveredSampleIDs: Set<String> = []
@@ -208,6 +209,14 @@ public actor MonitorEngine: ProcessingEngine {
                 var state = stagedSeriesState[maximumDefinition.seriesID] ?? SeriesState(segment: segment, lastElapsedNS: Int64.min)
                 state.lastElapsedNS = derived.timestamp.elapsedNS
                 stagedSeriesState[maximumDefinition.seriesID] = state
+                stagedSuccessfulAt[maximumDefinition.seriesID] = derived.timestamp
+                stagedFailures.removeValue(forKey: maximumDefinition.seriesID)
+            } else if !Set(maximumDefinition.memberSourceIDs).isDisjoint(with: batch.readings.map(\.sourceID)) {
+                let failure = batch.readings.compactMap { reading -> MonitorFailure? in
+                    guard maximumDefinition.memberSourceIDs.contains(reading.sourceID), case let .failure(failure) = reading.outcome else { return nil }
+                    return failure
+                }.first ?? Self.failure(code: .sensorRead, operation: "cpuMaximum", underlyingCode: "incomplete_cpu_batch")
+                stagedFailures[maximumDefinition.seriesID] = failure
             }
         }
 
@@ -256,11 +265,27 @@ public actor MonitorEngine: ProcessingEngine {
         Array(seriesDefinitions.keys)
     }
 
-    public func replaceDefinitions(_ definitions: [SeriesDefinition]) {
+    public func replaceDefinitions(_ definitions: [SeriesDefinition], qualifiedSources: [QualifiedSource] = []) async {
+        await beginMutation()
+        defer { endMutation() }
         seriesDefinitions = Dictionary(uniqueKeysWithValues: definitions.map { ($0.seriesID, $0) })
+        sourceToSeries = Dictionary(uniqueKeysWithValues: definitions.filter { $0.formula == .identity }
+            .flatMap { definition in definition.memberSourceIDs.map { ($0, definition) } })
+        maximumDefinitions = definitions.filter { $0.formula == .maximum }
+        let ids = Set(definitions.map(\.seriesID))
+        buffers.retainSeries(ids)
+        lastEMABySeries = lastEMABySeries.filter { ids.contains($0.key) }
+        lastSuccessfulAtBySeries = lastSuccessfulAtBySeries.filter { ids.contains($0.key) }
+        lastFailureBySeries = lastFailureBySeries.filter { ids.contains($0.key) }
         for definition in definitions where seriesState[definition.seriesID] == nil {
             seriesState[definition.seriesID] = SeriesState(segment: 1, lastElapsedNS: Int64.min)
             try? buffers.registerSeries(definition.seriesID)
+        }
+        if !qualifiedSources.isEmpty, self.qualifiedSources != qualifiedSources {
+            self.qualifiedSources = qualifiedSources
+            sessionStartedAt = clock.now()
+            initialMetadataCommitted = false
+            initialSegmentReason = .sourceChange
         }
     }
 
@@ -283,7 +308,7 @@ public actor MonitorEngine: ProcessingEngine {
     public func closeOpenGapsForWake(at timestamp: Timestamp) throws -> (gaps: [Gap], segments: [Segment]) {
         var gaps: [Gap] = []
         var segments: [Segment] = []
-        for seriesID in trackedSeriesIDs() {
+        for seriesID in openGapBySeries.keys {
             guard let gapID = openGapBySeries[seriesID] else {
                 continue
             }
@@ -446,6 +471,10 @@ public actor MonitorEngine: ProcessingEngine {
                         )
                     )
                 }
+                if let failure = lastFailureBySeries[definition.seriesID] {
+                    return LatestValue(definition: definition, state: .unavailable(capability: .failed,
+                        reason: "\(failure.code.rawValue): \(failure.underlyingCode ?? failure.operation)"))
+                }
                 return LatestValue(definition: definition, state: .loading)
             }
         return Snapshot(
@@ -568,7 +597,7 @@ public actor MonitorEngine: ProcessingEngine {
                     seriesID: definition.seriesID,
                     number: 1,
                     started: sessionStartedAt,
-                    reason: .sessionStart
+                    reason: initialSegmentReason
                 )
             }
         )

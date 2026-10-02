@@ -7,6 +7,7 @@ public actor ProcessingCoordinator {
     private let reservation: PersistenceReservationCapability
     private let engine: MonitorEngine
     private let sampling: SamplingService
+    private let diagnosticSink: (@Sendable (MonitorFailure) async -> Void)?
     private var catalogGeneration: UInt64 = 0
     private var watermarkTask: Task<Void, Never>?
     private var nextWatermarkOrdinal: Int64 = 1
@@ -19,10 +20,12 @@ public actor ProcessingCoordinator {
         client: any SensorClient,
         reservation: PersistenceReservationCapability,
         engine: MonitorEngine,
-        configuration: RuntimeConfiguration
+        configuration: RuntimeConfiguration,
+        diagnosticSink: (@Sendable (MonitorFailure) async -> Void)? = nil
     ) {
         self.clock = clock
         self.configuration = configuration
+        self.diagnosticSink = diagnosticSink
         self.reservation = reservation
         self.engine = engine
         sampling = SamplingService(
@@ -44,6 +47,12 @@ public actor ProcessingCoordinator {
             didFinishRead: { [weak self, engine] _, plannedStart in
                 await engine.unregisterInFlightReading(startElapsedNS: plannedStart)
                 await self?.advanceWatermarkIfDue()
+            },
+            onFailure: { [weak self] failure, _ in
+                await self?.recordFailure(failure)
+            },
+            onRecoveredCatalog: { [weak self] recovered in
+                try await self?.installRecoveredCatalog(recovered)
             },
             onRead: { [weak self] event in
                 await self?.handleRead(event)
@@ -107,6 +116,8 @@ public actor ProcessingCoordinator {
                 throw error
             }
         }
+        let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
+        await engine.replaceDefinitions(definitions, qualifiedSources: catalog.available)
         await sampling.start(
             catalog: catalog,
             willRead: { [engine] _, plannedStart in
@@ -115,6 +126,12 @@ public actor ProcessingCoordinator {
             didFinishRead: { [weak self, engine] _, plannedStart in
                 await engine.unregisterInFlightReading(startElapsedNS: plannedStart)
                 await self?.advanceWatermarkIfDue()
+            },
+            onFailure: { [weak self] failure, _ in
+                await self?.recordFailure(failure)
+            },
+            onRecoveredCatalog: { [weak self] recovered in
+                try await self?.installRecoveredCatalog(recovered)
             },
             onRead: { [weak self] event in
                 await self?.handleRead(event)
@@ -139,9 +156,11 @@ public actor ProcessingCoordinator {
 
         do {
             _ = try await engine.accept(event.batch, lease: event.lease)
-            lastAcceptFailure = nil
+            if lastAcceptFailure?.severity != .fatal { lastAcceptFailure = nil }
         } catch {
-            lastAcceptFailure = error as? MonitorFailure
+            let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .processingValidate, severity: .fatal,
+                component: "ProcessingCoordinator", operation: "accept", retryCount: 0, sourceID: nil, underlyingCode: String(describing: error))
+            await recordFailure(failure)
             await reservation.cancel(event.lease)
             return
         }
@@ -173,7 +192,7 @@ public actor ProcessingCoordinator {
     }
 
     private func advanceWatermarkIfDue() async {
-        guard !watermarkAdvanceInFlight else { return }
+        guard !watermarkAdvanceInFlight, lastAcceptFailure?.severity != .fatal else { return }
         watermarkAdvanceInFlight = true
         defer { watermarkAdvanceInFlight = false }
         let now = clock.now()
@@ -201,7 +220,24 @@ public actor ProcessingCoordinator {
             lastWatermarkElapsedNS = closedThrough
         } catch {
             await reservation.cancel(lease)
+            let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .processingAggregate, severity: .fatal,
+                component: "ProcessingCoordinator", operation: "watermark", retryCount: 0, sourceID: nil, underlyingCode: String(describing: error))
+            await recordFailure(failure)
         }
+    }
+
+    private func recordFailure(_ failure: MonitorFailure) async {
+        // A structural processing failure must not be replaced by a later sensor retry.
+        guard lastAcceptFailure?.severity != .fatal else { return }
+        lastAcceptFailure = failure
+        await diagnosticSink?(failure)
+        if failure.severity == .fatal { await sampling.requestStop() }
+    }
+
+    private func installRecoveredCatalog(_ catalog: QualifiedSourceCatalog) async throws {
+        let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
+        await engine.replaceDefinitions(definitions, qualifiedSources: catalog.available)
+        catalogGeneration = catalog.generation
     }
 
     private func makeWatermarkID() -> WatermarkEventID {

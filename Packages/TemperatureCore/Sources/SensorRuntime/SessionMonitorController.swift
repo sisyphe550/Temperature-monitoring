@@ -9,6 +9,9 @@ public actor SessionMonitorController: MonitorController {
     private let session: SessionPersistenceActor
     private let sessionMetadata: SessionMetadata
     private let configuration: RuntimeConfiguration
+    private let diagnosticLogger: DiagnosticLogger?
+    private let reportWriter: ReportWriter?
+    private var runtimeFatalReportPath: String?
     private var engine: MonitorEngine?
     private var coordinator: ProcessingCoordinator?
     private var snapshotStream: AsyncStream<Snapshot>?
@@ -23,13 +26,16 @@ public actor SessionMonitorController: MonitorController {
         client: any SensorClient,
         session: SessionPersistenceActor,
         sessionMetadata: SessionMetadata,
-        configuration: RuntimeConfiguration
+        configuration: RuntimeConfiguration,
+        diagnosticsDirectory: URL? = nil
     ) {
         self.clock = clock
         self.client = client
         self.session = session
         self.sessionMetadata = sessionMetadata
         self.configuration = configuration
+        diagnosticLogger = diagnosticsDirectory.map { DiagnosticLogger(directory: $0, configuration: configuration) }
+        reportWriter = diagnosticsDirectory.map { ReportWriter(directory: $0, configuration: configuration) }
     }
 
     public func start() async throws {
@@ -55,7 +61,8 @@ public actor SessionMonitorController: MonitorController {
             client: client,
             reservation: await session.reservationCapability(),
             engine: engine,
-            configuration: configuration
+            configuration: configuration,
+            diagnosticSink: { [weak self] failure in await self?.recordRuntimeFailure(failure) }
         )
         self.engine = engine
         self.coordinator = coordinator
@@ -135,6 +142,21 @@ public actor SessionMonitorController: MonitorController {
         await coordinator?.lastAcceptFailure
     }
 
+    public func fatalReportPath() -> String? { runtimeFatalReportPath }
+
+    private func recordRuntimeFailure(_ failure: MonitorFailure) {
+        let context = DiagnosticContext(sessionID: sessionMetadata.sessionID, appVersion: sessionMetadata.appVersion,
+            model: sessionMetadata.model, osBuild: sessionMetadata.osBuild)
+        do { try diagnosticLogger?.append(DiagnosticLogEntry(failure: failure, context: context)) }
+        catch { fputs("TemperatureMonitor diagnostic write failed: \(error)\n", stderr) }
+        if failure.severity == .fatal, runtimeFatalReportPath == nil {
+            let report = FatalReport(frozenFailure: failure, sessionID: sessionMetadata.sessionID,
+                appVersion: sessionMetadata.appVersion, model: sessionMetadata.model, osBuild: sessionMetadata.osBuild,
+                incompleteShutdownSteps: [], writtenAt: Date())
+            runtimeFatalReportPath = (try? reportWriter?.write(report))?.url?.path
+        }
+    }
+
     public func stop() async {
         guard !stopped else {
             return
@@ -175,7 +197,7 @@ public actor SessionMonitorController: MonitorController {
     }
 
     public func resumeAfterWake() async throws {
-        guard !stopped, let coordinator, let engine else {
+        guard !stopped, let coordinator, engine != nil else {
             throw Self.failure(
                 code: .processingValidate,
                 operation: "resumeAfterWake",
@@ -184,7 +206,7 @@ public actor SessionMonitorController: MonitorController {
         }
         let catalog = try await client.discover()
         let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
-        await engine.replaceDefinitions(definitions)
+        _ = definitions
         try await session.prune(nowElapsedNS: clock.now().elapsedNS)
         try await coordinator.resumeAfterWake(catalog: catalog)
         running = true

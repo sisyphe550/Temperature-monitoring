@@ -259,7 +259,7 @@ public struct ProfileRegistry: SourceRegistry {
                 continue
             }
 
-            guard let sourceID = try? cpuSourceID(keyIndex: index) else {
+            guard let sourceID = try? cpuSourceID(keyIndex: index, generation: catalog.generation) else {
                 continue
             }
 
@@ -302,8 +302,11 @@ public struct ProfileRegistry: SourceRegistry {
         }
     }
 
-    private func cpuSourceID(keyIndex: Int) throws -> SourceID {
-        try SourceID(validating: String(format: "00000000-0000-4000-8000-%012d", keyIndex + 1))
+    private func cpuSourceID(keyIndex: Int, generation: UInt64) throws -> SourceID {
+        if generation == 1 {
+            return try SourceID(validating: String(format: "00000000-0000-4000-8000-%012d", keyIndex + 1))
+        }
+        return SourceID(ConnectionIdentity.uuid(role: "source.smc.cpu", generation: generation, identity: "\(mappingVersion)/\(profile.cpuKeys[keyIndex])"))
     }
 
     public func sourceID(forRegistryID registryID: String) throws -> SourceID {

@@ -75,6 +75,13 @@ public actor QualifiedSensorClient: SensorClient {
                 )
             )
 
+            guard transportBatch.requestID == request.requestID,
+                  transportBatch.readings.count == handles.count,
+                  Set(transportBatch.readings.map(\.transportHandle)) == Set(handles) else {
+                throw MonitorFailure(code: .sensorProtocol, severity: .fatal, component: "QualifiedSensorClient",
+                    operation: "read", retryCount: 0, sourceID: nil, underlyingCode: "transport_response_identity_mismatch")
+            }
+
             guard transportBatch.generation == activeCatalog.generation else {
                 self.catalog = nil
                 throw QualifiedSensorClientError.generationMismatch

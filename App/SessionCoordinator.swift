@@ -1,5 +1,3 @@
-// W08 will compile this file inside the App target. Until the Xcode project exists,
-// lifecycle orchestration is implemented in SensorRuntime and covered by Core tests.
 import Foundation
 import SensorRuntime
 import TemperatureCore
@@ -20,6 +18,7 @@ public actor SessionCoordinator {
     private var controller: SessionMonitorController?
     private var sessionID: SessionID?
     private var fatalReceipt: FatalDisplayReceipt?
+    private var metadata: SessionMetadata?
 
     public init(
         clock: MonitorClock,
@@ -45,6 +44,7 @@ public actor SessionCoordinator {
         )
         _ = try cleanup.cleanupOrphanedSessions(paths: paths, excludingSessionID: nil)
         sessionID = sessionMetadata.sessionID
+        metadata = sessionMetadata
         let sessionDirectory = paths.sessionDirectory(sessionID: sessionMetadata.sessionID)
         try FileManager.default.createDirectory(at: sessionDirectory, withIntermediateDirectories: true)
         try cleanup.writeMarker(for: sessionMetadata.sessionID, in: sessionDirectory)
@@ -56,7 +56,8 @@ public actor SessionCoordinator {
             client: client,
             session: persistence,
             sessionMetadata: sessionMetadata,
-            configuration: configuration
+            configuration: configuration,
+            diagnosticsDirectory: paths.appSupportRoot.appendingPathComponent("Diagnostics", isDirectory: true)
         )
         self.controller = controller
         try await controller.start()
@@ -87,16 +88,33 @@ public actor SessionCoordinator {
     public func recordFatal(
         _ failure: MonitorFailure,
         reportPath: String?
-    ) -> FatalDisplayReceipt {
+    ) async -> FatalDisplayReceipt {
+        if let fatalReceipt { return fatalReceipt }
+        let directory = paths.appSupportRoot.appendingPathComponent("Diagnostics", isDirectory: true)
+        let logger = DiagnosticLogger(directory: directory, configuration: configuration)
+        let runtimeReportPath = await controller?.fatalReportPath()
+        var resolvedReportPath = reportPath ?? runtimeReportPath
+        if let metadata, resolvedReportPath == nil {
+            let context = DiagnosticContext(sessionID: metadata.sessionID, appVersion: metadata.appVersion,
+                model: metadata.model, osBuild: metadata.osBuild)
+            do { try logger.append(DiagnosticLogEntry(failure: failure, context: context)) }
+            catch { fputs("TemperatureMonitor diagnostic write failed: \(error)\n", stderr) }
+            let report = FatalReport(frozenFailure: failure, sessionID: metadata.sessionID,
+                appVersion: metadata.appVersion, model: metadata.model, osBuild: metadata.osBuild,
+                incompleteShutdownSteps: [], writtenAt: Date())
+            resolvedReportPath = (try? ReportWriter(directory: directory, configuration: configuration).write(report))?.url?.path
+        }
         let receipt = FatalDisplayReceipt(
             failure: failure,
             visibleAt: clock.now(),
             configuration: configuration,
-            reportPath: reportPath
+            reportPath: resolvedReportPath
         )
         fatalReceipt = receipt
         return receipt
     }
+
+    public func lastRuntimeFailure() async -> MonitorFailure? { await controller?.lastAcceptFailure() }
 
     public func currentFatalReceipt() -> FatalDisplayReceipt? {
         fatalReceipt

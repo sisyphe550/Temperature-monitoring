@@ -14,6 +14,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     private var fixtureName: String?
     private var fixtureGeneration: UInt64 = 1
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
+    private var fatalExitTask: Task<Void, Never>?
 
     override init() {
         primaryCPUMetricID = try! MetricID(validating: "cpu.zone.max")
@@ -35,12 +36,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             isDebugBuild: Self.isDebugBuild
         ) {
             UIFixtures.apply(named: fixtureName, to: presentationModel)
-        } else if Bundle.main.sensorWorkerExecutableURL != nil {
-            sessionRuntime = try? AppSessionRuntime.makeProduction(
-                presentationModel: presentationModel,
-                primaryCPUMetricID: primaryCPUMetricID
-            )
-            sessionRuntime?.start()
+        } else {
+            do {
+                let runtime = try AppSessionRuntime.makeProduction(presentationModel: presentationModel,
+                    primaryCPUMetricID: primaryCPUMetricID)
+                runtime.setFatalHandler { [weak self] receipt in self?.showFatal(receipt) }
+                sessionRuntime = runtime
+                runtime.start()
+            } catch {
+                let now = SystemClock().now()
+                let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .appInit, severity: .fatal,
+                    component: "AppDelegate", operation: "makeProduction", retryCount: 0, sourceID: nil,
+                    underlyingCode: String(describing: error))
+                // This fallback also works when the configuration resources themselves cannot load.
+                let deadline = Timestamp(elapsedNS: now.elapsedNS + 30_000_000_000, wallUnixNS: now.wallUnixNS + 30_000_000_000)
+                let receipt = FatalDisplayReceipt(failure: failure, visibleAt: now, exitDeadline: deadline, reportPath: nil)
+                presentationModel.enterFatal(receipt)
+                showFatal(receipt)
+            }
         }
         statusItemController = StatusItemController(
             presentationModel: presentationModel,
@@ -48,6 +61,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
         )
         statusItemController?.install()
         applyUILaunchOptions(from: CommandLine.arguments)
+    }
+
+    private func showFatal(_ receipt: FatalDisplayReceipt) {
+        openDashboard()
+        guard fatalExitTask == nil else { return }
+        let delayNS = max(0, receipt.exitDeadline.wallUnixNS - Int64(Date().timeIntervalSince1970 * 1_000_000_000))
+        fatalExitTask = Task { [weak self] in
+            do { try await Task.sleep(nanoseconds: UInt64(delayNS)) } catch { return }
+            self?.quit()
+        }
     }
 
     private func applyUILaunchOptions(from arguments: [String]) {

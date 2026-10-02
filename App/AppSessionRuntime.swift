@@ -22,6 +22,7 @@ final class AppSessionRuntime {
     private var lastHistoryRefreshElapsedNS: Int64?
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
     private var selectedSeriesIDs: [SeriesID] = []
+    private var fatalHandler: (@MainActor (FatalDisplayReceipt) -> Void)?
 
     init(
         presentationModel: PresentationModel,
@@ -77,6 +78,8 @@ final class AppSessionRuntime {
         )
     }
 
+    func setFatalHandler(_ handler: @escaping @MainActor (FatalDisplayReceipt) -> Void) { fatalHandler = handler }
+
     var canApplyLiveControls: Bool {
         snapshotTask != nil
     }
@@ -131,25 +134,29 @@ final class AppSessionRuntime {
                 if Task.isCancelled {
                     break
                 }
+                if let failure = await coordinator.lastRuntimeFailure(), failure.severity == .fatal {
+                    await enterFatal(failure)
+                    return
+                }
                 presentationModel.apply(snapshot: snapshot)
                 updateSelectedSeries(from: snapshot, primaryMetricID: primaryCPUMetricID)
                 requestHistoryReload()
             }
-        } catch {
-            let receipt = await coordinator.recordFatal(
-                MonitorFailure(
-                    code: .appInit,
-                    severity: .fatal,
-                    component: "AppSessionRuntime",
-                    operation: "start",
-                    retryCount: 0,
-                    sourceID: nil,
-                    underlyingCode: String(describing: error)
-                ),
-                reportPath: nil
-            )
-            presentationModel.enterFatal(receipt)
+        } catch is CancellationError { return }
+        catch {
+            let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .appInit, severity: .fatal,
+                component: "AppSessionRuntime", operation: "start", retryCount: 0, sourceID: nil,
+                underlyingCode: String(describing: error))
+            await enterFatal(failure)
         }
+    }
+
+    private func enterFatal(_ failure: MonitorFailure) async {
+        historyTask?.cancel()
+        historyTask = nil
+        let receipt = await coordinator.recordFatal(failure, reportPath: nil)
+        presentationModel.enterFatal(receipt)
+        fatalHandler?(receipt)
     }
 
     private func requestHistoryReload(force: Bool = false) {
