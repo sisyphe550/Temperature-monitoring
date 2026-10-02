@@ -1,0 +1,11 @@
+import sqlite3,json,pathlib,datetime,sys
+root=pathlib.Path("/Users/sisyphus/Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions")
+paths=list(root.glob("*/monitor.sqlite"))
+assert len(paths)==1,paths
+p=paths[0]
+c=sqlite3.connect(p.as_uri()+"?mode=ro",uri=True)
+c.row_factory=sqlite3.Row
+q=lambda sql:[dict(row) for row in c.execute(sql)]
+r={"observed_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),"database":str(p),"session":q("SELECT * FROM session"),"sources":q("SELECT kind,provider,raw_key,registry_id,connection_generation,encoding,unit_evidence,mapping_version,evidence FROM sources"),"series_counts":q("SELECT s.metric_id,s.kind,COUNT(*) count,MIN(r.elapsed_ns) first_ns,MAX(r.elapsed_ns) last_ns,MIN(value_c) min_c,MAX(value_c) max_c FROM raw_samples r JOIN series s USING(series_id) GROUP BY s.series_id"),"row_counts":{t:c.execute("SELECT COUNT(*) FROM "+t).fetchone()[0] for t in ["raw_samples","ema_samples","aggregates","gaps","committed_batches"]},"aggregates":q("SELECT width_s,COUNT(*) count,SUM(sample_count) sample_count FROM aggregates GROUP BY width_s"),"periods":q("SELECT s.metric_id,period_ms,COUNT(*) count,MIN(r.elapsed_ns) first_ns,MAX(r.elapsed_ns) last_ns FROM raw_samples r JOIN series s USING(series_id) GROUP BY s.metric_id,period_ms"),"latest":q("SELECT s.metric_id,r.value_c raw_c,e.value_c ema_c,r.period_ms,r.elapsed_ns FROM raw_samples r JOIN series s USING(series_id) JOIN ema_samples e USING(sample_id) WHERE r.elapsed_ns=(SELECT MAX(r2.elapsed_ns) FROM raw_samples r2 WHERE r2.series_id=r.series_id)"),"max_integrity":q("SELECT COUNT(*) checked,SUM(CASE WHEN n!=12 OR ABS(value_c-member_max)>0.00001 THEN 1 ELSE 0 END) mismatches FROM (SELECT d.sample_id,d.value_c,COUNT(m.source_sample_id) n,MAX(r.value_c) member_max FROM raw_samples d JOIN series s ON s.series_id=d.series_id JOIN sample_members m ON m.derived_sample_id=d.sample_id JOIN raw_samples r ON r.sample_id=m.source_sample_id WHERE s.kind='cpuMain' GROUP BY d.sample_id)"),"schema_version":c.execute("PRAGMA user_version").fetchone()[0],"foreign_key_violations":q("PRAGMA foreign_key_check")}
+pathlib.Path(sys.argv[1]).write_text(json.dumps(r,ensure_ascii=False,indent=2)+"\n")
+print(json.dumps({k:r[k] for k in ["observed_utc","database","row_counts","aggregates","max_integrity","latest"]},ensure_ascii=False))

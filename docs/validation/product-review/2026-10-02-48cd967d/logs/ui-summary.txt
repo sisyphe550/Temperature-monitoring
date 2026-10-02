@@ -1,0 +1,32 @@
+ui-tests.log
+Testing failed:
+	TemperatureMonitorUITests-Runner (96071) encountered an error (Early unexpected exit, operation never finished bootstrapping - no restart will be attempted. (Underlying Error: Test crashed with signal kill before establishing connection.))
+** TEST FAILED **
+
+ui-adhoc-tests.log
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+Testing failed:
+** TEST FAILED **
+
+ui-adhoc-fresh.log
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testBasicFixtureShowsLiveTemperature]' passed (2.265 seconds).
+/tmp/temperature-monitor-review-20261002.1G0KnN/src/UITests/TemperatureMonitorUITests.swift:51: error: -[TemperatureMonitorUITests.TemperatureMonitorUITests testCPUPeriodPicker] : XCTAssertTrue failed
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testCPUPeriodPicker]' failed (11.934 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testDashboardCloseKeepsStatusItem]' passed (6.667 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testFatalFixtureShowsFatalCodeInDashboard]' passed (4.024 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testHistoryChartLoadsInDashboard]' passed (4.982 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testReleaseBuildRejectsFixtureLaunch]' skipped (0.156 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testSettingsWindowOpens]' passed (2.947 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testSourcesFixtureListsRows]' passed (4.084 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testStaleFixtureShowsPlaceholderInStatusItem]' passed (2.843 seconds).
+	 Executed 9 tests, with 1 test skipped and 1 failure (0 unexpected) in 39.904 (39.910) seconds
+	 Executed 9 tests, with 1 test skipped and 1 failure (0 unexpected) in 39.904 (39.911) seconds
+	 Executed 9 tests, with 1 test skipped and 1 failure (0 unexpected) in 39.904 (39.912) seconds
+** TEST FAILED **
+
+ui-period-retry.log
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testCPUPeriodPicker]' passed (8.654 seconds).
+	 Executed 1 test, with 0 failures (0 unexpected) in 8.654 (8.655) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 8.654 (8.655) seconds
+	 Executed 1 test, with 0 failures (0 unexpected) in 8.654 (8.656) seconds
+** TEST EXECUTE SUCCEEDED **

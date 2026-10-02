@@ -1,3 +1,4 @@
+import CoreFoundation
 import Foundation
 
 public enum SensorDecoding {
@@ -17,7 +18,31 @@ public enum SensorDecoding {
         default:
             return nil
         }
-        return value.isFinite ? value : nil
+        return value.isFinite && value >= -273.15 ? value : nil
+    }
+
+    // A previously qualified SMC source cannot silently adopt a new encoding.
+    public static func smcTemperatureC(
+        encoding: String,
+        bytes: [UInt8],
+        expectedEncoding: String,
+        expectedByteCount: Int
+    ) -> Double? {
+        guard encoding == expectedEncoding, bytes.count == expectedByteCount else {
+            return nil
+        }
+        return smcTemperatureC(encoding: encoding, bytes: bytes)
+    }
+
+    // SDK IOPSKeys.h defines Temperature as a CFNumber in degrees Celsius.
+    // CFBoolean also bridges to NSNumber, so its CF type must be rejected.
+    public static func iopsTemperatureC(field: Any?) -> Double? {
+        guard let number = field as? NSNumber,
+              CFGetTypeID(number) == CFNumberGetTypeID() else {
+            return nil
+        }
+        let value = number.doubleValue
+        return value.isFinite && value >= -273.15 ? value : nil
     }
 
     public static func nvmeTemperatureC(kelvin: UInt16) -> Double? {

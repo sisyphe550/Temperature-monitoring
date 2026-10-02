@@ -222,7 +222,8 @@ import Testing
         await fixture.client.respond(allMembersCelsius: 88)
         fixture.clock.advance(to: Fixtures.timestamp(ms: 500))
         #expect(await fixture.client.readCount == 1)
-        #expect(try await fixture.session.rows(in: "raw_samples") == 0)
+        #expect(await fixture.session.openedSessionMetadata == nil)
+        #expect((await fixture.controller.lastShutdownOutcome())?.incompleteSteps.isEmpty == true)
         try await fixture.closeAndDeleteSession()
     }
 
@@ -287,7 +288,7 @@ import Testing
         try await fixture.closeAndDeleteSession()
     }
 
-    @Test func sleepAcrossRetentionPrunesWithoutCreatingBuckets() async throws {
+    @Test func sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets() async throws {
         let fixture = try await ControllerFixture.make()
         try await fixture.run([
             TimedControllerEvent(atMS: 0, event: .start(cpuPeriodMS: 200)),
@@ -304,7 +305,15 @@ import Testing
             )
         )
         try await fixture.controller.resumeAfterWake()
-        #expect(try await fixture.session.rows(in: "aggregates") == 0)
+        #expect(try await fixture.session.rows(in: "aggregates") == 3)
+        for range in [HistoryRange.oneHour, .oneDay, .threeDays] {
+            let history = try await fixture.session.query(HistoryRequest(seriesIDs: [fixture.seriesID],
+                range: range, asOfElapsedNS: jumpNS, pointLimit: 2000))
+            #expect(history.points.count == 1)
+            #expect(history.points.first?.count == 1)
+            #expect(history.points.first?.valueC == 70)
+            #expect(history.points.first?.elapsedNS == 210_000_000)
+        }
         await fixture.controller.stop()
         try await fixture.closeAndDeleteSession()
     }

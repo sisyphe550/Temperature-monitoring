@@ -1,0 +1,21 @@
+warning: /Users/sisyphus/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/sisyphus/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+Building for debugging...
+[0/8] Write swift-version--58304C5D6DBC2206.txt
+Build complete! (0.09s)
+Test Suite 'Selected tests' started at 2026-10-02 21:51:30.869.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 21:51:30.870.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 21:51:30.870.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 21:51:30.870.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite OptionalAvailabilityIntegrationTests started.
+◇ Test optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+◇ Test case passing 1 argument rejectThirdReceipt → false to optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+◇ Test case passing 1 argument rejectThirdReceipt → true to optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+✔ Test optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) with 2 test cases passed after 1.563 seconds.
+✔ Suite OptionalAvailabilityIntegrationTests passed after 1.563 seconds.
+✔ Test run with 1 test in 1 suite passed after 1.563 seconds.

@@ -153,7 +153,7 @@ import Testing
     @Test func closingGapIncrementsSegmentAndResetsEMA() async throws {
         let fixture = try await ProcessorFixture.make()
         let openID = GapID(Fixtures.uuid(710))
-        let closeID = GapID(Fixtures.uuid(711))
+        let closeID = openID
         _ = try await fixture.markGap(
             Gap(
                 gapID: openID,
@@ -257,7 +257,7 @@ import Testing
         for (index, ms) in [1000, 3000, 5000].enumerated() {
             let requestID = RequestID(Fixtures.uuid(730 + index))
             _ = try await fixture.accept(
-                Fixtures.read(id: requestID, ms: Int64(ms), values: [20 + Double(index) * 0.04]),
+                Fixtures.read(id: requestID, ms: Int64(ms), values: [20 + Double(index) * 0.04], requestedPeriodMS: 1000),
                 lease: fixture.lease(owner: .request(requestID), generation: 1)
             )
         }

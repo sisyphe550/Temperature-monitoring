@@ -72,6 +72,10 @@ struct RingBufferStore {
         series.count
     }
 
+    mutating func retainSeries(_ ids: Set<SeriesID>) {
+        series = series.filter { ids.contains($0.key) }
+    }
+
     mutating func registerSeries(_ seriesID: SeriesID) throws {
         if series[seriesID] != nil {
             return

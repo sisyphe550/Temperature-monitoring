@@ -163,6 +163,12 @@ struct AggregationEngine {
         }
     }
 
+    // IO registrations can change while the persistence receipt is awaited.
+    // Only window state belongs to the processing transaction.
+    mutating func commitWindows(from staged: AggregationEngine) {
+        states = staged.states
+    }
+
     mutating func ingest(_ sample: Sample) {
         let key = AggregationKey(seriesID: sample.seriesID, segment: sample.segment)
         var state = states[key] ?? SeriesAggregationState()
@@ -262,7 +268,9 @@ struct AggregationEngine {
             }
         }
 
-        states[key] = state
+        if state.openOneSecond.isEmpty && state.openTenSeconds.isEmpty && state.openSixtySeconds.isEmpty {
+            states.removeValue(forKey: key)
+        } else { states[key] = state }
         return closed
     }
 

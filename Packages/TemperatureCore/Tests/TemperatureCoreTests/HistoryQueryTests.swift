@@ -181,7 +181,7 @@ import Testing
         try await fixture.closeAndDeleteSession()
     }
 
-    @Test func supersededQueryIsDiscarded() async throws {
+    @Test func concurrentQueriesMatchTheirRequestsOrReportSuperseded() async throws {
         let fixture = try await TemporaryStoreFixture.make()
         let seriesID = SeriesID(Fixtures.uuid(101))
         let setup = try Fixtures.persistence(id: BatchID(Fixtures.uuid(405)), value: 50, ms: 0)
@@ -194,33 +194,50 @@ import Testing
             baselineMax: 50
         )
 
-        async let first = fixture.session.query(
-            HistoryRequest(
-                seriesIDs: [seriesID],
-                range: .oneDay,
-                asOfElapsedNS: Int64(8640) * 10 * 1_000_000_000,
-                pointLimit: 2000
-            )
+        let firstRequest = HistoryRequest(
+            seriesIDs: [seriesID],
+            range: .oneDay,
+            asOfElapsedNS: Int64(8640) * 10 * 1_000_000_000,
+            pointLimit: 2000
         )
-        async let second = fixture.session.query(
-            HistoryRequest(
-                seriesIDs: [seriesID],
-                range: .oneHour,
-                asOfElapsedNS: 100_000_000_000,
-                pointLimit: 100
-            )
+        let secondRequest = HistoryRequest(
+            seriesIDs: [seriesID],
+            range: .oneHour,
+            asOfElapsedNS: 100_000_000_000,
+            pointLimit: 100
         )
+        #expect(firstRequest != secondRequest)
 
-        do {
-            _ = try await first
-            Issue.record("expected superseded query failure")
-        } catch let failure as MonitorFailure {
-            #expect(failure.code == .databaseRead)
-            #expect(failure.underlyingCode == "superseded")
+        // Actor admission can reverse task creation order. A query that is still
+        // running when another is admitted must report superseded; if it has
+        // already finished, both results are valid. Do not assume forced overlap.
+        let first = Task { () -> Result<HistoryResult, Error> in
+            do { return .success(try await fixture.session.query(firstRequest)) }
+            catch { return .failure(error) }
         }
-
-        let latest = try await second
-        #expect(latest.layer == .oneSecond)
+        let second = Task { () -> Result<HistoryResult, Error> in
+            do { return .success(try await fixture.session.query(secondRequest)) }
+            catch { return .failure(error) }
+        }
+        let results = await [first.value, second.value]
+        let expectedLayers: [HistoryLayer] = [.tenSeconds, .oneSecond]
+        var successCount = 0
+        var supersededCount = 0
+        for (result, expectedLayer) in zip(results, expectedLayers) {
+            switch result {
+            case let .success(latest):
+                #expect(latest.layer == expectedLayer)
+                successCount += 1
+            case let .failure(error):
+                let failure = try #require(error as? MonitorFailure)
+                #expect(failure.code == .databaseRead)
+                #expect(failure.underlyingCode == "superseded")
+                supersededCount += 1
+            }
+        }
+        #expect(successCount >= 1)
+        #expect(supersededCount <= 1)
+        #expect(successCount + supersededCount == 2)
         try await fixture.closeAndDeleteSession()
     }
 }

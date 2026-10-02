@@ -90,6 +90,20 @@ import Testing
         #expect(samples[0].sampleID != samples[1].sampleID)
     }
 
+    @Test func repeatedRequestCannotClaimNewUnconsumedLease() async throws {
+        let fixture = try await ProcessorFixture.make()
+        let requestID = RequestID(UUID())
+        let batch = Fixtures.read(id: requestID, ms: 200, values: [55])
+        _ = try await fixture.accept(batch, lease: fixture.lease(owner: .request(requestID), generation: 1))
+        do {
+            _ = try await fixture.accept(batch, lease: fixture.lease(owner: .request(requestID), generation: 1))
+            Issue.record("A cached receipt must not claim a new unconsumed reservation")
+        } catch let failure as MonitorFailure {
+            #expect(failure.code == .databaseIntegrity)
+            #expect(failure.underlyingCode == "lease_replay_mismatch")
+        }
+    }
+
     @Test func repeatedRequestIsIdempotent() async throws {
         let fixture = try await ProcessorFixture.make()
         let requestID = RequestID(Fixtures.uuid(330))

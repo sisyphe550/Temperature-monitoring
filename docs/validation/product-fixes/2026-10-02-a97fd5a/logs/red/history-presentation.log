@@ -1,0 +1,65 @@
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Compiling TemperatureCoreTests PresentationHistoryRegressionTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[4/5] Emitting module TemperatureCoreTests
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.40s)
+Test Suite 'Selected tests' started at 2026-10-02 21:20:49.352.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 21:20:49.353.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 21:20:49.353.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 21:20:49.353.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite PresentationHistoryRegressionTests started.
+◇ Test segmentBoundariesSurviveDownsampling() started.
+◇ Test explicitGapBreaksLineEvenWithinOneSegment() started.
+◇ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() started.
+◇ Test requestedPointBudgetIsRespectedAcrossEntireRange() started.
+◇ Test extraSourceVersionsAreRejectedExplicitly() started.
+◇ Test insufficientBudgetFailsInsteadOfDroppingSegments() started.
+◇ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 50 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 100 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+✘ Test extraSourceVersionsAreRejectedExplicitly() recorded an issue at PresentationHistoryRegressionTests.swift:118:71: Issue recorded
+↳ Source versions must not be silently dropped
+✘ Test insufficientBudgetFailsInsteadOfDroppingSegments() recorded an issue at PresentationHistoryRegressionTests.swift:87:25: Issue recorded
+↳ Must report an unrepresentable boundary budget instead of dropping history
+✘ Test extraSourceVersionsAreRejectedExplicitly() failed after 0.001 seconds with 1 issue.
+✘ Test insufficientBudgetFailsInsteadOfDroppingSegments() failed after 0.001 seconds with 1 issue.
+✘ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() recorded an issue at PresentationHistoryRegressionTests.swift:107:82: Issue recorded
+↳ Battery expired before its third period
+✘ Test explicitGapBreaksLineEvenWithinOneSegment() recorded an issue at PresentationHistoryRegressionTests.swift:58:9: Expectation failed: (segments.count → 1) == 2
+✘ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() failed after 0.001 seconds with 1 issue.
+✘ Test explicitGapBreaksLineEvenWithinOneSegment() recorded an issue at PresentationHistoryRegressionTests.swift:59:9: Expectation failed: (Set(segments.map(\.id)).count → 1) == 2
+✘ Test explicitGapBreaksLineEvenWithinOneSegment() recorded an issue at PresentationHistoryRegressionTests.swift:60:9: Expectation failed: (segments.first?.points.last?.elapsedNS → 400000000) == (100_000_000 → 100000000)
+✘ Test explicitGapBreaksLineEvenWithinOneSegment() recorded an issue at PresentationHistoryRegressionTests.swift:61:9: Expectation failed: (segments.last?.points.first?.elapsedNS → 0) == (300_000_000 → 300000000)
+✘ Test explicitGapBreaksLineEvenWithinOneSegment() failed after 0.001 seconds with 4 issues.
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 100 at PresentationHistoryRegressionTests.swift:29:9: Expectation failed: (output.first?.elapsedNS → 100000000000) == 0
+✘ Test requestedPointBudgetIsRespectedAcrossEntireRange() recorded an issue at PresentationHistoryRegressionTests.swift:43:9: Expectation failed: (output.count → 2000) <= 60
+✘ Test requestedPointBudgetIsRespectedAcrossEntireRange() recorded an issue at PresentationHistoryRegressionTests.swift:44:9: Expectation failed: (output.first?.elapsedNS → 100000000000) == 0
+✘ Test requestedPointBudgetIsRespectedAcrossEntireRange() failed after 0.001 seconds with 2 issues.
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 100 at PresentationHistoryRegressionTests.swift:31:9: Expectation failed: (output.map { $0.minC ?? $0.valueC }.min() → 50.0) == (-8 → -8.0)
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 100 at PresentationHistoryRegressionTests.swift:32:9: Expectation failed: (HistoryChartModel.peakMaxC(in: state) → 50.0) == (99 → 99.0)
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 100 at PresentationHistoryRegressionTests.swift:33:9: Expectation failed: (output.reduce(Int64(0)) { $0 + $1.count } → 2000) == (Int64(count) → 3000)
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 50 at PresentationHistoryRegressionTests.swift:29:9: Expectation failed: (output.first?.elapsedNS → 200000000000) == 0
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 50 at PresentationHistoryRegressionTests.swift:31:9: Expectation failed: (output.map { $0.minC ?? $0.valueC }.min() → 50.0) == (-8 → -8.0)
+✘ Test segmentBoundariesSurviveDownsampling() recorded an issue at PresentationHistoryRegressionTests.swift:73:9: Expectation failed: (segments.count → 1) == 2
+✘ Test segmentBoundariesSurviveDownsampling() failed after 0.003 seconds with 1 issue.
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 50 at PresentationHistoryRegressionTests.swift:32:9: Expectation failed: (HistoryChartModel.peakMaxC(in: state) → 50.0) == (99 → 99.0)
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) recorded an issue with 1 argument periodMS → 50 at PresentationHistoryRegressionTests.swift:33:9: Expectation failed: (output.reduce(Int64(0)) { $0 + $1.count } → 2000) == (Int64(count) → 6000)
+✘ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) with 2 test cases failed after 0.004 seconds with 8 issues.
+✘ Suite PresentationHistoryRegressionTests failed after 0.004 seconds with 18 issues.
+✘ Test run with 7 tests in 1 suite failed after 0.004 seconds with 18 issues.

@@ -150,7 +150,9 @@ import TemperatureCore
         let catalog = try QualifyFixture.fullCPUCatalog(for: profile)
         let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
         #expect(qualified.available.count == 12)
-        #expect(qualified.unavailable.isEmpty)
+        #expect(qualified.unavailable.filter { $0.intendedKind == .cpuZone }.isEmpty)
+        #expect(qualified.unavailable.contains(where: { $0.intendedKind == .battery }))
+        #expect(qualified.unavailable.contains(where: { $0.intendedKind == .ssd }))
     }
 
     @Test func profileRegistryMarksMissingCPUKeyUnavailable() throws {
@@ -180,7 +182,7 @@ import TemperatureCore
         let catalog = try QualifyFixture.fullCPUCatalog(for: profile, encodingOverride: "sp78")
         let qualified = try ProfileRegistry(profile: profile).qualify(catalog)
         #expect(qualified.available.isEmpty)
-        #expect(qualified.unavailable.allSatisfy { $0.reason == "encoding_or_length_mismatch" })
+        #expect(qualified.unavailable.filter { $0.intendedKind == .cpuZone }.allSatisfy { $0.reason == "encoding_or_length_mismatch" })
     }
 
     @Test func profileRegistryKeepsDistinctHIDRegistryIDs() throws {

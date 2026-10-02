@@ -8,11 +8,11 @@
 
 **Tech Stack:** Swift 6、SwiftPM tools-version 6.0、少量C/IOKit、系统SQLite3、SwiftUI/AppKit/Swift Charts、Swift Testing、XCTest/XCUITest；build toolchain、deployment target、runtime profile和qualified combinations分别记录。
 
-**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义50个可审查执行任务。参数、类型、DDL、profile和实际第三方导入分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)、[third-party](contracts/third-party-v1.json)为准；只接受`contract_version=2`。
+**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义50个可审查执行任务。参数、类型、DDL、profile和实际第三方导入分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)、[third-party](contracts/third-party-v1.json)为准；只接受`contract_version=3`。
 
 ## Global Constraints
 
-- 本计划是后续实施步骤；**生产代码、App项目和本页标为“新建”的脚本尚未存在**。命令块是对应文件完成后的执行命令，不是已执行记录。
+- 本计划保留初始工作包的设计、接口和验收边界。生产代码、App项目和对应脚本已存在；当前按2026-10-02产品审查修复计划执行，命令块仍需在当前提交重新运行，不能把旧结果作为新修复证据。
 - 文档基线已由 PR #4 合入 main；`blocking-issues` 已由 PR #5 进入默认分支。T00.5 完成规则回读后，后续功能分支从包含该基线的最新 `main` 创建。不得只拉更旧的 main 然后重新发明设计。
 - 新功能使用`feature/**`分支；测试、独立审查、阻塞Issue检查通过后由维护者手动merge commit；保留远程分支。GitHub最低审批人数为0，独立审查证据仍是合并条件。
 - 预期部署目标arm64、macOS15.7.3；完整Xcode必须验证工具链能否表达patch级deployment target。首版runtime profile是`Mac16,13`。已有CLI证据来自15.7.3/build24G419；正式App通过W09之前qualified combinations为空。
@@ -163,10 +163,10 @@ const state = blockers.length === 0 ? "success" : "failure";
 
 **文件：** 新建Package、Contracts四文件、Configuration、Clock、MonitorFailure；`Tests/TemperatureCoreTests/{ContractTests,ClockTests,ConfigurationTests}.swift`及上述TestSupport；`scripts/check-core-coverage.py`、`.github/workflows/core.yml`。
 
-**接口：** 按修订2 API逐字拆分强类型UUID、ReadingOutcome、SeriesFormula、SegmentReason、MonitorErrorCode、PersistenceLease/Owner/Receipt、Presentation状态和协议；`SystemClock: MonitorClock`。在Configuration定义`RuntimeConfiguration`与`SensorProfile`，字段/CodingKeys逐项匹配JSON；入口为`load(from:)`且只接受`contract_version=2`。
+**接口：** 按修订3 API逐字拆分强类型UUID、ReadingOutcome、SeriesFormula、SegmentReason、MonitorErrorCode、PersistenceLease/Owner/Receipt、Presentation状态和协议；`SystemClock: MonitorClock`。在Configuration定义`RuntimeConfiguration`与`SensorProfile`，字段/CodingKeys逐项匹配JSON；入口为`load(from:)`且只接受`contract_version=3`。
 
 - [ ] 建最小SwiftPM library与TemperatureCoreTests target；先加入合同编译测试及拒绝非法配置的测试，再运行确认缺实现时失败。Package只声明已经有源文件的target，后续W02/W03再加入Runtime/Bridge/Worker/CSQLite。
-- [ ] 复制修订2 API类型；独立模块测试构造Timestamp、规范UUID的ReadRequest和Sample。无效/非规范UUID、非法MetricID和未知封闭枚举必须解码失败；ReadingOutcome、PresentationState、HistoryChartState的互斥分支必须无法表达“双状态”。源码门禁确认旧可空读数和旧预留类型token不存在。
+- [ ] 复制修订3 API类型；独立模块测试构造Timestamp、规范UUID的ReadRequest和Sample。无效/非规范UUID、非法MetricID和未知封闭枚举必须解码失败；ReadingOutcome、PresentationState、HistoryChartState的互斥分支必须无法表达“双状态”。源码门禁确认旧可空读数和旧预留类型token不存在。
 
 ```swift
 @Test func timestampPreservesNanoseconds() throws {
@@ -178,7 +178,7 @@ const state = blockers.length === 0 ? "success" : "failure";
 }
 ```
 
-- [ ] 配置加载验证：`contract_version=2`、CPU五档精确集合、默认200、tau均>0、TTL递增、resume<pause<max、单事件预留≤事务上限、profile12键无重复且区分大小写、active series含派生。坏JSON、版本1/未知版本、负容量、删除必填参数必须抛错；不得静默退回硬编码默认值。
+- [ ] 配置加载验证：`contract_version=3`、CPU五档精确集合、默认200、tau均>0、TTL递增、resume<pause<max、单事件预留≤事务上限、profile12键无重复且区分大小写、active series含派生。坏JSON、版本1/未知版本、负容量、删除必填参数必须抛错；不得静默退回硬编码默认值。
 - [ ] 以主进程共享的`mach_continuous_time`基准和`mach_timebase_info`生成elapsed；跨进程沿用同一基准。整数商余/宽乘防溢出；ContinuousClock只负责异步等待剩余时长。TestClock模拟睡眠前进、墙钟回拨及取消，不等待真实72小时。
 - [ ] Clock测试输入elapsed=10s、wall回退3600s，预期elapsed继续增加；整数时间往返不丢纳秒；同时登记多sleep等待和取消一个等待，其他到期等待各恢复一次。
 - [ ] 运行以下计划命令，预期所有测试通过且Swift 6并发检查通过。`check-core-coverage.py`统计Core和SensorRuntime生产Swift可执行行，不包含测试、App UI、C桥接与worker入口；未达到80%时失败，并报告各文件分母，不能沿用ProbeCore的55行分母。
@@ -192,7 +192,7 @@ python3 scripts/check-core-coverage.py
 
 - [ ] 使`core-tests`在`feature/**`及PR运行实际Swift测试和80%门禁，加入main必需检查；提交可独立评审的类型/时钟工作，附红绿测试证据。
 
-**完成条件：** 修订2身份与互斥状态跨模块可用、配置拒绝旧版本、测试时钟可控、Core测试门禁实际执行。此阶段不读硬件。
+**完成条件：** 修订3身份与互斥状态跨模块可用、配置拒绝旧版本、测试时钟可控、Core测试门禁实际执行。此阶段不读硬件。
 
 ## W02：来源注册、SensorWorker协议与硬件边界
 
@@ -459,7 +459,7 @@ xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -con
 **接口：** App通过本地Swift Package使用Core/Runtime；创建唯一SessionCoordinator与PresentationModel。构建脚本产物固定为`build/TemperatureMonitor.app`，内嵌同一构建的`Contents/MacOS/SensorWorker`。
 
 - [ ] 完成W07创建的macOS App、UI test target和共享scheme的生产装配；复核Swift6、arm64、预期deployment15.7.3、Bundle ID按defaults。用`xcodebuild -showBuildSettings`验证工具链接受目标设置，失败则阻止RC并提出契约修订。接入唯一真实SessionCoordinator与PresentationModel，关闭App Sandbox，无root/private entitlement。
-- [ ] 将contract revision 2的defaults/profile/third-party资源复制到App，schema作为Package资源加载；CI逐字比对资源。为third-party-v1中每个copied/modified本地路径生成或核对ThirdPartyNotices；缺固定commit、许可hash、版权、修改说明或notice时失败。R04/R07不得出现复制代码。
+- [ ] 将contract revision 3的defaults/profile/third-party资源复制到App，schema作为Package资源加载；CI逐字比对资源。为third-party-v1中每个copied/modified本地路径生成或核对ThirdPartyNotices；缺固定commit、许可hash、版权、修改说明或notice时失败。R04/R07不得出现复制代码。
 - [ ] 实现build-app.sh：`set -euo pipefail`，校验完整Xcode、构建Release与SensorWorker、从本次DerivedData复制App、嵌入worker/资源；路径或新产物缺失立即失败，不能签/测旧包。本地先worker后App进行ad-hoc签名。
 
 ```sh
@@ -544,7 +544,7 @@ shasum -a 256 build/TemperatureMonitor-notarized.zip
 
 **接口：** 逐REQ使用现有映射的任务/测试组及证据路径；不凭任务标题批量标“通过”。新增/变更规则必须同步需求、决策、契约和测试，不只修改实现。
 
-- [ ] 检查134个ID唯一且齐全，132个现行各有实现任务、20组测试中的适用映射、结果与证据；012/114仅为retired/不适用。核对contract revision 2、强类型接口和TC-UPSTREAM-BOUNDARY映射未被旧实现回退。
+- [ ] 检查134个ID唯一且齐全，132个现行各有实现任务、20组测试中的适用映射、结果与证据；012/114仅为retired/不适用。核对contract revision 3、强类型接口和TC-UPSTREAM-BOUNDARY映射未被旧实现回退。
 - [ ] 以测试产物逐项核对REQ：模拟软件、实机、签名分发三类证据分开；“已实现”“软件通过”“目标组合通过”“正式公证通过”不得互换。不存在测试日志的项目保持未执行。
 - [ ] 在最终commit运行以下计划命令，保存输出；变更后只重跑相关及规定总门禁，不重复无变化的昂贵实机测试：
 

@@ -1,6 +1,6 @@
 # Git、GitHub与执行门禁
 
-更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支；T00.5 在该检查对真实 open PR head 成功后启用 required 规则。回读证据见 `docs/validation/product-software/W00/`。
+更新：2026-10-02；contract revision 3执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支；T00.5 在该检查对真实 open PR head 成功后启用 required 规则。回读证据见 `docs/validation/product-software/W00/`。
 
 ## 分支与集成
 
@@ -15,7 +15,7 @@ GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除�
 
 ## 契约变更的原子同步规则
 
-当前实现基线是`contract revision 2`。修改公开类型、默认值、profile、数据库schema、来源资格、持久化所有权、展示状态或第三方复用边界时，必须在同一提交中同步所有受影响的权威层，不能用多个暂时互相矛盾的提交传播契约：
+当前实现基线是`contract revision 3`。修改公开类型、默认值、profile、数据库schema、来源资格、持久化所有权、展示状态或第三方复用边界时，必须在同一提交中同步所有受影响的权威层，不能用多个暂时互相矛盾的提交传播契约：
 
 1. 更新`docs/contracts/`中的API、defaults、profile、schema或`third-party-v1.json`；文件名中的`v1`是产品契约族，兼容性修订以`contract_version`判断。
 2. 同步`01-requirements.md`、`acceptance-v1.json`正文hash和`17-traceability.md`；不得只改叙述而留下旧机器映射。
@@ -38,6 +38,10 @@ GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除�
 产品检查创建并至少成功运行一次后，再增加 `core-tests` 和 `app-build`。不能要求一个从未运行的不存在检查而永久锁死 PR。核心覆盖≥80%；准确分母见 10。UI 产品 PR 还须附真实 UI 测试证据。不启用 `required_linear_history`（与 merge commit 矛盾）。
 
 配置脚本：`scripts/configure-repository.sh`。变更规则后必须重新 `gh api` 回读，HTTP 错误不能假装完成。
+
+## 本轮规则回读（2026-10-02）
+
+[本轮API证据](validation/product-fixes/2026-10-02-a97fd5a/github-ruleset.json)确认main-protection为active、无bypass、strict required contexts已增加core-tests/app-build，共五项。仓库仅允许merge commit，delete_branch_on_merge=false；[仓库设置](validation/product-fixes/2026-10-02-a97fd5a/github-repository-policy.json)保留回读。上方2026-09-21快照是历史记录，不回写其当时状态。修复PR须核对当前head和零blocking，独立审查通过后交维护者决定合并。
 
 ## Issue与机器门禁
 

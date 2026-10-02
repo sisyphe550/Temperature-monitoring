@@ -80,7 +80,8 @@ public enum Registry {
         for entry in priority {
             if entry == "iops:Temperature" {
                 switch iops.kind {
-                case .celsius:
+                case .celsius(let value):
+                    guard value.isFinite, value >= -273.15 else { continue }
                     return .selected(SelectedOptionalProvider(provider: .iops, rawKey: "Temperature"))
                 case .absent, .boolean, .nonNumber, .nonFinite:
                     continue
@@ -197,6 +198,8 @@ public struct ProfileRegistry: SourceRegistry {
         var unavailable: [SourceCapabilityRecord] = []
 
         qualifyCPUSources(from: catalog, available: &available, unavailable: &unavailable)
+        qualifyBatterySource(from: catalog, available: &available, unavailable: &unavailable)
+        qualifySSDSource(from: catalog, available: &available, unavailable: &unavailable)
         recordHIDDiagnostics(from: catalog, unavailable: &unavailable)
 
         return QualifiedSourceCatalog(
@@ -259,7 +262,7 @@ public struct ProfileRegistry: SourceRegistry {
                 continue
             }
 
-            guard let sourceID = try? cpuSourceID(keyIndex: index) else {
+            guard let sourceID = try? cpuSourceID(keyIndex: index, generation: catalog.generation) else {
                 continue
             }
 
@@ -279,6 +282,171 @@ public struct ProfileRegistry: SourceRegistry {
                 )
             )
         }
+    }
+
+    private func qualifyBatterySource(
+        from catalog: DiscoveredCatalog,
+        available: inout [QualifiedSource],
+        unavailable: inout [SourceCapabilityRecord]
+    ) {
+        var rejected: SourceCapabilityRecord?
+        for entry in profile.batteryProviderPriority {
+            let provider: ProviderKind
+            let key: String
+            if entry == "iops:Temperature" {
+                provider = .iops
+                key = "Temperature"
+            } else if entry.hasPrefix("smc:") {
+                provider = .smc
+                key = String(entry.dropFirst(4))
+            } else {
+                continue
+            }
+            let matches = catalog.sources.filter { $0.provider == provider && $0.rawKey == key }
+            if matches.count > 1 {
+                unavailable.append(optionalFailure(
+                    kind: .battery, provider: provider, rawKey: key,
+                    capability: .mappingUnknown, reason: "duplicate_battery_provider"
+                ))
+                return
+            }
+            guard let source = matches.first else { continue }
+            let expectedEncoding = provider == .iops ? "cfnumber_celsius" : profile.expectedSMCEncoding
+            let expectedByteCount = provider == .iops ? 0 : profile.expectedSMCSizeBytes
+            guard source.encoding == expectedEncoding, source.byteCount == expectedByteCount else {
+                if rejected == nil {
+                    rejected = optionalFailure(
+                        kind: .battery, provider: provider, rawKey: key, registryID: source.registryID,
+                        capability: .unsupported, reason: "battery_encoding_or_length_mismatch"
+                    )
+                }
+                continue
+            }
+            guard !source.transportHandle.isEmpty,
+                  catalog.sources.filter({ $0.transportHandle == source.transportHandle }).count == 1,
+                  provider != .iops || source.registryID?.isEmpty == false else {
+                if rejected == nil {
+                    rejected = optionalFailure(
+                        kind: .battery, provider: provider, rawKey: key, registryID: source.registryID,
+                        capability: .mappingUnknown, reason: "battery_identity_missing_or_conflicting"
+                    )
+                }
+                continue
+            }
+            let unitEvidence = provider == .iops
+                ? "macOS SDK IOPSKeys.h kIOPSTemperatureKey: numeric CFNumber in Celsius; unique internal battery"
+                : "Stats e31d279b battery-temperature classification; profile flt/4 bytes in Celsius"
+            available.append(optionalSource(
+                source, kind: .battery, generation: catalog.generation, unitEvidence: unitEvidence
+            ))
+            return
+        }
+        unavailable.append(rejected ?? optionalFailure(
+            kind: .battery, provider: .iops, rawKey: "Temperature",
+            capability: .unsupported, reason: "no_valid_battery_provider_in_priority_chain"
+        ))
+    }
+
+    private func qualifySSDSource(
+        from catalog: DiscoveredCatalog,
+        available: inout [QualifiedSource],
+        unavailable: inout [SourceCapabilityRecord]
+    ) {
+        let discovered = catalog.sources.filter { $0.provider == .nvme && $0.rawKey == "TEMPERATURE" }
+        var candidates: [NVMeDiscoveryCandidate] = []
+        for source in discovered {
+            guard source.interconnectLookupStatus == .found,
+                  let location = source.physicalInterconnectLocation,
+                  !location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                  !location.contains("\0") else {
+                let reason: String
+                switch source.interconnectLookupStatus {
+                case .missingProperty: reason = "nvme_interconnect_property_missing"
+                case .lookupFailed: reason = "nvme_interconnect_lookup_failed"
+                case .found, nil: reason = "nvme_interconnect_facts_missing_or_invalid"
+                }
+                unavailable.append(optionalFailure(
+                    kind: .ssd, provider: .nvme, rawKey: source.rawKey, registryID: source.registryID,
+                    capability: .mappingUnknown, reason: reason
+                ))
+                return
+            }
+            guard let registryID = source.registryID, !registryID.isEmpty else {
+                unavailable.append(optionalFailure(
+                    kind: .ssd, provider: .nvme, rawKey: source.rawKey,
+                    capability: .mappingUnknown, reason: "nvme_registry_identity_missing"
+                ))
+                return
+            }
+            candidates.append(NVMeDiscoveryCandidate(
+                registryID: registryID, interconnectLocation: location, lookupStatus: .ok
+            ))
+        }
+        switch Registry.selectInternalNVMe(candidates: candidates) {
+        case .unavailable(let record):
+            unavailable.append(record)
+        case .selected(let selected):
+            let matching = discovered.filter { $0.registryID == selected.registryID }
+            guard matching.count == 1, let source = matching.first,
+                  !source.transportHandle.isEmpty,
+                  catalog.sources.filter({ $0.transportHandle == source.transportHandle }).count == 1 else {
+                unavailable.append(optionalFailure(
+                    kind: .ssd, provider: .nvme, rawKey: "TEMPERATURE", registryID: selected.registryID,
+                    capability: .mappingUnknown, reason: "nvme_registry_identity_conflicting"
+                ))
+                return
+            }
+            guard source.encoding == "uint16_le_kelvin", source.byteCount == 2 else {
+                unavailable.append(optionalFailure(
+                    kind: .ssd, provider: .nvme, rawKey: source.rawKey, registryID: source.registryID,
+                    capability: .unsupported, reason: "nvme_encoding_or_length_mismatch"
+                ))
+                return
+            }
+            available.append(optionalSource(
+                source, kind: .ssd, generation: catalog.generation,
+                unitEvidence: "macOS NVMeSMARTData TEMPERATURE: uint16 little-endian Kelvin; zero is not reported; unique Internal device composite"
+            ))
+        }
+    }
+
+    private func optionalSource(
+        _ discovered: DiscoveredSource,
+        kind: SensorKind,
+        generation: UInt64,
+        unitEvidence: String
+    ) -> QualifiedSource {
+        let identity = "\(mappingVersion)/\(discovered.registryID ?? discovered.transportHandle)/\(discovered.rawKey)"
+        return QualifiedSource(
+            sourceID: SourceID(ConnectionIdentity.uuid(
+                role: "source.\(discovered.provider.rawValue).\(kind.rawValue)",
+                generation: generation, identity: identity
+            )),
+            transportHandle: discovered.transportHandle,
+            provider: discovered.provider,
+            rawKey: discovered.rawKey,
+            registryID: discovered.registryID,
+            connectionGeneration: generation,
+            kind: kind,
+            encoding: discovered.encoding,
+            unitEvidence: unitEvidence,
+            evidence: .referenceClassified,
+            mappingVersion: mappingVersion
+        )
+    }
+
+    private func optionalFailure(
+        kind: SensorKind,
+        provider: ProviderKind,
+        rawKey: String?,
+        registryID: String? = nil,
+        capability: Capability,
+        reason: String
+    ) -> SourceCapabilityRecord {
+        SourceCapabilityRecord(
+            provider: provider, rawKey: rawKey, registryID: registryID,
+            intendedKind: kind, capability: capability, reason: reason
+        )
     }
 
     private func recordHIDDiagnostics(
@@ -302,8 +470,11 @@ public struct ProfileRegistry: SourceRegistry {
         }
     }
 
-    private func cpuSourceID(keyIndex: Int) throws -> SourceID {
-        try SourceID(validating: String(format: "00000000-0000-4000-8000-%012d", keyIndex + 1))
+    private func cpuSourceID(keyIndex: Int, generation: UInt64) throws -> SourceID {
+        if generation == 1 {
+            return try SourceID(validating: String(format: "00000000-0000-4000-8000-%012d", keyIndex + 1))
+        }
+        return SourceID(ConnectionIdentity.uuid(role: "source.smc.cpu", generation: generation, identity: "\(mappingVersion)/\(profile.cpuKeys[keyIndex])"))
     }
 
     public func sourceID(forRegistryID registryID: String) throws -> SourceID {

@@ -1,0 +1,32 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Compiling SensorRuntimeTests SessionClockRegressionTests.swift
+[4/6] Emitting module SensorRuntimeTests
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (0.94s)
+Test Suite 'Selected tests' started at 2026-10-02 17:14:06.809.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 17:14:06.810.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 17:14:06.810.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 17:14:06.810.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite SessionClockRegressionTests started.
+◇ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() started.
+✘ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() recorded an issue at SessionClockRegressionTests.swift:19:13: Expectation failed: (reading.started.elapsedNS → 262056250) >= (before → 889014333)
+✘ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() recorded an issue at SessionClockRegressionTests.swift:19:13: Expectation failed: (reading.started.elapsedNS → 209928958) >= (before → 1167227625)
+✘ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() recorded an issue at SessionClockRegressionTests.swift:21:13: Expectation failed: (reading.finished.elapsedNS → 209929916) > (previous → 262057541)
+✘ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() failed after 1.224 seconds with 3 issues.
+◇ Test malformedOrFutureParentOriginRejectsWorkerStartup() started.
+✘ Test malformedOrFutureParentOriginRejectsWorkerStartup() recorded an issue at SessionClockRegressionTests.swift:32:66: Issue recorded
+↳ worker accepted invalid parent clock
+✘ Test malformedOrFutureParentOriginRejectsWorkerStartup() recorded an issue at SessionClockRegressionTests.swift:32:66: Issue recorded
+↳ worker accepted invalid parent clock
+✘ Test malformedOrFutureParentOriginRejectsWorkerStartup() failed after 0.600 seconds with 2 issues.
+✘ Suite SessionClockRegressionTests failed after 1.825 seconds with 5 issues.
+✘ Test run with 2 tests in 1 suite failed after 1.825 seconds with 5 issues.

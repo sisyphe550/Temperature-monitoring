@@ -1,0 +1,107 @@
+{
+  "tests": [
+    {
+      "test": "testLocalReleaseAppRealHardwareUI()",
+      "status": "Success",
+      "duration": "84.79963397979736"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Release-status-item-accessibility-and-scope",
+      "type": "public.plain-text",
+      "file": "01-Release-status-item-accessibility-and-scope.txt",
+      "bytes": 134,
+      "original_file": "01-Release-status-item-accessibility-and-scope.txt",
+      "sha256": "65d9629c5e093093aef4400e565ccc412420dc8a60293d47988434958aeeacf1"
+    },
+    {
+      "name": "Release-production-startup-dashboard",
+      "type": "public.png",
+      "file": "02-Release-production-startup-dashboard.png",
+      "bytes": 276281,
+      "original_file": "02-Release-production-startup-dashboard.png",
+      "sha256": "94c1fa4de93af387b1a687a5851528e1a0925061c1135b876ccc899424d20909"
+    },
+    {
+      "name": "Release-optional-source-states",
+      "type": "public.png",
+      "file": "03-Release-optional-source-states.png",
+      "bytes": 301293,
+      "original_file": "03-Release-optional-source-states.png",
+      "sha256": "75d6e0382aca1a57dd7cda9de772340db39afbc4a734e8ecc443894e0d7ab27d"
+    },
+    {
+      "name": "Release-CPU-50ms-after-8s",
+      "type": "public.png",
+      "file": "04-Release-CPU-50ms-after-8s.png",
+      "bytes": 294081,
+      "original_file": "04-Release-CPU-50ms-after-8s.png",
+      "sha256": "fff906a11e90f401d3da8a170178860fde4ba773627a1a01cdf02e3f0a1a2bf3"
+    },
+    {
+      "name": "Release-CPU-100ms-after-8s",
+      "type": "public.png",
+      "file": "05-Release-CPU-100ms-after-8s.png",
+      "bytes": 297232,
+      "original_file": "05-Release-CPU-100ms-after-8s.png",
+      "sha256": "ef001b1b400e45ad93fae8a6a9dee5047b61733764a9cc268ebbbdbb2925582e"
+    },
+    {
+      "name": "Release-CPU-200ms-after-8s",
+      "type": "public.png",
+      "file": "06-Release-CPU-200ms-after-8s.png",
+      "bytes": 295022,
+      "original_file": "06-Release-CPU-200ms-after-8s.png",
+      "sha256": "56156676af309a6828ff3dee7087a7a73faf2e81e2e36a34b345939247bbec01"
+    },
+    {
+      "name": "Release-CPU-500ms-after-8s",
+      "type": "public.png",
+      "file": "07-Release-CPU-500ms-after-8s.png",
+      "bytes": 293416,
+      "original_file": "07-Release-CPU-500ms-after-8s.png",
+      "sha256": "5e87934a4b9bf9765e2722122f2edd61417c5d9bedc30fe0c0d7fb7b6b5a78fc"
+    },
+    {
+      "name": "Release-CPU-1000ms-after-8s",
+      "type": "public.png",
+      "file": "08-Release-CPU-1000ms-after-8s.png",
+      "bytes": 295111,
+      "original_file": "08-Release-CPU-1000ms-after-8s.png",
+      "sha256": "6986a42f472b48553780446ccd8093e2a0a521c7312a4b9b4e57aa618c093a03"
+    },
+    {
+      "name": "Release-history-5 分钟",
+      "type": "public.png",
+      "file": "09-Release-history-5min.png",
+      "bytes": 296906,
+      "original_file": "09-Release-history-5 分钟.png",
+      "sha256": "c2cb9596ec931f5f342dca6f8c5c2e65e08c2e5ca4648ad03c97e88af2b69ee5"
+    },
+    {
+      "name": "Release-history-1 小时",
+      "type": "public.png",
+      "file": "10-Release-history-1hour.png",
+      "bytes": 296908,
+      "original_file": "10-Release-history-1 小时.png",
+      "sha256": "269db230e2aee17a2aa26a05cec2d6cd744c137628436e0b760143676baea8d2"
+    },
+    {
+      "name": "Release-reopened-same-session",
+      "type": "public.png",
+      "file": "11-Release-reopened-same-session.png",
+      "bytes": 301035,
+      "original_file": "11-Release-reopened-same-session.png",
+      "sha256": "b2369bc467e11f913da478dbe12f72378247eb3f0252cf54a9f3c129c30c7494"
+    },
+    {
+      "name": "Release-real-hardware-short-acceptance",
+      "type": "public.plain-text",
+      "file": "12-Release-real-hardware-short-acceptance.txt",
+      "bytes": 1758,
+      "original_file": "12-Release-real-hardware-short-acceptance.txt",
+      "sha256": "9c7a276c7969c9240340fc81518985918213447201925647321969bd3aa022dd"
+    }
+  ]
+}

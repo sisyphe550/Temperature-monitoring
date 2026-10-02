@@ -1,0 +1,27 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Emitting module TemperatureCoreTests
+[4/6] Compiling TemperatureCoreTests ProductAuditCommitRegressionTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.12s)
+Test Suite 'Selected tests' started at 2026-10-02 16:17:24.145.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 16:17:24.146.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 16:17:24.146.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 16:17:24.146.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProductAuditCommitRegressionTests started.
+◇ Test failedPersistenceDoesNotAdvanceStateBeforeRetry() started.
+✘ Test failedPersistenceDoesNotAdvanceStateBeforeRetry() recorded an issue at ProductAuditCommitRegressionTests.swift:30:29: Issue recorded
+↳ same-batch retry failed after uncommitted write: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "MonitorEngine", operation: "accept", retryCount: 0, sourceID: nil, underlyingCode: Optional("non_monotonic_elapsed"))
+✘ Test failedPersistenceDoesNotAdvanceStateBeforeRetry() recorded an issue at ProductAuditCommitRegressionTests.swift:31:9: Expectation failed: retryWasAccepted
+✘ Test failedPersistenceDoesNotAdvanceStateBeforeRetry() recorded an issue at ProductAuditCommitRegressionTests.swift:33:9: Expectation failed: (persisted → 0) == 1
+✘ Test failedPersistenceDoesNotAdvanceStateBeforeRetry() failed after 0.003 seconds with 3 issues.
+✘ Suite ProductAuditCommitRegressionTests failed after 0.003 seconds with 3 issues.
+✘ Test run with 1 test in 1 suite failed after 0.004 seconds with 3 issues.

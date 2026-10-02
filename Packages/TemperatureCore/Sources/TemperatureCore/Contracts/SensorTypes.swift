@@ -15,6 +15,12 @@ public enum ProviderKind: String, Codable, Sendable, Equatable {
     case iops
 }
 
+public enum InterconnectLookupStatus: String, Codable, Sendable, Equatable {
+    case found
+    case missingProperty
+    case lookupFailed
+}
+
 public enum EvidenceLevel: String, Codable, Sendable, Equatable {
     case referenceClassified
     case targetQualified
@@ -118,6 +124,8 @@ public struct DiscoveredSource: Codable, Sendable, Equatable {
     public let registryID: String?
     public let encoding: String
     public let byteCount: Int
+    public let physicalInterconnectLocation: String?
+    public let interconnectLookupStatus: InterconnectLookupStatus?
 
     public init(
         transportHandle: String,
@@ -125,7 +133,9 @@ public struct DiscoveredSource: Codable, Sendable, Equatable {
         rawKey: String,
         registryID: String?,
         encoding: String,
-        byteCount: Int
+        byteCount: Int,
+        physicalInterconnectLocation: String? = nil,
+        interconnectLookupStatus: InterconnectLookupStatus? = nil
     ) {
         self.transportHandle = transportHandle
         self.provider = provider
@@ -133,6 +143,8 @@ public struct DiscoveredSource: Codable, Sendable, Equatable {
         self.registryID = registryID
         self.encoding = encoding
         self.byteCount = byteCount
+        self.physicalInterconnectLocation = physicalInterconnectLocation
+        self.interconnectLookupStatus = interconnectLookupStatus
     }
 }
 

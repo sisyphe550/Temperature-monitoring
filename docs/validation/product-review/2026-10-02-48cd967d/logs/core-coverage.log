@@ -1,0 +1,45 @@
+Core line coverage: 5945/6947 = 85.58%
+Scope: Sources/TemperatureCore and Sources/SensorRuntime production Swift.
+Excluded: tests, App UI, C bridge, worker entry, CSQLite.
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/SensorRuntime/ProcessingCoordinator.swift: 164/213
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/SensorRuntime/SamplingService.swift: 274/303
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/SensorRuntime/SeriesCatalogBuilder.swift: 64/64
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/SensorRuntime/SessionMonitorController.swift: 164/222
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/SensorRuntime/WorkerClient.swift: 397/439
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/SensorRuntime/WorkerProtocol.swift: 335/447
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Clock.swift: 50/52
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Configuration.swift: 112/126
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/Identifiers.swift: 48/48
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/PersistenceTypes.swift: 23/23
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/PresentationTypes.swift: 65/65
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/SensorTypes.swift: 139/142
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/DiagnosticLogger.swift: 90/117
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/ErrorCoordinator.swift: 67/87
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/FatalDisplayReceipt.swift: 15/21
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/MonitorFailure.swift: 9/9
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/MonitorShutdown.swift: 9/26
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/ReportWriter.swift: 100/121
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/RetryPolicy.swift: 59/65
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/MetricResolver.swift: 36/38
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/MonitorEngine.swift: 582/650
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/BoundedQueue.swift: 152/189
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/PersistenceBatchMetrics.swift: 19/19
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/SessionPersistence.swift: 475/572
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/StorageWriter.swift: 11/21
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/Aggregation.swift: 268/296
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/CPUMaxDerivation.swift: 61/69
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/EMA.swift: 34/36
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/RingBuffer.swift: 71/79
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/SafeWatermark.swift: 8/8
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/SampleValidation.swift: 8/8
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Processing/Trend.swift: 112/124
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/QualifiedSensorClient.swift: 96/131
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Registry.swift: 216/236
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/SensorDecoding.swift: 28/28
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/SessionLock.swift: 46/48
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Storage/BatchCanonicalHash.swift: 8/8
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Storage/BatchCommit.swift: 556/651
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Storage/HistoryQuery.swift: 270/301
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Storage/Retention.swift: 215/236
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Storage/SQLiteStore.swift: 298/375
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/TemperatureCore/Storage/SessionCleanup.swift: 191/234

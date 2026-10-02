@@ -33,7 +33,12 @@ public struct WorkerClientConfiguration: Sendable, Equatable {
     ) {
         precondition(executableURL.isFileURL, "worker executable must be an absolute file URL")
         self.executableURL = executableURL
-        self.environment = environment
+        var launchEnvironment = environment
+        // Store once in the configuration: reconnecting must keep the same origin.
+        if launchEnvironment["TEMPERATURE_MONITOR_ORIGIN_TICKS"] == nil {
+            launchEnvironment["TEMPERATURE_MONITOR_ORIGIN_TICKS"] = String(MachClockBasis.current().originTicks)
+        }
+        self.environment = launchEnvironment
         self.timeouts = timeouts
     }
 }

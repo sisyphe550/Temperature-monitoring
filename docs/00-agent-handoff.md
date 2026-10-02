@@ -1,12 +1,12 @@
 # Agent实施交接入口
 
-更新：2026-09-21；实施契约v1族，contract revision 2。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
+更新：2026-10-02；实施契约v1族，contract revision 3。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
 
 ## 先读的七份资料
 
 1. [现行需求01](01-requirements.md)：132项现行、2项退役。
 2. [可行性与复用20](20-feasibility-and-reuse.md)：E1实测、E2上游路线、D项目设计及局限。
-3. [实施契约21](21-implementation-contracts.md)：contract revision 2、JSON默认值/profile、Swift类型、SQL schema、第三方来源和逐REQ映射。
+3. [实施契约21](21-implementation-contracts.md)：contract revision 3、JSON默认值/profile、Swift类型、SQL schema、第三方来源和逐REQ映射。
 4. [架构02](02-architecture.md)与[组件08](08-component-design.md)：实时数据路径、worker与模块文件边界。
 5. [工作包计划22](22-agent-implementation-plan.md)：W00～W11的设计、文件、测试和完成条件。
 6. [执行任务23](23-execution-task-breakdown.md)：50个可审查任务、依赖图、接口产出和交接边界。
@@ -29,7 +29,7 @@
 
 C10用户授权清理不合适内容、补齐完整交接；上述产品收敛和工程参数在授权下形成设计基线，不虚构逐参数用户确认。C11用户明确课程不强制数据库往返，优化内存路径已确定。
 
-## 修订2接口边界
+## 修订3接口边界
 
 - SensorTransport只输出`DiscoveredCatalog`底层事实；Registry验证profile、单位、编码、证据和generation后输出`QualifiedSourceCatalog`，只有Qualified来源可进入ReadRequest、算法、存储和UI。
 - `ReadingOutcome`只能是success或failure；失败不得生成0°C、复用旧值或携带温度。
@@ -40,7 +40,7 @@ C10用户授权清理不合适内容、补齐完整交接；上述产品收敛�
 ## 当前仓库实际状态
 
 - 有独立只读原型、8项原型测试、CI及2026-09-15 Mac16,13/15.7.3/24G419证据。
-- 生产Packages/TemperatureCore、App和Xcode工程尚未创建；22里的产品命令用于相应任务完成后执行，不能误报今天已通过。
+- 生产Packages/TemperatureCore、SensorWorker、App和Xcode工程已创建；已按[产品审查修复计划](superpowers/plans/2026-10-02-product-audit-fixes.md)修复#27～#43；[最终代码a97fd5a报告](validation/product-fixes/2026-10-02-a97fd5a/report.md)记录337核心测试、88.61%覆盖、独立审查、16项fixture UI及正式Release本机短测。修复已推送[PR #44](https://github.com/sisyphe550/Temperature-monitoring/pull/44)；[测试同步补充](validation/product-fixes/2026-10-03-651b29e/report.md)记录最新337项回归和88.71%覆盖，生产代码不变，门禁以PR当前head为准，由维护者决定合并。[48cd967d审查](validation/product-review/2026-10-02-48cd967d/report.md)保留原始结论，新修复证据单独归档，不能直接改旧报告。原W11验收PR #26仍基于旧SHA，修复合入后须重新核对其证据。
 - 文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) merge commit 合入 main。`blocking-issues` 实现已由[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 合入；ruleset `main-protection` 已启用。其他独立功能从最新 main 起分支。
 - 既有原型/原始CSV/历史报告不能因产品范围调整而修改；新实测写新目录并记录源码SHA。
 
@@ -66,7 +66,9 @@ swift --version
 
 ## 完成的两种状态
 
-**本地完整App完成：** 132项适用功能及流程按10/22完成，菜单栏/窗口/真实来源/SQLite/故障生命周期可运行，目标Air通过五档与长期验证，输出可复核App与报告；正式签名相关项明确等待外部输入时不能标整项目发布完成。
+**本地完整App完成：** 132项适用功能及流程按10/22完成，菜单栏/窗口/真实来源/SQLite/故障生命周期可运行，目标Air通过本轮适用五档与生命周期验证，输出可复核App与报告；正式签名相关项明确等待外部输入时不能标整项目发布完成。
+
+本轮仅本机使用，用户已豁免72/73h耐久、公证、公开发行及跨机型认证。72h历史保留和容量软件规则仍适用；未执行的物理睡眠或长期试验如实标注。完整Xcode 26.3已具备，main-protection已实查启用。
 
 **正式交付完成：** 上述条件＋Developer ID/公证＋最终包复测＋所有适用发布要求通过，维护者完成PR合并及分发决策。
 

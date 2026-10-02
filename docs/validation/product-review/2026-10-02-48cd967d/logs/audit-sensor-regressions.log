@@ -1,0 +1,29 @@
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Compiling TemperatureCoreTests ProductAuditSensorRegressionTests.swift
+[4/6] Emitting module TemperatureCoreTests
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.10s)
+Test Suite 'Selected tests' started at 2026-10-02 16:13:46.393.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 16:13:46.394.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 16:13:46.394.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 16:13:46.394.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProductAuditSensorRegressionTests started.
+◇ Test missingOneRequiredCPUMemberStopsStartup() started.
+✘ Test missingOneRequiredCPUMemberStopsStartup() recorded an issue at ProductAuditSensorRegressionTests.swift:26:9: Expectation failed: startupWasRejected
+✘ Test missingOneRequiredCPUMemberStopsStartup() failed after 0.019 seconds with 1 issue.
+◇ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() started.
+✘ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() recorded an issue at ProductAuditSensorRegressionTests.swift:51:9: Expectation failed: (actualTransportReads → 1) > 1
+✘ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() recorded an issue at ProductAuditSensorRegressionTests.swift:52:9: Expectation failed: (rawCount → 0) > 0
+✘ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() failed after 0.256 seconds with 2 issues.
+✘ Suite ProductAuditSensorRegressionTests failed after 0.275 seconds with 3 issues.
+↳ // Audit-only: correct expectations against the production controller, using
+↳ // deterministic hardware facts and a recoverable transport fault.
+✘ Test run with 2 tests in 1 suite failed after 0.276 seconds with 3 issues.

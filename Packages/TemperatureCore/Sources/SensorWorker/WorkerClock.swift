@@ -5,8 +5,13 @@ import TemperatureCore
 struct WorkerClock {
     private let basis: MachClockBasis
 
-    init() {
-        basis = MachClockBasis.current()
+    init() throws {
+        let native = MachClockBasis.current()
+        guard let raw = ProcessInfo.processInfo.environment["TEMPERATURE_MONITOR_ORIGIN_TICKS"],
+              let origin = UInt64(raw), origin <= native.originTicks else {
+            throw WorkerClockError.invalidParentOrigin
+        }
+        basis = MachClockBasis(originTicks: origin, numer: native.numer, denom: native.denom)
     }
 
     func timestamp() -> Timestamp {
@@ -17,3 +22,5 @@ struct WorkerClock {
         return Timestamp(elapsedNS: elapsed, wallUnixNS: wall)
     }
 }
+
+enum WorkerClockError: Error { case invalidParentOrigin }

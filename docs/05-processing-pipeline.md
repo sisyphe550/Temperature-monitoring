@@ -1,6 +1,6 @@
 # 校验、EMA、Raw聚合与趋势契约
 
-更新：2026-09-21；contract revision 2。以下参数是实现选择，不是传感器精度或实测性能结论。机器可读值见[defaults-v1.json](contracts/defaults-v1.json)。
+更新：2026-10-02；contract revision 3。以下参数是实现选择，不是传感器精度或实测性能结论。机器可读值见[defaults-v1.json](contracts/defaults-v1.json)。
 
 ## 输入与顺序
 

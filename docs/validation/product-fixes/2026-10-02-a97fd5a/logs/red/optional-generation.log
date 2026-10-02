@@ -1,0 +1,27 @@
+warning: /Users/sisyphus/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/sisyphus/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Emitting module TemperatureCoreTests
+[4/5] Compiling TemperatureCoreTests OptionalGenerationRecoveryRegressionTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.50s)
+Test Suite 'Selected tests' started at 2026-10-02 22:05:41.013.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 22:05:41.014.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 22:05:41.014.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 22:05:41.014.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite OptionalGenerationRecoveryRegressionTests started.
+◇ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() started.
+✘ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() recorded an issue at OptionalGenerationRecoveryRegressionTests.swift:47:13: Expectation failed: await snapshots.newSSDIsUnavailable
+↳ Generation 2 SSD must require three new committed reads, rather than inheriting two successes from generation 1
+✘ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() recorded an issue at OptionalGenerationRecoveryRegressionTests.swift:53:13: Expectation failed: await snapshots.newSSDIsUnavailable
+✘ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() failed after 1.072 seconds with 2 issues.
+✘ Suite OptionalGenerationRecoveryRegressionTests failed after 1.072 seconds with 2 issues.
+✘ Test run with 1 test in 1 suite failed after 1.072 seconds with 2 issues.

@@ -8,7 +8,7 @@
 
 **Tech Stack:** Swift 6、SwiftPM tools 6.0、少量C/IOKit桥接、SwiftUI/AppKit/Charts、系统SQLite3、Swift Testing、XCTest/XCUITest、GitHub Actions。
 
-**Spec:** [01现行需求](01-requirements.md)、[02～13专项设计](02-architecture.md)、[21实施契约](21-implementation-contracts.md)、[22工作包计划](22-agent-implementation-plan.md)。实现只接受contract revision 2；实际导入来源见[third-party-v1.json](contracts/third-party-v1.json)，机器可读依赖图见[tasks-v1.json](contracts/tasks-v1.json)。
+**Spec:** [01现行需求](01-requirements.md)、[02～13专项设计](02-architecture.md)、[21实施契约](21-implementation-contracts.md)、[22工作包计划](22-agent-implementation-plan.md)。实现只接受contract revision 3；实际导入来源见[third-party-v1.json](contracts/third-party-v1.json)，机器可读依赖图见[tasks-v1.json](contracts/tasks-v1.json)。
 
 ## Global Constraints
 
@@ -97,8 +97,8 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T01.1 SwiftPM骨架 | T00.5 | `Package.swift`、`Contracts/{Identifiers,SensorTypes,PersistenceTypes,PresentationTypes}.swift`空壳、`ContractTests.swift` | 创建Swift 6 package；先写修订2类型编译/旧token缺失门禁，独立测试模块必须能import库 | 测试先因强类型UUID、ReadingOutcome、Lease/Receipt、PresentationState缺失失败 | 提供后续可编译容器；`build: scaffold temperature core package` |
-| - [ ] T01.2 类型与配置加载 | T01.1 | Contracts四文件、`Configuration.swift`、defaults/profile资源、`ConfigurationTests.swift` | 实现UUID强类型、封闭枚举、互斥读取/展示状态及能力协议；只接受contract_version 2 | 覆盖非法/非规范UUID、未知枚举、成功/失败互斥、版本1/缺字段/重复键和旧token不存在 | W02～W07只依赖修订2类型；`feat: add runtime contracts and configuration` |
+| - [ ] T01.1 SwiftPM骨架 | T00.5 | `Package.swift`、`Contracts/{Identifiers,SensorTypes,PersistenceTypes,PresentationTypes}.swift`空壳、`ContractTests.swift` | 创建Swift 6 package；先写修订3类型编译/旧token缺失门禁，独立测试模块必须能import库 | 测试先因强类型UUID、ReadingOutcome、Lease/Receipt、PresentationState缺失失败 | 提供后续可编译容器；`build: scaffold temperature core package` |
+| - [ ] T01.2 类型与配置加载 | T01.1 | Contracts四文件、`Configuration.swift`、defaults/profile资源、`ConfigurationTests.swift` | 实现UUID强类型、封闭枚举、互斥读取/展示状态及能力协议；只接受contract_version 3 | 覆盖非法/非规范UUID、未知枚举、成功/失败互斥、版本1/缺字段/重复键和旧token不存在 | W02～W07只依赖修订3类型；`feat: add runtime contracts and configuration` |
 | - [ ] T01.3 系统与测试时钟 | T01.2 | `Clock.swift`、`TestSupport/TestClock.swift`、`ClockTests.swift` | `mach_continuous_time`相对父会话基准；整数安全换算；ContinuousClock只睡眠；TestClock支持取消 | `swift test ... --filter ClockTests`覆盖墙钟回拨、并发sleep、取消和纳秒大整数 | 输出跨进程共享基准结构；`feat: add continuous session clock` |
 | - [ ] T01.4 核心CI与覆盖基线 | T01.3 | `scripts/check-core-coverage.py`、`.github/workflows/core.yml`、W01报告 | 分母固定Core+SensorRuntime业务Swift，排除测试/UI/C薄桥/worker入口；无匹配测试失败 | 全套`swift test --enable-code-coverage`及人为低于80%的失败fixture | 产生真实`core-tests`检查；`ci: add core test and coverage gate` |
 
@@ -165,7 +165,7 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T08.1 生产依赖装配与许可资源 | T07.5 | App入口、`App/Resources/{defaults-v1.json,first-profile-v1.json,third-party-v1.json,Info.plist,ThirdPartyNotices.md}` | 唯一SessionCoordinator；修订2资源逐字匹配；copied/modified逐路径生成notice；R04/R07仅method-only | 资源/许可hash、缺登记/notice、Bundle target、依赖图、Release无fixture/fallback | T08.2取得当前源码App target；`feat: assemble audited production app` |
+| - [ ] T08.1 生产依赖装配与许可资源 | T07.5 | App入口、`App/Resources/{defaults-v1.json,first-profile-v1.json,third-party-v1.json,Info.plist,ThirdPartyNotices.md}` | 唯一SessionCoordinator；修订3资源逐字匹配；copied/modified逐路径生成notice；R04/R07仅method-only | 资源/许可hash、缺登记/notice、Bundle target、依赖图、Release无fixture/fallback | T08.2取得当前源码App target；`feat: assemble audited production app` |
 | - [ ] T08.2 worker嵌入与本地包 | T08.1/T02.6 | `scripts/build-app.sh`、`TemperatureMonitor.xcodeproj/project.pbxproj` | set-euo；固定DerivedData；嵌入同构建worker；先worker后App ad-hoc签名；拒绝旧产物 | 删除worker/资源/完整Xcode/新产物分别失败；codesign verify | 输出`build/TemperatureMonitor.app`；`build: package local temperature monitor app` |
 | - [ ] T08.3 E2E、上游边界与app-build CI | T08.2 | `EndToEndTests.swift`、`.github/workflows/app.yml`、W08报告 | raw→qualified 12源全链、DB BUSY/背压/Gap/退出清理；CI记录完整Xcode/Swift/SDK | Core/coverage/build/XCUITest；TC-UPSTREAM-BOUNDARY；Release扫描无写SMC/root/helper/CLI/fixture；未登记复制夹具失败 | W09只测试该App SHA；`ci: verify production app boundaries` |
 
@@ -205,6 +205,6 @@ flowchart LR
 
 ## 当前状态
 
-本文只完成任务拆分，没有实现T00.1以后的产品任务。当前生产App仍未创建；已有证据状态以00和2026-09-18交接验证记录为准。
+本文保留原50项任务及DAG用于追踪。生产App和产品任务已实现，当前按2026-10-02产品审查修复计划处理#27～#39并重新验收；当前状态以00和新日期/提交证据为准，2026-09-18记录保持历史。
 
 本次拆分的一致性、依赖图和命令结果见[2026-09-19任务拆分验证](research/2026-09-19-task-breakdown-validation.md)。

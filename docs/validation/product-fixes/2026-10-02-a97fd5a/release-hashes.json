@@ -1,0 +1,10 @@
+{
+  "code_sha": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+  "files": {
+    "Contents/MacOS/TemperatureMonitor": "f1ae783663557fdf7da346f78f8d632748937c1bf239051a003c982ee683d95b",
+    "Contents/MacOS/SensorWorker": "5e546ae7f7ba0d5f9d890fa662cd5f3f727ac71133d6c4e71eab6209bf7590ac",
+    "Contents/Resources/defaults-v1.json": "70abeabf49f423a5956c7bf1025db57f531bb7ce2b1437ea218a05d0be5b83c5",
+    "Contents/Resources/first-profile-v1.json": "39e444d22ab6d51a7bc6768e0cbcdef02cb992a21e069e08f709ded69864c108",
+    "Contents/Resources/third-party-v1.json": "a770f3cc42e991825c295ae33ea66ecbc7c352f9ced91391a27c097abe2c2cb9"
+  }
+}

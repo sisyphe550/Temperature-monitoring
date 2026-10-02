@@ -1,27 +1,43 @@
 import Foundation
+import CryptoKit
 
 public actor MonitorEngine: ProcessingEngine {
     private struct ProcessedRequest: Equatable {
         let fingerprint: String
         let receipt: ProcessingReceipt
+        let lease: PersistenceLease
+        let finishedElapsedNS: Int64
     }
 
     private struct SeriesState {
         var segment: Int64
         var lastElapsedNS: Int64
+        var lastPeriodMS: Int? = nil
+        var minimumElapsedNS: Int64 = 0
+    }
+
+    private struct GapChanges {
+        var open: [SeriesID: GapID]
+        var starts: [SeriesID: Int64]
+        var active: Set<GapID>
+        var history: [GapID: Gap]
+        var writes: [GapID: Gap] = [:]
+        var segments: [Segment] = []
     }
 
     private let clock: MonitorClock
     private let commit: PersistenceCommitCapability
     private let sessionID: SessionID
     private let configuration: RuntimeConfiguration
-    private let sourceToSeries: [SourceID: SeriesDefinition]
-    private let maximumDefinitions: [SeriesDefinition]
+    private var sourceToSeries: [SourceID: SeriesDefinition]
+    private var maximumDefinitions: [SeriesDefinition]
     private let emaProcessor: EMAProcessor
     private let cpuMaxDerivation: CPUMaxDerivation
     private let trendCalculator: TrendCalculator
     private var aggregation: AggregationEngine
     private var buffers: RingBufferStore
+    private var archivedEMABySeries: [SeriesID: [EMAValue]] = [:]
+    private var capabilityValues: [LatestValue]
     private var seriesDefinitions: [SeriesID: SeriesDefinition]
     private var seriesState: [SeriesID: SeriesState]
     private var lastEMABySeries: [SeriesID: EMAValue] = [:]
@@ -30,16 +46,24 @@ public actor MonitorEngine: ProcessingEngine {
     private var openGapBySeries: [SeriesID: GapID] = [:]
     private var openGapStartedElapsedNSBySeries: [SeriesID: Int64] = [:]
     private var activeGapIDs: Set<GapID> = []
-    private var nextLifecycleOrdinal: Int64 = 1
-    private let qualifiedSources: [QualifiedSource]
-    private let sessionStartedAt: Timestamp
+    private var historyGaps: [GapID: Gap] = [:]
+    private var optionalAvailabilityFailures: [SensorKind: MonitorFailure] = [:]
+    private var qualifiedSources: [QualifiedSource]
+    private var sessionStartedAt: Timestamp
     private var initialMetadataCommitted = false
+    private var initialSegmentReason: SegmentReason = .sessionStart
     private var acceptedGeneration: UInt64 = 0
     private var nextSampleSequence: Int64 = 1
-    private var deliveredSampleIDs: Set<String> = []
     private var processedRequests: [RequestID: ProcessedRequest] = [:]
+    private var processedRequestOrder: [RequestID] = []
+    private var processedRequestHead = 0
+    private var expiredRequestThroughElapsedNS: Int64 = -1
     private var snapshotGeneration: UInt64 = 0
     private var cpuPeriodMS: Int
+    // An actor is reentrant across commit(). Serialize state-changing events
+    // while allowing snapshots and in-flight IO registration to proceed.
+    private var mutationInProgress = false
+    private var mutationWaiters: [CheckedContinuation<Void, Never>] = []
 
     public init(
         clock: MonitorClock,
@@ -49,9 +73,11 @@ public actor MonitorEngine: ProcessingEngine {
         definitions: [SeriesDefinition],
         cpuPeriodMS: Int,
         qualifiedSources: [QualifiedSource] = [],
-        sessionStartedAt: Timestamp? = nil
+        sessionStartedAt: Timestamp? = nil,
+        capabilityValues: [LatestValue] = []
     ) {
         self.clock = clock
+        self.capabilityValues = capabilityValues
         self.commit = commit
         sessionID = session.sessionID
         self.configuration = configuration
@@ -89,7 +115,10 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func accept(_ batch: ReadBatch, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateLease(lease, for: batch)
+        pruneReplayCache(nowElapsedNS: clock.now().elapsedNS)
         if let processed = processedRequests[batch.requestID] {
             let fingerprint = Self.fingerprint(for: batch)
             guard processed.fingerprint == fingerprint else {
@@ -99,9 +128,15 @@ public actor MonitorEngine: ProcessingEngine {
                     underlyingCode: "request_content_mismatch"
                 )
             }
+            guard processed.lease == lease else {
+                throw Self.failure(code: .databaseIntegrity, operation: "accept", underlyingCode: "lease_replay_mismatch")
+            }
             return processed.receipt
         }
 
+        if let finished = batch.readings.map(\.finished.elapsedNS).max(), finished <= expiredRequestThroughElapsedNS {
+            throw Self.failure(code: .processingValidate, operation: "accept", underlyingCode: "expired_request")
+        }
         guard batch.generation >= acceptedGeneration else {
             throw Self.failure(
                 code: .processingValidate,
@@ -109,18 +144,29 @@ public actor MonitorEngine: ProcessingEngine {
                 underlyingCode: "stale_generation"
             )
         }
-        acceptedGeneration = max(acceptedGeneration, batch.generation)
+        var stagedSeriesState = seriesState
+        var stagedSequence = nextSampleSequence
+        var stagedSuccessfulAt = lastSuccessfulAtBySeries
+        var stagedFailures = lastFailureBySeries
+        var stagedEMA = lastEMABySeries
+        var stagedGaps = currentGapChanges()
 
         let now = clock.now()
         var rawSamples: [Sample] = []
         var emaSamples: [EMAValue] = []
         var batchMemberSamples: [SourceID: Sample] = [:]
         for reading in batch.readings {
+            guard let definition = sourceToSeries[reading.sourceID], definition.formula == .identity else {
+                throw Self.failure(code: .processingValidate, operation: "accept", underlyingCode: "unknown_source")
+            }
             switch reading.outcome {
             case let .failure(failure):
-                if let definition = sourceToSeries[reading.sourceID] {
-                    lastFailureBySeries[definition.seriesID] = failure
-                }
+                let state = stagedSeriesState[definition.seriesID]
+                guard reading.finished.elapsedNS >= (state?.lastElapsedNS ?? Int64.min),
+                      reading.finished.elapsedNS >= (state?.minimumElapsedNS ?? 0) else { continue }
+                stagedFailures[definition.seriesID] = failure
+                stageFailureGap(seriesID: definition.seriesID, atElapsedNS: reading.started.elapsedNS,
+                    reason: failure.code == .sensorTimeout ? .timeout : .readFailure, changes: &stagedGaps)
                 continue
             case let .success(valueC, sourceWallUnixNS, freshness):
                 do {
@@ -132,16 +178,9 @@ public actor MonitorEngine: ProcessingEngine {
                         underlyingCode: "invalid_temperature"
                     )
                 }
-                guard let definition = sourceToSeries[reading.sourceID], definition.formula == .identity else {
-                    throw Self.failure(
-                        code: .processingValidate,
-                        operation: "accept",
-                        underlyingCode: "unknown_source"
-                    )
-                }
                 let elapsedNS = reading.finished.elapsedNS
-                var state = seriesState[definition.seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
-                if elapsedNS < state.lastElapsedNS {
+                var state = stagedSeriesState[definition.seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
+                if elapsedNS < state.lastElapsedNS || elapsedNS < state.minimumElapsedNS {
                     continue
                 }
                 if elapsedNS == state.lastElapsedNS {
@@ -151,15 +190,10 @@ public actor MonitorEngine: ProcessingEngine {
                         underlyingCode: "non_monotonic_elapsed"
                     )
                 }
-                let sampleID = Self.makeSampleID(sessionID: sessionID, sequence: nextSampleSequence)
-                nextSampleSequence += 1
-                if deliveredSampleIDs.contains(sampleID) {
-                    throw Self.failure(
-                        code: .processingValidate,
-                        operation: "accept",
-                        underlyingCode: "duplicate_sample_id"
-                    )
-                }
+                try stageRecoveryGap(seriesID: definition.seriesID, at: reading.finished,
+                    currentPeriodMS: batch.requestedPeriodMS, state: &state, changes: &stagedGaps)
+                let sampleID = Self.makeSampleID(sessionID: sessionID, sequence: stagedSequence)
+                stagedSequence += 1
                 let sample = Sample(
                     sampleID: sampleID,
                     seriesID: definition.seriesID,
@@ -173,32 +207,49 @@ public actor MonitorEngine: ProcessingEngine {
                 )
                 rawSamples.append(sample)
                 batchMemberSamples[reading.sourceID] = sample
-                let ema = try computeEMA(for: sample, kind: definition.kind)
+                let ema = try computeEMA(for: sample, kind: definition.kind, previous: stagedEMA[sample.seriesID])
                 emaSamples.append(ema)
-                lastSuccessfulAtBySeries[definition.seriesID] = reading.finished
-                lastFailureBySeries.removeValue(forKey: definition.seriesID)
+                stagedEMA[sample.seriesID] = ema
+                stagedSuccessfulAt[definition.seriesID] = reading.finished
+                stagedFailures.removeValue(forKey: definition.seriesID)
                 state.lastElapsedNS = elapsedNS
-                seriesState[definition.seriesID] = state
+                state.lastPeriodMS = batch.requestedPeriodMS
+                stagedSeriesState[definition.seriesID] = state
             }
         }
 
-        for maximumDefinition in maximumDefinitions {
-            let segment = seriesState[maximumDefinition.seriesID]?.segment ?? 1
-            if let derived = cpuMaxDerivation.derive(
-                definition: maximumDefinition,
-                memberSamples: batchMemberSamples,
-                readings: batch.readings,
-                sessionID: sessionID,
-                sampleSequence: &nextSampleSequence,
-                segment: segment,
-                periodMS: cpuPeriodMS
-            ) {
+        for definition in maximumDefinitions {
+            let memberReadings = batch.readings.filter { definition.memberSourceIDs.contains($0.sourceID) }
+            guard let latest = memberReadings.map(\.finished).max(by: { $0.elapsedNS < $1.elapsedNS }) else { continue }
+            var state = stagedSeriesState[definition.seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
+            guard latest.elapsedNS >= state.lastElapsedNS, latest.elapsedNS >= state.minimumElapsedNS else { continue }
+            if cpuMaxDerivation.canDerive(definition: definition, memberSamples: batchMemberSamples, readings: batch.readings) {
+                guard latest.elapsedNS != state.lastElapsedNS else {
+                    throw Self.failure(code: .processingValidate, operation: "accept", underlyingCode: "non_monotonic_elapsed")
+                }
+                try stageRecoveryGap(seriesID: definition.seriesID, at: latest,
+                    currentPeriodMS: batch.requestedPeriodMS, state: &state, changes: &stagedGaps)
+                guard let derived = cpuMaxDerivation.derive(definition: definition, memberSamples: batchMemberSamples,
+                    readings: batch.readings, sessionID: sessionID, sampleSequence: &stagedSequence,
+                    segment: state.segment, periodMS: batch.requestedPeriodMS) else { continue }
                 rawSamples.append(derived)
-                let ema = try computeEMA(for: derived, kind: maximumDefinition.kind)
+                let ema = try computeEMA(for: derived, kind: definition.kind, previous: stagedEMA[definition.seriesID])
                 emaSamples.append(ema)
-                var state = seriesState[maximumDefinition.seriesID] ?? SeriesState(segment: segment, lastElapsedNS: Int64.min)
+                stagedEMA[definition.seriesID] = ema
                 state.lastElapsedNS = derived.timestamp.elapsedNS
-                seriesState[maximumDefinition.seriesID] = state
+                state.lastPeriodMS = batch.requestedPeriodMS
+                stagedSeriesState[definition.seriesID] = state
+                stagedSuccessfulAt[definition.seriesID] = derived.timestamp
+                stagedFailures.removeValue(forKey: definition.seriesID)
+            } else {
+                let failure = memberReadings.compactMap { reading -> MonitorFailure? in
+                    if case let .failure(failure) = reading.outcome { return failure }
+                    return nil
+                }.first ?? Self.failure(code: .sensorRead, operation: "cpuMaximum", underlyingCode: "incomplete_cpu_batch")
+                stagedFailures[definition.seriesID] = failure
+                let started = memberReadings.map(\.started.elapsedNS).min() ?? latest.elapsedNS
+                stageFailureGap(seriesID: definition.seriesID, atElapsedNS: started,
+                    reason: failure.code == .sensorTimeout ? .timeout : .readFailure, changes: &stagedGaps)
             }
         }
 
@@ -207,18 +258,25 @@ public actor MonitorEngine: ProcessingEngine {
             ema: emaSamples,
             buckets: [],
             trends: [],
-            gaps: []
+            gaps: Array(stagedGaps.writes.values),
+            segments: stagedGaps.segments
         )
 
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        acceptedGeneration = max(acceptedGeneration, batch.generation)
+        nextSampleSequence = stagedSequence
+        seriesState = stagedSeriesState
+        applyGapChanges(stagedGaps)
+        lastSuccessfulAtBySeries = stagedSuccessfulAt
+        lastFailureBySeries = stagedFailures
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
 
-        let bufferNow = max(now.elapsedNS, rawSamples.map(\.timestamp.elapsedNS).max() ?? now.elapsedNS)
+        let bufferNow = max(now.elapsedNS, batch.readings.map(\.finished.elapsedNS).max() ?? now.elapsedNS)
+        pruneHistoryGaps(nowElapsedNS: bufferNow)
         for sample in rawSamples {
             aggregation.ingest(sample)
             try buffers.appendRaw(sample, nowElapsedNS: bufferNow)
-            deliveredSampleIDs.insert(sample.sampleID)
         }
         for ema in emaSamples {
             try buffers.appendEMA(ema, nowElapsedNS: bufferNow)
@@ -226,11 +284,37 @@ public actor MonitorEngine: ProcessingEngine {
         }
         buffers.prune(nowElapsedNS: bufferNow)
         snapshotGeneration = receipt.snapshotGeneration
+        pruneReplayCache(nowElapsedNS: bufferNow)
+        processedRequestOrder.append(batch.requestID)
         processedRequests[batch.requestID] = ProcessedRequest(
             fingerprint: Self.fingerprint(for: batch),
-            receipt: receipt
+            receipt: receipt,
+            lease: lease,
+            finishedElapsedNS: batch.readings.map(\.finished.elapsedNS).max() ?? bufferNow
         )
         return receipt
+    }
+
+    public func setOptionalAvailability(kind: SensorKind, failure: MonitorFailure?) async {
+        guard kind == .ssd || kind == .battery else { return }
+        if let failure {
+            optionalAvailabilityFailures[kind] = failure
+        } else {
+            optionalAvailabilityFailures.removeValue(forKey: kind)
+        }
+    }
+
+    func historyGapsFor(request: HistoryRequest) -> [Gap] {
+        pruneHistoryGaps(nowElapsedNS: request.asOfElapsedNS)
+        let ids = Set(request.seriesIDs)
+        let lowerBound = request.asOfElapsedNS - request.range.rawValue * 1_000_000_000
+        return historyGaps.values.filter { gap in
+            ids.contains(gap.seriesID) && gap.startedElapsedNS <= request.asOfElapsedNS
+                && (gap.endedElapsedNS == nil || gap.endedElapsedNS! > lowerBound)
+        }.sorted {
+            if $0.startedElapsedNS == $1.startedElapsedNS { return $0.gapID.rawValue < $1.gapID.rawValue }
+            return $0.startedElapsedNS < $1.startedElapsedNS
+        }
     }
 
     public func setCPUPeriod(milliseconds: Int) {
@@ -241,11 +325,36 @@ public actor MonitorEngine: ProcessingEngine {
         Array(seriesDefinitions.keys)
     }
 
-    public func replaceDefinitions(_ definitions: [SeriesDefinition]) {
+    public func replaceDefinitions(_ definitions: [SeriesDefinition], qualifiedSources: [QualifiedSource] = [], capabilityValues: [LatestValue] = []) async {
+        await beginMutation()
+        defer { endMutation() }
+        let now = clock.now().elapsedNS
+        let nextIDs = Set(definitions.map(\.seriesID))
+        for oldID in seriesDefinitions.keys where !nextIDs.contains(oldID) {
+            let samples = buffers.emaSamples(for: oldID, nowElapsedNS: now)
+            if !samples.isEmpty { archivedEMABySeries[oldID] = samples }
+        }
+        pruneArchivedEMA(nowElapsedNS: now)
+        self.capabilityValues = capabilityValues
         seriesDefinitions = Dictionary(uniqueKeysWithValues: definitions.map { ($0.seriesID, $0) })
+        sourceToSeries = Dictionary(uniqueKeysWithValues: definitions.filter { $0.formula == .identity }
+            .flatMap { definition in definition.memberSourceIDs.map { ($0, definition) } })
+        maximumDefinitions = definitions.filter { $0.formula == .maximum }
+        let ids = Set(definitions.map(\.seriesID))
+        buffers.retainSeries(ids)
+        lastEMABySeries = lastEMABySeries.filter { ids.contains($0.key) }
+        lastSuccessfulAtBySeries = lastSuccessfulAtBySeries.filter { ids.contains($0.key) }
+        lastFailureBySeries = lastFailureBySeries.filter { ids.contains($0.key) }
+        seriesState = seriesState.filter { ids.contains($0.key) || openGapBySeries[$0.key] != nil }
         for definition in definitions where seriesState[definition.seriesID] == nil {
             seriesState[definition.seriesID] = SeriesState(segment: 1, lastElapsedNS: Int64.min)
             try? buffers.registerSeries(definition.seriesID)
+        }
+        if !qualifiedSources.isEmpty, self.qualifiedSources != qualifiedSources {
+            self.qualifiedSources = qualifiedSources
+            sessionStartedAt = clock.now()
+            initialMetadataCommitted = false
+            initialSegmentReason = .sourceChange
         }
     }
 
@@ -265,10 +374,18 @@ public actor MonitorEngine: ProcessingEngine {
         }
     }
 
+    public func closeOpenGapsForSourceChange(at timestamp: Timestamp) -> [Gap] {
+        openGapBySeries.compactMap { seriesID, gapID in
+            guard let gap = historyGaps[gapID] else { return nil }
+            return Gap(gapID: gapID, seriesID: seriesID, startedElapsedNS: gap.startedElapsedNS,
+                endedElapsedNS: max(timestamp.elapsedNS, gap.startedElapsedNS), reason: gap.reason)
+        }
+    }
+
     public func closeOpenGapsForWake(at timestamp: Timestamp) throws -> (gaps: [Gap], segments: [Segment]) {
         var gaps: [Gap] = []
         var segments: [Segment] = []
-        for seriesID in trackedSeriesIDs() {
+        for seriesID in openGapBySeries.keys {
             guard let gapID = openGapBySeries[seriesID] else {
                 continue
             }
@@ -279,11 +396,10 @@ public actor MonitorEngine: ProcessingEngine {
                     seriesID: seriesID,
                     startedElapsedNS: startedElapsedNS,
                     endedElapsedNS: timestamp.elapsedNS,
-                    reason: .sleep
+                    reason: historyGaps[gapID]?.reason ?? .sleep
                 )
             )
-            beginSegment(for: seriesID, afterElapsedNS: timestamp.elapsedNS)
-            let segmentNumber = seriesState[seriesID]?.segment ?? 1
+            let segmentNumber = (seriesState[seriesID]?.segment ?? 1) + 1
             segments.append(
                 Segment(
                     seriesID: seriesID,
@@ -301,6 +417,8 @@ public actor MonitorEngine: ProcessingEngine {
         segments: [Segment],
         lease: PersistenceLease
     ) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateLifecycleLease(lease)
         let persistenceBatch = makePersistenceBatch(
             raw: [],
@@ -314,17 +432,15 @@ public actor MonitorEngine: ProcessingEngine {
         try validateReceipt(receipt, for: persistenceBatch)
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
 
-        for gap in gaps {
-            activeGapIDs.insert(gap.gapID)
-            if gap.endedElapsedNS == nil {
-                openGapBySeries[gap.seriesID] = gap.gapID
-                openGapStartedElapsedNSBySeries[gap.seriesID] = gap.startedElapsedNS
-            } else {
-                openGapBySeries.removeValue(forKey: gap.seriesID)
-                openGapStartedElapsedNSBySeries.removeValue(forKey: gap.seriesID)
-                activeGapIDs.remove(gap.gapID)
-            }
+        var gapChanges = currentGapChanges()
+        for gap in gaps { stageCommittedGap(gap, changes: &gapChanges) }
+        applyGapChanges(gapChanges)
+        for segment in segments {
+            seriesState[segment.seriesID] = SeriesState(segment: segment.number, lastElapsedNS: Int64.min,
+                minimumElapsedNS: segment.started.elapsedNS)
+            lastEMABySeries.removeValue(forKey: segment.seriesID)
         }
+        pruneHistoryGaps(nowElapsedNS: clock.now().elapsedNS)
         snapshotGeneration = receipt.snapshotGeneration
         return receipt
     }
@@ -345,6 +461,8 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateWatermarkLease(lease)
         let safeWatermark = safeWatermarkElapsedNS(at: timestamp)
         guard timestamp.elapsedNS <= safeWatermark else {
@@ -354,7 +472,8 @@ public actor MonitorEngine: ProcessingEngine {
                 underlyingCode: "unsafe_watermark"
             )
         }
-        let buckets = aggregation.advance(to: timestamp.elapsedNS)
+        var stagedAggregation = aggregation
+        let buckets = stagedAggregation.advance(to: timestamp.elapsedNS)
         let trends = computeTrends(at: timestamp)
         let persistenceBatch = makePersistenceBatch(
             raw: [],
@@ -365,42 +484,42 @@ public actor MonitorEngine: ProcessingEngine {
         )
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        aggregation.commitWindows(from: stagedAggregation)
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
         snapshotGeneration = receipt.snapshotGeneration
         return receipt
     }
 
     public func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt {
+        await beginMutation()
+        defer { endMutation() }
         try validateGapLease(lease, for: gap)
-
         if gap.endedElapsedNS == nil, openGapBySeries[gap.seriesID] != nil {
-            throw Self.failure(
-                code: .processingValidate,
-                operation: "markGap",
-                underlyingCode: "duplicate_open_gap"
-            )
+            throw Self.failure(code: .processingValidate, operation: "markGap", underlyingCode: "duplicate_open_gap")
         }
-
-        let persistenceBatch = makePersistenceBatch(
-            raw: [],
-            ema: [],
-            buckets: [],
-            trends: [],
-            gaps: [gap]
-        )
+        if let openID = openGapBySeries[gap.seriesID], openID != gap.gapID {
+            throw Self.failure(code: .processingValidate, operation: "markGap", underlyingCode: "gap_id_mismatch")
+        }
+        var segments: [Segment] = []
+        if let ended = gap.endedElapsedNS, historyGaps[gap.gapID]?.endedElapsedNS == nil {
+            let now = clock.now()
+            let started = Timestamp(elapsedNS: ended, wallUnixNS: now.wallUnixNS + (ended - now.elapsedNS))
+            segments = [Segment(seriesID: gap.seriesID, number: (seriesState[gap.seriesID]?.segment ?? 1) + 1,
+                started: started, reason: .gap)]
+        }
+        let persistenceBatch = makePersistenceBatch(raw: [], ema: [], buckets: [], trends: [], gaps: [gap], segments: segments)
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
-
-        activeGapIDs.insert(gap.gapID)
-        if gap.endedElapsedNS == nil {
-            openGapBySeries[gap.seriesID] = gap.gapID
-            openGapStartedElapsedNSBySeries[gap.seriesID] = gap.startedElapsedNS
-        } else {
-            openGapBySeries.removeValue(forKey: gap.seriesID)
-            openGapStartedElapsedNSBySeries.removeValue(forKey: gap.seriesID)
-            beginSegment(for: gap.seriesID, afterElapsedNS: gap.endedElapsedNS ?? timestampFromGap(gap))
+        var gapChanges = currentGapChanges()
+        stageCommittedGap(gap, changes: &gapChanges)
+        applyGapChanges(gapChanges)
+        for segment in segments {
+            seriesState[segment.seriesID] = SeriesState(segment: segment.number, lastElapsedNS: Int64.min,
+                minimumElapsedNS: segment.started.elapsedNS)
+            lastEMABySeries.removeValue(forKey: segment.seriesID)
         }
+        pruneHistoryGaps(nowElapsedNS: clock.now().elapsedNS)
         snapshotGeneration = receipt.snapshotGeneration
         return receipt
     }
@@ -410,6 +529,10 @@ public actor MonitorEngine: ProcessingEngine {
             .sorted { $0.displayName < $1.displayName }
             .map { definition -> LatestValue in
                 let segment = seriesState[definition.seriesID]?.segment ?? 1
+                if let failure = optionalAvailabilityFailures[definition.kind] {
+                    return LatestValue(definition: definition, state: .unavailable(capability: .failed,
+                        reason: "\(failure.code.rawValue): \(failure.underlyingCode ?? failure.operation)"))
+                }
                 if let ema = lastEMABySeries[definition.seriesID], ema.segment == segment {
                     return LatestValue(
                         definition: definition,
@@ -420,11 +543,15 @@ public actor MonitorEngine: ProcessingEngine {
                         )
                     )
                 }
+                if let failure = lastFailureBySeries[definition.seriesID] {
+                    return LatestValue(definition: definition, state: .unavailable(capability: .failed,
+                        reason: "\(failure.code.rawValue): \(failure.underlyingCode ?? failure.operation)"))
+                }
                 return LatestValue(definition: definition, state: .loading)
             }
         return Snapshot(
             asOf: timestamp,
-            values: values,
+            values: values + capabilityValues,
             gapIDs: Array(activeGapIDs),
             cpuPeriodMS: cpuPeriodMS,
             generation: snapshotGeneration
@@ -433,9 +560,11 @@ public actor MonitorEngine: ProcessingEngine {
 
     public func realtime(_ request: HistoryRequest) async -> HistoryResult {
         let now = request.asOfElapsedNS
+        pruneArchivedEMA(nowElapsedNS: now)
         var points: [HistoryPoint] = []
         for seriesID in request.seriesIDs {
-            for ema in buffers.emaSamples(for: seriesID, nowElapsedNS: now) {
+            let samples = buffers.emaSamples(for: seriesID, nowElapsedNS: now) + (archivedEMABySeries[seriesID] ?? [])
+            for ema in samples where ema.timestamp.elapsedNS <= now {
                 points.append(
                     HistoryPoint(
                         seriesID: seriesID,
@@ -453,10 +582,18 @@ public actor MonitorEngine: ProcessingEngine {
         return HistoryResult(
             layer: .ema,
             points: points,
-            gaps: [],
-            availableFromElapsedNS: now - configuration.retentionSeconds.ema * 1_000_000_000,
+            gaps: historyGapsFor(request: request),
+            availableFromElapsedNS: points.map(\.elapsedNS).min(),
             persistedThroughElapsedNS: nil
         )
+    }
+
+    private func pruneArchivedEMA(nowElapsedNS: Int64) {
+        let cutoff = nowElapsedNS - configuration.retentionSeconds.ema * 1_000_000_000
+        archivedEMABySeries = archivedEMABySeries.compactMapValues { samples in
+            let retained = samples.filter { $0.timestamp.elapsedNS > cutoff }
+            return retained.isEmpty ? nil : retained
+        }
     }
 
     func rawSamples(for seriesID: SeriesID, nowElapsedNS: Int64) -> [Sample] {
@@ -469,6 +606,22 @@ public actor MonitorEngine: ProcessingEngine {
 
     func activeSeriesCount() -> Int {
         buffers.activeSeriesCount
+    }
+
+    private func beginMutation() async {
+        if mutationInProgress {
+            await withCheckedContinuation { mutationWaiters.append($0) }
+        } else {
+            mutationInProgress = true
+        }
+    }
+
+    private func endMutation() {
+        if mutationWaiters.isEmpty {
+            mutationInProgress = false
+        } else {
+            mutationWaiters.removeFirst().resume()
+        }
     }
 
     private func makePersistenceBatch(
@@ -494,10 +647,7 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     private func makeLifecycleGapID() throws -> GapID {
-        let ordinal = nextLifecycleOrdinal
-        nextLifecycleOrdinal += 1
-        let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
-        return try GapID(validating: raw)
+        GapID(UUID())
     }
 
     private func validateLifecycleLease(_ lease: PersistenceLease) throws {
@@ -526,7 +676,7 @@ public actor MonitorEngine: ProcessingEngine {
                     seriesID: definition.seriesID,
                     number: 1,
                     started: sessionStartedAt,
-                    reason: .sessionStart
+                    reason: initialSegmentReason
                 )
             }
         )
@@ -555,20 +705,77 @@ public actor MonitorEngine: ProcessingEngine {
         }
     }
 
-    private func beginSegment(for seriesID: SeriesID, afterElapsedNS: Int64) {
-        var state = seriesState[seriesID] ?? SeriesState(segment: 1, lastElapsedNS: Int64.min)
+    private func currentGapChanges() -> GapChanges {
+        GapChanges(open: openGapBySeries, starts: openGapStartedElapsedNSBySeries,
+            active: activeGapIDs, history: historyGaps)
+    }
+
+    private func applyGapChanges(_ changes: GapChanges) {
+        openGapBySeries = changes.open
+        openGapStartedElapsedNSBySeries = changes.starts
+        activeGapIDs = changes.active
+        historyGaps = changes.history
+    }
+
+    private func stageCommittedGap(_ gap: Gap, changes: inout GapChanges) {
+        changes.history[gap.gapID] = gap
+        if gap.endedElapsedNS == nil {
+            changes.open[gap.seriesID] = gap.gapID
+            changes.starts[gap.seriesID] = gap.startedElapsedNS
+            changes.active.insert(gap.gapID)
+        } else {
+            if changes.open[gap.seriesID] == gap.gapID {
+                changes.open.removeValue(forKey: gap.seriesID)
+                changes.starts.removeValue(forKey: gap.seriesID)
+            }
+            changes.active.remove(gap.gapID)
+        }
+    }
+
+    private func stageFailureGap(seriesID: SeriesID, atElapsedNS: Int64, reason: GapReason, changes: inout GapChanges) {
+        guard changes.open[seriesID] == nil else { return }
+        let gap = Gap(gapID: GapID(UUID()), seriesID: seriesID, startedElapsedNS: atElapsedNS,
+            endedElapsedNS: nil, reason: reason)
+        stageCommittedGap(gap, changes: &changes)
+        changes.writes[gap.gapID] = gap
+    }
+
+    private func stageRecoveryGap(seriesID: SeriesID, at timestamp: Timestamp, currentPeriodMS: Int,
+        state: inout SeriesState, changes: inout GapChanges) throws {
+        let gap: Gap
+        let reason: SegmentReason
+        if let gapID = changes.open[seriesID] {
+            let start = changes.starts[seriesID] ?? timestamp.elapsedNS
+            guard timestamp.elapsedNS >= start else {
+                throw Self.failure(code: .processingValidate, operation: "accept", underlyingCode: "recovery_before_gap")
+            }
+            gap = Gap(gapID: gapID, seriesID: seriesID, startedElapsedNS: start,
+                endedElapsedNS: timestamp.elapsedNS, reason: changes.history[gapID]?.reason ?? .readFailure)
+            reason = .recovery
+        } else {
+            guard state.lastElapsedNS != Int64.min, let previousPeriodMS = state.lastPeriodMS,
+                  GapDetector.isTimeoutGap(deltaElapsedNS: timestamp.elapsedNS - state.lastElapsedNS,
+                    previousPeriodMS: previousPeriodMS, currentPeriodMS: currentPeriodMS,
+                    gapPeriodMultiplier: configuration.gapPeriodMultiplier, gapFloorMS: configuration.gapFloorMS) else { return }
+            gap = Gap(gapID: GapID(UUID()), seriesID: seriesID, startedElapsedNS: state.lastElapsedNS,
+                endedElapsedNS: timestamp.elapsedNS, reason: .timeout)
+            reason = .gap
+        }
+        stageCommittedGap(gap, changes: &changes)
+        changes.writes[gap.gapID] = gap
         state.segment += 1
-        state.lastElapsedNS = afterElapsedNS
-        seriesState[seriesID] = state
-        lastEMABySeries.removeValue(forKey: seriesID)
+        state.minimumElapsedNS = timestamp.elapsedNS
+        changes.segments.append(Segment(seriesID: seriesID, number: state.segment, started: timestamp, reason: reason))
     }
 
-    private func timestampFromGap(_ gap: Gap) -> Int64 {
-        gap.endedElapsedNS ?? gap.startedElapsedNS
+    private func pruneHistoryGaps(nowElapsedNS: Int64) {
+        let cutoff = nowElapsedNS - configuration.retentionSeconds.ema * 1_000_000_000
+        historyGaps = historyGaps.filter { _, gap in
+            gap.endedElapsedNS == nil || gap.endedElapsedNS! > cutoff
+        }
     }
 
-    private func computeEMA(for sample: Sample, kind: SensorKind) throws -> EMAValue {
-        let stored = lastEMABySeries[sample.seriesID]
+    private func computeEMA(for sample: Sample, kind: SensorKind, previous stored: EMAValue?) throws -> EMAValue {
         let previous = stored?.segment == sample.segment ? stored : nil
         do {
             return try emaProcessor.nextEMA(raw: sample, previous: previous, kind: kind)
@@ -636,6 +843,24 @@ public actor MonitorEngine: ProcessingEngine {
         }
     }
 
+    private func pruneReplayCache(nowElapsedNS: Int64) {
+        let cutoff = nowElapsedNS - configuration.retentionSeconds.raw * 1_000_000_000
+        while processedRequestHead < processedRequestOrder.count {
+            let id = processedRequestOrder[processedRequestHead]
+            guard let entry = processedRequests[id] else { processedRequestHead += 1; continue }
+            guard entry.finishedElapsedNS <= cutoff || processedRequests.count >= configuration.writerMaxRecords else { break }
+            expiredRequestThroughElapsedNS = max(expiredRequestThroughElapsedNS, entry.finishedElapsedNS)
+            processedRequests.removeValue(forKey: id)
+            processedRequestHead += 1
+        }
+        if processedRequestHead > 1024, processedRequestHead * 2 >= processedRequestOrder.count {
+            processedRequestOrder.removeFirst(processedRequestHead)
+            processedRequestHead = 0
+        }
+    }
+
+    func replayCacheCountForTesting() -> Int { processedRequests.count }
+
     private static func makeSampleID(sessionID: SessionID, sequence: Int64) -> String {
         "\(sessionID.rawValue):\(sequence)"
     }
@@ -646,7 +871,7 @@ public actor MonitorEngine: ProcessingEngine {
         guard let data = try? encoder.encode(batch) else {
             return batch.requestID.rawValue
         }
-        return String(decoding: data, as: UTF8.self)
+        return SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
     }
 
     private static func failure(

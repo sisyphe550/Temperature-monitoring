@@ -69,7 +69,7 @@ enum SchedulePlanner {
     ) -> (nextDueElapsedNS: Int64, skipped: Int) {
         var next = nextDueElapsedNS
         var skipped = 0
-        while next < nowElapsedNS {
+        while next + periodNS(periodMS) <= nowElapsedNS {
             skipped += 1
             next += periodNS(periodMS)
         }
@@ -90,6 +90,9 @@ struct ScheduleState: Equatable {
 
 public actor SamplingService {
     public typealias ReadHandler = @Sendable (SamplingReadEvent) async -> Void
+    public typealias FailureHandler = @Sendable (MonitorFailure, SamplingScheduleKind) async -> Void
+    public typealias OptionalAvailabilityHandler = @Sendable (SamplingScheduleKind, MonitorFailure?) async -> Void
+    public typealias RecoveryHandler = @Sendable (QualifiedSourceCatalog) async throws -> Void
     public typealias WillReadHandler = @Sendable (RequestID, Int64) async -> Void
 
     private let clock: MonitorClock
@@ -104,7 +107,16 @@ public actor SamplingService {
     private var onRead: ReadHandler?
     private var willRead: WillReadHandler?
     private var stats = SamplingStatistics()
-    private var nextRequestOrdinal: Int64 = 1
+    private var didFinishRead: WillReadHandler?
+    private var onFailure: FailureHandler?
+    private var onRecoveredCatalog: RecoveryHandler?
+    private let errors: ErrorCoordinator
+    private struct OptionalProbeState { var failedRounds = 0; var validConsecutiveReads = 0 }
+    private var optionalProbes: [SamplingScheduleKind: OptionalProbeState] = [:]
+    private var optionalUnavailableKinds: Set<SamplingScheduleKind> = []
+    private var optionalStoppedKinds: Set<SamplingScheduleKind> = []
+    private var wakeRecoveryKinds: Set<SamplingScheduleKind> = []
+    private var onOptionalAvailability: OptionalAvailabilityHandler?
     private var readInFlight = false
 
     public init(
@@ -117,15 +129,21 @@ public actor SamplingService {
         self.client = client
         self.reservation = reservation
         self.configuration = configuration
+        errors = ErrorCoordinator(policy: RetryPolicy(configuration: configuration))
         cpuPeriodMS = configuration.cpuDefaultMS
     }
 
     public func start(
         catalog: QualifiedSourceCatalog,
         willRead: WillReadHandler? = nil,
+        didFinishRead: WillReadHandler? = nil,
+        onFailure: FailureHandler? = nil,
+        onRecoveredCatalog: RecoveryHandler? = nil,
+        onOptionalAvailability: OptionalAvailabilityHandler? = nil,
         onRead: @escaping ReadHandler
     ) async {
-        stopLoopTask()
+        let recoveringAfterWake = wakeRecoveryKinds
+        await stop()
         schedules = Self.makeSchedules(
             catalog: catalog,
             cpuPeriodMS: cpuPeriodMS,
@@ -135,8 +153,13 @@ public actor SamplingService {
         )
         catalogGeneration = catalog.generation
         stats = SamplingStatistics()
-        nextRequestOrdinal = 1
         self.willRead = willRead
+        self.didFinishRead = didFinishRead
+        self.onFailure = onFailure
+        self.onRecoveredCatalog = onRecoveredCatalog
+        self.onOptionalAvailability = onOptionalAvailability
+        optionalUnavailableKinds = recoveringAfterWake
+        optionalProbes = Dictionary(uniqueKeysWithValues: recoveringAfterWake.map { ($0, OptionalProbeState()) })
         self.onRead = onRead
         running = true
         loopTask = Task { [weak self] in
@@ -154,14 +177,41 @@ public actor SamplingService {
         schedules[.cpu] = cpu
     }
 
-    public func stop() {
+    public func stop() async {
+        await stop(preservingWakeRecovery: false)
+    }
+
+    private func stop(preservingWakeRecovery: Bool) async {
         running = false
-        stopLoopTask()
+        let task = loopTask
+        loopTask = nil
+        task?.cancel()
+        await task?.value
+        // In-flight failure callbacks may isolate a source while stop is awaiting the loop.
+        // Capture the settled state before clearing it, so wake cannot lose that final isolation.
+        let recoveringKinds = preservingWakeRecovery ? optionalUnavailableKinds : []
         onRead = nil
         willRead = nil
+        didFinishRead = nil
+        onFailure = nil
+        onRecoveredCatalog = nil
+        onOptionalAvailability = nil
+        optionalProbes = [:]
+        optionalUnavailableKinds = []
+        optionalStoppedKinds = []
+        wakeRecoveryKinds = recoveringKinds
         catalogGeneration = nil
         schedules = [:]
     }
+
+    // Wake requalification starts a finite recovery cycle for every previously isolated kind.
+    // It must still prove three committed readings from the new qualified source.
+    func suspendForSleep() async {
+        await stop(preservingWakeRecovery: true)
+    }
+
+    // A callback running on the sampling task cannot await that task's value.
+    public func requestStop() { running = false; loopTask?.cancel() }
 
     public func statistics() -> SamplingStatistics {
         stats
@@ -207,111 +257,269 @@ public actor SamplingService {
     private func dueScheduleKind(at elapsedNS: Int64) -> SamplingScheduleKind? {
         schedules
             .filter { $0.value.nextDueElapsedNS <= elapsedNS }
-            .map(\.key)
-            .sorted()
-            .first
+            .sorted { lhs, rhs in
+                if lhs.value.nextDueElapsedNS == rhs.value.nextDueElapsedNS { return lhs.key < rhs.key }
+                return lhs.value.nextDueElapsedNS < rhs.value.nextDueElapsedNS
+            }
+            .first?.key
     }
 
     private func executeRead(for kind: SamplingScheduleKind, plannedDueElapsedNS: Int64) async {
-        guard running, var schedule = schedules[kind], !readInFlight else {
-            return
-        }
-        let requestedPeriodMS = schedule.periodMS
+        guard running, var schedule = schedules[kind], !readInFlight else { return }
         readInFlight = true
         defer { readInFlight = false }
+        if optionalProbes[kind] != nil {
+            await executeOptionalProbe(kind: kind, schedule: schedule, plannedDue: plannedDueElapsedNS)
+            return
+        }
+        await errors.reset(domain: .sensor)
+        var generation = catalogGeneration ?? 0
+        var failureIndex = 0
+        while running, !Task.isCancelled {
+            do {
+                try await performRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
+                await errors.reset(domain: .sensor)
+                break
+            } catch is CancellationError {
+                if !Task.isCancelled { advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS) }
+                return
+            }
+            catch {
+                let failure = Self.monitorFailure(error, retryCount: failureIndex)
+                if failure.code == .sensorProtocol || failure.code.rawValue.hasPrefix("DB-") || failure.code.rawValue.hasPrefix("PROC-") {
+                    await onFailure?(Self.withSeverity(failure, .fatal), kind)
+                    requestStop()
+                    return
+                }
+                let resolution = await errors.evaluate(failure: failure, context: ErrorEvaluationContext(domain: .sensor,
+                    sourceKind: kind == .cpu ? .cpuZone : (kind == .ssd ? .ssd : .battery), isRequiredSource: kind == .cpu))
+                switch resolution {
+                case let .retry(waitMS, _):
+                    await onFailure?(failure, kind)
+                    failureIndex += 1
+                    do {
+                        try await clock.sleep(untilElapsedNS: clock.now().elapsedNS + Int64(waitMS) * 1_000_000)
+                        try Task.checkCancellation()
+                        if failure.code == .sensorTimeout || error is QualifiedSensorClientError {
+                            let recovered = try await client.discover()
+                            _ = try SeriesCatalogBuilder.definitions(from: recovered)
+                            try await onRecoveredCatalog?(recovered)
+                            guard running else { return }
+                            generation = recovered.generation
+                            catalogGeneration = recovered.generation
+                            let discovered = Self.makeSchedules(catalog: recovered, cpuPeriodMS: cpuPeriodMS,
+                                ssdIntervalMS: configuration.ssdIntervalMS, batteryIntervalMS: configuration.batteryIntervalMS,
+                                startElapsedNS: clock.now().elapsedNS)
+                            for sourceKind in SamplingScheduleKind.allCases {
+                                if optionalStoppedKinds.contains(sourceKind) {
+                                    schedules.removeValue(forKey: sourceKind)
+                                    continue
+                                }
+                                if let sources = discovered[sourceKind] {
+                                    if var existing = schedules[sourceKind] {
+                                        if Set(existing.sourceIDs) != Set(sources.sourceIDs), var probe = optionalProbes[sourceKind] {
+                                            // Recovery must be proven by three committed reads of this source identity.
+                                            // Preserve failedRounds so repeated reconnects cannot extend the finite probe budget.
+                                            probe.validConsecutiveReads = 0
+                                            optionalProbes[sourceKind] = probe
+                                        }
+                                        existing.sourceIDs = sources.sourceIDs
+                                        schedules[sourceKind] = existing
+                                    } else { schedules[sourceKind] = sources }
+                                } else { schedules.removeValue(forKey: sourceKind) }
+                            }
+                            guard let current = schedules[kind] else { return }
+                            schedule = current
+                        }
+                    } catch is CancellationError { return }
+                    catch {
+                        let fatal = Self.withSeverity(Self.monitorFailure(error, retryCount: failureIndex), .fatal)
+                        await onFailure?(fatal, kind)
+                        requestStop()
+                        return
+                    }
+                case .fatal:
+                    let final = MonitorFailure(code: RetryPolicy(configuration: configuration).isRetryable(failure, domain: .sensor) ? .sensorRead : failure.code,
+                        severity: .fatal, component: failure.component, operation: failure.operation,
+                        retryCount: failureIndex, sourceID: failure.sourceID, underlyingCode: failure.underlyingCode)
+                    await onFailure?(final, kind)
+                    requestStop()
+                    return
+                case let .markUnavailable(unavailable):
+                    let exhausted = MonitorFailure(code: RetryPolicy(configuration: configuration).isRetryable(unavailable, domain: .sensor) ? .sensorRead : unavailable.code,
+                        severity: .degraded, component: unavailable.component, operation: unavailable.operation,
+                        retryCount: failureIndex, sourceID: unavailable.sourceID, underlyingCode: unavailable.underlyingCode)
+                    await onFailure?(exhausted, kind)
+                    optionalUnavailableKinds.insert(kind)
+                    await onOptionalAvailability?(kind, exhausted)
+                    if RetryPolicy(configuration: configuration).isRetryable(unavailable, domain: .sensor) {
+                        optionalProbes[kind] = OptionalProbeState()
+                        if var current = schedules[kind] {
+                            current.nextDueElapsedNS = clock.now().elapsedNS + Int64(configuration.optionalRecoverySeconds) * 1_000_000_000
+                            schedules[kind] = current
+                        }
+                    } else {
+                        optionalStoppedKinds.insert(kind)
+                        schedules.removeValue(forKey: kind)
+                    }
+                    return
+                }
+            }
+        }
+        advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
+    }
 
+    private func executeOptionalProbe(kind: SamplingScheduleKind, schedule: ScheduleState, plannedDue: Int64) async {
+        guard var probe = optionalProbes[kind] else { return }
+        do {
+            try await performRead(kind: kind, schedule: schedule, generation: catalogGeneration ?? 0, plannedDue: plannedDue)
+            guard running, !Task.isCancelled else { return }
+            probe.validConsecutiveReads += 1
+            if probe.validConsecutiveReads >= 3 {
+                optionalProbes.removeValue(forKey: kind)
+                optionalUnavailableKinds.remove(kind)
+                await onOptionalAvailability?(kind, nil)
+            } else { optionalProbes[kind] = probe }
+            if var current = schedules[kind] {
+                current.nextDueElapsedNS = clock.now().elapsedNS + Int64(current.periodMS) * 1_000_000
+                schedules[kind] = current
+            }
+        } catch is CancellationError { return }
+        catch {
+            let failure = Self.monitorFailure(error, retryCount: probe.failedRounds + 1)
+            if failure.code == .sensorProtocol || failure.code.rawValue.hasPrefix("DB-") || failure.code.rawValue.hasPrefix("PROC-") {
+                await onFailure?(Self.withSeverity(failure, .fatal), kind)
+                requestStop()
+                return
+            }
+            probe.validConsecutiveReads = 0
+            probe.failedRounds += 1
+            await onFailure?(Self.withSeverity(failure, .degraded), kind)
+            if probe.failedRounds >= configuration.optionalRecoveryAttempts {
+                optionalStoppedKinds.insert(kind)
+                optionalProbes.removeValue(forKey: kind)
+                schedules.removeValue(forKey: kind)
+            } else {
+                optionalProbes[kind] = probe
+                if var current = schedules[kind] {
+                    current.nextDueElapsedNS = clock.now().elapsedNS + Int64(configuration.optionalRecoverySeconds) * 1_000_000_000
+                    schedules[kind] = current
+                }
+            }
+        }
+    }
+
+    private func performRead(kind: SamplingScheduleKind, schedule: ScheduleState, generation: UInt64, plannedDue: Int64) async throws {
         let requestID = makeRequestID()
-        let generation = catalogGeneration ?? 0
-        let lease: PersistenceLease
+        let lease = try await reserveWhenWritable(requestID: requestID, generation: generation)
+        let startHandler = willRead
+        let finishHandler = didFinishRead
+        let handler = onRead
+        let started = clock.now()
+        var registered = false
+        var readFailure: MonitorFailure?
         do {
-            lease = try await reservation.reserve(
-                owner: .request(requestID),
-                generation: generation,
-                maxRecords: configuration.writerReserveRecordsPerEvent,
-                maxBytes: configuration.writerMaxPayloadBytes
-            )
-        } catch {
-            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-                plannedDueElapsedNS: plannedDueElapsedNS,
-                periodMS: requestedPeriodMS,
-                nowElapsedNS: clock.now().elapsedNS
-            )
-            schedule.nextDueElapsedNS = nextDue
-            schedules[kind] = schedule
-            recordSkipped(kind: kind, count: skipped)
-            return
-        }
-
-        if let willRead {
-            await willRead(requestID, plannedDueElapsedNS)
-        }
-
-        let batch: ReadBatch
-        do {
-            batch = try await client.read(
-                ReadRequest(
-                    requestID: requestID,
-                    sourceIDs: schedule.sourceIDs,
-                    requestedPeriodMS: requestedPeriodMS
-                )
-            )
+            try Task.checkCancellation()
+            if let startHandler { await startHandler(requestID, plannedDue); registered = true }
+            try Task.checkCancellation()
+            let batch: ReadBatch
+            do {
+                batch = try await client.read(ReadRequest(requestID: requestID, sourceIDs: schedule.sourceIDs, requestedPeriodMS: schedule.periodMS))
+            } catch is CancellationError { throw CancellationError() }
+            catch {
+                let failure = Self.monitorFailure(error, retryCount: 0)
+                // Persist only failure facts, never a replacement temperature.
+                if failure.code == .sensorTimeout || failure.code == .sensorRead || failure.code == .sensorValue {
+                    let finished = clock.now()
+                    let failed = ReadBatch(requestID: requestID, generation: generation, requestedPeriodMS: schedule.periodMS,
+                        readings: schedule.sourceIDs.map { Reading(sourceID: $0, started: started, finished: finished, outcome: .failure(failure)) })
+                    if let handler { await handler(SamplingReadEvent(kind: kind, plannedElapsedNS: plannedDue, requestID: requestID, requestedPeriodMS: schedule.periodMS, lease: lease, batch: failed)) }
+                    else { await reservation.cancel(lease) }
+                } else { await reservation.cancel(lease) }
+                throw failure
+            }
+            try Task.checkCancellation()
+            guard batch.generation == generation else { throw CancellationError() }
+            guard Set(batch.readings.map(\.sourceID)) == Set(schedule.sourceIDs), batch.readings.count == schedule.sourceIDs.count else {
+                throw MonitorFailure(code: .sensorProtocol, severity: .fatal, component: "SamplingService", operation: "read", retryCount: 0, sourceID: nil, underlyingCode: "reading_members_mismatch")
+            }
+            let normalized = batch.readings.map { reading -> Reading in
+                if case let .success(value, _, _) = reading.outcome, !value.isFinite || value < -273.15 {
+                    return Reading(sourceID: reading.sourceID, started: reading.started, finished: reading.finished,
+                        outcome: .failure(MonitorFailure(code: .sensorValue, severity: .degraded, component: "SamplingService", operation: "read", retryCount: 0, sourceID: reading.sourceID, underlyingCode: "invalid_temperature")))
+                }
+                return reading
+            }
+            readFailure = normalized.compactMap { reading -> MonitorFailure? in if case let .failure(failure) = reading.outcome { return failure }; return nil }.first
+            if kind == .cpu, readFailure == nil,
+               let first = normalized.map(\.finished.elapsedNS).min(), let last = normalized.map(\.finished.elapsedNS).max(),
+               last - first > Int64(configuration.cpuMaxBatchSpanMS) * 1_000_000 {
+                readFailure = MonitorFailure(code: .sensorRead, severity: .degraded, component: "SamplingService", operation: "cpuMaximum", retryCount: 0, sourceID: nil, underlyingCode: "cpu_batch_span_exceeded")
+            }
+            if running, let handler {
+                await handler(SamplingReadEvent(kind: kind, plannedElapsedNS: plannedDue, requestID: requestID, requestedPeriodMS: schedule.periodMS, lease: lease,
+                    batch: ReadBatch(requestID: batch.requestID, generation: batch.generation, requestedPeriodMS: batch.requestedPeriodMS, readings: normalized)))
+                stats.completedReads += 1
+            } else { await reservation.cancel(lease) }
         } catch {
             await reservation.cancel(lease)
-            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-                plannedDueElapsedNS: plannedDueElapsedNS,
-                periodMS: requestedPeriodMS,
-                nowElapsedNS: clock.now().elapsedNS
-            )
-            schedule.nextDueElapsedNS = nextDue
-            schedules[kind] = schedule
-            recordSkipped(kind: kind, count: skipped)
-            return
+            if registered { await finishHandler?(requestID, plannedDue) }
+            throw error
         }
+        if registered { await finishHandler?(requestID, plannedDue) }
+        if let readFailure { throw readFailure }
+    }
 
-        if batch.generation < generation {
-            await reservation.cancel(lease)
-            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-                plannedDueElapsedNS: plannedDueElapsedNS,
-                periodMS: requestedPeriodMS,
-                nowElapsedNS: clock.now().elapsedNS
-            )
-            schedule.nextDueElapsedNS = nextDue
-            schedules[kind] = schedule
-            recordSkipped(kind: kind, count: skipped)
-            return
+    private static func monitorFailure(_ error: Error, retryCount: Int) -> MonitorFailure {
+        if let failure = error as? MonitorFailure {
+            return MonitorFailure(code: failure.code, severity: failure.severity, component: failure.component,
+                operation: failure.operation, retryCount: retryCount, sourceID: failure.sourceID, underlyingCode: failure.underlyingCode)
         }
+        let qualified = error as? QualifiedSensorClientError
+        let code: MonitorErrorCode = (qualified == .generationMismatch || qualified == .notDiscovered) ? .sensorTimeout
+            : (qualified == nil ? .sensorRead : .sensorProtocol)
+        return MonitorFailure(code: code,
+            severity: .degraded, component: "SamplingService", operation: "read", retryCount: retryCount,
+            sourceID: nil, underlyingCode: String(describing: error))
+    }
 
-        if let handler = onRead {
-            await handler(
-                SamplingReadEvent(
-                    kind: kind,
-                    plannedElapsedNS: plannedDueElapsedNS,
-                    requestID: requestID,
-                    requestedPeriodMS: requestedPeriodMS,
-                    lease: lease,
-                    batch: batch
-                )
-            )
+    private static func withSeverity(_ failure: MonitorFailure, _ severity: Severity) -> MonitorFailure {
+        MonitorFailure(code: failure.code, severity: severity, component: failure.component,
+            operation: failure.operation, retryCount: failure.retryCount, sourceID: failure.sourceID, underlyingCode: failure.underlyingCode)
+    }
+
+    private func reserveWhenWritable(requestID: RequestID, generation: UInt64) async throws -> PersistenceLease {
+        let deadline = ContinuousClock.now.advanced(by: .milliseconds(configuration.writerMaxOldestAgeMS))
+        while true {
+            try Task.checkCancellation()
+            do {
+                return try await reservation.reserve(owner: .request(requestID), generation: generation,
+                    maxRecords: configuration.writerReserveRecordsPerEvent, maxBytes: configuration.writerMaxPayloadBytes)
+            } catch let failure as MonitorFailure where failure.code == .databaseBackpressure {
+                guard ContinuousClock.now < deadline else { throw failure }
+                // Backpressure pauses IO. A brief watermark write must not discard
+                // the only due CPU opportunity before the writer becomes free.
+                try await ContinuousClock().sleep(for: .milliseconds(configuration.writerFlushMS))
+            }
         }
+    }
 
-        stats.completedReads += 1
-        skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-
+    private func advanceScheduleAfterRead(kind: SamplingScheduleKind, schedule: ScheduleState, generation: UInt64, plannedDue: Int64) {
+        guard running, catalogGeneration == generation else { return }
+        let now = clock.now().elapsedNS
+        skipOverdueSchedules(except: kind, nowElapsedNS: now)
+        // A picker change during IO has already scheduled the next read.
+        guard schedules[kind] == schedule else { return }
         let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-            plannedDueElapsedNS: plannedDueElapsedNS,
-            periodMS: requestedPeriodMS,
-            nowElapsedNS: clock.now().elapsedNS
-        )
-        schedule.nextDueElapsedNS = nextDue
-        schedules[kind] = schedule
+            plannedDueElapsedNS: plannedDue, periodMS: schedule.periodMS, nowElapsedNS: now)
+        var next = schedule
+        next.nextDueElapsedNS = nextDue
+        schedules[kind] = next
         recordSkipped(kind: kind, count: skipped)
     }
 
     private func skipOverdueSchedules(except activeKind: SamplingScheduleKind, nowElapsedNS: Int64) {
-        for kind in SamplingScheduleKind.allCases where kind != activeKind {
+        for kind in SamplingScheduleKind.allCases where kind != activeKind && optionalProbes[kind] == nil {
             guard var schedule = schedules[kind] else {
                 continue
             }
@@ -333,17 +541,7 @@ public actor SamplingService {
         stats.skippedByKind[kind, default: 0] += count
     }
 
-    private func makeRequestID() -> RequestID {
-        let ordinal = nextRequestOrdinal
-        nextRequestOrdinal += 1
-        let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
-        return (try? RequestID(validating: raw)) ?? RequestID(UUID())
-    }
-
-    private func stopLoopTask() {
-        loopTask?.cancel()
-        loopTask = nil
-    }
+    private func makeRequestID() -> RequestID { RequestID(UUID()) }
 
     private static func makeSchedules(
         catalog: QualifiedSourceCatalog,

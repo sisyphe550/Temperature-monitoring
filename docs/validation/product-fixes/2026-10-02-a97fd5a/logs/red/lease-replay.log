@@ -1,0 +1,285 @@
+[0/1] Planning build
+Building for debugging...
+[0/13] Write sources
+[1/13] Write swift-version--58304C5D6DBC2206.txt
+[3/50] Compiling TemperatureCore ErrorCoordinator.swift
+[4/50] Compiling TemperatureCore FatalDisplayReceipt.swift
+[5/50] Compiling TemperatureCore MonitorFailure.swift
+[6/50] Compiling TemperatureCore MonitorShutdown.swift
+[7/50] Compiling TemperatureCore Clock.swift
+[8/50] Compiling TemperatureCore Configuration.swift
+[9/50] Compiling TemperatureCore ConnectionIdentity.swift
+[10/50] Compiling TemperatureCore Identifiers.swift
+[11/53] Compiling TemperatureCore SessionCleanup.swift
+[12/53] Compiling TemperatureCore TemperatureCoreModule.swift
+[13/53] Compiling TemperatureCore resource_bundle_accessor.swift
+[14/53] Compiling TemperatureCore Registry.swift
+[15/53] Compiling TemperatureCore SensorDecoding.swift
+[16/53] Compiling TemperatureCore SessionLock.swift
+[17/53] Compiling TemperatureCore BatchCanonicalHash.swift
+[18/53] Compiling TemperatureCore SafeWatermark.swift
+[19/53] Compiling TemperatureCore SampleValidation.swift
+[20/53] Compiling TemperatureCore Trend.swift
+[21/53] Compiling TemperatureCore QualifiedSensorClient.swift
+[22/53] Compiling TemperatureCore ReportWriter.swift
+[23/53] Compiling TemperatureCore RetryPolicy.swift
+[24/53] Compiling TemperatureCore MetricResolver.swift
+[25/53] Compiling TemperatureCore MonitorEngine.swift
+[26/53] Compiling TemperatureCore Aggregation.swift
+[27/53] Compiling TemperatureCore CPUMaxDerivation.swift
+[28/53] Compiling TemperatureCore EMA.swift
+[29/53] Compiling TemperatureCore RingBuffer.swift
+[30/53] Compiling TemperatureCore BatchCommit.swift
+[31/53] Compiling TemperatureCore HistoryQuery.swift
+[32/53] Compiling TemperatureCore Retention.swift
+[33/53] Compiling TemperatureCore SQLiteStore.swift
+[34/53] Compiling TemperatureCore BoundedQueue.swift
+[35/53] Compiling TemperatureCore PersistenceBatchMetrics.swift
+[36/53] Compiling TemperatureCore SessionPersistence.swift
+[37/53] Compiling TemperatureCore StorageWriter.swift
+[38/53] Emitting module TemperatureCore
+[39/53] Compiling TemperatureCore PersistenceTypes.swift
+[40/53] Compiling TemperatureCore PresentationTypes.swift
+[41/53] Compiling TemperatureCore SensorTypes.swift
+[42/53] Compiling TemperatureCore DiagnosticLogger.swift
+[43/64] Compiling SensorRuntime SeriesCatalogBuilder.swift
+[44/64] Compiling TemperaturePresentation PresentationState.swift
+[45/64] Compiling TemperaturePresentation PresentationModel.swift
+[46/64] Compiling TemperaturePresentation HistoryChartModel.swift
+[47/64] Emitting module TemperaturePresentation
+[48/64] Compiling SensorRuntime SessionMonitorController.swift
+[49/64] Compiling SensorRuntime ProcessingCoordinator.swift
+[50/64] Compiling SensorRuntime WorkerClient.swift
+[51/64] Emitting module SensorRuntime
+[52/64] Compiling SensorRuntime WorkerProtocol.swift
+[53/64] Compiling SensorRuntime SamplingService.swift
+[54/127] Compiling ProductQualification Entry.swift
+[55/127] Emitting module ProductQualification
+[56/127] Compiling SensorRuntimeTests WorkerTestSupport.swift
+[57/128] Compiling ProtocolWorker main.swift
+[58/128] Emitting module ProtocolWorker
+[58/128] Write Objects.LinkFileList
+[60/128] Compiling ProductQualification SQLiteEvidence.swift
+[61/128] Compiling ProductQualification SchedulesCollector.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/ProductQualification/SchedulesCollector.swift:179:25: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+177 |         var model = [CChar](repeating: 0, count: size)
+178 |         sysctlbyname("hw.model", &model, &size, nil, 0)
+179 |         let hostModel = String(cString: model)
+    |                         `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+180 |         guard hostModel == profile.model else {
+181 |             throw QualificationError.hostModelMismatch(expected: profile.model, actual: hostModel)
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[61/128] Linking ProtocolWorker
+[62/128] Applying ProtocolWorker
+[64/128] Compiling ProductQualification SourcesCollector.swift
+[65/128] Compiling SensorRuntimeTests SessionClockRegressionTests.swift
+[66/128] Compiling SensorWorker WorkerClock.swift
+[67/128] Compiling SensorWorker SensorBridgeSupport.swift
+[68/128] Compiling SensorWorker SensorWorkerEntry.swift
+[69/128] Emitting module SensorWorker
+[70/128] Compiling SensorWorker HardwareSession.swift
+[70/128] Write Objects.LinkFileList
+[72/128] Compiling ProductQualification EnduranceCollector.swift
+[72/128] Linking SensorWorker
+[73/128] Applying SensorWorker
+[75/128] Emitting module SensorRuntimeTests
+[76/128] Compiling TemperatureCoreTests ControllerFixture.swift
+[77/128] Compiling TemperatureCoreTests Fixtures.swift
+[78/128] Compiling TemperatureCoreTests ProcessorFixture.swift
+[79/128] Compiling TemperatureCoreTests TemporaryStoreFixture.swift
+[80/131] Compiling ProductQualification ProductQualificationMain.swift
+[81/131] Compiling ProductQualification LifecycleCollector.swift
+[81/131] Write Objects.LinkFileList
+[83/131] Compiling SensorRuntimeTests ProcessingCoordinatorTests.swift
+[84/131] Compiling SensorRuntimeTests WorkerProtocolTests.swift
+[84/131] Linking ProductQualification
+[85/131] Applying ProductQualification
+[87/131] Compiling SensorRuntimeTests SensorDecodingTests.swift
+[88/131] Compiling SensorRuntimeTests WorkerLifecycleTests.swift
+[89/131] Compiling SensorRuntimeTests OptionalSourceQualificationTests.swift
+[90/131] Compiling SensorRuntimeTests SamplingServiceTests.swift
+[91/131] Emitting module TemperatureCoreTests
+[92/131] Compiling SensorRuntimeTests SourceRegistryTests.swift
+macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+`- /Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:224:59: note: expanded code originates here
+222 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+223 |         #expect(metrics.count == 1)
+224 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+    |         `- note: in expansion of macro 'expect' here
+    +--- macro expansion #expect ---------------------------------------
+    |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+    |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+    +-------------------------------------------------------------------
+225 |     }
+226 | 
+[93/131] Compiling TemperatureCoreTests AggregationTests.swift
+[94/131] Compiling TemperatureCoreTests AppBundleConfigurationTests.swift
+[97/131] Compiling TemperatureCoreTests BackpressureTests.swift
+[98/131] Compiling TemperatureCoreTests ClockTests.swift
+[99/131] Compiling TemperatureCoreTests TestClock.swift
+[100/131] Compiling TemperatureCoreTests TrendTests.swift
+[101/131] Compiling TemperatureCoreTests WatermarkTests.swift
+[102/131] Compiling TemperatureCoreTests DiagnosticsTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[103/131] Compiling TemperatureCoreTests EMAProcessorTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[104/131] Compiling TemperatureCoreTests EndToEndTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[105/131] Compiling TemperatureCoreTests EngineGapRegressionTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[106/131] Compiling TemperatureCoreTests HistorySourceContinuityRegressionTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[107/131] Compiling TemperatureCoreTests MonitorIntegrationTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[108/131] Compiling TemperatureCoreTests PresentationHistoryRegressionTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[109/131] Compiling TemperatureCoreTests PresentationModelTests.swift
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[110/131] Compiling TemperatureCoreTests ErrorCoordinatorTests.swift
+[111/131] Compiling TemperatureCoreTests HistoryBudgetRegressionTests.swift
+[112/131] Compiling TemperatureCoreTests HistoryChartModelTests.swift
+[113/131] Compiling TemperatureCoreTests HistoryQueryTests.swift
+[114/131] Compiling TemperatureCoreTests SensorRecoveryRegressionTests.swift
+[115/131] Compiling TemperatureCoreTests SessionLifecycleTests.swift
+[116/131] Compiling TemperatureCoreTests StorageFaultTests.swift
+[117/131] Compiling TemperatureCoreTests StorageLifecycleRegressionTests.swift
+[118/131] Compiling TemperatureCoreTests RingBufferTests.swift
+[119/131] Compiling TemperatureCoreTests RuntimeMaintenanceRegressionTests.swift
+[120/131] Compiling TemperatureCoreTests RuntimeShutdownRegressionTests.swift
+[121/131] Compiling TemperatureCoreTests SQLiteStoreTests.swift
+[122/131] Compiling TemperatureCoreTests CommitRegressionTests.swift
+[123/131] Compiling TemperatureCoreTests ConfigurationTests.swift
+[124/131] Compiling TemperatureCoreTests ContractCoverageTests.swift
+[125/131] Compiling TemperatureCoreTests ContractTests.swift
+[126/131] Compiling TemperatureCoreTests ProcessingIdentityTests.swift
+[127/131] Compiling TemperatureCoreTests RequestLifecycleRegressionTests.swift
+[128/131] Compiling TemperatureCoreTests RetentionTests.swift
+[129/131] Compiling TemperatureCoreTests RetryPolicyTests.swift
+[130/133] Emitting module TemperatureCorePackageTests
+[131/133] Compiling TemperatureCorePackageTests runner.swift
+[131/133] Write Objects.LinkFileList
+[132/133] Linking TemperatureCorePackageTests
+Build complete! (12.91s)
+Test Suite 'Selected tests' started at 2026-10-02 21:36:09.569.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 21:36:09.569.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 21:36:09.570.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 21:36:09.570.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProcessingIdentityTests started.
+◇ Suite PresentationHistoryRegressionTests started.
+◇ Test cpuMaxSkippedWhenDuplicateSource() started.
+◇ Test nonMonotonicElapsedIsRejected() started.
+◇ Test cpuMaxTracksHotspotAcrossBatches() started.
+◇ Test duplicateTemperatureValuesKeepSeparateSamples() started.
+◇ Test cpuMaxEMAFollowsDerivedSeries() started.
+◇ Test thirtyThirdSeriesIsRejected() started.
+◇ Test sameRequestIDDifferentPayloadFails() started.
+◇ Test onePointBudgetRejectsAContinuousRunWithTwoBoundaries() started.
+◇ Test repeatedRequestIsIdempotent() started.
+◇ Test staleGenerationIsRejected() started.
+◇ Test sourceVersionsKeepTheirDefinitionsAndIndependentLines() started.
+◇ Test rejectsNonFiniteAndBelowAbsoluteZero() started.
+◇ Test cpuMaxSkippedWhenBatchSpanTooLarge() started.
+◇ Test requestedPointBudgetIsRespectedAcrossEntireRange() started.
+◇ Test insufficientBudgetFailsInsteadOfDroppingSegments() started.
+◇ Test upstreamRollbackDoesNotCreateSample() started.
+◇ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test repeatedRequestCannotClaimNewUnconsumedLease() started.
+◇ Test aggregateReductionRetainsWeightedMeanAndTotalCount() started.
+◇ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() started.
+◇ Test extraSourceVersionsAreRejectedExplicitly() started.
+◇ Test segmentBoundariesSurviveDownsampling() started.
+◇ Test failureReadingProducesNoSample() started.
+◇ Test cpuMaxSkippedWhenMemberMissing() started.
+◇ Test explicitGapBreaksLineEvenWithinOneSegment() started.
+◇ Test twoPointBudgetPreservesEnvelopeAndSampleCount() started.
+◇ Test case passing 1 argument periodMS → 100 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 50 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+✘ Test repeatedRequestCannotClaimNewUnconsumedLease() recorded an issue at ProcessingIdentityTests.swift:100:25: Issue recorded
+↳ A cached receipt must not claim a new unconsumed reservation
+✔ Test onePointBudgetRejectsAContinuousRunWithTwoBoundaries() passed after 0.008 seconds.
+✔ Test sourceVersionsKeepTheirDefinitionsAndIndependentLines() passed after 0.008 seconds.
+✔ Test thirtyThirdSeriesIsRejected() passed after 0.008 seconds.
+✔ Test nonMonotonicElapsedIsRejected() passed after 0.008 seconds.
+✔ Test staleGenerationIsRejected() passed after 0.008 seconds.
+✔ Test insufficientBudgetFailsInsteadOfDroppingSegments() passed after 0.008 seconds.
+✔ Test cpuMaxSkippedWhenDuplicateSource() passed after 0.008 seconds.
+✔ Test cpuMaxEMAFollowsDerivedSeries() passed after 0.008 seconds.
+✔ Test cpuMaxSkippedWhenBatchSpanTooLarge() passed after 0.008 seconds.
+✔ Test repeatedRequestIsIdempotent() passed after 0.008 seconds.
+✔ Test aggregateReductionRetainsWeightedMeanAndTotalCount() passed after 0.008 seconds.
+✔ Test extraSourceVersionsAreRejectedExplicitly() passed after 0.008 seconds.
+✔ Test sameRequestIDDifferentPayloadFails() passed after 0.008 seconds.
+✔ Test cpuMaxTracksHotspotAcrossBatches() passed after 0.008 seconds.
+✘ Test repeatedRequestCannotClaimNewUnconsumedLease() failed after 0.008 seconds with 1 issue.
+✔ Test failureReadingProducesNoSample() passed after 0.008 seconds.
+✔ Test twoPointBudgetPreservesEnvelopeAndSampleCount() passed after 0.008 seconds.
+✔ Test duplicateTemperatureValuesKeepSeparateSamples() passed after 0.008 seconds.
+✔ Test rejectsNonFiniteAndBelowAbsoluteZero() passed after 0.008 seconds.
+✔ Test upstreamRollbackDoesNotCreateSample() passed after 0.008 seconds.
+✔ Test explicitGapBreaksLineEvenWithinOneSegment() passed after 0.008 seconds.
+✔ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() passed after 0.008 seconds.
+✔ Test cpuMaxSkippedWhenMemberMissing() passed after 0.009 seconds.
+✘ Suite ProcessingIdentityTests failed after 0.010 seconds with 1 issue.
+✔ Test requestedPointBudgetIsRespectedAcrossEntireRange() passed after 0.012 seconds.
+✔ Test segmentBoundariesSurviveDownsampling() passed after 0.017 seconds.
+✔ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) with 2 test cases passed after 0.022 seconds.
+✔ Suite PresentationHistoryRegressionTests passed after 0.022 seconds.
+✘ Test run with 26 tests in 2 suites failed after 0.023 seconds with 1 issue.

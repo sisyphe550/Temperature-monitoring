@@ -1,0 +1,199 @@
+{
+  "reviewDate": "2026-10-02",
+  "sourceSHA": "48cd967d835e5c9f2ad2f191d97eb32a92623bcd",
+  "sourceBranch": "feature/w11-acceptance",
+  "environment": {
+    "model": "Mac16,13",
+    "os": "15.7.3",
+    "osBuild": "24G419",
+    "xcode": "26.3",
+    "xcodeBuild": "17C529",
+    "swift": "6.2.4",
+    "sdk": "26.2"
+  },
+  "scope": {
+    "personalUse": true,
+    "enduranceWaived": true,
+    "notarizationWaived": true,
+    "distributionWaived": true,
+    "otherHardwareQualificationRequired": false,
+    "realSystemSleepExecuted": false,
+    "realWorkerFaultInjected": false
+  },
+  "results": {
+    "existingCoreTests": 244,
+    "existingCoreSuites": 31,
+    "coreCoverage": {
+      "covered": 5945,
+      "total": 6947,
+      "percent": 85.58
+    },
+    "auditTests": 7,
+    "auditFailures": 7,
+    "releaseBuild": "passed",
+    "signature": "passed",
+    "productionCPUCount": 12,
+    "rawRows": 22503,
+    "emaRows": 22503,
+    "committedBatches": 1731,
+    "mainRawMaxMismatch": 0,
+    "mainMembersPerBatch": 12,
+    "aggregateRows": 0,
+    "uiInitial": {
+      "total": 9,
+      "passed": 7,
+      "failed": 1,
+      "skipped": 1
+    },
+    "uiFailedTestRetry": "passed",
+    "qualificationSchemaChecksPassed": 8,
+    "handoff": "passed",
+    "productAcceptance": "failed_8_meta_requirements_pending"
+  },
+  "issues": [
+    {
+      "id": "R01",
+      "number": 27,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/27"
+    },
+    {
+      "id": "R02",
+      "number": 28,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/28"
+    },
+    {
+      "id": "R03",
+      "number": 29,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/29"
+    },
+    {
+      "id": "R04",
+      "number": 30,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/30"
+    },
+    {
+      "id": "R05",
+      "number": 31,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/31"
+    },
+    {
+      "id": "R06",
+      "number": 32,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/32"
+    },
+    {
+      "id": "R07",
+      "number": 33,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/33"
+    },
+    {
+      "id": "R08",
+      "number": 34,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/34"
+    },
+    {
+      "id": "R09",
+      "number": 35,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/35"
+    },
+    {
+      "id": "R10",
+      "number": 36,
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/36"
+    }
+  ],
+  "blockingIssueNumbers": [
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34
+  ],
+  "evidenceWorkspace": "/tmp/temperature-monitor-review-20261002.1G0KnN",
+  "productionSourceModified": false,
+  "commands": [
+    {
+      "command": "python3 scripts/validate-handoff.py",
+      "result": "pass"
+    },
+    {
+      "command": "python3 scripts/validate-handoff.py --product-acceptance",
+      "result": "fail",
+      "detail": "8 meta requirements pending"
+    },
+    {
+      "command": "swift test --package-path Packages/TemperatureCore --enable-code-coverage",
+      "result": "pass",
+      "detail": "temporary HEAD source archive, before audit tests"
+    },
+    {
+      "command": "python3 scripts/check-core-coverage.py",
+      "result": "pass",
+      "detail": "85.58%"
+    },
+    {
+      "command": "bash scripts/build-app.sh",
+      "result": "pass",
+      "detail": "temporary HEAD source archive"
+    },
+    {
+      "command": "codesign --verify --deep --strict --verbose=2 build/TemperatureMonitor.app",
+      "result": "pass"
+    },
+    {
+      "command": "python3 scripts/check-upstream-boundary.py",
+      "result": "pass"
+    },
+    {
+      "command": "python3 scripts/test-upstream-boundary-gate.py",
+      "result": "pass"
+    },
+    {
+      "command": "python3 scripts/test-product-qualification-schema.py",
+      "result": "pass",
+      "detail": "8 checks; sandbox retry allowed Xcode cache writes"
+    },
+    {
+      "command": "ProductQualification sources --worker build/TemperatureMonitor.app/Contents/MacOS/SensorWorker --profile docs/contracts/first-profile-v1.json",
+      "result": "pass",
+      "detail": "CPU12 available, TB1T selected; SSD evidence limitation R09"
+    },
+    {
+      "command": "swift test --package-path Packages/TemperatureCore --filter ProductAuditRegressionTests",
+      "result": "fail",
+      "detail": "4 tests reproduce 4 defects"
+    },
+    {
+      "command": "swift test --package-path Packages/TemperatureCore --filter ProductAuditSensorRegressionTests",
+      "result": "fail",
+      "detail": "2 tests reproduce 2 defects"
+    },
+    {
+      "command": "swift test --package-path Packages/TemperatureCore --filter ProductAuditCommitRegressionTests",
+      "result": "fail",
+      "detail": "1 test reproduces uncommitted state mutation"
+    },
+    {
+      "command": "xcodebuild ... CODE_SIGNING_ALLOWED=NO test",
+      "result": "infrastructure_failure",
+      "detail": "runner SIGKILL before bootstrap; CSSMERR_TP_NOT_TRUSTED"
+    },
+    {
+      "command": "xcodebuild ... CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test (reused DerivedData)",
+      "result": "build_failure",
+      "detail": "runner plugin linker errno=1"
+    },
+    {
+      "command": "xcodebuild ... CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test (fresh DerivedData)",
+      "result": "fail",
+      "detail": "7 passed,1 skipped,1 window-wait failure"
+    },
+    {
+      "command": "xcodebuild ... -only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testCPUPeriodPicker CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test-without-building",
+      "result": "pass",
+      "detail": "single test retry"
+    }
+  ]
+}

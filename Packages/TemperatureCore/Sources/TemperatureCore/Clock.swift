@@ -61,6 +61,7 @@ public struct SystemClock: MonitorClock, Sendable {
     }
 
     public func sleep(untilElapsedNS: Int64) async throws {
+        try Task.checkCancellation()
         let remaining = untilElapsedNS - now().elapsedNS
         guard remaining > 0 else { return }
         try await ContinuousClock().sleep(for: .nanoseconds(remaining))

@@ -1,6 +1,6 @@
 # 构件接口、文件边界与状态
 
-更新：2026-09-21；实施契约v1族修订2。规范类型和异步接口见[api-v1.swift](contracts/api-v1.swift)，协议是生产实现必须满足的设计契约，不是已完成代码。
+更新：2026-10-02；实施契约v1族修订3。规范类型和异步接口见[api-v1.swift](contracts/api-v1.swift)，协议是生产实现必须满足的设计契约，不是已完成代码。
 
 ## 目标目录与依赖
 
@@ -113,3 +113,7 @@ PresentationModel只接收核心Snapshot和HistoryResult：
 App单实例锁成功后才创建数据库和worker。stop幂等，停止后任何状态调用都不启动新工作。sleep先暂停日程、停止worker并终结水位；wake重新发现、资格化、分段、立即TTL清理，再运行。软件模拟时钟用于72小时TTL和gap验收，不能替代实际睡眠、签名后的正式App硬件验证。
 
 实现顺序、每个目标文件和验收向量见[22](22-agent-implementation-plan.md)。状态边界不能以“在UI里临时判断”、裸String ID、直接worker结果或直接SQLite调用绕过这些服务接口。
+
+## 修订3实现衔接（2026-10-02）
+
+Worker传递NVMe位置与查询状态纯事实，ProfileRegistry消费并给出Qualified/unavailable；SeriesCatalogBuilder对Mac16,13强制完整CPU12，并按连接generation生成Source/Series实例与definitionVersion。来源改变不连接旧曲线。SamplingService所有终结路径释放planned注册，临时故障按预算重资格化；ProcessingCoordinator冻结首次关键错误，Controller写Diagnostics日志/报告，AppSessionRuntime把该错误送入唯一PresentationState。

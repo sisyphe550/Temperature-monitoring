@@ -1,6 +1,6 @@
 # 传感器接口、首版配置与可行性结论
 
-更新：2026-09-21；contract revision 2。逐物理核心温度已删除；物理Package和全芯片绝对最高温不再作为产品承诺。完整函数、ABI、来源与证据见[硬件审计](research/2026-09-17-handoff-interface-audit.md)。
+更新：2026-10-02；contract revision 3。逐物理核心温度已删除；物理Package和全芯片绝对最高温不再作为产品承诺。完整函数、ABI、来源与证据见[硬件审计](research/2026-09-17-handoff-interface-audit.md)。
 
 ## 可行性与证据
 
@@ -64,3 +64,7 @@ CPU五档50/100/200/500/1000ms默认200；SSD500ms、Battery1000ms。它们是�
 SourceID是连接代次内的小写标准UUID强类型，另存原始键/Registry ID/机型/系统/映射版本/出处。RequestID、SeriesID、BatchID、GapID和WatermarkEventID使用不同类型，不能互换或用自由文本拼接。重连不能以同名或同数组位置复用旧ID；定义改变新SeriesID和definitionVersion，曲线断开。
 
 App Sandbox关闭、无管理员权限、无私有entitlement。权限拒绝按能力状态与必需性处理，不能要求用户关闭SIP或提权。正式Developer ID/Hardened Runtime构建按[13](13-operations-distribution.md)再测。
+
+## 修订3：NVMe可观察事实（2026-10-02）
+
+DiscoveredSource新增可选physicalInterconnectLocation与interconnectLookupStatus（found/missingProperty/lookupFailed；nil表示该provider未尝试查询）。worker传递IOKit实际查询结果；found必须携带非空位置。Registry只有在唯一候选明确Internal、编码/单位合格时资格化SSD。缺字段、查询失败、External或多个候选均保留具体Unavailable原因；不从名字、device数组索引推断。Battery继续经同一Registry按IOPS/TB1T/TB2T/TB0T优先级选择唯一合格来源。

@@ -9,13 +9,18 @@ public actor SessionMonitorController: MonitorController {
     private let session: SessionPersistenceActor
     private let sessionMetadata: SessionMetadata
     private let configuration: RuntimeConfiguration
+    private let diagnosticLogger: DiagnosticLogger?
+    private let reportWriter: ReportWriter?
+    private var runtimeFatalReportPath: String?
     private var engine: MonitorEngine?
     private var coordinator: ProcessingCoordinator?
     private var snapshotStream: AsyncStream<Snapshot>?
     private var snapshotContinuation: AsyncStream<Snapshot>.Continuation?
     private var snapshotTask: Task<Void, Never>?
+    private var maintenanceTask: Task<Void, Never>?
     private var running = false
     private var stopped = false
+    private var stopTask: Task<Void, Never>?
     private var lastSnapshotPublishElapsedNS: Int64?
 
     public init(
@@ -23,13 +28,16 @@ public actor SessionMonitorController: MonitorController {
         client: any SensorClient,
         session: SessionPersistenceActor,
         sessionMetadata: SessionMetadata,
-        configuration: RuntimeConfiguration
+        configuration: RuntimeConfiguration,
+        diagnosticsDirectory: URL? = nil
     ) {
         self.clock = clock
         self.client = client
         self.session = session
         self.sessionMetadata = sessionMetadata
         self.configuration = configuration
+        diagnosticLogger = diagnosticsDirectory.map { DiagnosticLogger(directory: $0, configuration: configuration) }
+        reportWriter = diagnosticsDirectory.map { ReportWriter(directory: $0, configuration: configuration) }
     }
 
     public func start() async throws {
@@ -48,20 +56,23 @@ public actor SessionMonitorController: MonitorController {
             definitions: definitions,
             cpuPeriodMS: configuration.cpuDefaultMS,
             qualifiedSources: catalog.available,
-            sessionStartedAt: startedAt
+            sessionStartedAt: startedAt,
+            capabilityValues: try SeriesCatalogBuilder.unavailableValues(from: catalog)
         )
         let coordinator = ProcessingCoordinator(
             clock: clock,
             client: client,
             reservation: await session.reservationCapability(),
             engine: engine,
-            configuration: configuration
+            configuration: configuration,
+            diagnosticSink: { [weak self] failure in await self?.recordRuntimeFailure(failure) }
         )
         self.engine = engine
         self.coordinator = coordinator
         running = true
         stopped = false
         await coordinator.start(catalog: catalog)
+        startMaintenanceLoop()
         if snapshotContinuation != nil {
             startSnapshotLoop()
         }
@@ -135,27 +146,76 @@ public actor SessionMonitorController: MonitorController {
         await coordinator?.lastAcceptFailure
     }
 
-    public func stop() async {
-        guard !stopped else {
-            return
+    public func freezeForFatal() async {
+        running = false
+        let maintenance = maintenanceTask
+        let snapshot = snapshotTask
+        maintenance?.cancel()
+        snapshot?.cancel()
+        maintenanceTask = nil
+        snapshotTask = nil
+        await coordinator?.stop()
+        await maintenance?.value
+        await snapshot?.value
+        snapshotContinuation?.finish()
+    }
+
+    public var isSuspended: Bool { !running && !stopped && coordinator != nil }
+
+    public func fatalReportPath() -> String? { runtimeFatalReportPath }
+
+    private func recordRuntimeFailure(_ failure: MonitorFailure) {
+        let context = DiagnosticContext(sessionID: sessionMetadata.sessionID, appVersion: sessionMetadata.appVersion,
+            model: sessionMetadata.model, osBuild: sessionMetadata.osBuild)
+        do { try diagnosticLogger?.append(DiagnosticLogEntry(failure: failure, context: context)) }
+        catch { fputs("TemperatureMonitor diagnostic write failed: \(error)\n", stderr) }
+        if failure.severity == .fatal, runtimeFatalReportPath == nil {
+            let report = FatalReport(frozenFailure: failure, sessionID: sessionMetadata.sessionID,
+                appVersion: sessionMetadata.appVersion, model: sessionMetadata.model, osBuild: sessionMetadata.osBuild,
+                incompleteShutdownSteps: [], writtenAt: Date())
+            runtimeFatalReportPath = (try? reportWriter?.write(report))?.url?.path
         }
+    }
+
+    public func stop() async {
+        if let stopTask { await stopTask.value; return }
+        let task = Task { await self.performStop() }
+        stopTask = task
+        await task.value
+    }
+
+    private func performStop() async {
         stopped = true
         running = false
-
-        snapshotTask?.cancel()
+        let maintenance = maintenanceTask
+        let snapshot = snapshotTask
+        maintenance?.cancel()
+        snapshot?.cancel()
+        maintenanceTask = nil
         snapshotTask = nil
+        await coordinator?.stop()
+        await maintenance?.value
+        await snapshot?.value
         snapshotContinuation?.finish()
         snapshotContinuation = nil
         snapshotStream = nil
         lastSnapshotPublishElapsedNS = nil
-        await coordinator?.stop()
         coordinator = nil
         engine = nil
         await client.close()
+        var deleted = true
+        do { try await session.closeAndDeleteSession() }
+        catch {
+            deleted = false
+            recordRuntimeFailure((error as? MonitorFailure) ?? Self.failure(code: .databaseClean,
+                operation: "closeAndDeleteSession", underlyingCode: String(describing: error)))
+        }
         lastShutdownResult = ShutdownResult(stepResults: [
             ShutdownStepResult(name: "stop_snapshot_loop", completed: true),
+            ShutdownStepResult(name: "stop_maintenance_loop", completed: true),
             ShutdownStepResult(name: "stop_coordinator", completed: true),
             ShutdownStepResult(name: "close_client", completed: true),
+            ShutdownStepResult(name: "close_and_delete_session", completed: deleted),
         ])
     }
 
@@ -168,14 +228,20 @@ public actor SessionMonitorController: MonitorController {
             )
         }
         running = false
-        snapshotTask?.cancel()
+        let maintenance = maintenanceTask
+        let snapshot = snapshotTask
+        maintenance?.cancel()
+        snapshot?.cancel()
+        maintenanceTask = nil
         snapshotTask = nil
         try await coordinator.suspendForSleep()
+        await maintenance?.value
+        await snapshot?.value
         await client.releaseConnection()
     }
 
     public func resumeAfterWake() async throws {
-        guard !stopped, let coordinator, let engine else {
+        guard !stopped, let coordinator, engine != nil else {
             throw Self.failure(
                 code: .processingValidate,
                 operation: "resumeAfterWake",
@@ -184,10 +250,12 @@ public actor SessionMonitorController: MonitorController {
         }
         let catalog = try await client.discover()
         let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
-        await engine.replaceDefinitions(definitions)
+        _ = definitions
+        try await coordinator.prepareForWakeMaintenance()
         try await session.prune(nowElapsedNS: clock.now().elapsedNS)
         try await coordinator.resumeAfterWake(catalog: catalog)
         running = true
+        startMaintenanceLoop()
         if snapshotContinuation != nil {
             startSnapshotLoop()
         }
@@ -198,6 +266,31 @@ public actor SessionMonitorController: MonitorController {
     }
 
     private var lastShutdownResult: ShutdownResult?
+
+    private func startMaintenanceLoop() {
+        maintenanceTask?.cancel()
+        let firstDeadline = clock.now().elapsedNS + configuration.retentionTickSeconds * 1_000_000_000
+        maintenanceTask = Task { [weak self, clock, configuration] in
+            var next = firstDeadline
+            while !Task.isCancelled {
+                do { try await clock.sleep(untilElapsedNS: next) } catch { return }
+                guard !Task.isCancelled, let self else { return }
+                await self.performMaintenance()
+                next = clock.now().elapsedNS + configuration.retentionTickSeconds * 1_000_000_000
+            }
+        }
+    }
+
+    private func performMaintenance() async {
+        guard running, !stopped else { return }
+        do { try await session.prune(nowElapsedNS: clock.now().elapsedNS) }
+        catch {
+            let failure = (error as? MonitorFailure) ?? Self.failure(code: .databaseClean,
+                operation: "periodicPrune", underlyingCode: String(describing: error))
+            await coordinator?.reportFailure(failure)
+        }
+        diagnosticLogger?.pruneExpired(now: Date())
+    }
 
     private func startSnapshotLoop() {
         snapshotTask?.cancel()

@@ -1,0 +1,72 @@
+{
+  "old_sha": "48cd967d835e5c9f2ad2f191d97eb32a92623bcd",
+  "file_count": 16,
+  "all_byte_identical": true,
+  "correction": "two copied JSON EOF patch-header concatenations corrected to original bytes; original files never changed",
+  "files": [
+    {
+      "path": "after-quit-db.json",
+      "sha256": "2b5550f40f679b5b0a48d0b0dcb2c1dac60f227fc891f0ee48a60d39ac7da8fd"
+    },
+    {
+      "path": "fresh-binary-hashes.json",
+      "sha256": "b714ea4a34b71c71698d60bfcb5ef0f4555e094b1b2fd92aaa3cafd39416e123"
+    },
+    {
+      "path": "github-issues.json",
+      "sha256": "42839c5a7e11874d2320c829161fa4b93ad4445fca2d56770300e4171d675c7a"
+    },
+    {
+      "path": "hardware-sources.json",
+      "sha256": "b302c407a825504985ba4f6a66f0da00eb320cb90e75f3f98f8f110b3524c1a1"
+    },
+    {
+      "path": "logs/audit-commit-regression.log",
+      "sha256": "d06d85761f929212ce97e54a7f3daf3503428c60fd1c1f5c36a5571fc8edf865"
+    },
+    {
+      "path": "logs/audit-regressions.log",
+      "sha256": "754662f093874cdceb08578af53b04d7380636acfe5d1ecb1d0326024f13e006"
+    },
+    {
+      "path": "logs/audit-sensor-regressions.log",
+      "sha256": "3e72f85dcdbe801afed17d5ba622c6a8759e9b6fe32a409cf90c45897a6eab07"
+    },
+    {
+      "path": "logs/core-coverage.log",
+      "sha256": "42cf8494bdef33d941eefd20ac554a777914c4c1a68e2dca7c97b8c7508d23df"
+    },
+    {
+      "path": "logs/core-tests.log",
+      "sha256": "193bbc7f0e320afb471a050ccb90199d83a81a0510f7bd59bd85c8df235c7477"
+    },
+    {
+      "path": "logs/qualification-schema-tests.log",
+      "sha256": "8ad61d74be5ab6636a365794de8de9585e717444333e5bb9eadcc1f8b7784e2f"
+    },
+    {
+      "path": "logs/ui-summary.txt",
+      "sha256": "734460f62a343c0758fa840b2e566d6fa8b7276e5a8e1bb63fd8232e65ffcb1a"
+    },
+    {
+      "path": "regressions/ProductAuditCommitRegressionTests.swift",
+      "sha256": "703b0d4f5bcb6c0737789b0fac934e40157e4e44148fd598c26dea37e39b33f1"
+    },
+    {
+      "path": "regressions/ProductAuditRegressionTests.swift",
+      "sha256": "28d4f06827454ec00da05775b376023da903c57950daa246a20288c46dde13a4"
+    },
+    {
+      "path": "regressions/ProductAuditSensorRegressionTests.swift",
+      "sha256": "155dabab619b653316b3e72bada80e2bbb76a5b1095b90c980ca6eeefe8805ee"
+    },
+    {
+      "path": "report.md",
+      "sha256": "9023dfc8e93f769223916bf1b21ea348ed262a67680c79663d6d8111a6db27be"
+    },
+    {
+      "path": "verification.json",
+      "sha256": "28f93bf9f092532c3a02076b7d8fc61e805a29f5fce151c7a05a2bbc3ed10029"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # 设计决策闭合与待执行验证
 
-更新：2026-09-21；实施契约v1族修订2。原OQ编号保留用于追溯。**设计已决定、实现待验收、外部输入待具备是三种状态；不能混用。**
+更新：2026-10-02；实施契约v1族修订3。原OQ编号保留用于追溯。**设计已决定、实现待验收、外部输入待具备是三种状态；不能混用。**
 
 ## 原设计问题的明确处理
 
@@ -20,9 +20,9 @@
 | OQ-12 | 07布局；四档最近范围、最多8源/2000点、缓存过期公式、窗口关闭继续采集 | 04/07 | W07 UI黑盒 |
 | OQ-13 | 不增加CPU/能耗百分比承诺；确定结构容量上限与实际记录 | 04/10 | W09量测，超硬限即失败 |
 | OQ-14 | build_toolchain、deployment_target、runtime_profile、qualified_combinations分开；Swift6/Xcode16.4、系统SQLite、schema-v1/WAL/NORMAL、固定文件布局 | 08/09/13/contracts | W01/W03验证构建/存储；W09登记正式App组合 |
-| OQ-15 | feature/PR/merge commit；检查名、blocking标签、0最低平台审批＋独立审查、人工合并 | 11 | W00配置管理员门禁；当前尚未生效 |
+| OQ-15 | feature/PR/merge commit；检查名、blocking标签、0最低平台审批＋独立审查、人工合并 | 11 | W00门禁已落地；2026-10-02 API回读main-protection为active |
 | OQ-16 | 工作名/Bundle ID确定；本地App→Developer ID公证ZIP；手动更新 | 13 | W08/W10，正式凭证需维护者 |
-| OQ-17 | 契约修订2固定ReadingOutcome、资格化来源、SessionPersistence能力视图、PersistenceLease/ProcessingReceipt和PresentationState；无并行旧API | 02～10/21 | W01～W08按唯一类型实现；不再作为设计问题 |
+| OQ-17 | 契约修订3固定ReadingOutcome、资格化来源、SessionPersistence能力视图、PersistenceLease/ProcessingReceipt和PresentationState；无并行旧API | 02～10/21 | W01～W08按唯一类型实现；不再作为设计问题 |
 
 上述事项的**设计分支已收敛**，不能继续按旧文档同时实现两套路径。实测不符合基线时记录失败、修订受影响契约及测试，不将“已决定”改写为“已验证”。
 
@@ -30,9 +30,9 @@
 
 | 输入/结果 | 当前状态 | 对接手agent的动作 |
 |---|---|---|
-| 完整Xcode | 本机仅CLT | 完成核心任务后安装/选择Xcode，才能执行App/UI任务；不改成Web |
-| 普通用户目标Air测试 | 只有旧CLI与源码证据 | 按W09取得正式App新报告，不能复用旧报告盖章 |
-| 仓库管理员设置 | ruleset目前为空 | 按W00实施，失败保留PR；不能绕过合并门禁 |
+| 完整Xcode | 本机Xcode26.3/17C529已具备 | 继续构建正式App与UI测试，记录实际工具链 |
+| 普通用户目标Air测试 | Mac16,13已具备；a97fd5a正式Release短测通过 | 参照[新报告](validation/product-fixes/2026-10-02-a97fd5a/report.md)；五档各10min、真系统睡眠、长历史和物理右键菜单仍未验收，不能复用旧报告盖章 |
+| 仓库管理员设置 | main-protection active（2026-10-02 API回读） | PR按CI、blocking Issue与独立审查门禁执行 |
 | Developer ID/Team/公证凭证 | 未作为本项目输入提供 | 可完成本地App；正式分发明确等待凭证 |
 | 更多Air机型/系统 | 没有对应证据 | 不扩大支持声明；有实机后新增profile和验收 |
 

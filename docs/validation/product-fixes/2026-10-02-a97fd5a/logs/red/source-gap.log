@@ -1,0 +1,29 @@
+warning: /Users/sisyphus/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/sisyphus/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Emitting module TemperatureCoreTests
+[4/6] Compiling TemperatureCoreTests RecoveredSourceGapRegressionTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.75s)
+Test Suite 'Selected tests' started at 2026-10-02 21:38:41.484.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 21:38:41.485.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 21:38:41.485.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 21:38:41.485.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite RecoveredSourceGapRegressionTests started.
+◇ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() started.
+✘ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() recorded an issue at RecoveredSourceGapRegressionTests.swift:40:9: Expectation failed: (snapshot.gapIDs → [TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "210a7fa1-e7e2-4082-9aed-cc218213db8c"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "c1aeb1a5-5815-483c-97ec-92a9dc11d672"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "1950a98d-7efa-40c7-8ab7-2131f24e145a"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "76fcf6f4-3845-4ffb-94fe-5709e1bcb041"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "0c5c015e-58cf-41b9-a96b-aa3110a5fb32"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "8df4a1a8-aba5-4cd6-9097-1fd17efac9d0"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "49d97827-5d08-4b7c-bef9-775a36978e96"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "933d8bb8-81a7-4735-b566-3b92122ad1fe"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "4c085da3-4889-4c6a-8b8e-37a0d42337d0"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "41c4bfa5-1fac-43fd-86fd-511e593faa50"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "604c83a6-bc7b-481b-9eec-7405e5928fa6"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "e6a02ef0-2804-46bc-9556-7957b3bc0a82"), TemperatureCore.TaggedUUID<TemperatureCore.GapIDTag>(rawValue: "87084e9e-f24c-44c5-8f89-780b654ba461")]).isEmpty → false
+↳ Successful generation 2 must not keep generation 1 gaps open forever
+✘ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() recorded an issue at RecoveredSourceGapRegressionTests.swift:46:9: Expectation failed: history.gaps.allSatisfy { $0.endedElapsedNS != nil && $0.reason == .timeout }
+✘ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() failed after 1.094 seconds with 2 issues.
+✘ Suite RecoveredSourceGapRegressionTests failed after 1.094 seconds with 2 issues.
+↳ // A software fault fixture; it does not qualify hardware.
+✘ Test run with 1 test in 1 suite failed after 1.094 seconds with 2 issues.

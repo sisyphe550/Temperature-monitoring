@@ -1,0 +1,27 @@
+warning: /Users/sisyphus/Library/org.swift.swiftpm/configuration is not accessible or not writable, disabling user-level cache features.
+warning: /Users/sisyphus/Library/org.swift.swiftpm/security is not accessible or not writable, disabling user-level cache features.
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Compiling TemperatureCoreTests OptionalWakeRecoveryRegressionTests.swift
+[4/6] Emitting module TemperatureCoreTests
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.54s)
+Test Suite 'Selected tests' started at 2026-10-02 22:07:43.862.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 22:07:43.863.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 22:07:43.863.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 22:07:43.863.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite OptionalWakeRecoveryRegressionTests started.
+◇ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() started.
+✘ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() recorded an issue at OptionalWakeRecoveryRegressionTests.swift:42:13: Expectation failed: await snapshots.newSSDIsAvailable
+↳ An optional source requalified after wake and three new committed readings must leave its old unavailable state
+✘ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() failed after 0.609 seconds with 1 issue.
+✘ Suite OptionalWakeRecoveryRegressionTests failed after 0.609 seconds with 1 issue.
+✘ Test run with 1 test in 1 suite failed after 0.609 seconds with 1 issue.

@@ -1,0 +1,159 @@
+[0/1] Planning build
+Building for debugging...
+[0/10] Write sources
+[1/10] Write swift-version--58304C5D6DBC2206.txt
+[3/39] Compiling TemperatureCoreTests StorageFaultTests.swift
+[4/39] Compiling TemperatureCoreTests StorageLifecycleRegressionTests.swift
+[5/39] Compiling TemperatureCoreTests ControllerFixture.swift
+[6/39] Compiling TemperatureCoreTests DiagnosticsTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[7/39] Compiling TemperatureCoreTests EMAProcessorTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[8/39] Compiling TemperatureCoreTests EndToEndTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[9/39] Compiling TemperatureCoreTests EngineGapRegressionTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[10/42] Compiling TemperatureCoreTests RuntimeMaintenanceRegressionTests.swift
+[11/42] Compiling TemperatureCoreTests SQLiteStoreTests.swift
+[12/42] Compiling TemperatureCoreTests SensorRecoveryRegressionTests.swift
+[13/42] Compiling TemperatureCoreTests SessionLifecycleTests.swift
+[14/42] Compiling TemperatureCoreTests CommitRegressionTests.swift
+[15/42] Compiling TemperatureCoreTests ConfigurationTests.swift
+[16/42] Compiling TemperatureCoreTests ContractCoverageTests.swift
+[17/42] Compiling TemperatureCoreTests ContractTests.swift
+[18/42] Compiling TemperatureCoreTests TestClock.swift
+[19/42] Compiling TemperatureCoreTests TrendTests.swift
+[20/42] Compiling TemperatureCoreTests WatermarkTests.swift
+[21/42] Compiling TemperatureCoreTests Fixtures.swift
+[22/42] Compiling TemperatureCoreTests ProcessorFixture.swift
+[23/42] Compiling TemperatureCoreTests TemporaryStoreFixture.swift
+[24/42] Compiling TemperatureCoreTests AggregationTests.swift
+[25/42] Compiling TemperatureCoreTests AppBundleConfigurationTests.swift
+[26/42] Compiling TemperatureCoreTests BackpressureTests.swift
+[27/42] Compiling TemperatureCoreTests ClockTests.swift
+[28/42] Emitting module TemperatureCoreTests
+[29/42] Compiling TemperatureCoreTests MonitorIntegrationTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[30/42] Compiling TemperatureCoreTests PresentationHistoryRegressionTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[31/42] Compiling TemperatureCoreTests PresentationModelTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[32/42] Compiling TemperatureCoreTests ProcessingIdentityTests.swift
+/private/tmp/temperature-gap-r39-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[33/42] Compiling TemperatureCoreTests ErrorCoordinatorTests.swift
+[34/42] Compiling TemperatureCoreTests HistoryChartModelTests.swift
+[35/42] Compiling TemperatureCoreTests HistoryQueryTests.swift
+[36/42] Compiling TemperatureCoreTests HistorySourceContinuityRegressionTests.swift
+[37/42] Compiling TemperatureCoreTests RequestLifecycleRegressionTests.swift
+[38/42] Compiling TemperatureCoreTests RetentionTests.swift
+[39/42] Compiling TemperatureCoreTests RetryPolicyTests.swift
+[40/42] Compiling TemperatureCoreTests RingBufferTests.swift
+[41/44] Compiling TemperatureCorePackageTests runner.swift
+[42/44] Emitting module TemperatureCorePackageTests
+[42/44] Write Objects.LinkFileList
+[43/44] Linking TemperatureCorePackageTests
+Build complete! (4.62s)
+Test Suite 'Selected tests' started at 2026-10-02 21:22:08.505.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 21:22:08.506.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 21:22:08.506.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 21:22:08.506.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite EngineGapRegressionTests started.
+◇ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() started.
+◇ Test normalLongerPeriodDoesNotCreateFalseGap() started.
+◇ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() started.
+◇ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() started.
+◇ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() started.
+◇ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() started.
+◇ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() started.
+◇ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() started.
+◇ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() started.
+✘ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() recorded an issue at EngineGapRegressionTests.swift:137:9: Expectation failed: await f.isUnavailable(atMS: 200)
+✔ Test normalLongerPeriodDoesNotCreateFalseGap() passed after 0.005 seconds.
+✘ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() recorded an issue at EngineGapRegressionTests.swift:109:9: Expectation failed: await f.commit.batch(receipt.batchID)?.segments.first?.number == 2
+✘ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() recorded an issue at EngineGapRegressionTests.swift:118:24: Expectation failed: await f.engine.historyGapsFor(request: f.history(atMS: 200)).first → nil
+✘ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() recorded an issue at EngineGapRegressionTests.swift:74:26: Expectation failed: await f.commit.batch(failed.batchID)?.gaps.first → nil
+✘ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() recorded an issue at EngineGapRegressionTests.swift:110:9: Expectation failed: await f.engine.snapshot(at: Fixtures.timestamp(ms: 600)).gapIDs.isEmpty
+✘ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() failed after 0.005 seconds with 1 issue.
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() recorded an issue at EngineGapRegressionTests.swift:34:9: Expectation failed: (batch.gaps.count → 0) == 1
+✘ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() recorded an issue at EngineGapRegressionTests.swift:140:9: Expectation failed: await f.isUnavailable(atMS: 600)
+✘ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() failed after 0.005 seconds with 1 issue.
+✘ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() recorded an issue at EngineGapRegressionTests.swift:12:26: Expectation failed: (failureBatch.gaps → []).first → nil → nil
+✘ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() failed after 0.005 seconds with 2 issues.
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() recorded an issue at EngineGapRegressionTests.swift:59:9: Expectation failed: (batch.gaps.count → 0) == 2
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() recorded an issue at EngineGapRegressionTests.swift:60:9: Expectation failed: batch.gaps.contains { $0.seriesID == f.maximumID }
+✘ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() failed after 0.005 seconds with 1 issue.
+✘ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() recorded an issue at EngineGapRegressionTests.swift:97:9: Expectation failed: await f.engine.snapshot(at: Fixtures.timestamp(ms: 600)).gapIDs.count == 1
+✘ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() recorded an issue at EngineGapRegressionTests.swift:98:9: Expectation failed: await f.engine.historyGapsFor(request: f.history(atMS: 600)).count == 1
+✘ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() failed after 0.005 seconds with 2 issues.
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() recorded an issue at EngineGapRegressionTests.swift:35:9: Expectation failed: (batch.gaps.first?.reason → nil) == .timeout
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() recorded an issue at EngineGapRegressionTests.swift:36:9: Expectation failed: (batch.gaps.first?.endedElapsedNS → nil) == (1_400_000_000 → 1400000000)
+✘ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() recorded an issue at EngineGapRegressionTests.swift:101:6: Caught error: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "MonitorEngine", operation: "accept", retryCount: 0, sourceID: nil, underlyingCode: Optional("non_monotonic_elapsed"))
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() recorded an issue at EngineGapRegressionTests.swift:37:9: Expectation failed: (batch.segments.first?.number → nil) == 2
+✘ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() failed after 0.006 seconds with 3 issues.
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() recorded an issue at EngineGapRegressionTests.swift:38:9: Expectation failed: (batch.raw.first?.segment → 1) == 2
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() recorded an issue at EngineGapRegressionTests.swift:39:9: Expectation failed: (batch.ema.first?.valueC → 86.3712818684235) == (90 → 90.0)
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() recorded an issue at EngineGapRegressionTests.swift:64:9: Expectation failed: (recovery.raw.first { $0.seriesID == f.maximumID }?.segment → 1) == 2
+✘ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() failed after 0.006 seconds with 6 issues.
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() recorded an issue at EngineGapRegressionTests.swift:65:9: Expectation failed: (recovery.ema.first { $0.seriesID == f.maximumID }?.valueC → 66.52013107648335) == (80 → 80.0)
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() recorded an issue at EngineGapRegressionTests.swift:66:9: Expectation failed: (recovery.gaps.count → 0) == 2
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() recorded an issue at EngineGapRegressionTests.swift:67:9: Expectation failed: (recovery.segments.count → 0) == 2
+✘ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() failed after 0.006 seconds with 6 issues.
+✘ Suite EngineGapRegressionTests failed after 0.006 seconds with 22 issues.
+✘ Test run with 9 tests in 1 suite failed after 0.006 seconds with 22 issues.

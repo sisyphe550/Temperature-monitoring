@@ -1,0 +1,17 @@
+{
+  "code_sha": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+  "built_at": "2026-10-02T15:04:42+00:00",
+  "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+  "sha256": {
+    "TemperatureMonitor": "f1ae783663557fdf7da346f78f8d632748937c1bf239051a003c982ee683d95b",
+    "SensorWorker": "5e546ae7f7ba0d5f9d890fa662cd5f3f727ac71133d6c4e71eab6209bf7590ac"
+  },
+  "model": "Mac16,13",
+  "chip": "Apple M4",
+  "os_build": "macOS 15.7.3 (24G419)",
+  "xcode": "26.3 (17C529)",
+  "swift": "6.2.4",
+  "sdk": "26.2",
+  "execution": "ordinary user, read-only SMC/IOPS/NVMe; no helper/root/SMC writes; no Release fixture",
+  "real_ui_result": "/tmp/temperature-ui-final-real.xcresult"
+}

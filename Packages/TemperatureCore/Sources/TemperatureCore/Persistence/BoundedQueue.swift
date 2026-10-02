@@ -20,6 +20,7 @@ struct BoundedQueue {
         let batch: PersistenceBatch
         let reservationID: UUID
         let enqueuedAt: Date
+        let enqueuedContinuouslyAt: ContinuousClock.Instant
         let recordCount: Int
         let byteCount: Int
     }
@@ -112,14 +113,8 @@ struct BoundedQueue {
     }
 
     mutating func cancelReservation(id: UUID) throws {
-        guard var reservation = reservations[id] else {
-            throw BoundedQueueError.unknownReservation
-        }
-        guard reservation.state == .active else {
-            return
-        }
-        reservation.state = .cancelled
-        reservations[id] = reservation
+        // Unknown and finalized leases are harmless to cancel repeatedly.
+        reservations.removeValue(forKey: id)
         updateBackpressureLatch()
     }
 
@@ -151,7 +146,8 @@ struct BoundedQueue {
         batch: PersistenceBatch,
         recordCount: Int,
         byteCount: Int,
-        now: Date
+        now: Date,
+        enqueuedContinuouslyAt: ContinuousClock.Instant = ContinuousClock.now
     ) throws {
         try validateReservation(
             id: id,
@@ -160,16 +156,13 @@ struct BoundedQueue {
             recordCount: recordCount,
             byteCount: byteCount
         )
-        guard var reservation = reservations[id] else {
-            throw BoundedQueueError.unknownReservation
-        }
-        reservation.state = .consumed
-        reservations[id] = reservation
+        reservations.removeValue(forKey: id)
         pending.append(
             QueuedBatch(
                 batch: batch,
                 reservationID: id,
                 enqueuedAt: now,
+                enqueuedContinuouslyAt: enqueuedContinuouslyAt,
                 recordCount: recordCount,
                 byteCount: byteCount
             )

@@ -1,0 +1,66 @@
+[
+  {
+    "path": "/Users/sisyphus/Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions/be183df7-1ba8-4406-b407-932287a3e5ef/monitor.sqlite",
+    "exists_after_quit": true,
+    "raw_samples": 22503,
+    "ema_samples": 22503,
+    "aggregates": 0,
+    "committed_batches": 1731,
+    "elapsed_ns": [
+      480736375,
+      629877935125
+    ],
+    "periods": [
+      [
+        200,
+        17901
+      ],
+      [
+        1000,
+        4602
+      ]
+    ],
+    "main_definition": [
+      [
+        "00000000-0000-4000-8000-000000000200",
+        "be183df7-1ba8-4406-b407-932287a3e5ef",
+        "cpu.zone.max",
+        1,
+        "cpuMain",
+        "CPU热区最高温度",
+        "max"
+      ]
+    ],
+    "main_latest": [
+      [
+        629877935125,
+        38.99287414550781,
+        1000,
+        38.99658702207887
+      ],
+      [
+        628845333708,
+        38.95085906982422,
+        1000,
+        39.02215722232911
+      ],
+      [
+        627880392958,
+        39.15247344970703,
+        1000,
+        39.44201021685302
+      ]
+    ],
+    "main_not_max_of_batch_members": 0,
+    "main_member_count_distribution": [
+      [
+        12,
+        1731
+      ]
+    ],
+    "earliest_raw_still_exists_after_quit": [
+      480736375,
+      629877935125
+    ]
+  }
+]

@@ -89,7 +89,7 @@ public final class ReportWriter: @unchecked Sendable {
                 return ReportWriteResult(url: nil, fallbackText: fallback)
             }
 
-            let fileName = "fatal-\(Int(report.writtenAt.timeIntervalSince1970)).json"
+            let fileName = "fatal-\(Int(report.writtenAt.timeIntervalSince1970))-\(report.sessionID.rawValue).json"
             let url = reportsDirectory.appendingPathComponent(fileName)
             do {
                 try data.write(to: url, options: .atomic)

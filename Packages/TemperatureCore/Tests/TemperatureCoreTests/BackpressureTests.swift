@@ -46,7 +46,7 @@ import Testing
             Issue.record("expected cancelled lease failure")
         } catch let failure as MonitorFailure {
             #expect(failure.code == .databaseIntegrity)
-            #expect(failure.underlyingCode == "reservation_not_active")
+            #expect(failure.underlyingCode == "unknown_reservation")
         }
     }
 
@@ -66,7 +66,7 @@ import Testing
             Issue.record("expected double consume failure")
         } catch let failure as MonitorFailure {
             #expect(failure.code == .databaseIntegrity)
-            #expect(failure.underlyingCode == "reservation_not_active")
+            #expect(failure.underlyingCode == "unknown_reservation")
         }
     }
 

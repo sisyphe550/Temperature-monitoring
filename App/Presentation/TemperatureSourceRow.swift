@@ -6,17 +6,26 @@ struct TemperatureSourceRow: View {
     let row: TemperatureRowState
 
     var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text(row.title)
-                .lineLimit(1)
-            Spacer(minLength: 8)
-            Text(TemperatureFormatting.rowText(row.value))
-                .font(.system(.body, design: .monospaced))
-                .multilineTextAlignment(.trailing)
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text(row.title)
+                Spacer(minLength: 8)
+                Text(TemperatureFormatting.rowText(row.value))
+                    .font(.system(.body, design: .monospaced))
+            }
+            Text(TemperatureFormatting.stateDescription(row.value))
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("temperature.state.\(row.metricID.rawValue)")
         }
         .accessibilityIdentifier("source.list")
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(row.title)
-        .accessibilityValue(TemperatureFormatting.rowText(row.value))
+        .help(sourceDetails)
+        .accessibilityElement(children: .contain)
+    }
+
+    private var sourceDetails: String {
+        let identity = row.sourceID?.rawValue ?? "无合格来源"
+        return "来源身份：\(identity)\n指标：\(row.metricID.rawValue)\n映射依据：\(row.evidence.rawValue)\n温度来源不等同于物理核心。"
     }
 }

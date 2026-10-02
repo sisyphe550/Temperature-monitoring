@@ -1,0 +1,114 @@
+[
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug"
+    ],
+    "number": 36,
+    "sourceVerified": true,
+    "title": "[P2] 五分钟图对高频样本取最后 2000 点，丢弃前段历史",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/36"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "hardware"
+    ],
+    "number": 35,
+    "sourceVerified": true,
+    "title": "[P2] 电池/SSD 未接入 Qualified catalog，且同相位可选采样会被 CPU 持续跳过",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/35"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking"
+    ],
+    "number": 34,
+    "sourceVerified": true,
+    "title": "[P1] 缺失固定 CPU 成员时 App 静默用剩余来源定义最高温度",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/34"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "hardware"
+    ],
+    "number": 33,
+    "sourceVerified": true,
+    "title": "[P2] 正常退出没有关闭删除会话数据库，异步 stop 未等待完成",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/33"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking",
+      "hardware"
+    ],
+    "number": 32,
+    "sourceVerified": true,
+    "title": "[P1] 正常运行未调度 TTL 清理，去重和 lease 记录持续增长",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/32"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking"
+    ],
+    "number": 31,
+    "sourceVerified": true,
+    "title": "[P1] MonitorEngine 在写入回执前推进状态，未提交批次无法正确重试",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/31"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking"
+    ],
+    "number": 30,
+    "sourceVerified": true,
+    "title": "[P1] 正式 App 未绑定系统休眠通知，恢复路径复用 RequestID 并拒绝新样本",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/30"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking"
+    ],
+    "number": 29,
+    "sourceVerified": true,
+    "title": "[P1] 一次传感器超时后采样永久停止，运行错误未进入重试和 Fatal 流程",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/29"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking",
+      "hardware"
+    ],
+    "number": 28,
+    "sourceVerified": true,
+    "title": "[P1] 在途采样注册和注销时间不一致，真实采样后聚合水位冻结",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/28"
+  },
+  {
+    "environmentVerified": true,
+    "labels": [
+      "bug",
+      "blocking",
+      "hardware"
+    ],
+    "number": 27,
+    "sourceVerified": true,
+    "title": "[P1] 正式 App 历史查询使用新时钟，且首轮选择来源后未加载历史",
+    "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/27"
+  }
+]

@@ -25,6 +25,8 @@ struct HistoryQueryEngine {
         var points: [HistoryPoint] = []
         points.reserveCapacity(request.seriesIDs.count * pointLimit)
 
+        let gaps = try fetchGaps(seriesIDs: request.seriesIDs,
+            windowStartNS: windowStartNS, windowEndNS: windowEndNS)
         var availableFrom: Int64?
         var persistedThrough: Int64?
 
@@ -49,27 +51,39 @@ struct HistoryQueryEngine {
                 persistedThrough = persistedThrough.map { max($0, last) } ?? last
             }
 
-            let grouped = Dictionary(grouping: rows, by: \.segment)
-            for (segment, segmentRows) in grouped.sorted(by: { $0.key < $1.key }) {
-                let binned = try downsample(
-                    segmentRows,
-                    seriesID: seriesID,
-                    segment: segment,
-                    windowStartNS: windowStartNS,
-                    windowEndNS: windowEndNS,
-                    pointLimit: pointLimit,
-                    isCancelled: isCancelled,
-                    startedUptimeNS: started
-                )
-                points.append(contentsOf: binned)
+            let seriesGaps = gaps.filter { $0.seriesID == seriesID }
+            var runs: [[SourceBucket]] = []
+            for (_, segmentRows) in Dictionary(grouping: rows, by: \.segment).sorted(by: { $0.key < $1.key }) {
+                var run: [SourceBucket] = []
+                for row in segmentRows {
+                    if let previous = run.last, seriesGaps.contains(where: {
+                        previous.latestElapsedNS < $0.startedElapsedNS && $0.startedElapsedNS <= row.latestElapsedNS
+                    }) {
+                        runs.append(run)
+                        run = []
+                    }
+                    run.append(row)
+                }
+                if !run.isEmpty { runs.append(run) }
+            }
+            let mandatory = runs.map { min(2, $0.count) }
+            guard mandatory.reduce(0, +) <= pointLimit else {
+                throw HistoryQueryError.boundaryBudgetExceeded
+            }
+            let interiorCounts = runs.map { max(0, $0.count - 2) }
+            let totalInterior = interiorCounts.reduce(0, +)
+            let remaining = min(pointLimit - mandatory.reduce(0, +), totalInterior)
+            var extra = interiorCounts.map { totalInterior == 0 ? 0 : $0 * remaining / totalInterior }
+            var spare = remaining - extra.reduce(0, +)
+            for index in runs.indices where spare > 0 && extra[index] < interiorCounts[index] {
+                extra[index] += 1
+                spare -= 1
+            }
+            for index in runs.indices {
+                points.append(contentsOf: try downsample(runs[index], seriesID: seriesID,
+                    pointLimit: mandatory[index] + extra[index], isCancelled: isCancelled, startedUptimeNS: started))
             }
         }
-
-        let gaps = try fetchGaps(
-            seriesIDs: request.seriesIDs,
-            windowStartNS: windowStartNS,
-            windowEndNS: windowEndNS
-        )
 
         return HistoryResult(
             layer: layer,
@@ -212,80 +226,52 @@ struct HistoryQueryEngine {
     }
 
     private func downsample(
-        _ buckets: [SourceBucket],
-        seriesID: SeriesID,
-        segment: Int64,
-        windowStartNS: Int64,
-        windowEndNS: Int64,
-        pointLimit: Int,
-        isCancelled: () -> Bool,
-        startedUptimeNS: UInt64
+        _ buckets: [SourceBucket], seriesID: SeriesID, pointLimit: Int,
+        isCancelled: () -> Bool, startedUptimeNS: UInt64
     ) throws -> [HistoryPoint] {
         guard !buckets.isEmpty else { return [] }
+        if isCancelled() { throw HistoryQueryError.cancelled }
+        if DispatchTime.now().uptimeNanoseconds - startedUptimeNS > UInt64(HistoryQueryLimits.deadlineNS) {
+            throw HistoryQueryError.deadlineExceeded
+        }
         if buckets.count <= pointLimit {
-            return buckets.map {
-                HistoryPoint(
-                    seriesID: seriesID,
-                    segment: segment,
-                    elapsedNS: $0.latestElapsedNS,
-                    wallUnixNS: nil,
-                    valueC: $0.count > 0 ? $0.sumC / Double($0.count) : $0.latestC,
-                    minC: $0.minC,
-                    maxC: $0.maxC,
-                    count: $0.count
-                )
-            }
+            return buckets.map { merge([$0], seriesID: seriesID, elapsedNS: $0.latestElapsedNS) }
         }
-
-        let span = max(windowEndNS - windowStartNS, 1)
-        let binWidth = max(1, span / Int64(pointLimit))
-        var grouped = Array(repeating: [SourceBucket](), count: pointLimit)
-
-        for bucket in buckets {
-            if isCancelled() {
-                return []
-            }
-            let rawIndex = Int((bucket.startElapsedNS - windowStartNS) / binWidth)
-            let binIndex = min(max(rawIndex, 0), pointLimit - 1)
-            grouped[binIndex].append(bucket)
+        // Boundary points carry the complete envelope/count of their bin too.
+        // Even a two-point budget preserves all recorded samples and both ends.
+        if pointLimit == 2 {
+            let midpoint = buckets.count / 2
+            return [merge(Array(buckets[..<midpoint]), seriesID: seriesID, elapsedNS: buckets.first!.latestElapsedNS),
+                merge(Array(buckets[midpoint...]), seriesID: seriesID, elapsedNS: buckets.last!.latestElapsedNS)]
         }
-
-        var output: [HistoryPoint] = []
-        output.reserveCapacity(pointLimit)
-        for (index, overlapping) in grouped.enumerated() where !overlapping.isEmpty {
-            if isCancelled() {
-                return output
-            }
+        let interior = Array(buckets.dropFirst().dropLast())
+        let binCount = pointLimit - 2
+        let start = interior.first!.latestElapsedNS
+        let span = max(1, interior.last!.latestElapsedNS - start + 1)
+        var bins = Array(repeating: [SourceBucket](), count: binCount)
+        for bucket in interior {
+            if isCancelled() { throw HistoryQueryError.cancelled }
+            let index = min(binCount - 1, Int(Double(bucket.latestElapsedNS - start) / Double(span) * Double(binCount)))
+            bins[index].append(bucket)
+        }
+        var output = [merge([buckets.first!], seriesID: seriesID, elapsedNS: buckets.first!.latestElapsedNS)]
+        for bin in bins where !bin.isEmpty {
+            if isCancelled() { throw HistoryQueryError.cancelled }
             if DispatchTime.now().uptimeNanoseconds - startedUptimeNS > UInt64(HistoryQueryLimits.deadlineNS) {
                 throw HistoryQueryError.deadlineExceeded
             }
-
-            let binStart = windowStartNS + Int64(index) * binWidth
-            let binEnd = index == pointLimit - 1 ? windowEndNS : windowStartNS + Int64(index + 1) * binWidth
-            let inBin = overlapping.filter { $0.startElapsedNS < binEnd && $0.endElapsedNS > binStart }
-            guard !inBin.isEmpty else { continue }
-
-            let minC = inBin.map(\.minC).min() ?? inBin[0].minC
-            let maxC = inBin.map(\.maxC).max() ?? inBin[0].maxC
-            let totalCount = inBin.reduce(Int64(0)) { $0 + $1.count }
-            let sumC = inBin.reduce(0.0) { $0 + $1.sumC }
-            let valueC = totalCount > 0 ? sumC / Double(totalCount) : inBin[0].latestC
-            let latest = inBin.max(by: { $0.latestElapsedNS < $1.latestElapsedNS }) ?? inBin[0]
-
-            output.append(
-                HistoryPoint(
-                    seriesID: seriesID,
-                    segment: segment,
-                    elapsedNS: latest.latestElapsedNS,
-                    wallUnixNS: nil,
-                    valueC: valueC,
-                    minC: minC,
-                    maxC: maxC,
-                    count: totalCount
-                )
-            )
+            output.append(merge(bin, seriesID: seriesID, elapsedNS: bin.last!.latestElapsedNS))
         }
+        output.append(merge([buckets.last!], seriesID: seriesID, elapsedNS: buckets.last!.latestElapsedNS))
         return output
+    }
+
+    private func merge(_ buckets: [SourceBucket], seriesID: SeriesID, elapsedNS: Int64) -> HistoryPoint {
+        let count = buckets.reduce(Int64(0)) { $0 + $1.count }
+        let sum = buckets.reduce(0.0) { $0 + $1.sumC }
+        return HistoryPoint(seriesID: seriesID, segment: buckets[0].segment, elapsedNS: elapsedNS, wallUnixNS: nil,
+            valueC: count > 0 ? sum / Double(count) : buckets.last!.latestC,
+            minC: buckets.map(\.minC).min(), maxC: buckets.map(\.maxC).max(), count: count)
     }
 
     private static let allowedViews: Set<String> = [
@@ -303,4 +289,5 @@ enum HistoryQueryError: Error, Sendable, Equatable {
     case duplicateSeries
     case cancelled
     case deadlineExceeded
+    case boundaryBudgetExceeded
 }

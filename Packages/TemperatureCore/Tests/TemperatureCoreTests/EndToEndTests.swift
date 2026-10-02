@@ -19,6 +19,15 @@ struct EndToEndTests {
             TimedControllerEvent(atMS: 210, event: .respondMembers(celsius: memberValues)),
         ])
 
+        // The scripted response only releases sensor IO. Observe the EMA
+        // published after its persistence Receipt before checking exact rows.
+        do {
+            try await waitForCommittedCPURead(fixture, seriesID: cpuMaxSeriesID, elapsedNS: 210_000_000)
+        } catch {
+            await fixture.controller.stop()
+            throw error
+        }
+
         #expect(await fixture.client.readCount == 1)
         #expect(await fixture.client.lastReadSourceCount == 12)
         #expect(try await fixture.session.rows(in: "raw_samples") == 13)
@@ -38,6 +47,26 @@ struct EndToEndTests {
 
         await fixture.controller.stop()
         try await fixture.closeAndDeleteSession()
+    }
+
+    private func waitForCommittedCPURead(
+        _ fixture: ControllerFixture,
+        seriesID: SeriesID,
+        elapsedNS: Int64
+    ) async throws {
+        let request = HistoryRequest(seriesIDs: [seriesID], range: .fiveMinutes,
+            asOfElapsedNS: elapsedNS, pointLimit: 100)
+        let deadline = ContinuousClock.now + .seconds(2)
+        while true {
+            let history = try await fixture.controller.history(request)
+            if history.points.contains(where: { $0.elapsedNS == elapsedNS }) { return }
+            if let failure = await fixture.controller.lastAcceptFailure() { throw failure }
+            guard ContinuousClock.now < deadline else {
+                Issue.record("CPU max EMA at \(elapsedNS)ns was not observable after persistence Receipt before the deadline")
+                throw CocoaError(.fileReadUnknown)
+            }
+            try await Task.sleep(for: .milliseconds(5))
+        }
     }
 
     @Test func sessionCloseRemovesDatabaseSidecars() async throws {

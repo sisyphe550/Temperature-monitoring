@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "date": "2026-09-18",
+  "date": "2026-10-02",
   "requirements": [
     {
       "id": "REQ-001",
@@ -2368,5 +2368,6 @@
       "body_sha256": "145758d60bf9e4697d867877c18001089209ab64127f95108dde821e8455388b",
       "verification": "pending-product-acceptance"
     }
-  ]
+  ],
+  "contract_revision": 3
 }

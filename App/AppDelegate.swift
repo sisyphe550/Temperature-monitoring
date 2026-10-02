@@ -14,10 +14,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     private var fixtureName: String?
     private var fixtureGeneration: UInt64 = 1
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
+    private var selectedHistoryMetricIDs: Set<MetricID> = []
+    private var fatalExitTask: Task<Void, Never>?
+    private var sleepWakeTask: Task<Void, Never>?
+    private var workspaceObservers: [NSObjectProtocol] = []
+    private var terminationTask: Task<Void, Never>?
+    private var terminationDeadlineTask: Task<Void, Never>?
+    private var terminationReplySent = false
 
     override init() {
         primaryCPUMetricID = try! MetricID(validating: "cpu.zone.max")
         presentationModel = PresentationModel(primaryCPUMetricID: primaryCPUMetricID)
+        selectedHistoryMetricIDs = [primaryCPUMetricID]
         super.init()
     }
 
@@ -35,19 +43,63 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             isDebugBuild: Self.isDebugBuild
         ) {
             UIFixtures.apply(named: fixtureName, to: presentationModel)
-        } else if Bundle.main.sensorWorkerExecutableURL != nil {
-            sessionRuntime = try? AppSessionRuntime.makeProduction(
-                presentationModel: presentationModel,
-                primaryCPUMetricID: primaryCPUMetricID
-            )
-            sessionRuntime?.start()
+        } else {
+            do {
+                let runtime = try AppSessionRuntime.makeProduction(presentationModel: presentationModel,
+                    primaryCPUMetricID: primaryCPUMetricID)
+                runtime.setFatalHandler { [weak self, weak runtime] receipt in self?.showFatal(receipt, delayMS: runtime?.remainingFatalMS(receipt)) }
+                sessionRuntime = runtime
+                runtime.start()
+            } catch {
+                let now = SystemClock().now()
+                let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .appInit, severity: .fatal,
+                    component: "AppDelegate", operation: "makeProduction", retryCount: 0, sourceID: nil,
+                    underlyingCode: String(describing: error))
+                // This fallback also works when the configuration resources themselves cannot load.
+                let fallbackConfiguration = (try? AppBundleConfiguration.loadRuntimeConfiguration()) ?? (try? Configuration.bundledDefaults())
+                var reportPath: String?
+                if let configuration = fallbackConfiguration,
+                   let support = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+                    let directory = support.appendingPathComponent(configuration.bundleID).appendingPathComponent("Diagnostics")
+                    let logger = DiagnosticLogger(directory: directory, configuration: configuration)
+                    let context = DiagnosticContext(sessionID: SessionID(UUID()), appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown",
+                        model: "startup", osBuild: ProcessInfo.processInfo.operatingSystemVersionString)
+                    try? logger.append(DiagnosticLogEntry(failure: failure, context: context))
+                    let report = FatalReport(frozenFailure: failure, sessionID: context.sessionID, appVersion: context.appVersion,
+                        model: context.model, osBuild: context.osBuild, incompleteShutdownSteps: [], writtenAt: Date())
+                    reportPath = (try? ReportWriter(directory: directory, configuration: configuration).write(report))?.url?.path
+                }
+                fputs("TemperatureMonitor startup failure: \(failure.code.rawValue) \(failure.underlyingCode ?? failure.operation)\n", stderr)
+                let intervalNS = Int64(fallbackConfiguration?.fatalDisplayMS ?? 30_000) * 1_000_000
+                let deadline = Timestamp(elapsedNS: now.elapsedNS + intervalNS, wallUnixNS: now.wallUnixNS + intervalNS)
+                let receipt = FatalDisplayReceipt(failure: failure, visibleAt: now, exitDeadline: deadline, reportPath: reportPath)
+                presentationModel.enterFatal(receipt)
+                showFatal(receipt)
+            }
         }
         statusItemController = StatusItemController(
             presentationModel: presentationModel,
             actions: self
         )
         statusItemController?.install()
+        installWorkspaceNotifications()
         applyUILaunchOptions(from: CommandLine.arguments)
+        if fixtureName == nil { openDashboard() }
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        openDashboard()
+        return true
+    }
+
+    private func showFatal(_ receipt: FatalDisplayReceipt, delayMS: Int? = nil) {
+        openDashboard()
+        guard fatalExitTask == nil else { return }
+        let delayNS = delayMS.map { Int64($0) * 1_000_000 } ?? max(0, receipt.exitDeadline.elapsedNS - receipt.visibleAt.elapsedNS)
+        fatalExitTask = Task { [weak self] in
+            do { try await Task.sleep(nanoseconds: UInt64(delayNS)) } catch { return }
+            self?.quit()
+        }
     }
 
     private func applyUILaunchOptions(from arguments: [String]) {
@@ -70,11 +122,57 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
         }
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
-        statusItemController?.uninstall()
-        Task {
-            await sessionRuntime?.stop()
+    private func installWorkspaceNotifications() {
+        guard sessionRuntime != nil else { return }
+        let center = NSWorkspace.shared.notificationCenter
+        workspaceObservers = [
+            center.addObserver(forName: NSWorkspace.willSleepNotification, object: nil, queue: .main) { [weak self] _ in
+                Task { @MainActor in self?.enqueueWorkspaceTransition(isWake: false) }
+            },
+            center.addObserver(forName: NSWorkspace.didWakeNotification, object: nil, queue: .main) { [weak self] _ in
+                Task { @MainActor in self?.enqueueWorkspaceTransition(isWake: true) }
+            },
+        ]
+    }
+
+    private func enqueueWorkspaceTransition(isWake: Bool) {
+        let previous = sleepWakeTask
+        sleepWakeTask = Task { [weak self] in
+            await previous?.value
+            guard !Task.isCancelled, let runtime = self?.sessionRuntime else { return }
+            if isWake { await runtime.resumeAfterWake() }
+            else { await runtime.suspendForSleep() }
         }
+    }
+
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard let runtime = sessionRuntime else { return .terminateNow }
+        guard terminationTask == nil else { return .terminateLater }
+        fatalExitTask?.cancel()
+        sleepWakeTask?.cancel()
+        terminationTask = Task { [weak self] in
+            await runtime.stop()
+            self?.finishTermination()
+        }
+        terminationDeadlineTask = Task { [weak self] in
+            do { try await Task.sleep(nanoseconds: UInt64(runtime.shutdownBudgetMS) * 1_000_000) } catch { return }
+            await runtime.recordShutdownDeadlineExceeded()
+            self?.finishTermination()
+        }
+        return .terminateLater
+    }
+
+    private func finishTermination() {
+        guard !terminationReplySent else { return }
+        terminationReplySent = true
+        terminationDeadlineTask?.cancel()
+        NSApp.reply(toApplicationShouldTerminate: true)
+    }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        for observer in workspaceObservers { NSWorkspace.shared.notificationCenter.removeObserver(observer) }
+        workspaceObservers.removeAll()
+        statusItemController?.uninstall()
     }
 
     func openDashboard() {
@@ -97,6 +195,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
         settingsController?.showWindow()
     }
 
+    func currentHistoryMetricIDs() -> Set<MetricID> { sessionRuntime?.currentHistoryMetricIDs() ?? selectedHistoryMetricIDs }
+
+    func setHistoryMetricIDs(_ metricIDs: Set<MetricID>) {
+        if let sessionRuntime { sessionRuntime.setHistoryMetricIDs(metricIDs); return }
+        guard fixtureName != nil, !metricIDs.isEmpty, metricIDs.count <= 8 else { return }
+        selectedHistoryMetricIDs = metricIDs
+        UIFixtures.applyHistory(to: presentationModel, range: selectedHistoryRange, metricIDs: selectedHistoryMetricIDs)
+    }
+
     func currentHistoryRange() -> HistoryRange {
         sessionRuntime?.currentHistoryRange() ?? selectedHistoryRange
     }
@@ -110,7 +217,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             return
         }
         selectedHistoryRange = range
-        UIFixtures.applyHistory(to: presentationModel, range: range)
+        UIFixtures.applyHistory(to: presentationModel, range: range, metricIDs: selectedHistoryMetricIDs)
     }
 
     func setCPUPeriod(milliseconds: Int) {
@@ -130,12 +237,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
             return
         }
         fixtureGeneration += 1
-        UIFixtures.applyBasic(
-            to: presentationModel,
-            cpuPeriodMS: milliseconds,
-            generation: fixtureGeneration
-        )
-        UIFixtures.applyHistory(to: presentationModel, range: selectedHistoryRange)
+        if fixtureName == "sources" {
+            UIFixtures.applySources(to: presentationModel, cpuPeriodMS: milliseconds, generation: fixtureGeneration)
+        } else {
+            UIFixtures.applyBasic(to: presentationModel, cpuPeriodMS: milliseconds, generation: fixtureGeneration)
+        }
+        UIFixtures.applyHistory(to: presentationModel, range: selectedHistoryRange, metricIDs: selectedHistoryMetricIDs)
     }
 
     func quit() {

@@ -1,20 +1,20 @@
-# 实施契约v1族：修订2唯一参数、类型与存储定义
+# 实施契约v1族：修订3唯一参数、类型与存储定义
 
-更新：2026-09-21；contract revision 2。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
+更新：2026-10-02；contract revision 3。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
 
 ## 机器可读交付物
 
 | 文件 | 权威内容 | 使用方式 |
 |---|---|---|
-| [defaults-v1.json](contracts/defaults-v1.json) | `contract_version=2`及全部周期、算法、容量和截止时间 | W01加载并拒绝其他修订；数值不得在别处重定义 |
+| [defaults-v1.json](contracts/defaults-v1.json) | `contract_version=3`及全部周期、算法、容量和截止时间 | W01加载并拒绝其他修订；数值不得在别处重定义 |
 | [first-profile-v1.json](contracts/first-profile-v1.json) | 首机型、固定成员、可选来源优先级和证据状态 | W02资格化来源；不是正式App兼容报告 |
-| [api-v1.swift](contracts/api-v1.swift) | 修订2值类型、互斥状态和服务接口 | W01拆入08所列文件；通过typecheck不等于产品实现 |
+| [api-v1.swift](contracts/api-v1.swift) | 修订3值类型、互斥状态和服务接口 | W01拆入08所列文件；通过typecheck不等于产品实现 |
 | [schema-v1.sql](contracts/schema-v1.sql) | SQLite DDL、键、索引、视图与PRAGMA | 本次修订不改变存储schema；W03按04实现事务 |
 | [third-party-v1.json](contracts/third-party-v1.json) | 实际复制/修改代码、许可和method-only边界 | 文档校验及W08通知文件门禁 |
 | [acceptance-v1.json](contracts/acceptance-v1.json) | 134项REQ到设计、任务和测试的映射 | W11逐项附证据；012/114保持retired |
-| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T11.3依赖图及W归属 | 23逐任务执行；依赖未因修订2改变 |
+| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T11.3依赖图及W归属 | 23逐任务执行；依赖未因修订3改变 |
 
-文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=2`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订2，不得同时保留旧路径。
+文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=3`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订3，不得同时保留旧路径。
 
 ## 强类型身份
 
@@ -144,3 +144,7 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 ```
 
 这些命令只验证文档契约、Swift类型和DDL；不证明生产App、UI、硬件或发布配置已实现。
+
+## 修订3迁移与不变量（2026-10-02）
+
+产品审查发现NVMe发现事实缺少传输字段；修订3为DiscoveredSource增加上述两个可选事实及闭合枚举。WorkerProtocol使用同名camelCase键，nil省略；非字符串、未知枚举及found缺位置为结构错误。来源资格仍由Registry决定，worker不声明物理语义。配置只接受contract_version=3；schema仍user_version=1，profile键集、全部数值默认值和50项任务DAG不变。新字段属于现有W01/W02/T01.2/T02.3接口落地，不新增工作包；acceptance/tasks标记contract_revision=3，原REQ编号和测试组不变。修订2历史证据不回写，也不能作为修订3硬件通过证据。

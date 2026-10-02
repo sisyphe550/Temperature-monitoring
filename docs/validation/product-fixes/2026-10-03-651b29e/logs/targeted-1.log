@@ -1,0 +1,22 @@
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Emitting module TemperatureCoreTests
+[4/5] Compiling TemperatureCoreTests EndToEndTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.76s)
+Test Suite 'Selected tests' started at 2026-10-02 23:54:03.754.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 23:54:03.755.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 23:54:03.755.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 23:54:03.755.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "EndToEndTests" started.
+◇ Test fullCPURawToHistorySoftwareLoop() started.
+✔ Test fullCPURawToHistorySoftwareLoop() passed after 0.129 seconds.
+✔ Suite "EndToEndTests" passed after 0.129 seconds.
+✔ Test run with 1 test in 1 suite passed after 0.129 seconds.

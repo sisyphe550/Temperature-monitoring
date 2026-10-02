@@ -1,0 +1,46 @@
+Core line coverage: 7059/7966 = 88.61%
+Scope: Sources/TemperatureCore and Sources/SensorRuntime production Swift.
+Excluded: tests, App UI, C bridge, worker entry, CSQLite.
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/ProcessingCoordinator.swift: 285/315
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/SamplingService.swift: 470/505
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/SeriesCatalogBuilder.swift: 109/110
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/SessionMonitorController.swift: 260/321
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/WorkerClient.swift: 409/444
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/WorkerProtocol.swift: 381/489
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Clock.swift: 51/53
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Configuration.swift: 112/126
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/ConnectionIdentity.swift: 6/6
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/Identifiers.swift: 48/48
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/PersistenceTypes.swift: 23/23
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/PresentationTypes.swift: 65/65
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Contracts/SensorTypes.swift: 144/144
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/DiagnosticLogger.swift: 109/117
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/ErrorCoordinator.swift: 67/87
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/FatalDisplayReceipt.swift: 15/21
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/MonitorFailure.swift: 9/9
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/MonitorShutdown.swift: 9/26
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/ReportWriter.swift: 100/121
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Diagnostics/RetryPolicy.swift: 59/65
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/MetricResolver.swift: 36/38
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/MonitorEngine.swift: 848/916
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/BoundedQueue.swift: 139/180
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/PersistenceBatchMetrics.swift: 19/19
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/SessionPersistence.swift: 556/633
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Persistence/StorageWriter.swift: 6/21
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/Aggregation.swift: 287/303
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/CPUMaxDerivation.swift: 61/69
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/EMA.swift: 35/36
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/RingBuffer.swift: 79/83
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/SafeWatermark.swift: 8/8
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/SampleValidation.swift: 8/8
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Processing/Trend.swift: 113/124
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/QualifiedSensorClient.swift: 109/139
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Registry.swift: 384/396
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/SensorDecoding.swift: 44/44
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/SessionLock.swift: 46/48
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Storage/BatchCanonicalHash.swift: 8/8
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Storage/BatchCommit.swift: 556/651
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Storage/HistoryQuery.swift: 265/288
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Storage/Retention.swift: 229/250
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Storage/SQLiteStore.swift: 301/375
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/TemperatureCore/Storage/SessionCleanup.swift: 191/234

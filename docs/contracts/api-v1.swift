@@ -1,4 +1,4 @@
-// Design contract family v1, contract revision 2. Not the production implementation.
+// Design contract family v1, contract revision 3. Not the production implementation.
 // Copy into Packages/TemperatureCore and split by the file map in docs/08.
 import Foundation
 
@@ -218,6 +218,12 @@ public struct SessionMetadata: Codable, Sendable, Equatable {
     }
 }
 
+public enum InterconnectLookupStatus: String, Codable, Sendable, Equatable {
+    case found
+    case missingProperty
+    case lookupFailed
+}
+
 public struct DiscoveredSource: Codable, Sendable, Equatable {
     public let transportHandle: String
     public let provider: ProviderKind
@@ -225,6 +231,8 @@ public struct DiscoveredSource: Codable, Sendable, Equatable {
     public let registryID: String?
     public let encoding: String
     public let byteCount: Int
+    public let physicalInterconnectLocation: String?
+    public let interconnectLookupStatus: InterconnectLookupStatus?
 
     public init(
         transportHandle: String,
@@ -232,7 +240,9 @@ public struct DiscoveredSource: Codable, Sendable, Equatable {
         rawKey: String,
         registryID: String?,
         encoding: String,
-        byteCount: Int
+        byteCount: Int,
+        physicalInterconnectLocation: String? = nil,
+        interconnectLookupStatus: InterconnectLookupStatus? = nil
     ) {
         self.transportHandle = transportHandle
         self.provider = provider
@@ -240,6 +250,8 @@ public struct DiscoveredSource: Codable, Sendable, Equatable {
         self.registryID = registryID
         self.encoding = encoding
         self.byteCount = byteCount
+        self.physicalInterconnectLocation = physicalInterconnectLocation
+        self.interconnectLookupStatus = interconnectLookupStatus
     }
 }
 

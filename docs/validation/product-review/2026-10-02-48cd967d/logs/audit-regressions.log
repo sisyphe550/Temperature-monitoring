@@ -1,0 +1,196 @@
+[0/1] Planning build
+Building for debugging...
+[0/13] Write sources
+[1/13] Write swift-version--58304C5D6DBC2206.txt
+[3/49] Compiling TemperatureCore HistoryQuery.swift
+[4/49] Compiling TemperatureCore Retention.swift
+[5/49] Compiling TemperatureCore SQLiteStore.swift
+[6/49] Compiling TemperatureCore CPUMaxDerivation.swift
+[7/49] Compiling TemperatureCore EMA.swift
+[8/49] Compiling TemperatureCore RingBuffer.swift
+[9/49] Compiling TemperatureCore SafeWatermark.swift
+[10/52] Compiling TemperatureCore SampleValidation.swift
+[11/52] Compiling TemperatureCore Trend.swift
+[12/52] Compiling TemperatureCore QualifiedSensorClient.swift
+[13/52] Compiling TemperatureCore Registry.swift
+[14/52] Compiling TemperatureCore RetryPolicy.swift
+[15/52] Compiling TemperatureCore MetricResolver.swift
+[16/52] Compiling TemperatureCore MonitorEngine.swift
+[17/52] Compiling TemperatureCore BoundedQueue.swift
+[18/52] Compiling TemperatureCore FatalDisplayReceipt.swift
+[19/52] Compiling TemperatureCore MonitorFailure.swift
+[20/52] Compiling TemperatureCore MonitorShutdown.swift
+[21/52] Compiling TemperatureCore ReportWriter.swift
+[22/52] Compiling TemperatureCore Clock.swift
+[23/52] Compiling TemperatureCore Configuration.swift
+[24/52] Compiling TemperatureCore Identifiers.swift
+[25/52] Compiling TemperatureCore PersistenceTypes.swift
+[26/52] Emitting module TemperatureCore
+[27/52] Compiling TemperatureCore PersistenceBatchMetrics.swift
+[28/52] Compiling TemperatureCore SessionPersistence.swift
+[29/52] Compiling TemperatureCore StorageWriter.swift
+[30/52] Compiling TemperatureCore Aggregation.swift
+[31/52] Compiling TemperatureCore SessionCleanup.swift
+[32/52] Compiling TemperatureCore TemperatureCoreModule.swift
+[33/52] Compiling TemperatureCore resource_bundle_accessor.swift
+[34/52] Compiling TemperatureCore SensorDecoding.swift
+[35/52] Compiling TemperatureCore SessionLock.swift
+[36/52] Compiling TemperatureCore BatchCanonicalHash.swift
+[37/52] Compiling TemperatureCore BatchCommit.swift
+[38/52] Compiling TemperatureCore PresentationTypes.swift
+[39/52] Compiling TemperatureCore SensorTypes.swift
+[40/52] Compiling TemperatureCore DiagnosticLogger.swift
+[41/52] Compiling TemperatureCore ErrorCoordinator.swift
+[42/63] Compiling TemperaturePresentation PresentationState.swift
+[43/63] Compiling TemperaturePresentation HistoryChartModel.swift
+[44/63] Compiling TemperaturePresentation PresentationModel.swift
+[45/63] Emitting module TemperaturePresentation
+[46/63] Compiling SensorRuntime ProcessingCoordinator.swift
+[47/63] Compiling SensorRuntime WorkerProtocol.swift
+[48/63] Compiling SensorRuntime SeriesCatalogBuilder.swift
+[49/63] Compiling SensorRuntime SamplingService.swift
+[50/63] Compiling SensorRuntime SessionMonitorController.swift
+[51/63] Compiling SensorRuntime WorkerClient.swift
+[52/63] Emitting module SensorRuntime
+[53/114] Compiling ProtocolWorker main.swift
+[54/114] Emitting module ProtocolWorker
+[54/114] Write Objects.LinkFileList
+[56/114] Compiling TemperatureCoreTests Fixtures.swift
+[57/114] Compiling TemperatureCoreTests ProcessorFixture.swift
+[58/114] Compiling TemperatureCoreTests TemporaryStoreFixture.swift
+[58/117] Linking ProtocolWorker
+[59/117] Applying ProtocolWorker
+[61/117] Compiling SensorWorker SensorBridgeSupport.swift
+[62/117] Compiling SensorWorker HardwareSession.swift
+[63/117] Compiling SensorWorker SensorWorkerEntry.swift
+[64/117] Compiling SensorWorker WorkerClock.swift
+[65/117] Emitting module SensorWorker
+[65/117] Write Objects.LinkFileList
+[67/117] Compiling ProductQualification SourcesCollector.swift
+[68/117] Compiling ProductQualification ProductQualificationMain.swift
+[69/117] Compiling ProductQualification SchedulesCollector.swift
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Sources/ProductQualification/SchedulesCollector.swift:179:25: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+177 |         var model = [CChar](repeating: 0, count: size)
+178 |         sysctlbyname("hw.model", &model, &size, nil, 0)
+179 |         let hostModel = String(cString: model)
+    |                         `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+180 |         guard hostModel == profile.model else {
+181 |             throw QualificationError.hostModelMismatch(expected: profile.model, actual: hostModel)
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[69/117] Linking SensorWorker
+[70/117] Applying SensorWorker
+[72/117] Emitting module SensorRuntimeTests
+[73/117] Compiling SensorRuntimeTests ProcessingCoordinatorTests.swift
+[74/117] Compiling ProductQualification Entry.swift
+[75/117] Emitting module ProductQualification
+[76/117] Compiling ProductQualification SQLiteEvidence.swift
+[77/117] Compiling ProductQualification EnduranceCollector.swift
+[78/117] Compiling ProductQualification LifecycleCollector.swift
+[78/117] Write Objects.LinkFileList
+[80/117] Compiling SensorRuntimeTests WorkerProtocolTests.swift
+[80/117] Linking ProductQualification
+[81/117] Applying ProductQualification
+[83/117] Compiling SensorRuntimeTests SamplingServiceTests.swift
+[84/117] Compiling SensorRuntimeTests WorkerLifecycleTests.swift
+[85/117] Compiling SensorRuntimeTests WorkerTestSupport.swift
+[86/117] Emitting module TemperatureCoreTests
+[87/117] Compiling SensorRuntimeTests SensorDecodingTests.swift
+[88/117] Compiling SensorRuntimeTests SourceRegistryTests.swift
+macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+`- /private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:222:59: note: expanded code originates here
+220 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+221 |         #expect(metrics.count == 1)
+222 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+    |         `- note: in expansion of macro 'expect' here
+    +--- macro expansion #expect ---------------------------------------
+    |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+    |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+    +-------------------------------------------------------------------
+223 |     }
+224 | 
+[89/117] Compiling TemperatureCoreTests ContractTests.swift
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[90/117] Compiling TemperatureCoreTests DiagnosticsTests.swift
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[91/117] Compiling TemperatureCoreTests EMAProcessorTests.swift
+/private/tmp/temperature-monitor-review-20261002.1G0KnN/src/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[92/117] Compiling TemperatureCoreTests TestClock.swift
+[93/117] Compiling TemperatureCoreTests TrendTests.swift
+[94/117] Compiling TemperatureCoreTests WatermarkTests.swift
+[95/117] Compiling TemperatureCoreTests ClockTests.swift
+[96/117] Compiling TemperatureCoreTests ConfigurationTests.swift
+[97/117] Compiling TemperatureCoreTests ContractCoverageTests.swift
+[98/117] Compiling TemperatureCoreTests AggregationTests.swift
+[99/117] Compiling TemperatureCoreTests AppBundleConfigurationTests.swift
+[100/117] Compiling TemperatureCoreTests BackpressureTests.swift
+[101/117] Compiling TemperatureCoreTests SessionLifecycleTests.swift
+[102/117] Compiling TemperatureCoreTests StorageFaultTests.swift
+[103/117] Compiling TemperatureCoreTests ControllerFixture.swift
+[104/117] Compiling TemperatureCoreTests RetryPolicyTests.swift
+[105/117] Compiling TemperatureCoreTests RingBufferTests.swift
+[106/117] Compiling TemperatureCoreTests SQLiteStoreTests.swift
+[107/117] Compiling TemperatureCoreTests EndToEndTests.swift
+[108/117] Compiling TemperatureCoreTests ErrorCoordinatorTests.swift
+[109/117] Compiling TemperatureCoreTests HistoryChartModelTests.swift
+[110/117] Compiling TemperatureCoreTests HistoryQueryTests.swift
+[111/117] Compiling TemperatureCoreTests MonitorIntegrationTests.swift
+[112/117] Compiling TemperatureCoreTests PresentationModelTests.swift
+[113/117] Compiling TemperatureCoreTests ProcessingIdentityTests.swift
+[114/117] Compiling TemperatureCoreTests ProductAuditRegressionTests.swift
+[115/117] Compiling TemperatureCoreTests RetentionTests.swift
+[116/119] Emitting module TemperatureCorePackageTests
+[117/119] Compiling TemperatureCorePackageTests runner.swift
+[117/119] Write Objects.LinkFileList
+[118/119] Linking TemperatureCorePackageTests
+Build complete! (7.19s)
+Test Suite 'Selected tests' started at 2026-10-02 16:00:37.697.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-02 16:00:37.698.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-02 16:00:37.698.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-02 16:00:37.698.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProductAuditRegressionTests started.
+◇ Test completedReadReleasesPlannedWatermarkRegistration() started.
+✘ Test completedReadReleasesPlannedWatermarkRegistration() recorded an issue at ProductAuditRegressionTests.swift:39:9: Expectation failed: (safeWatermark → 999999999) == (2_000_000_000 → 2000000000)
+↳ // A completed request must no longer block history window closure.
+✘ Test completedReadReleasesPlannedWatermarkRegistration() failed after 0.005 seconds with 1 issue.
+◇ Test firstReadAfterWakeIsAcceptedWithUniqueRequestIdentity() started.
+✘ Test firstReadAfterWakeIsAcceptedWithUniqueRequestIdentity() recorded an issue at ProductAuditRegressionTests.swift:68:9: Expectation failed: (wakeFailure → MonitorFailure(code: TemperatureCore.MonitorErrorCode.databaseIntegrity, severity: TemperatureCore.Severity.fatal, component: "MonitorEngine", operation: "accept", retryCount: 0, sourceID: nil, underlyingCode: Optional("request_content_mismatch"))) == nil
+✘ Test firstReadAfterWakeIsAcceptedWithUniqueRequestIdentity() recorded an issue at ProductAuditRegressionTests.swift:69:9: Expectation failed: (afterWakeCount → 1) == (beforeSleepCount + 1 → 2)
+✘ Test firstReadAfterWakeIsAcceptedWithUniqueRequestIdentity() failed after 0.065 seconds with 2 issues.
+◇ Test historyRequestWithFreshSystemClockRetainsCurrentSessionSample() started.
+✘ Test historyRequestWithFreshSystemClockRetainsCurrentSessionSample() recorded an issue at ProductAuditRegressionTests.swift:121:9: Expectation failed: (newClockHistory.points → []) == (sessionHistory.points → [TemperatureCore.HistoryPoint(seriesID: TemperatureCore.TaggedUUID<TemperatureCore.SeriesIDTag>(rawValue: "00000000-0000-4000-8000-000000000101"), segment: 1, elapsedNS: 44706750, wallUnixNS: Optional(1790928037829197000), valueC: 70.0, minC: nil, maxC: nil, count: 1)])
+± removed [TemperatureCore.HistoryPoint(seriesID: TemperatureCore.TaggedUUID<TemperatureCore.SeriesIDTag>(rawValue: "00000000-0000-4000-8000-000000000101"), segment: 1, elapsedNS: 44706750, wallUnixNS: Optional(1790928037829197000), valueC: 70.0, minC: nil, maxC: nil, count: 1)]
+✘ Test historyRequestWithFreshSystemClockRetainsCurrentSessionSample() recorded an issue at ProductAuditRegressionTests.swift:122:9: Expectation failed: (newClockHistory.points.count → 0) == 1
+✘ Test historyRequestWithFreshSystemClockRetainsCurrentSessionSample() failed after 0.045 seconds with 2 issues.
+◇ Test normalRuntimeTickPrunesExpiredPersistedSamples() started.
+✘ Test normalRuntimeTickPrunesExpiredPersistedSamples() recorded an issue at ProductAuditRegressionTests.swift:175:9: Expectation failed: (rawCount → 1) == 0
+✘ Test normalRuntimeTickPrunesExpiredPersistedSamples() recorded an issue at ProductAuditRegressionTests.swift:176:9: Expectation failed: (emaCount → 1) == 0
+✘ Test normalRuntimeTickPrunesExpiredPersistedSamples() failed after 0.131 seconds with 2 issues.
+✘ Suite ProductAuditRegressionTests failed after 0.247 seconds with 7 issues.
+↳ // Review-only regression tests in the temporary source copy.
+↳ // Assertions describe the required product behavior and are expected to fail
+↳ // against the reviewed implementation where that behavior is missing.
+✘ Test run with 4 tests in 1 suite failed after 0.248 seconds with 7 issues.

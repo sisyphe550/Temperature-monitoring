@@ -354,6 +354,13 @@ private extension WorkerProtocol {
     }
 
     static func sourceJSONObject(_ source: DiscoveredSource) throws -> [String: Any] {
+        if let location = source.physicalInterconnectLocation,
+           location.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || location.contains("\0") {
+            throw WorkerProtocolError.invalidResponsePayload
+        }
+        guard source.interconnectLookupStatus != .found || source.physicalInterconnectLocation != nil else {
+            throw WorkerProtocolError.invalidResponsePayload
+        }
         var object: [String: Any] = [
             "transportHandle": source.transportHandle,
             "provider": source.provider.rawValue,
@@ -363,6 +370,12 @@ private extension WorkerProtocol {
         ]
         if let registryID = source.registryID {
             object["registryID"] = registryID
+        }
+        if let location = source.physicalInterconnectLocation {
+            object["physicalInterconnectLocation"] = location
+        }
+        if let status = source.interconnectLookupStatus {
+            object["interconnectLookupStatus"] = status.rawValue
         }
         return object
     }
@@ -439,13 +452,39 @@ private extension WorkerProtocol {
         guard let provider = ProviderKind(rawValue: providerRaw) else {
             throw WorkerProtocolError.invalidResponsePayload
         }
+        let location: String?
+        if let field = object["physicalInterconnectLocation"] {
+            guard let value = field as? String,
+                  !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+                  !value.contains("\0") else {
+                throw WorkerProtocolError.invalidResponsePayload
+            }
+            location = value
+        } else {
+            location = nil
+        }
+        let lookupStatus: InterconnectLookupStatus?
+        if let field = object["interconnectLookupStatus"] {
+            guard let raw = field as? String,
+                  let status = InterconnectLookupStatus(rawValue: raw) else {
+                throw WorkerProtocolError.invalidResponsePayload
+            }
+            lookupStatus = status
+        } else {
+            lookupStatus = nil
+        }
+        guard lookupStatus != .found || location != nil else {
+            throw WorkerProtocolError.invalidResponsePayload
+        }
         return DiscoveredSource(
             transportHandle: try jsonString(at: object, key: "transportHandle"),
             provider: provider,
             rawKey: try jsonString(at: object, key: "rawKey"),
             registryID: object["registryID"] as? String,
             encoding: try jsonString(at: object, key: "encoding"),
-            byteCount: try jsonInt(at: object, key: "byteCount")
+            byteCount: try jsonInt(at: object, key: "byteCount"),
+            physicalInterconnectLocation: location,
+            interconnectLookupStatus: lookupStatus
         )
     }
 

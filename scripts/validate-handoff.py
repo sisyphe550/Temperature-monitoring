@@ -143,7 +143,7 @@ def validate_requirements() -> None:
 def validate_contract_values() -> None:
     defaults = load_json(CONTRACTS / "defaults-v1.json")
     exact = {
-        "contract_version": 2,
+        "contract_version": 3,
         "cpu_intervals_ms": [50, 100, 200, 500, 1000],
         "cpu_default_ms": 200,
         "ssd_interval_ms": 500,
@@ -252,6 +252,9 @@ def validate_third_party_contract() -> None:
     ):
         if token not in api:
             fail(f"api-v1.swift: missing {token}")
+    for token in ("InterconnectLookupStatus", "physicalInterconnectLocation", "interconnectLookupStatus"):
+        if token not in api:
+            fail(f"api-v1.swift: missing NVMe discovery fact {token}")
     for forbidden in ("public struct QueueReservation", "valueC: Double?", "failure: MonitorFailure?"):
         if forbidden in api:
             fail(f"api-v1.swift: obsolete API remains: {forbidden}")
@@ -502,7 +505,7 @@ def validate_entry_contracts() -> None:
         DOCS / "21-implementation-contracts.md",
     ]
     required_tokens = (
-        "contract revision 2",
+        "contract revision 3",
         "Discovered",
         "Qualified",
         "ReadingOutcome",
@@ -548,7 +551,7 @@ def main() -> int:
                 "requirements": {"total": 134, "active": 132, "retired": 2},
                 "tasks": {"work_packages": 12, "execution_tasks": 50},
                 "test_groups": 20,
-                "contract_revision": 2,
+                "contract_revision": 3,
                 "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json"],
                 "scope": "documentation contracts only; production App and hardware acceptance remain pending",
             },
