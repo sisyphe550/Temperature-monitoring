@@ -10,7 +10,7 @@ public final class PresentationModel {
 
     private let primaryCPUMetricID: MetricID
     private var chartState: HistoryChartState = .loading(previous: [])
-    private var isFatal = false
+    private var currentDefinitions: [SeriesDefinition] = []
 
     public init(primaryCPUMetricID: MetricID) {
         self.primaryCPUMetricID = primaryCPUMetricID
@@ -18,20 +18,21 @@ public final class PresentationModel {
 
     @discardableResult
     public func apply(snapshot: Snapshot) -> Bool {
-        guard !isFatal else {
+        if case .fatal = state {
             return false
         }
         guard snapshot.generation >= lastAppliedSnapshotGeneration else {
             return false
         }
         lastAppliedSnapshotGeneration = snapshot.generation
+        currentDefinitions = snapshot.values.map(\.definition)
         let running = makeRunningState(from: snapshot)
         state = .running(running)
         return true
     }
 
     public func beginHistoryLoad() {
-        guard !isFatal else {
+        if case .fatal = state {
             return
         }
         chartState = HistoryChartModel.beginLoading(previous: chartPreviousSeries())
@@ -48,16 +49,22 @@ public final class PresentationModel {
         }
     }
 
-    public func apply(history: HistoryResult, request: HistoryRequest) {
-        guard !isFatal else {
+    public func apply(history: HistoryResult, request: HistoryRequest, definitions: [SeriesDefinition] = []) {
+        if case .fatal = state {
             return
         }
-        chartState = HistoryChartModel.makeReadyState(from: history, request: request)
+        let next = HistoryChartModel.makeReadyState(from: history, request: request,
+            definitions: currentDefinitions + definitions)
+        if case let .failed(failure, _) = next {
+            chartState = HistoryChartModel.makeFailedState(failure, previous: chartPreviousSeries())
+        } else {
+            chartState = next
+        }
         refreshRunningChart()
     }
 
     public func applyHistoryFailure(_ failure: MonitorFailure) {
-        guard !isFatal else {
+        if case .fatal = state {
             return
         }
         chartState = HistoryChartModel.makeFailedState(failure, previous: chartPreviousSeries())
@@ -65,7 +72,6 @@ public final class PresentationModel {
     }
 
     public func enterFatal(_ receipt: FatalDisplayReceipt) {
-        isFatal = true
         state = .fatal(
             FatalPresentationState(
                 failure: receipt.failure,
@@ -76,7 +82,7 @@ public final class PresentationModel {
     }
 
     public func resetForTesting() {
-        isFatal = false
+        currentDefinitions = []
         lastAppliedSnapshotGeneration = 0
         chartState = .loading(previous: [])
         state = nil
@@ -176,19 +182,25 @@ public final class PresentationModel {
         case let .unavailable(capability, reason):
             return .unavailable(capability: capability, reason: reason)
         case let .available(ema, lastSuccessfulAt, lastFailure):
-            let staleThresholdNS = Self.staleThresholdNS(periodMS: cpuPeriodMS)
+            let periodMS: Int
+            switch latest.definition.kind {
+            case .battery: periodMS = 1000
+            case .ssd: periodMS = 500
+            default: periodMS = cpuPeriodMS
+            }
+            let staleThresholdNS = Self.staleThresholdNS(periodMS: periodMS)
             let ageNS = asOf.elapsedNS - lastSuccessfulAt.elapsedNS
             if ageNS > staleThresholdNS {
                 return .stale(
                     lastObservedAt: lastSuccessfulAt,
-                    reason: "数据已过期"
+                    reason: lastFailure.map { "数据已过期：\($0.code.rawValue) \($0.underlyingCode ?? "")" } ?? "数据已过期"
                 )
             }
             if let lastFailure {
                 return .cached(
                     valueC: ema.valueC,
                     observedAt: lastSuccessfulAt,
-                    reason: lastFailure.code.rawValue
+                    reason: "\(lastFailure.code.rawValue) \(lastFailure.underlyingCode ?? "")"
                 )
             }
             return .live(valueC: ema.valueC, observedAt: lastSuccessfulAt)

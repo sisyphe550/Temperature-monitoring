@@ -120,12 +120,15 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
         let popover = NSPopover()
         popover.behavior = .transient
         popover.delegate = self
-        popover.contentSize = NSSize(width: 340, height: 640)
+        let usableHeight = NSScreen.main?.visibleFrame.height ?? 740
+        let contentHeight = max(240, min(640, usableHeight - 40))
+        popover.contentSize = NSSize(width: 340, height: contentHeight)
         popover.contentViewController = NSHostingController(
             rootView: TemperaturePopoverView(
                 presentationModel: presentationModel,
                 actions: actions,
-                onClose: { [weak self] in self?.closePopover() }
+                onClose: { [weak self] in self?.closePopover() },
+                contentHeight: contentHeight
             )
         )
         return popover
@@ -164,6 +167,11 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
     private func refreshStatusButton(_ button: NSStatusBarButton) {
         let title = TemperatureFormatting.statusTitle(for: presentationModel.state)
         button.title = title
+        if case let .running(running) = presentationModel.state {
+            button.toolTip = TemperatureFormatting.stateDescription(running.primaryCPU)
+        } else {
+            button.toolTip = nil
+        }
         button.setAccessibilityIdentifier("status.temperature")
         button.setAccessibilityLabel(title)
         button.setAccessibilityValue(title)

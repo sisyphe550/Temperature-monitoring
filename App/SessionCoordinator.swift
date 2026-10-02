@@ -19,6 +19,8 @@ public actor SessionCoordinator {
     private var sessionID: SessionID?
     private var fatalReceipt: FatalDisplayReceipt?
     private var metadata: SessionMetadata?
+    private var lifecycleBusy = false
+    private var lifecycleWaiters: [CheckedContinuation<Void, Never>] = []
 
     public init(
         clock: MonitorClock,
@@ -33,9 +35,12 @@ public actor SessionCoordinator {
     }
 
     public func start(sessionMetadata: SessionMetadata) async throws {
+        await beginLifecycleOperation()
+        defer { endLifecycleOperation() }
         guard controller == nil else {
             throw SessionCoordinatorError.alreadyRunning
         }
+        metadata = sessionMetadata
         let lock = try SessionLock.acquire(at: paths.lockURL)
         sessionLock = lock
         let cleanup = SessionCleanup(
@@ -64,25 +69,69 @@ public actor SessionCoordinator {
     }
 
     public func suspendForSleep() async throws {
+        await beginLifecycleOperation()
+        defer { endLifecycleOperation() }
         guard let controller else {
             throw SessionCoordinatorError.notRunning
         }
+        if await controller.isSuspended { return }
         try await controller.suspendForSleep()
     }
 
     public func resumeAfterWake() async throws {
+        await beginLifecycleOperation()
+        defer { endLifecycleOperation() }
         guard let controller else {
             throw SessionCoordinatorError.notRunning
         }
+        guard await controller.isSuspended else { return }
         try await controller.resumeAfterWake()
     }
 
     public func stop() async {
+        await beginLifecycleOperation()
+        defer { endLifecycleOperation() }
         await controller?.stop()
+        let shutdown = await controller?.lastShutdownOutcome()
+        if let shutdown, !shutdown.incompleteSteps.isEmpty {
+            recordShutdownDeadlineExceeded(incompleteSteps: shutdown.incompleteSteps)
+        }
+        if let sessionID, shutdown?.incompleteSteps.isEmpty != false {
+            let cleanup = SessionCleanup(bundleID: configuration.bundleID)
+            do { try cleanup.deleteSessionDirectory(at: paths.sessionDirectory(sessionID: sessionID), sessionID: sessionID, paths: paths) }
+            catch { fputs("TemperatureMonitor session cleanup incomplete: \(error)\n", stderr) }
+        }
         controller = nil
         sessionID = nil
         sessionLock?.release()
         sessionLock = nil
+    }
+
+    private func beginLifecycleOperation() async {
+        if lifecycleBusy { await withCheckedContinuation { lifecycleWaiters.append($0) } }
+        else { lifecycleBusy = true }
+    }
+
+    private func endLifecycleOperation() {
+        if lifecycleWaiters.isEmpty { lifecycleBusy = false }
+        else { lifecycleWaiters.removeFirst().resume() }
+    }
+
+    public var shutdownBudgetMS: Int { configuration.shutdownBudgetMS }
+
+    public func recordShutdownDeadlineExceeded(incompleteSteps: [String] = ["await_runtime_stop", "delete_session_directory"]) {
+        guard let metadata else { return }
+        let directory = paths.appSupportRoot.appendingPathComponent("Diagnostics", isDirectory: true)
+        let logger = DiagnosticLogger(directory: directory, configuration: configuration)
+        let failure = fatalReceipt?.failure ?? MonitorFailure(code: .databaseClean, severity: .fatal,
+            component: "SessionCoordinator", operation: "shutdown", retryCount: 0, sourceID: nil,
+            underlyingCode: "shutdown_deadline_exceeded")
+        let context = DiagnosticContext(sessionID: metadata.sessionID, appVersion: metadata.appVersion, model: metadata.model, osBuild: metadata.osBuild)
+        try? logger.append(DiagnosticLogEntry(failure: failure, context: context))
+        let report = FatalReport(frozenFailure: failure, sessionID: metadata.sessionID,
+            appVersion: metadata.appVersion, model: metadata.model, osBuild: metadata.osBuild,
+            incompleteShutdownSteps: incompleteSteps, writtenAt: Date())
+        _ = try? ReportWriter(directory: directory, configuration: configuration).write(report)
     }
 
     public func recordFatal(
@@ -113,6 +162,8 @@ public actor SessionCoordinator {
         fatalReceipt = receipt
         return receipt
     }
+
+    public func freezeForFatal() async { await controller?.freezeForFatal() }
 
     public func lastRuntimeFailure() async -> MonitorFailure? { await controller?.lastAcceptFailure() }
 

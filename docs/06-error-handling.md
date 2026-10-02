@@ -1,6 +1,6 @@
 # 故障、重试、能力缺失与退出
 
-更新：2026-09-21；实施契约v1族修订2。参数保留用户原定重试次数；CPU主指标为必需，SSD/Battery为能力可选。可选不等于省略实现，必须完成检测、读取适配与明确状态。
+更新：2026-10-02；实施契约v1族修订3。参数保留用户原定重试次数；CPU主指标为必需，SSD/Battery为能力可选。可选不等于省略实现，必须完成检测、读取适配与明确状态。
 
 ## 判定顺序
 
@@ -64,3 +64,7 @@ Fatal：停止新调度 → 固定原始错误 → 独立日志/JSON报告 → M
 ## 诊断内容
 
 JSON包括error_code、severity、timestamp、component、operation、retry_count、sourceID（适用时）、sessionID、appVersion、model、osVersion/build、provider、mappingVersion、definitionVersion、underlyingError与未完成收尾步骤。日志独立于监控库，不写机器序列号、不自动上传。报告写入失败保留原始错误，通过OSLog/stderr和窗口内可复制文本兜底。
+
+### 可选来源恢复的代际边界
+
+运行中的timeout重连重置已隔离来源的连续有效读数计数，保留有限失败轮次；不同SourceID的成功次数不得累加。睡眠唤醒会重新资格化并开始新的有限恢复周期，此前隔离的来源仍须由新来源连续三个成功Receipt恢复Available，不能遗留旧kind隔离锁。

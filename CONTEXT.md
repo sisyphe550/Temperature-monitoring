@@ -1,6 +1,6 @@
 # 项目上下文与有效决策
 
-更新：2026-09-21；实施契约v1族，contract revision 2。接手入口：[00](docs/00-agent-handoff.md)。
+更新：2026-10-02；实施契约v1族，contract revision 3。接手入口：[00](docs/00-agent-handoff.md)。
 
 这是学校实验项目：从本机温度接口采样、加工、保存、原生展示。C11用户明确课程不强制数据库往返，采用内存实时路径和SQLite批量持久化/历史查询。无需继续询问教师路径选择。
 
@@ -43,4 +43,4 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 ## 当前实现状态
 
-已有只读Swift/C探针、原型测试、CI和M4短时实测。生产App、完整数据链、UI和正式发布尚未实现/验收。文档基线与 `blocking-issues` 已合入 main；T00.5 启用 `main-protection` ruleset。其他 agent 按 22 完成任务及证据；不应重新研究已删除的逐核接口。
+已有生产Core、SensorWorker、App、Xcode工程及CI；2026-10-02正式App审查确认本机CPU12→Raw max→EMA可运行，历史与故障/清理存在已登记缺陷，当前按产品审查修复计划推进重新验收。用户仅本机使用，豁免72/73h、公证、公开发行与跨机型认证；72h会话历史功能保留。文档基线与 `blocking-issues` 已合入 main；T00.5 启用 `main-protection` ruleset。其他 agent 按 22 完成任务及证据；不应重新研究已删除的逐核接口。

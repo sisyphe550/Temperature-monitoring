@@ -3,9 +3,9 @@ import Testing
 @testable import TemperatureCore
 
 @Suite struct ConfigurationTests {
-    @Test func bundledRevisionTwoDefaultsLoad() throws {
+    @Test func bundledRevisionThreeDefaultsLoad() throws {
         let configuration = try Configuration.bundledDefaults()
-        #expect(configuration.contractVersion == 2)
+        #expect(configuration.contractVersion == 3)
         #expect(configuration.cpuIntervalsMS == [50, 100, 200, 500, 1000])
         #expect(configuration.cpuDefaultMS == 200)
         #expect(configuration.emaTauSeconds.cpuMain > 0)
@@ -30,6 +30,11 @@ import Testing
         #expect(throws: ConfigurationError.unsupportedContractVersion(1)) {
             _ = try Configuration.decodeConfiguration(json)
         }
+    }
+
+    @Test func rejectsContractVersionTwoWithoutNVMeFacts() throws {
+        let json = try mutatedDefaults { $0["contract_version"] = NSNumber(value: 2) }
+        #expect(throws: ConfigurationError.unsupportedContractVersion(2)) { _ = try Configuration.decodeConfiguration(json) }
     }
 
     @Test func rejectsUnknownContractVersion() throws {

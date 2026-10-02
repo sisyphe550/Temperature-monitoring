@@ -26,6 +26,11 @@ public final class TestClock: MonitorClock, @unchecked Sendable {
         try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
                 lock.lock()
+                if Task.isCancelled {
+                    lock.unlock()
+                    continuation.resume(throwing: CancellationError())
+                    return
+                }
                 if untilElapsedNS <= current.elapsedNS {
                     lock.unlock()
                     continuation.resume()

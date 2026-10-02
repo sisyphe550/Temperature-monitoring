@@ -54,6 +54,39 @@ import TemperatureCore
         #expect(SensorDecoding.nearlyEqual(decoded!, 26.85))
     }
 
+    @Test func qualifiedSMCReadingRejectsChangedEncodingAndLength() {
+        #expect(SensorDecoding.smcTemperatureC(
+            encoding: "flt ", bytes: [0x00, 0x00, 0xCC, 0x41],
+            expectedEncoding: "flt ", expectedByteCount: 4
+        ) == 25.5)
+        #expect(SensorDecoding.smcTemperatureC(
+            encoding: "sp78", bytes: [0x19, 0x80],
+            expectedEncoding: "flt ", expectedByteCount: 4
+        ) == nil)
+        #expect(SensorDecoding.smcTemperatureC(
+            encoding: "flt ", bytes: [0x00, 0x00, 0xCC, 0x41],
+            expectedEncoding: "flt ", expectedByteCount: 2
+        ) == nil)
+    }
+
+    @Test func iopsAcceptsCelsiusCFNumberAndRejectsMissingBooleanInvalidValues() {
+        #expect(SensorDecoding.iopsTemperatureC(field: NSNumber(value: 28.5)) == 28.5)
+        #expect(SensorDecoding.iopsTemperatureC(field: NSNumber(value: 0)) == 0)
+        #expect(SensorDecoding.iopsTemperatureC(field: nil) == nil)
+        #expect(SensorDecoding.iopsTemperatureC(field: true) == nil)
+        #expect(SensorDecoding.iopsTemperatureC(field: NSNumber(value: false)) == nil)
+        #expect(SensorDecoding.iopsTemperatureC(field: "28.5") == nil)
+        for invalid in [Double.nan, Double.infinity, -Double.infinity, -274] {
+            #expect(SensorDecoding.iopsTemperatureC(field: NSNumber(value: invalid)) == nil)
+        }
+    }
+
+    @Test func smcRejectsTemperatureBelowAbsoluteZero() {
+        let bits = Float(-274).bitPattern
+        let bytes = (0..<4).map { UInt8(truncatingIfNeeded: bits >> ($0 * 8)) }
+        #expect(SensorDecoding.smcTemperatureC(encoding: "flt ", bytes: bytes) == nil)
+    }
+
     @Test func rawKeysAreCaseSensitive() {
         #expect(SensorDecoding.rawKeyMatches(profileKey: "Tp01", discoveredKey: "Tp01"))
         #expect(!SensorDecoding.rawKeyMatches(profileKey: "Tp01", discoveredKey: "tp01"))

@@ -5,6 +5,7 @@
 #include <IOKit/IOKitLib.h>
 #include <IOKit/IOCFPlugIn.h>
 #include <IOKit/storage/nvme/NVMeSMARTLibExternal.h>
+#include <IOKit/storage/IOStorageProtocolCharacteristics.h>
 #include <dlfcn.h>
 #include <stdlib.h>
 #include <string.h>
@@ -215,11 +216,82 @@ void sp_hid_close(SPHID *probe) {
     free(probe);
 }
 
+_Static_assert(sizeof(NVMeSMARTData) == 512, "NVMe SMART ABI size changed");
+_Static_assert(offsetof(NVMeSMARTData, TEMPERATURE) == 1, "NVMe temperature ABI offset changed");
+
+// Original, bounded, read-only ancestor walk. Every retained object is released.
+static int32_t nvme_interconnect_location(io_registry_entry_t service, char *location, size_t size) {
+    uint64_t visited[16] = {0};
+    size_t visited_count = 0;
+    io_registry_entry_t current = service;
+    location[0] = 0;
+    if (IOObjectRetain(current) != kIOReturnSuccess) {
+        return SP_NVME_LOCATION_LOOKUP_FAILED;
+    }
+    int32_t result = SP_NVME_LOCATION_LOOKUP_FAILED;
+    while (visited_count < 16) {
+        uint64_t identity = 0;
+        if (IORegistryEntryGetRegistryEntryID(current, &identity) != kIOReturnSuccess || !identity) {
+            break;
+        }
+        for (size_t i = 0; i < visited_count; i++) {
+            if (visited[i] == identity) {
+                goto done;
+            }
+        }
+        visited[visited_count++] = identity;
+        CFTypeRef property = IORegistryEntryCreateCFProperty(
+            current, CFSTR(kIOPropertyProtocolCharacteristicsKey), NULL, 0);
+        if (property) {
+            if (CFGetTypeID(property) != CFDictionaryGetTypeID()) {
+                CFRelease(property);
+                break;
+            }
+            CFTypeRef value = CFDictionaryGetValue(
+                (CFDictionaryRef)property, CFSTR(kIOPropertyPhysicalInterconnectLocationKey));
+            if (value) {
+                if (CFGetTypeID(value) == CFStringGetTypeID()
+                    && CFStringGetLength((CFStringRef)value) > 0
+                    && CFStringGetCString((CFStringRef)value, location, size, kCFStringEncodingUTF8)
+                    && location[0]) {
+                    result = SP_NVME_LOCATION_FOUND;
+                }
+                CFRelease(property);
+                break;
+            }
+            CFRelease(property);
+        }
+        io_registry_entry_t parent = 0;
+        IOReturn status = IORegistryEntryGetParentEntry(current, kIOServicePlane, &parent);
+        if (status != kIOReturnSuccess || !parent) {
+            if (status == kIOReturnNotFound || status == kIOReturnNoDevice) {
+                result = SP_NVME_LOCATION_MISSING_PROPERTY;
+            }
+            if (parent) {
+                IOObjectRelease(parent);
+            }
+            break;
+        }
+        IOObjectRelease(current);
+        current = parent;
+    }
+done:
+    IOObjectRelease(current);
+    if (result != SP_NVME_LOCATION_FOUND) {
+        location[0] = 0;
+    }
+    return result;
+}
+
 struct SPNVMe {
     int32_t count;
     IONVMeSMARTInterface **interfaces[16];
     IOCFPlugInInterface **plugins[16];
     int32_t status[16];
+    uint64_t registry_ids[16];
+    int32_t identity_status[16];
+    char locations[16][256];
+    int32_t location_status[16];
 };
 
 SPNVMe *sp_nvme_open(int32_t *status) {
@@ -245,6 +317,12 @@ SPNVMe *sp_nvme_open(int32_t *status) {
                 break;
             }
             int index = probe->count++;
+            probe->identity_status[index] = IORegistryEntryGetRegistryEntryID(service, &probe->registry_ids[index]);
+            if (!probe->identity_status[index] && !probe->registry_ids[index]) {
+                probe->identity_status[index] = kIOReturnNotFound;
+            }
+            probe->location_status[index] = nvme_interconnect_location(
+                service, probe->locations[index], sizeof(probe->locations[index]));
             IOCFPlugInInterface **plugin = NULL;
             SInt32 score = 0;
             probe->status[index] = IOCreatePlugInInterfaceForService(
@@ -268,6 +346,43 @@ SPNVMe *sp_nvme_open(int32_t *status) {
 
 int32_t sp_nvme_count(SPNVMe *probe) {
     return probe ? probe->count : 0;
+}
+
+int32_t sp_nvme_identity(SPNVMe *probe, int32_t index, uint64_t *registry_id) {
+    if (registry_id) {
+        *registry_id = 0;
+    }
+    if (!probe || !registry_id || index < 0 || index >= probe->count) {
+        return kIOReturnBadArgument;
+    }
+    if (probe->identity_status[index]) {
+        return probe->identity_status[index];
+    }
+    *registry_id = probe->registry_ids[index];
+    return kIOReturnSuccess;
+}
+
+int32_t sp_nvme_location(SPNVMe *probe, int32_t index, char *location,
+                         size_t size, int32_t *lookup_status) {
+    if (location && size) {
+        location[0] = 0;
+    }
+    if (lookup_status) {
+        *lookup_status = SP_NVME_LOCATION_LOOKUP_FAILED;
+    }
+    if (!probe || !location || !size || !lookup_status || index < 0 || index >= probe->count) {
+        return kIOReturnBadArgument;
+    }
+    *lookup_status = probe->location_status[index];
+    if (*lookup_status == SP_NVME_LOCATION_FOUND) {
+        size_t length = strlen(probe->locations[index]);
+        if (length >= size) {
+            *lookup_status = SP_NVME_LOCATION_LOOKUP_FAILED;
+            return kIOReturnOverrun;
+        }
+        memcpy(location, probe->locations[index], length + 1);
+    }
+    return kIOReturnSuccess;
 }
 
 int32_t sp_nvme_read(SPNVMe *probe, int32_t index, uint16_t *kelvin) {

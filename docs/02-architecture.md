@@ -1,6 +1,6 @@
 # 总体架构与运行时边界
 
-更新：2026-09-21；contract revision 2，尚未实现生产App。参数与类型以[契约](21-implementation-contracts.md)为准。
+更新：2026-10-02；contract revision 3，生产App已存在，当前修复产品审查缺陷并重新验收。参数与类型以[契约](21-implementation-contracts.md)为准。
 
 ## 确定的结构
 
@@ -78,4 +78,4 @@ SessionPersistence由同一个actor实现，但SamplingService只能看到reserv
 
 ## 运行接线修复（2026-10-02）
 
-父会话创建唯一 SystemClock，WorkerClientConfiguration 的内部启动环境 `TEMPERATURE_MONITOR_ORIGIN_TICKS` 传递 mach continuous 原点；重连复用同一配置，worker 拒绝缺失、畸形或未来原点。该内部启动事实实现修订2既定共享时钟语义，不改变公开 SensorTransport/ReadBatch 契约。App 元数据和历史查询复用父 clock；首次 Snapshot 选定序列后装载历史，自动刷新保留已有曲线，过期查询结果不能覆盖新范围。
+父会话创建唯一 SystemClock，WorkerClientConfiguration 的内部启动环境 `TEMPERATURE_MONITOR_ORIGIN_TICKS` 传递 mach continuous 原点；重连复用同一配置，worker 拒绝缺失、畸形或未来原点。该内部启动事实实现修订3既定共享时钟语义，不改变公开 SensorTransport/ReadBatch 契约。App 元数据和历史查询复用父 clock；首次 Snapshot 选定序列后装载历史，自动刷新保留已有曲线，过期查询结果不能覆盖新范围。

@@ -1,10 +1,10 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-21实施契约v1族，contract revision 2**；已有M4 Air只读原型证据，生产App尚未实现。
+Apple Silicon MacBook Air本地原生温度监控项目。**2026-10-02实施契约v1族，contract revision 3**。生产Core、SensorWorker、App与Xcode工程已存在；当前处于产品审查缺陷修复和重新验收阶段。
 
 ## 接手开发
 
-从[Agent交接入口](docs/00-agent-handoff.md)开始，以[W00～W11工作包](docs/22-agent-implementation-plan.md)作为里程碑边界，按[50个执行任务](docs/23-execution-task-breakdown.md)逐项实现。无需依赖聊天记录或临时克隆目录。
+从[Agent交接入口](docs/00-agent-handoff.md)开始，以[W00～W11工作包](docs/22-agent-implementation-plan.md)作为里程碑边界，按[50个执行任务](docs/23-execution-task-breakdown.md)核对设计和交接边界；当前工作按[产品审查修复计划](docs/superpowers/plans/2026-10-02-product-audit-fixes.md)执行。无需依赖聊天记录或临时克隆目录。
 
 - CPU：固定12个M4温度来源的最高值，EMA展示；不承诺逐物理核心、物理Package或全芯片绝对热点。
 - SSD/Battery：有具体接口与来源选择，不支持或单项失败时显示不可用，CPU继续。
@@ -12,7 +12,7 @@ Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-21实施契�
 - 实时内存加工与展示，Raw/EMA仍批量入SQLite，分层历史最长72小时、仅当前会话。
 - 自有普通用户采集worker隔离同步接口；不引入root、外部监控CLI、告警、自启动或Web后端。
 
-修订2的实现边界固定为：SensorTransport只交付`DiscoveredCatalog`底层事实，Registry生成`QualifiedSourceCatalog`后才允许采样；`ReadingOutcome`互斥表达成功或失败；`PersistenceLease`经SessionPersistence提交并取得receipt后才交换算法状态；所有界面只绑定`PresentationState`。实际复制/修改的上游代码由[third-party-v1.json](docs/contracts/third-party-v1.json)登记，`TC-UPSTREAM-BOUNDARY`验证旧值回退、名称物理语义、补0°C、root/helper/写SMC、Release fixture及许可缺失均被拒绝。
+修订3的实现边界固定为：SensorTransport只交付`DiscoveredCatalog`底层事实，Registry生成`QualifiedSourceCatalog`后才允许采样；`ReadingOutcome`互斥表达成功或失败；`PersistenceLease`经SessionPersistence提交并取得receipt后才交换算法状态；所有界面只绑定`PresentationState`。实际复制/修改的上游代码由[third-party-v1.json](docs/contracts/third-party-v1.json)登记，`TC-UPSTREAM-BOUNDARY`验证旧值回退、名称物理语义、补0°C、root/helper/写SMC、Release fixture及许可缺失均被拒绝。
 
 ## 权威文档
 
@@ -30,7 +30,7 @@ Apple Silicon MacBook Air本地原生温度监控项目。**2026-09-21实施契�
 | [14 实测](docs/14-feasibility-validation.md)／[15 决策](docs/15-decisions-and-corrections.md) | 已存证据、变更原因与后续验证 |
 | [16 决策与执行依赖](docs/16-open-questions.md)／[18 来源](docs/18-sources.md) | 原OQ处理、官方及讨论出处 |
 | [19 开源比较](docs/19-reference-informed-design.md)／[20 可行性](docs/20-feasibility-and-reuse.md) | 全部参考项目、复用与自有设计边界 |
-| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | contract revision 2精确配置、Swift/SQL、第三方边界、W级里程碑与50个可审查任务 |
+| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | contract revision 3精确配置、Swift/SQL、第三方边界、W级里程碑与50个可审查任务 |
 
 ## 验证入口
 
@@ -41,4 +41,4 @@ swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -ty
 
 [契约修订2迁移记录](docs/research/2026-09-21-contract-documentation-migration.md)、[旧实测报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[原型复现](prototypes/sensor-probe/README.md)、[硬件接口审计](docs/research/2026-09-17-handoff-interface-audit.md)供复核。E1本机读数、E2上游路线、D设计契约分开标注；有方案不等于正式App已测通过。
 
-设计已给出可执行选择；剩余工作是实现与验证。完整Xcode、正式签名凭证、仓库管理员权限及目标实机属于明确执行依赖。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入 main；后续功能从最新 main 创建 `feature/<功能>`。
+本机已具备Xcode 26.3和Mac16,13目标机；[2026-10-02产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)确认CPU12正式读取链路可运行，同时发现历史、故障恢复、持久化和退出缺陷。本轮仅本机使用，用户豁免72/73小时长测、公证、公开发行与跨机型认证；分层历史最长72小时的功能保留。修复后需重新验证正式Release App，不能沿用旧审查结果标记通过。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入 main；后续功能从最新 main 创建 `feature/<功能>`。

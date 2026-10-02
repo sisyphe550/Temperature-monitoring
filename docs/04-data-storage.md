@@ -1,6 +1,6 @@
 # 数据模型、SQLite与有界保留
 
-更新：2026-09-21；contract revision 2。[schema-v1.sql](contracts/schema-v1.sql)仍是user_version 1的可执行DDL；[api-v1.swift](contracts/api-v1.swift)定义强类型边界。
+更新：2026-10-02；contract revision 3。[schema-v1.sql](contracts/schema-v1.sql)仍是user_version 1的可执行DDL；[api-v1.swift](contracts/api-v1.swift)定义强类型边界。
 
 ## 身份与表
 
@@ -75,3 +75,7 @@ SQLite删行复用空间、不保证缩小主文件，因此主库软限看有�
 ## 文件与损坏
 
 目录/单实例/清理顺序见[13](13-operations-distribution.md)。异常会话数据库不恢复、不迁移；拿到实例锁后只删除有本应用会话标识的残留目录，再创建新库。当前活动库的user_version不匹配或quick_check损坏直接Fatal，不能悄悄删除当前会话继续运行。
+
+## 审查修复的运行边界（2026-10-02）
+
+父控制器每retentionTickSeconds执行prune；Raw/EMA只有已提交1s父层时删除，缺父层保留并按grace失败。终结Lease reservation立即回收，重复cancel幂等，终结后commit仍DB-INTEGRITY-010。临时数据库错误按既定预算重试相同BatchID和payload。MonitorEngine请求重放缓存保留Raw TTL内记录，SHA256指纹、最多writerMaxRecords项；过期重放显式PROCESSING-VALIDATE失败(expired_request)，不能复写为新样本。Sample身份依赖Receipt后推进的会话单调序号，不保留全会话ID集合。

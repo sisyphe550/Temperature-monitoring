@@ -1,6 +1,6 @@
 # 测试、验收向量与证据标准
 
-更新：2026-09-21；实施契约v1族修订2。当前仅原型及文档契约检查有执行证据；下列产品测试供接手agent实施，不能标成已通过。
+更新：2026-10-02；实施契约v1族修订3。当前仅原型及文档契约检查有执行证据；下列产品测试供接手agent实施，不能标成已通过。
 
 ## 自动化和实机分层
 
@@ -52,7 +52,7 @@ xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -des
 python3 scripts/validate-handoff.py
 ```
 
-上述产品文件尚待22任务创建，命令是实施后的验收入口。现有可立即执行的原型检查为`swift test --package-path prototypes/sensor-probe --enable-code-coverage`、`python3 scripts/check-probe-coverage.py`、`swift build --package-path prototypes/sensor-probe -c release`及`python3 scripts/test-probe-cli.py`。
+上述产品文件和命令已存在，用于当前修复分支的产品验收；原型检查仅用于探针回归：`swift test --package-path prototypes/sensor-probe --enable-code-coverage`、`python3 scripts/check-probe-coverage.py`、`swift build --package-path prototypes/sensor-probe -c release`及`python3 scripts/test-probe-cli.py`。
 
 原型8测试与55/55 ProbeCore覆盖不等于产品80%门禁。正式UI黑盒不能只测ViewModel；托管macOS CI不证明Air传感器。
 
@@ -60,6 +60,10 @@ python3 scripts/validate-handoff.py
 
 W09首先确认身份、单位、固定集合，再以普通用户的正式App构建测试五档各10分钟，记录实际间隔、批耗时、skipped、失败、CPU/内存与来源新鲜度。正常空闲目标：skipped≤1%，读批p95≤所选周期，p99≤2×周期，首帧/显示延迟p95≤500ms；这些是v1验收门槛，未测通过。超标不删五档，登记缺陷并优化；受控负载段单列，仍要求界面响应、有界且缺口如实记录。
 
-CPU/内存/能耗暂无百分比硬指标，资源有界上限按21执行；每个结果保存测量口径（CPU是否单核百分比）。72小时真实测试用默认200ms、记录首末小时与每小时资源，不能用几分钟或虚拟时钟冒充。受控CPU负载只用普通用户、限定时长，不改风扇、不禁用系统保护；出现系统严重热状态就停止负载并如实记录。
+CPU/内存/能耗暂无百分比硬指标，资源有界上限按21执行；每个结果保存测量口径（CPU是否单核百分比）。用户已豁免本轮72/73h耐久；不得将短时测试标成长测通过。若未来恢复该验收，72小时真实测试用默认200ms、记录首末小时与每小时资源，不能用几分钟或虚拟时钟冒充。受控CPU负载只用普通用户、限定时长，不改风扇、不禁用系统保护；出现系统严重热状态就停止负载并如实记录。
 
 每次报告记录源码SHA、App/worker哈希、profile版本、机型/OS build、权限/签名、用例、输入、预期/实际、状态及原始证据。发生可复现缺陷按11建Issue并回归。现有2026-09-15证据原样保存；新增测试另建按日期/提交命名目录。
+
+## 修订3适用回归（2026-10-02）
+
+TC-SENSOR/TC-UPSTREAM-BOUNDARY覆盖NVMe位置事实缺失、父树失败、非Internal、多候选、WorkerProtocol闭合枚举和Battery资格化；TC-SCHEDULE覆盖CPU非零耗时下Battery/SSD同相位不饥饿；TC-DB/TC-RETENTION覆盖临时错误相同payload重试、并发reservation和周期TTL；TC-VALIDATE/TC-ERROR覆盖CPU缺成员、超时恢复/耗尽、日志报告、过期重放拒绝。REQ映射与任务DAG不变，修复证据另存；模拟通过不等于正式硬件通过。用户已豁免72/73h、公证、公开发行与跨机型认证，本轮短时Release验证与上述软件回归仍必需。

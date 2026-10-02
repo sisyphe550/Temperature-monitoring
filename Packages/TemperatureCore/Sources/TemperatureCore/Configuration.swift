@@ -279,7 +279,7 @@ public enum Configuration {
     }
 
     static func validate(_ configuration: RuntimeConfiguration) throws {
-        guard configuration.contractVersion == 2 else {
+        guard configuration.contractVersion == 3 else {
             throw ConfigurationError.unsupportedContractVersion(configuration.contractVersion)
         }
         let intervals = [50, 100, 200, 500, 1000]

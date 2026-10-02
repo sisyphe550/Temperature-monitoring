@@ -1,6 +1,6 @@
 # Git、GitHub与执行门禁
 
-更新：2026-09-21；contract revision 2执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支；T00.5 在该检查对真实 open PR head 成功后启用 required 规则。回读证据见 `docs/validation/product-software/W00/`。
+更新：2026-10-02；contract revision 3执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支；T00.5 在该检查对真实 open PR head 成功后启用 required 规则。回读证据见 `docs/validation/product-software/W00/`。
 
 ## 分支与集成
 
@@ -15,7 +15,7 @@ GitHub审批最低人数设0，适配当前单维护者仓库；**这不免除�
 
 ## 契约变更的原子同步规则
 
-当前实现基线是`contract revision 2`。修改公开类型、默认值、profile、数据库schema、来源资格、持久化所有权、展示状态或第三方复用边界时，必须在同一提交中同步所有受影响的权威层，不能用多个暂时互相矛盾的提交传播契约：
+当前实现基线是`contract revision 3`。修改公开类型、默认值、profile、数据库schema、来源资格、持久化所有权、展示状态或第三方复用边界时，必须在同一提交中同步所有受影响的权威层，不能用多个暂时互相矛盾的提交传播契约：
 
 1. 更新`docs/contracts/`中的API、defaults、profile、schema或`third-party-v1.json`；文件名中的`v1`是产品契约族，兼容性修订以`contract_version`判断。
 2. 同步`01-requirements.md`、`acceptance-v1.json`正文hash和`17-traceability.md`；不得只改叙述而留下旧机器映射。

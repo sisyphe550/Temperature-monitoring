@@ -69,7 +69,7 @@ enum SchedulePlanner {
     ) -> (nextDueElapsedNS: Int64, skipped: Int) {
         var next = nextDueElapsedNS
         var skipped = 0
-        while next < nowElapsedNS {
+        while next + periodNS(periodMS) <= nowElapsedNS {
             skipped += 1
             next += periodNS(periodMS)
         }
@@ -91,6 +91,7 @@ struct ScheduleState: Equatable {
 public actor SamplingService {
     public typealias ReadHandler = @Sendable (SamplingReadEvent) async -> Void
     public typealias FailureHandler = @Sendable (MonitorFailure, SamplingScheduleKind) async -> Void
+    public typealias OptionalAvailabilityHandler = @Sendable (SamplingScheduleKind, MonitorFailure?) async -> Void
     public typealias RecoveryHandler = @Sendable (QualifiedSourceCatalog) async throws -> Void
     public typealias WillReadHandler = @Sendable (RequestID, Int64) async -> Void
 
@@ -110,6 +111,12 @@ public actor SamplingService {
     private var onFailure: FailureHandler?
     private var onRecoveredCatalog: RecoveryHandler?
     private let errors: ErrorCoordinator
+    private struct OptionalProbeState { var failedRounds = 0; var validConsecutiveReads = 0 }
+    private var optionalProbes: [SamplingScheduleKind: OptionalProbeState] = [:]
+    private var optionalUnavailableKinds: Set<SamplingScheduleKind> = []
+    private var optionalStoppedKinds: Set<SamplingScheduleKind> = []
+    private var wakeRecoveryKinds: Set<SamplingScheduleKind> = []
+    private var onOptionalAvailability: OptionalAvailabilityHandler?
     private var readInFlight = false
 
     public init(
@@ -132,8 +139,10 @@ public actor SamplingService {
         didFinishRead: WillReadHandler? = nil,
         onFailure: FailureHandler? = nil,
         onRecoveredCatalog: RecoveryHandler? = nil,
+        onOptionalAvailability: OptionalAvailabilityHandler? = nil,
         onRead: @escaping ReadHandler
     ) async {
+        let recoveringAfterWake = wakeRecoveryKinds
         await stop()
         schedules = Self.makeSchedules(
             catalog: catalog,
@@ -148,6 +157,9 @@ public actor SamplingService {
         self.didFinishRead = didFinishRead
         self.onFailure = onFailure
         self.onRecoveredCatalog = onRecoveredCatalog
+        self.onOptionalAvailability = onOptionalAvailability
+        optionalUnavailableKinds = recoveringAfterWake
+        optionalProbes = Dictionary(uniqueKeysWithValues: recoveringAfterWake.map { ($0, OptionalProbeState()) })
         self.onRead = onRead
         running = true
         loopTask = Task { [weak self] in
@@ -166,18 +178,36 @@ public actor SamplingService {
     }
 
     public func stop() async {
+        await stop(preservingWakeRecovery: false)
+    }
+
+    private func stop(preservingWakeRecovery: Bool) async {
         running = false
         let task = loopTask
         loopTask = nil
         task?.cancel()
         await task?.value
+        // In-flight failure callbacks may isolate a source while stop is awaiting the loop.
+        // Capture the settled state before clearing it, so wake cannot lose that final isolation.
+        let recoveringKinds = preservingWakeRecovery ? optionalUnavailableKinds : []
         onRead = nil
         willRead = nil
         didFinishRead = nil
         onFailure = nil
         onRecoveredCatalog = nil
+        onOptionalAvailability = nil
+        optionalProbes = [:]
+        optionalUnavailableKinds = []
+        optionalStoppedKinds = []
+        wakeRecoveryKinds = recoveringKinds
         catalogGeneration = nil
         schedules = [:]
+    }
+
+    // Wake requalification starts a finite recovery cycle for every previously isolated kind.
+    // It must still prove three committed readings from the new qualified source.
+    func suspendForSleep() async {
+        await stop(preservingWakeRecovery: true)
     }
 
     // A callback running on the sampling task cannot await that task's value.
@@ -227,15 +257,21 @@ public actor SamplingService {
     private func dueScheduleKind(at elapsedNS: Int64) -> SamplingScheduleKind? {
         schedules
             .filter { $0.value.nextDueElapsedNS <= elapsedNS }
-            .map(\.key)
-            .sorted()
-            .first
+            .sorted { lhs, rhs in
+                if lhs.value.nextDueElapsedNS == rhs.value.nextDueElapsedNS { return lhs.key < rhs.key }
+                return lhs.value.nextDueElapsedNS < rhs.value.nextDueElapsedNS
+            }
+            .first?.key
     }
 
     private func executeRead(for kind: SamplingScheduleKind, plannedDueElapsedNS: Int64) async {
         guard running, var schedule = schedules[kind], !readInFlight else { return }
         readInFlight = true
         defer { readInFlight = false }
+        if optionalProbes[kind] != nil {
+            await executeOptionalProbe(kind: kind, schedule: schedule, plannedDue: plannedDueElapsedNS)
+            return
+        }
         await errors.reset(domain: .sensor)
         var generation = catalogGeneration ?? 0
         var failureIndex = 0
@@ -250,6 +286,11 @@ public actor SamplingService {
             }
             catch {
                 let failure = Self.monitorFailure(error, retryCount: failureIndex)
+                if failure.code == .sensorProtocol || failure.code.rawValue.hasPrefix("DB-") || failure.code.rawValue.hasPrefix("PROC-") {
+                    await onFailure?(Self.withSeverity(failure, .fatal), kind)
+                    requestStop()
+                    return
+                }
                 let resolution = await errors.evaluate(failure: failure, context: ErrorEvaluationContext(domain: .sensor,
                     sourceKind: kind == .cpu ? .cpuZone : (kind == .ssd ? .ssd : .battery), isRequiredSource: kind == .cpu))
                 switch resolution {
@@ -266,11 +307,29 @@ public actor SamplingService {
                             guard running else { return }
                             generation = recovered.generation
                             catalogGeneration = recovered.generation
-                            schedule.sourceIDs = recovered.available.filter {
-                                $0.kind == (kind == .cpu ? .cpuZone : (kind == .ssd ? .ssd : .battery))
-                            }.map(\.sourceID)
-                            guard !schedule.sourceIDs.isEmpty else { throw Self.monitorFailure(QualifiedSensorClientError.unknownSourceID, retryCount: failureIndex) }
-                            if var current = schedules[kind] { current.sourceIDs = schedule.sourceIDs; schedules[kind] = current; schedule = current }
+                            let discovered = Self.makeSchedules(catalog: recovered, cpuPeriodMS: cpuPeriodMS,
+                                ssdIntervalMS: configuration.ssdIntervalMS, batteryIntervalMS: configuration.batteryIntervalMS,
+                                startElapsedNS: clock.now().elapsedNS)
+                            for sourceKind in SamplingScheduleKind.allCases {
+                                if optionalStoppedKinds.contains(sourceKind) {
+                                    schedules.removeValue(forKey: sourceKind)
+                                    continue
+                                }
+                                if let sources = discovered[sourceKind] {
+                                    if var existing = schedules[sourceKind] {
+                                        if Set(existing.sourceIDs) != Set(sources.sourceIDs), var probe = optionalProbes[sourceKind] {
+                                            // Recovery must be proven by three committed reads of this source identity.
+                                            // Preserve failedRounds so repeated reconnects cannot extend the finite probe budget.
+                                            probe.validConsecutiveReads = 0
+                                            optionalProbes[sourceKind] = probe
+                                        }
+                                        existing.sourceIDs = sources.sourceIDs
+                                        schedules[sourceKind] = existing
+                                    } else { schedules[sourceKind] = sources }
+                                } else { schedules.removeValue(forKey: sourceKind) }
+                            }
+                            guard let current = schedules[kind] else { return }
+                            schedule = current
                         }
                     } catch is CancellationError { return }
                     catch {
@@ -287,13 +346,67 @@ public actor SamplingService {
                     requestStop()
                     return
                 case let .markUnavailable(unavailable):
-                    await onFailure?(unavailable, kind)
-                    schedules.removeValue(forKey: kind)
+                    let exhausted = MonitorFailure(code: RetryPolicy(configuration: configuration).isRetryable(unavailable, domain: .sensor) ? .sensorRead : unavailable.code,
+                        severity: .degraded, component: unavailable.component, operation: unavailable.operation,
+                        retryCount: failureIndex, sourceID: unavailable.sourceID, underlyingCode: unavailable.underlyingCode)
+                    await onFailure?(exhausted, kind)
+                    optionalUnavailableKinds.insert(kind)
+                    await onOptionalAvailability?(kind, exhausted)
+                    if RetryPolicy(configuration: configuration).isRetryable(unavailable, domain: .sensor) {
+                        optionalProbes[kind] = OptionalProbeState()
+                        if var current = schedules[kind] {
+                            current.nextDueElapsedNS = clock.now().elapsedNS + Int64(configuration.optionalRecoverySeconds) * 1_000_000_000
+                            schedules[kind] = current
+                        }
+                    } else {
+                        optionalStoppedKinds.insert(kind)
+                        schedules.removeValue(forKey: kind)
+                    }
                     return
                 }
             }
         }
         advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
+    }
+
+    private func executeOptionalProbe(kind: SamplingScheduleKind, schedule: ScheduleState, plannedDue: Int64) async {
+        guard var probe = optionalProbes[kind] else { return }
+        do {
+            try await performRead(kind: kind, schedule: schedule, generation: catalogGeneration ?? 0, plannedDue: plannedDue)
+            guard running, !Task.isCancelled else { return }
+            probe.validConsecutiveReads += 1
+            if probe.validConsecutiveReads >= 3 {
+                optionalProbes.removeValue(forKey: kind)
+                optionalUnavailableKinds.remove(kind)
+                await onOptionalAvailability?(kind, nil)
+            } else { optionalProbes[kind] = probe }
+            if var current = schedules[kind] {
+                current.nextDueElapsedNS = clock.now().elapsedNS + Int64(current.periodMS) * 1_000_000
+                schedules[kind] = current
+            }
+        } catch is CancellationError { return }
+        catch {
+            let failure = Self.monitorFailure(error, retryCount: probe.failedRounds + 1)
+            if failure.code == .sensorProtocol || failure.code.rawValue.hasPrefix("DB-") || failure.code.rawValue.hasPrefix("PROC-") {
+                await onFailure?(Self.withSeverity(failure, .fatal), kind)
+                requestStop()
+                return
+            }
+            probe.validConsecutiveReads = 0
+            probe.failedRounds += 1
+            await onFailure?(Self.withSeverity(failure, .degraded), kind)
+            if probe.failedRounds >= configuration.optionalRecoveryAttempts {
+                optionalStoppedKinds.insert(kind)
+                optionalProbes.removeValue(forKey: kind)
+                schedules.removeValue(forKey: kind)
+            } else {
+                optionalProbes[kind] = probe
+                if var current = schedules[kind] {
+                    current.nextDueElapsedNS = clock.now().elapsedNS + Int64(configuration.optionalRecoverySeconds) * 1_000_000_000
+                    schedules[kind] = current
+                }
+            }
+        }
     }
 
     private func performRead(kind: SamplingScheduleKind, schedule: ScheduleState, generation: UInt64, plannedDue: Int64) async throws {
@@ -406,7 +519,7 @@ public actor SamplingService {
     }
 
     private func skipOverdueSchedules(except activeKind: SamplingScheduleKind, nowElapsedNS: Int64) {
-        for kind in SamplingScheduleKind.allCases where kind != activeKind {
+        for kind in SamplingScheduleKind.allCases where kind != activeKind && optionalProbes[kind] == nil {
             guard var schedule = schedules[kind] else {
                 continue
             }

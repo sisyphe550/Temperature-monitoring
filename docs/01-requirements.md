@@ -1,6 +1,6 @@
 # 现行需求规格与退役编号
 
-更新：2026-09-21；实施契约v1族修订2。134个登记编号保持连续，132项现行，REQ-012/114退役。设计决策已明确，生产应用实现和验收尚未完成；原型局部证据见14。
+更新：2026-10-02；实施契约v1族修订3。134个登记编号保持连续，132项现行，REQ-012/114退役。设计决策已明确，生产应用已实现但产品审查发现缺陷，当前修复并重新验收；逐项状态仍须依据证据，不能批量标通过。
 
 ## 使用规则
 
@@ -11,6 +11,8 @@
 - 取消物理Package、逐核、绝对热点、保证硬件同频刷新或一位小数等于测量精度的推断；旧版本由Git历史与15的变更记录追溯。
 - `timestamp`规范分为elapsed_ns与wall_ns；`sensor_id`对应sourceID；`last`统一为latest；聚合表名为04的只读视图。
 - “有方案”不同于“已实现/已验收”。132项均有任务和测试入口，正式完成须逐项附证据，不能用文档检查替代产品测试。
+
+本轮适用范围：用户只在本机使用，豁免72/73h耐久、公证、公开发行及跨机型认证。该豁免不删除最长72h会话历史、TTL、有限重试或退出清理功能；本轮修复与实机证据另存，历史报告不回写。
 
 ## 采样与时间
 
@@ -86,7 +88,7 @@
 - 正文：当 Raw Sample 产生时，来源必须先由 Registry 从底层发现事实资格化为本代 QualifiedSource，标签化构件再记录其强类型 `sensor_id`；未资格化来源不得进入算法、存储或界面。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C09删除逐核后同步范围；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-010｜区分 CPU 主指标、CPU 温度来源、SSD 和 Battery
 
@@ -118,7 +120,7 @@
 - 正文：当标签化完成时，数据校验构件应只接收 QualifiedSource 的 ReadingOutcome，并验证成功分支的温度、身份、generation、编码和单位证据；失败分支不得携带或生成温度值。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-014｜建立确定的非法值规则
 
@@ -126,7 +128,7 @@
 - 正文：如果底层事件缺失，或温度值为 null、NaN、Infinity、低于绝对零度、编码/单位不符，则数据校验构件应形成 ReadingOutcome.failure；不得改成 0 °C、复用旧值或构造同时含值与失败的状态。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-015｜隔离异常数据
 
@@ -596,7 +598,7 @@
 - 正文：在 UI 显示最后成功值时，PresentationModel 应以 cached 状态标明暂未更新，且本次失败不得生成新的 Raw、EMA、count 或 source timestamp；超过期限后应转为 stale 并隐藏数值。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[06](06-error-handling.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W05/W06/W07与TC-ERROR/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[06](06-error-handling.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W05/W06/W07与TC-ERROR/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-071｜建立失败出口
 
@@ -672,7 +674,7 @@
 - 正文：当错误报告生成时，错误报告构件应记录封闭枚举中的稳定错误代码，并按适用范围记录强类型 requestID、sourceID、batchID、gapID 或 watermarkEventID，禁止以可互换自由字符串代替事件身份。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-080｜定位故障模块
 
@@ -704,7 +706,7 @@
 - 正文：同一种故障语义应在不同版本中保持相同 MonitorErrorCode 枚举值；未知协议枚举、无效 UUID 和持久化 Lease 完整性故障应按既定代码失败，不得转成自由字符串或通过重试掩盖。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-084｜避免一个代码覆盖多个根因
 
@@ -826,7 +828,7 @@
 - 正文：当 feature branch 含有复制或修改的第三方代码时，合并门禁应验证固定上游提交、路径、许可 hash、本地路径、修改说明和 ThirdPartyNotices；合并完成后仍应保留该远程 feature branch及审计记录。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[11](11-git-github-workflow.md)、[18](18-sources.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W00/W08/W11与TC-WORKFLOW/TC-DOCS/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[11](11-git-github-workflow.md)、[18](18-sources.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W00/W08/W11与TC-WORKFLOW/TC-DOCS/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ## 阶段测试
 
@@ -886,7 +888,7 @@
 - 正文：在首次进入 M2 前，项目应完成本规格列明的设计文档，并使 00、01、21、22、23 及 contracts 中的机器契约共同覆盖身份、接口、存储、测试、第三方来源和执行顺序，不依赖聊天记录补全实现规则。
 - 状态：现行基线／产品未验收
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[00](00-agent-handoff.md)、[10](10-test-strategy.md)、[12](12-development-plan.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W11与TC-DOCS/TC-ACCEPTANCE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[00](00-agent-handoff.md)、[10](10-test-strategy.md)、[12](12-development-plan.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W11与TC-DOCS/TC-ACCEPTANCE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-106｜防止未确定业务规则被编码 Agent 自行填充
 
@@ -928,7 +930,7 @@
 - 正文：项目应将最低运行系统要求保持为 macOS 15.7.3，并分别记录 build_toolchain、deployment_target、runtime_profile 和 qualified_combinations；只有绑定正式 App SHA、签名、机型、系统版本/build及通过用例的组合才能声明支持。
 - 状态：现行基线／产品未验收
 - 来源：C01；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W02/W08/W09与TC-PLATFORM/TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W02/W08/W09与TC-PLATFORM/TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-111｜最高版本核对
 
@@ -1104,7 +1106,7 @@
 - 正文：如果某温度来源没有本机验证或固定上游分类依据，则 Registry 应将其标为 unknown 并只供诊断；仅有上游分类时标为 referenceClassified，只有完成正式目标 App 资格验证才可标为 targetQualified，且名称、数量或数组位置不得证明物理核心、E/P 域或 Package。
 - 状态：现行基线／产品未验收
 - 来源：C03、C04；C09删除逐核范围后保留真实性约束；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W02/W09与TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W02/W09与TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-133｜Raw 峰值
 
@@ -1120,4 +1122,4 @@
 - 正文：如果读取接口没有提供可验证的测量更新时间信息，则 ReadingOutcome.success 应将 freshness 标为 unknown 且 source timestamp 为空；PresentationModel 应另以 live、cached、stale 或 unavailable 互斥状态表达应用观测年龄，不得把读取完成时间冒充硬件测量时间。
 - 状态：现行基线／产品未验收
 - 来源：C03、C04；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订2契约实现；执行W02/W07/W09与TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订3契约实现；执行W02/W07/W09与TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。

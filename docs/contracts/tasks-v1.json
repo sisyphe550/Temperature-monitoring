@@ -1,5 +1,6 @@
 {
   "version": 1,
+  "contract_revision": 3,
   "entry_task": "T00.1",
   "terminal_task": "T11.3",
   "tasks": [

@@ -268,7 +268,9 @@ struct AggregationEngine {
             }
         }
 
-        states[key] = state
+        if state.openOneSecond.isEmpty && state.openTenSeconds.isEmpty && state.openSixtySeconds.isEmpty {
+            states.removeValue(forKey: key)
+        } else { states[key] = state }
         return closed
     }
 

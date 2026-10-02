@@ -55,11 +55,11 @@ struct RetentionEngine {
     let store: SQLiteStore
     let policy: RetentionPolicy
 
-    func prune(nowElapsedNS: Int64) throws {
+    func prune(nowElapsedNS: Int64) throws -> Bool {
         try execRetentionTransaction(nowElapsedNS: nowElapsedNS)
         try verifyCleanupGrace(nowElapsedNS: nowElapsedNS)
         try store.walCheckpointPassive()
-        try enforceCapacityLimits()
+        return try enforceCapacityLimits()
     }
 
     private func verifyCleanupGrace(nowElapsedNS: Int64) throws {
@@ -130,16 +130,26 @@ struct RetentionEngine {
         committed = true
     }
 
-    private func enforceCapacityLimits() throws {
-        let capacity = try store.storageCapacity()
-        if capacity.databaseFileBytes > policy.dbHardBytes {
+    private func enforceCapacityLimits() throws -> Bool {
+        var capacity = try store.storageCapacity()
+        try verifyHardLimits(capacity)
+        if capacity.effectiveDatabaseBytes >= policy.dbSoftBytes || capacity.walFileBytes >= policy.walSoftBytes {
+            // The writer gate excludes unacknowledged writes during pruning.
+            // The caller cancels a superseded history read before checkpointing.
+            try store.walCheckpointTruncate()
+            capacity = try store.storageCapacity()
+            try verifyHardLimits(capacity)
+        }
+        return capacity.effectiveDatabaseBytes >= policy.dbSoftBytes || capacity.walFileBytes >= policy.walSoftBytes
+    }
+
+    private func verifyHardLimits(_ capacity: StorageCapacity) throws {
+        if capacity.databaseFileBytes >= policy.dbHardBytes {
             throw RetentionError.capacityExceeded
         }
-        if capacity.walFileBytes > policy.walHardBytes {
+        if capacity.walFileBytes >= policy.walHardBytes {
             throw RetentionError.walCapacityExceeded
         }
-        _ = capacity.effectiveDatabaseBytes > policy.dbSoftBytes
-        _ = capacity.walFileBytes > policy.walSoftBytes
     }
 
     private func cutoff(_ nowElapsedNS: Int64, retentionSeconds: Int64) -> Int64 {
@@ -154,6 +164,10 @@ struct RetentionEngine {
 extension SQLiteStore {
     func walCheckpointPassive() throws {
         try exec("PRAGMA wal_checkpoint(PASSIVE)")
+    }
+
+    func walCheckpointTruncate() throws {
+        try exec("PRAGMA wal_checkpoint(TRUNCATE)")
     }
 
     func storageCapacity() throws -> StorageCapacity {

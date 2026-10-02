@@ -80,4 +80,16 @@ enum SeriesCatalogBuilder {
 
         return definitions
     }
+    static func unavailableValues(from catalog: QualifiedSourceCatalog) throws -> [LatestValue] {
+        try [SensorKind.ssd, .battery].compactMap { kind in
+            guard !catalog.available.contains(where: { $0.kind == kind }),
+                  let record = catalog.unavailable.first(where: { $0.intendedKind == kind }) else { return nil }
+            let metric = kind == .ssd ? "storage.ssd" : "power.battery"
+            let definition = SeriesDefinition(seriesID: SeriesID(ConnectionIdentity.uuid(role: "capability", generation: catalog.generation, identity: metric)),
+                metricID: try MetricID(validating: metric), definitionVersion: Int(catalog.generation), kind: kind,
+                displayName: kind == .ssd ? "SSD温度" : "电池温度", memberSourceIDs: [], formula: .identity)
+            return LatestValue(definition: definition, state: .unavailable(capability: record.capability, reason: record.reason))
+        }
+    }
+
 }

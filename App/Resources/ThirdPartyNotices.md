@@ -7,7 +7,8 @@ Portions of `Packages/TemperatureCore/Sources/SensorBridge/SensorBridge.c` adapt
 Modifications for Temperature monitoring:
 
 - Production package path under `Packages/TemperatureCore`
-- SMC/HID/NVMe read-only surfaces in revision 2
+- SMC/HID/NVMe read-only surfaces in revision 3
+- Original bounded IOKit parent queries and read-only NVMe registry identity/location accessors; no additional upstream code imported
 - Fan control, SMC writes, and privilege escalation paths omitted
 
 MIT License

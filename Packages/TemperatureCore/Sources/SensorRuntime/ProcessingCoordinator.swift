@@ -54,6 +54,10 @@ public actor ProcessingCoordinator {
             onRecoveredCatalog: { [weak self] recovered in
                 try await self?.installRecoveredCatalog(recovered)
             },
+            onOptionalAvailability: { [engine] kind, failure in
+                let sensorKind: SensorKind = kind == .ssd ? .ssd : .battery
+                await engine.setOptionalAvailability(kind: sensorKind, failure: failure)
+            },
             onRead: { [weak self] event in
                 await self?.handleRead(event)
             }
@@ -62,15 +66,19 @@ public actor ProcessingCoordinator {
     }
 
     public func stop() async {
-        watermarkTask?.cancel()
+        let watermark = watermarkTask
+        watermark?.cancel()
         watermarkTask = nil
         await sampling.stop()
+        await watermark?.value
     }
 
     public func suspendForSleep() async throws {
-        watermarkTask?.cancel()
+        let watermark = watermarkTask
+        watermark?.cancel()
         watermarkTask = nil
-        await sampling.stop()
+        await sampling.suspendForSleep()
+        await watermark?.value
         await waitForSamplingIdle()
         await advanceWatermarkIfDue()
         let timestamp = clock.now()
@@ -117,7 +125,15 @@ public actor ProcessingCoordinator {
             }
         }
         let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
-        await engine.replaceDefinitions(definitions, qualifiedSources: catalog.available)
+        let gaps = await engine.closeOpenGapsForSourceChange(at: clock.now())
+        if !gaps.isEmpty {
+            let lease = try await reservation.reserve(owner: .gap(makeGapID()), generation: catalogGeneration,
+                maxRecords: configuration.writerReserveRecordsPerEvent, maxBytes: configuration.writerMaxPayloadBytes)
+            do { _ = try await engine.commitLifecycleTransition(gaps: gaps, segments: [], lease: lease) }
+            catch { await reservation.cancel(lease); throw error }
+        }
+        await engine.replaceDefinitions(definitions, qualifiedSources: catalog.available,
+            capabilityValues: try SeriesCatalogBuilder.unavailableValues(from: catalog))
         await sampling.start(
             catalog: catalog,
             willRead: { [engine] _, plannedStart in
@@ -132,6 +148,10 @@ public actor ProcessingCoordinator {
             },
             onRecoveredCatalog: { [weak self] recovered in
                 try await self?.installRecoveredCatalog(recovered)
+            },
+            onOptionalAvailability: { [engine] kind, failure in
+                let sensorKind: SensorKind = kind == .ssd ? .ssd : .battery
+                await engine.setOptionalAvailability(kind: sensorKind, failure: failure)
             },
             onRead: { [weak self] event in
                 await self?.handleRead(event)
@@ -226,6 +246,8 @@ public actor ProcessingCoordinator {
         }
     }
 
+    func reportFailure(_ failure: MonitorFailure) async { await recordFailure(failure) }
+
     private func recordFailure(_ failure: MonitorFailure) async {
         // A structural processing failure must not be replaced by a later sensor retry.
         guard lastAcceptFailure?.severity != .fatal else { return }
@@ -234,9 +256,24 @@ public actor ProcessingCoordinator {
         if failure.severity == .fatal { await sampling.requestStop() }
     }
 
+    public func prepareForWakeMaintenance() async throws {
+        // IO has stopped. Close only windows containing real pre-sleep samples
+        // before TTL checks require their persisted parents.
+        await advanceWatermarkIfDue()
+        if let failure = lastAcceptFailure, failure.severity == .fatal { throw failure }
+    }
+
     private func installRecoveredCatalog(_ catalog: QualifiedSourceCatalog) async throws {
         let definitions = try SeriesCatalogBuilder.definitions(from: catalog)
-        await engine.replaceDefinitions(definitions, qualifiedSources: catalog.available)
+        let gaps = await engine.closeOpenGapsForSourceChange(at: clock.now())
+        if !gaps.isEmpty {
+            let lease = try await reservation.reserve(owner: .gap(makeGapID()), generation: catalogGeneration,
+                maxRecords: configuration.writerReserveRecordsPerEvent, maxBytes: configuration.writerMaxPayloadBytes)
+            do { _ = try await engine.commitLifecycleTransition(gaps: gaps, segments: [], lease: lease) }
+            catch { await reservation.cancel(lease); throw error }
+        }
+        await engine.replaceDefinitions(definitions, qualifiedSources: catalog.available,
+            capabilityValues: try SeriesCatalogBuilder.unavailableValues(from: catalog))
         catalogGeneration = catalog.generation
     }
 

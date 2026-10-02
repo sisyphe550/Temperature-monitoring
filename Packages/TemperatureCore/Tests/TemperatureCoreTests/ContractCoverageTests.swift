@@ -257,7 +257,7 @@ import Testing
         let profileURL = Fixtures.packageRoot.appendingPathComponent("Sources/TemperatureCore/Resources/first-profile-v1.json")
         let configuration = try Configuration.load(from: defaultsURL)
         let profile = try Configuration.loadProfile(from: profileURL)
-        #expect(configuration.contractVersion == 2)
+        #expect(configuration.contractVersion == 3)
         #expect(profile.cpuKeys.count == 12)
     }
 

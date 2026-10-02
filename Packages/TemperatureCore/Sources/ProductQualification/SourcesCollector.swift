@@ -17,7 +17,15 @@ struct SourcesReport: Encodable {
         let status: String
         let provider: String?
         let rawKey: String?
+        let registryID: String?
+        let unitEvidence: String?
         let reason: String?
+    }
+
+    struct NVMeFacts: Encodable {
+        let registryID: String?
+        let physicalInterconnectLocation: String?
+        let interconnectLookupStatus: InterconnectLookupStatus?
     }
 
     let artifactKind = "product-hardware-sources"
@@ -30,6 +38,7 @@ struct SourcesReport: Encodable {
     let ssd: OptionalProvider
     let battery: OptionalProvider
     let hidDiagnosticCount: Int
+    let nvmeDiscovery: [NVMeFacts]
     let mappingAndFreshness = "not inferred from names or repeated values"
 }
 
@@ -42,18 +51,27 @@ enum SourcesCollector {
             configuration: WorkerClientConfiguration(executableURL: workerURL)
         )
         let registry = ProfileRegistry(profile: profile)
-        let discovered = try await transport.discoverRaw()
-        let catalog = try registry.qualify(discovered)
-        let cpuKeys = cpuEvidence(profile: profile, catalog: catalog)
-        let ssd = ssdEvidence(from: discovered)
-        let battery = try await batteryEvidence(
-            profile: profile,
-            discovered: discovered,
-            transport: transport,
-            generation: discovered.generation
-        )
-        let hidCount = discovered.sources.filter { $0.provider == .hid }.count
+        let discovered: DiscoveredCatalog
+        let catalog: QualifiedSourceCatalog
+        do {
+            discovered = try await transport.discoverRaw()
+            catalog = try registry.qualify(discovered)
+        } catch {
+            await transport.close()
+            throw error
+        }
         await transport.close()
+        let cpuKeys = cpuEvidence(profile: profile, catalog: catalog)
+        let ssd = optionalEvidence(kind: .ssd, catalog: catalog)
+        let battery = optionalEvidence(kind: .battery, catalog: catalog)
+        let hidCount = discovered.sources.filter { $0.provider == .hid }.count
+        let nvmeDiscovery = discovered.sources.filter { $0.provider == .nvme }.map {
+            SourcesReport.NVMeFacts(
+                registryID: $0.registryID,
+                physicalInterconnectLocation: $0.physicalInterconnectLocation,
+                interconnectLookupStatus: $0.interconnectLookupStatus
+            )
+        }
 
         guard cpuKeys.filter({ $0.status == "available" }).count == profile.cpuKeys.count else {
             throw QualificationError.cpuMembershipIncomplete(
@@ -70,7 +88,8 @@ enum SourcesCollector {
             cpuExpectedCount: profile.cpuKeys.count,
             ssd: ssd,
             battery: battery,
-            hidDiagnosticCount: hidCount
+            hidDiagnosticCount: hidCount,
+            nvmeDiscovery: nvmeDiscovery
         )
     }
 
@@ -99,164 +118,25 @@ enum SourcesCollector {
         }
     }
 
-    private static func ssdEvidence(from discovered: DiscoveredCatalog) -> SourcesReport.OptionalProvider {
-        let candidates = discovered.sources
-            .filter { $0.provider == .nvme }
-            .map {
-                NVMeDiscoveryCandidate(
-                    registryID: $0.registryID ?? $0.transportHandle,
-                    interconnectLocation: nil,
-                    lookupStatus: .missingProperty
-                )
-            }
-        let selection = Registry.selectInternalNVMe(candidates: candidates)
-        switch selection {
-        case .selected(let selected):
+    // Hardware qualification reports the same Registry decision as production sampling.
+    // No raw/unqualified read or reconstructed SMC bytes can create an alternate result.
+    private static func optionalEvidence(
+        kind: SensorKind,
+        catalog: QualifiedSourceCatalog
+    ) -> SourcesReport.OptionalProvider {
+        if let selected = catalog.available.first(where: { $0.kind == kind }) {
             return SourcesReport.OptionalProvider(
-                kind: "ssd",
-                status: "selected",
-                provider: ProviderKind.nvme.rawValue,
-                rawKey: "TEMPERATURE",
-                reason: selected.registryID
-            )
-        case .unavailable(let record):
-            return SourcesReport.OptionalProvider(
-                kind: "ssd",
-                status: "unavailable",
-                provider: record.provider.rawValue,
-                rawKey: record.rawKey,
-                reason: record.reason
+                kind: kind.rawValue, status: "selected",
+                provider: selected.provider.rawValue, rawKey: selected.rawKey,
+                registryID: selected.registryID, unitEvidence: selected.unitEvidence, reason: nil
             )
         }
-    }
-
-    private static func batteryEvidence(
-        profile: SensorProfile,
-        discovered: DiscoveredCatalog,
-        transport: WorkerClient,
-        generation: UInt64
-    ) async throws -> SourcesReport.OptionalProvider {
-        let iopsField: IopsTemperatureField
-        iopsField = try await readIopsField(
-            discovered: discovered,
-            transport: transport,
-            generation: generation
+        let unavailable = catalog.unavailable.first(where: { $0.intendedKind == kind })
+        return SourcesReport.OptionalProvider(
+            kind: kind.rawValue, status: "unavailable",
+            provider: unavailable?.provider.rawValue, rawKey: unavailable?.rawKey,
+            registryID: unavailable?.registryID, unitEvidence: nil,
+            reason: unavailable?.reason ?? "registry_did_not_qualify_optional_provider"
         )
-        let smcReadings = try await readBatterySMCCandidates(
-            profile: profile,
-            discovered: discovered,
-            transport: transport,
-            generation: generation
-        )
-
-        let selection = Registry.selectBatteryProvider(
-            priority: profile.batteryProviderPriority,
-            iops: iopsField,
-            smcReadings: smcReadings,
-            expectedEncoding: profile.expectedSMCEncoding,
-            expectedByteCount: profile.expectedSMCSizeBytes
-        )
-
-        switch selection {
-        case .selected(let selected):
-            return SourcesReport.OptionalProvider(
-                kind: "battery",
-                status: "selected",
-                provider: selected.provider.rawValue,
-                rawKey: selected.rawKey,
-                reason: nil
-            )
-        case .unavailable(let record):
-            return SourcesReport.OptionalProvider(
-                kind: "battery",
-                status: "unavailable",
-                provider: record.provider.rawValue,
-                rawKey: record.rawKey,
-                reason: record.reason
-            )
-        }
-    }
-
-    private static func readIopsField(
-        discovered: DiscoveredCatalog,
-        transport: WorkerClient,
-        generation: UInt64
-    ) async throws -> IopsTemperatureField {
-        guard discovered.sources.contains(where: { $0.transportHandle == "iops:Temperature" }) else {
-            return IopsTemperatureField(kind: .absent)
-        }
-        let requestID = try RequestID(validating: UUID().uuidString.lowercased())
-        let batch = try await transport.readRaw(
-            TransportReadRequest(
-                requestID: requestID,
-                generation: generation,
-                transportHandles: ["iops:Temperature"],
-                requestedPeriodMS: 0
-            )
-        )
-        guard let reading = batch.readings.first else {
-            return IopsTemperatureField(kind: .absent)
-        }
-        switch reading.outcome {
-        case .success(let value, _, _):
-            return IopsTemperatureField(kind: .celsius(value))
-        case .failure(_, let underlying) where underlying == "field_absent":
-            return IopsTemperatureField(kind: .absent)
-        case .failure(_, let underlying) where underlying == "unexpected_type":
-            return IopsTemperatureField(kind: .boolean)
-        default:
-            return IopsTemperatureField(kind: .nonNumber)
-        }
-    }
-
-    private static func readBatterySMCCandidates(
-        profile: SensorProfile,
-        discovered: DiscoveredCatalog,
-        transport: WorkerClient,
-        generation: UInt64
-    ) async throws -> [SmcBatteryReading] {
-        let keys = profile.batteryProviderPriority.compactMap { entry -> String? in
-            guard entry.hasPrefix("smc:") else {
-                return nil
-            }
-            return String(entry.dropFirst(4))
-        }
-        var readings: [SmcBatteryReading] = []
-        for key in keys {
-            guard let source = discovered.sources.first(where: { $0.provider == .smc && $0.rawKey == key }) else {
-                continue
-            }
-            let requestID = try RequestID(validating: UUID().uuidString.lowercased())
-            let batch = try await transport.readRaw(
-                TransportReadRequest(
-                    requestID: requestID,
-                    generation: generation,
-                    transportHandles: [source.transportHandle],
-                    requestedPeriodMS: 0
-                )
-            )
-            guard let outcome = batch.readings.first?.outcome,
-                  case .success(let value, _, _) = outcome,
-                  value.isFinite else {
-                continue
-            }
-            readings.append(
-                SmcBatteryReading(
-                    rawKey: key,
-                    encoding: source.encoding,
-                    bytes: smcBytes(for: value, byteCount: source.byteCount)
-                )
-            )
-        }
-        return readings
-    }
-
-    private static func smcBytes(for celsius: Double, byteCount: Int) -> [UInt8] {
-        guard byteCount == 4 else {
-            return []
-        }
-        var float = Float(celsius)
-        let data = withUnsafeBytes(of: &float) { Array($0) }
-        return data
     }
 }

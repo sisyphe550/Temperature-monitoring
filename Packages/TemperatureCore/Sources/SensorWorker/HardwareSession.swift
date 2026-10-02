@@ -18,7 +18,7 @@ final class HardwareSession {
 
     private struct NVMeDeviceInfo {
         let index: Int32
-        let registryID: String
+        let transportHandle: String
     }
 
     private var smcConnection: UInt32 = 0
@@ -27,6 +27,7 @@ final class HardwareSession {
     private var smcKeys: [String: SMCKeyInfo] = [:]
     private var hidServices: [HIDServiceInfo] = []
     private var nvmeDevices: [NVMeDeviceInfo] = []
+    private var iopsSourceID: Int64?
     private let clock: WorkerClock
 
     init(clock: WorkerClock) { self.clock = clock }
@@ -82,6 +83,7 @@ final class HardwareSession {
         smcKeys.removeAll(keepingCapacity: true)
         hidServices.removeAll(keepingCapacity: true)
         nvmeDevices.removeAll(keepingCapacity: true)
+        iopsSourceID = nil
     }
 
     private func discoverSMCSources() -> [DiscoveredSource] {
@@ -105,6 +107,9 @@ final class HardwareSession {
             return []
         }
 
+        let batteryKeys = Set((try? Configuration.bundledProfile())?.batteryProviderPriority.compactMap {
+            $0.hasPrefix("smc:") ? String($0.dropFirst(4)) : nil
+        } ?? [])
         var sources: [DiscoveredSource] = []
         for index in 0..<count {
             var key: UInt32 = 0
@@ -126,6 +131,13 @@ final class HardwareSession {
 
             let encoding = SensorBridgeSupport.smcEncoding(from: value)
             let byteCount = Int(value.size)
+            // Optional SMC battery candidates must have a real, valid initial reading.
+            // CPU encoding/value facts remain visible for Registry's mandatory checks.
+            if batteryKeys.contains(rawKey), SensorDecoding.smcTemperatureC(
+                encoding: encoding, bytes: SensorBridgeSupport.smcBytes(from: value)
+            ) == nil {
+                continue
+            }
             smcKeys[rawKey] = SMCKeyInfo(key: key, encoding: encoding, byteCount: byteCount)
             sources.append(
                 DiscoveredSource(
@@ -178,41 +190,80 @@ final class HardwareSession {
     private func discoverNVMESources() -> [DiscoveredSource] {
         var status: Int32 = 0
         nvmeProbe = sp_nvme_open(&status)
-        guard let nvmeProbe else {
-            return []
+        guard status == 0, let nvmeProbe else {
+            // A failed/incomplete enumeration must not select from a partial device set.
+            return [DiscoveredSource(
+                transportHandle: "nvme:discovery-failed", provider: .nvme,
+                rawKey: "TEMPERATURE", registryID: nil,
+                encoding: "uint16_le_kelvin", byteCount: 2,
+                physicalInterconnectLocation: nil, interconnectLookupStatus: .lookupFailed
+            )]
         }
-
         var sources: [DiscoveredSource] = []
-        let count = sp_nvme_count(nvmeProbe)
-        for index in 0..<count {
-            let registryID = String(format: "00000000-0000-4000-8001-%012x", index + 1)
-            nvmeDevices.append(NVMeDeviceInfo(index: index, registryID: registryID))
-            sources.append(
-                DiscoveredSource(
-                    transportHandle: "nvme:\(index)",
-                    provider: .nvme,
-                    rawKey: "TEMPERATURE",
-                    registryID: registryID,
-                    encoding: "uint16_le_kelvin",
-                    byteCount: 2
-                )
+        for index in 0..<sp_nvme_count(nvmeProbe) {
+            var identity: UInt64 = 0
+            let identityStatus = sp_nvme_identity(nvmeProbe, index, &identity)
+            let registryID = identityStatus == 0 && identity != 0 ? String(identity) : nil
+            var locationBuffer = [CChar](repeating: 0, count: 256)
+            var lookup: Int32 = SP_NVME_LOCATION_LOOKUP_FAILED
+            let locationStatus = sp_nvme_location(
+                nvmeProbe, index, &locationBuffer, locationBuffer.count, &lookup
             )
+            let lookupStatus: InterconnectLookupStatus
+            switch (locationStatus, lookup) {
+            case (0, SP_NVME_LOCATION_FOUND): lookupStatus = .found
+            case (0, SP_NVME_LOCATION_MISSING_PROPERTY): lookupStatus = .missingProperty
+            default: lookupStatus = .lookupFailed
+            }
+            let location = lookupStatus == .found ? String(
+                decoding: locationBuffer.prefix(while: { $0 != 0 }).map { UInt8(bitPattern: $0) },
+                as: UTF8.self
+            ) : nil
+            // Index is only a local read handle for an unidentifiable device, never a registry identity.
+            let handle = registryID.map { "nvme:\($0)" } ?? "nvme:identity-missing:\(index)"
+            nvmeDevices.append(NVMeDeviceInfo(index: index, transportHandle: handle))
+            sources.append(DiscoveredSource(
+                transportHandle: handle, provider: .nvme, rawKey: "TEMPERATURE",
+                registryID: registryID, encoding: "uint16_le_kelvin", byteCount: 2,
+                physicalInterconnectLocation: location, interconnectLookupStatus: lookupStatus
+            ))
         }
         return sources
     }
 
     private func discoverIOPSSource() -> DiscoveredSource? {
-        guard IOPSCopyPowerSourcesInfo()?.takeRetainedValue() != nil else {
+        guard let battery = uniqueInternalBattery(),
+              SensorDecoding.iopsTemperatureC(field: battery.description[kIOPSTemperatureKey]) != nil else {
             return nil
         }
+        iopsSourceID = battery.id
         return DiscoveredSource(
-            transportHandle: "iops:Temperature",
-            provider: .iops,
-            rawKey: "Temperature",
-            registryID: nil,
-            encoding: "cfnumber_celsius",
-            byteCount: 0
+            transportHandle: "iops:\(battery.id):Temperature", provider: .iops,
+            rawKey: "Temperature", registryID: "iops:\(battery.id)",
+            encoding: "cfnumber_celsius", byteCount: 0
         )
+    }
+
+    // Select the unique internal battery by its SDK-defined Power Source ID.
+    // External UPS order in IOPS is not evidence for a battery identity.
+    private func uniqueInternalBattery() -> (id: Int64, description: [String: Any])? {
+        guard let info = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
+              let sourceList = IOPSCopyPowerSourcesList(info)?.takeRetainedValue() as? [CFTypeRef] else {
+            return nil
+        }
+        var batteries: [(id: Int64, description: [String: Any])] = []
+        for source in sourceList {
+            guard let description = IOPSGetPowerSourceDescription(info, source)?
+                .takeUnretainedValue() as? [String: Any],
+                  description[kIOPSTypeKey] as? String == kIOPSInternalBatteryType else { continue }
+            guard let number = description[kIOPSPowerSourceIDKey] as? NSNumber,
+                  CFGetTypeID(number) == CFNumberGetTypeID(),
+                  !CFNumberIsFloatType(unsafeBitCast(number, to: CFNumber.self)) else {
+                return nil
+            }
+            batteries.append((number.int64Value, description))
+        }
+        return batteries.count == 1 ? batteries[0] : nil
     }
 
     private func readHandle(_ handle: String) -> TransportReading {
@@ -224,7 +275,7 @@ final class HardwareSession {
             outcome = readHIDHandle(handle)
         } else if handle.hasPrefix("nvme:") {
             outcome = readNVMeHandle(handle)
-        } else if handle == "iops:Temperature" {
+        } else if let iopsSourceID, handle == "iops:\(iopsSourceID):Temperature" {
             outcome = readIOPSTemperature()
         } else {
             outcome = .failure(code: .sensorRead, underlyingCode: "unknown_transport_handle")
@@ -251,8 +302,11 @@ final class HardwareSession {
 
         let encoding = SensorBridgeSupport.smcEncoding(from: value)
         let bytes = SensorBridgeSupport.smcBytes(from: value)
-        guard let celsius = SensorDecoding.smcTemperatureC(encoding: encoding, bytes: bytes) else {
-            return .failure(code: .sensorValue, underlyingCode: "unsupported_smc_encoding")
+        guard let celsius = SensorDecoding.smcTemperatureC(
+            encoding: encoding, bytes: bytes,
+            expectedEncoding: info.encoding, expectedByteCount: info.byteCount
+        ) else {
+            return .failure(code: .sensorValue, underlyingCode: "smc_encoding_length_or_value_changed")
         }
         return .success(valueC: celsius, sourceWallUnixNS: nil, freshness: .unknown)
     }
@@ -274,13 +328,12 @@ final class HardwareSession {
 
     private func readNVMeHandle(_ handle: String) -> TransportReadingOutcome {
         guard let nvmeProbe,
-              let index = Int32(handle.dropFirst(5)),
-              nvmeDevices.contains(where: { $0.index == index }) else {
+              let device = nvmeDevices.first(where: { $0.transportHandle == handle }) else {
             return .failure(code: .sensorRead, underlyingCode: "missing_nvme_device")
         }
 
         var kelvin: UInt16 = 0
-        let status = sp_nvme_read(nvmeProbe, index, &kelvin)
+        let status = sp_nvme_read(nvmeProbe, device.index, &kelvin)
         guard status == 0 else {
             return .failure(code: .sensorRead, underlyingCode: SensorBridgeSupport.statusText(status))
         }
@@ -291,23 +344,15 @@ final class HardwareSession {
     }
 
     private func readIOPSTemperature() -> TransportReadingOutcome {
-        guard let info = IOPSCopyPowerSourcesInfo()?.takeRetainedValue(),
-              let sourceList = IOPSCopyPowerSourcesList(info)?.takeRetainedValue() as? [CFTypeRef],
-              let firstSource = sourceList.first,
-              let description = IOPSGetPowerSourceDescription(info, firstSource)?
-            .takeUnretainedValue() as? [String: Any] else {
-            return .failure(code: .sensorRead, underlyingCode: "missing_iops_source")
+        guard let selectedID = iopsSourceID,
+              let battery = uniqueInternalBattery(), battery.id == selectedID else {
+            return .failure(code: .sensorRead, underlyingCode: "iops_battery_identity_changed_or_missing")
         }
-
-        guard let raw = description[kIOPSTemperatureKey] else {
+        guard let raw = battery.description[kIOPSTemperatureKey] else {
             return .failure(code: .sensorValue, underlyingCode: "field_absent")
         }
-        guard let number = raw as? NSNumber, CFGetTypeID(number) == CFNumberGetTypeID() else {
-            return .failure(code: .sensorValue, underlyingCode: "unexpected_type")
-        }
-        let value = number.doubleValue
-        guard value.isFinite else {
-            return .failure(code: .sensorValue, underlyingCode: "nonfinite")
+        guard let value = SensorDecoding.iopsTemperatureC(field: raw) else {
+            return .failure(code: .sensorValue, underlyingCode: "invalid_iops_temperature")
         }
         return .success(valueC: value, sourceWallUnixNS: nil, freshness: .unknown)
     }

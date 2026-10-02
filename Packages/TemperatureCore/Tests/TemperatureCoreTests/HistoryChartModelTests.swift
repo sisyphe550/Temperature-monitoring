@@ -114,7 +114,7 @@ import Testing
     @Test func multipleSeriesAreRetainedUpToLimit() throws {
         var seriesIDs: [SeriesID] = []
         var points: [HistoryPoint] = []
-        for index in 0 ..< 9 {
+        for index in 0 ..< HistoryChartModel.maxSeries {
             let uuid = String(format: "00000000-0000-4000-8000-%012d", 101 + index)
             let seriesID = try SeriesID(validating: uuid)
             seriesIDs.append(seriesID)

@@ -6,6 +6,7 @@ struct TemperaturePopoverView: View {
     @Bindable var presentationModel: PresentationModel
     var actions: (any PresentationActions)?
     var onClose: () -> Void = {}
+    var contentHeight: CGFloat = 640
 
     var body: some View {
         VStack(spacing: 0) {
@@ -16,7 +17,7 @@ struct TemperaturePopoverView: View {
             Divider()
             footer
         }
-        .frame(width: 340, height: 640)
+        .frame(width: 340, height: contentHeight)
         .onExitCommand(perform: onClose)
     }
 
@@ -25,11 +26,11 @@ struct TemperaturePopoverView: View {
             Text("温度监测")
                 .font(.headline)
             Spacer()
-            Button("设置") {
-                actions?.openSettings()
+            if case .running = presentationModel.state {
+                Button("设置") { actions?.openSettings() }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("settings.entry")
             }
-            .buttonStyle(.plain)
-            .accessibilityIdentifier("settings.entry")
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
@@ -63,9 +64,13 @@ struct TemperaturePopoverView: View {
     @ViewBuilder
     private func runningContent(_ running: RunningPresentationState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
+            Text("CPU热区最高温度").font(.headline)
             Text(TemperatureFormatting.primaryText(running.primaryCPU))
                 .font(.system(.title2, design: .monospaced))
                 .accessibilityIdentifier("status.temperature")
+            Text(TemperatureFormatting.stateDescription(running.primaryCPU))
+                .font(.caption).foregroundStyle(.secondary)
+                .accessibilityIdentifier("temperature.state.cpu.zone.max")
             ForEach(Array(running.sections.enumerated()), id: \.element.id) { index, section in
                 if index > 0 {
                     Divider()

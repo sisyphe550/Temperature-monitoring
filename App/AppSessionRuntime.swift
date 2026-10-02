@@ -1,4 +1,5 @@
 import Foundation
+import Darwin
 import SensorRuntime
 import TemperatureCore
 import TemperaturePresentation
@@ -22,6 +23,9 @@ final class AppSessionRuntime {
     private var lastHistoryRefreshElapsedNS: Int64?
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
     private var selectedSeriesIDs: [SeriesID] = []
+    private var selectedMetricIDs: Set<MetricID> = []
+    private var knownDefinitions: [SeriesID: SeriesDefinition] = [:]
+    private var lastSeenDefinitionElapsedNS: [SeriesID: Int64] = [:]
     private var fatalHandler: (@MainActor (FatalDisplayReceipt) -> Void)?
 
     init(
@@ -38,6 +42,7 @@ final class AppSessionRuntime {
         self.configuration = configuration
         self.profile = profile
         self.primaryCPUMetricID = primaryCPUMetricID
+        selectedMetricIDs = [primaryCPUMetricID]
     }
 
     static func makeProduction(
@@ -46,6 +51,21 @@ final class AppSessionRuntime {
     ) throws -> AppSessionRuntime {
         let configuration = try AppBundleConfiguration.loadRuntimeConfiguration()
         let profile = try AppBundleConfiguration.loadProfile()
+        var modelSize = 0
+        guard sysctlbyname("hw.model", nil, &modelSize, nil, 0) == 0, modelSize > 0 else {
+            throw platformFailure("hw_model_query_failed")
+        }
+        var modelBytes = [CChar](repeating: 0, count: modelSize)
+        guard sysctlbyname("hw.model", &modelBytes, &modelSize, nil, 0) == 0 else {
+            throw platformFailure("hw_model_query_failed")
+        }
+        let actualModel = String(cString: modelBytes)
+        guard actualModel == profile.model else { throw platformFailure("unconfigured_model:\(actualModel)") }
+        let components = configuration.minimumMacos.split(separator: ".").compactMap { Int($0) }
+        guard components.count == 3 else { throw ConfigurationError.invalidValue("minimum_macos") }
+        guard ProcessInfo.processInfo.isOperatingSystemAtLeast(OperatingSystemVersion(majorVersion: components[0], minorVersion: components[1], patchVersion: components[2])) else {
+            throw platformFailure("minimum_macos:\(configuration.minimumMacos)")
+        }
         guard let workerURL = Bundle.main.sensorWorkerExecutableURL else {
             throw AppSessionError.missingSensorWorker
         }
@@ -78,6 +98,13 @@ final class AppSessionRuntime {
         )
     }
 
+    private static func platformFailure(_ reason: String) -> MonitorFailure {
+        MonitorFailure(code: .unsupportedPlatform, severity: .fatal, component: "AppSessionRuntime",
+            operation: "platform", retryCount: 0, sourceID: nil, underlyingCode: reason)
+    }
+
+    func remainingFatalMS(_ receipt: FatalDisplayReceipt) -> Int { receipt.remainingMS(at: clock.now()) }
+
     func setFatalHandler(_ handler: @escaping @MainActor (FatalDisplayReceipt) -> Void) { fatalHandler = handler }
 
     var canApplyLiveControls: Bool {
@@ -94,12 +121,46 @@ final class AppSessionRuntime {
     }
 
     func stop() async {
+        let snapshot = snapshotTask
         snapshotTask?.cancel()
         snapshotTask = nil
         historyTask?.cancel()
         historyTask = nil
         historyRequestOrdinal += 1
         await coordinator.stop()
+        await snapshot?.value
+    }
+
+    var shutdownBudgetMS: Int { configuration.shutdownBudgetMS }
+
+    func recordShutdownDeadlineExceeded() async { await coordinator.recordShutdownDeadlineExceeded() }
+
+    func suspendForSleep() async {
+        if case .fatal = presentationModel.state { return }
+        historyTask?.cancel()
+        historyTask = nil
+        do { try await coordinator.suspendForSleep() }
+        catch { await enterFatal((error as? MonitorFailure) ?? lifecycleFailure(error, operation: "sleep")) }
+    }
+
+    func resumeAfterWake() async {
+        if case .fatal = presentationModel.state { return }
+        do { try await coordinator.resumeAfterWake(); requestHistoryReload(force: true) }
+        catch { await enterFatal((error as? MonitorFailure) ?? lifecycleFailure(error, operation: "wake")) }
+    }
+
+    private func lifecycleFailure(_ error: Error, operation: String) -> MonitorFailure {
+        MonitorFailure(code: .appInit, severity: .fatal, component: "AppSessionRuntime", operation: operation,
+            retryCount: 0, sourceID: nil, underlyingCode: String(describing: error))
+    }
+
+    func currentHistoryMetricIDs() -> Set<MetricID> { selectedMetricIDs }
+
+    func setHistoryMetricIDs(_ metrics: Set<MetricID>) {
+        guard !metrics.isEmpty, metrics.count <= configuration.historyMaxSeries else { return }
+        selectedMetricIDs = metrics
+        resolveSelectedSeries(asOfElapsedNS: clock.now().elapsedNS)
+        requestHistoryReload(force: true)
     }
 
     func currentHistoryRange() -> HistoryRange {
@@ -108,6 +169,7 @@ final class AppSessionRuntime {
 
     func setHistoryRange(_ range: HistoryRange) {
         selectedHistoryRange = range
+        resolveSelectedSeries(asOfElapsedNS: clock.now().elapsedNS)
         requestHistoryReload(force: true)
     }
 
@@ -152,6 +214,9 @@ final class AppSessionRuntime {
     }
 
     private func enterFatal(_ failure: MonitorFailure) async {
+        if case .fatal = presentationModel.state { return }
+        snapshotTask?.cancel()
+        await coordinator.freezeForFatal()
         historyTask?.cancel()
         historyTask = nil
         let receipt = await coordinator.recordFatal(failure, reportPath: nil)
@@ -160,7 +225,16 @@ final class AppSessionRuntime {
     }
 
     private func requestHistoryReload(force: Bool = false) {
-        guard !selectedSeriesIDs.isEmpty else { return }
+        if selectedSeriesIDs.isEmpty || selectedSeriesIDs.count > configuration.historyMaxSeries {
+            historyTask?.cancel()
+            historyTask = nil
+            historyRequestOrdinal += 1
+            guard !selectedSeriesIDs.isEmpty else { return }
+            presentationModel.applyHistoryFailure(MonitorFailure(code: .uiData, severity: .degraded,
+                component: "AppSessionRuntime", operation: "historySelection", retryCount: 0, sourceID: nil,
+                underlyingCode: "所选范围包含超过8个来源定义，请减少选择或缩短范围；来源变化不能合并为连续曲线"))
+            return
+        }
         let now = clock.now().elapsedNS
         let refreshNS = selectedHistoryRange == .fiveMinutes
             ? Int64(configuration.uiPublishMS) * 1_000_000 : 1_000_000_000
@@ -178,23 +252,72 @@ final class AppSessionRuntime {
         if force || ordinal == 1 { presentationModel.beginHistoryLoad() }
         historyTask = Task { [weak self] in
             guard let self else { return }
+            defer { if ordinal == historyRequestOrdinal { historyTask = nil } }
             do {
-                let result = try await coordinator.queryHistory(request)
+                let result = try await queryHistoryWithBudget(request)
                 guard !Task.isCancelled, ordinal == historyRequestOrdinal else { return }
-                presentationModel.apply(history: result, request: request)
-            } catch {
+                presentationModel.apply(history: result, request: request, definitions: Array(knownDefinitions.values))
+            } catch is CancellationError { return }
+            catch {
                 guard !Task.isCancelled, ordinal == historyRequestOrdinal else { return }
-                presentationModel.applyHistoryFailure(MonitorFailure(code: .databaseRead, severity: .degraded,
-                    component: "AppSessionRuntime", operation: "history", retryCount: 0, sourceID: nil,
-                    underlyingCode: String(describing: error)))
+                let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .uiData, severity: .fatal,
+                    component: "AppSessionRuntime", operation: "history", retryCount: configuration.uiRetryMS.count,
+                    sourceID: nil, underlyingCode: String(describing: error))
+                presentationModel.applyHistoryFailure(failure)
+                if failure.severity == .fatal { await enterFatal(failure) }
             }
-            if ordinal == historyRequestOrdinal { historyTask = nil }
+        }
+    }
+
+    private func queryHistoryWithBudget(_ request: HistoryRequest) async throws -> HistoryResult {
+        var attempt = 0
+        let policy = RetryPolicy(configuration: configuration)
+        while true {
+            try Task.checkCancellation()
+            do { return try await coordinator.queryHistory(request) }
+            catch is CancellationError { throw CancellationError() }
+            catch {
+                let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .databaseRead, severity: .fatal,
+                    component: "AppSessionRuntime", operation: "history", retryCount: attempt, sourceID: nil,
+                    underlyingCode: String(describing: error))
+                if failure.underlyingCode == "superseded" { throw CancellationError() }
+                if failure.underlyingCode == "boundary_budget_exceeded" {
+                    throw MonitorFailure(code: .uiData, severity: .degraded, component: "AppSessionRuntime",
+                        operation: "historyBudget", retryCount: 0, sourceID: nil,
+                        underlyingCode: "历史分段边界超过点数上限，请缩短范围；无法在保持缺口和来源边界的同时减点")
+                }
+                guard policy.isRetryable(failure, domain: .uiHistory), let wait = policy.waitMS(for: .uiHistory, afterFailureIndex: attempt) else {
+                    throw MonitorFailure(code: policy.isRetryable(failure, domain: .uiHistory) ? .uiData : failure.code,
+                        severity: .fatal, component: failure.component, operation: failure.operation, retryCount: attempt,
+                        sourceID: failure.sourceID, underlyingCode: failure.underlyingCode)
+                }
+                attempt += 1
+                try await Task.sleep(nanoseconds: UInt64(wait) * 1_000_000)
+            }
         }
     }
 
     func updateSelectedSeries(from snapshot: Snapshot, primaryMetricID: MetricID) {
-        if let primary = snapshot.values.first(where: { $0.definition.metricID == primaryMetricID }) {
-            selectedSeriesIDs = [primary.definition.seriesID]
+        for value in snapshot.values {
+            knownDefinitions[value.definition.seriesID] = value.definition
+            lastSeenDefinitionElapsedNS[value.definition.seriesID] = snapshot.asOf.elapsedNS
         }
+        let cutoff = snapshot.asOf.elapsedNS - HistoryRange.threeDays.rawValue * 1_000_000_000
+        knownDefinitions = knownDefinitions.filter { lastSeenDefinitionElapsedNS[$0.key, default: 0] >= cutoff }
+        lastSeenDefinitionElapsedNS = lastSeenDefinitionElapsedNS.filter { knownDefinitions[$0.key] != nil }
+        let availableMetrics = Set(snapshot.values.map { $0.definition.metricID })
+        selectedMetricIDs.formIntersection(availableMetrics)
+        if selectedMetricIDs.isEmpty { selectedMetricIDs = [primaryMetricID] }
+        resolveSelectedSeries(asOfElapsedNS: snapshot.asOf.elapsedNS)
+    }
+
+    private func resolveSelectedSeries(asOfElapsedNS: Int64) {
+        let cutoff = asOfElapsedNS - selectedHistoryRange.rawValue * 1_000_000_000
+        selectedSeriesIDs = knownDefinitions.values.filter {
+            selectedMetricIDs.contains($0.metricID) && lastSeenDefinitionElapsedNS[$0.seriesID, default: 0] >= cutoff
+        }.sorted {
+            if $0.metricID != $1.metricID { return $0.metricID.rawValue < $1.metricID.rawValue }
+            return $0.definitionVersion < $1.definitionVersion
+        }.map(\.seriesID)
     }
 }

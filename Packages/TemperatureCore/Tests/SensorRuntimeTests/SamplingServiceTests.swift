@@ -57,6 +57,52 @@ import TemperatureCore
         await service.stop()
     }
 
+    @Test func nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources() async throws {
+        let clock = SchedulingTestClock(now: timestamp(ms: 0))
+        let catalog = try makeCatalog(kinds: [.cpuZone, .ssd, .battery])
+        let client = MockScheduleSensorClient(clock: clock, catalog: catalog, readDurationMS: 10)
+        let reservation = try await makeReservation()
+        let service = SamplingService(clock: clock, client: client, reservation: reservation,
+            configuration: try makeScheduleConfiguration(cpuMS: 1000, ssdMS: 1000, batteryMS: 1000))
+        let events = EventCollector()
+        await service.start(catalog: catalog) { event in
+            await events.append(event.kind)
+            await reservation.cancel(event.lease)
+        }
+        clock.advance(to: timestamp(ms: 1000))
+        try await waitUntil { await client.readCount >= 1 }
+        for ms in stride(from: Int64(1010), through: 1050, by: 10) {
+            clock.advance(to: timestamp(ms: ms))
+            try await Task.sleep(nanoseconds: 10_000_000)
+        }
+        #expect(await events.prefix(3) == [.cpu, .ssd, .battery])
+        #expect(await client.maxConcurrentReads == 1)
+        await service.stop()
+    }
+
+    @Test func failedOptionalSourceHasFiniteProbesAndNeedsThreeValidReads() async throws {
+        let clock = SchedulingTestClock(now: timestamp(ms: 0))
+        let catalog = try makeCatalog(kinds: [.cpuZone, .ssd])
+        let client = OptionalProbeClient(clock: clock, catalog: catalog)
+        let reservation = try await makeReservation()
+        let service = SamplingService(clock: clock, client: client, reservation: reservation, configuration: try Configuration.bundledDefaults())
+        await service.start(catalog: catalog) { event in await reservation.cancel(event.lease) }
+        for ms in [Int64(500), 550, 650, 850, 1000] {
+            clock.advance(to: timestamp(ms: ms))
+            try await Task.sleep(nanoseconds: 15_000_000)
+        }
+        #expect(await client.optionalReads == 4)
+        #expect(await service.nextDueElapsedNS(for: .ssd) != nil)
+        for ms in [Int64(61_000), 61_500, 62_000] {
+            clock.advance(to: timestamp(ms: ms))
+            try await Task.sleep(nanoseconds: 15_000_000)
+        }
+        #expect(await client.optionalReads == 7)
+        #expect(await client.cpuReads > 1)
+        #expect(await service.nextDueElapsedNS(for: .ssd) == 62_500_000_000)
+        await service.stop()
+    }
+
     @Test func cpuPeriodChangeRecalculatesNextDue() async throws {
         let clock = SchedulingTestClock(now: timestamp(ms: 0))
         let catalog = try makeCatalog(kinds: [.cpuZone])
@@ -284,6 +330,11 @@ final class SchedulingTestClock: MonitorClock, @unchecked Sendable {
         try await withTaskCancellationHandler {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
                 lock.lock()
+                if Task.isCancelled {
+                    lock.unlock()
+                    continuation.resume(throwing: CancellationError())
+                    return
+                }
                 if untilElapsedNS <= current.elapsedNS {
                     lock.unlock()
                     continuation.resume()
@@ -366,5 +417,30 @@ actor MockScheduleSensorClient: SensorClient {
         )
     }
 
+    func close() async {}
+}
+
+private actor OptionalProbeClient: SensorClient {
+    let clock: SchedulingTestClock
+    let catalog: QualifiedSourceCatalog
+    private(set) var optionalReads = 0
+    private(set) var cpuReads = 0
+    init(clock: SchedulingTestClock, catalog: QualifiedSourceCatalog) { self.clock = clock; self.catalog = catalog }
+    func discover() async throws -> QualifiedSourceCatalog { catalog }
+    func read(_ request: ReadRequest) async throws -> ReadBatch {
+        let isCPU = catalog.available.contains { $0.kind == .cpuZone && request.sourceIDs.contains($0.sourceID) }
+        if isCPU { cpuReads += 1 }
+        else {
+            optionalReads += 1
+            if optionalReads <= 4 {
+                throw MonitorFailure(code: .sensorRead, severity: .degraded, component: "fixture", operation: "read",
+                    retryCount: 0, sourceID: request.sourceIDs.first, underlyingCode: "temporary_optional_failure")
+            }
+        }
+        let now = clock.now()
+        return ReadBatch(requestID: request.requestID, generation: catalog.generation, requestedPeriodMS: request.requestedPeriodMS,
+            readings: request.sourceIDs.map { Reading(sourceID: $0, started: now, finished: now,
+                outcome: .success(valueC: 60, sourceWallUnixNS: nil, freshness: .unknown)) })
+    }
     func close() async {}
 }
