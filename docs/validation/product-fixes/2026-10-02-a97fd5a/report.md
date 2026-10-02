@@ -97,11 +97,11 @@ R01–R17（Issue #27–#43）已完成对应代码修复。最终代码核心 *
 
 ## 归档与交付记录
 
-[verification.json](verification.json)保存机器可读结果和17项映射；[artifact-manifest.json](artifact-manifest.json)保存原文件位置及SHA256，归档时按清单核对。正式二进制：App `f1ae783663557fdf7da346f78f8d632748937c1bf239051a003c982ee683d95b`；worker `5e546ae7f7ba0d5f9d890fa662cd5f3f727ac71133d6c4e71eab6209bf7590ac`。
+[verification.json](verification.json)保存机器可读结果和17项映射；[artifact-manifest.json](artifact-manifest.json)保存归档相对路径及SHA256，归档时按清单核对。正式二进制：App `f1ae783663557fdf7da346f78f8d632748937c1bf239051a003c982ee683d95b`；worker `5e546ae7f7ba0d5f9d890fa662cd5f3f727ac71133d6c4e71eab6209bf7590ac`。
 
 仅使用本App拥有的窗口/控件附件；不加入私密整屏截图。原始xcresult保留在临时验证目录，不自动整个复制进Git。自有附件来源为`/tmp/temperature-final-real-owned-evidence/`，可按其manifest另行归档。
 
-本报告记录最终代码的本地验证；推送、Issue关闭、PR和exact-head CI另以GitHub当前状态确认，不在此预写通过。后续提交仅整理文档/证据，正式App绑定上述测试代码SHA。原W11验收[PR #26](https://github.com/sisyphe550/Temperature-monitoring/pull/26)仍使用旧代码与旧证据，应在修复合入后重新核对，不能沿用其旧完成声明。
+本报告记录最终代码的本地验证；推送、Issue关闭、PR和exact-head CI另以GitHub当前状态确认，不在此预写通过。报告归档后追加的测试同步及交付见[651b29e补充报告](../2026-10-03-651b29e/report.md)；正式App仍绑定上述生产代码SHA。原W11验收[PR #26](https://github.com/sisyphe550/Temperature-monitoring/pull/26)仍使用旧代码与旧证据，应在修复合入后重新核对，不能沿用其旧完成声明。
 
 ## 当前仓库规则与附件入口
 

@@ -1,0 +1,8 @@
+{
+  "production_code_reference_SHA": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+  "reference_files": 162,
+  "unchanged_files": 161,
+  "only_change": "Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift",
+  "new_file_sha256": "9f9d96eb9e262a8a6fd21970a7791f78402bd13ec440db039249df1904ceb38d",
+  "production_resources_contracts_UI_workflows_unchanged": true
+}

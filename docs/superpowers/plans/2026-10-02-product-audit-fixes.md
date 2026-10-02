@@ -127,7 +127,7 @@
 - [x] 正式无 fixture App 验证CPU12/max/EMA、历史/聚合、五档/改周期、可选状态、正常退出；记录当前 SHA、二进制 hash、环境及时间范围。豁免长测仍明确保留。
 - [x] 更新入口/需求状态和证据，避免“测试全绿=全部REQ完成”的表述；保存具体未验证边界。
 - [x] 生成整分支 review package，委派独立 reviewer；重要发现用 RED→GREEN 修复并跑全量；minor 和裁决如实记录。
-- [ ] 符合实际修复证据后关闭相应 Issue；推送修复分支、创建/更新 PR，链接 review 和证据，检查 exact head CI。仅在用户已授权本轮合并且全部阻塞项解决时按 merge commit 合并；否则保留可审阅 PR。
+- [x] 根据实际修复证据关闭#27～#43及追加CI缺陷#45；推送修复分支、创建PR #44，链接review和证据，检查exact head CI并处理所见失败。每次push后的最终门禁以PR当前head为准。仅在用户已授权本轮合并且全部阻塞项解决时按 merge commit 合并；否则保留可审阅 PR。
 
 ## 执行记录
 
@@ -144,3 +144,7 @@
 337项／52 suites通过，最终覆盖7059/7966=88.61%；独立同源全量与源码审查通过。正式Release重新构建并验证签名/上游边界，最终本机UI 1项84.800s通过，CPU12/Raw max/EMA、Battery/SSD、五档各8s、5min/1h历史、标准reopen同会话及app.quit清理有新证据。受控缺worker副本启动Fatal显示原始错误并自动退出，首观察至消失31.4639s，含启动/收尾；范围只为startup fallback。
 
 [最终修复报告](../../validation/product-fixes/2026-10-02-a97fd5a/report.md)及机器结果按代码SHA归档。菜单栏右键、真实睡眠/运行中故障、五档各10min、真24h/72h历史和最终SHA的真实TTL长时观察未验收；用户豁免项保持不执行。Task9的Issue/PR/CI条目在实际交付后记录，原W11 PR #26不可沿用旧SHA作修复验收。
+
+### 追加CI同步修复与交付
+
+#45已由仅测试提交651b29e修复：固定50ms等待改为等待Receipt后210ms EMA，再保留13/13/1及95°C断言。root全量337/52通过、覆盖88.71%；独立定向10项通过。17产品缺陷与#45均关闭，PR #44已创建并附审查证据。旧CI失败与新本地结果按[新日期/提交报告](../../validation/product-fixes/2026-10-03-651b29e/report.md)分开。新head必须重新通过全部门禁，维护者确认后才可merge commit；本輪合并未执行。

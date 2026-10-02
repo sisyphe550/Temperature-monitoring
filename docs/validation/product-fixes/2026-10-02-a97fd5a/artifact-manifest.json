@@ -255,8 +255,8 @@
     },
     {
       "archivePath": "report.md",
-      "bytes": 21289,
-      "sha256": "eba33ac443bae8b4ee1c4fa476fe2a9cc8ce1f1ef7238713dbcd7dc99d97d392"
+      "bytes": 21363,
+      "sha256": "611804bf7522e811849d572eab0e186397489519395aefa5604a713434f29306"
     },
     {
       "archivePath": "reviewed-code-sha256.json",
@@ -339,5 +339,6 @@
       "sha256": "a3f4428f22369ab944c9270ce23205e89573515d32652c1662250b4cc2ae40b5"
     }
   ],
-  "policy": "hashes cover byte-exact archived outputs and explicit final reports; manifest excludes itself; owned App windows only, no desktop recording"
+  "policy": "hashes cover byte-exact archived outputs and explicit final reports; manifest excludes itself; owned App windows only, no desktop recording",
+  "clerical_correction": "archivePath wording corrected; subsequent test-only verification linked; original measured results unchanged"
 }

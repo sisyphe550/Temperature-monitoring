@@ -1,0 +1,45 @@
+{
+  "created_utc": "2026-10-02T16:03:55.777845+00:00",
+  "production_code_SHA": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+  "test_fix_SHA": "651b29ee9e158ccf8c06f63945460c09e3bbbb65",
+  "PR": "https://github.com/sisyphe550/Temperature-monitoring/pull/44",
+  "product_defects_fixed": [
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43
+  ],
+  "CI_test_defect_fixed": 45,
+  "local_core": {
+    "tests": 337,
+    "suites": 52,
+    "passed": true
+  },
+  "local_coverage": {
+    "covered": 7067,
+    "total": 7966,
+    "percent": 88.71
+  },
+  "independent_targeted": {
+    "tests": 10,
+    "suites": 2,
+    "passed": true
+  },
+  "production_code_resources_contracts_UI_workflows_unchanged": true,
+  "new_exact_head_CI": "must_pass_after_final_push; canonical current state on PR44",
+  "merge": "maintainer_decision_required; not_performed",
+  "scope": "test synchronization and delivery only; a97 formal Release hardware evidence remains historical exact code SHA, not re-executed"
+}

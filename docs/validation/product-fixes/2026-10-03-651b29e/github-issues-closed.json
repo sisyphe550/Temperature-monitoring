@@ -1,0 +1,143 @@
+{
+  "observed_utc": "2026-10-02T15:44:47.313707+00:00",
+  "repair_PR": "https://github.com/sisyphe550/Temperature-monitoring/pull/44",
+  "repair_code_SHA": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+  "issues": [
+    {
+      "number": 27,
+      "title": "[P1] 正式 App 历史查询使用新时钟，且首轮选择来源后未加载历史",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:19Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/27"
+    },
+    {
+      "number": 28,
+      "title": "[P1] 在途采样注册和注销时间不一致，真实采样后聚合水位冻结",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:24Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/28"
+    },
+    {
+      "number": 29,
+      "title": "[P1] 一次传感器超时后采样永久停止，运行错误未进入重试和 Fatal 流程",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:29Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/29"
+    },
+    {
+      "number": 30,
+      "title": "[P1] 正式 App 未绑定系统休眠通知，恢复路径复用 RequestID 并拒绝新样本",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:34Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/30"
+    },
+    {
+      "number": 31,
+      "title": "[P1] MonitorEngine 在写入回执前推进状态，未提交批次无法正确重试",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:40Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/31"
+    },
+    {
+      "number": 32,
+      "title": "[P1] 正常运行未调度 TTL 清理，去重和 lease 记录持续增长",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:45Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/32"
+    },
+    {
+      "number": 33,
+      "title": "[P2] 正常退出没有关闭删除会话数据库，异步 stop 未等待完成",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:51Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/33"
+    },
+    {
+      "number": 34,
+      "title": "[P1] 缺失固定 CPU 成员时 App 静默用剩余来源定义最高温度",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:43:56Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/34"
+    },
+    {
+      "number": 35,
+      "title": "[P2] 电池/SSD 未接入 Qualified catalog，且同相位可选采样会被 CPU 持续跳过",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:03Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/35"
+    },
+    {
+      "number": 36,
+      "title": "[P2] 五分钟图对高频样本取最后 2000 点，丢弃前段历史",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:10Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/36"
+    },
+    {
+      "number": 37,
+      "title": "[P2] R11: pending CPU maximum uses changed UI period instead of request period",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:15Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/37"
+    },
+    {
+      "number": 38,
+      "title": "[P1] R12: reconnect reuses source identity and processing retains old definitions",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:21Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/38"
+    },
+    {
+      "number": 39,
+      "title": "R13: runtime read failures do not open gaps or reset segments",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:26Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/39"
+    },
+    {
+      "number": 40,
+      "title": "[R14] 可选来源换代时连续恢复计数未清零",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:30Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/40"
+    },
+    {
+      "number": 41,
+      "title": "[R15] 睡眠唤醒后可选来源永久停留在Unavailable",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:36Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/41"
+    },
+    {
+      "number": 42,
+      "title": "[R16] CPU重连会复活已耗尽的可选来源探测预算",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:41Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/42"
+    },
+    {
+      "number": 43,
+      "title": "[R17] 本机隐藏菜单栏温度项时缺少可达的主窗口与退出入口",
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-02T15:44:45Z",
+      "url": "https://github.com/sisyphe550/Temperature-monitoring/issues/43"
+    }
+  ]
+}

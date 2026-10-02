@@ -1,0 +1,1219 @@
+core-tests	Core unit tests with coverage	﻿2026-10-02T15:41:36.5372710Z ##[group]Run swift test --package-path Packages/TemperatureCore --enable-code-coverage
+core-tests	Core unit tests with coverage	2026-10-02T15:41:36.5374470Z ^[[36;1mswift test --package-path Packages/TemperatureCore --enable-code-coverage^[[0m
+core-tests	Core unit tests with coverage	2026-10-02T15:41:36.5460290Z shell: /bin/bash -e {0}
+core-tests	Core unit tests with coverage	2026-10-02T15:41:36.5460610Z ##[endgroup]
+core-tests	Core unit tests with coverage	2026-10-02T15:41:37.9850940Z [0/1] Planning build
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0006120Z Building for debugging...
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0129500Z [0/21] Write sources
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0231100Z [0/21] /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/.build/arm64-apple-macosx/debug/TemperatureCorePackageTests.derived/runner.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0257390Z [0/21] Write SensorWorker-entitlement.plist
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0257880Z [0/21] Write sources
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0258360Z [0/21] Write ProductQualification-entitlement.plist
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.0258840Z [8/22] Write sources
+core-tests	Core unit tests with coverage	2026-10-02T15:41:38.2259890Z [9/22] Write swift-version--79AA4F9932D1E87A.txt
+core-tests	Core unit tests with coverage	2026-10-02T15:41:39.6185580Z [10/49] Compiling SensorBridge SensorBridge.c
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2964750Z [12/49] Compiling TemperatureCore RetryPolicy.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2969930Z [13/49] Compiling TemperatureCore MetricResolver.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2971340Z [14/49] Compiling TemperatureCore MonitorEngine.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2972760Z [15/49] Compiling TemperatureCore BoundedQueue.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2974400Z [16/49] Compiling TemperatureCore PersistenceBatchMetrics.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2980690Z [17/49] Compiling TemperatureCore SessionPersistence.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2981730Z [18/49] Compiling TemperatureCore StorageWriter.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2982300Z [19/49] Compiling TemperatureCore Aggregation.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2982760Z [20/49] Compiling TemperatureCore CPUMaxDerivation.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2983570Z [21/49] Compiling TemperatureCore EMA.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2984160Z [22/49] Compiling TemperatureCore RingBuffer.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2984730Z [23/49] Compiling TemperatureCore SafeWatermark.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2985280Z [24/49] Compiling TemperatureCore SampleValidation.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2985730Z [25/49] Compiling TemperatureCore Clock.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2987130Z [26/49] Compiling TemperatureCore Configuration.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2988590Z [27/49] Compiling TemperatureCore ConnectionIdentity.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2990000Z [28/49] Compiling TemperatureCore Identifiers.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2992420Z [29/49] Compiling TemperatureCore PersistenceTypes.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2993800Z [30/49] Compiling TemperatureCore PresentationTypes.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2995240Z [31/49] Compiling TemperatureCore SensorTypes.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2996460Z [32/49] Compiling TemperatureCore DiagnosticLogger.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2997810Z [33/49] Compiling TemperatureCore ErrorCoordinator.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.2999040Z [34/49] Compiling TemperatureCore FatalDisplayReceipt.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.3000290Z [35/49] Compiling TemperatureCore MonitorFailure.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.3001640Z [36/49] Compiling TemperatureCore MonitorShutdown.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.3002980Z [37/49] Compiling TemperatureCore ReportWriter.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:42.3004630Z [38/49] Emitting module TemperatureCore
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9378420Z [39/62] Compiling TemperatureCore Trend.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9381060Z [40/62] Compiling TemperatureCore QualifiedSensorClient.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9382640Z [41/62] Compiling TemperatureCore Registry.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9383700Z [42/62] Compiling TemperatureCore SensorDecoding.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9384780Z [43/62] Compiling TemperatureCore SessionLock.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9385870Z [44/62] Compiling TemperatureCore BatchCanonicalHash.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9386770Z [45/62] Compiling TemperatureCore BatchCommit.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9387650Z [46/62] Compiling TemperatureCore HistoryQuery.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9388500Z [47/62] Compiling TemperatureCore Retention.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9389360Z [48/62] Compiling TemperatureCore SQLiteStore.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9391770Z [49/62] Compiling TemperatureCore SessionCleanup.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9393060Z [50/62] Compiling TemperatureCore TemperatureCoreModule.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:43.9394200Z [51/62] Compiling TemperatureCore resource_bundle_accessor.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:44.9106510Z [52/70] Compiling TemperaturePresentation PresentationModel.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:44.9207900Z [53/70] Emitting module TemperaturePresentation
+core-tests	Core unit tests with coverage	2026-10-02T15:41:44.9396060Z [54/70] Compiling TemperaturePresentation HistoryChartModel.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.0588040Z [55/71] Compiling TemperaturePresentation PresentationState.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.2023630Z [56/71] Compiling SensorRuntime SeriesCatalogBuilder.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.2127450Z [57/71] Compiling SensorRuntime SessionMonitorController.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.7469440Z [58/73] Emitting module SensorRuntime
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.7470420Z [59/73] Compiling SensorRuntime ProcessingCoordinator.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.7470880Z [60/73] Compiling SensorRuntime SamplingService.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.9618450Z [61/73] Compiling SensorRuntime WorkerClient.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:45.9619290Z [62/73] Compiling SensorRuntime WorkerProtocol.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:46.7248140Z [63/118] Compiling SensorWorker SensorWorkerEntry.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:46.9258870Z [64/119] Compiling SensorWorker WorkerClock.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:47.1286860Z [65/119] Emitting module SensorWorker
+core-tests	Core unit tests with coverage	2026-10-02T15:41:47.1288260Z [66/119] Compiling SensorWorker HardwareSession.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:47.1289520Z [67/119] Compiling SensorWorker SensorBridgeSupport.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:47.5777320Z [68/121] Emitting module ProtocolWorker
+core-tests	Core unit tests with coverage	2026-10-02T15:41:47.5779040Z [69/121] Compiling ProtocolWorker main.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:48.8443660Z [70/127] Emitting module ProductQualification
+core-tests	Core unit tests with coverage	2026-10-02T15:41:48.8450100Z [71/127] Compiling ProductQualification ProductQualificationMain.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:48.8553550Z [72/127] Compiling ProductQualification SQLiteEvidence.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.4840500Z [73/129] Compiling ProductQualification SchedulesCollector.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.4942920Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Sources/ProductQualification/SchedulesCollector.swift:179:25: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination.
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5042570Z 177 |         var model = [CChar](repeating: 0, count: size)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5144200Z 178 |         sysctlbyname("hw.model", &model, &size, nil, 0)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5244730Z 179 |         let hostModel = String(cString: model)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5347260Z     |                         `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination.
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5447820Z 180 |         guard hostModel == profile.model else {
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5549200Z 181 |             throw QualificationError.hostModelMismatch(expected: profile.model, actual: hostModel)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5650800Z [74/129] Compiling ProductQualification SourcesCollector.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5754110Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Sources/ProductQualification/SchedulesCollector.swift:179:25: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination.
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5851520Z 177 |         var model = [CChar](repeating: 0, count: size)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.5953300Z 178 |         sysctlbyname("hw.model", &model, &size, nil, 0)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6054790Z 179 |         let hostModel = String(cString: model)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6163640Z     |                         `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination.
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6164340Z 180 |         guard hostModel == profile.model else {
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6169210Z 181 |             throw QualificationError.hostModelMismatch(expected: profile.model, actual: hostModel)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6192560Z [75/129] Compiling ProductQualification EnduranceCollector.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6193080Z [76/129] Compiling ProductQualification Entry.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6193470Z [77/129] Compiling ProductQualification LifecycleCollector.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:50.6193830Z [77/129] Write Objects.LinkFileList
+core-tests	Core unit tests with coverage	2026-10-02T15:41:51.2406460Z [79/129] Linking SensorWorker
+core-tests	Core unit tests with coverage	2026-10-02T15:41:51.7662270Z [80/129] Linking ProtocolWorker
+core-tests	Core unit tests with coverage	2026-10-02T15:41:51.8066560Z [81/129] Applying SensorWorker
+core-tests	Core unit tests with coverage	2026-10-02T15:41:51.8271590Z [82/129] Applying ProtocolWorker
+core-tests	Core unit tests with coverage	2026-10-02T15:41:51.8373740Z [83/129] Write Objects.LinkFileList
+core-tests	Core unit tests with coverage	2026-10-02T15:41:52.3425490Z [84/129] Linking ProductQualification
+core-tests	Core unit tests with coverage	2026-10-02T15:41:52.3764020Z [85/129] Applying ProductQualification
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.6450020Z macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.6556030Z `- /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:224:59: note: expanded code originates here
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.6657420Z 222 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.6758670Z 223 |         #expect(metrics.count == 1)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.6859110Z 224 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.6960280Z     +--- macro expansion #expect ---------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7062780Z     |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7161390Z     |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7262440Z     +-------------------------------------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7363980Z 225 |     }
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7465210Z 226 | 
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7566190Z macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7696120Z `- /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:224:59: note: expanded code originates here
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7799310Z 222 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.7899010Z 223 |         #expect(metrics.count == 1)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8000010Z 224 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8102190Z     +--- macro expansion #expect ---------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8202540Z     |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8302610Z     |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8404400Z     +-------------------------------------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8504160Z 225 |     }
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8605030Z 226 | 
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8705720Z macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8806990Z `- /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:224:59: note: expanded code originates here
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.8908680Z 222 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9008170Z 223 |         #expect(metrics.count == 1)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9108710Z 224 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9209580Z     +--- macro expansion #expect ---------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9311100Z     |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9411330Z     |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9511740Z     +-------------------------------------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9612760Z 225 |     }
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9713690Z 226 | 
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9814860Z macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:54.9916890Z `- /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:224:59: note: expanded code originates here
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0017060Z 222 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0118670Z 223 |         #expect(metrics.count == 1)
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0220120Z 224 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0320990Z     +--- macro expansion #expect ---------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0423270Z     |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0522400Z     |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0622890Z     +-------------------------------------------------------------------
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0724440Z 225 |     }
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.0845020Z 226 | 
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.4164450Z [94/132] Compiling TemperatureCoreTests ContractTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:55.4264960Z [95/132] Emitting module SensorRuntimeTests
+core-tests	Core unit tests with coverage	2026-10-02T15:41:56.3705900Z [96/132] Compiling SensorRuntimeTests WorkerTestSupport.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:56.3810350Z [97/132] Compiling SensorRuntimeTests WorkerLifecycleTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:41:56.3913540Z [98/132] Compiling SensorRuntimeTests WorkerProtocolTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:00.6806360Z [99/132] Emitting module TemperatureCoreTests
+core-tests	Core unit tests with coverage	2026-10-02T15:42:03.9442580Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:03.9545880Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:03.9668770Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:03.9772580Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:03.9874370Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:03.9976790Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0046380Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0047860Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0048890Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0049370Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0049930Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0050500Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0051140Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0051540Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0053290Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0054210Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0054920Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0059720Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0060290Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0060850Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0061300Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0062300Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0063310Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0068540Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0069880Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0071240Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0072530Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0073400Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0075960Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0078560Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0079410Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0080620Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0082090Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0083320Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0084300Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0086800Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0102270Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0103050Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0103540Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0104180Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0104700Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0105150Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0106210Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0107150Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0107620Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0108040Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0108660Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0109210Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0109600Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0110590Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0112450Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0112910Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0113330Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0113980Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0114550Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0114940Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0116160Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0117320Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0117780Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0118210Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0118730Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0119270Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0119680Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0120630Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0121550Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0121960Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0122430Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0122950Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0123600Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0124130Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0125030Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0125990Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0126470Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0126870Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0127870Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0128360Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0128750Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0129220Z [111/147] Compiling TemperatureCoreTests EngineGapRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0130240Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0131200Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0131630Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0132080Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0132630Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0137100Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0137580Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0138150Z [112/147] Compiling TemperatureCoreTests ErrorCoordinatorTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0139250Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0140190Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0140610Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0141540Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0142120Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0142680Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0143060Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0143580Z [113/147] Compiling TemperatureCoreTests HistoryBudgetRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0144630Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0145540Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0145950Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0146400Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0146950Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0147520Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0147900Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0148400Z [114/147] Compiling TemperatureCoreTests HistoryChartModelTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0149380Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0150320Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0150720Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0151130Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0151680Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0152180Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0152610Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0153130Z [115/147] Compiling TemperatureCoreTests HistoryQueryTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0154170Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0155390Z 117 |     reportFileCount: Int? = nil
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0155770Z 118 | ) throws -> RuntimeConfiguration {
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0156210Z 119 |     var defaults = try Configuration.bundledDefaults()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0156690Z     |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0157250Z 120 |     let encoder = JSONEncoder()
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0157670Z 121 |     var data = try encoder.encode(defaults)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0158230Z [116/147] Compiling TemperatureCoreTests HistorySourceContinuityRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0159400Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0160520Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0160900Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0161530Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0182030Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0183490Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0184550Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0185560Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0187060Z [117/147] Compiling TemperatureCoreTests LongSleepRecoveryRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0191140Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0193930Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0194670Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0195400Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0196570Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0197910Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0199000Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0200090Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0201590Z [118/147] Compiling TemperatureCoreTests MonitorIntegrationTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0204390Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0207070Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0207840Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0208610Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0209890Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0211280Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0212380Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0213570Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0235230Z [119/147] Compiling TemperatureCoreTests OptionalAvailabilityIntegrationTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0236540Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0237710Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0238720Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0239550Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0245970Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0247480Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0248520Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0249650Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0273510Z [120/147] Compiling TemperatureCoreTests OptionalGenerationRecoveryRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0274880Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0275960Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0276400Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0276800Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0277280Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0277900Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0278360Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0278890Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0313700Z [121/147] Compiling TemperatureCoreTests OptionalProbeBudgetAcrossReconnectTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0314910Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0316890Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0317260Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0317520Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0318020Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0318590Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0319070Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0319530Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0361820Z [122/147] Compiling TemperatureCoreTests OptionalSleepAdmissionRaceRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0364870Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0367480Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0368330Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0369010Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0370030Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0371340Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0372270Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0373280Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0402100Z [123/147] Compiling TemperatureCoreTests OptionalWakeRecoveryRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0403320Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0404350Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0404650Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0404920Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0405340Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0406390Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0406770Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0407160Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0481870Z [124/147] Compiling TemperatureCoreTests PresentationHistoryRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0483040Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0484060Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0484360Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0484620Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0485040Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0485540Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0485950Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0486350Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0520390Z [125/147] Compiling TemperatureCoreTests PresentationModelTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0521550Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0523230Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0523560Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0523820Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0524240Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0524730Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0525120Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0525510Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0595320Z [126/147] Compiling TemperatureCoreTests ProcessingIdentityTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0596540Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0597590Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0598530Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0599320Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0600370Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0601630Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0602600Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0603580Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0636250Z [127/147] Compiling TemperatureCoreTests RecoveredSourceGapRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0639310Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0642170Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0644960Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0645630Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0646660Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0647900Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0650050Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0651010Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0675410Z [128/147] Compiling TemperatureCoreTests RequestLifecycleRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0676610Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0677600Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0678520Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0679290Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0680330Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0681550Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0682710Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0683850Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0714530Z [129/147] Compiling TemperatureCoreTests RetentionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0715610Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0716590Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0716890Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0717750Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0718160Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0718640Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0719020Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0719420Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0768070Z [130/147] Compiling TemperatureCoreTests RetryPolicyTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0769360Z /Users/runner/work/Temperature-monitoring/Temperature-monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0771210Z  16 |             else { valueC = 50 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0771660Z  17 |             return
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0772080Z  18 |             HistoryPoint(
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0772710Z     |             |- warning: expression following 'return' is treated as an argument of the 'return'
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0773320Z     |             `- note: indent the expression to silence this warning
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0773700Z  19 |                 seriesID: seriesID, segment: 1,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:04.0774110Z  20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0128010Z [131/147] Compiling TemperatureCoreTests RingBufferTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0129070Z [132/147] Compiling TemperatureCoreTests RuntimeMaintenanceRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0129850Z [133/147] Compiling TemperatureCoreTests RuntimeShutdownRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0130480Z [134/147] Compiling TemperatureCoreTests SQLiteStoreTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0131130Z [135/147] Compiling TemperatureCoreTests SensorRecoveryRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0131740Z [136/147] Compiling TemperatureCoreTests SessionLifecycleTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0132360Z [137/147] Compiling TemperatureCoreTests StorageFaultTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0132880Z [138/147] Compiling TemperatureCoreTests StorageLifecycleRegressionTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0133460Z [139/147] Compiling TemperatureCoreTests ControllerFixture.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0133900Z [140/147] Compiling TemperatureCoreTests Fixtures.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0135530Z [141/147] Compiling TemperatureCoreTests ProcessorFixture.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0136010Z [142/147] Compiling TemperatureCoreTests TemporaryStoreFixture.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0136490Z [143/147] Compiling TemperatureCoreTests TestClock.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0137120Z [144/147] Compiling TemperatureCoreTests TrendTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:07.0137640Z [145/147] Compiling TemperatureCoreTests WatermarkTests.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:08.4802050Z [146/149] Compiling TemperatureCorePackageTests runner.swift
+core-tests	Core unit tests with coverage	2026-10-02T15:42:08.4802980Z [147/149] Emitting module TemperatureCorePackageTests
+core-tests	Core unit tests with coverage	2026-10-02T15:42:08.4862660Z [147/149] Write Objects.LinkFileList
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.1365970Z [148/149] Linking TemperatureCorePackageTests
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.1396510Z Build complete! (31.35s)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5992470Z Test Suite 'All tests' started at 2026-10-02 15:42:09.544.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5993590Z Test Suite 'All tests' passed at 2026-10-02 15:42:09.546.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5994240Z 	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5997750Z ◇ Test run started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5998150Z ↳ Testing Library Version: 124.4
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5998400Z ↳ Target Platform: arm64e-apple-macos14.0
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5998670Z ◇ Suite SessionClockRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5998970Z ◇ Suite SamplingServiceTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5999230Z ◇ Suite NVMeSourceQualificationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5999490Z ◇ Suite WorkerProtocolTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.5999770Z ◇ Suite ProcessingCoordinatorTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6001110Z ◇ Suite OptionalSourceQualificationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6001440Z ◇ Suite DiscoveryFactsProtocolTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6001740Z ◇ Suite WorkerLifecycleTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6002020Z ◇ Suite SourceRegistryTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6002300Z ◇ Suite SensorDecodingTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6002570Z ◇ Suite EMAProcessorTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6002870Z ◇ Suite SensorRecoveryRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6003140Z ◇ Suite WatermarkTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6003410Z ◇ Suite ConfigurationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6003680Z ◇ Suite StorageLifecycleRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6003970Z ◇ Suite RequestLifecycleRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6004320Z ◇ Suite PresentationHistoryRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6004670Z ◇ Suite HistoryBudgetRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6004930Z ◇ Suite BackpressureTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6005140Z ◇ Suite HistoryQueryTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6005440Z ◇ Suite OptionalGenerationRecoveryRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6005780Z ◇ Suite LongSleepRecoveryRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6006050Z ◇ Suite RingBufferTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6006340Z ◇ Suite OptionalSleepAdmissionRaceRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6006690Z ◇ Suite OptionalAvailabilityIntegrationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6007030Z ◇ Suite RetryPolicyTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6007280Z ◇ Suite DiagnosticsTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6007580Z ◇ Suite HistoryChartModelTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6007850Z ◇ Suite "TC-UPSTREAM-BOUNDARY" started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6008090Z ◇ Suite ClockTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6008290Z ◇ Suite ContractTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6008520Z ◇ Suite AppBundleConfigurationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6008830Z ◇ Suite OptionalProbeBudgetAcrossReconnectTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6009120Z ◇ Suite AggregationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6009360Z ◇ Suite ErrorCoordinatorTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6009650Z ◇ Suite HistorySourceContinuityRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6009960Z ◇ Suite RuntimeShutdownRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6010220Z ◇ Suite ContractCoverageTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6010460Z ◇ Suite CommitRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6011050Z ◇ Suite EngineGapRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6011290Z ◇ Suite SessionLifecycleTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6011530Z ◇ Suite PresentationModelTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6011770Z ◇ Suite "EndToEndTests" started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6011990Z ◇ Suite StorageFaultTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6012220Z ◇ Suite MonitorIntegrationTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6012460Z ◇ Suite TrendTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6012730Z ◇ Suite RecoveredSourceGapRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6013020Z ◇ Suite ProcessingIdentityTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6013320Z ◇ Suite OptionalWakeRecoveryRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6013760Z ◇ Suite RuntimeMaintenanceRegressionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6014030Z ◇ Suite SQLiteStoreTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6014250Z ◇ Suite RetentionTests started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6014620Z ◇ Test missingFailedAndUnattemptedInterconnectFactsBlockSelection() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6015130Z ◇ Test externalDeviceDoesNotDisplaceUniqueInternalDevice() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6015660Z ◇ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6016070Z ◇ Test missingIOPSIdentityFallsBackToValidSMC() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6016510Z ◇ Test fiftyMillisecondPeriodWithOneTwentyMillisecondReadDoesNotOverlap() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6016970Z ◇ Test externalOnlyIsUnavailableWithoutStoppingCPU() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6017370Z ◇ Test invalidEncodingAndLengthDoNotBecomeSSD() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6017770Z ◇ Test optionalIdentityIncludesGenerationAndSelectedProvider() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6018580Z ◇ Test duplicateTransportHandleCannotReadAnotherDeviceAsSSD() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6019180Z ◇ Test uniqueInternalNVMeIsQualifiedWithRealIdentityAndKelvinEvidence() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6019650Z ◇ Test multipleInternalDevicesAreUnavailable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6019980Z ◇ Test rejectsResponseRequestIDMismatch() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6020290Z ◇ Test rejectsResponseGenerationMismatch() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6020570Z ◇ Test rejectsUnknownCommand() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6020820Z ◇ Test rejectsOversizeFrame() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6021160Z ◇ Test coordinatorAcceptsScheduledReadThroughLeaseAndCommit() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6021510Z ◇ Test rejectsNonCanonicalUUID() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6021880Z ◇ Test foundRequiresNonemptyLocationAndRealRegistryIdentity() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6022360Z ◇ Test discoverAndReadRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6035860Z ◇ Test rejectsWrongVersion() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6036570Z ◇ Test rejectsFloatingPointGeneration() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6036850Z ◇ Test rejectsBadJSON() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6037140Z ◇ Test protocolFailureUsesSensorProtocolCode() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6037550Z ◇ Test rejectsSourceIDOnWire() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6037860Z ◇ Test profilePrefersValidIOPSTemperatureOverSMC() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6038300Z ◇ Test nonFiniteIOPSCannotDisplaceValidSMCBattery() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6038800Z ◇ Test profileQualifiesOnlyHighestPrioritySMCBatterySource() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6039260Z ◇ Test absentOptionalProvidersProduceExplicitCapabilityRecords() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6039730Z ◇ Test duplicateBatteryIdentityIsUnavailableWithoutStoppingCPU() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6040160Z ◇ Test unattemptedProviderFactsRemainNilAndAreOmitted() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6040620Z ◇ Test rejectsUnknownAndNonstringLookupStates() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6041010Z ◇ Test missingAndFailedLookupsRoundTripWithoutLocation() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6041550Z ◇ Test badBatteryEncodingFallsThroughToNextProfileCandidate() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6042030Z ◇ Test batterySkipsIopsBooleanAndDoesNotFabricateZero() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6042380Z ◇ Test roundTripsRealNVMeInterconnectFacts() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6042700Z ◇ Test rejectsFoundWithoutValidLocation() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6042980Z ◇ Test batteryPrefersIopsCFNumber() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6043770Z ◇ Test successDiscoverReturnsCatalog() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6044080Z ◇ Test encoderRejectsFoundWithoutLocation() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6044440Z ◇ Test profileRegistryMarksMissingCPUKeyUnavailable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6044780Z ◇ Test batterySkipsBooleanIopsForTB1T() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6045100Z ◇ Test qualifiedClientMapsSourceIDsToReadBatch() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6045410Z ◇ Test nvmeKelvinZeroIsNotReported() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6045710Z ◇ Test profileRegistryRejectsDuplicateCPUKey() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6046170Z ◇ Test hidKeepsSameNameWithDifferentRegistryIDs() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6046480Z ◇ Test rejectsNonPositiveDeltaTime() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6046780Z ◇ Test hidMissingEventDoesNotYieldZeroCelsius() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6047080Z ◇ Test emaUsesActualElapsedTime() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6047440Z ◇ Test metricResolverDoesNotInferTenPhysicalCores() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6047820Z ◇ Test profileRegistryKeepsDistinctHIDRegistryIDs() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6048130Z ◇ Test nvmeRejectsParentTreeCycle() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6048450Z ◇ Test profileRegistryQualifiesAllTwelveCPUKeys() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6048830Z ◇ Test qualifiedSMCReadingRejectsChangedEncodingAndLength() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6049320Z ◇ Test iopsAcceptsCelsiusCFNumberAndRejectsMissingBooleanInvalidValues() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6049760Z ◇ Test nvmeRejectsMultipleInternalCandidates() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6050100Z ◇ Test batteryFallsBackToTB1TWhenIopsMissing() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6050770Z ◇ Test profileRegistryRejectsEncodingMismatch() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6051150Z ◇ Test smcBridgeSourceContainsNoWriteOrPrivilegeSymbols() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6051490Z ◇ Test nvmeKelvin300Is26Point85C() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6051770Z ◇ Test nvmeSelectsUniqueInternalCandidate() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6052190Z ◇ Test smcRejectsTemperatureBelowAbsoluteZero() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6052510Z ◇ Test decodesNegativeSignedFixedPoint() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6052890Z ◇ Test decodesSmartKelvinLittleEndian() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6053180Z ◇ Test encodingMatchingIsCaseSensitive() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6053480Z ◇ Test decodesLittleEndianFloatAs25Point5C() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6053830Z ◇ Test decodesBigEndianSignedFixedPointAs25Point5C() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6054150Z ◇ Test rawKeysAreCaseSensitive() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6054450Z ◇ Test missingOneRequiredCPUMemberStopsStartup() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6054820Z ◇ Test bundledRevisionThreeDefaultsLoad() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6055230Z ◇ Test rejectsWrongLengthUnknownEncodingAndNonFiniteValues() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6055720Z ◇ Test bundledProfileHasTwelveCaseSensitiveKeys() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6056040Z ◇ Test rejectsUnknownContractVersion() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6056460Z ◇ Test rejectsDuplicateOrReorderedCPUKeys() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6056770Z ◇ Test rejectsMissingRequiredField() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6057030Z ◇ Test rejectsInvalidJSON() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6057340Z ◇ Test rejectsNegativeCapacity() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6057750Z ◇ Test safeWatermarkCapsAtBlockedWindowEnd() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6058080Z ◇ Test rejectsContractVersionOne() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6058480Z ◇ Test rejectsInvalidWriterWatermarkOrdering() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6058920Z ◇ Test rejectsContractVersionTwoWithoutNVMeFacts() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6059360Z ◇ Test rejectsReserveExceedingFlush() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6059770Z ◇ Test receiptMismatchDoesNotAdvanceSnapshotGeneration() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6060310Z ◇ Test inFlightReadingBlocksOneSecondClosure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6060690Z ◇ Test wakeFirstReadUsesNewRequestIdentity() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6061130Z ◇ Test rejectsInvalidRetentionOrdering() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6061580Z ◇ Test lateSampleLandsInSecondBucketAfterSafeAdvance() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6062410Z ◇ Test sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6063040Z ◇ Test aggregateReductionRetainsWeightedMeanAndTotalCount() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6063520Z ◇ Test segmentBoundariesSurviveDownsampling() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6064040Z ◇ Test staleGenerationIsRejectedWithoutStateChange() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6064460Z ◇ Test extraSourceVersionsAreRejectedExplicitly() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6064950Z ◇ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6065490Z ◇ Test sourceVersionsKeepTheirDefinitionsAndIndependentLines() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6066030Z ◇ Test twoPointBudgetPreservesEnvelopeAndSampleCount() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6066610Z ◇ Test onePointBudgetRejectsAContinuousRunWithTwoBoundaries() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6067100Z ◇ Test explicitGapBreaksLineEvenWithinOneSegment() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6067610Z ◇ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6068040Z ◇ Test cancelledLeaseCannotCommit() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6068790Z ◇ Test requestedPointBudgetIsRespectedAcrossEntireRange() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6069300Z ◇ Test insufficientBudgetFailsInsteadOfDroppingSegments() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6070050Z ◇ Test pausedWriterBlocksCommitUntilReleased() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6070440Z ◇ Test forgedReservationIsIntegrityFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6070980Z ◇ Test engineCommitFailureDoesNotAdvanceSnapshotGeneration() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6071470Z ◇ Test commitPersistsExactlyOnce() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6072110Z ◇ Test reserveAboveEventLimitIsIntegrityFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6072600Z ◇ Test highWatermarkPausesAndLowWatermarkResumes() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6072980Z ◇ Test doubleCommitIsIntegrityFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6073410Z ◇ Test wrongGenerationCommitIsIntegrityFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6073890Z ◇ Test finalizedReservationMetadataDoesNotGrowWithSessionReads() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6074470Z ◇ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6074980Z ◇ Test downsamplingPreservesPeakAcross8640Buckets() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6075420Z ◇ Test rejectsMoreThanEightSeries() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6075850Z ◇ Test keepsSegmentsSeparateInResults() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6076260Z ◇ Test rejectsFiveMinuteSQLiteRange() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6076720Z ◇ Test rawAndEMABuffersAreIndependent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6078300Z ◇ Test rejectsThirtyThirdActiveSeries() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6079770Z ◇ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6081120Z ◇ Test concurrentQueriesMatchTheirRequestsOrReportSuperseded() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6082540Z ◇ Test enforcesCapacityAfterWindowPrune() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6083570Z ◇ Test retainsSamplesWithinThreeHundredSecondWindow() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6085150Z ◇ Test optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6086590Z ◇ Test sensorReadFailureIsRetryable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6087420Z ◇ Test returnsEmptyResultWhenNoData() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6088550Z ◇ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6089800Z ◇ Test processingValidateIsNotRetryable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6090720Z ◇ Test sensorBudgetMatchesContract() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6091490Z ◇ Test databaseBudgetMatchesContract() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6092380Z ◇ Test uiHistoryBudgetMatchesContract() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6093160Z ◇ Test processingBudgetMatchesContract() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6094040Z ◇ Test transientDatabaseBusyIsRetryable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6094820Z ◇ Test loggerRotatesAtConfiguredSize() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6095790Z ◇ Test reportWriterReturnsFallbackWhenDirectoryIsNotWritable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6097380Z ◇ Test reportWriterCreatesBoundedReportFile() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6098290Z ◇ Test structuralDatabaseFailuresAreNotRetryable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6099140Z ◇ Test loggerPrunesFilesOlderThanTTL() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6100020Z ◇ Test reportWriterDoesNotIncludeMachineSerialField() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6101090Z ◇ Test reportWriterKeepsAtMostConfiguredReportCount() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6102120Z ◇ Test missingHIDEventDoesNotFabricateZeroCelsius() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6103170Z ◇ Test upstreamRollbackDoesNotReplayOldSample() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6104100Z ◇ Test loggerRetainsAtMostConfiguredFileCount() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6105080Z ◇ Test twelveQualifiedSourcesDoNotInferTenPhysicalCores() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6106210Z ◇ Test sensorBridgeSourceContainsNoWriteOrPrivilegeSymbols() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6107220Z ◇ Test distinctHIDRegistryIDsAreNotMerged() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6108020Z ◇ Test chartStatesAreMutuallyExclusive() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6108860Z ◇ Test plotSegmentsBreakOnSegmentBoundaries() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6109740Z ◇ Test multipleSeriesAreRetainedUpToLimit() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6110530Z ◇ Test gapsAreIncludedInReadyState() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6111290Z ◇ Test peakMaxIsPreservedFromEnvelope() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6112840Z ◇ Test metricIDRejectsInvalidAndEmptyValues() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6113790Z ◇ Test failedStateDoesNotPromotePreviousToReady() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6114700Z ◇ Test elapsedContinuesWhenWallClockRewinds() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6116690Z ◇ Test integerTickConversionRoundTripsExactNanoseconds() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6117750Z ◇ Test persistenceLeaseHasNoPublicCodableOrEmptyInit() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6118660Z ◇ Test timestampPreservesNanoseconds() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6119480Z ◇ Test presentationStateIsMutuallyExclusive() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6120390Z ◇ Test sharedBasisProducesSameOriginForTwoClocks() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6121380Z ◇ Test readingOutcomeCannotCarrySuccessAndFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6122350Z ◇ Test taggedUUIDRequiresCanonicalLowercase() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6123340Z ◇ Test systemClockElapsedIsMonotonicAcrossTwoReads() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6124420Z ◇ Test concurrentSleepsResumeOnceAndCancelRemovesOneWaiter() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6125430Z ◇ Test appResourcesMatchBundledContracts() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6126320Z ◇ Test obsoleteContractTokensAreAbsentFromSources() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6127200Z ◇ Test unknownClosedEnumFailsDecoding() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6128500Z ◇ Test unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6129700Z ◇ Test integrationAdvancePersistsBuckets() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6130600Z ◇ Test sameSecondSegmentChangeKeepsBucketsSeparate() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6131470Z ◇ Test emptyWindowProducesNoBucket() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6132260Z ◇ Test parentMergeUsesWeightedAverage() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6133150Z ◇ Test sparseTenSecondWindowClosesPartial() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6134050Z ◇ Test pointExactlyOnBoundaryGoesToNextWindow() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6134900Z ◇ Test inFlightRequestDefersWindowClosure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6135780Z ◇ Test optionalSensorExhaustionMarksUnavailable() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6136700Z ◇ Test nonRetryableFailureEscalatesImmediately() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6137540Z ◇ Test successResetsRetryBudget() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6138480Z ◇ Test oneSecondWindowAggregatesRawSamples() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6140900Z ◇ Test sensorRetriesUseExactWaitSequence() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6141900Z ◇ Test uiHistoryBudgetIsIndependentFromDatabaseBudget() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6142860Z ◇ Test readAndPersistenceBatchRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6144140Z ◇ Test fiveMinuteHistoryRetainsPriorSourceDefinitionWithoutJoiningSeries() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6145850Z ◇ Test historyAndGapRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6146730Z ◇ Test processingReceiptAndPersistenceOwnerRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6147830Z ◇ Test configurationUnreadableFileThrows() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6148810Z ◇ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6149760Z ◇ Test taggedUUIDTypesEncodeAndDecode() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6150650Z ◇ Test sensorTransportAndQualifiedCatalogRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6151520Z ◇ Test bucketTrendAndSampleRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6152330Z ◇ Test configurationLoadsFromTemporaryFiles() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6158320Z ◇ Test presentationAndMonitorFailureRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6159280Z ◇ Test sessionMetadataRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6160090Z ◇ Test machBasisAndSystemClockSleepPastDeadline() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6161160Z ◇ Test concurrentAcceptsCommitDistinctSampleIDsAndOrderedEMA() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6162430Z ◇ Test failedReadCommitCanRetryWithoutAdvancingSamplesOrSequence() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6163590Z ◇ Test inFlightRegistrationSurvivesAggregationCommit() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6164610Z ◇ Test failedAggregationCommitRetainsWindowForRetry() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6165600Z ◇ Test preparingOrFailingWakeDoesNotAdvanceSegment() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6166560Z ◇ Test normalLongerPeriodDoesNotCreateFalseGap() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6167620Z ◇ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6169170Z ◇ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6171140Z ◇ Test pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6172570Z ◇ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6173920Z ◇ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6175130Z ◇ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6176390Z ◇ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6177670Z ◇ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6178960Z ◇ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6180200Z ◇ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6181410Z ◇ Test fatalStateRejectsLaterRunningSnapshots() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6182340Z ◇ Test historyChartStatesAreMutuallyExclusive() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6183200Z ◇ Test staleHidesValueAfterThreshold() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6183990Z ◇ Test valueStatesAreMutuallyExclusive() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6184830Z ◇ Test snapshotGenerationRegressionIsRejected() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6185790Z ◇ Test staleThresholdUsesMaxThreePeriodsOrTwoSeconds() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6186750Z ◇ Test transientDatabaseBusyUsesRetryPolicy() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6187590Z ◇ Test fullCPURawToHistorySoftwareLoop() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6188510Z ◇ Test gapBatchSurvivesPersistenceRoundTrip() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6189540Z ◇ Test databaseBackpressureBlocksAdditionalReserve() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6190590Z ◇ Test sessionCloseRemovesDatabaseSidecars() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6190950Z ◇ Test repeatedBatchIsIdempotent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6191290Z ◇ Test sameBatchIDDifferentPayloadIsIntegrityFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6191690Z ◇ Test batchStoresAggregatesTrendsAndSampleMembers() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6192090Z ◇ Test gapEndAllowsMonotonicNullToValueUpdate() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6192400Z ◇ Test lockReleaseAllowsNewHolder() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6192670Z ◇ Test gapEndRejectsConflictingClosure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6192990Z ◇ Test walHardLimitTriggersCapacityFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6193290Z ◇ Test shutdownRecordsCompletedSteps() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6194020Z ◇ Test secondBatchReusesExistingMetadataRows() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6194350Z ◇ Test cleanupRemovesOrphanedMarkedSession() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6194650Z ◇ Test cleanupRequiresHeldLock() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6194940Z ◇ Test cleanupSkipsDirectoryWithoutMarker() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.6195270Z ◇ Test corruptedActiveDatabaseIsNotAutoDeleted() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.8922610Z ◇ Test failedTransactionRollsBackPartialBatch() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9023310Z ◇ Test sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9023980Z ◇ Test cleanupPreservesExcludedActiveSession() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9024440Z ◇ Test fatalDisplayReceiptExpiresAfterConfiguredDuration() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9024890Z ◇ Test cleanupRejectsPathOutsideSessionsRoot() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9025300Z ◇ Test cleanupRejectsSymlinkedSessionDirectory() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9025670Z ◇ Test sleepWakeOpensAndClosesSleepGap() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9026050Z ◇ Test cleanupSkipsDirectoryWithMismatchedMarker() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9026350Z ◇ Test stopIsIdempotent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9026630Z ◇ Test stopDuringReadDoesNotAcceptLateResponse() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9026980Z ◇ Test coverageBelowEightyPercentIsInsufficient() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9027330Z ◇ Test stableTrendAtTwoHundredthsPerSecond() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9027670Z ◇ Test gapReasonsPersistThroughMarkGap() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9028020Z ◇ Test gapSegmentExcludesOlderPoints() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9028360Z ◇ Test secondLockHolderFailsWhileFirstHeld() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9054360Z ◇ Test advanceEmitsTrendFromEMAHistory() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9054690Z ◇ Test twoPointsIsInsufficient() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9055000Z ◇ Test closingGapIncrementsSegmentAndResetsEMA() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9055310Z ◇ Test risingTrendAboveStableBand() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9056010Z ◇ Test fallingTrendBelowStableBand() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9060250Z ◇ Test periodChangeDoesNotTriggerTimeoutGap() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9062160Z ◇ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9062660Z ◇ Test upstreamRollbackDoesNotCreateSample() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9063000Z ◇ Test schedulingScriptMatchesControlledPlan() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9063340Z ◇ Test rejectedCommitDoesNotAdvanceGapState() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9063770Z ◇ Test staleGenerationIsRejected() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9064220Z ◇ Test repeatedRequestCannotClaimNewUnconsumedLease() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9064910Z ◇ Test cpuMaxSkippedWhenMemberMissing() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9072120Z ◇ Test runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9072740Z ◇ Test sameRequestIDDifferentPayloadFails() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9074180Z ◇ Test cpuMaxEMAFollowsDerivedSeries() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9075220Z ◇ Test repeatedRequestIsIdempotent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9077010Z ◇ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9078630Z ◇ Test rejectsNonFiniteAndBelowAbsoluteZero() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9078970Z ◇ Test cpuMaxSkippedWhenBatchSpanTooLarge() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9079270Z ◇ Test failureReadingProducesNoSample() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9079640Z ◇ Test repeatedBatchIsIdempotentThroughFixture() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9080060Z ◇ Test cpuMaxTracksHotspotAcrossBatches() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9080410Z ◇ Test duplicateTemperatureValuesKeepSeparateSamples() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9080810Z ◇ Test nonMonotonicElapsedIsRejected() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9081630Z ◇ Test sessionMetadataRoundTripThroughStore() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9083780Z ◇ Test sessionPersistenceOpenPersistsMetadata() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9084110Z ◇ Test badUserVersionFailsWithSchemaFatal() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9085130Z ◇ Test callerCannotAccessRawSQLiteConnection() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9086420Z ◇ Test thirtyThirdSeriesIsRejected() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9086910Z ◇ Test bundledSchemaSetsUserVersionForeignKeysAndViews() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9087290Z ◇ Test missingRequiredViewFailsWithSchemaFatal() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9087820Z ◇ Test cpuMaxSkippedWhenDuplicateSource() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9088660Z ◇ Test retainsRawWithoutOneSecondParent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9089330Z ◇ Test pruneAfterLongSleepRemovesExpiredRows() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9089730Z ◇ Test cleanupGraceExceededIsFatal() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9090090Z ◇ Test deletesAggregateExactlyAtCutoff() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9090540Z ◇ Passing 1 argument periodMS → 50 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9091310Z ◇ Passing 1 argument periodMS → 100 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9092000Z ◇ Passing 1 argument rejectThirdReceipt → false to optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9093570Z TemperatureMonitor fatal report: SENSOR-READ-002 | SamplingService | read | transport_error
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9094570Z ✔ Test missingIOPSIdentityFallsBackToValidSMC() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9096420Z ✔ Test externalDeviceDoesNotDisplaceUniqueInternalDevice() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9097340Z ✔ Test externalOnlyIsUnavailableWithoutStoppingCPU() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9098720Z ✔ Test missingFailedAndUnattemptedInterconnectFactsBlockSelection() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9108890Z ✔ Test invalidEncodingAndLengthDoNotBecomeSSD() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9109550Z ✔ Test uniqueInternalNVMeIsQualifiedWithRealIdentityAndKelvinEvidence() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9110160Z ✔ Test duplicateTransportHandleCannotReadAnotherDeviceAsSSD() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9110750Z ✔ Test optionalIdentityIncludesGenerationAndSelectedProvider() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9111320Z ✔ Test multipleInternalDevicesAreUnavailable() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9126040Z ✔ Test rejectsResponseGenerationMismatch() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9233990Z ✔ Test rejectsUnknownCommand() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9336670Z ✔ Test rejectsOversizeFrame() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9438840Z ✔ Test rejectsNonCanonicalUUID() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9541400Z ✔ Test rejectsResponseRequestIDMismatch() passed after 0.269 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9643280Z ✔ Test foundRequiresNonemptyLocationAndRealRegistryIdentity() passed after 0.270 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9744660Z ✔ Test rejectsFloatingPointGeneration() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9851810Z ✔ Test rejectsBadJSON() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:09.9981700Z ✔ Test protocolFailureUsesSensorProtocolCode() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0094860Z ✔ Test discoverAndReadRoundTrip() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0196440Z ✔ Test rejectsSourceIDOnWire() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0298640Z ✔ Test nonFiniteIOPSCannotDisplaceValidSMCBattery() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0403190Z ✔ Test rejectsWrongVersion() passed after 0.270 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0504970Z ✔ Test profilePrefersValidIOPSTemperatureOverSMC() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0606470Z ✔ Test absentOptionalProvidersProduceExplicitCapabilityRecords() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0707980Z ✔ Test profileQualifiesOnlyHighestPrioritySMCBatterySource() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0809350Z ✔ Test unattemptedProviderFactsRemainNilAndAreOmitted() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0913690Z ✔ Test missingAndFailedLookupsRoundTripWithoutLocation() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0968300Z ✔ Test badBatteryEncodingFallsThroughToNextProfileCandidate() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.0969420Z ✔ Test batterySkipsIopsBooleanAndDoesNotFabricateZero() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1038480Z ✔ Test rejectsUnknownAndNonstringLookupStates() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1040310Z ✔ Test batteryPrefersIopsCFNumber() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1040840Z ✔ Test roundTripsRealNVMeInterconnectFacts() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1041440Z ✔ Test duplicateBatteryIdentityIsUnavailableWithoutStoppingCPU() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1042040Z ✔ Test encoderRejectsFoundWithoutLocation() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1042570Z ✔ Test profileRegistryMarksMissingCPUKeyUnavailable() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1043090Z ✔ Test rejectsFoundWithoutValidLocation() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1043550Z ✔ Test batterySkipsBooleanIopsForTB1T() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1044010Z ✔ Test nvmeKelvinZeroIsNotReported() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1048680Z ✔ Test profileRegistryRejectsDuplicateCPUKey() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1049240Z ✔ Test hidKeepsSameNameWithDifferentRegistryIDs() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1049780Z ✔ Test qualifiedClientMapsSourceIDsToReadBatch() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1050300Z ✔ Test hidMissingEventDoesNotYieldZeroCelsius() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1050780Z ✔ Test rejectsNonPositiveDeltaTime() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1051280Z ✔ Test metricResolverDoesNotInferTenPhysicalCores() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1092860Z ✔ Test profileRegistryKeepsDistinctHIDRegistryIDs() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1093330Z ✔ Test nvmeRejectsParentTreeCycle() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1093800Z ✔ Test qualifiedSMCReadingRejectsChangedEncodingAndLength() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1094430Z ✔ Test iopsAcceptsCelsiusCFNumberAndRejectsMissingBooleanInvalidValues() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1095000Z ✔ Test profileRegistryQualifiesAllTwelveCPUKeys() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1095460Z ✔ Test nvmeRejectsMultipleInternalCandidates() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1095900Z ✔ Test batteryFallsBackToTB1TWhenIopsMissing() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1096350Z ✔ Test profileRegistryRejectsEncodingMismatch() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1096760Z ✔ Test emaUsesActualElapsedTime() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1097160Z ✔ Test nvmeSelectsUniqueInternalCandidate() passed after 0.272 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1097550Z ✔ Test nvmeKelvin300Is26Point85C() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1097950Z ✔ Test smcRejectsTemperatureBelowAbsoluteZero() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1099770Z ✔ Test decodesSmartKelvinLittleEndian() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1100280Z ✔ Test encodingMatchingIsCaseSensitive() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1100690Z ✔ Test decodesNegativeSignedFixedPoint() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1101130Z ✔ Test decodesBigEndianSignedFixedPointAs25Point5C() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1101600Z ✔ Test decodesLittleEndianFloatAs25Point5C() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1101990Z ✔ Test rawKeysAreCaseSensitive() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1102430Z ✔ Test rejectsWrongLengthUnknownEncodingAndNonFiniteValues() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1102950Z ✔ Test bundledRevisionThreeDefaultsLoad() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1103700Z ✔ Test bundledProfileHasTwelveCaseSensitiveKeys() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1104310Z ✔ Test rejectsMissingRequiredField() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1104710Z ✔ Test rejectsUnknownContractVersion() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1126870Z ✔ Test rejectsNegativeCapacity() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1127210Z ✔ Test rejectsInvalidJSON() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1127730Z ✔ Test safeWatermarkCapsAtBlockedWindowEnd() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1128310Z ✔ Test rejectsContractVersionOne() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1128850Z ✔ Test rejectsInvalidWriterWatermarkOrdering() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1130070Z ✔ Test rejectsContractVersionTwoWithoutNVMeFacts() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1130990Z ✔ Test rejectsReserveExceedingFlush() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1131410Z ✔ Test rejectsDuplicateOrReorderedCPUKeys() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1131890Z ✔ Test receiptMismatchDoesNotAdvanceSnapshotGeneration() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1132380Z ✔ Test inFlightReadingBlocksOneSecondClosure() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1138160Z ✔ Test rejectsInvalidRetentionOrdering() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1140080Z ✔ Test lateSampleLandsInSecondBucketAfterSafeAdvance() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1140620Z ✔ Test smcBridgeSourceContainsNoWriteOrPrivilegeSymbols() passed after 0.272 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1141160Z ✔ Test aggregateReductionRetainsWeightedMeanAndTotalCount() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1141670Z ✔ Test staleGenerationIsRejectedWithoutStateChange() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1142150Z ✔ Test extraSourceVersionsAreRejectedExplicitly() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1151640Z ✔ Test segmentBoundariesSurviveDownsampling() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1152120Z ✔ Test twoPointBudgetPreservesEnvelopeAndSampleCount() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1152750Z ✔ Test sourceVersionsKeepTheirDefinitionsAndIndependentLines() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1153320Z ✔ Test onePointBudgetRejectsAContinuousRunWithTwoBoundaries() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1153850Z ✔ Test explicitGapBreaksLineEvenWithinOneSegment() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1154350Z ✔ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1154870Z ✔ Test insufficientBudgetFailsInsteadOfDroppingSegments() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1156320Z ✔ Test engineCommitFailureDoesNotAdvanceSnapshotGeneration() passed after 0.271 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1158600Z ✔ Test requestedPointBudgetIsRespectedAcrossEntireRange() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1159170Z ✔ Test rawAndEMABuffersAreIndependent() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1164000Z ✔ Test rejectsThirtyThirdActiveSeries() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1164430Z ✔ Test enforcesCapacityAfterWindowPrune() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1164870Z ✔ Test sensorReadFailureIsRetryable() passed after 0.292 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1165670Z ✔ Test processingValidateIsNotRetryable() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1166140Z ✔ Test sensorBudgetMatchesContract() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1166550Z ✔ Test uiHistoryBudgetMatchesContract() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1166940Z ✔ Test databaseBudgetMatchesContract() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1167340Z ✔ Test processingBudgetMatchesContract() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1167740Z ✔ Test transientDatabaseBusyIsRetryable() passed after 0.293 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1168130Z ✔ Test loggerRotatesAtConfiguredSize() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1168610Z ✔ Test reportWriterReturnsFallbackWhenDirectoryIsNotWritable() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1169110Z ✔ Test reportWriterCreatesBoundedReportFile() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1169570Z ✔ Test structuralDatabaseFailuresAreNotRetryable() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1170250Z ✔ Test loggerPrunesFilesOlderThanTTL() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1170680Z ✔ Test reportWriterDoesNotIncludeMachineSerialField() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1171180Z ✔ Test reportWriterKeepsAtMostConfiguredReportCount() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1171710Z ✔ Test missingHIDEventDoesNotFabricateZeroCelsius() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1172280Z ✔ Test upstreamRollbackDoesNotReplayOldSample() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1172900Z ✔ Test finalizedReservationMetadataDoesNotGrowWithSessionReads() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1174330Z ✔ Test twelveQualifiedSourcesDoNotInferTenPhysicalCores() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1175030Z ✔ Test sensorBridgeSourceContainsNoWriteOrPrivilegeSymbols() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1175620Z ✔ Test distinctHIDRegistryIDsAreNotMerged() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1176060Z ✔ Test plotSegmentsBreakOnSegmentBoundaries() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1176490Z ✔ Test chartStatesAreMutuallyExclusive() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1176900Z ✔ Test multipleSeriesAreRetainedUpToLimit() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1177310Z ✔ Test gapsAreIncludedInReadyState() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1177710Z ✔ Test metricIDRejectsInvalidAndEmptyValues() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1178160Z ✔ Test peakMaxIsPreservedFromEnvelope() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1178650Z ✔ Test failedStateDoesNotPromotePreviousToReady() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1179420Z ✔ Test elapsedContinuesWhenWallClockRewinds() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1179910Z ✔ Test persistenceLeaseHasNoPublicCodableOrEmptyInit() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1183900Z ✔ Test timestampPreservesNanoseconds() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1184520Z ✔ Test presentationStateIsMutuallyExclusive() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1185230Z ✔ Test sharedBasisProducesSameOriginForTwoClocks() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1185720Z ✔ Test readingOutcomeCannotCarrySuccessAndFailure() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1186180Z ✔ Test taggedUUIDRequiresCanonicalLowercase() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1186650Z ✔ Test systemClockElapsedIsMonotonicAcrossTwoReads() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1187100Z ✔ Test appResourcesMatchBundledContracts() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1187530Z ✔ Test loggerRetainsAtMostConfiguredFileCount() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1188060Z ✔ Test integerTickConversionRoundTripsExactNanoseconds() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1188540Z ✔ Test unknownClosedEnumFailsDecoding() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1189030Z ✔ Test integrationAdvancePersistsBuckets() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1189480Z ✔ Test sameSecondSegmentChangeKeepsBucketsSeparate() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1189930Z ✔ Test parentMergeUsesWeightedAverage() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1190370Z ✔ Test sparseTenSecondWindowClosesPartial() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1190820Z ✔ Test pointExactlyOnBoundaryGoesToNextWindow() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1191350Z ✔ Test inFlightRequestDefersWindowClosure() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1191750Z ✔ Test emptyWindowProducesNoBucket() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1192190Z ✔ Test nonRetryableFailureEscalatesImmediately() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1192630Z ✔ Test successResetsRetryBudget() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1193020Z ✔ Test oneSecondWindowAggregatesRawSamples() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1193470Z ✔ Test optionalSensorExhaustionMarksUnavailable() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1193910Z ✔ Test sensorRetriesUseExactWaitSequence() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1194600Z ✔ Test uiHistoryBudgetIsIndependentFromDatabaseBudget() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1195200Z ✔ Test fiveMinuteHistoryRetainsPriorSourceDefinitionWithoutJoiningSeries() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1195740Z ✔ Test readAndPersistenceBatchRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1196200Z ✔ Test processingReceiptAndPersistenceOwnerRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1196670Z ✔ Test configurationUnreadableFileThrows() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1197110Z ✔ Test historyAndGapRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1197570Z ✔ Test sensorTransportAndQualifiedCatalogRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1198000Z ✔ Test bucketTrendAndSampleRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1198390Z ✔ Test taggedUUIDTypesEncodeAndDecode() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1198810Z ✔ Test configurationLoadsFromTemporaryFiles() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1199260Z ✔ Test presentationAndMonitorFailureRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1199720Z ✔ Test machBasisAndSystemClockSleepPastDeadline() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1200140Z ✔ Test sessionMetadataRoundTrip() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1200550Z ✔ Test obsoleteContractTokensAreAbsentFromSources() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1201100Z ✔ Test failedReadCommitCanRetryWithoutAdvancingSamplesOrSequence() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1201820Z ✔ Test failedAggregationCommitRetainsWindowForRetry() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1202640Z ✔ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1203200Z ✔ Test normalLongerPeriodDoesNotCreateFalseGap() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1203670Z ✔ Test preparingOrFailingWakeDoesNotAdvanceSegment() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1204210Z ✔ Test pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.1204920Z ✔ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.8476010Z ✔ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.8577390Z ✔ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.8677920Z ✔ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.8779620Z ✔ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.8880060Z ✔ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.8982570Z ✔ Test transientDatabaseBusyUsesRetryPolicy() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9082220Z ✔ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9184230Z ✔ Test lockReleaseAllowsNewHolder() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9285570Z ✔ Test cleanupRequiresHeldLock() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9288030Z ✔ Test cleanupSkipsDirectoryWithoutMarker() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9289420Z ✔ Test cleanupRemovesOrphanedMarkedSession() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9289890Z ✔ Test corruptedActiveDatabaseIsNotAutoDeleted() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9290410Z ✔ Test fatalDisplayReceiptExpiresAfterConfiguredDuration() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9291300Z ✔ Test cleanupRejectsPathOutsideSessionsRoot() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9291840Z ✔ Test cleanupPreservesExcludedActiveSession() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9292310Z ✔ Test cleanupSkipsDirectoryWithMismatchedMarker() passed after 0.294 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9292800Z ✔ Test coverageBelowEightyPercentIsInsufficient() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9293250Z ✔ Test stableTrendAtTwoHundredthsPerSecond() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9293670Z ✔ Test gapReasonsPersistThroughMarkGap() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9294100Z ✔ Test cleanupRejectsSymlinkedSessionDirectory() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9294530Z ✔ Test gapSegmentExcludesOlderPoints() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9294940Z ✔ Test secondLockHolderFailsWhileFirstHeld() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9295340Z ✔ Test twoPointsIsInsufficient() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9296070Z ✔ Test closingGapIncrementsSegmentAndResetsEMA() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9296490Z ✔ Test risingTrendAboveStableBand() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9296860Z ✔ Test fallingTrendBelowStableBand() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9297260Z ✔ Test periodChangeDoesNotTriggerTimeoutGap() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9297710Z ✔ Test upstreamRollbackDoesNotCreateSample() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9298120Z ✔ Test advanceEmitsTrendFromEMAHistory() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9298570Z ✔ Test repeatedRequestCannotClaimNewUnconsumedLease() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9299000Z ✔ Test staleGenerationIsRejected() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9299380Z ✔ Test cpuMaxSkippedWhenMemberMissing() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9299790Z ✔ Test sameRequestIDDifferentPayloadFails() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9300240Z ✔ Test rejectedCommitDoesNotAdvanceGapState() passed after 0.297 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9300640Z ✔ Test repeatedRequestIsIdempotent() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9301040Z ✔ Test rejectsNonFiniteAndBelowAbsoluteZero() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9301610Z ✔ Test cpuMaxEMAFollowsDerivedSeries() passed after 0.297 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9302100Z ✔ Test failureReadingProducesNoSample() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9308910Z ✔ Test cpuMaxSkippedWhenBatchSpanTooLarge() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9309390Z ✔ Test duplicateTemperatureValuesKeepSeparateSamples() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9309830Z ✔ Test nonMonotonicElapsedIsRejected() passed after 0.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9310230Z ✔ Test cpuMaxTracksHotspotAcrossBatches() passed after 0.297 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9310660Z ✔ Test callerCannotAccessRawSQLiteConnection() passed after 0.298 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9311070Z ✔ Test thirtyThirdSeriesIsRejected() passed after 0.298 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9311470Z ✔ Test sessionMetadataRoundTripThroughStore() passed after 0.299 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9311950Z ✔ Test bundledSchemaSetsUserVersionForeignKeysAndViews() passed after 0.298 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9312420Z ✔ Test cpuMaxSkippedWhenDuplicateSource() passed after 0.298 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9313080Z ✔ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() passed after 0.306 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9313530Z ✔ Test cancelledLeaseCannotCommit() passed after 0.314 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9313960Z ✔ Test reserveAboveEventLimitIsIntegrityFailure() passed after 0.314 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9314410Z ✔ Test forgedReservationIsIntegrityFailure() passed after 0.314 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9314850Z ✔ Test wrongGenerationCommitIsIntegrityFailure() passed after 0.314 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9315320Z ✔ Test highWatermarkPausesAndLowWatermarkResumes() passed after 0.314 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9315800Z ✔ Test fatalStateRejectsLaterRunningSnapshots() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9316210Z ✔ Test staleHidesValueAfterThreshold() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9316610Z ✔ Test valueStatesAreMutuallyExclusive() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9317040Z ✔ Test historyChartStatesAreMutuallyExclusive() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9317530Z ✔ Test staleThresholdUsesMaxThreePeriodsOrTwoSeconds() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9318010Z ✔ Test snapshotGenerationRegressionIsRejected() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9318490Z ✔ Test databaseBackpressureBlocksAdditionalReserve() passed after 0.321 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9319010Z ✔ Suite NVMeSourceQualificationTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9319360Z ✔ Suite WorkerProtocolTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9319730Z ✔ Suite OptionalSourceQualificationTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9320270Z ✔ Suite DiscoveryFactsProtocolTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9320620Z ✔ Suite SourceRegistryTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9320930Z ✔ Suite EMAProcessorTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9321240Z ✔ Suite SensorDecodingTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9321550Z ✔ Suite ConfigurationTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9321850Z ✔ Suite WatermarkTests passed after 0.330 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9322230Z ✔ Test missingRequiredViewFailsWithSchemaFatal() passed after 0.324 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9322610Z ✔ Suite RetryPolicyTests passed after 0.335 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9322910Z ✔ Suite DiagnosticsTests passed after 0.337 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9323260Z ✔ Test badUserVersionFailsWithSchemaFatal() passed after 0.326 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9323650Z ✔ Suite "TC-UPSTREAM-BOUNDARY" passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9323980Z ✔ Suite HistoryChartModelTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9324290Z ✔ Suite ContractTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9324610Z ✔ Suite AppBundleConfigurationTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9324980Z ✔ Suite AggregationTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9325360Z ✔ Suite ErrorCoordinatorTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9325690Z ✔ Suite ContractCoverageTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9325980Z ✔ Suite TrendTests passed after 0.342 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9326290Z ✔ Suite ProcessingIdentityTests passed after 0.343 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9326670Z ✔ Suite PresentationHistoryRegressionTests passed after 0.344 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9327110Z ✔ Test pausedWriterBlocksCommitUntilReleased() passed after 0.340 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9327530Z ✔ Test doubleCommitIsIntegrityFailure() passed after 0.340 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9327900Z ✔ Suite PresentationModelTests passed after 0.344 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9328360Z ✔ Test coordinatorAcceptsScheduledReadThroughLeaseAndCommit() passed after 0.355 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9328870Z ◇ Test forgedCancellationDoesNotInvalidateTheAuthenticLease() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9329380Z ◇ Test qualifiedUnavailableOptionalCapabilityHasVisibleRowWithoutSamples() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9330000Z ✔ Test inFlightRegistrationSurvivesAggregationCommit() passed after 0.358 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9330500Z ✔ Test rejectsFiveMinuteSQLiteRange() passed after 0.368 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9330880Z ✔ Test returnsEmptyResultWhenNoData() passed after 0.368 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9331280Z ✔ Test sessionPersistenceOpenPersistsMetadata() passed after 0.363 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9331730Z ✔ Test sessionCloseRemovesDatabaseSidecars() passed after 0.365 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9332120Z ✔ Test rejectsMoreThanEightSeries() passed after 0.369 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9332480Z ✔ Test commitPersistsExactlyOnce() passed after 0.370 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9333010Z ✔ Test concurrentAcceptsCommitDistinctSampleIDsAndOrderedEMA() passed after 0.369 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9333560Z ✔ Test missingOneRequiredCPUMemberStopsStartup() passed after 0.373 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9334000Z ✔ Test gapEndRejectsConflictingClosure() passed after 0.369 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9334350Z ✔ Suite BackpressureTests passed after 0.379 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9334700Z ◇ Test staleGenerationReadIsDiscardedWithoutAccept() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9335380Z ✔ Suite CommitRegressionTests passed after 0.380 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9335900Z ✔ Test sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts() passed after 0.401 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9336410Z ✔ Test successDiscoverReturnsCatalog() passed after 0.403 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9336870Z ◇ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9337320Z ✔ Suite HistoryBudgetRegressionTests passed after 0.415 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9338060Z ✔ Test fiftyMillisecondPeriodWithOneTwentyMillisecondReadDoesNotOverlap() passed after 0.416 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9338610Z ✔ Test pruneAfterLongSleepRemovesExpiredRows() passed after 0.396 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9339040Z ✔ Test retainsRawWithoutOneSecondParent() passed after 0.396 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9339430Z ✔ Test cleanupGraceExceededIsFatal() passed after 0.396 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9339800Z ✔ Test repeatedBatchIsIdempotent() passed after 0.411 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9340210Z ✔ Test repeatedBatchIsIdempotentThroughFixture() passed after 0.416 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9340570Z ◇ Test rejectsOversizeResponse() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9340940Z ✔ Test batchStoresAggregatesTrendsAndSampleMembers() passed after 0.420 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9341390Z ✔ Test secondBatchReusesExistingMetadataRows() passed after 0.420 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9341840Z ✔ Test keepsSegmentsSeparateInResults() passed after 0.424 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9342200Z ✔ Suite SQLiteStoreTests passed after 0.443 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9342600Z ✔ Test sameBatchIDDifferentPayloadIsIntegrityFailure() passed after 0.435 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9343070Z ✔ Test gapBatchSurvivesPersistenceRoundTrip() passed after 0.435 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9343520Z ✔ Test gapEndAllowsMonotonicNullToValueUpdate() passed after 0.436 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9344020Z ✔ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() passed after 0.437 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9344620Z ✔ Test failedTransactionRollsBackPartialBatch() passed after 0.451 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9345000Z ◇ Test simultaneousDueSchedulesPreferCPU() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9345360Z ✔ Test deletesAggregateExactlyAtCutoff() passed after 0.430 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9345730Z ✔ Suite RetentionTests passed after 0.464 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9346060Z ◇ Test stopWaitsForSessionDeletionAndIsIdempotent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9346520Z ✔ Test forgedCancellationDoesNotInvalidateTheAuthenticLease() passed after 0.112 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9346960Z ✔ Test stopIsIdempotent() passed after 0.469 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9347360Z ✔ Test shutdownRecordsCompletedSteps() passed after 0.470 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9347840Z ✔ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() passed after 0.485 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9348350Z ✔ Test stopDuringReadDoesNotAcceptLateResponse() passed after 0.483 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9349220Z ✘ Test fullCPURawToHistorySoftwareLoop() recorded an issue at EndToEndTests.swift:24:9: Expectation failed: try await fixture.session.rows(in: "raw_samples") == 13
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9349880Z ◇ Test temporaryWriteFailureRetriesSameBatchAndPayload() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9350420Z ✔ Test qualifiedUnavailableOptionalCapabilityHasVisibleRowWithoutSamples() passed after 0.138 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9351240Z ✘ Test fullCPURawToHistorySoftwareLoop() recorded an issue at EndToEndTests.swift:25:9: Expectation failed: try await fixture.session.rows(in: "ema_samples") == 13
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9351880Z ✔ Suite EngineGapRegressionTests passed after 0.505 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9352560Z ✘ Test fullCPURawToHistorySoftwareLoop() recorded an issue at EndToEndTests.swift:26:9: Expectation failed: try await fixture.session.rows(in: "committed_batches") == 1
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9353560Z ✘ Test fullCPURawToHistorySoftwareLoop() recorded an issue at EndToEndTests.swift:37:9: Expectation failed: history.points.contains { $0.valueC == 95 }
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9354230Z ✔ Suite HistorySourceContinuityRegressionTests passed after 0.512 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9354730Z ✔ Test staleGenerationReadIsDiscardedWithoutAccept() passed after 0.145 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9355330Z ✔ Test runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep() passed after 0.514 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9355900Z ◇ Test acceptFailureCancelsLeaseWithoutStateChange() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9356330Z ◇ Test expiredRequestCannotBeReintroducedAsNewTemperature() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9356950Z ✔ Test expiredRequestCannotBeReintroducedAsNewTemperature() passed after 0.002 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9357470Z ✔ Test simultaneousDueSchedulesPreferCPU() passed after 0.076 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9357900Z ✔ Suite RuntimeMaintenanceRegressionTests passed after 0.537 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9358350Z ◇ Test nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9358900Z ✔ Test concurrentSleepsResumeOnceAndCancelRemovesOneWaiter() passed after 0.532 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9359400Z ✔ Suite ClockTests passed after 0.538 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9359840Z ✔ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() passed after 0.542 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9360370Z ✔ Test stopWaitsForSessionDeletionAndIsIdempotent() passed after 0.074 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9360810Z ✔ Suite LongSleepRecoveryRegressionTests passed after 0.547 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9361200Z ✔ Suite RuntimeShutdownRegressionTests passed after 0.547 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9361660Z ✔ Test acceptFailureCancelsLeaseWithoutStateChange() passed after 0.032 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9362110Z ◇ Test completedNonzeroReadReleasesPlannedWatermarkStart() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9362580Z ✔ Test completedNonzeroReadReleasesPlannedWatermarkStart() passed after 0.020 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9363050Z ◇ Test failedOrStaleReadReleasesWatermarkRegistration() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9363540Z ✔ Test temporaryWriteFailureRetriesSameBatchAndPayload() passed after 0.092 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9364030Z ◇ Test lostCommitAcknowledgementRetriesWithoutDuplicateSamples() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9364510Z ✘ Test fullCPURawToHistorySoftwareLoop() failed after 0.582 seconds with 4 issues.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9364920Z ✘ Suite "EndToEndTests" failed after 0.590 seconds with 4 issues.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9365360Z ✔ Test failedOrStaleReadReleasesWatermarkRegistration() passed after 0.017 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9365860Z ◇ Test stopCancelsInFlightReadAndReleasesWatermarkBeforeReturning() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9366330Z ✔ Test schedulingScriptMatchesControlledPlan() passed after 0.592 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9366720Z ◇ Test fiveMinuteHistoryUsesRealtimeMemoryPath() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9367100Z ✔ Test sleepWakeOpensAndClosesSleepGap() passed after 0.595 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9367600Z ✔ Test stopCancelsInFlightReadAndReleasesWatermarkBeforeReturning() passed after 0.008 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9368350Z ◇ Test temporaryReservationBackpressurePausesInsteadOfLosingDueRead() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9369020Z ✔ Test sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets() passed after 0.601 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9369530Z ✔ Suite SessionLifecycleTests passed after 0.610 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9369970Z ✔ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() passed after 0.610 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9370470Z ◇ Test malformedOrFutureParentOriginRejectsWorkerStartup() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9371380Z ✔ Test lostCommitAcknowledgementRetriesWithoutDuplicateSamples() passed after 0.027 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9371980Z ◇ Test reservationCreatedDuringWriteSurvivesActorReentry() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9372530Z ✔ Test reservationCreatedDuringWriteSurvivesActorReentry() passed after 0.014 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9373080Z ◇ Test writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9373550Z ✔ Test wakeFirstReadUsesNewRequestIdentity() passed after 0.642 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9373960Z ✔ Suite RequestLifecycleRegressionTests passed after 0.646 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9374430Z ✔ Test malformedOrFutureParentOriginRejectsWorkerStartup() passed after 0.040 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9374900Z ✔ Suite SessionClockRegressionTests passed after 0.653 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9375390Z ✔ Test writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError() passed after 0.029 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9375840Z ◇ Test integrityConflictIsNotRetried() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9376310Z ✔ Test walHardLimitTriggersCapacityFailure() passed after 0.656 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9376670Z ✔ Suite StorageFaultTests passed after 0.665 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9377130Z ✔ Test nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources() passed after 0.150 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9377680Z ◇ Test failedOptionalSourceHasFiniteProbesAndNeedsThreeValidReads() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9378260Z ✔ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() passed after 0.295 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9378790Z ◇ Test repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9379200Z ✔ Test integrityConflictIsNotRetried() passed after 0.040 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9379560Z ◇ Test walSoftLimitAttemptsTruncateCheckpoint() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9379960Z ✔ Test walSoftLimitAttemptsTruncateCheckpoint() passed after 0.015 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9380390Z ◇ Test effectiveDatabaseSoftLimitPausesNewReservations() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9380830Z ✔ Test fiveMinuteHistoryUsesRealtimeMemoryPath() passed after 0.120 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9381310Z ◇ Test longHistoryUsesSQLiteQueryWithPersistedThrough() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9381830Z ✔ Test effectiveDatabaseSoftLimitPausesNewReservations() passed after 0.010 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9382320Z ◇ Test closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9382830Z ✔ Test closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles() passed after 0.071 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9383300Z ✔ Suite StorageLifecycleRegressionTests passed after 0.800 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9383810Z ✔ Test temporaryReservationBackpressurePausesInsteadOfLosingDueRead() passed after 0.212 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9384300Z ✔ Suite ProcessingCoordinatorTests passed after 0.819 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9384780Z ✔ Test failedOptionalSourceHasFiniteProbesAndNeedsThreeValidReads() passed after 0.163 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9385250Z ◇ Test cpuPeriodChangeRecalculatesNextDue() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9385660Z ✔ Test longHistoryUsesSQLiteQueryWithPersistedThrough() passed after 0.177 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9386190Z ◇ Test concurrentControllerHistoryMatchesEachRequestOrReportsSuperseded() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9386670Z ✔ Test cpuPeriodChangeRecalculatesNextDue() passed after 0.051 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9387140Z ◇ Test inFlightReadKeepsOldPeriodAfterPeriodChange() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9387640Z ✔ Test inFlightReadKeepsOldPeriodAfterPeriodChange() passed after 0.066 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9388020Z ◇ Test stopDuringWaitEndsScheduling() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9388350Z ✔ Test stopDuringWaitEndsScheduling() passed after 0.077 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9388700Z ◇ Test optionalSourcesMissingDoNotSchedule() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9389080Z ✔ Test optionalSourcesMissingDoNotSchedule() passed after 0.056 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9389470Z ◇ Test schedulePlannerSkipsOverdueWithoutCatchUp() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9389900Z ✔ Test schedulePlannerSkipsOverdueWithoutCatchUp() passed after 0.001 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9390300Z ✔ Suite SamplingServiceTests passed after 1.105 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:10.9390700Z ✔ Test downsamplingPreservesPeakAcross8640Buckets() passed after 1.197 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7732540Z ✔ Test concurrentQueriesMatchTheirRequestsOrReportSuperseded() passed after 1.251 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7769910Z ✔ Suite HistoryQueryTests passed after 1.257 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7772310Z ✔ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() passed after 1.296 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7775180Z ✔ Suite OptionalWakeRecoveryRegressionTests passed after 1.305 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7777130Z ✔ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() passed after 1.317 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7779380Z ✔ Suite OptionalSleepAdmissionRaceRegressionTests passed after 1.323 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7781150Z ✔ Test rejectsOversizeResponse() passed after 0.934 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7790950Z ◇ Test rejectsBadJSONResponse() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7792770Z ◇ Passing 1 argument rejectThirdReceipt → true to optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:)
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7794540Z ✔ Test rejectsBadJSONResponse() passed after 0.034 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7795650Z ◇ Test rejectsWrongResponseID() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7797000Z ✔ Test repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal() passed after 0.716 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7802230Z ◇ Test mismatchedTransportRequestIdentityIsRejected() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7803800Z ✔ Test mismatchedTransportRequestIdentityIsRejected() passed after 0.001 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7805150Z ◇ Test reconnectCreatesNewSourceAndSeriesIdentities() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7806640Z ✔ Test reconnectCreatesNewSourceAndSeriesIdentities() passed after 0.001 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7808040Z ◇ Test firstCPUFailureHasExplicitMainValueFailureState() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7809640Z ✔ Test firstCPUFailureHasExplicitMainValueFailureState() passed after 0.001 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7811070Z ✔ Suite SensorRecoveryRegressionTests passed after 1.420 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7812310Z ✔ Test rejectsWrongResponseID() passed after 0.040 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7813460Z ◇ Test rejectsOldGenerationResponse() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7814590Z ✔ Test rejectsOldGenerationResponse() passed after 0.056 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7815730Z ◇ Test mapsCrashToProtocolFailure() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7816720Z ✔ Test mapsCrashToProtocolFailure() passed after 0.018 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7817790Z ◇ Test closeIsIdempotent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7819090Z ✔ Test closeIsIdempotent() passed after 0.046 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7820100Z ◇ Test respawnsAfterCrashWithNewGeneration() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7821690Z ✔ Test concurrentControllerHistoryMatchesEachRequestOrReportsSuperseded() passed after 0.684 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7822460Z ◇ Test snapshotsPublishAtMostEveryTwoHundredMilliseconds() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7823150Z ✔ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() passed after 1.590 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7823800Z ✔ Suite RecoveredSourceGapRegressionTests passed after 1.600 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7824340Z ✔ Test respawnsAfterCrashWithNewGeneration() passed after 0.074 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7827370Z ◇ Test discoveredSourcesExposeHandlesNotSourceIDs() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7828130Z ✔ Test discoveredSourcesExposeHandlesNotSourceIDs() passed after 0.023 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7828660Z ◇ Test successDiscoverAndReadOnSameConnection() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7829390Z ✔ Test unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget() passed after 1.665 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7830190Z ✔ Suite OptionalProbeBudgetAcrossReconnectTests passed after 1.671 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7830850Z ✔ Test successDiscoverAndReadOnSameConnection() passed after 0.039 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7831340Z ◇ Test discoverTimeoutRecyclesWorker() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7832020Z ✔ Test optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) passed after 1.924 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7833300Z ✔ Suite OptionalAvailabilityIntegrationTests passed after 1.930 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7833900Z ✔ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() passed after 1.946 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7834510Z ✔ Suite OptionalGenerationRecoveryRegressionTests passed after 1.951 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7835170Z ✔ Test snapshotsPublishAtMostEveryTwoHundredMilliseconds() passed after 0.374 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7835740Z ◇ Test bufferingNewestSnapshotDropsIntermediateValues() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7836180Z ✔ Test discoverTimeoutRecyclesWorker() passed after 0.425 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7836590Z ◇ Test readTimeoutRecyclesWorker() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7836950Z ✔ Test readTimeoutRecyclesWorker() passed after 0.314 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7837760Z ◇ Test ignoreTermEndsWithKillWithinGrace() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7838220Z ✔ Test bufferingNewestSnapshotDropsIntermediateValues() passed after 0.844 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7838770Z ◇ Test fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7839250Z ✔ Test ignoreTermEndsWithKillWithinGrace() passed after 0.421 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7839720Z ◇ Test lateReplyDoesNotSatisfyTimedOutRequest() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7840200Z ✔ Test fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory() passed after 0.317 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7840730Z ◇ Test fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7860470Z ✔ Test lateReplyDoesNotSatisfyTimedOutRequest() passed after 0.289 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7861350Z ◇ Test qualifiedClientClearsCatalogAfterReadTimeout() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7862010Z ✔ Test qualifiedClientClearsCatalogAfterReadTimeout() passed after 0.312 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7862580Z ◇ Test staleQualifiedCatalogDoesNotProduceReadBatch() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7863130Z ✔ Test staleQualifiedCatalogDoesNotProduceReadBatch() passed after 0.001 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7863810Z ◇ Test consecutiveCloseAfterTimeoutIsIdempotent() started.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7864390Z ✔ Test fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords() passed after 0.471 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7864970Z ✔ Suite MonitorIntegrationTests passed after 3.593 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7865430Z ✔ Test consecutiveCloseAfterTimeoutIsIdempotent() passed after 0.322 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7865950Z ✔ Suite WorkerLifecycleTests passed after 3.783 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7866520Z ✔ Test retainsSamplesWithinThreeHundredSecondWindow() passed after 6.161 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7867130Z ✔ Suite RingBufferTests passed after 6.167 seconds.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7867530Z ✘ Test run with 337 tests failed after 6.168 seconds with 4 issues.
+core-tests	Core unit tests with coverage	2026-10-02T15:42:15.7893370Z ##[error]Process completed with exit code 1.
