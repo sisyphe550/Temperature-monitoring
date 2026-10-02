@@ -84,6 +84,56 @@ import Testing
         #expect(snapshot.generation == 0)
         await coordinator.stop()
     }
+    @Test func completedNonzeroReadReleasesPlannedWatermarkStart() async throws {
+        let clock = CoordinatorTestClock(now: timestamp(ms: 0))
+        let catalog = try makeCatalog(kinds: [.cpuZone])
+        let client = MockCoordinatorSensorClient(clock: clock, catalog: catalog, readDurationMS: 10)
+        let config = try Configuration.bundledDefaults()
+        let runtime = try makeInMemoryRuntime(clock: clock, configuration: config, catalog: catalog)
+        let coordinator = ProcessingCoordinator(clock: clock, client: client, reservation: runtime.reservation, engine: runtime.engine, configuration: config)
+        await coordinator.start(catalog: catalog)
+        clock.advance(to: timestamp(ms: 201))
+        try await waitUntil { await client.readCount == 1 }
+        clock.advance(to: timestamp(ms: 211))
+        try await waitUntil { await runtime.commit.acceptCount == 1 }
+        await coordinator.stop()
+        #expect(await runtime.engine.safeWatermarkElapsedNS(at: timestamp(ms: 2000)) == 2_000_000_000)
+        let receipt = try await runtime.engine.advance(to: timestamp(ms: 1000), lease: PersistenceLease(reservationID: UUID(), owner: .watermark(WatermarkEventID(UUID())), generation: 1, maxRecords: 512, maxBytes: 33_554_432))
+        #expect(receipt.acceptedRecords >= 2)
+    }
+
+    @Test func failedOrStaleReadReleasesWatermarkRegistration() async throws {
+        for mode in 0...1 {
+            let clock = CoordinatorTestClock(now: timestamp(ms: 0))
+            let catalog = try makeCatalog(kinds: [.cpuZone])
+            let client = MockCoordinatorSensorClient(clock: clock, catalog: catalog, forcedGeneration: mode == 1 ? 0 : nil, throwsOnRead: mode == 0)
+            let config = try Configuration.bundledDefaults()
+            let runtime = try makeInMemoryRuntime(clock: clock, configuration: config, catalog: catalog)
+            let coordinator = ProcessingCoordinator(clock: clock, client: client, reservation: runtime.reservation, engine: runtime.engine, configuration: config)
+            await coordinator.start(catalog: catalog)
+            clock.advance(to: timestamp(ms: 201))
+            try await waitUntil { await client.readCount == 1 }
+            await coordinator.stop()
+            #expect(await runtime.engine.safeWatermarkElapsedNS(at: timestamp(ms: 2000)) == 2_000_000_000)
+            #expect(await runtime.commit.acceptCount == 0)
+        }
+    }
+
+    @Test func stopCancelsInFlightReadAndReleasesWatermarkBeforeReturning() async throws {
+        let clock = CoordinatorTestClock(now: timestamp(ms: 0))
+        let catalog = try makeCatalog(kinds: [.cpuZone])
+        let client = MockCoordinatorSensorClient(clock: clock, catalog: catalog, readDurationMS: 500)
+        let config = try Configuration.bundledDefaults()
+        let runtime = try makeInMemoryRuntime(clock: clock, configuration: config, catalog: catalog)
+        let coordinator = ProcessingCoordinator(clock: clock, client: client, reservation: runtime.reservation, engine: runtime.engine, configuration: config)
+        await coordinator.start(catalog: catalog)
+        clock.advance(to: timestamp(ms: 201))
+        try await waitUntil { await client.readCount == 1 }
+        await coordinator.stop()
+        #expect(await runtime.engine.safeWatermarkElapsedNS(at: timestamp(ms: 2000)) == 2_000_000_000)
+        #expect(await runtime.commit.acceptCount == 0)
+    }
+
 }
 
 private struct CoordinatorRuntime {
@@ -349,6 +399,7 @@ actor MockCoordinatorSensorClient: SensorClient {
     let catalog: QualifiedSourceCatalog
     let readDurationMS: Int64
     let forcedGeneration: UInt64?
+    let throwsOnRead: Bool
     private(set) var readCount = 0
     private(set) var lastReadKind: SamplingScheduleKind?
 
@@ -356,12 +407,14 @@ actor MockCoordinatorSensorClient: SensorClient {
         clock: CoordinatorTestClock,
         catalog: QualifiedSourceCatalog,
         readDurationMS: Int64 = 0,
-        forcedGeneration: UInt64? = nil
+        forcedGeneration: UInt64? = nil,
+        throwsOnRead: Bool = false
     ) {
         self.clock = clock
         self.catalog = catalog
         self.readDurationMS = readDurationMS
         self.forcedGeneration = forcedGeneration
+        self.throwsOnRead = throwsOnRead
     }
 
     func discover() async throws -> QualifiedSourceCatalog {
@@ -370,6 +423,9 @@ actor MockCoordinatorSensorClient: SensorClient {
 
     func read(_ request: ReadRequest) async throws -> ReadBatch {
         readCount += 1
+        if throwsOnRead {
+            throw MonitorFailure(code: .sensorTimeout, severity: .degraded, component: "fixture", operation: "read", retryCount: 0, sourceID: nil, underlyingCode: "timeout")
+        }
         let started = clock.now()
         if readDurationMS > 0 {
             let target = started.elapsedNS + readDurationMS * 1_000_000

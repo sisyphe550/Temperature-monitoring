@@ -39,6 +39,10 @@ public actor ProcessingCoordinator {
             willRead: { [engine] _, plannedStart in
                 await engine.registerInFlightReading(startElapsedNS: plannedStart)
             },
+            didFinishRead: { [weak self, engine] _, plannedStart in
+                await engine.unregisterInFlightReading(startElapsedNS: plannedStart)
+                await self?.advanceWatermarkIfDue()
+            },
             onRead: { [weak self] event in
                 await self?.handleRead(event)
             }
@@ -106,6 +110,10 @@ public actor ProcessingCoordinator {
             willRead: { [engine] _, plannedStart in
                 await engine.registerInFlightReading(startElapsedNS: plannedStart)
             },
+            didFinishRead: { [weak self, engine] _, plannedStart in
+                await engine.unregisterInFlightReading(startElapsedNS: plannedStart)
+                await self?.advanceWatermarkIfDue()
+            },
             onRead: { [weak self] event in
                 await self?.handleRead(event)
             }
@@ -122,12 +130,8 @@ public actor ProcessingCoordinator {
     }
 
     private func handleRead(_ event: SamplingReadEvent) async {
-        let starts = event.batch.readings.map(\.started.elapsedNS)
         if event.batch.generation < catalogGeneration {
             await reservation.cancel(event.lease)
-            for start in starts {
-                await engine.unregisterInFlightReading(startElapsedNS: start)
-            }
             return
         }
 
@@ -137,16 +141,9 @@ public actor ProcessingCoordinator {
         } catch {
             lastAcceptFailure = error as? MonitorFailure
             await reservation.cancel(event.lease)
-            for start in starts {
-                await engine.unregisterInFlightReading(startElapsedNS: start)
-            }
             return
         }
 
-        for start in starts {
-            await engine.unregisterInFlightReading(startElapsedNS: start)
-        }
-        await advanceWatermarkIfDue()
     }
 
     private func startWatermarkLoop() {

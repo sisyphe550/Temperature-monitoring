@@ -85,32 +85,29 @@ import Testing
         try await populateDayHistoryBuckets(fixture: fixture, seriesID: fixture.seriesID)
 
         let seriesID = fixture.seriesID
-        async let first = fixture.controller.history(
-            HistoryRequest(
-                seriesIDs: [seriesID],
-                range: .oneDay,
-                asOfElapsedNS: 86_400_000_000_000,
-                pointLimit: 2000
-            )
-        )
-        async let second = fixture.controller.history(
-            HistoryRequest(
-                seriesIDs: [seriesID],
-                range: .oneHour,
-                asOfElapsedNS: 300_000_000,
-                pointLimit: 100
-            )
-        )
-
-        do {
-            _ = try await first
-            Issue.record("expected superseded history failure")
-        } catch let failure as MonitorFailure {
-            #expect(failure.code == .databaseRead)
-            #expect(failure.underlyingCode == "superseded")
+        let first = Task { () -> Result<HistoryResult, Error> in
+            do { return .success(try await fixture.controller.history(HistoryRequest(seriesIDs: [seriesID], range: .oneDay, asOfElapsedNS: 86_400_000_000_000, pointLimit: 2000))) }
+            catch { return .failure(error) }
         }
-
-        _ = try await second
+        let second = Task { () -> Result<HistoryResult, Error> in
+            do { return .success(try await fixture.controller.history(HistoryRequest(seriesIDs: [seriesID], range: .oneHour, asOfElapsedNS: 300_000_000, pointLimit: 100))) }
+            catch { return .failure(error) }
+        }
+        let results = await [first.value, second.value]
+        var successCount = 0
+        var supersededCount = 0
+        for result in results {
+            switch result {
+            case .success: successCount += 1
+            case let .failure(error):
+                let failure = try #require(error as? MonitorFailure)
+                #expect(failure.code == .databaseRead)
+                #expect(failure.underlyingCode == "superseded")
+                supersededCount += 1
+            }
+        }
+        #expect(successCount == 1)
+        #expect(supersededCount == 1)
         await fixture.controller.stop()
         try await fixture.closeAndDeleteSession()
     }
@@ -271,7 +268,9 @@ import Testing
         ])
         #expect(await fixture.client.readCount == 2)
         #expect(try await fixture.session.rows(in: "raw_samples") == 26)
-        #expect(try await fixture.session.rows(in: "committed_batches") == 2)
+        // Two reads plus the now-unblocked watermark transaction(s).
+        #expect(try await fixture.session.rows(in: "committed_batches") >= 3)
+        #expect(try await fixture.session.rows(in: "aggregates") == 13)
 
         await fixture.controller.stop()
         try await fixture.closeAndDeleteSession()

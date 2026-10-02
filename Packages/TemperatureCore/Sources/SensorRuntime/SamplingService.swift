@@ -104,7 +104,7 @@ public actor SamplingService {
     private var onRead: ReadHandler?
     private var willRead: WillReadHandler?
     private var stats = SamplingStatistics()
-    private var nextRequestOrdinal: Int64 = 1
+    private var didFinishRead: WillReadHandler?
     private var readInFlight = false
 
     public init(
@@ -123,9 +123,10 @@ public actor SamplingService {
     public func start(
         catalog: QualifiedSourceCatalog,
         willRead: WillReadHandler? = nil,
+        didFinishRead: WillReadHandler? = nil,
         onRead: @escaping ReadHandler
     ) async {
-        stopLoopTask()
+        await stop()
         schedules = Self.makeSchedules(
             catalog: catalog,
             cpuPeriodMS: cpuPeriodMS,
@@ -135,8 +136,8 @@ public actor SamplingService {
         )
         catalogGeneration = catalog.generation
         stats = SamplingStatistics()
-        nextRequestOrdinal = 1
         self.willRead = willRead
+        self.didFinishRead = didFinishRead
         self.onRead = onRead
         running = true
         loopTask = Task { [weak self] in
@@ -154,11 +155,15 @@ public actor SamplingService {
         schedules[.cpu] = cpu
     }
 
-    public func stop() {
+    public func stop() async {
         running = false
-        stopLoopTask()
+        let task = loopTask
+        loopTask = nil
+        task?.cancel()
+        await task?.value
         onRead = nil
         willRead = nil
+        didFinishRead = nil
         catalogGeneration = nil
         schedules = [:]
     }
@@ -213,100 +218,61 @@ public actor SamplingService {
     }
 
     private func executeRead(for kind: SamplingScheduleKind, plannedDueElapsedNS: Int64) async {
-        guard running, var schedule = schedules[kind], !readInFlight else {
-            return
-        }
+        guard running, let schedule = schedules[kind], !readInFlight else { return }
         let requestedPeriodMS = schedule.periodMS
+        let generation = catalogGeneration ?? 0
+        // Capture terminal callbacks before any await; stop must not erase cleanup.
+        let startHandler = willRead
+        let finishHandler = didFinishRead
+        let handler = onRead
         readInFlight = true
         defer { readInFlight = false }
-
         let requestID = makeRequestID()
-        let generation = catalogGeneration ?? 0
         let lease: PersistenceLease
         do {
-            lease = try await reservation.reserve(
-                owner: .request(requestID),
-                generation: generation,
-                maxRecords: configuration.writerReserveRecordsPerEvent,
-                maxBytes: configuration.writerMaxPayloadBytes
-            )
+            try Task.checkCancellation()
+            lease = try await reservation.reserve(owner: .request(requestID), generation: generation,
+                maxRecords: configuration.writerReserveRecordsPerEvent, maxBytes: configuration.writerMaxPayloadBytes)
         } catch {
-            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-                plannedDueElapsedNS: plannedDueElapsedNS,
-                periodMS: requestedPeriodMS,
-                nowElapsedNS: clock.now().elapsedNS
-            )
-            schedule.nextDueElapsedNS = nextDue
-            schedules[kind] = schedule
-            recordSkipped(kind: kind, count: skipped)
+            advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
             return
         }
 
-        if let willRead {
-            await willRead(requestID, plannedDueElapsedNS)
-        }
-
-        let batch: ReadBatch
+        var registered = false
         do {
-            batch = try await client.read(
-                ReadRequest(
-                    requestID: requestID,
-                    sourceIDs: schedule.sourceIDs,
-                    requestedPeriodMS: requestedPeriodMS
-                )
-            )
+            try Task.checkCancellation()
+            if let startHandler {
+                await startHandler(requestID, plannedDueElapsedNS)
+                registered = true
+            }
+            try Task.checkCancellation()
+            let batch = try await client.read(ReadRequest(requestID: requestID, sourceIDs: schedule.sourceIDs, requestedPeriodMS: requestedPeriodMS))
+            try Task.checkCancellation()
+            if running, batch.generation == generation, let handler {
+                await handler(SamplingReadEvent(kind: kind, plannedElapsedNS: plannedDueElapsedNS,
+                    requestID: requestID, requestedPeriodMS: requestedPeriodMS, lease: lease, batch: batch))
+                stats.completedReads += 1
+            } else {
+                await reservation.cancel(lease)
+            }
         } catch {
             await reservation.cancel(lease)
-            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-                plannedDueElapsedNS: plannedDueElapsedNS,
-                periodMS: requestedPeriodMS,
-                nowElapsedNS: clock.now().elapsedNS
-            )
-            schedule.nextDueElapsedNS = nextDue
-            schedules[kind] = schedule
-            recordSkipped(kind: kind, count: skipped)
-            return
         }
+        if registered, let finishHandler { await finishHandler(requestID, plannedDueElapsedNS) }
+        advanceScheduleAfterRead(kind: kind, schedule: schedule, generation: generation, plannedDue: plannedDueElapsedNS)
+    }
 
-        if batch.generation < generation {
-            await reservation.cancel(lease)
-            skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-            let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-                plannedDueElapsedNS: plannedDueElapsedNS,
-                periodMS: requestedPeriodMS,
-                nowElapsedNS: clock.now().elapsedNS
-            )
-            schedule.nextDueElapsedNS = nextDue
-            schedules[kind] = schedule
-            recordSkipped(kind: kind, count: skipped)
-            return
-        }
-
-        if let handler = onRead {
-            await handler(
-                SamplingReadEvent(
-                    kind: kind,
-                    plannedElapsedNS: plannedDueElapsedNS,
-                    requestID: requestID,
-                    requestedPeriodMS: requestedPeriodMS,
-                    lease: lease,
-                    batch: batch
-                )
-            )
-        }
-
-        stats.completedReads += 1
-        skipOverdueSchedules(except: kind, nowElapsedNS: clock.now().elapsedNS)
-
+    private func advanceScheduleAfterRead(kind: SamplingScheduleKind, schedule: ScheduleState, generation: UInt64, plannedDue: Int64) {
+        guard running, catalogGeneration == generation else { return }
+        let now = clock.now().elapsedNS
+        skipOverdueSchedules(except: kind, nowElapsedNS: now)
+        // A picker change during IO has already scheduled the next read.
+        guard schedules[kind] == schedule else { return }
         let (nextDue, skipped) = SchedulePlanner.advanceAfterPlannedRead(
-            plannedDueElapsedNS: plannedDueElapsedNS,
-            periodMS: requestedPeriodMS,
-            nowElapsedNS: clock.now().elapsedNS
-        )
-        schedule.nextDueElapsedNS = nextDue
-        schedules[kind] = schedule
+            plannedDueElapsedNS: plannedDue, periodMS: schedule.periodMS, nowElapsedNS: now)
+        var next = schedule
+        next.nextDueElapsedNS = nextDue
+        schedules[kind] = next
         recordSkipped(kind: kind, count: skipped)
     }
 
@@ -333,17 +299,7 @@ public actor SamplingService {
         stats.skippedByKind[kind, default: 0] += count
     }
 
-    private func makeRequestID() -> RequestID {
-        let ordinal = nextRequestOrdinal
-        nextRequestOrdinal += 1
-        let raw = String(format: "00000000-0000-4000-8000-%012d", ordinal)
-        return (try? RequestID(validating: raw)) ?? RequestID(UUID())
-    }
-
-    private func stopLoopTask() {
-        loopTask?.cancel()
-        loopTask = nil
-    }
+    private func makeRequestID() -> RequestID { RequestID(UUID()) }
 
     private static func makeSchedules(
         catalog: QualifiedSourceCatalog,
