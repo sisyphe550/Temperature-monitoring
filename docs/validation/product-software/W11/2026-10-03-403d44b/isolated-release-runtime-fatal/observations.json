@@ -1,0 +1,61 @@
+[
+  {
+    "event": "launch",
+    "utc": "2026-10-03T04:04:24.996035+00:00",
+    "monotonic": 2946817.7706925,
+    "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+    "prior_sessions": [],
+    "app_sha256": "cde202aad16a96d6e2ffae51daf708d8aa623a7f3113a01aac64d160374be8ce",
+    "worker_sha256": "74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f"
+  },
+  {
+    "event": "before_injection",
+    "utc": "2026-10-03T04:04:26.070428+00:00",
+    "monotonic": 2946818.844984333,
+    "session_id": "06ab19dd-8efd-4150-b198-a49901da7ccb",
+    "pid": "73911",
+    "raw_count": 40,
+    "removed_old_sessions": [],
+    "prior_fatal_report_preserved": true
+  },
+  {
+    "event": "fault_injected",
+    "utc": "2026-10-03T04:04:26.071681+00:00",
+    "monotonic": 2946818.846232,
+    "session_id": "06ab19dd-8efd-4150-b198-a49901da7ccb",
+    "trigger": "owned_acceptance_runtime_fatal",
+    "path": "/Users/sisyphus/Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions/06ab19dd-8efd-4150-b198-a49901da7ccb/monitor.sqlite"
+  },
+  {
+    "event": "runtime_fatal_report_written",
+    "utc": "2026-10-03T04:04:26.343048+00:00",
+    "monotonic": 2946819.117598375,
+    "session_id": "06ab19dd-8efd-4150-b198-a49901da7ccb",
+    "pid": "73911",
+    "report": {
+      "app_version": "0.1.0",
+      "component": "SessionPersistence",
+      "error_code": "DB-INTEGRITY-010",
+      "incomplete_shutdown_steps": [],
+      "model": "Mac16,13",
+      "operation": "commit",
+      "os_build": "Version 15.7.3 (Build 24G419)",
+      "retry_count": 0,
+      "session_id": "06ab19dd-8efd-4150-b198-a49901da7ccb",
+      "severity": "fatal",
+      "underlying_error": "owned_acceptance_runtime_fatal",
+      "written_at": "2026-10-03T04:04:26Z"
+    }
+  },
+  {
+    "event": "process_exited",
+    "utc": "2026-10-03T04:04:58.386826+00:00",
+    "monotonic": 2946851.16096425,
+    "session_id": "06ab19dd-8efd-4150-b198-a49901da7ccb",
+    "pid": "73911",
+    "seconds_after_injection": 32.31466545816511,
+    "session_removed": true,
+    "runtime_fatal_report_retained": true,
+    "seconds_after_report": 32.0435322499834
+  }
+]

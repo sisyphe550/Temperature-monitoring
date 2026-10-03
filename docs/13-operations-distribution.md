@@ -81,3 +81,9 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 | Mac16,13 | 24G419 | `14cac6f…` | passed | passed | passed | cancelled（维护者豁免） | ad-hoc |
 
 `qualified_combinations` 已登记：`72339d42…` / `83e14d5e…`，suites=`[sources, schedules, lifecycle]`。证据目录见 `docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/`。
+
+## 2026-10-03 本机验收刷新记录
+
+- 最高正式稳定 macOS：**27.0.1**，Apple于2026-09-28发布；2026-10-03核对[Apple安全性更新列表](https://support.apple.com/en-us/100100)与[Developer发布记录26A434](https://developer.apple.com/news/releases/?id=09282026c)。[机器记录](validation/product-software/W11/2026-10-03-403d44b/latest-stable-macos.json)保留查询日期和出处。本机仍15.7.3/24G419；该版本核对不构成27.0.1运行认证。
+- 上述14cac6f资格矩阵是历史结果。PR44合入main403d44b后，a97正式App只有五档8秒等短测证据；五档各10分钟与真实系统睡眠/唤醒仍需新验收，不能延用历史passed为当前资格。
+- 2026-10-03合盖长测在第一档未满600秒时中断，随后发现睡眠历史刷新误Fatal（#46）与runtime Fatal退出卡住（#47）。新修复必须重新构建正式App并绑定新源码/二进制hash。

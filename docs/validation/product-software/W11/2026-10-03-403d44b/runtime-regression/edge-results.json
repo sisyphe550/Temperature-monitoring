@@ -1,0 +1,29 @@
+[
+  {
+    "stage": "GREEN_EDGES",
+    "scenario": "same-mainactor-job",
+    "exit_code": 0,
+    "watchdog_fired": false,
+    "monotonic_seconds": 0.5858966251835227,
+    "stdout": "{\"awake_seconds\":0.055741583462804556,\"event\":\"release_startup_discovery\",\"scenario\":\"same-mainactor-job\"}\n{\"awake_seconds\":0.061830125283449888,\"event\":\"release_startup_discovery\",\"scenario\":\"same-mainactor-job\"}\n{\"awake_seconds\":0.063618999905884266,\"event\":\"startup_sleep_conclusion\",\"fatal_code\":\"\",\"history_cancelled_as_suspended\":true,\"scenario\":\"same-mainactor-job\"}\n{\"awake_seconds\":0.069186208304017782,\"event\":\"wake_conclusion\",\"fatal_code\":\"\",\"history_resumed\":true,\"scenario\":\"same-mainactor-job\"}\n{\"awake_seconds\":0.071229666937142611,\"event\":\"normal_stop\",\"scenario\":\"same-mainactor-job\"}\n",
+    "stderr": ""
+  },
+  {
+    "stage": "GREEN_EDGES",
+    "scenario": "stop-before-admission",
+    "exit_code": 0,
+    "watchdog_fired": false,
+    "monotonic_seconds": 0.06814595824107528,
+    "stdout": "{\"awake_seconds\":0.05595687497407198,\"event\":\"startup_stop_conclusion\",\"fatal_code\":\"\",\"rejects_stopped\":true,\"remaining_session_directories\":[],\"scenario\":\"stop-before-admission\"}\n",
+    "stderr": ""
+  },
+  {
+    "stage": "GREEN_EDGES",
+    "scenario": "stop-discover-held",
+    "exit_code": 0,
+    "watchdog_fired": false,
+    "monotonic_seconds": 0.08208929095417261,
+    "stdout": "{\"awake_seconds\":0.067562958691269159,\"event\":\"startup_stop_conclusion\",\"fatal_code\":\"\",\"rejects_stopped\":true,\"remaining_session_directories\":[],\"scenario\":\"stop-discover-held\"}\n",
+    "stderr": ""
+  }
+]

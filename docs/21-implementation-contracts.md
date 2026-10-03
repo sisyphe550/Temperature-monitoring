@@ -148,3 +148,13 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 ## 修订3迁移与不变量（2026-10-02）
 
 产品审查发现NVMe发现事实缺少传输字段；修订3为DiscoveredSource增加上述两个可选事实及闭合枚举。WorkerProtocol使用同名camelCase键，nil省略；非字符串、未知枚举及found缺位置为结构错误。来源资格仍由Registry决定，worker不声明物理语义。配置只接受contract_version=3；schema仍user_version=1，profile键集、全部数值默认值和50项任务DAG不变。新字段属于现有W01/W02/T01.2/T02.3接口落地，不新增工作包；acceptance/tasks标记contract_revision=3，原REQ编号和测试组不变。修订2历史证据不回写，也不能作为修订3硬件通过证据。
+
+## W11证据绑定工具契约（2026-10-03）
+
+产品公开API、默认值、profile与schema不变，仍contract revision3。`acceptance-v1.json`格式version1保留134项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
+
+- delivery/source均为真实40位Git commit；source是delivery祖先，delivery是当前HEAD祖先。每artifact文件须在repo内且SHA256匹配；kind=`software/formal-app-hardware/ci/reference/waiver`，result=`passed/partial/waived`，scope/TC/environment明确。
+- 正式App实机environment记录execution=formal-release-app、Release、fixture=false、固定Bundle ID、App/worker SHA256、model和os_build。结构校验不能代替报告人工审核或真实测量。
+- 每个active REQ显式包含verification、evidence、covered_cases、outstanding、reason和非空required_evidence_kinds。accepted仅允许passed非waiver证据，满足映射TC与全部必需kind，无outstanding；pending可保留partial和缺项，不自动提升。
+- 只有REQ127允许用户授权本机整REQ豁免且只要求waiver证据；耐久/发行子用例的豁免不能把其他整REQ标为waived。012/114不得进入结果目录，也不得附pass证据。
+- binder默认dry-run；`--write`在两份文档均校验并stage后写入，IO失败回滚。普通handoff验证绑定一致；`--product-acceptance`要求所有132active均accepted/授权waived，否则拒绝。

@@ -1,0 +1,61 @@
+[
+  {
+    "event": "launch",
+    "utc": "2026-10-03T03:32:24.342842+00:00",
+    "monotonic": 2944897.161179875,
+    "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+    "prior_sessions": [],
+    "app_sha256": "e61a0ea6902eb5544894df8e4ad9fe7b636221846cbae0f557f387623a93429e",
+    "worker_sha256": "74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f"
+  },
+  {
+    "event": "before_injection",
+    "utc": "2026-10-03T03:32:25.841507+00:00",
+    "monotonic": 2944898.65982525,
+    "session_id": "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+    "pid": "91543",
+    "raw_count": 40,
+    "removed_old_sessions": [],
+    "prior_fatal_report_preserved": true
+  },
+  {
+    "event": "fault_injected",
+    "utc": "2026-10-03T03:32:25.842533+00:00",
+    "monotonic": 2944898.660846583,
+    "session_id": "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+    "trigger": "owned_acceptance_runtime_fatal",
+    "path": "/Users/sisyphus/Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions/1ccd4a5c-e482-4c17-abf0-2fae6897d244/monitor.sqlite"
+  },
+  {
+    "event": "runtime_fatal_report_written",
+    "utc": "2026-10-03T03:32:26.114997+00:00",
+    "monotonic": 2944898.933313291,
+    "session_id": "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+    "pid": "91543",
+    "report": {
+      "app_version": "0.1.0",
+      "component": "SessionPersistence",
+      "error_code": "DB-INTEGRITY-010",
+      "incomplete_shutdown_steps": [],
+      "model": "Mac16,13",
+      "operation": "commit",
+      "os_build": "Version 15.7.3 (Build 24G419)",
+      "retry_count": 0,
+      "session_id": "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+      "severity": "fatal",
+      "underlying_error": "owned_acceptance_runtime_fatal",
+      "written_at": "2026-10-03T03:32:26Z"
+    }
+  },
+  {
+    "event": "process_exited",
+    "utc": "2026-10-03T03:32:58.211566+00:00",
+    "monotonic": 2944931.02962525,
+    "session_id": "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+    "pid": "91543",
+    "seconds_after_injection": 32.368711084127426,
+    "session_removed": true,
+    "runtime_fatal_report_retained": true,
+    "seconds_after_report": 32.09650545893237
+  }
+]

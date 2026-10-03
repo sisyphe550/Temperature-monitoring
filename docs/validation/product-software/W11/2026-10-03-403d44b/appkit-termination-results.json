@@ -1,0 +1,154 @@
+[
+  {
+    "mode": "task",
+    "pid": 7932,
+    "exit_code": -9,
+    "watchdog_timeout_seconds": 2,
+    "watchdog_fired": true,
+    "observed_monotonic_seconds": 2.003994458820671,
+    "events": [
+      {
+        "awake_seconds": 0.06802704185247421,
+        "event": "did_finish_launching",
+        "main_thread": true,
+        "mode": "task",
+        "pid": 7932
+      },
+      {
+        "awake_seconds": 0.12474508350715041,
+        "event": "task_timer_completed",
+        "main_thread": true,
+        "mode": "task",
+        "pid": 7932
+      },
+      {
+        "awake_seconds": 0.12481533316895366,
+        "event": "task_enter_terminate",
+        "main_thread": true,
+        "mode": "task",
+        "pid": 7932
+      },
+      {
+        "awake_seconds": 0.1249940418638289,
+        "event": "should_terminate_return_later",
+        "main_thread": true,
+        "mode": "task",
+        "pid": 7932
+      }
+    ],
+    "stderr_file": "/tmp/temperature-appkit-termination-harness/task.stderr.log"
+  },
+  {
+    "mode": "main-async",
+    "pid": 9273,
+    "exit_code": -9,
+    "watchdog_timeout_seconds": 2,
+    "watchdog_fired": true,
+    "observed_monotonic_seconds": 2.0034332079812884,
+    "events": [
+      {
+        "awake_seconds": 0.04931533336639404,
+        "event": "did_finish_launching",
+        "main_thread": true,
+        "mode": "main-async",
+        "pid": 9273
+      },
+      {
+        "awake_seconds": 0.10111612500622869,
+        "event": "task_timer_completed",
+        "main_thread": true,
+        "mode": "main-async",
+        "pid": 9273
+      },
+      {
+        "awake_seconds": 0.10125775029882789,
+        "event": "initial_task_returned",
+        "main_thread": true,
+        "mode": "main-async",
+        "pid": 9273
+      },
+      {
+        "awake_seconds": 0.10129175009205937,
+        "event": "main_async_enter_terminate",
+        "main_thread": true,
+        "mode": "main-async",
+        "pid": 9273
+      },
+      {
+        "awake_seconds": 0.10148233361542225,
+        "event": "should_terminate_return_later",
+        "main_thread": true,
+        "mode": "main-async",
+        "pid": 9273
+      }
+    ],
+    "stderr_file": "/tmp/temperature-appkit-termination-harness/main-async.stderr.log"
+  },
+  {
+    "mode": "runloop",
+    "pid": 10679,
+    "exit_code": 0,
+    "watchdog_timeout_seconds": 2,
+    "watchdog_fired": false,
+    "observed_monotonic_seconds": 0.12741099996492267,
+    "events": [
+      {
+        "awake_seconds": 0.044697458390146494,
+        "event": "did_finish_launching",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.09711754182353616,
+        "event": "task_timer_completed",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.09721287526190281,
+        "event": "initial_task_returned",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.09723104164004326,
+        "event": "runloop_enter_terminate",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.09738116664811969,
+        "event": "should_terminate_return_later",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.0974123333580792,
+        "event": "reply_task_started",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.12178400019183755,
+        "event": "reply_true",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      },
+      {
+        "awake_seconds": 0.12248858343809843,
+        "event": "will_terminate",
+        "main_thread": true,
+        "mode": "runloop",
+        "pid": 10679
+      }
+    ],
+    "stderr_file": "/tmp/temperature-appkit-termination-harness/runloop.stderr.log"
+  }
+]

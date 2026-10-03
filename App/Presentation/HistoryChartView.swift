@@ -3,10 +3,28 @@ import SwiftUI
 import TemperatureCore
 import TemperaturePresentation
 
-struct HistoryChartView: View {
+struct HistoryChartView: View, Equatable {
     let chartState: HistoryChartState
-    var asOf: Timestamp? = nil
+    let asOf: Timestamp?
     @State private var selectedDate: Date?
+
+    nonisolated static func == (lhs: Self, rhs: Self) -> Bool {
+        // Unchanged geometry ignores sub-millisecond clock jitter. Wall-clock
+        // changes still update both chart coordinates and selected-point time.
+        lhs.chartState == rhs.chartState && lhs.renderAnchorOffsetMS == rhs.renderAnchorOffsetMS
+    }
+
+    private nonisolated var renderAnchorOffsetMS: Int64? {
+        guard let anchor = asOf else { return nil }
+        let nsPerMS: Int64 = 1_000_000
+        // Split before subtracting/rounding so even extreme Int64 timestamps
+        // cannot overflow. Round the wall-minus-elapsed offset to the nearest ms.
+        let remainder = anchor.wallUnixNS % nsPerMS - anchor.elapsedNS % nsPerMS
+        let roundedRemainder = remainder + nsPerMS / 2
+        let adjustment = roundedRemainder >= 0 ? roundedRemainder / nsPerMS
+            : (roundedRemainder - (nsPerMS - 1)) / nsPerMS
+        return anchor.wallUnixNS / nsPerMS - anchor.elapsedNS / nsPerMS + adjustment
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -145,10 +163,9 @@ struct HistoryChartView: View {
     }
 
     private func date(for point: HistoryChartPlotPoint) -> Date {
-        if let anchor = asOf {
-            let wall = Double(anchor.wallUnixNS) / 1_000_000_000
-            let offset = Double(point.elapsedNS - anchor.elapsedNS) / 1_000_000_000
-            return Date(timeIntervalSince1970: wall + offset)
+        if let offsetMS = renderAnchorOffsetMS {
+            let seconds = Double(offsetMS) / 1_000 + Double(point.elapsedNS) / 1_000_000_000
+            return Date(timeIntervalSince1970: seconds)
         }
         let seconds = Double(point.wallUnixNS ?? point.elapsedNS) / 1_000_000_000
         return Date(timeIntervalSince1970: seconds)

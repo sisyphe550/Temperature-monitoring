@@ -246,7 +246,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
     }
 
     func quit() {
-        NSApp.terminate(nil)
+        // AppKit enters a nested loop for terminateLater. Run outside a Swift
+        // MainActor job (or main dispatch block) so async shutdown can reply.
+        RunLoop.main.perform(inModes: [.common]) {
+            MainActor.assumeIsolated { NSApp.terminate(nil) }
+        }
     }
 
     private static var isDebugBuild: Bool {

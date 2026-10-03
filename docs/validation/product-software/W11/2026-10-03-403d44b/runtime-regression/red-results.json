@@ -1,0 +1,20 @@
+[
+  {
+    "stage": "RED",
+    "scenario": "immediate",
+    "exit_code": 1,
+    "watchdog_fired": false,
+    "monotonic_seconds": 0.5319935837760568,
+    "stdout": "{\"awake_seconds\":0.0013150419108569622,\"event\":\"release_startup_discovery\",\"scenario\":\"immediate\"}\n{\"awake_seconds\":0.0029932083562016487,\"error\":\"MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: \\\"SessionMonitorController\\\", operation: \\\"history\\\", retryCount: 0, sourceID: nil, underlyingCode: Optional(\\\"not_running\\\"))\",\"event\":\"unexpected_query_error\",\"scenario\":\"immediate\"}\n{\"awake_seconds\":0.003021750133484602,\"event\":\"startup_sleep_conclusion\",\"fatal_code\":\"\",\"history_cancelled_as_suspended\":false,\"scenario\":\"immediate\"}\n{\"awake_seconds\":0.0030705835670232773,\"error\":\"MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: \\\"SessionMonitorController\\\", operation: \\\"history\\\", retryCount: 0, sourceID: nil, underlyingCode: Optional(\\\"not_running\\\"))\",\"event\":\"unexpected_wake_query_error\",\"scenario\":\"immediate\"}\n{\"awake_seconds\":0.0030914167873561382,\"event\":\"wake_conclusion\",\"fatal_code\":\"\",\"history_resumed\":false,\"scenario\":\"immediate\"}\n{\"awake_seconds\":0.016693249810487032,\"event\":\"normal_stop\",\"scenario\":\"immediate\"}\n",
+    "stderr": ""
+  },
+  {
+    "stage": "RED",
+    "scenario": "discover-held",
+    "exit_code": 1,
+    "watchdog_fired": false,
+    "monotonic_seconds": 0.017386541701853275,
+    "stdout": "{\"awake_seconds\":0.0054976665414869785,\"event\":\"release_startup_discovery\",\"scenario\":\"discover-held\"}\n{\"awake_seconds\":0.0066277082078158855,\"event\":\"startup_sleep_conclusion\",\"fatal_code\":\"\",\"history_cancelled_as_suspended\":false,\"scenario\":\"discover-held\"}\n{\"awake_seconds\":0.006667708046734333,\"event\":\"wake_conclusion\",\"fatal_code\":\"\",\"history_resumed\":true,\"scenario\":\"discover-held\"}\n{\"awake_seconds\":0.0091207083314657211,\"event\":\"normal_stop\",\"scenario\":\"discover-held\"}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "merge_commit": "403d44bab8f972461973c5a91699865b15515be2",
+  "parents": [
+    "0b720deb1d7fe170e55999f2709a3665634746da",
+    "357dbbd4df37cdaef5eab00163410d4c965fea9d"
+  ],
+  "retained_remote_branch_ref": "refs/remotes/origin/feature/product-audit-fixes",
+  "retained_remote_branch_sha": "357dbbd4df37cdaef5eab00163410d4c965fea9d",
+  "scope": "git fetch origin已在PR44合并后执行；这是该时点只读provenance，原功能分支未删除"
+}

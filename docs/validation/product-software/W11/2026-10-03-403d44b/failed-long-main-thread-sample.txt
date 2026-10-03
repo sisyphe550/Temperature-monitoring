@@ -1,0 +1,74 @@
+Analysis of sampling TemperatureMonitor (pid 86292) every 1 millisecond
+Process:         TemperatureMonitor [86292]
+Path:            /Users/USER/*/TemperatureMonitor.app/Contents/MacOS/TemperatureMonitor
+Load Address:    0x104c2c000
+Identifier:      io.github.sisyphe550.TemperatureMonitor
+Version:         0.1.0 (1)
+Code Type:       ARM64
+Platform:        macOS
+Parent Process:  launchd [1]
+Target Type:     live task
+
+Date/Time:       2026-10-03 10:47:33.129 +0800
+Launch Time:     2026-10-03 00:48:57.274 +0800
+OS Version:      macOS 15.7.3 (24G419)
+Report Version:  7
+Analysis Tool:   /usr/bin/sample
+
+Physical footprint:         107.5M
+Physical footprint (peak):  144.5M
+Idle exit:                  untracked
+----
+
+Call graph:
+    883 Thread_166081347: Main Thread
+    + 883 completeTaskWithClosure(swift::AsyncContext*, swift::SwiftError*)  (in libswift_Concurrency.dylib) + 1  [0x283c7c83d]
+    +   883 <deduplicated_symbol>  (in TemperatureMonitor) + 1  [0x104c338e5]
+    +     883 specialized thunk for @escaping @isolated(any) @callee_guaranteed @async () -> (@out A)  (in TemperatureMonitor) + 1  [0x104c32855]  /<compiler-generated>:0
+    +       883 <deduplicated_symbol>  (in TemperatureMonitor) + 1  [0x104c338e5]
+    +         883 closure #2 in AppDelegate.showFatal(_:delayMS:)  (in TemperatureMonitor) + 96  [0x104c3052c]  AppDelegate.swift:101
+    +           883 -[NSApplication terminate:]  (in AppKit) + 848  [0x19f6cfe64]
+    +             883 -[NSApplication _shouldTerminate]  (in AppKit) + 1188  [0x19f6dcaa8]
+    +               883 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:]  (in AppKit) + 688  [0x19fe68940]
+    +                 883 _DPSNextEvent  (in AppKit) + 684  [0x19f4c9a34]
+    +                   883 _BlockUntilNextEventMatchingListInModeWithFilter  (in HIToolbox) + 76  [0x1a71d7484]
+    +                     883 ReceiveNextEventCommon  (in HIToolbox) + 676  [0x1a704c4e8]
+    +                       883 RunCurrentEventLoopInMode  (in HIToolbox) + 324  [0x1a704927c]
+    +                         883 CFRunLoopRunSpecific  (in CoreFoundation) + 572  [0x19b5a89e8]
+    +                           882 __CFRunLoopRun  (in CoreFoundation) + 1208  [0x19b5a9528]
+    +                           ! 882 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x19b5aac0c]
+    +                           !   882 mach_msg  (in libsystem_kernel.dylib) + 24  [0x19b47dfa8]
+    +                           !     882 mach_msg_overwrite  (in libsystem_kernel.dylib) + 484  [0x19b486764]
+    +                           !       882 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x19b4903a0]
+    +                           !         882 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x19b47dc34]
+    +                           1 __CFRunLoopRun  (in CoreFoundation) + 784  [0x19b5a9380]
+    +                             1 __CFRunLoopDoObservers  (in CoreFoundation) + 536  [0x19b5a9d10]
+    +                               1 __CFRUNLOOP_IS_CALLING_OUT_TO_AN_OBSERVER_CALLBACK_FUNCTION__  (in CoreFoundation) + 36  [0x19b5a9e28]
+    +                                 1 ___NSRunLoopObserverCreateWithHandler_block_invoke  (in AppKit) + 64  [0x1a0035888]
+    +                                   1 __62+[CATransaction(NSCATransaction) NS_setFlushesWithDisplayLink]_block_invoke  (in AppKit) + 272  [0x19f5ebfb4]
+    +                                     1 CA::Transaction::commit()  (in QuartzCore) + 316  [0x1a4606260]
+    +                                       1 CA::Transaction::run_commit_handlers(CATransactionPhase)  (in QuartzCore) + 120  [0x1a4607a50]
+    +                                         1 NSDisplayCycleFlush  (in AppKit) + 656  [0x19f56be30]
+    +                                           1 NSDisplayCycleObserverInvoke  (in AppKit) + 168  [0x19f56c1b4]
+    +                                             1 __NSWindowGetDisplayCycleObserverForUpdateConstraints_block_invoke  (in AppKit) + 364  [0x19f56c354]
+    +                                               1 -[NSWindow(NSConstraintBasedLayoutInternal) updateConstraintsIfNeeded]  (in AppKit) + 172  [0x1a02d3dc4]
+    +                                                 1 -[NSView updateConstraintsForSubtreeIfNeeded]  (in AppKit) + 96  [0x19f54c0c4]
+    +                                                   1 NSPerformVisuallyAtomicChange  (in AppKit) + 108  [0x19f50b000]
+    +                                                     1 __45-[NSView updateConstraintsForSubtreeIfNeeded]_block_invoke  (in AppKit) + 224  [0x19f54c1b0]
+    +                                                       1 __45-[NSView updateConstraintsForSubtreeIfNeeded]_block_invoke_2  (in AppKit) + 52  [0x19ffeaf8c]
+    +                                                         1 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:]  (in AppKit) + 372  [0x19f54c4c0]
+    +                                                           1 -[NSView _updateConstraintsForSubtreeIfNeededCollectingViewsWithInvalidBaselines:]  (in AppKit) + 608  [0x19f54c5ac]
+    +                                                             1 @objc NSHostingView.updateConstraints()  (in SwiftUI) + 28  [0x1cbbfa410]
+    +                                                               1 NSHostingView.updateConstraints()  (in SwiftUI) + 132  [0x1cbbfa2d0]
+    +                                                                 1 NSHostingView.updateWindowContentSizeExtremaIfNecessary()  (in SwiftUI) + 828  [0x1cbbec654]
+    +                                                                   1 NSHostingView.minSize()  (in SwiftUI) + 412  [0x1cbbec010]
+    +                                                                     1 ViewRendererHost.sizeThatFits(_:)  (in SwiftUICore) + 136  [0x2029f1f8c]
+    +                                                                       1 ViewRendererHost.updateViewGraph<A>(body:)  (in SwiftUICore) + 120  [0x2029f24f8]
+    +                                                                         1 closure #1 in ViewRendererHost.sizeThatFits(_:)  (in SwiftUICore) + 80  [0x2029f5038]
+    +                                                                           1 specialized static ViewGraph.sizeThatFits(_:layoutComputer:insets:)  (in SwiftUICore) + 216  [0x202a100cc]
+    +                                                                             1 LayoutEngineBox.sizeThatFits(_:)  (in SwiftUICore) + 144  [0x202786ad0]
+    +                                                                               1 protocol witness for LayoutEngine.sizeThatFits(_:) in conformance UnaryLayoutEngine<A>  (in SwiftUICore) + 16  [0x2024e3920]
+    +                                                                                 1 UnaryLayoutEngine.sizeThatFits(_:)  (in SwiftUICore) + 140  [0x2024e3a20]
+    +                                                                                   1 ___chkstk_darwin  (in libsystem_pthread.dylib) + 0  [0x19b4bab84]
+
+[其他线程省略；原完整sample保留于验收临时目录]

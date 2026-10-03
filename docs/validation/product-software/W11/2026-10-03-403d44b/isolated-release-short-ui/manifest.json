@@ -1,0 +1,115 @@
+{
+  "tests": [
+    {
+      "test": "testLocalReleaseAppRealHardwareUI()",
+      "status": "Success",
+      "duration": "130.6221569776535"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Release-status-item-accessibility-and-scope",
+      "type": "public.plain-text",
+      "file": "01-Release-status-item-accessibility-and-scope.txt",
+      "bytes": 134,
+      "original_export_file": "01-Release-status-item-accessibility-and-scope.txt",
+      "sha256": "afa82f0b9a3eb3a3dfa69baf9f0325d06670a482492f4e0b941d2917d4086892"
+    },
+    {
+      "name": "Release-production-startup-dashboard",
+      "type": "public.png",
+      "file": "shots/02.png",
+      "bytes": 276989,
+      "original_export_file": "02-Release-production-startup-dashboard.png",
+      "sha256": "a0f722ae23eba109811ebefec40ec7f2abe868ef765525df83cb1be34ffede87"
+    },
+    {
+      "name": "Release-optional-source-states",
+      "type": "public.png",
+      "file": "shots/03.png",
+      "bytes": 302185,
+      "original_export_file": "03-Release-optional-source-states.png",
+      "sha256": "788beaef6796cbd12e80bc9912a5e88c8207101ee64aec7780e804847cb233cd"
+    },
+    {
+      "name": "Release-CPU-50ms-after-8s",
+      "type": "public.png",
+      "file": "shots/04.png",
+      "bytes": 295517,
+      "original_export_file": "04-Release-CPU-50ms-after-8s.png",
+      "sha256": "68c3afc86ee8427b76c6f9cbc45d44d792bc1525550eb18334175bb47a8eeb59"
+    },
+    {
+      "name": "Release-CPU-100ms-after-8s",
+      "type": "public.png",
+      "file": "shots/05.png",
+      "bytes": 296460,
+      "original_export_file": "05-Release-CPU-100ms-after-8s.png",
+      "sha256": "e1af6d3a8c56ce3dc6e686a923844e835d19401991eb98c82f88c5fcb4c07824"
+    },
+    {
+      "name": "Release-CPU-200ms-after-8s",
+      "type": "public.png",
+      "file": "shots/06.png",
+      "bytes": 296336,
+      "original_export_file": "06-Release-CPU-200ms-after-8s.png",
+      "sha256": "d16652ab668d12c57084ae3a6fa20560d894811f6b32576580a8142b98a3c902"
+    },
+    {
+      "name": "Release-CPU-500ms-after-8s",
+      "type": "public.png",
+      "file": "shots/07.png",
+      "bytes": 301328,
+      "original_export_file": "07-Release-CPU-500ms-after-8s.png",
+      "sha256": "73be2916715855aaee6f6ddc32d66ffddf73a7fffcd3cdf04daf98e7fe635aba"
+    },
+    {
+      "name": "Release-CPU-1000ms-after-8s",
+      "type": "public.png",
+      "file": "shots/08.png",
+      "bytes": 297467,
+      "original_export_file": "08-Release-CPU-1000ms-after-8s.png",
+      "sha256": "1b77f217595278e8338799eadc33fb0c84139742c01e8115f08cc9fb44f1142a"
+    },
+    {
+      "name": "Release-history-5 分钟",
+      "type": "public.png",
+      "file": "shots/09.png",
+      "bytes": 302312,
+      "original_export_file": "09-Release-history-5 分钟.png",
+      "sha256": "1afb281e23aca62183bef24c4d6f46625752693c421a77248c5cb23a0b4060e7"
+    },
+    {
+      "name": "Release-history-1 小时",
+      "type": "public.png",
+      "file": "shots/10.png",
+      "bytes": 300845,
+      "original_export_file": "10-Release-history-1 小时.png",
+      "sha256": "3e5a422a7ebc854731d0adb4643f4a8666d451a50a1b6fcf1ce2606d8aa3b7a3"
+    },
+    {
+      "name": "Release-status-after-dashboard-close",
+      "type": "public.png",
+      "file": "shots/11.png",
+      "bytes": 3549,
+      "original_export_file": "11-Release-status-after-dashboard-close.png",
+      "sha256": "1e020aae834587ee329ed147803a19cc7b5d48cde46755b4e39d654b8bbcce4d"
+    },
+    {
+      "name": "Release-reopened-same-session",
+      "type": "public.png",
+      "file": "shots/12.png",
+      "bytes": 306068,
+      "original_export_file": "12-Release-reopened-same-session.png",
+      "sha256": "c6aad47ee2926fd20162ebc7f9a487fc9d21a6f12c926e1fece9a4af784221aa"
+    },
+    {
+      "name": "Release-real-hardware-short-acceptance",
+      "type": "public.plain-text",
+      "file": "13-Release-real-hardware-short-acceptance.txt",
+      "bytes": 1756,
+      "original_export_file": "13-Release-real-hardware-short-acceptance.txt",
+      "sha256": "5bca8a576cb1d0d3f4710f452158c91d066b0231cde316f651ef640e7ab71eff"
+    }
+  ]
+}

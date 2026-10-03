@@ -107,6 +107,11 @@ public actor SessionMonitorController: MonitorController {
     }
 
     public func history(_ request: HistoryRequest) async throws -> HistoryResult {
+        // Normal sleep temporarily stops sampling; residual UI refreshes must
+        // be discarded without turning that lifecycle transition into Fatal.
+        if isSuspended {
+            throw CancellationError()
+        }
         guard running, let engine else {
             throw Self.failure(
                 code: .processingValidate,

@@ -1,0 +1,23 @@
+{
+  "tests": [
+    {
+      "test": "testLocalReleaseAppRealHardwareUI()",
+      "status": "Success",
+      "duration": "129.29370605945587"
+    }
+  ],
+  "formal_app": {
+    "path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+    "app_sha256": "9f786ee330531d2d194ef2c88f04c83c314de3253a1e218ea45df12f5aeabc3c",
+    "worker_sha256": "74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f"
+  },
+  "launch_arguments": [],
+  "fixture": false,
+  "configuration": "Release",
+  "runner_configuration": "Debug external Release target",
+  "model": "Mac16,13",
+  "os_build": "macOS15.7.3(24G419)",
+  "raw_log_path": "/tmp/temperature-w11-anchor-release-smoke.log",
+  "raw_log_sha256": "4c7a3b77d095d5fdf5491230075909b5624a6604bca9dc5cfab09d30a1594485",
+  "scope": "Five 8s phases and source/range/reopen/normal quit only; includes physical point selection; not 600s, physical menu or Notch qualification."
+}

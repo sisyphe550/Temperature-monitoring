@@ -1,6 +1,6 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本地原生温度监控项目。**2026-10-02实施契约v1族，contract revision 3**。生产Core、SensorWorker、App与Xcode工程已存在；本轮17项产品审查缺陷已修复并完成本机短时验证，修复已提交[PR #44](https://github.com/sisyphe550/Temperature-monitoring/pull/44)，按当前head门禁交维护者合并。
+Apple Silicon MacBook Air本地原生温度监控项目。**2026-10-02实施契约v1族，contract revision 3**。生产Core、SensorWorker、App与Xcode工程已存在；本轮17项产品审查缺陷已修复并完成本机短时验证，修复[PR #44](https://github.com/sisyphe550/Temperature-monitoring/pull/44)已于2026-10-03以merge commit `403d44b`合入main并保留功能分支。
 
 ## 接手开发
 
@@ -44,3 +44,17 @@ swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -ty
 本机已具备Xcode 26.3和Mac16,13目标机；[2026-10-02产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)确认CPU12正式读取链路可运行，同时发现历史、故障恢复、持久化和退出缺陷。本轮仅本机使用，用户豁免72/73小时长测、公证、公开发行与跨机型认证；分层历史最长72小时的功能保留。[a97fd5a修复验证](docs/validation/product-fixes/2026-10-02-a97fd5a/report.md)已完成：核心337项通过、当次行覆盖88.61%、fixture UI16项执行通过、正式Release实机1项通过；五档各8秒、CPU12/max/EMA、历史与正常退出清理有新证据。菜单栏隐藏时已提供主窗口/reopen/退出入口；物理右键菜单、真实系统睡眠和五档各10分钟未在最终构建验收，不声明全部132项完成。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入 main；后续功能从最新 main 创建 `feature/<功能>`。
 
 追加CI测试同步已修复并记录[651b29e报告](docs/validation/product-fixes/2026-10-03-651b29e/report.md)：最新337项回归通过、覆盖88.71%，生产代码不变。
+
+## 2026-10-03 当前验收入口
+
+按[W11刷新计划](docs/superpowers/plans/2026-10-03-w11-acceptance-refresh.md)继续[PR #26](https://github.com/sisyphe550/Temperature-monitoring/pull/26)。当前该PR为Draft：新实机睡眠发现#46/#47，需要修复、重新构建及复测。旧W11报告保留为历史，不能作为当前完整验收结论。
+
+[逐REQ证据目录](docs/contracts/acceptance-evidence-catalog-v1.json)内容格式version2：每份证据有独立source_commit、SHA256、环境和适用范围。基于已冻结的403/a97/651证据，94项本地验收、37项待验收、1项用户授权本地分发豁免；新修复的通过状态须用新证据更新，不由TC组整体结果推导。
+
+```sh
+python3 scripts/bind-acceptance-evidence.py            # 只读核对
+python3 scripts/validate-handoff.py                   # 文档/绑定一致性
+python3 scripts/validate-handoff.py --product-acceptance # 全验收；存在pending时必须失败
+```
+
+“应用读取时间”是软件收到有效数据的观测时间；“测量更新时间未知”表示SMC/NVMe/IOPS接口未提供可验证的硬件测量时间戳，不等于未读到温度。失败、缓存或超时由其它互斥展示状态表达。

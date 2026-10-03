@@ -1,0 +1,1 @@
+Status AX: exists true; isHittable false; frame (796.0, 4.5, 69.0, 24.0). Right-click/context menu has not been accepted by this test.

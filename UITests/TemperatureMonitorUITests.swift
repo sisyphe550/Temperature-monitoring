@@ -307,6 +307,16 @@ final class TemperatureMonitorUITests: XCTestCase {
             realScreenshot(dashboard, name: "Release-history-\(label)")
         }
 
+        let chart = app.descendants(matching: .any)["history.chart"].firstMatch
+        XCTAssertTrue(chart.waitForExistence(timeout: 5))
+        chart.coordinate(withNormalizedOffset: CGVector(dx: 0.6, dy: 0.45)).click()
+        let selection = app.descendants(matching: .any)["history.selection"].firstMatch
+        XCTAssertTrue(selection.waitForExistence(timeout: 5), "Equatable history must preserve local point selection.")
+        let selectedDetail = ([realText(selection)] + selection.staticTexts.allElementsBoundByIndex.map { realText($0) }).joined(separator: "\n")
+        XCTAssertTrue(selectedDetail.contains("°C"), selectedDetail)
+        XCTAssertTrue(selectedDetail.contains("个样本"), selectedDetail)
+        realScreenshot(dashboard, name: "Release-history-point-selection")
+
         dashboard.buttons[XCUIIdentifierCloseWindow].click()
         XCTAssertTrue(dashboard.waitForNonExistence(timeout: 5))
         XCTAssertTrue(status.exists)
@@ -330,6 +340,134 @@ final class TemperatureMonitorUITests: XCTestCase {
         evidence.name = "Release-real-hardware-short-acceptance"
         evidence.lifetime = .keepAlways
         add(evidence)
+    }
+
+    // Local opt-in acceptance; each period gets 600 awake seconds. System sleep is a separate run.
+    func testLocalReleaseAppFivePeriodsTenMinutes() throws {
+        let environment = ProcessInfo.processInfo.environment
+        let enabled = environment["TM_REAL_LONG_UI"] ?? environment["TEST_RUNNER_TM_REAL_LONG_UI"]
+        guard enabled == "1" else { throw XCTSkip("Set TM_REAL_LONG_UI=1 explicitly for the local five-period, 50-minute acceptance.") }
+        let ci = [environment["CI"], environment["GITHUB_ACTIONS"]].compactMap { $0?.lowercased() }
+        guard !ci.contains(where: { ["1", "true", "yes"].contains($0) }), environment["XCODE_CLOUD_WORKFLOW_ID"] == nil else {
+            throw XCTSkip("Long hardware acceptance must not run in CI.")
+        }
+        let paths = [environment["TM_REAL_APP_PATH"], environment["TEST_RUNNER_TM_REAL_APP_PATH"]].compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
+        let path = try XCTUnwrap(paths.first { !$0.isEmpty }, "An explicit, already built formal Release app path is required.")
+        let hold = environment["TM_REAL_LONG_HOLD_SECONDS"] ?? environment["TEST_RUNNER_TM_REAL_LONG_HOLD_SECONDS"] ?? "30"
+        XCTAssertEqual(Int(hold), 30, "The final SQLite collection window is fixed at 30 seconds.")
+        executionTimeAllowance = 4200
+        let appURL = URL(fileURLWithPath: path, isDirectory: true).standardizedFileURL
+        let bundle = try XCTUnwrap(Bundle(url: appURL))
+        XCTAssertEqual(bundle.bundleIdentifier, "io.github.sisyphe550.TemperatureMonitor")
+        XCTAssertTrue(FileManager.default.isExecutableFile(atPath: appURL.appendingPathComponent("Contents/MacOS/SensorWorker").path))
+        let user = try XCTUnwrap(getpwuid(getuid()))
+        let sessionsRoot = URL(fileURLWithPath: String(cString: user.pointee.pw_dir), isDirectory: true)
+            .appendingPathComponent("Library/Application Support/io.github.sisyphe550.TemperatureMonitor/Sessions", isDirectory: true)
+        let app = XCUIApplication(url: appURL)
+        XCTAssertEqual(app.state, .notRunning, "Normally quit the previous real session before beginning this run.")
+        let previousSessions = try realSessionNames(in: sessionsRoot)
+        app.launchArguments = []
+        addTeardownBlock {
+            await MainActor.run {
+                guard app.state != .notRunning else { return }
+                FileHandle.standardOutput.write(Data("LONG_UI_FINAL_SNAPSHOT failure_cleanup hold_seconds=30\n".utf8))
+                for seconds in [20.0, 10.0] { Thread.sleep(forTimeInterval: seconds) }
+                if !app.windows["温度监测"].exists { XCTAssertTrue(NSWorkspace.shared.open(appURL)) }
+                let quit = app.buttons["app.quit"]
+                if quit.waitForExistence(timeout: 5) { quit.click() }
+                XCTAssertTrue(app.wait(for: .notRunning, timeout: 10), "Normal failure cleanup did not finish; no force terminate was sent.")
+            }
+        }
+        app.launch()
+        let dashboard = app.windows["温度监测"]
+        XCTAssertTrue(dashboard.waitForExistence(timeout: 10), "Formal production launch must show the dashboard without --ui-open.")
+        let status = app.menuBars.statusItems["status.temperature"]
+        XCTAssertTrue(status.waitForExistence(timeout: 10))
+        XCTAssertTrue(realWaitUntil(timeout: 20) { self.realHasTemperature(self.statusValue(from: status)) })
+        let picker = app.popUpButtons["cpu.period"]
+        XCTAssertTrue(picker.waitForExistence(timeout: 5))
+        XCTAssertTrue(realWaitUntil(timeout: 5) { ((try? self.realSessionNames(in: sessionsRoot)) ?? []).subtracting(previousSessions).count == 1 })
+        let createdSessions = try realSessionNames(in: sessionsRoot).subtracting(previousSessions)
+        let sessionName = try XCTUnwrap(createdSessions.first)
+        let sessionDirectory = sessionsRoot.appendingPathComponent(sessionName, isDirectory: true)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: sessionDirectory.appendingPathComponent("monitor.sqlite").path))
+        let utc = ISO8601DateFormatter()
+        utc.timeZone = TimeZone(secondsFromGMT: 0)
+        utc.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        var timebase = mach_timebase_info_data_t()
+        XCTAssertEqual(mach_timebase_info(&timebase), KERN_SUCCESS)
+        var records: [[String: Any]] = []
+        var durations: [Double] = []
+        func record(_ event: String, _ details: [String: Any] = [:]) throws {
+            var item: [String: Any] = ["event": event, "utc": utc.string(from: Date()),
+                "awake_uptime_seconds": ProcessInfo.processInfo.systemUptime,
+                "continuous_monotonic_seconds": Double(mach_continuous_time()) * Double(timebase.numer) / Double(timebase.denom) / 1_000_000_000,
+                "session_id": sessionName, "app_path": appURL.path]
+            item.merge(details) { _, new in new }
+            records.append(item)
+            let data = try JSONSerialization.data(withJSONObject: item, options: [.sortedKeys])
+            FileHandle.standardOutput.write(Data((event + " " + String(decoding: data, as: UTF8.self) + "\n").utf8))
+        }
+        try record("LONG_UI_BEGIN", ["periods_ms": [50, 100, 200, 500, 1000], "required_awake_seconds_per_period": 600,
+            "launch_arguments": [], "status_exists": status.exists, "status_is_hittable": status.isHittable,
+            "scope": "Formal Release; no fixture; OS sleep/wake, SQL cadence, worker read-batch/skipped rates and display-delay percentiles require independent evidence."])
+        realScreenshot(dashboard, name: "LONG_UI-production-startup-dashboard")
+        for milliseconds in [50, 100, 200, 500, 1000] {
+            let label = "\(milliseconds) ms"
+            picker.click()
+            app.menuItems[label].click()
+            XCTAssertTrue(realWaitUntil(timeout: 5) { picker.value as? String == label })
+            let began = ProcessInfo.processInfo.systemUptime
+            let beganUTC = utc.string(from: Date())
+            try record("LONG_UI_PHASE_START", ["period_ms": milliseconds, "selected": picker.value as? String ?? "", "start_utc": beganUTC, "start_awake_uptime_seconds": began])
+            while ProcessInfo.processInfo.systemUptime - began < 600 {
+                let remaining = max(0, 600 - (ProcessInfo.processInfo.systemUptime - began))
+                Thread.sleep(forTimeInterval: min(20, remaining))
+                XCTAssertNotEqual(app.state, .notRunning)
+                // Bring this owned App forward before requesting an AX snapshot.
+                // Read each value once: separate snapshots can be invalidated by
+                // another application's permission dialog between assertions.
+                app.activate()
+                XCTAssertFalse(app.staticTexts["fatal.code"].exists)
+                XCTAssertTrue(picker.waitForExistence(timeout: 5), "CPU picker is missing after activation.")
+                let selectedPeriod = picker.value as? String ?? ""
+                XCTAssertEqual(selectedPeriod, label)
+                let temperature = statusValue(from: status)
+                XCTAssertTrue(realHasTemperature(temperature), temperature)
+                try record("LONG_UI_PROGRESS", ["period_ms": milliseconds, "selected": selectedPeriod,
+                    "held_awake_seconds": ProcessInfo.processInfo.systemUptime - began, "status": temperature])
+            }
+            let held = ProcessInfo.processInfo.systemUptime - began
+            XCTAssertGreaterThanOrEqual(held, 600)
+            durations.append(held)
+            try record("LONG_UI_PHASE_END", ["period_ms": milliseconds, "selected": picker.value as? String ?? "",
+                "start_utc": beganUTC, "start_awake_uptime_seconds": began, "held_awake_seconds": held, "status": statusValue(from: status)])
+            realScreenshot(dashboard, name: "LONG_UI-CPU-\(milliseconds)ms-after-600s")
+            let phaseJSON = XCTAttachment(data: try JSONSerialization.data(withJSONObject: records, options: [.prettyPrinted, .sortedKeys]), uniformTypeIdentifier: "public.json")
+            phaseJSON.name = "LONG_UI-through-\(milliseconds)ms-json"
+            phaseJSON.lifetime = .keepAlways
+            add(phaseJSON)
+        }
+        XCTAssertEqual(durations.count, 5)
+        XCTAssertGreaterThanOrEqual(durations.reduce(0, +), 3000)
+        XCTAssertEqual(try realSessionNames(in: sessionsRoot).subtracting(previousSessions), createdSessions)
+        try record("LONG_UI_FINAL_SNAPSHOT", ["hold_seconds": 30, "selected": picker.value as? String ?? "", "database_path": sessionDirectory.appendingPathComponent("monitor.sqlite").path])
+        for seconds in [20.0, 10.0] {
+            Thread.sleep(forTimeInterval: seconds)
+            try record("LONG_UI_HOLD_PROGRESS", ["hold_chunk_seconds": seconds, "selected": picker.value as? String ?? ""])
+        }
+        realScreenshot(dashboard, name: "LONG_UI-final-before-normal-quit")
+        let quit = app.buttons["app.quit"]
+        XCTAssertTrue(quit.waitForExistence(timeout: 5))
+        quit.click()
+        XCTAssertTrue(app.wait(for: .notRunning, timeout: 10))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: sessionDirectory.path))
+        XCTAssertTrue(try realSessionNames(in: sessionsRoot).subtracting(previousSessions).isEmpty)
+        try record("LONG_UI_COMPLETE", ["period_held_awake_seconds": durations, "total_period_awake_seconds": durations.reduce(0, +), "normal_quit": true, "created_session_removed": true])
+        let json = XCTAttachment(data: try JSONSerialization.data(withJSONObject: records, options: [.prettyPrinted, .sortedKeys]), uniformTypeIdentifier: "public.json")
+        json.name = "LONG_UI-five-periods-600s-and-normal-cleanup-json"
+        json.lifetime = .keepAlways
+        add(json)
     }
 
     private func realSessionNames(in root: URL) throws -> Set<String> {

@@ -1,6 +1,6 @@
 # Agent实施交接入口
 
-更新：2026-10-02；实施契约v1族，contract revision 3。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，并在发布条件具备时完成正式分发。
+更新：2026-10-03；实施契约v1族，contract revision 3。目标：接手agent无需读取本对话即可按确定的范围、接口、参数、测试和Git流程完成本地App，本轮仅本机ad-hoc交付；公证、公开发行和跨机型认证已由用户豁免。
 
 ## 先读的七份资料
 
@@ -40,7 +40,7 @@ C10用户授权清理不合适内容、补齐完整交接；上述产品收敛�
 ## 当前仓库实际状态
 
 - 有独立只读原型、8项原型测试、CI及2026-09-15 Mac16,13/15.7.3/24G419证据。
-- 生产Packages/TemperatureCore、SensorWorker、App和Xcode工程已创建；已按[产品审查修复计划](superpowers/plans/2026-10-02-product-audit-fixes.md)修复#27～#43；[最终代码a97fd5a报告](validation/product-fixes/2026-10-02-a97fd5a/report.md)记录337核心测试、88.61%覆盖、独立审查、16项fixture UI及正式Release本机短测。修复已推送[PR #44](https://github.com/sisyphe550/Temperature-monitoring/pull/44)；[测试同步补充](validation/product-fixes/2026-10-03-651b29e/report.md)记录最新337项回归和88.71%覆盖，生产代码不变，门禁以PR当前head为准，由维护者决定合并。[48cd967d审查](validation/product-review/2026-10-02-48cd967d/report.md)保留原始结论，新修复证据单独归档，不能直接改旧报告。原W11验收PR #26仍基于旧SHA，修复合入后须重新核对其证据。
+- 生产Packages/TemperatureCore、SensorWorker、App和Xcode工程已创建；已按[产品审查修复计划](superpowers/plans/2026-10-02-product-audit-fixes.md)修复#27～#43；[最终代码a97fd5a报告](validation/product-fixes/2026-10-02-a97fd5a/report.md)记录337核心测试、88.61%覆盖、独立审查、16项fixture UI及正式Release本机短测。修复[PR #44](https://github.com/sisyphe550/Temperature-monitoring/pull/44)已合入main `403d44b`；[测试同步补充](validation/product-fixes/2026-10-03-651b29e/report.md)记录最新337项回归和88.71%覆盖，该次生产代码不变，PR44合并前exact-head五检查与零blocking已核对。[48cd967d审查](validation/product-review/2026-10-02-48cd967d/report.md)保留原始结论，新修复证据单独归档，不能直接改旧报告。W11验收PR #26已恢复Draft；按[新计划](superpowers/plans/2026-10-03-w11-acceptance-refresh.md)刷新，不延用旧SHA的全通过结论。
 - 文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) merge commit 合入 main。`blocking-issues` 实现已由[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 合入；ruleset `main-protection` 已启用。其他独立功能从最新 main 起分支。
 - 既有原型/原始CSV/历史报告不能因产品范围调整而修改；新实测写新目录并记录源码SHA。
 
@@ -73,3 +73,13 @@ swift --version
 **正式交付完成：** 上述条件＋Developer ID/公证＋最终包复测＋所有适用发布要求通过，维护者完成PR合并及分发决策。
 
 外部输入清单已限定为完整Xcode、实机、仓库管理员权限和签名/公证凭证。缺凭证不阻塞本地开发；缺对应机型不能扩大兼容声明。文档完整也不能预先保证未来系统私有接口永不变化。
+
+## W11刷新：后续执行顺序
+
+1. [version2证据目录](contracts/acceptance-evidence-catalog-v1.json)与acceptance/17同步。当前94本地通过、37pending、1本地发行豁免；012/114仍retired。每项`covered_cases`与`outstanding`是后续验证清单。
+2. 修复实机睡眠误Fatal #46和runtime Fatal退出死锁 #47；工具证据边界修复记录在#48。完整核心、Release、独立审查通过后，才用最终代码/同App+worker哈希做新硬件验收。
+3. 用户明确保留五档各10分钟与真实系统睡眠/人工唤醒。失败长测仅第一档约305秒，不能计任一档600秒通过；没有完成实机时不得更新qualified combination。
+4. 仅有验收记录缺口、没有实际可复现错误的条目继续pending，不凭推断建产品bug。历史源码/CI/fixture和正式App实机分别绑定。
+5. 普通push更新既有PR26；当前原工作区及其用户文件保留。最新head五CI、独立审查和零blocking满足后，才由维护者决定merge commit；保留功能分支。
+
+执行`python3 scripts/validate-handoff.py`只证明文档与证据绑定一致；完整验收用`--product-acceptance`，pending存在时会拒绝。禁止把前者当成整个产品通过。

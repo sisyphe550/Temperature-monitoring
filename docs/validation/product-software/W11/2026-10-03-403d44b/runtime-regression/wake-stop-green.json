@@ -1,0 +1,10 @@
+{
+  "stage": "GREEN_WAKE_STOP",
+  "scenario": "stop-cancelled-wake",
+  "exit_code": 0,
+  "watchdog_fired": false,
+  "monotonic_seconds": 0.4930530833080411,
+  "stdout": "{\"awake_seconds\":0.0093903336673974991,\"event\":\"release_startup_discovery\",\"scenario\":\"stop-cancelled-wake\"}\n{\"awake_seconds\":0.0135582503862679,\"event\":\"startup_sleep_conclusion\",\"fatal_code\":\"\",\"history_cancelled_as_suspended\":true,\"scenario\":\"stop-cancelled-wake\"}\n{\"awake_seconds\":0.018158708699047565,\"event\":\"stop_cancelled_wake_conclusion\",\"fatal_code\":\"\",\"scenario\":\"stop-cancelled-wake\"}\n",
+  "stderr": "",
+  "tested_runtime_sha256": "507beff5fc748def778415af7ac66f9912f2dc4d63b48b791ae1ee78446b4aad"
+}

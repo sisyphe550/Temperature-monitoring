@@ -111,6 +111,7 @@ struct TemperatureDashboard: View {
             HistoryRangePicker(selectedRange: actions?.currentHistoryRange() ?? .fiveMinutes,
                 onSelect: { actions?.setHistoryRange($0) })
             HistoryChartView(chartState: running.chart, asOf: running.asOf)
+                .equatable()
                 .frame(minHeight: 220)
             Divider()
             temperatureComparison(running)

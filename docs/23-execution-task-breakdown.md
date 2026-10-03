@@ -205,6 +205,8 @@ flowchart LR
 
 ## 当前状态
 
-本文保留原50项任务及DAG用于追踪。生产App和产品任务已实现，当前按2026-10-02产品审查修复计划处理#27～#39并重新验收；当前状态以00和新日期/提交证据为准，2026-09-18记录保持历史。
+本文保留原50项任务及DAG用于追踪。生产App和产品任务已实现，PR44已修复#27～#43及测试同步#45并合入main403d44b；当前按[W11刷新计划](superpowers/plans/2026-10-03-w11-acceptance-refresh.md)处理新实机#46/#47与验收工具#48并重新验收；当前状态以00和新日期/提交证据为准，2026-09-18记录保持历史。
 
 本次拆分的一致性、依赖图和命令结果见[2026-09-19任务拆分验证](research/2026-09-19-task-breakdown-validation.md)。
+
+W11逐项缺口以`acceptance-v1.json`的`acceptance_notes.outstanding`及version2证据目录为准。50个任务/DAG不变；现行局部验收结果不是勾选整个W11完成的依据。 当前37项pending的最小验证、条件判定、依赖与禁止替代方式见[执行清单](validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.md)及[机器可读JSON](validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.json)；清单不新增需求、实现或验收通过结论。

@@ -3,12 +3,17 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
+import sys
 import json
 import re
 import sqlite3
 import tempfile
 from pathlib import Path
+
+sys.dont_write_bytecode = True
+from acceptance_evidence import TRACE_RESULT, load_and_validate, validate_bound
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -105,8 +110,8 @@ def validate_requirements() -> None:
         digest = hashlib.sha256(body_match.group(1).encode("utf-8")).hexdigest()
         if row.get("body_sha256") != digest:
             fail(f"{requirement_id}: body_sha256 is stale")
-        if row.get("verification") != "pending-product-acceptance":
-            fail(f"{requirement_id}: must remain pending-product-acceptance")
+        if row.get("verification") not in {"pending-product-acceptance", "product-accepted-local", "product-waived"}:
+            fail(f"{requirement_id}: invalid verification status")
         tasks = row.get("tasks")
         tests = row.get("tests")
         design = row.get("design")
@@ -136,8 +141,14 @@ def validate_requirements() -> None:
         if row.get("status") == "retired":
             if status.strip() != "已删除" or result.strip() != "不适用（已删除）":
                 fail(f"17-traceability.md: {requirement_id} retired labels are inconsistent")
-        elif status.strip() != "现行基线" or result.strip() != "未完成产品验收":
+        elif status.strip() != "现行基线" or result.strip() != TRACE_RESULT.get(row.get("verification")):
             fail(f"17-traceability.md: {requirement_id} active labels are inconsistent")
+
+    try:
+        catalog = load_and_validate(ROOT, contract)
+        for message in validate_bound(ROOT, catalog, contract): fail(message)
+    except ValueError as error:
+        fail(f"acceptance evidence: {error}")
 
 
 def validate_contract_values() -> None:
@@ -533,6 +544,9 @@ def validate_entry_contracts() -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--product-acceptance", action="store_true", help="require all active requirements accepted or explicitly waived")
+    args = parser.parse_args()
     validate_requirements()
     validate_contract_values()
     validate_third_party_contract()
@@ -541,6 +555,10 @@ def main() -> int:
     validate_entry_contracts()
     validate_links()
     validate_required_check_names()
+    if args.product_acceptance:
+        rows = load_json(CONTRACTS / "acceptance-v1.json").get("requirements", [])
+        pending = [row["id"] for row in rows if row.get("status") == "active" and row.get("verification") == "pending-product-acceptance"]
+        if pending: fail(f"product acceptance incomplete: {len(pending)} active requirements still pending: {pending}")
     if ERRORS:
         print(json.dumps({"status": "failed", "errors": ERRORS}, ensure_ascii=False, indent=2))
         return 1

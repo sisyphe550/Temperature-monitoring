@@ -1,0 +1,5 @@
+
+# Immutable compiler/test output may contain trailing spaces; do not normalize evidence.
+docs/validation/product-software/W11/**/logs/*.log -whitespace
+# Preserve the original Markdown hard line breaks.
+docs/validation/product-software/W11/report.md whitespace=-blank-at-eol

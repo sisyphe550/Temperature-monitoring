@@ -1,0 +1,47 @@
+{
+  "head_at_review": "403d44bab8f972461973c5a91699865b15515be2",
+  "working_tree_uncommitted": true,
+  "delivery_commit": "403d44bab8f972461973c5a91699865b15515be2",
+  "delivery_to_HEAD_ancestor_exit": 0,
+  "requirements": {
+    "active": 132,
+    "retired": 2,
+    "states": {
+      "product-accepted-local": 94,
+      "not-applicable": 2,
+      "pending-product-acceptance": 37,
+      "product-waived": 1
+    }
+  },
+  "tests": 35,
+  "test_exit": 0,
+  "binder_dry_exit": 0,
+  "handoff_exit": 0,
+  "product_acceptance_exit": 1,
+  "product_pending": 37,
+  "formal_environment": {
+    "actual_machine": "Mac16,13",
+    "actual_OS": "15.7.3/24G419",
+    "context": "frozen historical artifact; per-REQ bounds remain explicit",
+    "execution": "formal-release-app",
+    "build_configuration": "Release",
+    "fixture": false,
+    "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+    "app_sha256": "f1ae783663557fdf7da346f78f8d632748937c1bf239051a003c982ee683d95b",
+    "worker_sha256": "5e546ae7f7ba0d5f9d890fa662cd5f3f727ac71133d6c4e71eab6209bf7590ac",
+    "model": "Mac16,13",
+    "os_build": "24G419"
+  },
+  "file_sha256": {
+    "scripts/acceptance_evidence.py": "2ebaf49fd82b1c87fd2febdda44941b7f2a11b39336bfc60c994765a73abeacb",
+    "scripts/bind-acceptance-evidence.py": "102029e1926a243a68cb8fa6e75910b5ef872c91432474f041a32e1bf68b1012",
+    "scripts/validate-handoff.py": "65053d72c20f53eb5cb5d5f116405fc9384b76b819c298a1fef8d88c30d5ce73",
+    "scripts/tests/test-bind-acceptance-evidence.py": "0617448a037844f1df8785b9a2a9eeebc832f6b66d579fd409501c787cb9b271",
+    "docs/contracts/acceptance-evidence-catalog-v1.json": "37e7a82af324ef9110192305bb4022a22503cd11232e135686944d21c70b4a78",
+    "docs/contracts/acceptance-v1.json": "af83140b0d1c8a4984e022cb463fd72a6c27e1395334014ffc87e8f95744a42c",
+    "docs/17-traceability.md": "e81a2b29b67ce6dae5417c3bf4bc16f80863788236390b63908b8a8c7b7e6d3b",
+    ".github/workflows/handoff-docs.yml": "524ea6ec7ad0291f1e6c374ed328e27b97b670452551fc0cac019dd8dec5e140",
+    ".github/workflows/app.yml": "3258221d53dc9a619b87406468aeaaa1afe759632a2bce6af6b05dc7f7962b7c"
+  },
+  "scope": "tool/validator, CLI and temporary Git fixtures only; no GUI, App or hardware run; repository not edited by reviewer"
+}

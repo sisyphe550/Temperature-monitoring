@@ -1,0 +1,25 @@
+{
+  "correction_kind": "test_observer_path_correction",
+  "actual_reports_subdirectory": "Diagnostics/reports",
+  "initial_test_script_exit": 1,
+  "initial_failure": "incorrect nonrecursive report lookup; no production failure inferred",
+  "runtime_report": {
+    "app_version": "0.1.0",
+    "component": "SessionPersistence",
+    "error_code": "DB-INTEGRITY-010",
+    "incomplete_shutdown_steps": [],
+    "model": "Mac16,13",
+    "operation": "commit",
+    "os_build": "Version 15.7.3 (Build 24G419)",
+    "retry_count": 0,
+    "session_id": "bb3b778d-1696-4814-a768-7dc333b93d20",
+    "severity": "fatal",
+    "underlying_error": "owned_acceptance_runtime_fatal",
+    "written_at": "2026-10-03T03:15:41Z"
+  },
+  "old_session_report_still_retained": true,
+  "old_session_report_bytes_unchanged": true,
+  "process_exit_seconds": 30.34872683417052,
+  "own_session_directory_removed": true,
+  "formal_pass_status": "repeat corrected probe on final production code required"
+}

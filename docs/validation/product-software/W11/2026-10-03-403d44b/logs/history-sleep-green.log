@@ -1,0 +1,61 @@
+[0/1] Planning build
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/11] Emitting module SensorRuntime
+[4/11] Compiling SensorRuntime SessionMonitorController.swift
+[4/15] Write Objects.LinkFileList
+[8/15] Linking ProtocolWorker
+[9/15] Linking SensorWorker
+[10/15] Linking ProductQualification
+[11/15] Applying ProtocolWorker
+[12/15] Applying SensorWorker
+[13/15] Applying ProductQualification
+[14/15] Linking TemperatureCorePackageTests
+Build complete! (1.09s)
+Test Suite 'Selected tests' started at 2026-10-03 11:03:48.958.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-03 11:03:48.959.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-03 11:03:48.959.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 11:03:48.959.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite SuspendedHistoryRegressionTests started.
+◇ Suite RequestLifecycleRegressionTests started.
+◇ Suite LongSleepRecoveryRegressionTests started.
+◇ Suite OptionalSleepAdmissionRaceRegressionTests started.
+◇ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() started.
+◇ Test wakeFirstReadUsesNewRequestIdentity() started.
+◇ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+◇ Suite RuntimeShutdownRegressionTests started.
+◇ Suite OptionalWakeRecoveryRegressionTests started.
+◇ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() started.
+◇ Test case passing 1 argument range → .fiveMinutes to suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+◇ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() started.
+◇ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() started.
+◇ Test case passing 1 argument range → .oneHour to suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+✔ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) with 2 test cases passed after 0.048 seconds.
+◇ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+◇ Test case passing 1 argument range → .fiveMinutes to suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+✔ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() passed after 0.053 seconds.
+✔ Suite LongSleepRecoveryRegressionTests passed after 0.053 seconds.
+◇ Test case passing 1 argument range → .oneHour to suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+✔ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) with 2 test cases passed after 0.010 seconds.
+◇ Test unstartedAndStoppedHistoryKeepNotRunningFailure() started.
+✔ Test unstartedAndStoppedHistoryKeepNotRunningFailure() passed after 0.003 seconds.
+◇ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() started.
+✔ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() passed after 0.064 seconds.
+◇ Test stopWaitsForSessionDeletionAndIsIdempotent() started.
+✔ Test stopWaitsForSessionDeletionAndIsIdempotent() passed after 0.003 seconds.
+✔ Suite RuntimeShutdownRegressionTests passed after 0.067 seconds.
+✔ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() passed after 0.024 seconds.
+✔ Suite SuspendedHistoryRegressionTests passed after 0.086 seconds.
+✔ Test wakeFirstReadUsesNewRequestIdentity() passed after 0.221 seconds.
+✔ Suite RequestLifecycleRegressionTests passed after 0.221 seconds.
+✔ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() passed after 0.613 seconds.
+✔ Suite OptionalWakeRecoveryRegressionTests passed after 0.614 seconds.
+✔ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() passed after 0.616 seconds.
+✔ Suite OptionalSleepAdmissionRaceRegressionTests passed after 0.616 seconds.
+✔ Test run with 10 tests in 6 suites passed after 0.616 seconds.

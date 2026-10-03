@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 按现行132项需求实现可在首个目标MacBook Air运行的完整原生温度监测App，并形成测试、实机资格与独立分发证据。
+**Goal:** 按现行132项需求实现可在首个目标MacBook Air运行的完整原生温度监测App，并形成测试与本机资格证据。本轮用户豁免公证/公开发行，相关脚本仅保留为可选工具。
 
 **Architecture:** Swift模块化单体；普通用户SensorWorker串行读取硬件，主进程按真实时间加工。实时显示读有界EMA内存，Raw/EMA/聚合/趋势批量写SQLite，历史读SQLite；会话结束删除监控数据库。
 
@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- 本计划保留初始工作包的设计、接口和验收边界。生产代码、App项目和对应脚本已存在；当前按2026-10-02产品审查修复计划执行，命令块仍需在当前提交重新运行，不能把旧结果作为新修复证据。
+- 本计划保留初始工作包的设计、接口和验收边界。生产代码、App项目和对应脚本已存在；PR44修复已合入main403d44b，当前按[2026-10-03 W11刷新计划](superpowers/plans/2026-10-03-w11-acceptance-refresh.md)执行，命令块仍需在当前提交重新运行，不能把旧结果作为新修复证据。
 - 文档基线已由 PR #4 合入 main；`blocking-issues` 已由 PR #5 进入默认分支。T00.5 完成规则回读后，后续功能分支从包含该基线的最新 `main` 创建。不得只拉更旧的 main 然后重新发明设计。
 - 新功能使用`feature/**`分支；测试、独立审查、阻塞Issue检查通过后由维护者手动merge commit；保留远程分支。GitHub最低审批人数为0，独立审查证据仍是合并条件。
 - 预期部署目标arm64、macOS15.7.3；完整Xcode必须验证工具链能否表达patch级deployment target。首版runtime profile是`Mac16,13`。已有CLI证据来自15.7.3/build24G419；正式App通过W09之前qualified combinations为空。

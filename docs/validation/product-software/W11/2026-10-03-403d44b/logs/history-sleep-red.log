@@ -1,0 +1,278 @@
+[0/1] Planning build
+Building for debugging...
+[0/19] Write sources
+[8/19] Copying defaults-v1.json
+[9/21] Copying schema-v1.sql
+[10/21] Copying first-profile-v1.json
+[11/21] Write swift-version--58304C5D6DBC2206.txt
+[12/58] Compiling SensorBridge SensorBridge.c
+[14/59] Compiling TemperatureCore ErrorCoordinator.swift
+[15/59] Compiling TemperatureCore FatalDisplayReceipt.swift
+[16/59] Compiling TemperatureCore MonitorFailure.swift
+[17/59] Compiling TemperatureCore MonitorShutdown.swift
+[18/62] Compiling TemperatureCore Aggregation.swift
+[19/62] Compiling TemperatureCore CPUMaxDerivation.swift
+[20/62] Compiling TemperatureCore EMA.swift
+[21/62] Compiling TemperatureCore RingBuffer.swift
+[22/62] Compiling TemperatureCore Registry.swift
+[23/62] Compiling TemperatureCore SensorDecoding.swift
+[24/62] Compiling TemperatureCore SessionLock.swift
+[25/62] Compiling TemperatureCore BatchCanonicalHash.swift
+[26/62] Compiling TemperatureCore SessionCleanup.swift
+[27/62] Compiling TemperatureCore TemperatureCoreModule.swift
+[28/62] Compiling TemperatureCore resource_bundle_accessor.swift
+[29/62] Compiling TemperatureCore BoundedQueue.swift
+[30/62] Compiling TemperatureCore PersistenceBatchMetrics.swift
+[31/62] Compiling TemperatureCore SessionPersistence.swift
+[32/62] Compiling TemperatureCore StorageWriter.swift
+[33/62] Compiling TemperatureCore SafeWatermark.swift
+[34/62] Compiling TemperatureCore SampleValidation.swift
+[35/62] Compiling TemperatureCore Trend.swift
+[36/62] Compiling TemperatureCore QualifiedSensorClient.swift
+[37/62] Compiling TemperatureCore Clock.swift
+[38/62] Compiling TemperatureCore Configuration.swift
+[39/62] Compiling TemperatureCore ConnectionIdentity.swift
+[40/62] Compiling TemperatureCore Identifiers.swift
+[41/62] Compiling TemperatureCore ReportWriter.swift
+[42/62] Compiling TemperatureCore RetryPolicy.swift
+[43/62] Compiling TemperatureCore MetricResolver.swift
+[44/62] Compiling TemperatureCore MonitorEngine.swift
+[45/62] Compiling TemperatureCore BatchCommit.swift
+[46/62] Compiling TemperatureCore HistoryQuery.swift
+[47/62] Compiling TemperatureCore Retention.swift
+[48/62] Compiling TemperatureCore SQLiteStore.swift
+[49/62] Emitting module TemperatureCore
+[50/62] Compiling TemperatureCore PersistenceTypes.swift
+[51/62] Compiling TemperatureCore PresentationTypes.swift
+[52/62] Compiling TemperatureCore SensorTypes.swift
+[53/62] Compiling TemperatureCore DiagnosticLogger.swift
+[54/75] Compiling TemperaturePresentation PresentationModel.swift
+[55/75] Compiling TemperaturePresentation PresentationState.swift
+[56/75] Compiling TemperaturePresentation HistoryChartModel.swift
+[57/75] Emitting module TemperaturePresentation
+[58/75] Compiling SensorRuntime SeriesCatalogBuilder.swift
+[59/75] Emitting module SensorRuntime
+[60/75] Compiling SensorRuntime WorkerProtocol.swift
+[61/75] Compiling SensorRuntime SamplingService.swift
+[62/75] Compiling SensorRuntime WorkerClient.swift
+[63/75] Compiling SensorRuntime ProcessingCoordinator.swift
+[64/75] Compiling SensorRuntime SessionMonitorController.swift
+[65/145] Compiling ProtocolWorker main.swift
+[66/145] Emitting module ProtocolWorker
+[66/145] Write Objects.LinkFileList
+[68/145] Compiling ProductQualification SQLiteEvidence.swift
+[69/145] Compiling ProductQualification ProductQualificationMain.swift
+[69/145] Linking ProtocolWorker
+[70/145] Applying ProtocolWorker
+[72/145] Compiling ProductQualification SchedulesCollector.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Sources/ProductQualification/SchedulesCollector.swift:179:25: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+177 |         var model = [CChar](repeating: 0, count: size)
+178 |         sysctlbyname("hw.model", &model, &size, nil, 0)
+179 |         let hostModel = String(cString: model)
+    |                         `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+180 |         guard hostModel == profile.model else {
+181 |             throw QualificationError.hostModelMismatch(expected: profile.model, actual: hostModel)
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[73/145] Compiling ProductQualification SourcesCollector.swift
+[74/145] Compiling SensorWorker SensorBridgeSupport.swift
+[75/145] Compiling SensorWorker WorkerClock.swift
+[76/145] Emitting module SensorWorker
+[77/145] Compiling SensorWorker SensorWorkerEntry.swift
+[78/145] Compiling SensorWorker HardwareSession.swift
+[79/145] Compiling ProductQualification EnduranceCollector.swift
+[80/145] Compiling SensorRuntimeTests SessionClockRegressionTests.swift
+[80/146] Write Objects.LinkFileList
+[81/146] Linking SensorWorker
+[82/146] Applying SensorWorker
+[84/146] Compiling ProductQualification Entry.swift
+[85/146] Emitting module ProductQualification
+[86/146] Compiling ProductQualification LifecycleCollector.swift
+[87/146] Emitting module SensorRuntimeTests
+[87/146] Write Objects.LinkFileList
+[88/146] Linking ProductQualification
+[90/146] Compiling SensorRuntimeTests SensorDecodingTests.swift
+[90/146] Applying ProductQualification
+[92/146] Compiling SensorRuntimeTests WorkerProtocolTests.swift
+[93/146] Compiling SensorRuntimeTests WorkerLifecycleTests.swift
+[94/146] Compiling SensorRuntimeTests WorkerTestSupport.swift
+[95/146] Compiling SensorRuntimeTests SourceRegistryTests.swift
+macro expansion #expect:1:22: warning: no calls to throwing functions occur within 'try' expression
+`- /private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift:224:59: note: expanded code originates here
+222 |         let metrics = try MetricResolver.seriesMetricIDs(for: qualified.available)
+223 |         #expect(metrics.count == 1)
+224 |         #expect(try metrics[0].rawValue == "cpu.zone.max")
+    |         `- note: in expansion of macro 'expect' here
+    +--- macro expansion #expect ---------------------------------------
+    |1 | Testing.__checkValue(try metrics[0].rawValue == "cpu.zone.max",expression: .__fromSyntaxNode(#"try metrics[0].rawValue == "cpu.zone.max""#),comments: [],isRequired: false,sourceLocation: Testing.SourceLocation.__here()).__expected()
+    |  |                      `- warning: no calls to throwing functions occur within 'try' expression
+    +-------------------------------------------------------------------
+225 |     }
+226 | 
+[96/146] Compiling TemperatureCoreTests SuspendedHistoryRegressionTests.swift
+[97/146] Compiling TemperatureCoreTests ControllerFixture.swift
+[98/146] Compiling TemperatureCoreTests Fixtures.swift
+[99/146] Compiling TemperatureCoreTests ProcessorFixture.swift
+[100/150] Compiling SensorRuntimeTests ProcessingCoordinatorTests.swift
+[101/150] Compiling SensorRuntimeTests SamplingServiceTests.swift
+[102/150] Compiling TemperatureCoreTests AggregationTests.swift
+[103/150] Compiling TemperatureCoreTests AppBundleConfigurationTests.swift
+[104/150] Compiling SensorRuntimeTests OptionalSourceQualificationTests.swift
+[105/150] Compiling TemperatureCoreTests RetryPolicyTests.swift
+[106/150] Compiling TemperatureCoreTests RingBufferTests.swift
+[107/150] Compiling TemperatureCoreTests RuntimeMaintenanceRegressionTests.swift
+[108/150] Compiling TemperatureCoreTests RuntimeShutdownRegressionTests.swift
+[109/150] Compiling TemperatureCoreTests SQLiteStoreTests.swift
+[110/150] Compiling TemperatureCoreTests ConfigurationTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[111/150] Compiling TemperatureCoreTests ContractCoverageTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[112/150] Compiling TemperatureCoreTests ContractTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[113/150] Compiling TemperatureCoreTests DiagnosticsTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[114/150] Compiling TemperatureCoreTests EMAProcessorTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift:119:9: warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+117 |     reportFileCount: Int? = nil
+118 | ) throws -> RuntimeConfiguration {
+119 |     var defaults = try Configuration.bundledDefaults()
+    |         `- warning: variable 'defaults' was never mutated; consider changing to 'let' constant
+120 |     let encoder = JSONEncoder()
+121 |     var data = try encoder.encode(defaults)
+[115/150] Compiling TemperatureCoreTests TemporaryStoreFixture.swift
+[116/150] Compiling TemperatureCoreTests TestClock.swift
+[117/150] Compiling TemperatureCoreTests TrendTests.swift
+[118/150] Compiling TemperatureCoreTests WatermarkTests.swift
+[121/150] Compiling TemperatureCoreTests BackpressureTests.swift
+[122/150] Compiling TemperatureCoreTests ClockTests.swift
+[123/150] Compiling TemperatureCoreTests CommitRegressionTests.swift
+[124/150] Compiling TemperatureCoreTests HistoryQueryTests.swift
+[125/150] Compiling TemperatureCoreTests HistorySourceContinuityRegressionTests.swift
+[126/150] Compiling TemperatureCoreTests LongSleepRecoveryRegressionTests.swift
+[127/150] Compiling TemperatureCoreTests MonitorIntegrationTests.swift
+[128/150] Compiling TemperatureCoreTests OptionalAvailabilityIntegrationTests.swift
+[129/150] Emitting module TemperatureCoreTests
+[130/150] Compiling TemperatureCoreTests OptionalGenerationRecoveryRegressionTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[131/150] Compiling TemperatureCoreTests OptionalProbeBudgetAcrossReconnectTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[132/150] Compiling TemperatureCoreTests OptionalSleepAdmissionRaceRegressionTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[133/150] Compiling TemperatureCoreTests OptionalWakeRecoveryRegressionTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[134/150] Compiling TemperatureCoreTests PresentationHistoryRegressionTests.swift
+/private/tmp/temperature-history-sleep-stage/Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift:18:13: warning: expression following 'return' is treated as an argument of the 'return'
+ 16 |             else { valueC = 50 }
+ 17 |             return
+ 18 |             HistoryPoint(
+    |             |- warning: expression following 'return' is treated as an argument of the 'return'
+    |             `- note: indent the expression to silence this warning
+ 19 |                 seriesID: seriesID, segment: 1,
+ 20 |                 elapsedNS: elapsedNS, wallUnixNS: wallNS, valueC: valueC,
+[135/150] Compiling TemperatureCoreTests SensorRecoveryRegressionTests.swift
+[136/150] Compiling TemperatureCoreTests SessionLifecycleTests.swift
+[137/150] Compiling TemperatureCoreTests StorageFaultTests.swift
+[138/150] Compiling TemperatureCoreTests StorageLifecycleRegressionTests.swift
+[139/150] Compiling TemperatureCoreTests EndToEndTests.swift
+[140/150] Compiling TemperatureCoreTests EngineGapRegressionTests.swift
+[141/150] Compiling TemperatureCoreTests ErrorCoordinatorTests.swift
+[142/150] Compiling TemperatureCoreTests HistoryBudgetRegressionTests.swift
+[143/150] Compiling TemperatureCoreTests HistoryChartModelTests.swift
+[144/150] Compiling TemperatureCoreTests PresentationModelTests.swift
+[145/150] Compiling TemperatureCoreTests ProcessingIdentityTests.swift
+[146/150] Compiling TemperatureCoreTests RecoveredSourceGapRegressionTests.swift
+[147/150] Compiling TemperatureCoreTests RequestLifecycleRegressionTests.swift
+[148/150] Compiling TemperatureCoreTests RetentionTests.swift
+[149/152] Compiling TemperatureCorePackageTests runner.swift
+[150/152] Emitting module TemperatureCorePackageTests
+[150/152] Write Objects.LinkFileList
+[151/152] Linking TemperatureCorePackageTests
+Build complete! (10.10s)
+Test Suite 'Selected tests' started at 2026-10-03 11:00:52.676.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-03 11:00:52.677.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-03 11:00:52.677.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 11:00:52.677.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite SuspendedHistoryRegressionTests started.
+◇ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+◇ Test case passing 1 argument range → .fiveMinutes to suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+✘ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) recorded an issue with 1 argument range → .fiveMinutes at SuspendedHistoryRegressionTests.swift:107:25: Issue recorded
+↳ Normal sleep returned a failure instead of CancellationError: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "SessionMonitorController", operation: "history", retryCount: 0, sourceID: nil, underlyingCode: Optional("not_running"))
+◇ Test case passing 1 argument range → .oneHour to suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+✘ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) recorded an issue with 1 argument range → .oneHour at SuspendedHistoryRegressionTests.swift:107:25: Issue recorded
+↳ Normal sleep returned a failure instead of CancellationError: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "SessionMonitorController", operation: "history", retryCount: 0, sourceID: nil, underlyingCode: Optional("not_running"))
+✘ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) with 2 test cases failed after 0.048 seconds with 2 issues.
+◇ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+◇ Test case passing 1 argument range → .fiveMinutes to suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+✘ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) recorded an issue with 1 argument range → .fiveMinutes at SuspendedHistoryRegressionTests.swift:107:25: Issue recorded
+↳ Normal sleep returned a failure instead of CancellationError: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "SessionMonitorController", operation: "history", retryCount: 0, sourceID: nil, underlyingCode: Optional("not_running"))
+◇ Test case passing 1 argument range → .oneHour to suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+✘ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) recorded an issue with 1 argument range → .oneHour at SuspendedHistoryRegressionTests.swift:107:25: Issue recorded
+↳ Normal sleep returned a failure instead of CancellationError: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "SessionMonitorController", operation: "history", retryCount: 0, sourceID: nil, underlyingCode: Optional("not_running"))
+✘ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) with 2 test cases failed after 0.011 seconds with 2 issues.
+◇ Test unstartedAndStoppedHistoryKeepNotRunningFailure() started.
+✔ Test unstartedAndStoppedHistoryKeepNotRunningFailure() passed after 0.003 seconds.
+◇ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() started.
+✘ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() recorded an issue at SuspendedHistoryRegressionTests.swift:107:25: Issue recorded
+↳ Normal sleep returned a failure instead of CancellationError: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "SessionMonitorController", operation: "history", retryCount: 0, sourceID: nil, underlyingCode: Optional("not_running"))
+✘ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() recorded an issue at SuspendedHistoryRegressionTests.swift:107:25: Issue recorded
+↳ Normal sleep returned a failure instead of CancellationError: MonitorFailure(code: TemperatureCore.MonitorErrorCode.processingValidate, severity: TemperatureCore.Severity.fatal, component: "SessionMonitorController", operation: "history", retryCount: 0, sourceID: nil, underlyingCode: Optional("not_running"))
+✘ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() failed after 0.026 seconds with 2 issues.
+✘ Suite SuspendedHistoryRegressionTests failed after 0.089 seconds with 6 issues.
+✘ Test run with 4 tests in 1 suite failed after 0.089 seconds with 6 issues.

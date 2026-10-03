@@ -1,0 +1,17 @@
+{
+  "baseline_commit": "403d44bab8f972461973c5a91699865b15515be2",
+  "scope": "user-authorized local-only delivery",
+  "waived": [
+    "72/73h endurance",
+    "notarization",
+    "public distribution",
+    "cross-machine qualification"
+  ],
+  "retained": [
+    "five CPU periods each >=600 awake seconds",
+    "real system sleep/wake",
+    "72h history software retention"
+  ],
+  "evidence": "用户明确仅本机自用；2026-10-03回复保留五档各10分钟/真实睡眠；合盖中断后明确现在可开盖约51分钟。",
+  "result": "waived for distribution only; retained cases not declared passed"
+}

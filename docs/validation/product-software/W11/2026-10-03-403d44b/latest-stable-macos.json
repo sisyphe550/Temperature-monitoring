@@ -1,0 +1,19 @@
+{
+  "checked_at_utc": "2026-10-03T02:48:51.246328+00:00",
+  "rc_baseline": "403d44bab8f972461973c5a91699865b15515be2",
+  "highest_stable_macos": "27.0.1",
+  "release_build": "26A434",
+  "released_on": "2026-09-28",
+  "sources": [
+    {
+      "url": "https://support.apple.com/en-us/100100",
+      "fact": "latest macOS 27.0.1, macOS Golden Gate 27.0.1 released 28 Sep 2026"
+    },
+    {
+      "url": "https://developer.apple.com/news/releases/?id=09282026c",
+      "fact": "macOS 27.0.1 (26A434), September 28, 2026"
+    }
+  ],
+  "runtime_qualified": false,
+  "scope": "Official version reference only; does not qualify local App on macOS27 and does not upgrade the user OS."
+}

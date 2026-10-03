@@ -1,0 +1,6 @@
+{
+  "tests": 341,
+  "suites": 53,
+  "coverage_check_exit_code": 0,
+  "scope": "TemperatureCore and SensorRuntime production sources; App/UI/C bridge excluded. App source changes require separate checks."
+}
