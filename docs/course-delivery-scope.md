@@ -57,3 +57,5 @@ python3 scripts/validate-handoff.py --strict-product-acceptance
 ## 本轮测试与交付记录
 
 当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
+
+Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)；原取消任务保留，App与有效测试断言不变。最终同head五CI和零blocking仍按Git流程回读。

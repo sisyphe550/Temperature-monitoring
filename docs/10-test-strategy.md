@@ -86,3 +86,9 @@ python3 scripts/validate-handoff.py --strict-product-acceptance
 course-local检查COURSE-CPU/FUNCTIONS/RESOURCES/REGRESSIONS/CORE，strict保留旧全132项资格；不是同一完成状态。核心≥80%及异常分母不变。最终独立审查、同head五CI和零真实blocking在11的外部流程回读，不让文档CI要求自身未来完成。
 
 [7124归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留断管错误/子进程回收、完整Core和原正式App短测；[f0归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)保留Generation/Budget/Wake/SleepAdmissionRace的提交边界同步、失败及负控。旧逐REQ仍100accepted/31pending/1waived/2retired；本轮全Core与正式短测须另绑定实际源码/产物，不因这些链接预先通过。
+
+## Core测试编排与超时
+
+独立Core用例显式使用`swift test --package-path Packages/TemperatureCore --no-parallel --enable-code-coverage`，以实际suite顺序验证串行生效。用例内部的Task并发、取消与race断言全部保留，355项/80%门槛不删减。CI设置10分钟任务超时；超时仍为失败，不以此标通过。PR8222某份Core任务在20suite同时停止后人工取消，原记录不回写；相关修正与新CI另归档。
+
+[本次编排回归](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)：355项/57组通过，核心覆盖88.84%，日志确认独立用例串行；原取消CI记录保留，最终head外部门禁另回读。

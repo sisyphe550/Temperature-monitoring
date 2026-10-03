@@ -30,3 +30,7 @@ docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-Optiona
 # Preserve native Xcode/Swift output verbatim in this immutable evidence directory.
 docs/validation/course-delivery/2026-10-03-5984b9e/automated-attempt-ui.log -whitespace
 docs/validation/course-delivery/2026-10-03-5984b9e/full-core.log -whitespace
+
+# Preserve original output for the course CI orchestration record.
+docs/validation/course-delivery/2026-10-03-8222e0a-ci/cancelled-ci.log -whitespace
+docs/validation/course-delivery/2026-10-03-8222e0a-ci/serial-core.log -whitespace
