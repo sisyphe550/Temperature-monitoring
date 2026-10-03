@@ -44,6 +44,12 @@ public final class TestClock: MonitorClock, @unchecked Sendable {
         }
     }
 
+    var pendingSleepDeadlinesForTesting: [Int64] {
+        lock.lock()
+        defer { lock.unlock() }
+        return waiters.values.map(\.deadline).sorted()
+    }
+
     public func advance(to timestamp: Timestamp) {
         lock.lock()
         if timestamp.elapsedNS < current.elapsedNS {
