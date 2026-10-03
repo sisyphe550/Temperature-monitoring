@@ -1,0 +1,1358 @@
+{
+  "format_version": 1,
+  "created_at_utc": "2026-10-03T03:54:23.927383+00:00",
+  "review_kind": "read-only-pending-execution-checklist",
+  "repository": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring",
+  "actual_head": "403d44bab8f972461973c5a91699865b15515be2",
+  "catalog_delivery_commit": "403d44bab8f972461973c5a91699865b15515be2",
+  "contract_revision": 3,
+  "pending_count": 37,
+  "category_counts": {
+    "已有功能但缺证据": 14,
+    "需要实机交互或最终资格审查": 10,
+    "文档条件适用性或实现差异待判定": 12,
+    "已确认 bug，新证据待集成及剩余组合回归": 1
+  },
+  "source_sha256": {
+    "docs/contracts/acceptance-evidence-catalog-v1.json": "5f4cea219d68381a0a85c6e923ce91e5ff656a6223d4876d24752b90b81ca8fd",
+    "docs/01-requirements.md": "479ee4469477ab871ec7c6cf43556a46016c8bf4657e8ada98b5affffa3775d1",
+    "docs/10-test-strategy.md": "9bfeb8223ea711a7ff2d05fce84df98ecf77a387551f50f9024554a3f2e1c0ad",
+    "docs/23-execution-task-breakdown.md": "05c866cef62fa2f803d8ac2f2e1799c17c442b7fddcfb80a0341d6e6a280ddcb"
+  },
+  "scope": "当前37项pending的只读执行建议与证据集成清单；本次不运行App/产品测试、不修改需求/生产代码或验收结果、不新增Issue。工具/新回归的执行结果引用原始记录；逐REQ仍以实际绑定证据和独立审查判定。",
+  "preserved_waivers": [
+    "REQ-127 whole requirement local distribution waiver",
+    "72/73h physical endurance",
+    "notarization/public distribution",
+    "other-model certification"
+  ],
+  "still_required": [
+    "72h software history/TTL",
+    "five CPU periods each >=600 awake seconds",
+    "real system sleep/wake",
+    "qualified source identity, units, CPU12 and gaps"
+  ],
+  "stages": [
+    {
+      "id": "G0",
+      "name": "固定当前候选与证据目录",
+      "depends_on": [],
+      "action": "读取最新实际生产提交及未提交变更，冻结source/App/worker/profile/签名/机型OS；正式App验收由根agent串行调度，不启动第二App、不抢会话、不回写历史。"
+    },
+    {
+      "id": "G1",
+      "name": "先判定条件和模型差异",
+      "depends_on": [
+        "G0"
+      ],
+      "action": "先处理058/061读重试归属、064–067暂时数学条件、079/082事件报告字段。欠测不是新bug；真实差异只有在具体条件复现后才按项目流程登记。"
+    },
+    {
+      "id": "G2",
+      "name": "独立补软件执行证据",
+      "depends_on": [
+        "G0"
+      ],
+      "action": "合法虚拟时间+真实SQLite验证TTL、maintenance、日志保存、无效值/损坏/实际App查询重试路径；相关路径需G1结论。执行结果不在本清单产生。"
+    },
+    {
+      "id": "G3",
+      "name": "既有#46/#47回归与新证据集成",
+      "depends_on": [
+        "G0"
+      ],
+      "action": "集成已GREEN的启动/睡眠history取消软件记录及#47新Release运行中Fatal自动退出实机PASS；退出途中wake取消待GREEN/独立复核。真实系统sleep/wake、REQ078剩余组合条件与新生产身份仍须分别复核。"
+    },
+    {
+      "id": "G4",
+      "name": "真实屏幕与同hash资格",
+      "depends_on": [
+        "G0",
+        "G3"
+      ],
+      "action": "配合根agent完成五档各600s清醒运行、真实系统sleep/wake、菜单/Popover、Fatal操作、受控残留恢复；软件补测可并行，不干预现有长测。"
+    },
+    {
+      "id": "G5",
+      "name": "最后逐REQ/阶段/交付门禁",
+      "depends_on": [
+        "G1",
+        "G2",
+        "G3",
+        "G4"
+      ],
+      "action": "逐项复审结果，保存132+2矩阵、独立审查、exact-head CI/ruleset/blocking与最终product-acceptance输出；维护者决定merge。099–106当前保守待整体复核，不由一个TC引用自动通过。"
+    }
+  ],
+  "confirmed_issue_gates": [
+    {
+      "issue": "#46",
+      "status": "启动/睡眠history取消软件GREEN，待仓内证据集成；退出途中wake取消RED，待GREEN/独立复核；真实系统sleep/wake资格仍未据此通过。",
+      "production_scope": "合法sleep暂停期间历史查询取消，不访问关闭的persistence，不标Fatal；醒后重新采样/查询",
+      "related_pending_requirements": [
+        "REQ-094",
+        "REQ-101",
+        "REQ-102",
+        "REQ-103",
+        "REQ-110"
+      ],
+      "existing_regression_file": "Packages/TemperatureCore/Tests/TemperatureCoreTests/SuspendedHistoryRegressionTests.swift",
+      "minimum_hardware_evidence": "真实系统睡眠/人工唤醒的同session时间线、OS电源日志、App通知/无Fatal、Gap新segment及醒后采样；记录至少计划要求的生命周期轮次。",
+      "cannot_be_replaced_by": "直接Controller.suspend/resume、pmset日志单独存在、软件GREEN、黑屏截图或长测被合盖打断。"
+    },
+    {
+      "issue": "#47",
+      "status": "新Release运行中Fatal自动退出实机PASS，Session删除、报告保留；待新身份/仓内artifact集成及REQ078剩余组合条件复核。",
+      "production_scope": "runtime Fatal退出的AppKit RunLoop入口及terminateLater收尾",
+      "related_pending_requirements": [
+        "REQ-078",
+        "REQ-094",
+        "REQ-102",
+        "REQ-103",
+        "REQ-110"
+      ],
+      "existing_regression_file": "App/AppDelegate.swift及根agent退出最小RED/GREEN证据",
+      "minimum_hardware_evidence": "新Release运行中Fatal可见30s后的自动退出、≤5s清理、按钮退出与未完成步骤/下一次启动处理；主App/worker进程和目录证据。",
+      "cannot_be_replaced_by": "旧启动missingWorker fallback约31s、正常退出、RunLoop最小探针或单元测试。"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "REQ-031",
+      "title": "限制高精度历史规模",
+      "requirement_body": "在 `samples_1s` 记录超过 1 小时时，数据清理构件应删除其中时间最早的超期记录。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "在RetentionTests/TemporaryStoreFixture的真实SQLite写入width_s=1桶，end_elapsed_ns分别为now−3600s−1ns、cutoff、cutoff+1ns；调用生产prune，按桶身份断言前两条删除、后一条存留。",
+      "dependencies": "先核对cutoff半开语义及同series/segment合法父层；可与033/034并行，036复用结果。",
+      "cannot_be_replaced_by": "不能用现有width_s=10的86400s测试、配置常量、总行数或长睡眠空表替代1s层身份边界。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "未见1s层3600s cutoff两侧记录独立存留/删除断言；现有精确cutoff测试针对10s层。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-033",
+      "title": "冻结最大历史范围",
+      "requirement_body": "在 `samples_1m` 记录超过 72 小时时，数据清理构件应删除其中时间最早的超期记录。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "同一真实SQLite中写入width_s=60的1m桶，end_elapsed_ns位于now−259200s的−1/0/+1ns；prune后按身份验证过期删除与未过期存留。",
+      "dependencies": "先准备有效定义/segment/桶；036依赖本项。",
+      "cannot_be_replaced_by": "不需真实72h等待；用户豁免耐久不能免除72h软件TTL，现有不含1m过期行的长睡眠测试不能替代。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "补1m层259200s cutoff两侧记录、prune后计数/身份断言；只需虚拟时间+真实SQLite，72/73h耐久已豁免。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-034",
+      "title": "趋势结果不形成另一套长期数据库",
+      "requirement_body": "在 `trend_samples` 记录超过 1 小时时，数据清理构件应删除其中时间最早的超期记录。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "写入trend_samples elapsed_ns=now−3600s的−1/0/+1ns，执行生产prune后核对具体trend身份、条数及值；保留未过期数据。",
+      "dependencies": "可与031/033并行，先完成合法趋势记录装配；036依赖本项。",
+      "cannot_be_replaced_by": "趋势入库测试、聚合层删除或真实短会话不能证明Trend清理边界。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageFaultTests.swift#batchStoresAggregatesTrendsAndSampleMembers()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "补trend_samples 3600s边界存留/删除断言，不需真实1h等待。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-035",
+      "title": "数据不存在与查询范围必须一致",
+      "requirement_body": "历史查询构件应拒绝查询当前时刻之前超过 72 小时的监控数据。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.3",
+        "T03.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "在prune之前保留超过72h及cutoff内的1m记录，执行SessionStoreCapability.query(.threeDays, asOf=now)，断言过期点立即排除、有效点仍返回；再检查数据库仍含过期点以证明是查询过滤。",
+      "dependencies": "先核对查询对桶end/latest的权威过滤口径；独立于033物理删除。",
+      "cannot_be_replaced_by": "不能用prune后空查询、三天range枚举往返、超范围API不存在或72h耐久豁免替代。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#historyAndGapRoundTrip()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "未见prune前已存在超过72h的1m记录时，三天查询立即排除它的独立用例；需要软件TTL过滤向量，不需72h实跑。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-036",
+      "title": "统一清理入口",
+      "requirement_body": "当数据清理任务执行时，数据清理构件应按照 Raw、EMA、1 秒、Trend、10 秒、1 分钟各自 TTL 删除超期记录。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "复用031/033/034向量，加已有Raw/EMA300s及10s86400s；在同一生产prune入口逐表验证cutoff两侧身份，确认Raw/EMA只有父层已提交才可删除。",
+      "dependencies": "依赖031/033/034及现有父层/幂等用例；不能跳过Raw/EMA父层前置条件。",
+      "cannot_be_replaced_by": "不能由Raw/EMA删除或一个aggregates总数推断六类TTL均通过。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "统一入口仍缺1s精确边界、1m259200s和Trend3600s逐表边界计数；不能由Raw/EMA删除推断所有层完整通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-037",
+      "title": "避免每条采样触发 DELETE",
+      "requirement_body": "数据清理任务应每 60 秒执行一次。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.4",
+        "T05.4",
+        "T06.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "使用ControllerFixture/TestClock执行现有maintenance loop，观察59.999s前不prune、60s执行、120s再次执行；通过合法可清理记录或测试观察器核对每轮实际执行，不只核对睡眠deadline注册。",
+      "dependencies": "先完成调度注册同步和每轮合法过期父桶，避免大跳时间导致遗漏观察；与036不同。",
+      "cannot_be_replaced_by": "当前一次跳到481s、读取60s常量或物理睡眠后清理不能替代周期边界。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "未观察59.999/60/120s维护注册/执行边界或正式App连续周期清理取证；当前证明已调度，不证明精确每60s。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-039",
+      "title": "禁止跨应用运行周期恢复历史",
+      "requirement_body": "当应用发现上一运行周期遗留的监控数据库时，数据库构件应清除其中的监控历史数据。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G4",
+      "execution_tasks": [
+        "T06.3",
+        "T08.1",
+        "T09.3"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "在隔离验收目录用当前正式Release生成有效session/marker和监控库，受控强制结束后重新启动同构建，记录只清旧合法会话且新会话无旧历史；同时保存旧日志和进程/目录快照。",
+      "dependencies": "先完成#46/#47新构建身份冻结；不得干预根agent串行验收；联合042/078的恢复边界。",
+      "cannot_be_replaced_by": "SessionCleanup单元测试、手工删库、正常quit或不含有效marker的目录不证明App启动接线。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRemovesOrphanedMarkedSession()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRequiresHeldLock()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupSkipsDirectoryWithMismatchedMarker()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRejectsSymlinkedSessionDirectory()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "当前正式a97 App尚无强杀留下有效marker监控库→重新启动→只清旧会话不恢复旧历史的实机记录；保留pending的范围是App启动接线。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-042",
+      "title": "运维日志不能跟随监控数据消失",
+      "requirement_body": "在监控数据库被删除时，日志构件应保留独立错误日志。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T06.2",
+        "T06.3",
+        "T06.4"
+      ],
+      "mapped_work_packages": [
+        "W03",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-RETENTION",
+        "TC-LIFECYCLE"
+      ],
+      "minimum_verification_or_decision": "在同一隔离会话写入真实DiagnosticLogger错误日志和ReportWriter报告并记录SHA256，再执行生产session关闭/清理；断言DB/WAL/SHM删除且诊断文件存在、内容hash不变。",
+      "dependencies": "先准备合法marker和独立日志目录；039/078实机可额外复核但不是本软件断言的前提。",
+      "cannot_be_replaced_by": "不能拼接日志轮转测试、目录分离源码和无错误的正常短会话。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#loggerRotatesAtConfiguredSize()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRemovesOrphanedMarkedSession()",
+        "software-source-audit:403d44b#SessionPaths监控目录与DiagnosticLogger日志目录独立"
+      ],
+      "catalog_outstanding_snapshot": [
+        "未见同一次session删除后既有错误日志/报告仍存在且内容不变的联合断言；正常短会话无错误日志不能证明保留。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-057",
+      "title": "无效值进入同一重试机制",
+      "requirement_body": "如果传感器返回无效温度值，则温度采集构件应将该结果视为一次读取失败。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T04.1",
+        "T05.3",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "通过生产QualifiedSensorClient/SamplingService路径给同批CPU12中一成员无效温度对应ReadingOutcome.failure，其余有效；用TestClock观察首次后50/100/200ms三次重试、成功停止或第4次失败耗尽，并断言失败无Raw/EMA/count。",
+      "dependencies": "先复用SensorRecoveryRegressionTests的可控transport并核对sensorValue可重试分类；不修改生产分类以促成测试。",
+      "cannot_be_replaced_by": "不能用timeout、普通IO失败、解码拒绝或failure不产样本的孤立测试替代这个输入。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#rejectsWrongLengthUnknownEncodingAndNonFiniteValues()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#failureReadingProducesNoSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#sensorReadFailureIsRetryable()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "未见无效温度ReadingOutcome从生产SamplingService进入50/100/200ms重试并成功/耗尽的完整用例；sensor timeout或普通IO失败不能替代该输入。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-058",
+      "title": "允许短时锁竞争和 I/O 波动恢复",
+      "requirement_body": "如果 SQLite 操作发生暂时性失败，则数据存储构件应按照 100 ms、250 ms、500 ms、1000 ms、2000 ms 的间隔执行最多 5 次重试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T03.3",
+        "T05.3",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "先列出生产private-cache/WAL的SQLite暂时失败来源和唯一重试所有者；区分已测写预算首次+5与查询/UI预算。现有StorageLifecycleRegressionTests把等待改为五个1ms，默认100/250/500/1000/2000只由策略表核对；必要写路径补默认配置实际等待/恢复/耗尽证据，再按读操作适用判定选择读取向量。",
+      "dependencies": "与061共同先于068/071/072总链路结论；既有写重试证据保留。",
+      "cannot_be_replaced_by": "不能将五个1ms的执行结果称为默认等待实测，不能把“SQLite操作”静默缩成写操作，也不能用shared-cache/DELETE锁构造生产并不存在的读失败或嵌套DB5×UI3。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#databaseBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#temporaryWriteFailureRetriesSameBatchAndPayload()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "正文泛指SQLite操作；当前query直通只抛读错误，App另有UI3次预算。读操作是否适用DB5次须与REQ061及避免嵌套预算边界一致后验收。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-061",
+      "title": "读取和写入故障分离",
+      "requirement_body": "如果 SQLite 读取经过 5 次重试仍失败，则故障管理构件应生成 `DB-READ-004`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T03.3",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "找到符合生产连接模式的真实可达暂时读取错误，记录SQL/结果码/发生条件及DB5预算归属；适用时执行生产读取路径首次+5耗尽，断言DB-READ-004及retryCount=5。若不可达，保留pending并提交具体条件判定。",
+      "dependencies": "依赖058预算与可达性判定；不能先实现新重试包装来制造符合测试的路径。",
+      "cannot_be_replaced_by": "private-cache WAL下外部BEGIN EXCLUSIVE+DDL不阻断已有reader普通SELECT；不能改journal/cache模式、复用写错误或表测试冒充。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#databaseBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#uiHistoryBudgetIsIndependentFromDatabaseBudget()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#rejectsFiveMinuteSQLiteRange()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#concurrentQueriesMatchTheirRequestsOrReportSuperseded()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "当前证据不包含实际SQLite读取临时失败后5次重试耗尽的DB-READ-004出口。默认private-cache WAL的外部BEGIN EXCLUSIVE+schema DDL并不阻塞已有reader普通SELECT，已/tmp验证；不得用shared-cache/DELETE替代生产锁语义构造假red。需要先确定真实可发生的暂时读取失败及DB/UI预算归属。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-062",
+      "title": "损坏不进行无意义重试",
+      "requirement_body": "如果数据库完整性检查确认数据库损坏，则故障管理构件应直接生成 `DB-CORRUPT-006`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T03.1",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "向生产SessionPersistence.open提供真实NOTADB/CORRUPT库，观察MonitorFailure.databaseCorrupt(DB-CORRUPT-006)、retryCount=0及无重试；确认原损坏文件保留供诊断。随机非SQLite字节只覆盖NOTADB映射；要声称quick_check损坏分支通过，必须取得有效SQLite且quick_check明确非ok输入。",
+      "dependencies": "先选择生产实际支持的open/quick_check入口；复用SessionLifecycleTests的损坏fixture，不能只catch清理器错误。",
+      "cannot_be_replaced_by": "SessionCleanupError.databaseCorrupt、枚举或RetryPolicy表测试不证明SessionPersistence出口。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#corruptedActiveDatabaseIsNotAutoDeleted()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#structuralDatabaseFailuresAreNotRetryable()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "现有损坏测试捕获SessionCleanupError.databaseCorrupt，未直接观察生产SessionPersistence损坏输入返回DB-CORRUPT-006且无重试的出口。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-064",
+      "title": "避免单个任务无限循环",
+      "requirement_body": "如果一次数据加工任务发生暂时性执行失败，则对应加工构件应按照 50 ms、100 ms、200 ms 的间隔执行最多 3 次重试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T04.2",
+        "T04.4",
+        "T04.5",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "逐列生产EMA/聚合/趋势可抛出错误及来源；确认是否存在暂时性纯加工失败。当前EMA唯一throw为确定性nonPositiveDeltaTime，聚合/趋势非throwing。先形成条件可达性/不可达性判定，必要时由维护者审查契约解释。",
+      "dependencies": "065–067及072依赖该判定；本任务不新增故障接口或重试机制。",
+      "cannot_be_replaced_by": "不能把DB写失败、Lease/Receipt/schema/非法dt重命名为暂时加工失败；不能制造假生产故障或仅测processing预算表。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "纯加工暂时错误的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-065",
+      "title": "EMA 独立定位",
+      "requirement_body": "如果 EMA 任务经过 3 次重试仍失败，则故障管理构件应生成 `PROC-EMA-002`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T04.2",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "在064结论中单列EMA：nonPositiveDeltaTime为结构性确定错误，不能重试恢复；仅存在真实暂时条件时才需要生产50/100/200ms耗尽→PROC-EMA-002向量，否则保存适用性待判定。",
+      "dependencies": "依赖064；不能为了耗尽码而给纯EMA加入人为throwing transport。",
+      "cannot_be_replaced_by": "拒绝非法dt、预算表或持久化commit失败不证明EMA暂时失败重试耗尽。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "EMA耗尽PROC-EMA-002的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-066",
+      "title": "聚合独立定位",
+      "requirement_body": "如果聚合任务经过 3 次重试仍失败，则故障管理构件应生成 `PROC-AGG-003`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T04.4",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "在064结论中单列聚合：确认非throwing确定性计算和DB提交边界；仅有真实暂时纯聚合条件时验证生产耗尽PROC-AGG-003，否则保持条件判定待闭合。",
+      "dependencies": "依赖064及commit/receipt归属核对。",
+      "cannot_be_replaced_by": "failedAggregationCommitRetainsWindowForRetry是持久化提交证据，不能直接证明纯聚合暂时失败。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "聚合耗尽PROC-AGG-003的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-067",
+      "title": "趋势独立定位",
+      "requirement_body": "如果趋势任务经过 3 次重试仍失败，则故障管理构件应生成 `PROC-TREND-004`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T04.5",
+        "T06.1"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "在064结论中单列趋势：区分点数不足/coverage不足/Gap的正常insufficient状态与错误；仅有真实暂时条件时验证生产耗尽PROC-TREND-004。",
+      "dependencies": "依赖064；不把正常无结果升级Fatal。",
+      "cannot_be_replaced_by": "coverage不足、两点输入、Gap、DB失败或预算常量不等于暂时趋势错误。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "趋势耗尽PROC-TREND-004的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-068",
+      "title": "短暂故障不立即终止界面",
+      "requirement_body": "如果 UI 数据读取发生暂时性失败，则前端数据构件应按照 100 ms、250 ms、500 ms 的间隔执行最多 3 次重试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T06.1",
+        "T07.4"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "执行AppSessionRuntime.queryHistoryWithBudget实际调用路径，用可达暂时查询失败观察首次+100/250/500ms三次预算以及成功即停；检查总attempt、延迟、取消和非暂时错误不重试。",
+      "dependencies": "058/061先明确DB/UI唯一预算所有者；当前Runtime持具体SessionCoordinator且query方法private，无现成注入，先确认可复用App headless测试构建入口；没有入口时记录具体边界，不实现新产品行为。",
+      "cannot_be_replaced_by": "ErrorCoordinatorTests表测试、直接调用RetryPolicy或预置fixture不等于App查询重试；不能用coordinator已停止产生notRunning假装暂时SQLite失败。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#uiHistoryBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#uiHistoryBudgetIsIndependentFromDatabaseBudget()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "未实际观察AppSessionRuntime UI读取暂时失败后按三次预算成功恢复/耗尽；尤其需确认不嵌套DB5重试。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-069",
+      "title": "用户仍能看到已有状态",
+      "requirement_body": "在 UI 数据读取重试期间，前端构件应显示最后一次成功取得的缓存数据。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T06.1",
+        "T07.4"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "在068同一App运行路径先得到一份成功历史/展示状态，再触发暂时读取失败，逐次重试期间断言仍保留同份最后成功数据，失败未生成新Raw/EMA且未把previous转成新的ready。",
+      "dependencies": "依赖068可控真实调用路径；先核对“缓存数据”指历史刷新还是传感器观测年龄的边界。",
+      "cannot_be_replaced_by": "直接预置cached、共享ViewModel或单独previous状态测试不证明重试过程。",
+      "existing_covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryChartModelTests.swift#failedStateDoesNotPromotePreviousToReady()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "fixture预置cached不等同UI读取重试；未见一次成功UI数据→同会话UI读取失败→重试期间保留最后成功数据的完整执行。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-071",
+      "title": "建立失败出口",
+      "requirement_body": "如果 UI 数据读取经过 3 次重试仍失败，则故障管理构件应生成 `UI-DATA-001`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T06.1",
+        "T07.4",
+        "T07.5"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "在068路径首次及追加3次查询均失败，断言UI-DATA-001、retryCount=3、真实Fatal报告/状态且停止继续query；取消/superseded不得计Fatal。",
+      "dependencies": "依赖058/061预算归属与068；给072提供关键UI耗尽分支。",
+      "cannot_be_replaced_by": "SENSOR-READ-002预置Fatal fixture、CPU耗尽或UI预算常量不能替代。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#uiHistoryBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#uiHistoryBudgetIsIndependentFromDatabaseBudget()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testFatalFixtureShowsFatalCodeInDashboard()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "缺App UI首次+3次读取失败后明确UI-DATA-001及retryCount3的执行/报告断言。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-072",
+      "title": "关键故障与可选能力分级",
+      "requirement_body": "当关键 CPU 主指标、存储、加工或关键 UI 数据故障达到对应重试上限时，故障管理构件应提升为 Fatal；可选 SSD/Battery 的单项读取耗尽应标为不可用并保留 CPU 监控。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G2",
+      "execution_tasks": [
+        "T06.1",
+        "T06.4",
+        "T07.5"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "汇总已测CPU耗尽Fatal、DB写耗尽、可选SSD/Battery隔离继续CPU；补071的关键UI耗尽，按064–067判定列明加工条件适用性；核对单项可选失败不能停CPU。",
+      "dependencies": "依赖071和064–067结论；真实生命周期回归不能免除各链路条件。",
+      "cannot_be_replaced_by": "不能从CPU一条Fatal路径推断所有关键链路，或把可选失败也统一Fatal。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalAvailabilityIntegrationTests.swift#optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift#unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "关键UI读取耗尽→Fatal未完整验收；纯加工暂时错误适用边界与REQ064–067尚未闭合。不能用CPU耗尽推断全部关键链路。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-077",
+      "title": "确定后续操作",
+      "requirement_body": "当 Fatal 错误界面显示时，界面应提示用户重新启动应用，并提供打开报告、复制详情和退出操作。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G4",
+      "execution_tasks": [
+        "T07.5"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "先核对当前FatalView实际只有倒计时、复制报告路径和退出，正文要求的重启提示/打开报告/复制详情不能由这些替代。核实最终候选实际交互是否满足；正式Fatal后逐项截图并验证打开的精确报告目标、剪贴板详情与退出。",
+      "dependencies": "先处理源码/正文差异的实际确认，依赖#47及078可靠退出；本清单不新增功能或自动认定通过。",
+      "cannot_be_replaced_by": "不能用按钮exists、复制路径、Settings报告目录入口、启动fallback或截图文字替代实际动作和正文内容。",
+      "existing_covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testFatalFixtureShowsFatalCodeInDashboard()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterCreatesBoundedReportFile()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "核对最终FatalView对重启提示、打开本次报告及复制详情的实际实现差异；复制报告路径不能代替复制详情。实现与正文边界明确后，再执行正式Fatal界面的目标文件、剪贴板内容和退出操作验收；不能仅补fixture截图关闭本条。"
+      ],
+      "proposed_not_executed": true,
+      "catalog_reason_snapshot": "现有FatalView仅有倒计时、复制报告路径和退出；未实现正文要求的重启提示、打开报告及复制详情。Settings报告入口和fixture按钮存在不等于这些Fatal操作已提供，保留pending。"
+    },
+    {
+      "id": "REQ-078",
+      "title": "确定最终状态",
+      "requirement_body": "当用户在 Fatal 界面选择退出或界面可见满 30 秒时，系统应在 5 秒收尾预算内停止当前运行，并记录未完成清理以供下次启动处理。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已确认 bug，新证据待集成及剩余组合回归",
+      "stage": "G3",
+      "execution_tasks": [
+        "T06.4",
+        "T07.5",
+        "T09.3"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "先将#47新Release运行中Fatal自动退出PASS的原始记录、新source/App/worker身份集成并独立审查；该记录有故障注入后32.369s退出、Session删除及报告保留。仍补核Fatal退出按钮、可见计时起点、≤5s收尾及未完成步骤/下次启动的组合条件，不能直接整项accepted。",
+      "dependencies": "依赖新生产提交/二进制冻结、独立审查和#46睡眠取消语义；先不干预根agent串行验收。",
+      "cannot_be_replaced_by": "旧a97移除worker启动fallback约31s、正常quit、最小RunLoop探针或新软件GREEN不能拼成runtime Fatal实机完整通过。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#fatalDisplayReceiptExpiresAfterConfiguredDuration()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeShutdownRegressionTests.swift#fatalFreezeStopsIOButPreservesDatabaseUntilQuit()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#shutdownRecordsCompletedSteps()",
+        "formal-app-hardware:a97fd5a#受控missingSensorWorker启动fallback无输入约31.4639s进程消失；正常app.quit清理目录"
+      ],
+      "catalog_outstanding_snapshot": [
+        "正式运行中Fatal可见30s后自动退出、5s清理预算、未完成步骤记录并由下次启动处理的组合路径尚未验收；不能拼接独立startup及正常quit结果称完整通过。",
+        "2026-10-03实际runtime Fatal卡在terminateLater，Issue #47；新RunLoop修复必须由新Release实机证明自动退出和清理。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-079",
+      "title": "错误追踪主键",
+      "requirement_body": "当错误报告生成时，错误报告构件应记录封闭枚举中的稳定错误代码，并按适用范围记录强类型 requestID、sourceID、batchID、gapID 或 watermarkEventID，禁止以可互换自由字符串代替事件身份。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T01.2",
+        "T05.3",
+        "T06.2"
+      ],
+      "mapped_work_packages": [
+        "W01",
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR",
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY"
+      ],
+      "minimum_verification_or_decision": "按request/source/batch/gap/watermark实际可发生的故障逐项建立“事件→原始强类型ID→FatalReport字段”表。现有MonitorFailure只有SourceID?，ReportPayload无事件身份字段；先核对正文按适用范围的模型/契约差异，再用实际生产报告JSON断言对应ID。",
+      "dependencies": "先判定事件适用条件，不制造不存在的故障；与082共用报告身份审核，未经批准不改契约或字段。",
+      "cannot_be_replaced_by": "UUID类型存在/往返、session_id、把ID塞入underlyingCode或不同事件互换自由字符串不能代替报告字段。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#taggedUUIDTypesEncodeAndDecode()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#presentationAndMonitorFailureRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerProtocolTests.swift#rejectsNonCanonicalUUID()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "MonitorFailure/FatalReport现存字段未记录按事件适用的RequestID、BatchID、GapID、WatermarkEventID；事件类型存在不证明错误报告完整身份字段。需逐种适用事件报告断言或契约边界闭合。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-082",
+      "title": "定位具体传感器",
+      "requirement_body": "当传感器相关错误报告生成时，错误报告构件应记录对应 `sensor_id`。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G1",
+      "execution_tasks": [
+        "T06.2"
+      ],
+      "mapped_work_packages": [
+        "W05",
+        "W06"
+      ],
+      "test_groups": [
+        "TC-ERROR"
+      ],
+      "minimum_verification_or_decision": "对确有单一QualifiedSource的传感器故障，执行生产报告writer并核对JSON source_id与当次故障SourceID相等；当前ReportPayload实际无source_id，catalog reason称已序列化需纠正判断依据。先从SamplingService无效success规范化入口取得非nil sourceID作报告复核，再单列QualifiedSensorClient.transport failure当前固定sourceID=nil的身份传递边界；确认实际差异后再决定后续工作。",
+      "dependencies": "依赖079身份表；CPU整批timeout可无单一source，应另列不适用而非伪造source。",
+      "cannot_be_replaced_by": "MonitorFailure SourceID往返、无机器序列号测试或无单一source的整批超时不覆盖正文条件。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#presentationAndMonitorFailureRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterDoesNotIncludeMachineSerialField()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "先确认单一QualifiedSource故障的身份传递与ReportPayload缺source_id的模型差异；SamplingService无效success规范化可带sourceID，而QualifiedSensorClient的transport failure当前sourceID=nil。实际报告须与当次适用故障SourceID逐项核对；CPU整批超时可无单一source，不覆盖本条条件。"
+      ],
+      "proposed_not_executed": true,
+      "catalog_reason_snapshot": "MonitorFailure存在强类型SourceID?，但ReportWriter的ReportPayload实际没有source_id字段；catalog此前称已序列化与现有模型不符。这是正文与实际报告payload的差异，不能以类型往返或欠测措辞替代，保留pending。"
+    },
+    {
+      "id": "REQ-094",
+      "title": "需求规格直接成为黑盒测试依据",
+      "requirement_body": "在用户可见功能 feature branch 申请合并前，测试流程应执行对应 EARS 验收测试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G5",
+      "execution_tasks": [
+        "T07.5",
+        "T09.2",
+        "T09.3",
+        "T11.1"
+      ],
+      "mapped_work_packages": [
+        "W00",
+        "W11"
+      ],
+      "test_groups": [
+        "TC-WORKFLOW"
+      ],
+      "minimum_verification_or_decision": "在最终候选上汇集每条用户可见EARS的黑盒日志：菜单/Popover、档位及历史、读取重试/Fatal、关窗重开退出、五档600s和真实sleep；结合当前exact-head CI，逐条核对而非整组推断。",
+      "dependencies": "依赖068/069/071/077/078/117–119、G4正式资格及当前CI；现有子集仍保留。",
+      "cannot_be_replaced_by": "8s五档、fixture全面PASS、主窗口可用或旧head CI不证明全部用户可见EARS。",
+      "existing_covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCPUPeriodPickerSupportsAllFiveOptions()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
+        "formal-app-hardware:a97fd5a#五档8s/5min1h/reopen/quit正式黑盒通过"
+      ],
+      "catalog_outstanding_snapshot": [
+        "菜单栏点击/Popover、运行中UI重试/Fatal、五档10min与真实系统sleep尚未完成，不能称所有用户可见功能EARS验收完整。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-099",
+      "title": "编码前设计门禁",
+      "requirement_body": "在进入 M2 前，项目应完成需求基线和架构设计评审。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G5",
+      "execution_tasks": [
+        "T11.1",
+        "T11.2"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "回读首次M2之前的需求/架构设计评审提交、PR/报告及提交顺序，确认当时基线；另复核当前W11完整矩阵。历史先后不可由今天补文档反推，缺证据继续pending。",
+      "dependencies": "历史回读可与G2并行；catalog当前把099–106保留到整体门禁复核，最后逐项判定。",
+      "cannot_be_replaced_by": "当前handoff通过、今日审查或某E2E不能证明“进入M2前已评审”。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-100",
+      "title": "验证数据链",
+      "requirement_body": "在 M2 完成时，测试流程应对传感器、数据加工和 SQLite 数据路径执行集成测试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "已有功能但缺证据",
+      "stage": "G5",
+      "execution_tasks": [
+        "T05.5",
+        "T08.3",
+        "T11.1"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "绑定最终生产提交对应EndToEndTests.fullCPURawToHistorySoftwareLoop及MonitorIntegrationTests真实SQLite链路执行日志，核对Qualified12→Raw max→EMA→聚合→SQLite→history的同一输入/Receipt/sampleID。记录M2当时集成报告顺序。",
+      "dependencies": "源代码变化后需当前适用回归；catalog整体门禁结束后单独复核结论。",
+      "cannot_be_replaced_by": "孤立算法PASS、原型或跨提交拼接测试计数不能替代产品集成链路和阶段事实。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-101",
+      "title": "验证原生 UI",
+      "requirement_body": "在 M3 完成时，测试流程应对菜单栏、透明面板和主窗口执行 UI 黑盒测试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G5",
+      "execution_tasks": [
+        "T07.2",
+        "T07.5",
+        "T11.1"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "汇集最终候选菜单栏物理点击、Popover半透明和状态、主窗口的UI黑盒操作/截图；核对M3所需完整面，不把主窗口测试代表菜单面板。",
+      "dependencies": "依赖117/118/119和当前UI执行证据，最后复核阶段报告。",
+      "cannot_be_replaced_by": "主窗口10张截图、共享组件、AX exists或ViewModel不证明三个原生UI入口均验收。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-102",
+      "title": "验证全部构件协作",
+      "requirement_body": "在 M4 完成时，测试流程应执行完整系统测试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G5",
+      "execution_tasks": [
+        "T08.3",
+        "T09.2",
+        "T09.3",
+        "T11.2"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "对最终同hash候选形成完整系统测试报告，合并自动化链路/异常向量与正式sources+schedules+lifecycle，明确未适用条件和用户豁免；完整系统是逐用例证据审查结论。",
+      "dependencies": "依赖G1条件判定、G2软件缺口、#46/#47新硬件回归及G4；独立审查后再判定。",
+      "cannot_be_replaced_by": "TC组都引用一份报告、覆盖率≥80%或单个短会话不能证明完整系统。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-103",
+      "title": "Release Candidate 直接对应需求基线",
+      "requirement_body": "在 M5 完成时，测试流程应执行最终 EARS 验收测试。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G5",
+      "execution_tasks": [
+        "T11.1",
+        "T11.2",
+        "T11.3"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "冻结最终RC source/App/worker/profile/签名后，审查132项逐REQ有效证据、012/114retired、授权豁免和全部剩余pending；运行product-acceptance门禁并保存最终EARS验收结论。",
+      "dependencies": "最后执行，依赖其余适用缺口及独立审查；不得批量改结果跳过真实缺项。",
+      "cannot_be_replaced_by": "只跑binder dry-run、当前94accepted、按TC组自动填PASS或未来计划不是最终EARS。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-104",
+      "title": "形成开发阶段门禁",
+      "requirement_body": "在任一里程碑存在未解决阻塞缺陷时，开发流程应禁止进入下一里程碑。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G5",
+      "execution_tasks": [
+        "T11.2",
+        "T11.3"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "按各里程碑保存blocking Issue/required check/独立审查及进入下一阶段的Git时间线；当前#46/#47未有新同hash实机回归时，相关资格/最终交付不得越过。最终再读取exact-head blocking状态。",
+      "dependencies": "依赖已确认问题闭合及真实GitHub现状；历史和当前快照分开。",
+      "cannot_be_replaced_by": "历史PR44零blocking、当前本地无失败或只改Issue标签不能证明本轮可跨阶段。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-105",
+      "title": "封闭“所有文档”的范围",
+      "requirement_body": "在首次进入 M2 前，项目应完成本规格列明的设计文档，并使 00、01、21、22、23 及 contracts 中的机器契约共同覆盖身份、接口、存储、测试、第三方来源和执行顺序，不依赖聊天记录补全实现规则。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G5",
+      "execution_tasks": [
+        "T11.1",
+        "T11.2"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE",
+        "TC-UPSTREAM-BOUNDARY"
+      ],
+      "minimum_verification_or_decision": "独立核对00/01/21/22/23及contracts对身份、状态、存储、测试、许可和顺序的覆盖；保存handoff/API typecheck/DDL验证及首次M2前文档提交祖先证据。",
+      "dependencies": "G1判定若需文档调整须走授权/契约同步；当前矩阵整体复核后逐项结论。",
+      "cannot_be_replaced_by": "当前JSON存在、聊天解释、旧revision2检查或只验证链接不能证明修订3完整边界及历史顺序。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-106",
+      "title": "防止未确定业务规则被编码 Agent 自行填充",
+      "requirement_body": "在任一必需设计文档仍含阻塞级待澄清事项时，项目应禁止进入正式功能编码阶段。",
+      "current_verification": "pending-product-acceptance",
+      "category": "文档条件适用性或实现差异待判定",
+      "stage": "G5",
+      "execution_tasks": [
+        "T11.1",
+        "T11.2"
+      ],
+      "mapped_work_packages": [
+        "W11"
+      ],
+      "test_groups": [
+        "TC-DOCS",
+        "TC-ACCEPTANCE"
+      ],
+      "minimum_verification_or_decision": "列出必需文档阻塞级待澄清项和首次编码时处理记录；当前058/061/064–067/079/082需明确适用/差异判断，独立审查确认有无阻塞再定阶段状态。",
+      "dependencies": "依赖G1条件判定与105文档完整性；没有明确结论时保留pending。",
+      "cannot_be_replaced_by": "不允许把所有TBD一律认作阻塞，也不能删TBD、口头假设或继续编码来证明不存在阻塞。",
+      "existing_covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "catalog_outstanding_snapshot": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-110",
+      "title": "最低系统与按证据声明支持",
+      "requirement_body": "项目应将最低运行系统要求保持为 macOS 15.7.3，并分别记录 build_toolchain、deployment_target、runtime_profile 和 qualified_combinations；只有绑定正式 App SHA、签名、机型、系统版本/build及通过用例的组合才能声明支持。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G4",
+      "execution_tasks": [
+        "T09.1",
+        "T09.2",
+        "T09.3",
+        "T09.4"
+      ],
+      "mapped_work_packages": [
+        "W02",
+        "W08",
+        "W09"
+      ],
+      "test_groups": [
+        "TC-PLATFORM",
+        "TC-SENSOR",
+        "TC-UPSTREAM-BOUNDARY"
+      ],
+      "minimum_verification_or_decision": "对含#46/#47修复的最终同一App/worker hash保存build_toolchain、deployment_target(最终load command)、runtime_profile、qualified_combinations；完成CPU12/可选sources、五档各≥600s、真实sleep/wake及进程/退出证据后才登记本机组合。",
+      "dependencies": "先G0冻结身份和G3新构建回归；五档及真实系统睡眠可分轮但必须同一二进制，其他修改后重评受影响证据。",
+      "cannot_be_replaced_by": "旧14cac/a97组合、五档各8s、被合盖打断约305s、Controller.suspend/resume、源码推断或CI不等于新正式组合资格。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AppBundleConfigurationTests.swift#appResourcesMatchBundledContracts()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledProfileHasTwelveCaseSensitiveKeys()",
+        "formal-app-hardware:a97fd5a#a97 App/worker hash、签名、Mac16,13/24G419、Xcode/Swift/SDK已归档"
+      ],
+      "catalog_outstanding_snapshot": [
+        "新受测App/worker hash的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块完整清单未达到同一产物sources+schedules+lifecycle整套资格；五档10min与真实sleep未完成前不得复用旧组合盖章。",
+        "旧长测在50ms约305秒真实合盖；睡眠误Fatal #46、自动退出 #47，均需修复及新同hash实机验收。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-117",
+      "title": "菜单栏交互",
+      "requirement_body": "当用户点击菜单栏图标时，界面构件应显示温度信息弹出面板。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G4",
+      "execution_tasks": [
+        "T07.2",
+        "T09.3"
+      ],
+      "mapped_work_packages": [
+        "W07"
+      ],
+      "test_groups": [
+        "TC-UI"
+      ],
+      "minimum_verification_or_decision": "在实际屏幕上用正式Release物理点击可见status.temperature，记录前后截图/操作时间及真正出现的Popover；同时核对左右键、Esc/外点关闭的TC-UI要求，窗口替代入口单列。",
+      "dependencies": "先确认屏幕/菜单栏拥挤或刘海条件；不得为本清单启动App、改用户菜单布局或干预根agent长测。",
+      "cannot_be_replaced_by": "AX exists/isHittable=false、showPopoverForTesting、直接开Dashboard/标准reopen或菜单item源码不能替代物理点击。",
+      "existing_covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testBasicFixtureShowsLiveTemperature()",
+        "formal-app-hardware:a97fd5a#status.temperature AX exists=true、isHittable=false；窗口/reopen替代入口已实测"
+      ],
+      "catalog_outstanding_snapshot": [
+        "本机拥挤/刘海条件下菜单项物理点击→弹出面板尚未验收；窗口可达解决可用性但不替代本条交互。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-118",
+      "title": "弹出面板",
+      "requirement_body": "在温度信息弹出面板打开时，面板应显示当前可用硬件的EMA温度，并为不可用、缓存或过期指标显示明确状态。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G4",
+      "execution_tasks": [
+        "T07.2",
+        "T07.5"
+      ],
+      "mapped_work_packages": [
+        "W07"
+      ],
+      "test_groups": [
+        "TC-UI"
+      ],
+      "minimum_verification_or_decision": "117打开真实Popover后保存实际EMA值/来源/状态与对应Snapshot的一致证据；软件层另对实际Popover运行live/cached/stale/unavailable状态渲染并分类保存，未出现的硬件故障状态明确未实测，按逐条件范围复核。",
+      "dependencies": "依赖117；受控Debug输入只能补软件状态渲染，正式实际来源场景须单独证据。",
+      "cannot_be_replaced_by": "Dashboard状态截图、共享Model、预置cached或Unavailable不能被标成正式App真实故障/Popover实测。",
+      "existing_covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()"
+      ],
+      "catalog_outstanding_snapshot": [
+        "现有UI用例主要打开dashboard，未直接验收Popover中当前EMA及各故障状态行；共享组件源码不等同该面板实际显示。"
+      ],
+      "proposed_not_executed": true
+    },
+    {
+      "id": "REQ-119",
+      "title": "透明视觉",
+      "requirement_body": "温度信息弹出面板应使用 macOS 原生半透明视觉效果。",
+      "current_verification": "pending-product-acceptance",
+      "category": "需要实机交互或最终资格审查",
+      "stage": "G4",
+      "execution_tasks": [
+        "T07.2"
+      ],
+      "mapped_work_packages": [
+        "W07"
+      ],
+      "test_groups": [
+        "TC-UI"
+      ],
+      "minimum_verification_or_decision": "实际打开正式Popover，在可见桌面背景上保留原生半透明视觉截图，记录浅/深色与减少透明度设置状态；核对TemperaturePopover原生material实现与截图对应。",
+      "dependencies": "依赖117真实打开；如当前系统减少透明度导致不透明须如实记录条件，不擅改用户设置。",
+      "cannot_be_replaced_by": "原生material源码、主窗口/状态项截图、渲染mock或透明图层示意不能替代实际Popover屏幕效果。",
+      "existing_covered_cases": [
+        "software-source-audit:403d44b#TemperaturePopoverView使用原生material背景，非自绘透明模拟"
+      ],
+      "catalog_outstanding_snapshot": [
+        "缺实际打开Popover后的半透明视觉取证；最终自有10张附件都是主窗口及状态项，不能据此确认Popover效果。"
+      ],
+      "proposed_not_executed": true
+    }
+  ],
+  "artifact_repository_path": "docs/validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.json",
+  "new_evidence_integration_status": {
+    "startup_sleep_history_cancellation": {
+      "execution_kind": "production-path-software-harness",
+      "status": "GREEN; pending repository artifact integration",
+      "temporary_paths": [
+        "/tmp/temperature-runtime-final-review/red-results.json",
+        "/tmp/temperature-runtime-final-review/green-results.json",
+        "/tmp/temperature-runtime-final-review/edge-results.json"
+      ],
+      "temporary_file_sha256": {
+        "/tmp/temperature-runtime-final-review/red-results.json": "5855866b048a727a873980d3a1f1a4fe9db3409fd0e9b1fda1f94bfd3a7d33ad",
+        "/tmp/temperature-runtime-final-review/green-results.json": "9d9ad4cd0535a2d3c1ed70724cacf66a3e369d0bb4a707e11e6830e5a7833d4b",
+        "/tmp/temperature-runtime-final-review/edge-results.json": "59953dca0b89846cdf251553485619164696c13e16aa36e5f4407ed7e1d3166b"
+      }
+    },
+    "runtime_fatal_automatic_exit": {
+      "execution_kind": "formal-release-app-hardware",
+      "status": "PASS; pending repository artifact integration",
+      "temporary_paths": [
+        "/tmp/temperature-runtime-fatal-20261003T033224Z/result.json",
+        "/tmp/temperature-runtime-fatal-20261003T033224Z/observations.json"
+      ],
+      "seconds_after_injection": 32.368711084127426,
+      "seconds_after_report": 32.09650545893237,
+      "session_removed": true,
+      "report_retained": true,
+      "temporary_file_sha256": {
+        "/tmp/temperature-runtime-fatal-20261003T033224Z/result.json": "c8f9fc23586ea436e6d49a60e0698845a828dd761faea4d90b8a5898a598b455",
+        "/tmp/temperature-runtime-fatal-20261003T033224Z/observations.json": "15e87f6443bb37cc9db87fa330e25511c4e9ca76559569b4cb047d7deadfc814"
+      }
+    },
+    "wake_cancelled_during_stop": {
+      "execution_kind": "production-path-software-harness",
+      "status": "RED; awaiting GREEN and independent review",
+      "temporary_paths": [
+        "/tmp/temperature-runtime-final-review/wake-stop-red.json"
+      ],
+      "temporary_file_sha256": {
+        "/tmp/temperature-runtime-final-review/wake-stop-red.json": "c868c556bf2f513d6b14892d94a2df81639e03a19ed117c9a442b9f24bbc7414"
+      }
+    },
+    "five_periods_600_seconds": {
+      "status": "failed; remains pending",
+      "temporary_paths": [
+        "/tmp/temperature-long-ui-20261003T033320Z/long-ui.log",
+        "/tmp/temperature-long-ui-20261003T033320Z/cpu50-cadence-review.json"
+      ],
+      "last_ui_progress_awake_seconds": 265.7522655832581,
+      "last_database_elapsed_seconds": 325.833504125,
+      "runner_total_seconds_including_cleanup": 371.103,
+      "completed_600_second_phases": 0,
+      "temporary_file_sha256": {
+        "/tmp/temperature-long-ui-20261003T033320Z/long-ui.log": "92053702913edfa1bdce18cd9b4702d29c20f7b04858e1e65398c5138264b463",
+        "/tmp/temperature-long-ui-20261003T033320Z/cpu50-cadence-review.json": "ba5ef13e7c4a99b7a5768135aff30ab4021cb059fe9aadd00c6a2d014a10f9fc"
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "manifest_artifacts": 34,
+  "manifest_unique_paths": 34,
+  "manifest_sha256": "4a35e0ca82e90459de479d72f08a7b572c1ddb2e4ae3c7215b5eadb9f6d347a9",
+  "source_hashes": {
+    "WorkerClient-baseline.swift": "7915319f626ca44e25d1936c7fd7848ab3ea39e9dc11b13f313fc30d66b3da0b",
+    "TemperatureCore/Sources/SensorRuntime/WorkerClient.swift": "3e354752bab5fea10546708a86378114149908500cef60bc93b1c0e9f90a3a29",
+    "WorkerPipeWriteTests-initial-red.swift": "7586fe0086a9d925101b66e449101d29e838a484ea9dab6b4b97f0fbb64cc7f5",
+    "WorkerPipeWriteTests-baseline-evolution.swift": "f5abb720398caed10a4883da12be1771c0baa37298fac0f4e09726aa2458733a",
+    "production.patch": "ec5ee344542b5fe281b7d177761c0e3d47eeac74a33ba7941f29dc27161e6d65",
+    "tests.patch": "93672b6186ad2b552f09a9adbdf5f229b3f1ed4540ebcb21b858df5aae36d242",
+    "TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift": "10ebb08ea5cac80ff46660bb684da8019f153d0ae8a198bb09a020ba3ca1b897",
+    "TemperatureCore/Tests/SensorRuntimeTests/WorkerBrokenPipeIntegrationTests.swift": "157f0e4a6c2ece4531d86abcb59dafceaf80a2c4aa5fde3c607b073052443bc9",
+    "TemperatureCore/Tests/SensorRuntimeTests/WorkerPipeWriteTests.swift": "9501a823082e3fd10124abae50d72d9ded4241dfc9084792cbf1d3b2e98f2631"
+  },
+  "integrated_paths": [
+    "Packages/TemperatureCore/Sources/SensorRuntime/WorkerClient.swift",
+    "Packages/TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift",
+    "Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerBrokenPipeIntegrationTests.swift",
+    "Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerPipeWriteTests.swift"
+  ],
+  "patch_reconstructed_against_base": [
+    "Packages/TemperatureCore/Sources/SensorRuntime/WorkerClient.swift",
+    "Packages/TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift",
+    "Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerBrokenPipeIntegrationTests.swift",
+    "Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerPipeWriteTests.swift"
+  ],
+  "baseline_commit": "f42ec002dc4121b187ff610bdcd55bc8d2da7cd1",
+  "git_head_at_review": "f42ec002dc4121b187ff610bdcd55bc8d2da7cd1",
+  "coverage": {
+    "covered": 7120,
+    "total": 8002,
+    "ratio": 0.8897775556110972,
+    "path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/.build/arm64-apple-macosx/debug/codecov/TemperatureCore.json",
+    "sha256": "cbf55da4780e0e28a74eefe8f92494335ce6b42e349dce5264832a2a14715844"
+  },
+  "root_logs_sha256": {
+    "/tmp/temperature-w11-sigpipe-final-core.log": "e17d934b7f9c37755f6ef7cf89927038afa65afda415a946c9d6aa929c52928c",
+    "/tmp/temperature-w11-sigpipe-release-smoke.log": "ef24b3730ba9ad68a57effea736df0070fcfe874767b8403009d669461ab36eb",
+    "/tmp/temperature-w11-sigpipe-release-build.log": "37a09f5426aeb7d50a4662299229affb343f6035e80fa192e19b9767306a3591"
+  },
+  "root_binaries_sha256": {
+    "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app/Contents/MacOS/TemperatureMonitor": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+    "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app/Contents/MacOS/SensorWorker": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96"
+  },
+  "failures": [],
+  "source_commit_verified": "7124dc1644516f471d69930024589342c0ca34c9"
+}

@@ -1,0 +1,179 @@
+test_ci_cannot_be_relabelled_formal_without_release_identity (__main__.EvidenceBindingTests.test_ci_cannot_be_relabelled_formal_without_release_identity) ... FAIL
+test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) ... 
+  test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) (fixture=True) ... FAIL
+  test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) (fixture=0) ... FAIL
+  test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) (fixture=None) ... FAIL
+test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) ... 
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='app_bundle_id') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='app_sha256') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='worker_sha256') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='model') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='os_build') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='app_bundle_id') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='app_sha256') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='worker_sha256') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='model') ... FAIL
+  test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='os_build') ... FAIL
+test_formal_hardware_requires_release_execution (__main__.EvidenceBindingTests.test_formal_hardware_requires_release_execution) ... 
+  test_formal_hardware_requires_release_execution (__main__.EvidenceBindingTests.test_formal_hardware_requires_release_execution) (field='execution') ... FAIL
+  test_formal_hardware_requires_release_execution (__main__.EvidenceBindingTests.test_formal_hardware_requires_release_execution) (field='build_configuration') ... FAIL
+test_formal_hardware_requires_structured_environment (__main__.EvidenceBindingTests.test_formal_hardware_requires_structured_environment) ... FAIL
+test_software_cannot_satisfy_required_formal_hardware (__main__.EvidenceBindingTests.test_software_cannot_satisfy_required_formal_hardware) ... ok
+
+======================================================================
+FAIL: test_ci_cannot_be_relabelled_formal_without_release_identity (__main__.EvidenceBindingTests.test_ci_cannot_be_relabelled_formal_without_release_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 202, in test_ci_cannot_be_relabelled_formal_without_release_identity
+    with self.assertRaisesRegex(ValueError, r"validation\.environment"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) (fixture=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 164, in test_formal_hardware_rejects_fixture_execution
+    with self.assertRaisesRegex(ValueError, "fixture"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) (fixture=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 164, in test_formal_hardware_rejects_fixture_execution
+    with self.assertRaisesRegex(ValueError, "fixture"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_rejects_fixture_execution (__main__.EvidenceBindingTests.test_formal_hardware_rejects_fixture_execution) (fixture=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 164, in test_formal_hardware_rejects_fixture_execution
+    with self.assertRaisesRegex(ValueError, "fixture"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='app_bundle_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 185, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='app_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 185, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='worker_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 185, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 185, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (missing='os_build')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 185, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='app_bundle_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 195, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='app_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 195, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='worker_sha256')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 195, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='model')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 195, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_app_worker_and_machine_identity (__main__.EvidenceBindingTests.test_formal_hardware_requires_app_worker_and_machine_identity) (invalid='os_build')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 195, in test_formal_hardware_requires_app_worker_and_machine_identity
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_release_execution (__main__.EvidenceBindingTests.test_formal_hardware_requires_release_execution) (field='execution')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 174, in test_formal_hardware_requires_release_execution
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_release_execution (__main__.EvidenceBindingTests.test_formal_hardware_requires_release_execution) (field='build_configuration')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 174, in test_formal_hardware_requires_release_execution
+    with self.assertRaisesRegex(ValueError, field):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_formal_hardware_requires_structured_environment (__main__.EvidenceBindingTests.test_formal_hardware_requires_structured_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/w11-formal-schema-review/scripts/tests/test-bind-acceptance-evidence.py", line 156, in test_formal_hardware_requires_structured_environment
+    with self.assertRaisesRegex(ValueError, r"hardware\.environment"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.845s
+
+FAILED (failures=17)

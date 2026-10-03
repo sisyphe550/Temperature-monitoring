@@ -1,0 +1,105 @@
+{
+  "status": "expected-failures-observed-cleanup-completed",
+  "controls": {
+    "negative-reject-third-receipt": {
+      "exit_code": 1,
+      "expected_nonzero": true,
+      "phase_failures": [
+        {
+          "suite": "SleepRace",
+          "poll_ms": 2,
+          "elapsed_ns": 4550000000,
+          "new_reads": 3,
+          "new_receipts": 2
+        },
+        {
+          "suite": "Wake",
+          "poll_ms": 2,
+          "elapsed_ns": 4750000000,
+          "new_reads": 3,
+          "new_receipts": 2
+        },
+        {
+          "suite": "Wake",
+          "poll_ms": 125,
+          "elapsed_ns": 4750000000,
+          "new_reads": 3,
+          "new_receipts": 2
+        },
+        {
+          "suite": "SleepRace",
+          "poll_ms": 125,
+          "elapsed_ns": 4550000000,
+          "new_reads": 3,
+          "new_receipts": 2
+        }
+      ],
+      "cleanup_complete_cases": [
+        {
+          "suite": "SleepRace",
+          "poll_ms": 2
+        },
+        {
+          "suite": "Wake",
+          "poll_ms": 2
+        },
+        {
+          "suite": "Wake",
+          "poll_ms": 125
+        },
+        {
+          "suite": "SleepRace",
+          "poll_ms": 125
+        }
+      ],
+      "success_markers": 0,
+      "test_summary": {
+        "functions": 2,
+        "suites": 2,
+        "seconds": 1.911,
+        "issues": 4
+      },
+      "log_sha256": "262989cf3e32a3670f23caedc5e29ba53e12c580fb352615d9f5ee98fee9af28",
+      "kind": "test-seam negative control, not production mutation"
+    },
+    "negative-cancelled-fourth-cleanup": {
+      "exit_code": 1,
+      "expected_nonzero": true,
+      "phase_failures": [
+        {
+          "suite": "SleepRace",
+          "poll_ms": 2,
+          "elapsed_ns": 850000000,
+          "new_reads": 0,
+          "new_receipts": 0
+        },
+        {
+          "suite": "SleepRace",
+          "poll_ms": 125,
+          "elapsed_ns": 850000000,
+          "new_reads": 0,
+          "new_receipts": 0
+        }
+      ],
+      "cleanup_complete_cases": [
+        {
+          "suite": "SleepRace",
+          "poll_ms": 2
+        },
+        {
+          "suite": "SleepRace",
+          "poll_ms": 125
+        }
+      ],
+      "success_markers": 0,
+      "test_summary": {
+        "functions": 1,
+        "suites": 1,
+        "seconds": 0.699,
+        "issues": 2
+      },
+      "log_sha256": "4b368d5cec08fabbab88cbcda5f68013dc600d5bc50a17a8ebf43fd879b24a7b",
+      "kind": "test-seam negative control, not production mutation"
+    }
+  }
+}

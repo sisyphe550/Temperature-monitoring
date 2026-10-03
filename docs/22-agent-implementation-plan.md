@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 按现行132项需求实现可在首个目标MacBook Air运行的完整原生温度监测App，并形成测试、实机资格与独立分发证据。
+**Goal:** 按现行132项需求实现可在首个目标MacBook Air运行的完整原生温度监测App，并形成测试与本机资格证据。本轮用户豁免公证/公开发行，相关脚本仅保留为可选工具。
 
 **Architecture:** Swift模块化单体；普通用户SensorWorker串行读取硬件，主进程按真实时间加工。实时显示读有界EMA内存，Raw/EMA/聚合/趋势批量写SQLite，历史读SQLite；会话结束删除监控数据库。
 
@@ -12,7 +12,7 @@
 
 ## Global Constraints
 
-- 本计划保留初始工作包的设计、接口和验收边界。生产代码、App项目和对应脚本已存在；当前按2026-10-02产品审查修复计划执行，命令块仍需在当前提交重新运行，不能把旧结果作为新修复证据。
+- 本计划保留初始工作包的设计、接口和验收边界。生产代码、App项目和对应脚本已存在；PR44修复已合入main403d44b，当前按[2026-10-03 W11刷新计划](superpowers/plans/2026-10-03-w11-acceptance-refresh.md)执行，命令块仍需在当前提交重新运行，不能把旧结果作为新修复证据。
 - 文档基线已由 PR #4 合入 main；`blocking-issues` 已由 PR #5 进入默认分支。T00.5 完成规则回读后，后续功能分支从包含该基线的最新 `main` 创建。不得只拉更旧的 main 然后重新发明设计。
 - 新功能使用`feature/**`分支；测试、独立审查、阻塞Issue检查通过后由维护者手动merge commit；保留远程分支。GitHub最低审批人数为0，独立审查证据仍是合并条件。
 - 预期部署目标arm64、macOS15.7.3；完整Xcode必须验证工具链能否表达patch级deployment target。首版runtime profile是`Mac16,13`。已有CLI证据来自15.7.3/build24G419；正式App通过W09之前qualified combinations为空。
@@ -485,85 +485,37 @@ python3 scripts/validate-handoff.py
 
 **完成条件：** 无签名外部凭证也能构建并运行本地App；`handoff-docs/probe-tests/core-tests/app-build/blocking-issues`均为实际检查。硬件与公证状态仍由W09/W10分别判定。
 
-## W09：首台实机资格、五档与长期运行
+## W09：本机课程核心操作与资源短测
 
-**需求：** REQ-001～015、054～057、109～116、129～134及资源/生命周期要求；TC-SENSOR、TC-SCHEDULE、TC-PLATFORM、TC-ENDURANCE、TC-UPSTREAM-BOUNDARY。
+**需求：** 核心 CPU 真实读取/来源/单位、采样切换、历史、会话与退出；课程分层见[course-delivery-v1.json](contracts/course-delivery-v1.json)。TC-SENSOR、TC-SCHEDULE、TC-PLATFORM、TC-UI、TC-LIFECYCLE、TC-HISTORY 保留。
 
-**文件：** 新建`scripts/run-hardware-qualification.sh`、`scripts/summarize-product-qualification.py`及产品实机证据目录；必要缺陷修复回到对应模块，并保留失败证据。
+**交接：** 只验证 W08 构建的完整 `build/TemperatureMonitor.app`（内嵌 worker）；不得运行缺 worker 的 DerivedData 中间产物、旧 probe 或 Release fixture。记录源码、App/worker SHA、ad-hoc 签名、Mac/OS、实际来源和 °C。
 
-**接口：** 验证脚本运行W08生成的实际App/内嵌worker，不调用旧原型代替App。环境与报告分别输出build_toolchain、deployment_target、runtime_profile和qualified_combinations；后者每项绑定App/worker SHA、签名、机型、OS版本/build和通过用例。
+- [ ] T09.1 回读当前构建/profile/本机身份；固定 12 个 CPU 热区不推断物理核心或 Package。
+- [ ] T09.2 确认真实温度与来源/单位、五档可切换，失败不补零/旧值；短测即可，不重复五档各10分钟或新增负载。硬件测量时间未知保持 unknown。
+- [ ] T09.3 验证启动、历史、关窗重开与正常退出/会话清理；软件生命周期与关键故障回归保留，真实睡眠跳过。
+- [ ] T09.4 在同一次短测观察五分钟历史填充后的持续采样、界面响应及 owned App/worker CPU/RSS。记录短测边界，不据此宣称绝无泄漏、精确 SLO 或跨机达标。72/73h 实机耐久、精确 skipped/p95/p99/首帧/显示延迟均不阻塞课程交付；72h 历史/TTL功能保留。
 
-- [ ] 先记录Xcode/Swift/SDK构成build_toolchain，从最终App/worker load command核对deployment_target，再确认真实机器、系统和profile构成runtime_profile。任何字段不一致都阻止资格运行，不写入qualified combinations。
-- [ ] 逐键核对12CPU来源、flt4字节、单位证据、固定成员、未知freshness；SSD明确Internal唯一NVMe composite；Battery记录实际选中IOPS或TB键和优先级判定。周期读取失败按规范显式失败，不补0/旧值。
-- [ ] 对五档分别执行至少10分钟空闲及10分钟可控负载，记录计划/实际开始结束/批跨度/读取失败/重试/skipped/source时间信息；负载必须使用维护者批准的本地工具并记录命令。不得用相同温度比例推断硬件刷新频率。
-- [ ] 确认所有派生CPU批次12成员完整且跨度≤200ms；超范围被正确拒绝并重试。调度是否按日程/跳过过期机会由事件证据判定；CPU/内存/能耗只报告实测分布，不编造用户已暂缓的性能SLO。
-- [ ] 实机执行至少三轮sleep/wake、档位切换、窗口关闭重开、App退出重启、双实例、断网运行。验证新source/definition/segment、Gap、无跨会话恢复、停止后无孤立worker。
-- [ ] 持续运行至少73小时以实际越过最大72h TTL；保存分时资源、数据库/WAL/日志体积、队列最高值与最老年龄、清理进度。通过条件：未触发硬限、队列有界、查询TTL准确、父层先提交、无无限增长迹象；软件虚拟时钟测试不替代此记录。
-- [ ] 在验证工具完成后执行计划命令，预期生成可机器检查的证据与明确pass/fail；任何失败建立Issue并回归，不将旧V0报告重命名成产品报告：
+**完成条件：** COURSE-CPU、COURSE-FUNCTIONS、COURSE-RESOURCES 有实际正式 App 证据。旧完整 `qualified_combinations` 状态不批量改写；扩展资格工具仍可选。
 
-```sh
-bash scripts/run-hardware-qualification.sh --app build/TemperatureMonitor.app --profile docs/contracts/first-profile-v1.json --suite full
-python3 scripts/summarize-product-qualification.py --input docs/validation/product-hardware
-```
+## W10：本机 App 交付与可选公开发行
 
-- [ ] 报告逐项声明available/unavailable及理由；只有同一正式App SHA完成指定用例后，才把该机型+OS版本/build+签名加入qualified combinations。其他组合保持未验收；仅有生产证据的定义上升为targetQualified，不改写历史原型证据。
+**交接：** 当前交付为普通用户可启动的完整 ad-hoc Release App，附源码/二进制身份、启动说明和测试报告。
 
-**完成条件：** 首个组合产品硬件/生命周期/73h验收通过；失败或未运行项目不隐藏。缺实机时可以完成脚本和软件测试，但W09状态只能为未执行。
+- [ ] T10.1 验证 worker/App 签名与 TC-UPSTREAM-BOUNDARY、资源/notice，交付可运行 App；不运行缺 worker 的构建中间产物。
+- [ ] T10.2 明确支持范围仅本机本系统；Developer ID、公证、公开上传、发行 Gatekeeper 和跨机型认证为本轮可选，未执行不标通过。
 
-## W10：签名、公证ZIP与正式配置复测
+**完成条件：** 本机 App 与说明可交付；没有公证凭证不形成课程阻塞。不因文档/测试同步重跑实机长测。
 
-**需求：** REQ-111、126/127；TC-RELEASE及最终权限下TC-SENSOR/TC-LIFECYCLE。
+## W11：课程证据绑定、一次最终审查与合并
 
-**文件：** 新建`scripts/package-release.sh`、发布manifest/校验文件/证据目录；更新App版本与兼容矩阵。不增加自动更新或上传服务。
+**交接：** 134 个需求与50项任务/DAG保留。012/114仍退役；旧逐REQ 100 accepted /31 pending /1 waived /2 retired 为严格资格事实，不被分层改成 PASS。
 
-**接口：** 输入W08当前源码构建及维护者Keychain/CI secrets；输出`build/TemperatureMonitor-notarized.zip`及manifest。外部输入是`DEVELOPER_ID_APPLICATION`、`APPLE_TEAM_ID`、`temperature-monitor-notary` Keychain profile，名称已确定，不需要Agent自行发明证书。
+- [ ] T11.1 同步需求、追踪、课程 policy 与新证据 catalog；COURSE-CPU/FUNCTIONS/RESOURCES 需正式 Release fixture=false，REGRESSIONS/CORE 需实际软件证据及 Core≥80%。普通检查与 `--product-acceptance` 通过；`--strict-product-acceptance` 单独保留完整132项判定。
+- [ ] T11.2 受影响生产代码针对性回归后一次完整 Core、必要 CI，并对最终 App 做一次核心功能短测。普通测试同步采用针对性验证、完整核心回归和简要记录，不要求模型复现、负控、逐文件哈希或多轮审查。测试不稳修正/简化测试，原有效断言与真实缺陷保留。执行一次最终独立审查。
+- [ ] T11.3 回读同 head 五项 required checks、零 open blocking 和保护规则；按用户本轮明确授权提交、push、调整PR状态并使用 merge commit，保留开发分支。报告区分课程通过、严格资格未测与公开发行未执行；达到条件即停。
 
-- [ ] package-release.sh验证凭证存在且当前源码/配置全套检查通过；缺凭证时明确失败并保留本地App交付。日志不能输出私钥、密码或完整认证内容。
-- [ ] 重新调用build-app.sh生成当前源码产物，记录SHA/toolchain/SDK/profile/资源哈希；先签worker，再签App，启用Hardened Runtime，不以`codesign --deep`作为签名方式。
-- [ ] 将13的完整命令顺序写入脚本：签名→验证→原始ZIP→notarytool等待→staple App→spctl→最终ZIP。仅notarytool返回Accepted且stapler/spctl均成功才能命名/声明notarized。
-
-```sh
-bash scripts/package-release.sh
-codesign --verify --deep --strict --verbose=2 build/TemperatureMonitor.app
-xcrun stapler validate build/TemperatureMonitor.app
-spctl --assess --type execute --verbose=2 build/TemperatureMonitor.app
-shasum -a 256 build/TemperatureMonitor-notarized.zip
-```
-
-- [ ] 对正式签名App重跑W09来源、五档、sleep/wake、本地断网、双实例、退出清理、日志不可写及73h验收；最终配置有变化就不能沿用Debug/ad-hoc权限结论。保存App身份、ticket、证据及已发布最高稳定macOS核对日期。
-- [ ] 发布manifest包含version/build/source SHA、App/ZIP SHA-256、build_toolchain、deployment_target、runtime_profile、qualified_combinations、签名Team及third-party contract/notice hash。保留手动下载/替换说明；对外上传由维护者按授权执行，不能把本地打包成功写成已发布。
-- [ ] 提交发布脚本和非敏感证据；等待维护者审查及发布决定。
-
-**完成条件：** 有凭证时完成正式ZIP和最终构建资格；无凭证时明确列为外部发布条件未满足，W01～W09的本地产品工作仍完整交付。
-
-## W11：逐REQ验收、最终审查与交接
-
-**需求：** 全部REQ-001～134，其中012/114退役；TC-DOCS、TC-WORKFLOW、TC-UPSTREAM-BOUNDARY及其余17组产品用例，共20组。
-
-**文件：** 更新`docs/contracts/acceptance-v1.json`对应证据字段、`docs/17-traceability.md`、产品软件/实机/发布报告；保持原始需求来源与历史报告不被覆盖。
-
-**接口：** 逐REQ使用现有映射的任务/测试组及证据路径；不凭任务标题批量标“通过”。新增/变更规则必须同步需求、决策、契约和测试，不只修改实现。
-
-- [ ] 检查134个ID唯一且齐全，132个现行各有实现任务、20组测试中的适用映射、结果与证据；012/114仅为retired/不适用。核对contract revision 3、强类型接口和TC-UPSTREAM-BOUNDARY映射未被旧实现回退。
-- [ ] 以测试产物逐项核对REQ：模拟软件、实机、签名分发三类证据分开；“已实现”“软件通过”“目标组合通过”“正式公证通过”不得互换。不存在测试日志的项目保持未执行。
-- [ ] 在最终commit运行以下计划命令，保存输出；变更后只重跑相关及规定总门禁，不重复无变化的昂贵实机测试：
-
-```sh
-python3 scripts/validate-handoff.py
-swift test --package-path prototypes/sensor-probe --enable-code-coverage
-python3 scripts/check-probe-coverage.py
-swift test --package-path Packages/TemperatureCore --enable-code-coverage
-python3 scripts/check-core-coverage.py
-bash scripts/build-app.sh
-xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -configuration Debug -destination 'platform=macOS,arch=arm64' -derivedDataPath build/DerivedData test
-git diff --check
-```
-
-- [ ] 独立审查对照设计而非仅看测试成功：检查资格化来源、Lease所有权/单次消费、退出、固定成员、缺口、水位、幂等/背压、Presentation互斥状态、私密目录、third-party-v1与notice、Release无测试fallback。发现可复现缺陷建Issue并回归。
-- [ ] 读取最新PR head上的五个required checks、仓库全部open blocking Issue和保护配置；确保head未变。审查证据入PR，由维护者手动merge commit，保留远程feature分支。无管理员权限或外部门禁失败时交付完整待审PR，不能自行绕过。
-- [ ] 最终报告包含本地App路径、已完成任务、134项映射结果、实际支持组合、失败/未执行项、正式ZIP状态、外部凭证或设备依赖、操作与诊断入口。没有公证凭证时明确“本地App完成，正式发布未完成”；不能将全部项目称为完全验收通过。
-
-**完成条件：** 每条现行需求可追到实现与真实证据，代码/文档/契约一致，保留分支和合并节点；最终交付范围与外部条件状态明确。
+**完成条件：** 课程五项证据、覆盖率、CI、一次最终独立审查和真实阻塞清零满足；本机 App、启动说明和简要报告可交付。不能绕过未修复缺陷或未完成的独立审查。
 
 ## 执行者每任务收尾清单
 
@@ -572,3 +524,7 @@ git diff --check
 - [ ] 对应测试、Core80%门禁、既有原型回归和文档验证通过；UI/实机/发布按任务阶段真实执行。
 - [ ] 保存失败与回归证据，更新本任务REQ映射；通过独立审查后提交PR，不直接推main。
 - [ ] 接下任务前确认前置合同已合入main；不能从旧main丢失已批准设计，也不能把文档计划命令写成已执行事实。
+
+## 当前执行衔接
+
+本轮采用[课程范围](course-delivery-scope.md)；旧证据保持原件，最终结果与未验收项见新课程交付报告。#49依据本轮实际资源/响应观察及必要回归处理，不能仅因取消精确性能指标而关闭。CI、独立审查与合并须以实际远端状态为准。

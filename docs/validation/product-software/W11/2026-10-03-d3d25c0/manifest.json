@@ -1,0 +1,26 @@
+{
+  "reviewed_documents_commit": "d3d25c06f012fb16552a92a1159b7b16bb9287ef",
+  "production_source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+  "result": "passed-scoped-review",
+  "files": [
+    {
+      "path": "final-independent-review.md",
+      "sha256": "058b6fc6b96526f59cb7fcd7a9368e72a45f32c99f1ee6029ae70812c2630152",
+      "bytes": 4454,
+      "original_path": "/tmp/temperature-final-f9-supplemental-review.md"
+    },
+    {
+      "path": "final-independent-check.json",
+      "sha256": "858148aaa36d8362809d664486381e561c8341d8cd6c7994ec402060b6dc3894",
+      "bytes": 4062,
+      "original_path": "/tmp/temperature-final-f9-supplemental-check.json"
+    },
+    {
+      "path": "final-independent-check.py",
+      "sha256": "9692024077afdca86ad435b1dd53b4785b4f822d663130e07fdfd96e974bc790",
+      "bytes": 5877,
+      "original_path": "/tmp/temperature-final-f9-supplemental-check.py"
+    }
+  ],
+  "scope": "Non-implementer final source/archive/hash/14attachments/6TTL verdict review. No global W11, exact performance, CI or merge approval."
+}

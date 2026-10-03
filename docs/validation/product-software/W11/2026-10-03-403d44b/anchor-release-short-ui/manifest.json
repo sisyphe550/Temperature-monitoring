@@ -1,0 +1,123 @@
+{
+  "tests": [
+    {
+      "test": "testLocalReleaseAppRealHardwareUI()",
+      "status": "Success",
+      "duration": "129.29370605945587"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "Release-status-item-accessibility-and-scope",
+      "type": "public.plain-text",
+      "file": "01-Release-status-item-accessibility-and-scope.txt",
+      "bytes": 134,
+      "original_export_file": "01-Release-status-item-accessibility-and-scope.txt",
+      "sha256": "a5ab114ac8f59503cf5d0e37aba7c2fc56bc83d5374ab2425773bfb0d88de8dc"
+    },
+    {
+      "name": "Release-production-startup-dashboard",
+      "type": "public.png",
+      "file": "shots/02.png",
+      "bytes": 277442,
+      "original_export_file": "02-Release-production-startup-dashboard.png",
+      "sha256": "148c138fb2fd42962a5d5aa925c870ff16bc9234160b2f597d3859c4ffed7ab9"
+    },
+    {
+      "name": "Release-optional-source-states",
+      "type": "public.png",
+      "file": "shots/03.png",
+      "bytes": 299662,
+      "original_export_file": "03-Release-optional-source-states.png",
+      "sha256": "68ca425caf5800da63450aee18a836dd118b20224904ae9316df2b336c42b155"
+    },
+    {
+      "name": "Release-CPU-50ms-after-8s",
+      "type": "public.png",
+      "file": "shots/04.png",
+      "bytes": 292871,
+      "original_export_file": "04-Release-CPU-50ms-after-8s.png",
+      "sha256": "65c926f1555c4bbfbaad601142ad030d65ff16d654a7a4a9092a99bb7ccc8e79"
+    },
+    {
+      "name": "Release-CPU-100ms-after-8s",
+      "type": "public.png",
+      "file": "shots/05.png",
+      "bytes": 294188,
+      "original_export_file": "05-Release-CPU-100ms-after-8s.png",
+      "sha256": "864d8a6b759a6570aedd5959bd90cec8118fe08eb45bd90e6a376a226d6c5691"
+    },
+    {
+      "name": "Release-CPU-200ms-after-8s",
+      "type": "public.png",
+      "file": "shots/06.png",
+      "bytes": 295865,
+      "original_export_file": "06-Release-CPU-200ms-after-8s.png",
+      "sha256": "6732edc378c95bc08a0952e2604027e70c40691593bf169cf8d506072b5352bf"
+    },
+    {
+      "name": "Release-CPU-500ms-after-8s",
+      "type": "public.png",
+      "file": "shots/07.png",
+      "bytes": 296684,
+      "original_export_file": "07-Release-CPU-500ms-after-8s.png",
+      "sha256": "6dd7b4c0de28fd5f13949fa23b7b9529b1c0ebd8c11229d62c59cb9584ceca91"
+    },
+    {
+      "name": "Release-CPU-1000ms-after-8s",
+      "type": "public.png",
+      "file": "shots/08.png",
+      "bytes": 298178,
+      "original_export_file": "08-Release-CPU-1000ms-after-8s.png",
+      "sha256": "0fca03d41c6977c56a53916b3ad30cfe8c5f90522f41eb55cd7e0b848799f188"
+    },
+    {
+      "name": "Release-history-5 分钟",
+      "type": "public.png",
+      "file": "shots/09.png",
+      "bytes": 296440,
+      "original_export_file": "09-Release-history-5 分钟.png",
+      "sha256": "a3949804eb74136ec430db8e2acc75690bf8301662726f618ba385e47b5dd7c9"
+    },
+    {
+      "name": "Release-history-1 小时",
+      "type": "public.png",
+      "file": "shots/10.png",
+      "bytes": 299442,
+      "original_export_file": "10-Release-history-1 小时.png",
+      "sha256": "6c01daf7e1796bf7a9c12d1248f4b1810c13a80492ff332b1f2fc040456b4a9b"
+    },
+    {
+      "name": "Release-history-point-selection",
+      "type": "public.png",
+      "file": "shots/11.png",
+      "bytes": 314537,
+      "original_export_file": "11-Release-history-point-selection.png",
+      "sha256": "176869c9538722c27fac5e56e4ab5a39b3331cadf1a452403a61284b94b5ad70"
+    },
+    {
+      "name": "Release-status-after-dashboard-close",
+      "type": "public.png",
+      "file": "shots/12.png",
+      "bytes": 3531,
+      "original_export_file": "12-Release-status-after-dashboard-close.png",
+      "sha256": "6e7c336d1d1522738944b0f79848ea0d7501f96f8e59e8ccf930a6b5611f6d9e"
+    },
+    {
+      "name": "Release-reopened-same-session",
+      "type": "public.png",
+      "file": "shots/13.png",
+      "bytes": 301045,
+      "original_export_file": "13-Release-reopened-same-session.png",
+      "sha256": "429fcde17c1a11b57c365438e5bf7f617ea87cd6c5d53cf0810a527cfc2c6045"
+    },
+    {
+      "name": "Release-real-hardware-short-acceptance",
+      "type": "public.plain-text",
+      "file": "14-Release-real-hardware-short-acceptance.txt",
+      "bytes": 1757,
+      "original_export_file": "14-Release-real-hardware-short-acceptance.txt",
+      "sha256": "6c89fff0e353deecb98e2181b06b80c4f4f97f4db2c5af54751e0f1807fd3aa6"
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "date": "2026-10-03",
+  "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+  "delivery_policy_commit": "5984b9e869467218e117976df7d7a320121b14d5",
+  "result": "passed",
+  "profile": "course-local",
+  "environment": {
+    "execution": "formal-release-app",
+    "build_configuration": "Release",
+    "fixture": false,
+    "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+    "app_sha256": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+    "worker_sha256": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96",
+    "model": "Mac16,13",
+    "os_build": "24G419",
+    "os_version": "15.7.3",
+    "Xcode": "26.3/17C529"
+  },
+  "app_delivery_path": "/Users/sisyphus/Code/Go/Temperature monitoring/build/course-delivery-20261003/TemperatureMonitor.app",
+  "session_id": "ce5b9313-6cfc-4438-8b43-044e5005555b",
+  "app_pid": 16423,
+  "worker_pid": 16425,
+  "core_observations": [
+    "Fresh Release build/signature/upstream boundary passed. Production and build inputs unchanged from 7124dc1; App/worker hashes exactly equal its independently validated formal App.",
+    "2026-10-03 21:25:41 approximately: opt-in XCTest launched exact complete App without fixture arguments. Startup, CPU12 exact key set/°C, optional source states, session creation, member selection and 50ms switch assertions passed before subsequent AX failure.",
+    "21:31:52 native absolute-App-path observation: CPU main57.5°C; all12 CPU source keys and °C visible; Te05 selected with CPU max. SSD30.9°C/Battery26.0°C; source measurement timestamp unknown explicitly stated.",
+    "Read-only SQLite at about21:32:27: CPU main6888 Raw rows spanning60.444288416–405.443552958 seconds (345s); min40.4587°C/max67.4320°C, latest requested period50ms. Five-minute chart contains recorded history; no exact2000-point claim.",
+    "Native switch observations: 100ms21:33:09/main53.4°C; 200ms21:33:17/main52.4°C; 500ms21:33:43/main48.9°C; 1000ms21:34:00/main46.6°C. Menu choice committed with Return. All four phases >8 seconds before next operation.",
+    "21:34:09 one-hour history displayed historical averages/min/max and recorded Raw peak76.5°C; screenshot showed real nonempty curves and current values. Native coordinate click returned noWindowsAvailable, so new point-selection is not claimed; same-binary formal point-selection PASS is retained in7124 evidence.",
+    "21:35:08 window close followed by the native binding standard reopen produced new window AX identity, retained1000ms, Te05 selection, same real App PID and same session. No new session was created.",
+    "After native app.quit, owned App/worker search returned no matches and Sessions directory was empty. No kill/force quit of production App."
+  ],
+  "automated_attempt": {
+    "result": "failed",
+    "duration_seconds": 211.244,
+    "reason": "Temporary resource-observation driver repeated picker.value at about192s; XCTest AX snapshot had no PopUpButton match. Test failure was not relabeled PASS.",
+    "source_note": "Temporary opt-in330-second observation only; original short-test file and every original assertion restored exactly to f24. No production change or fullCore rerun.",
+    "log": "automated-attempt-ui.log",
+    "resources": "automated-attempt-resources.jsonl",
+    "xcresult": "/tmp/temperature-course-final.xcresult"
+  },
+  "resource_observation": {
+    "native_records": 105,
+    "utc_start": "2026-10-03T13:31:48.549735+00:00",
+    "utc_end": "2026-10-03T13:35:21.690824+00:00",
+    "filled_history_50ms_window": "2026-10-03T13:31:48.549735Z–before13:33:00Z",
+    "filled_history_50ms": {
+      "app": {
+        "samples": 35,
+        "cpu_percent_min": 41.8,
+        "cpu_percent_max": 88.2,
+        "cpu_percent_median": 57.2,
+        "rss_kib_min": 379536,
+        "rss_kib_max": 396368,
+        "rss_kib_first": 381312,
+        "rss_kib_last": 396368
+      },
+      "worker": {
+        "samples": 35,
+        "cpu_percent_min": 0.4,
+        "cpu_percent_max": 0.7,
+        "cpu_percent_median": 0.7,
+        "rss_kib_min": 40128,
+        "rss_kib_max": 48528,
+        "rss_kib_first": 40128,
+        "rss_kib_last": 48528
+      }
+    },
+    "interpretation": "Continuous real sampling and native control/history response observed. No obvious runaway resource anomaly in this short scope. App memory rose during filling/AX/range changes; no leak-free or controlled A/B improvement claim.100% CPU is one core.",
+    "limitations": [
+      "Short observation does not certify long-term RSS stability or zero leaks.",
+      "Exact skipped/p95/p99/first-frame/display latency not measured and not course gates.",
+      "Native continuation observed same owned App; initial session predates the second sidecar, so new_session_count0 is expected."
+    ]
+  },
+  "not_accepted_this_round": [
+    "physical sleep/wake",
+    "72/73-hour endurance",
+    "five periods each10minutes",
+    "exact performanceSLO",
+    "notarization/public distribution",
+    "cross-model/OS certification",
+    "full132-requirement hardware qualification",
+    "new native point-selection/menu/Popover full certification"
+  ],
+  "support": "Only current Mac16,13/macOS15.7.3 build24G419, this ad-hoc binary; not physical per-core/package temperature."
+}

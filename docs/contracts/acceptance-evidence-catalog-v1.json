@@ -1,0 +1,3028 @@
+{
+  "version": 2,
+  "date": "2026-10-03",
+  "contract_revision": 3,
+  "delivery_commit": "5984b9e869467218e117976df7d7a320121b14d5",
+  "artifacts": {
+    "core-regression": {
+      "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/full-core.log",
+      "sha256": "a15cd80950b3de047af405c81d8c0748815f7e13934790de2271eea8bda181f5",
+      "source_commit": "651b29ee9e158ccf8c06f63945460c09e3bbbb65",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit"
+      },
+      "scope": [
+        "337个产品核心测试/52 suites原始通过记录；仅具体covered_cases适用，软件时间/SQLite测试不是实机长测"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "ui-fixtures": {
+      "path": "docs/validation/product-fixes/2026-10-02-a97fd5a/logs/ui-fixtures.log",
+      "sha256": "9a2d3deb9dd3e60b19b0f176178baa4743a75ed43b915d744c46b1d815aeb813",
+      "source_commit": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit"
+      },
+      "scope": [
+        "Debug fixture实际执行16项PASS；2项条件SKIP排除；不计正式App硬件资格"
+      ],
+      "tc_groups": [
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "source-audit": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/independent-requirement-review.json",
+      "sha256": "40e95728a5c90a67421d3b92bf0718e50ed3254fd40356251fb8de0e21621747",
+      "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit"
+      },
+      "scope": [
+        "独立逐REQ源码/日志核对；scope内声明未重跑App/测试，不代替正式实机"
+      ],
+      "tc_groups": [
+        "TC-DOCS",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "formal-short-app": {
+      "path": "docs/validation/product-fixes/2026-10-02-a97fd5a/report.md",
+      "sha256": "611804bf7522e811849d572eab0e186397489519395aefa5604a713434f29306",
+      "source_commit": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit",
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "f1ae783663557fdf7da346f78f8d632748937c1bf239051a003c982ee683d95b",
+        "worker_sha256": "5e546ae7f7ba0d5f9d890fa662cd5f3f727ac71133d6c4e71eab6209bf7590ac",
+        "model": "Mac16,13",
+        "os_build": "24G419"
+      },
+      "scope": [
+        "同一a97 Release短会话，五档各8秒、正式UI历史/reopen/正常quit、源和CPU12 Raw/EMA；缺少各600秒和真实sleep/wake"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "pr44-ci": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/github-pr44-before-merge.json",
+      "sha256": "548020ac383abba4a0e791f92329cb367984654667efebb9be2e2d2673fadb3c",
+      "source_commit": "357dbbd4df37cdaef5eab00163410d4c965fea9d",
+      "kind": "ci",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit"
+      },
+      "scope": [
+        "PR44 exact-head五检查及blocking回读；不是实机运行证明"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-DOCS",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "local-scope": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/user-scope.json",
+      "sha256": "a5699bb4e9094c2564c41ae97cdcdca9b54c9d955066df40c42e518962954d2a",
+      "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
+      "kind": "waiver",
+      "result": "waived",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit"
+      },
+      "scope": [
+        "用户授权本机自用，豁免公证/公开发行/跨机型与72/73h耐久；保留72h历史软件、五档各10min及真实sleep/wake"
+      ],
+      "tc_groups": [
+        "TC-RELEASE"
+      ]
+    },
+    "apple-os-reference": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/latest-stable-macos.json",
+      "sha256": "d327c38e13b22bf7a3593bb1cda943ce457ba13ceca2f59c8ebb97aafe7bfa2a",
+      "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
+      "kind": "reference",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "frozen historical artifact; per-REQ bounds remain explicit"
+      },
+      "scope": [
+        "Apple官方最高稳定macOS27.0.1记录；不证明当前MacOS27运行资格"
+      ],
+      "tc_groups": [
+        "TC-PLATFORM",
+        "TC-SENSOR"
+      ]
+    },
+    "pr44-body-and-merge": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/github-pr44-body-and-merge.json",
+      "sha256": "37917877144dbb41afe3cda3d0894efe4ac7a4bc34f8fd32474debe1b10b40c6",
+      "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
+      "kind": "ci",
+      "result": "passed",
+      "environment": "GitHub API/Git current PR44 merge snapshot; no hardware claim",
+      "scope": [
+        "PR44最终说明、实际MERGED/mergeCommit及时间"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-DOCS",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "merge-git-provenance": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/merge-git-provenance.json",
+      "sha256": "7a998567da6355a9ebcb17924a46bdc38dd26da2e2e6ce98f0aad95b987eaecb",
+      "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
+      "kind": "ci",
+      "result": "passed",
+      "environment": "GitHub API/Git current PR44 merge snapshot; no hardware claim",
+      "scope": [
+        "403合并两个parent与保留功能分支Git证明"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-DOCS",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "repository-rules": {
+      "path": "docs/validation/product-software/W11/2026-10-03-403d44b/github-ruleset.json",
+      "sha256": "db93fcccbd98026006044707e572c21fe0a53d4d590c73df458076d09730ace0",
+      "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
+      "kind": "ci",
+      "result": "passed",
+      "environment": "GitHub API/Git current PR44 merge snapshot; no hardware claim",
+      "scope": [
+        "五项strict/no bypass main规则"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-DOCS",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "repository-policy": {
+      "path": "docs/validation/product-fixes/2026-10-02-a97fd5a/github-repository-policy.json",
+      "sha256": "e88a179542261525489f327144011c08e293c4c38c21882e4a955fa10fa9c58c",
+      "source_commit": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+      "kind": "ci",
+      "result": "passed",
+      "environment": "historical a97fd5a GitHub repository policy snapshot; not newly fetched for PR26",
+      "scope": [
+        "merge-only/保留远端分支仓库设置"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-DOCS",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-WORKFLOW"
+      ]
+    },
+    "core-coverage": {
+      "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/core-coverage.log",
+      "sha256": "2eb8cf42daaee98be62b533d7781637827532764c38e44770c2686908d3556c8",
+      "source_commit": "651b29ee9e158ccf8c06f63945460c09e3bbbb65",
+      "kind": "software",
+      "result": "passed",
+      "environment": "local Swift --enable-code-coverage / llvm-cov",
+      "scope": [
+        "7067/7966=88.71%；Core+SensorRuntime生产范围；历史651代码测试结果，非当前新修复覆盖数值"
+      ],
+      "tc_groups": [
+        "TC-WORKFLOW"
+      ]
+    },
+    "final-core-ttl": {
+      "path": "docs/validation/product-software/W11/2026-10-03-f9e850c/full-core-summary.json",
+      "sha256": "b70530224573b4cbf4c74d04f6fc88de830babe97158d65ff1b9bbe07c2830c5",
+      "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed source f9e850c; software and formal scope separately stated"
+      },
+      "scope": [
+        "Actual full349/55+89.01% Core; three new virtual elapsed + real SQLite TTL/maintenance vectors; specificREQ coverage only"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "final-formal-short": {
+      "path": "docs/validation/product-software/W11/2026-10-03-f9e850c/short-ui/build-and-run-identity.json",
+      "sha256": "9ddef9c0b8a9f0bb6e01c68e1af25c8a56ddb7811d5c971da81dea384204d0ce",
+      "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed source f9e850c; software and formal scope separately stated",
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "7bf8d21dcd825497484573ec57b79d773b3cb933e0e708791b3641a5d799722c",
+        "worker_sha256": "d0b6d7dbc08299b292dccc6e7076f494ce18366d5c5b0d7c3ba602c79b040b65",
+        "model": "Mac16,13",
+        "os_build": "24G419"
+      },
+      "scope": [
+        "f9正式Release1shortUI149.485sPASS; five8s/sources/history/point/reopen/quit only; initial bootstrap failed independently retained"
+      ],
+      "tc_groups": [
+        "TC-UI",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-HISTORY"
+      ]
+    },
+    "latest-sleep-scope": {
+      "path": "docs/validation/product-software/W11/2026-10-03-c354b03/user-scope.json",
+      "sha256": "dc1dd9eb568aa6e42c0ebc889d33c71c8338354cddef0f7bafa30108dbbfd9df",
+      "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+      "kind": "waiver",
+      "result": "waived",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed source f9e850c; software and formal scope separately stated"
+      },
+      "scope": [
+        "Latest user explicitly skips this round physical sleep test; not wholeREQ waiver and not passed evidence"
+      ],
+      "tc_groups": [
+        "TC-LIFECYCLE"
+      ]
+    },
+    "sigpipe-final-core": {
+      "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+      "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+      "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+      },
+      "scope": [
+        "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "sigpipe-final-formal-short": {
+      "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/short-ui/build-and-run-identity.json",
+      "sha256": "994442a3f2c61cbe8be83199d1abbf2390895948eb079defbc773dd1c5896559",
+      "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed final pipe fix; software and formal short scope separately stated",
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+        "worker_sha256": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96",
+        "model": "Mac16,13",
+        "os_build": "24G419"
+      },
+      "scope": [
+        "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+      ],
+      "tc_groups": [
+        "TC-UI",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-HISTORY"
+      ]
+    },
+    "generation-final-core": {
+      "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+      "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+      "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "context": "Actual committed test-only fix; production/build inputs equal7124"
+      },
+      "scope": [
+        "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "optional-family-final-core": {
+      "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+      "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+      "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+      },
+      "scope": [
+        "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "course-final-core": {
+      "path": "docs/validation/course-delivery/2026-10-03-5984b9e/full-core-summary.json",
+      "sha256": "6e0c81c5b4ae1623b3261c9c09a39a1b457aae92b9740e364f08ab848ba0a18a",
+      "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "context": "One fresh fullCore; production/Core test sources exactly f24"
+      },
+      "scope": [
+        "FullCore355/57; Core88.93%; critical regression cases software only"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-SENSOR",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-STORAGE",
+        "TC-HISTORY",
+        "TC-RETENTION",
+        "TC-VALIDATE",
+        "TC-ERROR",
+        "TC-UPSTREAM-BOUNDARY"
+      ]
+    },
+    "course-final-formal-app": {
+      "path": "docs/validation/course-delivery/2026-10-03-5984b9e/formal-app-summary.json",
+      "sha256": "f825d6d97df2ebf7f79f58f6e816a26a9d461e2a948748eaa65d2652e107c97f",
+      "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+        "worker_sha256": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96",
+        "model": "Mac16,13",
+        "os_build": "24G419",
+        "os_version": "15.7.3",
+        "Xcode": "26.3/17C529"
+      },
+      "scope": [
+        "Final actual local Release App; manual core completion after preserved AX driver failure; filled-history resource observation; not fullstrict132 qualification"
+      ],
+      "tc_groups": [
+        "TC-SENSOR",
+        "TC-UI",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-HISTORY"
+      ]
+    }
+  },
+  "requirement_results": {
+    "REQ-001": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCPUPeriodPickerSupportsAllFiveOptions()",
+        "formal-app-hardware:a97fd5a#testLocalReleaseAppRealHardwareUI:五档Picker及SQLite period_ms=50/100/200/500/1000"
+      ],
+      "outstanding": [],
+      "reason": "正文要求五个可选档位；fixture与正式App均验证五档输入。五档各10min性能资格仍是未完成的整体门禁，不由本条控件验收代替。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-002": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#schedulingScriptMatchesControlledPlan()",
+        "formal-app-hardware:a97fd5a#启动默认200ms且首次cpu.zone.max Raw period_ms=200"
+      ],
+      "outstanding": [],
+      "reason": "默认配置与调度入口200ms已核对，正式App启动首批记录为200ms；不是长期节拍性能结论。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-003": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SamplingServiceTests.swift#cpuPeriodChangeRecalculatesNextDue()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SamplingServiceTests.swift#inFlightReadKeepsOldPeriodAfterPeriodChange()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges()",
+        "formal-app-hardware:a97fd5a#五档切换后保留同一会话且Raw记录请求所属period_ms"
+      ],
+      "outstanding": [],
+      "reason": "后续nextDue重算与在途旧周期分别测试，正式App同会话换档有对应Raw元数据。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-004": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SamplingServiceTests.swift#nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()",
+        "formal-app-hardware:a97fd5a#storage.ssd:127条Raw，period_ms=500，覆盖CPU五档切换的同一短会话"
+      ],
+      "outstanding": [],
+      "reason": "默认SSD 500ms与CPU日程独立；非零CPU耗时不饥饿可选来源已测，实机500ms请求记录确认。各档10min性能尚未完成。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-005": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SamplingServiceTests.swift#nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()",
+        "formal-app-hardware:a97fd5a#power.battery:63条Raw，period_ms=1000，覆盖CPU五档切换的同一短会话"
+      ],
+      "outstanding": [],
+      "reason": "默认Battery 1000ms与CPU日程独立；实机请求元数据保持1000ms，不把63s短会话称为性能资格。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-006": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractTests.swift#timestampPreservesNanoseconds()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/ProcessingCoordinatorTests.swift#completedNonzeroReadReleasesPlannedWatermarkStart()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SessionClockRegressionTests.swift#realWorkerKeepsParentClockOriginAcrossConnectionRestart()"
+      ],
+      "outstanding": [],
+      "reason": "实际read时间、planned水位注册和跨进程共同原点分别验证；Sample采用Reading时间而非理论due。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-007": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#emaUsesActualElapsedTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#pointExactlyOnBoundaryGoesToNextWindow()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#periodChangeDoesNotTriggerTimeoutGap()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges()"
+      ],
+      "outstanding": [],
+      "reason": "EMA使用实际dt，聚合按elapsed边界，趋势/Gap按实际elapsed与请求周期；换档不改变算法时间基础。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-008": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractTests.swift#timestampPreservesNanoseconds()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#readAndPersistenceBatchRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/ProcessingCoordinatorTests.swift#completedNonzeroReadReleasesPlannedWatermarkStart()",
+        "formal-app-hardware:a97fd5a#SQLite Raw elapsed_ns/wall_ns存在且同会话连续"
+      ],
+      "outstanding": [],
+      "reason": "强类型Timestamp纳秒往返、实际采样时间及正式Raw记录形成具体证据。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-009": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift#profileRegistryQualifiesAllTwelveCPUKeys()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift#qualifiedClientMapsSourceIDsToReadBatch()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#staleGenerationIsRejected()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/ProcessingCoordinatorTests.swift#staleGenerationReadIsDiscardedWithoutAccept()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#missingFailedAndUnattemptedInterconnectFactsBlockSelection()",
+        "formal-app-hardware:a97fd5a#CPU12/Battery TB1T/唯一Internal NVMe经Registry进入SQLite sources"
+      ],
+      "outstanding": [],
+      "reason": "强类型SourceID、资格化、代际拒绝和真实来源事实均验证；没有将发现名称直接当可采样来源。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-010": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#readAndPersistenceBatchRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#cpuMaxTracksHotspotAcrossBatches()",
+        "formal-app-hardware:a97fd5a#sources.kind=cpuZone/ssd/battery，series.kind含独立cpuMain"
+      ],
+      "outstanding": [],
+      "reason": "Raw/定义的强类型kind在软件和真实SQLite中明确区分。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-011": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#decodesLittleEndianFloatAs25Point5C()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#decodesBigEndianSignedFixedPointAs25Point5C()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#decodesSmartKelvinLittleEndian()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift#nvmeKelvin300Is26Point85C()",
+        "formal-app-hardware:a97fd5a#CPU/Battery/SSD来源unit_evidence与UI摄氏显示"
+      ],
+      "outstanding": [],
+      "reason": "SMC编码及SMART Kelvin转摄氏有精确向量，实机资格事实/摄氏展示可核对。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-013": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#failureReadingProducesNoSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#rejectsNonFiniteAndBelowAbsoluteZero()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#staleGenerationIsRejected()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#qualifiedSMCReadingRejectsChangedEncodingAndLength()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#mismatchedTransportRequestIdentityIsRejected()"
+      ],
+      "outstanding": [],
+      "reason": "成功/失败互斥，温度、身份、generation、编码变化及失败不产样本各有实际测试。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-014": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractTests.swift#readingOutcomeCannotCarrySuccessAndFailure()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#rejectsWrongLengthUnknownEncodingAndNonFiniteValues()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#iopsAcceptsCelsiusCFNumberAndRejectsMissingBooleanInvalidValues()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#smcRejectsTemperatureBelowAbsoluteZero()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#missingHIDEventDoesNotFabricateZeroCelsius()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#upstreamRollbackDoesNotCreateSample()"
+      ],
+      "outstanding": [],
+      "reason": "缺事件、非数、非法编码/绝对零度及旧值回退分别验证；失败没有补零/旧样本。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-015": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#failureReadingProducesNoSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#rejectsNonFiniteAndBelowAbsoluteZero()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#upstreamRollbackDoesNotCreateSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EngineGapRegressionTests.swift#explicitReadFailureOpensOneGapAndRecoveryResetsEMA()"
+      ],
+      "outstanding": [],
+      "reason": "无效/失败输入不形成Raw与EMA，已提交加工状态不推进；故障隔离并分段恢复。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-016": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#rawAndEMABuffersAreIndependent()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#engineCommitFailureDoesNotAdvanceSnapshotGeneration()"
+      ],
+      "outstanding": [],
+      "reason": "已接纳批次合法Receipt后交换Raw/EMA内存状态，实际CPU12加工闭环和提交失败保持状态已测。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-017": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#highWatermarkPausesAndLowWatermarkResumes()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#reserveAboveEventLimitIsIntegrityFailure()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles()",
+        "formal-app-hardware:a97fd5a#SQLite raw_samples=5650、committed_batches=674"
+      ],
+      "outstanding": [],
+      "reason": "有界Lease/队列、批次交付及真实Raw持久化具备具体证据。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-018": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#enforcesCapacityAfterWindowPrune()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#rejectsThirtyThirdActiveSeries()"
+      ],
+      "outstanding": [],
+      "reason": "先做时间窗口清理，再按容量覆盖最早记录；32 series上限与窗口容量有回归。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-019": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#retainsSamplesWithinThreeHundredSecondWindow()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#rawAndEMABuffersAreIndependent()"
+      ],
+      "outstanding": [],
+      "reason": "虚拟连续时间覆盖300s半开TTL与独立Raw/EMA内存缓冲；不要求实际72h运行。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-020": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#retainsRawWithoutOneSecondParent()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#cleanupGraceExceededIsFatal()"
+      ],
+      "outstanding": [],
+      "reason": "真实SQLite+虚拟时间验证Raw300s到期清理、父层未提交保留和120s宽限失败。实机最终短会话未到TTL，不将其当TTL实测。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-021": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#emaUsesActualElapsedTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#cpuMaxEMAFollowsDerivedSeries()"
+      ],
+      "outstanding": [],
+      "reason": "80/100/100实际dt精确EMA向量及非正dt拒绝、先max后独立EMA均通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-022": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#rawAndEMABuffersAreIndependent()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fiveMinuteHistoryUsesRealtimeMemoryPath()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory()"
+      ],
+      "outstanding": [],
+      "reason": "EMA独立内存Buffer、实时查询路径及Snapshot来自已提交EMA均验证。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-023": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageFaultTests.swift#failedTransactionRollsBackPartialBatch()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#lostCommitAcknowledgementRetriesWithoutDuplicateSamples()",
+        "formal-app-hardware:a97fd5a#真实SQLite Raw=EMA=5650"
+      ],
+      "outstanding": [],
+      "reason": "Raw/EMA同一批次原子提交、rollback与丢ack幂等有具体回归，实机两表计数一致。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-024": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RingBufferTests.swift#retainsSamplesWithinThreeHundredSecondWindow()"
+      ],
+      "outstanding": [],
+      "reason": "维护回归直接断言实际SQLite ema_samples清为0，配置EMA TTL300s；不是仅验证配置值。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-025": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#oneSecondWindowAggregatesRawSamples()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#inFlightRequestDefersWindowClosure()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#integrationAdvancePersistsBuckets()",
+        "formal-app-hardware:a97fd5a#真实SQLite width_s=1聚合959条"
+      ],
+      "outstanding": [],
+      "reason": "1s窗口闭合、在途水位阻塞和持久化有用例；真实App已生成1s父桶。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-026": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#oneSecondWindowAggregatesRawSamples()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#sparseTenSecondWindowClosesPartial()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#bucketTrendAndSampleRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageFaultTests.swift#batchStoresAggregatesTrendsAndSampleMembers()"
+      ],
+      "outstanding": [],
+      "reason": "min/max/sum/latest/count、加权avg与稀疏partial/coverage字段在算法、编码和存储验证。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-027": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#sparseTenSecondWindowClosesPartial()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#emptyWindowProducesNoBucket()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/LongSleepRecoveryRegressionTests.swift#longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw()",
+        "formal-app-hardware:a97fd5a#真实SQLite width_s=10聚合90条"
+      ],
+      "outstanding": [],
+      "reason": "稀疏子窗不补零，真实Raw父桶先提交且空睡眠不造桶；10s层实际生成。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-028": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/LongSleepRecoveryRegressionTests.swift#longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#emptyWindowProducesNoBucket()",
+        "formal-app-hardware:a97fd5a#真实SQLite width_s=60聚合15条"
+      ],
+      "outstanding": [],
+      "reason": "真实尾部Raw递归关闭1/10/60父层的回归直接查三个范围；空窗不造桶，正式App60s层非零。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-029": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#parentMergeUsesWeightedAverage()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift#aggregateReductionRetainsWeightedMeanAndTotalCount()"
+      ],
+      "outstanding": [],
+      "reason": "A60×1+B80×3得到75，降采样保留sum/count而非均值再次平均。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-030": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#retainsRawWithoutOneSecondParent()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#cleanupGraceExceededIsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/LongSleepRecoveryRegressionTests.swift#longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "outstanding": [],
+      "reason": "缺父桶时保留低层，提交失败保留窗口，wake先真实父桶后prune；未把内存完成当已提交。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-031": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+      ],
+      "outstanding": [],
+      "reason": "1s3600s cutoff−1/0/+1ns逐行删除/保留已在同一次真实SQLite prune验证。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "final-core-ttl",
+        "sigpipe-final-core",
+        "generation-final-core",
+        "optional-family-final-core"
+      ]
+    },
+    "REQ-032": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#downsamplingPreservesPeakAcross8640Buckets()"
+      ],
+      "outstanding": [],
+      "reason": "精确cutoff测试实际插入10s层，按86400s TTL删除边界记录、保留边界后一条；24h聚合查询有数据向量。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-033": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+      ],
+      "outstanding": [],
+      "reason": "1min259200s cutoff−1/0/+1ns逐行边界已通过虚拟时间+真实SQLite验证，72h实跑豁免与软件TTL分开。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "final-core-ttl",
+        "sigpipe-final-core",
+        "generation-final-core",
+        "optional-family-final-core"
+      ]
+    },
+    "REQ-034": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageFaultTests.swift#batchStoresAggregatesTrendsAndSampleMembers()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+      ],
+      "outstanding": [],
+      "reason": "Trend3600s cutoff两侧身份删除/保留由生产prune真实SQLite验证。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "final-core-ttl",
+        "sigpipe-final-core",
+        "generation-final-core",
+        "optional-family-final-core"
+      ]
+    },
+    "REQ-035": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#historyAndGapRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#threeDayQueryFiltersExpiredRowsBeforePhysicalPrune()"
+      ],
+      "outstanding": [],
+      "reason": "prune前SQL仍有过期1min记录，threeDays查询立即过滤；正常范围内整桶仍返回。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "final-core-ttl",
+        "sigpipe-final-core",
+        "generation-final-core",
+        "optional-family-final-core"
+      ]
+    },
+    "REQ-036": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+      ],
+      "outstanding": [],
+      "reason": "同一生产prune对Raw/EMA、1s/10s/1min/Trend逐表边界判定并保留无已提交父桶样本。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "final-core-ttl",
+        "sigpipe-final-core",
+        "generation-final-core",
+        "optional-family-final-core"
+      ]
+    },
+    "REQ-037": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerExecutesRetentionAtSixtySecondBoundaries()"
+      ],
+      "outstanding": [],
+      "reason": "生产Controller在59.999/60/119.999/120s虚拟elapsed，真实SQLite两次删除与维护等待登记证明60s执行边界。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "final-core-ttl",
+        "sigpipe-final-core",
+        "generation-final-core",
+        "optional-family-final-core"
+      ]
+    },
+    "REQ-038": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SQLiteStoreTests.swift#sessionPersistenceOpenPersistsMetadata()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SQLiteStoreTests.swift#sessionMetadataRoundTripThroughStore()",
+        "formal-app-hardware:a97fd5a#正式启动新增一个session目录，monitor.sqlite存在、session metadata及schema=1"
+      ],
+      "outstanding": [],
+      "reason": "新会话数据库、schema与session元数据有真实启动和软件检查。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-039": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRemovesOrphanedMarkedSession()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRequiresHeldLock()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupSkipsDirectoryWithMismatchedMarker()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRejectsSymlinkedSessionDirectory()"
+      ],
+      "outstanding": [
+        "当前正式a97 App尚无强杀留下有效marker监控库→重新启动→只清旧会话不恢复旧历史的实机记录；保留pending的范围是App启动接线。"
+      ],
+      "reason": "残留清理构件的锁、marker、路径和删除行为有软件证据。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-040": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeShutdownRegressionTests.swift#stopWaitsForSessionDeletionAndIsIdempotent()",
+        "formal-app-hardware:a97fd5a#正常窗口app.quit后进程退出并删除本次session目录"
+      ],
+      "outstanding": [],
+      "reason": "关闭连接后删除SQLite/WAL/SHM的实际软件路径及正式App正常退出均验证。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-041": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#sessionCloseRemovesDatabaseSidecars()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeShutdownRegressionTests.swift#stopWaitsForSessionDeletionAndIsIdempotent()",
+        "formal-app-hardware:a97fd5a#testLocalReleaseAppRealHardwareUI:正常quit后本次session目录消失；独立轮询数据库余数0"
+      ],
+      "outstanding": [],
+      "reason": "具体session删除与幂等stop有实际文件断言，正常正式App同路径实测通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-042": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#loggerRotatesAtConfiguredSize()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#cleanupRemovesOrphanedMarkedSession()",
+        "software-source-audit:403d44b#SessionPaths监控目录与DiagnosticLogger日志目录独立"
+      ],
+      "outstanding": [
+        "未见同一次session删除后既有错误日志/报告仍存在且内容不变的联合断言；正常短会话无错误日志不能证明保留。"
+      ],
+      "reason": "独立目录与各自写入/清理构件已核对。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "source-audit"
+      ]
+    },
+    "REQ-043": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#cpuMaxEMAFollowsDerivedSeries()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testBasicFixtureShowsLiveTemperature()",
+        "formal-app-hardware:a97fd5a#正式App status.temperature AX存在且读出CPU主温度，CPU12/max EMA落库"
+      ],
+      "outstanding": [],
+      "reason": "菜单状态只消费主指标EMA，固定12成员max再EMA有回归，正式状态温度可读；不确认物理菜单可点击。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-044": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testBasicFixtureShowsLiveTemperature()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testStaleFixtureShowsPlaceholderInStatusItem()",
+        "formal-app-hardware:a97fd5a#自有状态项附件的摄氏一位小数温度文本"
+      ],
+      "outstanding": [],
+      "reason": "58.3 °C精确fixture断言与真实摄氏文本确认格式，无值显示占位。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-045": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSourcesFixtureListsRows()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "formal-app-hardware:a97fd5a#启动主窗口CPU12/SSD/Battery摄氏数字行"
+      ],
+      "outstanding": [],
+      "reason": "数字面板只接PresentationState的EMA值/状态；软件与正式数字行均验证。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-046": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testDashboardOffersSourceSelectionAndTemperatureComparison()",
+        "formal-app-hardware:a97fd5a#启动及1h自有窗口中的temperature.comparison柱体和EMA温度行"
+      ],
+      "outstanding": [],
+      "reason": "柱体读取TemperatureRowState的EMA显示值，实际对比区域已出现；不存在另一路Raw输入。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-047": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fiveMinuteHistoryUsesRealtimeMemoryPath()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#正式App选择fiveMinutes后当前会话折线非空"
+      ],
+      "outstanding": [],
+      "reason": "五分钟路由到Engine EMA buffer、persistedThrough=nil且非空，正式App五分钟入口也通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-048": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#longHistoryUsesSQLiteQueryWithPersistedThrough()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#returnsEmptyResultWhenNoData()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()",
+        "formal-app-hardware:a97fd5a#正式ApponeHour选择和图表非空"
+      ],
+      "outstanding": [],
+      "reason": "超过5min通过SQLite聚合层，1h/24h/72h固定范围在软件路由及父桶查询覆盖；本机只实际短会话1h入口，不宣称真实24/72h历史。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-049": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#downsamplingPreservesPeakAcross8640Buckets()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryChartModelTests.swift#peakMaxIsPreservedFromEnvelope()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryBudgetRegressionTests.swift#sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts()"
+      ],
+      "outstanding": [],
+      "reason": "8640桶峰99和跨段总预算极值保留，图表模型保留max envelope；UI渲染使用该envelope，非只画平均值。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-050": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fiveMinuteHistoryUsesRealtimeMemoryPath()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift#fiveMinutesPreservesFullRangeAndExtrema()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistorySourceContinuityRegressionTests.swift#fiveMinuteHistoryRetainsPriorSourceDefinitionWithoutJoiningSeries()",
+        "formal-app-hardware:a97fd5a#正式AppfiveMinutes加载当前会话数据"
+      ],
+      "outstanding": [],
+      "reason": "内存EMA路由、完整300s高频范围、旧代来源隔离及真实入口分别验证。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-051": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#longHistoryUsesSQLiteQueryWithPersistedThrough()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()",
+        "formal-app-hardware:a97fd5a#正式ApponeHour加载本会话已存在的1s聚合"
+      ],
+      "outstanding": [],
+      "reason": "一小时范围返回oneSecond层与SQLite水位，正式入口非空；不要求等待真实整小时。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-052": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#returnsEmptyResultWhenNoData()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#downsamplingPreservesPeakAcross8640Buckets()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()"
+      ],
+      "outstanding": [],
+      "reason": "oneDay固定范围实际返回tenSeconds层，8640个10s桶查询有真实SQLite数据向量；无需硬件等待24h。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-053": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/LongSleepRecoveryRegressionTests.swift#longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw()",
+        "software-source-audit:403d44b#HistoryRange.threeDays.layer=oneMinute，HistoryQuery按samples_1m选择"
+      ],
+      "outstanding": [],
+      "reason": "三天范围在实际SQLite父桶回归可读1m层，路由实现已核对；这证明软件分层，不证明72h实机耐久。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "source-audit"
+      ]
+    },
+    "REQ-054": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#sensorBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#sensorRetriesUseExactWaitSequence()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalAvailabilityIntegrationTests.swift#optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()"
+      ],
+      "outstanding": [],
+      "reason": "50/100/200ms预算、clock注册后的实际可选重试，以及CPU首次+3次耗尽有具体回归。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-055": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#successResetsRetryBudget()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SamplingServiceTests.swift#failedOptionalSourceHasFiniteProbesAndNeedsThreeValidReads()"
+      ],
+      "outstanding": [],
+      "reason": "生产采样恢复成功后返回读取成功分支、预算重置，有限可选探测与三成功恢复已观察。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-056": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#sensorRetriesUseExactWaitSequence()"
+      ],
+      "outstanding": [],
+      "reason": "实际四次CPU transport失败产生sensorRead、retryCount3、Fatal及报告，枚举对应SENSOR-READ-002。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-057": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SensorDecodingTests.swift#rejectsWrongLengthUnknownEncodingAndNonFiniteValues()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#failureReadingProducesNoSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#sensorReadFailureIsRetryable()"
+      ],
+      "outstanding": [
+        "未见无效温度ReadingOutcome从生产SamplingService进入50/100/200ms重试并成功/耗尽的完整用例；sensor timeout或普通IO失败不能替代该输入。"
+      ],
+      "reason": "非法温度形成failure且不产样本，采样实现把失败交同一重试预算。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-058": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#databaseBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#temporaryWriteFailureRetriesSameBatchAndPayload()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()"
+      ],
+      "outstanding": [
+        "正文泛指SQLite操作；当前query直通只抛读错误，App另有UI3次预算。读操作是否适用DB5次须与REQ061及避免嵌套预算边界一致后验收。"
+      ],
+      "reason": "实际写路径首次+5次有回归，默认100/250/500/1000/2000表已核对。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-059": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#temporaryWriteFailureRetriesSameBatchAndPayload()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#lostCommitAcknowledgementRetriesWithoutDuplicateSamples()"
+      ],
+      "outstanding": [],
+      "reason": "实际短暂写失败后第二次成功、总尝试恰2且同payload，无后续多余重试。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-060": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#databaseBudgetMatchesContract()"
+      ],
+      "outstanding": [],
+      "reason": "实际总6次写尝试，失败code.databaseWrite、retryCount5，未清空为成功；对应DB-WRITE-003。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-061": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#databaseBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#uiHistoryBudgetIsIndependentFromDatabaseBudget()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#rejectsFiveMinuteSQLiteRange()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#concurrentQueriesMatchTheirRequestsOrReportSuperseded()"
+      ],
+      "outstanding": [
+        "当前证据不包含实际SQLite读取临时失败后5次重试耗尽的DB-READ-004出口。默认private-cache WAL的外部BEGIN EXCLUSIVE+schema DDL并不阻塞已有reader普通SELECT，已/tmp验证；不得用shared-cache/DELETE替代生产锁语义构造假red。需要先确定真实可发生的暂时读取失败及DB/UI预算归属。"
+      ],
+      "reason": "存在DB5预算表与DB-READ错误枚举，query本身不包DB5重试。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-062": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#corruptedActiveDatabaseIsNotAutoDeleted()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#structuralDatabaseFailuresAreNotRetryable()"
+      ],
+      "outstanding": [
+        "现有损坏测试捕获SessionCleanupError.databaseCorrupt，未直接观察生产SessionPersistence损坏输入返回DB-CORRUPT-006且无重试的出口。"
+      ],
+      "reason": "损坏数据库被结构性拒绝且不清空；生产mapStoreError把CORRUPT/NOTADB映射databaseCorrupt。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-063": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SQLiteStoreTests.swift#badUserVersionFailsWithSchemaFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SQLiteStoreTests.swift#missingRequiredViewFailsWithSchemaFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#structuralDatabaseFailuresAreNotRetryable()"
+      ],
+      "outstanding": [],
+      "reason": "实际版本/视图不兼容返回databaseSchema Fatal；结构性错误在重试策略中立即拒绝。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-064": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "outstanding": [
+        "纯加工暂时错误的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "reason": "加工预算表已测；EMA唯一throw是确定性nonPositiveDeltaTime，聚合/趋势纯算法非throwing，IO属于DB、Lease/Receipt/schema/非法dt必须立即拒绝。未找到真实temporarily retryable加工条件，不据未接重试表认定可复现缺陷。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-065": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "outstanding": [
+        "EMA耗尽PROC-EMA-002的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "reason": "加工预算表已测；EMA唯一throw是确定性nonPositiveDeltaTime，聚合/趋势纯算法非throwing，IO属于DB、Lease/Receipt/schema/非法dt必须立即拒绝。未找到真实temporarily retryable加工条件，不据未接重试表认定可复现缺陷。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-066": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "outstanding": [
+        "聚合耗尽PROC-AGG-003的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "reason": "加工预算表已测；EMA唯一throw是确定性nonPositiveDeltaTime，聚合/趋势纯算法非throwing，IO属于DB、Lease/Receipt/schema/非法dt必须立即拒绝。未找到真实temporarily retryable加工条件，不据未接重试表认定可复现缺陷。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-067": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#processingValidateIsNotRetryable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#failedAggregationCommitRetainsWindowForRetry()"
+      ],
+      "outstanding": [
+        "趋势耗尽PROC-TREND-004的条件适用性/文档约定尚未闭合；没有可信生产暂时性加工故障→按50/100/200ms重试→对应耗尽码的证据。需说明条件不可达或定义真实可分类错误，不制造硬件失败作证。"
+      ],
+      "reason": "加工预算表已测；EMA唯一throw是确定性nonPositiveDeltaTime，聚合/趋势纯算法非throwing，IO属于DB、Lease/Receipt/schema/非法dt必须立即拒绝。未找到真实temporarily retryable加工条件，不据未接重试表认定可复现缺陷。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-068": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#uiHistoryBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#uiHistoryBudgetIsIndependentFromDatabaseBudget()"
+      ],
+      "outstanding": [
+        "未实际观察AppSessionRuntime UI读取暂时失败后按三次预算成功恢复/耗尽；尤其需确认不嵌套DB5重试。"
+      ],
+      "reason": "UI100/250/500ms独立预算及实现queryHistoryWithBudget可读；不是完整App故障执行用例。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-069": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryChartModelTests.swift#failedStateDoesNotPromotePreviousToReady()"
+      ],
+      "outstanding": [
+        "fixture预置cached不等同UI读取重试；未见一次成功UI数据→同会话UI读取失败→重试期间保留最后成功数据的完整执行。"
+      ],
+      "reason": "缓存状态显示和previous history状态有软件验证。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures"
+      ]
+    },
+    "REQ-070": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#staleHidesValueAfterThreshold()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#upstreamRollbackDoesNotCreateSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#failureReadingProducesNoSample()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testStaleFixtureShowsExplicitExpiredReason()"
+      ],
+      "outstanding": [],
+      "reason": "互斥cached/stale、原因与超期隐藏数值已直接测；失败不增加Raw，旧值不作为新样本重放。该证据为软件UI，不冒充真实硬件故障。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures"
+      ]
+    },
+    "REQ-071": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetryPolicyTests.swift#uiHistoryBudgetMatchesContract()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#uiHistoryBudgetIsIndependentFromDatabaseBudget()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testFatalFixtureShowsFatalCodeInDashboard()"
+      ],
+      "outstanding": [
+        "缺App UI首次+3次读取失败后明确UI-DATA-001及retryCount3的执行/报告断言。"
+      ],
+      "reason": "UI预算表和Fatal展示各已测，fixture的Fatal是SENSOR-READ而非UI-DATA耗尽。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures"
+      ]
+    },
+    "REQ-072": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalAvailabilityIntegrationTests.swift#optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift#unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget()"
+      ],
+      "outstanding": [
+        "关键UI读取耗尽→Fatal未完整验收；纯加工暂时错误适用边界与REQ064–067尚未闭合。不能用CPU耗尽推断全部关键链路。"
+      ],
+      "reason": "CPU耗尽Fatal、存储写耗尽与可选隔离保留CPU已验证。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-073": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ErrorCoordinatorTests.swift#nonRetryableFailureEscalatesImmediately()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#forgedReservationIsIntegrityFailure()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#externalOnlyIsUnavailableWithoutStoppingCPU()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#missingFailedAndUnattemptedInterconnectFactsBlockSelection()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistorySourceContinuityRegressionTests.swift#qualifiedUnavailableOptionalCapabilityHasVisibleRowWithoutSamples()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
+        "formal-app-hardware:a97fd5a#受控缺worker副本产生APP-INIT-001启动Fatal并自动退出"
+      ],
+      "outstanding": [],
+      "reason": "结构性关键错误立即Fatal、可选能力缺失只Unavailable且有原因/CPU继续，有不同类别直接证据；受控副本仅启动边界。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-074": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#loggerRotatesAtConfiguredSize()"
+      ],
+      "outstanding": [],
+      "reason": "真实软件Controller四次超时回归读取实际日志并断言错误code与retryCount3，不仅测logger API。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-075": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterCreatesBoundedReportFile()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterReturnsFallbackWhenDirectoryIsNotWritable()",
+        "formal-app-hardware:a97fd5a#受控启动Fatal同批APP-INIT-001 JSON报告存在且内容冻结"
+      ],
+      "outstanding": [],
+      "reason": "CPU重试Fatal确实生成文件和精确字段；写失败有fallback，另有受控启动实际报告。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-076": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testFatalFixtureShowsFatalCodeInDashboard()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterReturnsFallbackWhenDirectoryIsNotWritable()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#fatalStateRejectsLaterRunningSnapshots()"
+      ],
+      "outstanding": [],
+      "reason": "原SENSOR-READ-002显示断言、写报告失败保留原code、Fatal不被后续Snapshot覆盖。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures"
+      ]
+    },
+    "REQ-077": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testFatalFixtureShowsFatalCodeInDashboard()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterCreatesBoundedReportFile()"
+      ],
+      "outstanding": [
+        "核对最终FatalView对重启提示、打开本次报告及复制详情的实际实现差异；复制报告路径不能代替复制详情。实现与正文边界明确后，再执行正式Fatal界面的目标文件、剪贴板内容和退出操作验收；不能仅补fixture截图关闭本条。"
+      ],
+      "reason": "现有FatalView仅有倒计时、复制报告路径和退出；未实现正文要求的重启提示、打开报告及复制详情。Settings报告入口和fixture按钮存在不等于这些Fatal操作已提供，保留pending。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures"
+      ]
+    },
+    "REQ-078": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#fatalDisplayReceiptExpiresAfterConfiguredDuration()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeShutdownRegressionTests.swift#fatalFreezeStopsIOButPreservesDatabaseUntilQuit()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#shutdownRecordsCompletedSteps()",
+        "formal-app-hardware:a97fd5a#受控missingSensorWorker启动fallback无输入约31.4639s进程消失；正常app.quit清理目录"
+      ],
+      "outstanding": [
+        "正式运行中Fatal可见30s后自动退出、5s清理预算、未完成步骤记录并由下次启动处理的组合路径尚未验收；不能拼接独立startup及正常quit结果称完整通过。",
+        "2026-10-03实际runtime Fatal卡在terminateLater，Issue #47；新RunLoop修复必须由新Release实机证明自动退出和清理。"
+      ],
+      "reason": "旧启动fallback与正常quit不能覆盖runtime Fatal；实机已发现单独退出死锁，保留pending。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-079": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#taggedUUIDTypesEncodeAndDecode()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#presentationAndMonitorFailureRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerProtocolTests.swift#rejectsNonCanonicalUUID()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()"
+      ],
+      "outstanding": [
+        "MonitorFailure/FatalReport现存字段未记录按事件适用的RequestID、BatchID、GapID、WatermarkEventID；事件类型存在不证明错误报告完整身份字段。需逐种适用事件报告断言或契约边界闭合。"
+      ],
+      "reason": "稳定code及SourceID/各事件UUID类型单独往返已测。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-080": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#presentationAndMonitorFailureRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterReturnsFallbackWhenDirectoryIsNotWritable()",
+        "formal-app-hardware:a97fd5a#启动Fatal JSON component=AppDelegate, operation=makeProduction"
+      ],
+      "outstanding": [],
+      "reason": "component字段强模型往返、fallback文本及实际报告模块名均可读。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-081": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#presentationAndMonitorFailureRoundTrip()"
+      ],
+      "outstanding": [],
+      "reason": "CPU实际报告retry_count3、写失败retryCount5及完整MonitorFailure往返有精确断言。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-082": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#presentationAndMonitorFailureRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/DiagnosticsTests.swift#reportWriterDoesNotIncludeMachineSerialField()"
+      ],
+      "outstanding": [
+        "先确认单一QualifiedSource故障的身份传递与ReportPayload缺source_id的模型差异；SamplingService无效success规范化可带sourceID，而QualifiedSensorClient的transport failure当前sourceID=nil。实际报告须与当次适用故障SourceID逐项核对；CPU整批超时可无单一source，不覆盖本条条件。"
+      ],
+      "reason": "MonitorFailure存在强类型SourceID?，但ReportWriter的ReportPayload实际没有source_id字段；catalog此前称已序列化与现有模型不符。这是正文与实际报告payload的差异，不能以类型往返或欠测措辞替代，保留pending。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-083": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractTests.swift#unknownClosedEnumFailsDecoding()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractTests.swift#taggedUUIDRequiresCanonicalLowercase()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerProtocolTests.swift#protocolFailureUsesSensorProtocolCode()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#wrongGenerationCommitIsIntegrityFailure()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#cancelledLeaseCannotCommit()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#integrityConflictIsNotRetried()"
+      ],
+      "outstanding": [],
+      "reason": "闭合枚举/UUID/protocol拒绝与Lease完整性具体码稳定，结构性冲突不重试；版本稳定性按当前契约枚举冻结，不预测未来版本。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-084": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SQLiteStoreTests.swift#badUserVersionFailsWithSchemaFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageLifecycleRegressionTests.swift#writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SensorRecoveryRegressionTests.swift#repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#forgedReservationIsIntegrityFailure()"
+      ],
+      "outstanding": [],
+      "reason": "schema、写耗尽、sensor耗尽、Lease完整性分别使用不同闭合码，有具体语义输入/输出。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-085": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44基线0b720deb与创建时latest main一致；merge403 first-parent=0b、second-parent=357"
+      ],
+      "outstanding": [],
+      "reason": "本轮修复隔离feature从当时main开始，Git基线及merge双parent可核对；不宣称所有历史分支都已审。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-086": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:main-protection active、无bypass、pull_request规则及strict五项required checks；由已绑定ruleset字段证明main受保护。"
+      ],
+      "outstanding": [],
+      "reason": "规则快照与实时protected状态确认禁止未经PR门禁直接推功能。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-087": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:main-protection strict required checks=handoff-docs/probe-tests/blocking-issues/core-tests/app-build"
+      ],
+      "outstanding": [],
+      "reason": "规定自动检查由GitHub规则强制满足；与W11未执行的人工实机验收分列。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-088": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:GitHub Issue27–43及45、归档RED回归与修复对应关系"
+      ],
+      "outstanding": [],
+      "reason": "已复现产品及CI缺陷创建Issue，关闭记录与具体RED/GREEN证据存在。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-089": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44 body Related issues与Fixes27–43/45，实时gh pr view44回读"
+      ],
+      "outstanding": [],
+      "reason": "真实修复PR逐项关联已登记缺陷，不用本地Markdown代替远端关联。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-090": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44 head357两套core-tests/probe-tests/app-build/handoff-docs全部SUCCESS"
+      ],
+      "outstanding": [],
+      "reason": "确切head的自动单元/探测/UI构建检查执行并成功；不是沿用旧48cd检查。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-091": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:main-protection要求core-tests等成功；6af push core失败曾登记Issue45并修复后才交Ready"
+      ],
+      "outstanding": [],
+      "reason": "零失败门禁的规则和实际失败→修复→新head通过流程均有记录。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-092": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:651核心337/52通过，7067/7966=88.71%>=80%，覆盖范围生产Core+SensorRuntime",
+        "software:651b29e核心覆盖日志7067/7966=88.71%"
+      ],
+      "outstanding": [],
+      "reason": "实际覆盖原始日志和分母范围符合现行10，未排除业务故障分支。",
+      "required_evidence_kinds": [
+        "software",
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "core-regression",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy",
+        "core-coverage"
+      ]
+    },
+    "REQ-093": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#emaUsesActualElapsedTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EMAProcessorTests.swift#rejectsNonPositiveDeltaTime()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#emptyWindowProducesNoBucket()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/BackpressureTests.swift#engineCommitFailureDoesNotAdvanceSnapshotGeneration()",
+        "ci:PR44 exact-head软件检查通过"
+      ],
+      "outstanding": [],
+      "reason": "核心算法正常、空窗/边界、非法dt/状态提交失败等不同条件均有已执行用例。",
+      "required_evidence_kinds": [
+        "software",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-094": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCPUPeriodPickerSupportsAllFiveOptions()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
+        "formal-app-hardware:a97fd5a#五档8s/5min1h/reopen/quit正式黑盒通过",
+        "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit",
+        "formal-app-hardware:7124dc1#Release87.162s五档8秒/范围/点选/同会话reopen/正常quit"
+      ],
+      "outstanding": [
+        "菜单栏点击/Popover、运行中UI重试/Fatal与其他未覆盖EARS用例仍待验收；c354五档只duration observed且原suite FAILED，精确性能未测。物理sleep本轮已由用户跳过，不要求重做也不标通过。"
+      ],
+      "reason": "已有对应EARS黑盒子集，但当前最终验收覆盖仍不完整。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app",
+        "final-formal-short",
+        "sigpipe-final-formal-short"
+      ]
+    },
+    "REQ-095": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44 head357最新blocking-issues SUCCESS；受信任默认分支workflow与main strict规则阻止open blocking时合并。当前新#46/#47/#48属于PR26阻塞，不延用PR44的绿灯。"
+      ],
+      "outstanding": [],
+      "reason": "验收仓库阻塞规则和PR44当次检查；不宣称当前仓库无blocking。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-096": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44 head357全部11 CheckRuns COMPLETED/SUCCESS；strict required checks启用"
+      ],
+      "outstanding": [],
+      "reason": "按精确head全部当前自动门禁判断，403合并结果成立。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-097": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44 MERGED at2026-10-02T16:30:27Z；mergeCommit403双parent=0b+357；feature/product-audit-fixes远端仍357"
+      ],
+      "outstanding": [],
+      "reason": "本轮由独立merge commit完成并保留feature分支，已只读实时确认。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-098": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:PR44合并403及远端feature分支保留",
+        "software-source-audit:403d44b#a97第三方contract+Notice+固定上游/许可边界与Release二进制扫描",
+        "ci:upstream negative fixtures及Release扫描归档通过"
+      ],
+      "outstanding": [],
+      "reason": "third-party契约、copyright/notice、负例门禁和合并后分支保存均已验证；本轮没有新增实质复用代码。",
+      "required_evidence_kinds": [
+        "software",
+        "ci"
+      ],
+      "evidence": [
+        "source-audit",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-099": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-100": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-101": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-102": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-103": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-104": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-105": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-106": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "ci:W00文档/工作流历史设计入口；PR44 head357五项门禁通过、merge403与零blocking",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#fullCPURawToHistorySoftwareLoop()",
+        "formal-app-hardware:a97fd5a#a97正式App短时本机链路"
+      ],
+      "outstanding": [
+        "W11逐REQ矩阵、适用实机项目、独立复核及最终exact-head交付wholegate尚未闭合；保留pending，不能靠其他TC全部绑定自动通过。"
+      ],
+      "reason": "存在该元验收需求的部分设计/集成/审查证据；按委派要求TC-ACCEPTANCE099–106不在wholegate完成前通过。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware",
+        "ci"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-107": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "formal-app-hardware:a97fd5a#Mac16,13普通用户启动本地ad-hoc正式App，SQLite与CPU12/SSD/Battery实时数据，无服务器",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory()"
+      ],
+      "outstanding": [],
+      "reason": "正式本机App运行和本地数据链已有实际证据。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-108": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsWindowOpens()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testHistoryChartLoadsInDashboard()",
+        "formal-app-hardware:a97fd5a#自有正式App主窗口/设置与原生macOS控件",
+        "software-source-audit:403d44b#AppKit+SwiftUI入口与Xcode原生target"
+      ],
+      "outstanding": [],
+      "reason": "AppKit/SwiftUI原生构件与实际窗口交互均存在，未使用Web业务界面。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "source-audit",
+        "formal-short-app"
+      ]
+    },
+    "REQ-109": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledProfileHasTwelveCaseSensitiveKeys()",
+        "formal-app-hardware:a97fd5a#正式来源资格机型Mac16,13、Apple M4、macOS15.7.3",
+        "software-source-audit:403d44b#AppSessionRuntime平台/profile检查及本机目标限制"
+      ],
+      "outstanding": [],
+      "reason": "目标profile为本机Apple Silicon Air，普通用户正式App已运行；不外推其他Air组合。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "source-audit",
+        "formal-short-app"
+      ]
+    },
+    "REQ-110": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AppBundleConfigurationTests.swift#appResourcesMatchBundledContracts()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledProfileHasTwelveCaseSensitiveKeys()",
+        "formal-app-hardware:a97fd5a#a97 App/worker hash、签名、Mac16,13/24G419、Xcode/Swift/SDK已归档",
+        "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit",
+        "formal-app-hardware:7124dc1#Release87.162s五档8秒/范围/点选/同会话reopen/正常quit"
+      ],
+      "outstanding": [
+        "最终7124dc1 App/worker的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块清单及同一产物sources+schedules+lifecycle整套资格仍未齐；现有新短测只8s，c354历史长测只duration observed，精确性能未测。",
+        "物理sleep本轮用户明确跳过，旧attempt保持partial；#46/#47修复与c354软件/单Fatal路径证据分别存在，不能由此盖完整组合通过。"
+      ],
+      "reason": "最低15.7.3、配置/资源及实机身份已记录，但旧qualified组合属于14cac而非a97。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app",
+        "final-formal-short",
+        "sigpipe-final-formal-short"
+      ]
+    },
+    "REQ-111": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "reference:Apple security releases/Developer releases核对2026-10-03最高正式macOS27.0.1，2026-09-28发布；仅版本矩阵记录"
+      ],
+      "outstanding": [],
+      "reason": "官方来源已核对并记入docs/13和本轮reference证据；本机仍15.7.3，不声称27.0.1实机资格。",
+      "required_evidence_kinds": [
+        "reference"
+      ],
+      "evidence": [
+        "apple-os-reference"
+      ]
+    },
+    "REQ-112": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "formal-app-hardware:a97fd5a#普通用户本机正式App CPU12/max/EMA/SQLite与SSD/Battery，未连接业务服务器",
+        "software-source-audit:403d44b#App/SensorRuntime本地SMC/IOPS/NVMe及SQLite，无URLSession/远端业务依赖"
+      ],
+      "outstanding": [],
+      "reason": "本机核心链路完整运行，源码无远端业务服务依赖；不把旧offline_sampling推断项当物理断网测试。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "source-audit",
+        "formal-short-app"
+      ]
+    },
+    "REQ-113": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#cpuMaxTracksHotspotAcrossBatches()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#cpuMaxSkippedWhenMemberMissing()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#cpuMaxSkippedWhenDuplicateSource()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#twelveQualifiedSourcesDoNotInferTenPhysicalCores()",
+        "formal-app-hardware:a97fd5a#420个cpu.zone.max逐批SQL检查：12成员关联、Raw=max(memberRaw)、0 mismatch"
+      ],
+      "outstanding": [],
+      "reason": "同批固定12成员max、成员关联及定义真实验证；UI称热区最高温度，无物理Package或逐核推断。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-115": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#uniqueInternalNVMeIsQualifiedWithRealIdentityAndKelvinEvidence()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#multipleInternalDevicesAreUnavailable()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#externalOnlyIsUnavailableWithoutStoppingCPU()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalAvailabilityIntegrationTests.swift#optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
+        "formal-app-hardware:a97fd5a#唯一Internal NVMe composite温度入Raw/EMA且正式App SSD显示值"
+      ],
+      "outstanding": [],
+      "reason": "真实唯一内置SSD可用；不支持/多候选/单项耗尽与原因状态由软件回归和fixture验证，未冒充物理SSD故障。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-116": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/OptionalSourceQualificationTests.swift#profileQualifiesOnlyHighestPrioritySMCBatterySource()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/OptionalSourceQualificationTests.swift#profilePrefersValidIOPSTemperatureOverSMC()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/OptionalSourceQualificationTests.swift#absentOptionalProvidersProduceExplicitCapabilityRecords()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalAvailabilityIntegrationTests.swift#optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
+        "formal-app-hardware:a97fd5a#实际Battery选择TB1T，63个Raw/EMA并在正式App显示"
+      ],
+      "outstanding": [],
+      "reason": "单来源优先级、缺失/耗尽隔离和明确能力行软件验证；实机所选Battery可读，不声称物理故障注入。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-117": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testBasicFixtureShowsLiveTemperature()",
+        "formal-app-hardware:a97fd5a#status.temperature AX exists=true、isHittable=false；窗口/reopen替代入口已实测"
+      ],
+      "outstanding": [
+        "本机拥挤/刘海条件下菜单项物理点击→弹出面板尚未验收；窗口可达解决可用性但不替代本条交互。"
+      ],
+      "reason": "AX存在和状态温度不证明用户物理点击能打开Popover。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-118": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()"
+      ],
+      "outstanding": [
+        "现有UI用例主要打开dashboard，未直接验收Popover中当前EMA及各故障状态行；共享组件源码不等同该面板实际显示。"
+      ],
+      "reason": "EMA值与缓存/过期/不可用状态在共享Model和主窗口验证。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures"
+      ]
+    },
+    "REQ-119": {
+      "verification": "pending-product-acceptance",
+      "covered_cases": [
+        "software-source-audit:403d44b#TemperaturePopoverView使用原生material背景，非自绘透明模拟"
+      ],
+      "outstanding": [
+        "缺实际打开Popover后的半透明视觉取证；最终自有10张附件都是主窗口及状态项，不能据此确认Popover效果。"
+      ],
+      "reason": "实现选用macOS原生material。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "source-audit"
+      ]
+    },
+    "REQ-120": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSourcesFixtureListsRows()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testStaleFixtureShowsExplicitExpiredReason()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
+        "formal-app-hardware:a97fd5a#正式主窗口CPU12/SSD/Battery EMA数字行"
+      ],
+      "outstanding": [],
+      "reason": "主窗口真实数字行与软件cached/stale/unavailable各状态均有具体显示用例。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-121": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCPUPeriodPickerSupportsAllFiveOptions()",
+        "formal-app-hardware:a97fd5a#正式主窗口Picker五档切换，标准reopen保持1000ms"
+      ],
+      "outstanding": [],
+      "reason": "主窗口控件真实可操作，五个值与同会话重开保留均验证。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-122": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testDashboardOffersSourceSelectionAndTemperatureComparison()",
+        "formal-app-hardware:a97fd5a#正式App启动/1h截图有temperature.comparison温度柱体"
+      ],
+      "outstanding": [],
+      "reason": "主窗口柱图区域实际存在并显示真实温度来源比较。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-123": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testHistoryChartLoadsInDashboard()",
+        "formal-app-hardware:a97fd5a#正式App5min/1h折线图非空、自有附件09/10"
+      ],
+      "outstanding": [],
+      "reason": "正式主窗口实时/聚合折线与时间轴已显示，不使用24/72h实机数据作此结论。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "formal-short-app"
+      ]
+    },
+    "REQ-124": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SQLiteStoreTests.swift#bundledSchemaSetsUserVersionForeignKeysAndViews()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/MonitorIntegrationTests.swift#fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords()",
+        "formal-app-hardware:a97fd5a#正式会话monitor.sqlite Raw/EMA/1s10s60s非零、schema1/FK无违例"
+      ],
+      "outstanding": [],
+      "reason": "实际SQLite数据库及原子数据闭环明确存在。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-125": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-source-audit:403d44b#App+Core生产源码未使用UNUserNotificationCenter/NSUserNotification高温报警入口；设置无高温告警功能",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()"
+      ],
+      "outstanding": [],
+      "reason": "排除项可由当前生产源码/设置入口静态核对，不需人为制造高温；仅限本轮已审源码。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "source-audit"
+      ]
+    },
+    "REQ-126": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software-source-audit:403d44b#App+Core/Xcode工程无SMAppService/SMLoginItemSetEnabled/LaunchAgents/loginItem入口",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()"
+      ],
+      "outstanding": [],
+      "reason": "生产源码未提供登录自启动注册或控件，当前范围明确排除；不要求修改用户系统设置。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "ui-fixtures",
+        "source-audit"
+      ]
+    },
+    "REQ-127": {
+      "verification": "product-waived",
+      "covered_cases": [
+        "waiver:用户明确仅本机自用，公证/公开发行已豁免；本地ad-hoc App为交付目标"
+      ],
+      "outstanding": [],
+      "reason": "用户授权本机自用，豁免独立公开发行验收；本地ad-hoc交付保留，不将公证写成通过。",
+      "required_evidence_kinds": [
+        "waiver"
+      ],
+      "evidence": [
+        "local-scope"
+      ]
+    },
+    "REQ-128": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "ci:GitHub PR44、Issues27–43/45、exact-head CI、merge403及保留feature分支"
+      ],
+      "outstanding": [],
+      "reason": "本轮代码/协作使用Git与GitHub且外部记录可读。",
+      "required_evidence_kinds": [
+        "ci"
+      ],
+      "evidence": [
+        "pr44-ci",
+        "pr44-body-and-merge",
+        "merge-git-provenance",
+        "repository-rules",
+        "repository-policy"
+      ]
+    },
+    "REQ-129": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/CommitRegressionTests.swift#pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#periodChangeDoesNotTriggerTimeoutGap()",
+        "formal-app-hardware:a97fd5a#同一正式App会话连续五档，SQLite仍同时保存各period_ms历史；reopen同session"
+      ],
+      "outstanding": [],
+      "reason": "真实同一session保留多个档位数据，软件换档不重置无Gap状态或历史，符合本条。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-130": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationHistoryRegressionTests.swift#explicitGapBreaksLineEvenWithinOneSegment()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryChartModelTests.swift#plotSegmentsBreakOnSegmentBoundaries()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistorySourceContinuityRegressionTests.swift#fiveMinuteHistoryRetainsPriorSourceDefinitionWithoutJoiningSeries()"
+      ],
+      "outstanding": [],
+      "reason": "已识别Gap和Source/segment边界在图表模型形成独立plot runs，UI逐run生成折线。真实系统sleep证据尚无，不将模型断线声称实机故障断线。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-131": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#gapSegmentExcludesOlderPoints()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#closingGapIncrementsSegmentAndResetsEMA()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TrendTests.swift#coverageBelowEightyPercentIsInsufficient()"
+      ],
+      "outstanding": [],
+      "reason": "跨Gap旧段数据不参与当前趋势，覆盖不足返回insufficient/nil slope，有实际算法向量。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-132": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/SourceRegistryTests.swift#metricResolverDoesNotInferTenPhysicalCores()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#twelveQualifiedSourcesDoNotInferTenPhysicalCores()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/EndToEndTests.swift#distinctHIDRegistryIDsAreNotMerged()",
+        "software:Packages/TemperatureCore/Tests/SensorRuntimeTests/NVMeSourceQualificationTests.swift#missingFailedAndUnattemptedInterconnectFactsBlockSelection()",
+        "formal-app-hardware:a97fd5a#CPU固定12键正式App来源/单位事实验证，Battery/SSD为referenceClassified，源身份不按名称合并"
+      ],
+      "outstanding": [],
+      "reason": "Registry分类依据/unknown排除及12来源不推断10物理核有软件回归，本机CPU源资格具实际App观察；不外推整组合性能资格或其他硬件。",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
+      ],
+      "evidence": [
+        "core-regression",
+        "formal-short-app"
+      ]
+    },
+    "REQ-133": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#oneSecondWindowAggregatesRawSamples()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AggregationTests.swift#sparseTenSecondWindowClosesPartial()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/HistoryQueryTests.swift#downsamplingPreservesPeakAcross8640Buckets()"
+      ],
+      "outstanding": [],
+      "reason": "Raw70/71/72/95/74的窗口峰95、稀疏父层峰和降采样峰99直接断言。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression"
+      ]
+    },
+    "REQ-134": {
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#sensorTransportAndQualifiedCatalogRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ProcessingIdentityTests.swift#upstreamRollbackDoesNotCreateSample()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#valueStatesAreMutuallyExclusive()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/PresentationModelTests.swift#staleHidesValueAfterThreshold()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
+        "software-fixture:UITests/TemperatureMonitorUITests.swift#testStaleFixtureShowsExplicitExpiredReason()",
+        "software-source-audit:403d44b#HardwareSession无硬件更新时间时ReadingOutcome.success freshness=unknown/sourceWallUnixNS=nil；UI observedAt独立"
+      ],
+      "outstanding": [],
+      "reason": "unknown/nil来源时间编码与应用互斥年龄状态各已验证，源读取完成时刻不作为硬件测量更新时间；值变化不能证明硬件freshness。",
+      "required_evidence_kinds": [
+        "software"
+      ],
+      "evidence": [
+        "core-regression",
+        "ui-fixtures",
+        "source-audit"
+      ]
+    }
+  },
+  "scope_note": "2026-10-03用户授权course-local交付；五个课程criterion单独绑定。保留全部旧严格逐REQ结果100accepted/31pending/1waived/2retired和历史失败。原五档各10min/精确SLO/休眠72h/公开发行等不再为课程门槛；真实缺陷、Core80%、必要CI、一次最终独立审查仍适用。新正式App重建与原生核心补验/资源记录详见course目录；自动AX失败原样保留，未批量PASS旧资格。"
+}

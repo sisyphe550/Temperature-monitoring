@@ -1,0 +1,123 @@
+{
+  "scope": "three targeted regressions only; not the full-product coverage gate",
+  "source_coverage_json": "/tmp/temperature-ttl-software.sD1Hqe/scratch/arm64-apple-macosx/debug/codecov/TemperatureCore.json",
+  "files": [
+    {
+      "filename": "/private/tmp/temperature-ttl-software.sD1Hqe/snapshot/Packages/TemperatureCore/Sources/SensorRuntime/SessionMonitorController.swift",
+      "summary": {
+        "branches": {
+          "count": 0,
+          "covered": 0,
+          "notcovered": 0,
+          "percent": 0
+        },
+        "functions": {
+          "count": 39,
+          "covered": 11,
+          "percent": 28.205128205128204
+        },
+        "instantiations": {
+          "count": 39,
+          "covered": 11,
+          "percent": 28.205128205128204
+        },
+        "lines": {
+          "count": 326,
+          "covered": 114,
+          "percent": 34.96932515337423
+        },
+        "mcdc": {
+          "count": 0,
+          "covered": 0,
+          "notcovered": 0,
+          "percent": 0
+        },
+        "regions": {
+          "count": 120,
+          "covered": 32,
+          "notcovered": 88,
+          "percent": 26.666666666666668
+        }
+      }
+    },
+    {
+      "filename": "/private/tmp/temperature-ttl-software.sD1Hqe/snapshot/Packages/TemperatureCore/Sources/TemperatureCore/Storage/HistoryQuery.swift",
+      "summary": {
+        "branches": {
+          "count": 0,
+          "covered": 0,
+          "notcovered": 0,
+          "percent": 0
+        },
+        "functions": {
+          "count": 35,
+          "covered": 26,
+          "percent": 74.28571428571429
+        },
+        "instantiations": {
+          "count": 35,
+          "covered": 26,
+          "percent": 74.28571428571429
+        },
+        "lines": {
+          "count": 288,
+          "covered": 216,
+          "percent": 75
+        },
+        "mcdc": {
+          "count": 0,
+          "covered": 0,
+          "notcovered": 0,
+          "percent": 0
+        },
+        "regions": {
+          "count": 122,
+          "covered": 72,
+          "notcovered": 50,
+          "percent": 59.01639344262295
+        }
+      }
+    },
+    {
+      "filename": "/private/tmp/temperature-ttl-software.sD1Hqe/snapshot/Packages/TemperatureCore/Sources/TemperatureCore/Storage/Retention.swift",
+      "summary": {
+        "branches": {
+          "count": 0,
+          "covered": 0,
+          "notcovered": 0,
+          "percent": 0
+        },
+        "functions": {
+          "count": 31,
+          "covered": 21,
+          "percent": 67.74193548387096
+        },
+        "instantiations": {
+          "count": 31,
+          "covered": 21,
+          "percent": 67.74193548387096
+        },
+        "lines": {
+          "count": 250,
+          "covered": 210,
+          "percent": 84
+        },
+        "mcdc": {
+          "count": 0,
+          "covered": 0,
+          "notcovered": 0,
+          "percent": 0
+        },
+        "regions": {
+          "count": 100,
+          "covered": 75,
+          "notcovered": 25,
+          "percent": 75
+        }
+      }
+    }
+  ],
+  "test_count": 3,
+  "test_run_seconds": 0.04,
+  "build_seconds": 35.0
+}

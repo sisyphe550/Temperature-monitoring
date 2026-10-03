@@ -1,0 +1,182 @@
+{
+  "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+  "production_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "a22fd99ffcb4b67558c804b30d18c88c5a2a33dd024dd908388609de9cb0c4c8",
+      "bytes": 1561
+    },
+    {
+      "path": "coverage/core-coverage.json.gz",
+      "sha256": "ec2c4e97f36e536aaf022ee5a017e9c7d818151d4dd71a7ae4ab0cf1226ec8cf",
+      "bytes": 149444,
+      "uncompressed_sha256": "256fb0ccc8d4152f599811509e4b7db8d3db6d1be56f73954ef9721ff407579d",
+      "uncompressed_bytes": 1307005
+    },
+    {
+      "path": "full-core-summary.json",
+      "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+      "bytes": 576
+    },
+    {
+      "path": "generation/OptionalGeneration-baseline.swift",
+      "sha256": "c4b7634babcd53b0ed084ae052960f4e80ff55d2ffee07966dd4af7b38e8795b",
+      "bytes": 8744
+    },
+    {
+      "path": "generation/OptionalGeneration-candidate.swift",
+      "sha256": "748bbadd26e22648df84cf5917edc27835942bd7ea7124e4f6623ae7f0a06fa9",
+      "bytes": 16208
+    },
+    {
+      "path": "generation/OptionalGeneration-diagnostic.swift",
+      "sha256": "b7518957392dab43fe4ab9f59e8d95cb84bf96955f07db5791d9ae8f5049c668",
+      "bytes": 10417
+    },
+    {
+      "path": "generation/SamplingService-baseline.swift",
+      "sha256": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+      "bytes": 27999
+    },
+    {
+      "path": "generation/SamplingService-negative-control.swift",
+      "sha256": "aef4d4ef465984e6a6972c331cbaf1b1eeee7f99e093ea9d60b5843916366346",
+      "bytes": 28021
+    },
+    {
+      "path": "generation/baseline-diagnostic.log.gz",
+      "sha256": "c33c6a0fb29c0f6c6f3d799f865783d8b79a35051345d6472093d510c91168a7",
+      "bytes": 638,
+      "uncompressed_sha256": "6d9c665cccc9524fe86b47555c19b2bb6ca12b30c883301a6fc4eb14bbd415a3",
+      "uncompressed_bytes": 1675
+    },
+    {
+      "path": "generation/candidate-compile-first.log.gz",
+      "sha256": "f306efc5fa10c4929ed3dc07585594ad048eca8c9488c805980a2d54d50a363c",
+      "bytes": 943,
+      "uncompressed_sha256": "02142f6d515e2a09100c25dec5d89c50d376844f94ac3f5612dca56bc26108e6",
+      "uncompressed_bytes": 2805
+    },
+    {
+      "path": "generation/candidate-green-before-negative.log.gz",
+      "sha256": "c142547809bce935766659e6f6e583c519c43312cbeec6efcf863a505d64e996",
+      "bytes": 621,
+      "uncompressed_sha256": "fe2f8616ad28c38b716a57a75a8163c63da305778f7c19eb04ba2668396c4b16",
+      "uncompressed_bytes": 1703
+    },
+    {
+      "path": "generation/candidate-green.log.gz",
+      "sha256": "7ccef6e8203a4586932e832035a56b905b6fd1d760fd87e74b4b9ef4846b807a",
+      "bytes": 701,
+      "uncompressed_sha256": "968723a9e217257dafd0662a32e81ea3a3e8ed950111d2123e2abfc44056df99",
+      "uncompressed_bytes": 1931
+    },
+    {
+      "path": "generation/ci-7c13-failed.log.gz",
+      "sha256": "8a6a210d55aa046a559f2208c075c691aa03e56486caac12267cc0c90d5c203a",
+      "bytes": 23820,
+      "uncompressed_sha256": "6cd2a31e76fee1a45e15cf6e2d6d81503e32c9b62c3f1ad7f5e596ed4ca38ed0",
+      "uncompressed_bytes": 181627
+    },
+    {
+      "path": "generation/evidence-manifest.json",
+      "sha256": "28a3df731a74ab4fa0bd8c254168e6b2eca523ff65ddaeb7344ebff8faf48c09",
+      "bytes": 3867
+    },
+    {
+      "path": "generation/negative-control-red.log.gz",
+      "sha256": "475b8fba57bbf43bd6d162ee66c2d5d9d18c97ed83ab0ab576220f3770a0325c",
+      "bytes": 1121,
+      "uncompressed_sha256": "2a2f21d657227029580337efd409f7a7e9ef56d9eb6b0bff8e2ab20ba5125f14",
+      "uncompressed_bytes": 4106
+    },
+    {
+      "path": "generation/production-restoration.json",
+      "sha256": "6afaaaeaeedf961390bb2c772a19fb462550787bfc077dbdab62006a84533558",
+      "bytes": 260
+    },
+    {
+      "path": "generation/report.md",
+      "sha256": "546854869063c3eff434b974f4eeabd015d4989472b25fba554cb2201b21bdab",
+      "bytes": 7714
+    },
+    {
+      "path": "generation/run-summary.json",
+      "sha256": "8f1f02a0c992c3c110fa164c6e0ac956df77f2a2bda1031ab3df976aaf93f010",
+      "bytes": 2991
+    },
+    {
+      "path": "generation/run-tests-executed-snapshot.sh",
+      "sha256": "cbb5a1d40928650fdff98d2e6eaa8d83aeb6f33996943fc0ad126af8c948031e",
+      "bytes": 1934
+    },
+    {
+      "path": "generation/slow-poll-red.log.gz",
+      "sha256": "46af46453dbc95a0f3720efad704a5585f75b14ac699f6e922323977e95d1b24",
+      "bytes": 670,
+      "uncompressed_sha256": "b8eb1dffefe47f55b340802001a136682319fc4478cd8f4b241dd043c359481f",
+      "uncompressed_bytes": 1634
+    },
+    {
+      "path": "generation/source-hashes.json",
+      "sha256": "5b595c2c1886415a3397394fd8fe0566a8dbcd03c47362710e7275317d6eec12",
+      "bytes": 628
+    },
+    {
+      "path": "generation/tests.patch",
+      "sha256": "7efcdda66e90281de171afbb7f1a710c88da51e65084ed815d25755d4e0f28b1",
+      "bytes": 18249
+    },
+    {
+      "path": "independent-check.json",
+      "sha256": "febab3f77f39d282d594f87f098f55e7dffccbcfb8c0521605b225382a90bf37",
+      "bytes": 1753
+    },
+    {
+      "path": "independent-review.md",
+      "sha256": "871fcedfeaa3e95de63453ae6898583b66ee142c1fd4542d26c85337628905dc",
+      "bytes": 7747
+    },
+    {
+      "path": "logs/coverage-check.txt.gz",
+      "sha256": "266596992d6ca7af7baa30d177493288ac3045b97e3273d01f6d47e0c154607a",
+      "bytes": 913,
+      "uncompressed_sha256": "889f6d5b6bae69fd9ac47d7531c913e5f261a4b6049362e6723f03784d32c256",
+      "uncompressed_bytes": 7062
+    },
+    {
+      "path": "logs/full-core.log.gz",
+      "sha256": "9b3682f0f0d6257164116cde6760c6c4b632b492e90c06502787cdc135980238",
+      "bytes": 11028,
+      "uncompressed_sha256": "515918ed7807b08b0cfab62f8fbcfe6dc1b480e7f67c80440c004b6e3bb86ba2",
+      "uncompressed_bytes": 58941
+    },
+    {
+      "path": "prior-ci/7c13-checks-watch.log.gz",
+      "sha256": "e3d2fdce41542f381ae055fc3a24e54f660a6d8b3e988046f2b018ddbb1569a8",
+      "bytes": 538,
+      "uncompressed_sha256": "70c0b171487f2a338e9179bd4fbd64bbda1a73b049a4ae70898aaed3eacc17ce",
+      "uncompressed_bytes": 21808
+    },
+    {
+      "path": "prior-ci/7c13-core-failed.log.gz",
+      "sha256": "8a6a210d55aa046a559f2208c075c691aa03e56486caac12267cc0c90d5c203a",
+      "bytes": 23820,
+      "uncompressed_sha256": "6cd2a31e76fee1a45e15cf6e2d6d81503e32c9b62c3f1ad7f5e596ed4ca38ed0",
+      "uncompressed_bytes": 181627
+    },
+    {
+      "path": "prior-ci/7c13-head-snapshot.json",
+      "sha256": "15a046a2a5296c30fa5f0795230429eb8831891ee5a1aef277cd5753bd59cfa0",
+      "bytes": 3500
+    },
+    {
+      "path": "source-identity.json",
+      "sha256": "7f070d37466f7e608b493e3c4e119d202d3955d6e9bc03ca2f279cf736ec9c21",
+      "bytes": 23418
+    }
+  ],
+  "manifest_self_hash": "excluded",
+  "scope": "Test synchronization only; immutable failed CI and scoped software evidence; unchanged previous formal App identity remains in original archive."
+}

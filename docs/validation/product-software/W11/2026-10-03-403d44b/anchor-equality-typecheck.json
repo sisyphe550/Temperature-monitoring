@@ -1,0 +1,28 @@
+{
+  "command": [
+    "xcrun",
+    "swiftc",
+    "-typecheck",
+    "-swift-version",
+    "6",
+    "-target",
+    "arm64-apple-macos15.0",
+    "-sdk",
+    "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk",
+    "-module-cache-path",
+    "/tmp/temperature-chart-typecheck/module-cache",
+    "-I",
+    "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/.build/arm64-apple-macosx/debug/Modules",
+    "-I",
+    "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/Sources/CSQLite",
+    "/tmp/w11-chart-anchor-equality-green.swift"
+  ],
+  "exit_code": 0,
+  "diagnostics": "",
+  "first_attempt": {
+    "target": "arm64-apple-macos14.0",
+    "exit_code": 1,
+    "reason": "TemperatureCore minimum deployment target macOS15"
+  },
+  "scope": "single View typecheck only; no link, App or full product build"
+}

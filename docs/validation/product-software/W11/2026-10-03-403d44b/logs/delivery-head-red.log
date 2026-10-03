@@ -1,0 +1,15 @@
+test_delivery_must_belong_to_checked_out_history (__main__.EvidenceBindingTests.test_delivery_must_belong_to_checked_out_history) ... FAIL
+
+======================================================================
+FAIL: test_delivery_must_belong_to_checked_out_history (__main__.EvidenceBindingTests.test_delivery_must_belong_to_checked_out_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/scripts/tests/test-bind-acceptance-evidence.py", line 142, in test_delivery_must_belong_to_checked_out_history
+    with self.assertRaisesRegex(ValueError, "delivery_commit.*checked-out HEAD"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.182s
+
+FAILED (failures=1)

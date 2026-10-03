@@ -12,6 +12,7 @@ jobs:
   core-tests:
     name: core-tests
     runs-on: macos-15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Toolchain
@@ -19,7 +20,7 @@ jobs:
       - name: Build worker protocol fixture
         run: swift build --package-path Packages/TemperatureCore --product ProtocolWorker
       - name: Core unit tests with coverage
-        run: swift test --package-path Packages/TemperatureCore --enable-code-coverage
+        run: swift test --package-path Packages/TemperatureCore --no-parallel --enable-code-coverage
       - name: Core coverage gate
         run: python3 scripts/check-core-coverage.py
       - name: Coverage red fixture

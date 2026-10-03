@@ -1,0 +1,33 @@
+{
+  "base_commit": "44070d6ea5d8dbe3e64a1c0ddc206f5bd2597f97",
+  "head_at_review": "44070d6ea5d8dbe3e64a1c0ddc206f5bd2597f97",
+  "review_source": {
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift": "OptionalBudget-candidate.swift",
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift": "Generation-candidate.swift",
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift": "OptionalPhaseClock.swift"
+  },
+  "source_hashes": {
+    "OptionalBudget-baseline.swift": "e5724074142d43bbe6a6ba0730e452ac117aa8b5aaa4ec9434ca173cbd84a451",
+    "OptionalBudget-diagnostic.swift": "92be03941c78ef83d20aedd04865125487f983170bf55e121764cef22db95718",
+    "OptionalBudget-candidate.swift": "74783e93c50a2c4345575f72a406f8a5200d411d411f988a3e796d07ec2d43a2",
+    "Generation-baseline.swift": "748bbadd26e22648df84cf5917edc27835942bd7ea7124e4f6623ae7f0a06fa9",
+    "Generation-candidate.swift": "712e20cd493db0ca63974b40bd02654d9cc53124ff364ed1d28350e07d943ee5",
+    "OptionalPhaseClock.swift": "51c8249850b9a41dabcf14c703c5244372cb3b7e3843eccdbb9e511103dbce22",
+    "SamplingService-baseline.swift": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+    "SamplingService-negative-control.swift": "49c339e89e5867be99263d79e6695b8a88f85e76fea6434403ccb656f0a1e6d2",
+    "tests.patch": "65629685d39071778682334da0b61fe20e0d4bddb9bf5ed6f8f320cde574cbe1"
+  },
+  "manifest_artifacts": 22,
+  "manifest_unique_paths": 22,
+  "manifest_sha256": "e83d0050154a552bf960d76a94c803911928783b1d02f40846abb9c71997eb20",
+  "patch_reconstructed_paths": [
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift",
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift",
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift"
+  ],
+  "restored_copy_production_files": 66,
+  "production_build_diff_from_7124": [],
+  "candidate_green_log_sha256": "6ec3bd75524c42902c313e269b10d1a0862c69f64d2c20e52e9699dd62678ce5",
+  "negative_control_red_log_sha256": "2c36f7a0161898990ed64b44e39dad613b63bf3025b548ffc3adef6026137b25",
+  "failures": []
+}

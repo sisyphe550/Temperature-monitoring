@@ -1,0 +1,12 @@
+Test Suite 'Selected tests' started at 2026-10-03 16:41:18.248.
+Test Suite 'TemperatureMonitorUITests.xctest' started at 2026-10-03 16:41:18.248.
+Test Suite 'TemperatureMonitorUITests' started at 2026-10-03 16:41:18.248.
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testLocalReleaseAppRealHardwareUI]' started.
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testLocalReleaseAppRealHardwareUI]' passed (149.485 seconds).
+Test Suite 'TemperatureMonitorUITests' passed at 2026-10-03 16:43:47.733.
+	 Executed 1 test, with 0 failures (0 unexpected) in 149.485 (149.485) seconds
+Test Suite 'TemperatureMonitorUITests.xctest' passed at 2026-10-03 16:43:47.734.
+	 Executed 1 test, with 0 failures (0 unexpected) in 149.485 (149.486) seconds
+Test Suite 'Selected tests' passed at 2026-10-03 16:43:47.734.
+	 Executed 1 test, with 0 failures (0 unexpected) in 149.485 (149.486) seconds
+** TEST SUCCEEDED **

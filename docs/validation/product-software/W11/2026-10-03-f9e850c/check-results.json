@@ -1,0 +1,27 @@
+{
+  "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+  "release_build_exit_code": 0,
+  "signature_verification_exit_code": 0,
+  "upstream_boundary_exit_code": 0,
+  "binding_tool_tests": 35,
+  "binding_tool_exit_code": 0,
+  "coverage_gate_exit_code": 0,
+  "core_coverage_fixtures_exit_code": 0,
+  "short_ui_initial": {
+    "result": "failed-before-tests",
+    "xcodebuild_exit_code": 65,
+    "reason": "Runner49716 killed before establishing connection / bootstrapping; signature separately valid; no test started."
+  },
+  "short_ui_retry": {
+    "result": "passed",
+    "xcodebuild_exit_code": 0,
+    "tests": 1,
+    "duration_seconds": 149.48459994792938,
+    "derived_data_path": "/tmp/temperature-w11-new-release-smoke",
+    "original_failure_preserved": true,
+    "diagnosis_limit": "Reuse of prior successful directory allowed runner bootstrap; exact reason for first directory kill not independently established."
+  },
+  "physical_sleep": "skipped-by-user",
+  "five_period_duration": "c354 historical duration observed; original long XCTest failed; not inherited as complete f9 hardware qualification",
+  "performance_metrics": "not_measured"
+}

@@ -1,0 +1,11 @@
+{
+  "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+  "production_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "result": "passed",
+  "exit_code": 0,
+  "tests": 355,
+  "suites": 57,
+  "coverage_summary": "Core line coverage: 7116/8002 = 88.93%",
+  "source_identity": "source-identity.json",
+  "scope": "Full software regression after test-only deterministic generation receipt/clock synchronization; old controlled slow-poll model proves driver timing coupling, not original CI unique timeout stage. No physical sleep/full hardware performance claim."
+}

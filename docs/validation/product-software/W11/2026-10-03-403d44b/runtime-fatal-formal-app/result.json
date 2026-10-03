@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "output": "/tmp/temperature-runtime-fatal-20261003T033224Z",
+  "session_id": "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+  "seconds_after_injection": 32.368711084127426,
+  "kind": "formal-release-app-hardware",
+  "note": "runtime with real committed sampling; only owned test DB trigger; no user exit click; not startup fallback"
+}

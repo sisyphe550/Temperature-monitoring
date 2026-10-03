@@ -1,0 +1,16 @@
+{
+  "app_version" : "0.1.0",
+  "component" : "SessionPersistence",
+  "error_code" : "DB-INTEGRITY-010",
+  "incomplete_shutdown_steps" : [
+
+  ],
+  "model" : "Mac16,13",
+  "operation" : "commit",
+  "os_build" : "Version 15.7.3 (Build 24G419)",
+  "retry_count" : 0,
+  "session_id" : "1ccd4a5c-e482-4c17-abf0-2fae6897d244",
+  "severity" : "fatal",
+  "underlying_error" : "owned_acceptance_runtime_fatal",
+  "written_at" : "2026-10-03T03:32:26Z"
+}

@@ -1,0 +1,366 @@
+diff --git a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift
+--- a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift
++++ b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift
+@@ -4,43 +4,110 @@
+ @testable import TemperatureCore
+ 
+ @Suite(.serialized) struct OptionalProbeBudgetAcrossReconnectTests {
+-    @Test func unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget() async throws {
++    @Test(arguments: [2, 125])
++    func unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget(pollDelayMS: Int) async throws {
+         let profile = try Configuration.bundledProfile()
+         let configuration = try Configuration.bundledDefaults()
+-        let clock = TestClock(now: Fixtures.timestamp(ms: 0))
++        let clock = OptionalPhaseClock(now: Fixtures.timestamp(ms: 0))
+         let sources = profile.cpuKeys.map { DiscoveredSource(transportHandle: "smc:\($0)", provider: .smc, rawKey: $0,
+             registryID: "review-\($0)", encoding: profile.expectedSMCEncoding, byteCount: profile.expectedSMCSizeBytes) }
+             + [DiscoveredSource(transportHandle: "nvme:12345", provider: .nvme, rawKey: "TEMPERATURE", registryID: "12345",
+                 encoding: "uint16_le_kelvin", byteCount: 2, physicalInterconnectLocation: "Internal", interconnectLookupStatus: .found)]
++        let registry = ProfileRegistry(profile: profile)
++        let oldCatalog = try registry.qualify(DiscoveredCatalog(generation: 1, sources: sources))
++        let newCatalog = try registry.qualify(DiscoveredCatalog(generation: 2, sources: sources))
++        let oldSSD = try #require(SeriesCatalogBuilder.definitions(from: oldCatalog).first { $0.kind == .ssd })
++        let newSSD = try #require(SeriesCatalogBuilder.definitions(from: newCatalog).first { $0.kind == .ssd })
++        let newCPU = try #require(SeriesCatalogBuilder.definitions(from: newCatalog).first { $0.kind == .cpuMain })
++        let receipts = BudgetReceiptLog()
+         let transport = BudgetProbeTransport(clock: clock, sources: sources)
+-        let client = QualifiedSensorClient(transport: transport, registry: ProfileRegistry(profile: profile))
++        let client = QualifiedSensorClient(transport: transport, registry: registry)
+         let root = FileManager.default.temporaryDirectory.appendingPathComponent("OptionalProbeBudget-\(UUID())")
+-        let session = SessionPersistenceActor(databaseURL: root.appendingPathComponent("monitor.sqlite"))
++        let databaseURL = root.appendingPathComponent("monitor.sqlite")
++        let session = SessionPersistenceActor(databaseURL: databaseURL, configuration: configuration,
++            batchCommitOperation: { store, batch, sessionID, generation in
++                let receipt = try store.commitBatch(batch, sessionID: sessionID, snapshotGeneration: generation)
++                receipts.recordCommitted()
++                return receipt
++            })
+         let controller = SessionMonitorController(clock: clock, client: client, session: session,
+             sessionMetadata: SessionMetadata(sessionID: SessionID(UUID()), startedWallUnixNS: 1, model: "Mac16,13", osBuild: "24G419", appVersion: "review"), configuration: configuration)
+         let snapshots = BudgetSnapshotLog()
+         let stream = await controller.snapshots()
+         let observer = Task { for await snapshot in stream { await snapshots.append(snapshot) } }
++        let driver = BudgetPhaseDriver(clock: clock, snapshots: snapshots, pollDelayMS: pollDelayMS)
+         do {
+             try await controller.start()
+-            try await budgetAdvanceUntil(clock: clock) { let reads = await transport.optionalReads; let unavailable = await snapshots.hasUnavailableSSD; return reads >= 4 && unavailable }
+-            for expected in 5...7 {
+-                clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 60_000))
+-                try await budgetAdvanceUntil(clock: clock) { await transport.optionalReads >= expected }
+-                try await Task.sleep(for: .milliseconds(40))
++            clock.advance(to: Fixtures.timestamp(ms: 500))
++            try await driver.wait("identify-sampling-retry550") { clock.identifySamplingTask(waitingUntilMS: 550) }
++            try await driver.wait("identify-snapshot700") {
++                await snapshots.latestElapsedNS >= 500_000_000 && clock.identifySnapshotTask(waitingUntilMS: 700)
++            }
++            for retryMS in [Int64(550), 650, 850] {
++                try await driver.wait("initial-retry-\(retryMS)") { clock.hasSamplingSleep(untilMS: retryMS) }
++                clock.advance(to: Fixtures.timestamp(ms: retryMS))
++            }
++            // The same sampling task sleeps only after failure Receipt,
++            // quarantine and the following CPU read have all returned.
++            try await driver.wait("initial-quarantine-receipt") { clock.hasSamplingSleep(untilMS: 1000) }
++            #expect(await transport.optionalReads == 4)
++            try await driver.publishSnapshot("initial-unavailable", beforeMS: 60_850)
++            #expect(await snapshots.hasUnavailableSSD)
++            let reader = try SQLiteStore(databaseURL: databaseURL)
++            defer { reader.close() }
++            func committedCount(_ seriesID: SeriesID) throws -> Int64 {
++                try #require(try reader.queryInt64("SELECT COUNT(*) FROM raw_samples WHERE series_id = '\(seriesID.rawValue)'"))
++            }
++            #expect(try committedCount(oldSSD.seriesID) == 0)
++            #expect(try reader.queryInt64("SELECT COUNT(*) FROM gaps WHERE series_id = '\(oldSSD.seriesID.rawValue)'") == 1)
++            // Every failed recovery probe schedules its next round 60s after
++            // completion. Poll latency must not govern virtual time progression.
++            for (readMS, expected) in [(Int64(60_850), 5), (120_850, 6), (180_850, 7)] {
++                let before = receipts.committedBatches
++                clock.advance(to: Fixtures.timestamp(ms: readMS))
++                try await driver.wait("failed-recovery-receipt-\(expected - 4)") {
++                    await transport.optionalReads == expected && receipts.committedBatches > before
++                        && clock.nextSamplingDeadlineNS != nil
++                }
++                #expect(try committedCount(oldSSD.seriesID) == 0, "Failure facts must not become temperature samples")
++                #expect(await controller.lastAcceptFailure()?.severity != .fatal)
++                print("BUDGET_PHASE_PROBE pollMS=\(pollDelayMS) round=\(expected - 4) elapsed=\(clock.now().elapsedNS) reads=\(await transport.optionalReads) commits=\(receipts.committedBatches) nextSampling=\(clock.nextSamplingDeadlineNS ?? -1)")
+             }
+             #expect(await transport.optionalReads == 7)
+             await transport.armCPUTimeout()
+-            try await budgetAdvanceUntil(clock: clock) { await transport.discoverCount == 2 }
+-            for _ in 0..<40 {
+-                clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 25))
+-                try await Task.sleep(for: .milliseconds(5))
+-            }
+-            #expect(await transport.newOptionalReads == 0, "The per-session three failed recovery probes must remain exhausted across an unrelated CPU reconnect; only wake/restart permits another qualification cycle")
++            let cpuDueNS = try #require(clock.nextSamplingDeadlineNS)
++            let cpuDueMS = cpuDueNS / 1_000_000
++            clock.advance(to: Fixtures.timestamp(ms: cpuDueMS))
++            let retryMS = cpuDueMS + 50
++            try await driver.wait("cpu-timeout-retry") { clock.hasSamplingSleep(untilMS: retryMS) }
++            clock.advance(to: Fixtures.timestamp(ms: retryMS))
++            try await driver.wait("generation2-catalog-and-cpu-receipt") {
++                await transport.discoverCount == 2 && clock.nextSamplingDeadlineNS != nil
++            }
++            #expect(try committedCount(newCPU.seriesID) > 0, "Required CPU sampling must recover and commit after reconnect")
++            // Cross both the new catalog's ordinary SSD due time and a full
++            // optional recovery interval. Each advance waits for the identified
++            // sampling task's next sleep, including failure/callback completion.
++            for targetMS in [retryMS + 1000, retryMS + 61_000] {
++                clock.advance(to: Fixtures.timestamp(ms: targetMS))
++                try await driver.wait("exhausted-budget-boundary-\(targetMS)") { clock.nextSamplingDeadlineNS != nil }
++                #expect(await transport.optionalReads == 7)
++                #expect(await transport.newOptionalReads == 0, "Three failed per-session recovery rounds must remain exhausted across CPU reconnect; only wake/restart permits another qualification cycle")
++                #expect(try committedCount(newSSD.seriesID) == 0)
++                #expect(try committedCount(newCPU.seriesID) > 0)
++            }
++            try await driver.publishSnapshot("generation2-published", beforeMS: retryMS + 62_000)
++            #expect(await snapshots.hasGeneration2SSD)
++            #expect(await snapshots.newSSDIsUnavailable, "Stopped optional sampling must remain unavailable in the published generation")
++            #expect(await transport.optionalReads == 7)
++            #expect(await transport.newOptionalReads == 0)
+             #expect(await controller.lastAcceptFailure()?.severity != .fatal)
++            print("BUDGET_PHASE_COMPLETE pollMS=\(pollDelayMS) optional=\(await transport.optionalReads) newOptional=\(await transport.newOptionalReads) commits=\(receipts.committedBatches) elapsed=\(clock.now().elapsedNS)")
++            reader.close()
+             await controller.stop()
+             await observer.value
+         } catch {
++            print("BUDGET_PHASE_FAILURE pollMS=\(pollDelayMS) elapsed=\(clock.now().elapsedNS) optional=\(await transport.optionalReads) newOptional=\(await transport.newOptionalReads) discoveries=\(await transport.discoverCount) commits=\(receipts.committedBatches) snapshot=\(await snapshots.latestElapsedNS) sleeps=\(clock.sleepDescription) error=\(error)")
+             await controller.stop()
+             observer.cancel()
+             await observer.value
+@@ -50,13 +117,13 @@
+ }
+ 
+ private actor BudgetProbeTransport: SensorTransport {
+-    let clock: TestClock
++    let clock: OptionalPhaseClock
+     let sources: [DiscoveredSource]
+     private(set) var discoverCount = 0
+     private(set) var optionalReads = 0
+     private(set) var newOptionalReads = 0
+     private var shouldFailCPU = false
+-    init(clock: TestClock, sources: [DiscoveredSource]) { self.clock = clock; self.sources = sources }
++    init(clock: OptionalPhaseClock, sources: [DiscoveredSource]) { self.clock = clock; self.sources = sources }
+     func armCPUTimeout() { shouldFailCPU = true }
+     func discoverRaw() async throws -> DiscoveredCatalog {
+         discoverCount += 1
+@@ -102,19 +169,40 @@
+     }
+ }
+ 
+-private func budgetAdvanceUntil(clock: TestClock, predicate: () async -> Bool) async throws {
+-    let deadline = ContinuousClock.now + .seconds(4)
+-    while !(await predicate()) {
+-        guard ContinuousClock.now < deadline else { throw CocoaError(.fileReadUnknown) }
+-        clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 25))
+-        try await Task.sleep(for: .milliseconds(5))
+-    }
+-}
+-
+-private func budgetAwaitSnapshot(clock: TestClock, snapshots: BudgetSnapshotLog) async throws {
+-    let deadline = ContinuousClock.now + .seconds(2)
+-    while await snapshots.latestElapsedNS < clock.now().elapsedNS {
+-        guard ContinuousClock.now < deadline else { throw CocoaError(.fileReadUnknown) }
+-        try await Task.sleep(for: .milliseconds(2))
+-    }
+-}
++private final class BudgetReceiptLog: @unchecked Sendable {
++    private let lock = NSLock()
++    private var count = 0
++    var committedBatches: Int { lock.withLock { count } }
++    func recordCommitted() { lock.withLock { count += 1 } }
++}
++
++private struct BudgetPhaseDriver {
++    let clock: OptionalPhaseClock
++    let snapshots: BudgetSnapshotLog
++    let pollDelayMS: Int
++    func wait(_ phase: String, timeout: Duration = .seconds(4), _ predicate: () async -> Bool) async throws {
++        let deadline = ContinuousClock.now + timeout
++        while !(await predicate()) {
++            guard ContinuousClock.now < deadline else {
++                throw BudgetPhaseTimeout(phase: phase, elapsedNS: clock.now().elapsedNS, sleeps: clock.sleepDescription)
++            }
++            // Poll latency can vary without changing virtual-time progression.
++            try await Task.sleep(for: .milliseconds(pollDelayMS))
++        }
++    }
++    func publishSnapshot(_ phase: String, beforeMS: Int64) async throws {
++        try await wait(phase + "-publisher-registration") { clock.nextSnapshotDeadlineNS != nil }
++        let target = try #require(clock.nextSnapshotDeadlineNS)
++        try #require(target < beforeMS * 1_000_000, "Publishing must not start another optional probe")
++        clock.advance(to: Fixtures.timestamp(ms: target / 1_000_000))
++        try await wait(phase + "-snapshot", timeout: .seconds(2)) { await snapshots.latestElapsedNS >= target }
++        try await wait(phase + "-sampling-callback") { clock.nextSamplingDeadlineNS != nil }
++    }
++}
++
++private struct BudgetPhaseTimeout: Error, CustomStringConvertible {
++    let phase: String
++    let elapsedNS: Int64
++    let sleeps: String
++    var description: String { "Budget phase timed out: \(phase), elapsed=\(elapsedNS), sleeps=\(sleeps)" }
++}
+diff --git a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift
+--- a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift
++++ b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift
+@@ -8,7 +8,7 @@
+     func sourceGenerationChangeRequiresThreeNewOptionalReceipts(pollDelayMS: Int) async throws {
+         let profile = try Configuration.bundledProfile()
+         let configuration = try Configuration.bundledDefaults()
+-        let clock = GenerationPhaseClock(now: Fixtures.timestamp(ms: 0))
++        let clock = OptionalPhaseClock(now: Fixtures.timestamp(ms: 0))
+         let sources = profile.cpuKeys.map { DiscoveredSource(transportHandle: "smc:\($0)", provider: .smc, rawKey: $0,
+             registryID: "review-\($0)", encoding: profile.expectedSMCEncoding, byteCount: profile.expectedSMCSizeBytes) }
+             + [DiscoveredSource(transportHandle: "nvme:12345", provider: .nvme, rawKey: "TEMPERATURE", registryID: "12345",
+@@ -119,13 +119,13 @@
+ }
+ 
+ private actor GenerationProbeTransport: SensorTransport {
+-    let clock: GenerationPhaseClock
++    let clock: OptionalPhaseClock
+     let sources: [DiscoveredSource]
+     private(set) var discoverCount = 0
+     private(set) var optionalReads = 0
+     private(set) var newOptionalReads = 0
+     private var shouldFailCPU = false
+-    init(clock: GenerationPhaseClock, sources: [DiscoveredSource]) { self.clock = clock; self.sources = sources }
++    init(clock: OptionalPhaseClock, sources: [DiscoveredSource]) { self.clock = clock; self.sources = sources }
+     func armCPUTimeout() { shouldFailCPU = true }
+     func discoverRaw() async throws -> DiscoveredCatalog {
+         discoverCount += 1
+@@ -189,7 +189,7 @@
+ }
+ 
+ private struct GenerationPhaseDriver {
+-    let clock: GenerationPhaseClock
++    let clock: OptionalPhaseClock
+     let snapshots: GenerationSnapshotLog
+     let pollDelayMS: Int
+     func wait(_ phase: String, timeout: Duration = .seconds(4), _ predicate: () async -> Bool) async throws {
+@@ -218,61 +218,3 @@
+     let sleeps: String
+     var description: String { "Generation phase timed out: \(phase), elapsed=\(elapsedNS), sleeps=\(sleeps)" }
+ }
+-
+-// Test-local task identities distinguish overlapping CPU/publisher/watermark
+-// deadlines. No production clock/API changes are required.
+-private final class GenerationPhaseClock: MonitorClock, @unchecked Sendable {
+-    private struct Sleep { let deadline: Int64; let taskHash: Int? }
+-    private let base: TestClock
+-    private let lock = NSLock()
+-    private var sleepers: [UUID: Sleep] = [:]
+-    private var samplingTaskHash: Int?
+-    private var snapshotTaskHash: Int?
+-    init(now: Timestamp) { base = TestClock(now: now) }
+-    func now() -> Timestamp { base.now() }
+-    func advance(to timestamp: Timestamp) { base.advance(to: timestamp) }
+-    func sleep(untilElapsedNS: Int64) async throws {
+-        let id = UUID()
+-        let taskHash = withUnsafeCurrentTask { $0?.hashValue }
+-        lock.withLock { sleepers[id] = Sleep(deadline: untilElapsedNS, taskHash: taskHash) }
+-        defer { lock.withLock { _ = sleepers.removeValue(forKey: id) } }
+-        try await base.sleep(untilElapsedNS: untilElapsedNS)
+-    }
+-    func identifySamplingTask(waitingUntilMS: Int64) -> Bool {
+-        lock.withLock {
+-            guard let task = sleepers.values.first(where: { $0.deadline == waitingUntilMS * 1_000_000 })?.taskHash else { return false }
+-            samplingTaskHash = task
+-            return true
+-        }
+-    }
+-    func identifySnapshotTask(waitingUntilMS: Int64) -> Bool {
+-        lock.withLock {
+-            guard let task = sleepers.values.first(where: { $0.deadline == waitingUntilMS * 1_000_000 && $0.taskHash != samplingTaskHash })?.taskHash else { return false }
+-            snapshotTaskHash = task
+-            return true
+-        }
+-    }
+-    func hasSamplingSleep(untilMS: Int64) -> Bool {
+-        lock.withLock {
+-            guard let task = samplingTaskHash else { return false }
+-            return sleepers.values.contains { $0.deadline == untilMS * 1_000_000 && $0.taskHash == task }
+-        }
+-    }
+-    var nextSamplingDeadlineNS: Int64? { nextDeadline(sampling: true) }
+-    var nextSnapshotDeadlineNS: Int64? { nextDeadline(sampling: false) }
+-    private func nextDeadline(sampling: Bool) -> Int64? {
+-        lock.withLock {
+-            guard let task = sampling ? samplingTaskHash : snapshotTaskHash else { return nil }
+-            let now = base.now().elapsedNS
+-            return sleepers.values.filter { $0.taskHash == task && $0.deadline > now }.map(\.deadline).min()
+-        }
+-    }
+-    var sleepDescription: String {
+-        lock.withLock {
+-            sleepers.values.sorted { $0.deadline < $1.deadline }.map {
+-                let role = $0.taskHash == samplingTaskHash ? "sampling" : ($0.taskHash == snapshotTaskHash ? "snapshot" : "other")
+-                return "\(role):\($0.deadline)"
+-            }.joined(separator: ",")
+-        }
+-    }
+-}
+diff --git a/Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift b/Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift
+new file mode 100644
+--- /dev/null
++++ b/Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift
+@@ -0,0 +1,60 @@
++import Foundation
++@testable import TemperatureCore
++
++// Test-local task identities distinguish overlapping CPU/publisher/watermark
++// deadlines. No production clock/API changes are required.
++final class OptionalPhaseClock: MonitorClock, @unchecked Sendable {
++    private struct Sleep { let deadline: Int64; let taskHash: Int? }
++    private let base: TestClock
++    private let lock = NSLock()
++    private var sleepers: [UUID: Sleep] = [:]
++    private var samplingTaskHash: Int?
++    private var snapshotTaskHash: Int?
++    init(now: Timestamp) { base = TestClock(now: now) }
++    func now() -> Timestamp { base.now() }
++    func advance(to timestamp: Timestamp) { base.advance(to: timestamp) }
++    func sleep(untilElapsedNS: Int64) async throws {
++        let id = UUID()
++        let taskHash = withUnsafeCurrentTask { $0?.hashValue }
++        lock.withLock { sleepers[id] = Sleep(deadline: untilElapsedNS, taskHash: taskHash) }
++        defer { lock.withLock { _ = sleepers.removeValue(forKey: id) } }
++        try await base.sleep(untilElapsedNS: untilElapsedNS)
++    }
++    func identifySamplingTask(waitingUntilMS: Int64) -> Bool {
++        lock.withLock {
++            guard let task = sleepers.values.first(where: { $0.deadline == waitingUntilMS * 1_000_000 })?.taskHash else { return false }
++            samplingTaskHash = task
++            return true
++        }
++    }
++    func identifySnapshotTask(waitingUntilMS: Int64) -> Bool {
++        lock.withLock {
++            guard let task = sleepers.values.first(where: { $0.deadline == waitingUntilMS * 1_000_000 && $0.taskHash != samplingTaskHash })?.taskHash else { return false }
++            snapshotTaskHash = task
++            return true
++        }
++    }
++    func hasSamplingSleep(untilMS: Int64) -> Bool {
++        lock.withLock {
++            guard let task = samplingTaskHash else { return false }
++            return sleepers.values.contains { $0.deadline == untilMS * 1_000_000 && $0.taskHash == task }
++        }
++    }
++    var nextSamplingDeadlineNS: Int64? { nextDeadline(sampling: true) }
++    var nextSnapshotDeadlineNS: Int64? { nextDeadline(sampling: false) }
++    private func nextDeadline(sampling: Bool) -> Int64? {
++        lock.withLock {
++            guard let task = sampling ? samplingTaskHash : snapshotTaskHash else { return nil }
++            let now = base.now().elapsedNS
++            return sleepers.values.filter { $0.taskHash == task && $0.deadline > now }.map(\.deadline).min()
++        }
++    }
++    var sleepDescription: String {
++        lock.withLock {
++            sleepers.values.sorted { $0.deadline < $1.deadline }.map {
++                let role = $0.taskHash == samplingTaskHash ? "sampling" : ($0.taskHash == snapshotTaskHash ? "snapshot" : "other")
++                return "\(role):\($0.deadline)"
++            }.joined(separator: ",")
++        }
++    }
++}

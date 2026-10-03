@@ -1,0 +1,134 @@
+{
+  "scope": "independent Python arithmetic model, source inspection and single View Swift 6 typecheck only; no full product build/link, App, physical selection or hardware executed",
+  "source_sha256": "ac86aec31e6ad455ff39849fe3081f7744e2c89f7b1d0c2ac7df769ed6fb0488",
+  "patched_source_sha256": "472ca0f36c225f6772c414c3edfb382f88d5fc6e0e243d51431d3650ae97df4a",
+  "red": {
+    "chart_state_unchanged": true,
+    "comparator_before": true,
+    "date1_seconds": 1699999990.0,
+    "date2_seconds": 1700003590.0,
+    "mismatch_seconds": 3600.0
+  },
+  "green": {
+    "comparator_after": false,
+    "normal_clock_advance_equal": true,
+    "all_16_integer_boundary_cases_pass": true,
+    "cases": [
+      {
+        "wall_ns": 1700000000000000000,
+        "elapsed_ns": 20000000000,
+        "actual_offset_ms": 1699999980000,
+        "expected_offset_ms": 1699999980000,
+        "pass": true
+      },
+      {
+        "wall_ns": 1700000000100000000,
+        "elapsed_ns": 20100000000,
+        "actual_offset_ms": 1699999980000,
+        "expected_offset_ms": 1699999980000,
+        "pass": true
+      },
+      {
+        "wall_ns": 1700003600100000000,
+        "elapsed_ns": 20100000000,
+        "actual_offset_ms": 1700003580000,
+        "expected_offset_ms": 1700003580000,
+        "pass": true
+      },
+      {
+        "wall_ns": 500000,
+        "elapsed_ns": 0,
+        "actual_offset_ms": 1,
+        "expected_offset_ms": 1,
+        "pass": true
+      },
+      {
+        "wall_ns": 499999,
+        "elapsed_ns": 0,
+        "actual_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "pass": true
+      },
+      {
+        "wall_ns": 0,
+        "elapsed_ns": 500000,
+        "actual_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "pass": true
+      },
+      {
+        "wall_ns": 0,
+        "elapsed_ns": 500001,
+        "actual_offset_ms": -1,
+        "expected_offset_ms": -1,
+        "pass": true
+      },
+      {
+        "wall_ns": 1200000,
+        "elapsed_ns": 800000,
+        "actual_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "pass": true
+      },
+      {
+        "wall_ns": 800000,
+        "elapsed_ns": 1200000,
+        "actual_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "pass": true
+      },
+      {
+        "wall_ns": 9223372036854775807,
+        "elapsed_ns": 0,
+        "actual_offset_ms": 9223372036855,
+        "expected_offset_ms": 9223372036855,
+        "pass": true
+      },
+      {
+        "wall_ns": 9223372036854775807,
+        "elapsed_ns": -9223372036854775808,
+        "actual_offset_ms": 18446744073710,
+        "expected_offset_ms": 18446744073710,
+        "pass": true
+      },
+      {
+        "wall_ns": -9223372036854775808,
+        "elapsed_ns": 9223372036854775807,
+        "actual_offset_ms": -18446744073710,
+        "expected_offset_ms": -18446744073710,
+        "pass": true
+      },
+      {
+        "wall_ns": -9223372036854775808,
+        "elapsed_ns": 0,
+        "actual_offset_ms": -9223372036855,
+        "expected_offset_ms": -9223372036855,
+        "pass": true
+      },
+      {
+        "wall_ns": 0,
+        "elapsed_ns": 0,
+        "actual_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "pass": true
+      },
+      {
+        "wall_ns": 1000000,
+        "elapsed_ns": 1500000,
+        "actual_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "pass": true
+      },
+      {
+        "wall_ns": 1500000,
+        "elapsed_ns": 1000000,
+        "actual_offset_ms": 1,
+        "expected_offset_ms": 1,
+        "pass": true
+      }
+    ]
+  },
+  "invariant": "same chartState and same optional renderAnchorOffsetMS calculate identical dates for all same points; no-asOf path preserved",
+  "swift6_isolation": "immutable Sendable asOf, nonisolated computed render offset",
+  "typecheck_exit_code": 0
+}

@@ -1,0 +1,42 @@
+{
+  "delete_raw": [
+    [
+      4,
+      0,
+      202,
+      "SEARCH raw_samples USING INDEX raw_by_time (elapsed_ns<?)"
+    ],
+    [
+      12,
+      0,
+      0,
+      "CORRELATED SCALAR SUBQUERY 1"
+    ],
+    [
+      17,
+      12,
+      49,
+      "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns<?)"
+    ]
+  ],
+  "delete_ema": [
+    [
+      4,
+      0,
+      203,
+      "SEARCH ema_samples USING INDEX ema_by_time (elapsed_ns<?)"
+    ],
+    [
+      12,
+      0,
+      0,
+      "CORRELATED SCALAR SUBQUERY 1"
+    ],
+    [
+      17,
+      12,
+      49,
+      "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns<?)"
+    ]
+  ]
+}

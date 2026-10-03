@@ -1,0 +1,512 @@
+--- a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift
++++ b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift
+@@ -4,62 +4,136 @@
+ @testable import TemperatureCore
+ 
+ @Suite(.serialized) struct OptionalWakeRecoveryRegressionTests {
+-    @Test func wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() async throws {
++    @Test(arguments: [2, 125])
++    func wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource(pollDelayMS: Int) async throws {
+         let profile = try Configuration.bundledProfile()
+         let configuration = try Configuration.bundledDefaults()
+-        let clock = TestClock(now: Fixtures.timestamp(ms: 0))
++        let clock = OptionalPhaseClock(now: Fixtures.timestamp(ms: 0))
+         let sources = profile.cpuKeys.map { DiscoveredSource(transportHandle: "smc:\($0)", provider: .smc, rawKey: $0,
+             registryID: "review-\($0)", encoding: profile.expectedSMCEncoding, byteCount: profile.expectedSMCSizeBytes) }
+             + [DiscoveredSource(transportHandle: "nvme:12345", provider: .nvme, rawKey: "TEMPERATURE", registryID: "12345",
+                 encoding: "uint16_le_kelvin", byteCount: 2, physicalInterconnectLocation: "Internal", interconnectLookupStatus: .found)]
++        let registry = ProfileRegistry(profile: profile)
++        let newCatalog = try registry.qualify(DiscoveredCatalog(generation: 2, sources: sources))
++        let newDefinitions = try SeriesCatalogBuilder.definitions(from: newCatalog)
++        let newSSD = try #require(newDefinitions.first { $0.kind == .ssd })
++        let newCPU = try #require(newDefinitions.first { $0.kind == .cpuMain })
++        let receipts = WakeReceiptGate(ssdSeriesID: newSSD.seriesID, cpuSeriesID: newCPU.seriesID)
++
+         let transport = WakeProbeTransport(clock: clock, sources: sources)
+-        let client = QualifiedSensorClient(transport: transport, registry: ProfileRegistry(profile: profile))
++        let client = QualifiedSensorClient(transport: transport, registry: registry)
+         let root = FileManager.default.temporaryDirectory.appendingPathComponent("OptionalWake-\(UUID())")
+-        let session = SessionPersistenceActor(databaseURL: root.appendingPathComponent("monitor.sqlite"))
++        let databaseURL = root.appendingPathComponent("monitor.sqlite")
++        let session = SessionPersistenceActor(databaseURL: databaseURL, configuration: configuration,
++            batchCommitOperation: { store, batch, sessionID, generation in
++                try receipts.beforeCommit(batch)
++                let receipt = try store.commitBatch(batch, sessionID: sessionID, snapshotGeneration: generation)
++                receipts.recordCommitted(batch)
++                return receipt
++            })
+         let controller = SessionMonitorController(clock: clock, client: client, session: session,
+             sessionMetadata: SessionMetadata(sessionID: SessionID(UUID()), startedWallUnixNS: 1, model: "Mac16,13", osBuild: "24G419", appVersion: "review"), configuration: configuration)
+         let snapshots = WakeSnapshotLog()
+         let stream = await controller.snapshots()
+         let observer = Task { for await snapshot in stream { await snapshots.append(snapshot) } }
++        let driver = WakePhaseDriver(clock: clock, snapshots: snapshots, pollDelayMS: pollDelayMS)
++
+         do {
+             try await controller.start()
+-            try await wakeAdvanceUntil(clock: clock) { let reads = await transport.optionalReads; let unavailable = await snapshots.hasUnavailableSSD; return reads >= 4 && unavailable }
++            clock.advance(to: Fixtures.timestamp(ms: 500))
++            try await driver.wait("identify-initial-sampling") { clock.identifySamplingTask(waitingUntilMS: 550) }
++            try await driver.wait("identify-initial-publisher") {
++                await snapshots.latestElapsedNS >= 500_000_000 && clock.identifySnapshotTask(waitingUntilMS: 700)
++            }
++            for retryMS in [Int64(550), 650, 850] {
++                try await driver.wait("initial-retry-\(retryMS)") { clock.hasSamplingSleep(untilMS: retryMS) }
++                clock.advance(to: Fixtures.timestamp(ms: retryMS))
++            }
++            try await driver.wait("initial-quarantine-receipt-and-callback") { clock.hasSamplingSleep(untilMS: 1000) }
+             #expect(await transport.optionalReads == 4)
++            try await driver.publishSnapshot("initial-unavailable", beforeMS: 60_850)
++            #expect(await snapshots.hasUnavailableSSD)
+             try await controller.suspendForSleep()
+-            clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 2000))
++            let wakeMS = clock.now().elapsedNS / 1_000_000 + 2_000
++            clock.advance(to: Fixtures.timestamp(ms: wakeMS))
+             try await controller.resumeAfterWake()
+-            try await wakeAdvanceUntil(clock: clock) { await transport.newOptionalReads >= 3 }
+-            clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 200))
+-            try await wakeAwaitSnapshot(clock: clock, snapshots: snapshots)
++            // Wake starts new sampling/publisher tasks. Their first wake+200
++            // sleeps coincide, so identify roles only after the first SSD receipt.
++            let firstReadMS = wakeMS + 500
++            clock.advance(to: Fixtures.timestamp(ms: firstReadMS))
++            try await driver.wait("first-new-SSD-and-CPU-receipts") {
++                receipts.committedSSD == 1 && receipts.committedCPU >= 1
++            }
++            try await driver.wait("reidentify-wake-sampling") {
++                clock.identifySamplingTask(waitingUntilMS: firstReadMS + 100)
++            }
++            try await driver.wait("reidentify-wake-publisher") {
++                await snapshots.latestElapsedNS >= firstReadMS * 1_000_000
++                    && clock.identifySnapshotTask(waitingUntilMS: firstReadMS + 200)
++            }
++            let reader = try SQLiteStore(databaseURL: databaseURL)
++            defer { reader.close() }
++            func count(_ seriesID: SeriesID) throws -> Int64 {
++                try #require(try reader.queryInt64("SELECT COUNT(*) FROM raw_samples WHERE series_id = '\(seriesID.rawValue)'"))
++            }
++            #expect(try count(newCPU.seriesID) >= 1, "Wake CPU must produce a real SQLite commit")
++            // Each scheduler sleep proves callback completion after the real
++            // store commit and ProcessingReceipt; read counters alone do not.
++            for (readMS, expected) in [(firstReadMS, 1), (firstReadMS + 500, 2)] {
++                if expected == 2 { clock.advance(to: Fixtures.timestamp(ms: readMS)) }
++                try await driver.wait("new-receipt-\(expected)-and-callback") {
++                    receipts.committedSSD == expected && clock.nextSamplingDeadlineNS != nil
++                }
++                #expect(await transport.newOptionalReads == expected)
++                #expect(try count(newSSD.seriesID) == Int64(expected))
++                try await driver.publishSnapshot("new-unavailable-\(expected)", beforeMS: readMS + 500)
++                #expect(await snapshots.hasGeneration2SSD)
++                #expect(await snapshots.newSSDIsUnavailable, "One or two new committed readings must not recover the source")
++            }
++            clock.advance(to: Fixtures.timestamp(ms: firstReadMS + 1_000))
++            try await driver.wait("third-new-read-waits-before-commit") { receipts.isBlocked }
++            #expect(await transport.newOptionalReads == 3)
++            #expect(receipts.committedSSD == 2)
++            #expect(try count(newSSD.seriesID) == 2)
++            try await driver.publishSnapshot("third-uncommitted", beforeMS: firstReadMS + 1_500, waitForSampling: false)
++            #expect(await snapshots.newSSDIsUnavailable, "The third in-flight read is not a committed Receipt")
++            receipts.release()
++            try await driver.wait("third-receipt-or-fatal") {
++                if await controller.lastAcceptFailure()?.severity == .fatal { return true }
++                return receipts.committedSSD == 3 && clock.nextSamplingDeadlineNS != nil
++            }
++            try #require(await controller.lastAcceptFailure() == nil, "A rejected third Receipt must fail this success-path regression")
++            #expect(receipts.committedSSD == 3)
++            #expect(try count(newSSD.seriesID) == 3)
++            try await driver.publishSnapshot("three-new-receipts", beforeMS: firstReadMS + 1_500)
+             #expect(await transport.newOptionalReads == 3)
+             #expect(await snapshots.hasGeneration2SSD)
+-            let newCatalog = try ProfileRegistry(profile: profile).qualify(DiscoveredCatalog(generation: 2, sources: sources))
+-            let newSSD = try #require(SeriesCatalogBuilder.definitions(from: newCatalog).first { $0.kind == .ssd })
+-            let reader = try SQLiteStore(databaseURL: root.appendingPathComponent("monitor.sqlite"))
+-            let committedNewReads = try reader.queryInt64("SELECT COUNT(*) FROM raw_samples WHERE series_id = '\(newSSD.seriesID.rawValue)'")
++            #expect(await snapshots.newSSDIsAvailable, "Three new committed readings must clear the pre-sleep unavailable state")
++            print("Wake_PHASE_COMPLETE pollMS=\(pollDelayMS) newReads=\(await transport.newOptionalReads) newReceipts=\(receipts.committedSSD) cpuReceipts=\(receipts.committedCPU)")
+             reader.close()
+-            #expect(committedNewReads == 3)
+-            #expect(await snapshots.newSSDIsAvailable, "An optional source requalified after wake and three new committed readings must leave its old unavailable state")
+-            #expect(await controller.lastAcceptFailure() == nil)
+             await controller.stop()
+             await observer.value
+         } catch {
++            print("Wake_PHASE_FAILURE pollMS=\(pollDelayMS) elapsed=\(clock.now().elapsedNS) newReads=\(await transport.newOptionalReads) newReceipts=\(receipts.committedSSD) sleeps=\(clock.sleepDescription) error=\(error)")
++
++            receipts.release()
+             await controller.stop()
+             observer.cancel()
+             await observer.value
++            print("Wake_PHASE_CLEANUP_COMPLETE pollMS=\(pollDelayMS)")
+             throw error
+         }
+     }
+ }
+ 
+ private actor WakeProbeTransport: SensorTransport {
+-    let clock: TestClock
++    let clock: OptionalPhaseClock
+     let sources: [DiscoveredSource]
+     private(set) var discoverCount = 0
+     private(set) var optionalReads = 0
+     private(set) var newOptionalReads = 0
+     private var shouldFailCPU = false
+-    init(clock: TestClock, sources: [DiscoveredSource]) { self.clock = clock; self.sources = sources }
++    init(clock: OptionalPhaseClock, sources: [DiscoveredSource]) { self.clock = clock; self.sources = sources }
+     func armCPUTimeout() { shouldFailCPU = true }
+     func discoverRaw() async throws -> DiscoveredCatalog {
+         discoverCount += 1
+@@ -105,19 +179,70 @@
+     }
+ }
+ 
+-private func wakeAdvanceUntil(clock: TestClock, predicate: () async -> Bool) async throws {
+-    let deadline = ContinuousClock.now + .seconds(4)
+-    while !(await predicate()) {
+-        guard ContinuousClock.now < deadline else { throw CocoaError(.fileReadUnknown) }
+-        clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 25))
+-        try await Task.sleep(for: .milliseconds(5))
+-    }
+-}
+-
+-private func wakeAwaitSnapshot(clock: TestClock, snapshots: WakeSnapshotLog) async throws {
+-    let deadline = ContinuousClock.now + .seconds(2)
+-    while await snapshots.latestElapsedNS < clock.now().elapsedNS {
+-        guard ContinuousClock.now < deadline else { throw CocoaError(.fileReadUnknown) }
+-        try await Task.sleep(for: .milliseconds(2))
+-    }
+-}
++
++private final class WakeReceiptGate: @unchecked Sendable {
++    private let condition = NSCondition()
++    private let ssdSeriesID: SeriesID
++    private let cpuSeriesID: SeriesID
++    private var ssdCalls = 0
++    private var ssdCommitted = 0
++    private var cpuCommitted = 0
++    private var blocked = false
++    private var released = false
++    init(ssdSeriesID: SeriesID, cpuSeriesID: SeriesID) { self.ssdSeriesID = ssdSeriesID; self.cpuSeriesID = cpuSeriesID }
++    var committedSSD: Int { condition.withLock { ssdCommitted } }
++    var committedCPU: Int { condition.withLock { cpuCommitted } }
++    var isBlocked: Bool { condition.withLock { blocked } }
++    func beforeCommit(_ batch: PersistenceBatch) throws {
++        guard batch.raw.contains(where: { $0.seriesID == ssdSeriesID }) else { return }
++        condition.lock()
++        defer { condition.unlock() }
++        ssdCalls += 1
++        if ssdCalls == 3 {
++            blocked = true
++            while !released { condition.wait() }
++            blocked = false
++            if ProcessInfo.processInfo.environment["OPTIONAL_PHASE_NEGATIVE"] == "reject-third-receipt" {
++                throw SQLiteStoreError.integrityConflict(detail: "controlled third optional receipt rejection")
++            }
++        }
++    }
++    func recordCommitted(_ batch: PersistenceBatch) {
++        condition.withLock {
++            ssdCommitted += batch.raw.filter { $0.seriesID == ssdSeriesID }.count
++            cpuCommitted += batch.raw.filter { $0.seriesID == cpuSeriesID }.count
++        }
++    }
++    func release() { condition.withLock { released = true; condition.broadcast() } }
++}
++
++private struct WakePhaseDriver {
++    let clock: OptionalPhaseClock
++    let snapshots: WakeSnapshotLog
++    let pollDelayMS: Int
++    func wait(_ phase: String, timeout: Duration = .seconds(4), _ predicate: () async -> Bool) async throws {
++        let deadline = ContinuousClock.now + timeout
++        while !(await predicate()) {
++            guard ContinuousClock.now < deadline else {
++                throw WakePhaseTimeout(phase: phase, elapsedNS: clock.now().elapsedNS, sleeps: clock.sleepDescription)
++            }
++            try await Task.sleep(for: .milliseconds(pollDelayMS))
++        }
++    }
++    func publishSnapshot(_ phase: String, beforeMS: Int64, waitForSampling: Bool = true) async throws {
++        try await wait(phase + "-publisher-registration") { clock.nextSnapshotDeadlineNS != nil }
++        let target = try #require(clock.nextSnapshotDeadlineNS)
++        try #require(target < beforeMS * 1_000_000, "Publishing must not start the next optional probe")
++        clock.advance(to: Fixtures.timestamp(ms: target / 1_000_000))
++        try await wait(phase + "-snapshot", timeout: .seconds(2)) { await snapshots.latestElapsedNS >= target }
++        if waitForSampling { try await wait(phase + "-sampling-callback") { clock.nextSamplingDeadlineNS != nil } }
++    }
++}
++
++private struct WakePhaseTimeout: Error, CustomStringConvertible {
++    let phase: String
++    let elapsedNS: Int64
++    let sleeps: String
++    var description: String { "Wake phase timed out: \(phase), elapsed=\(elapsedNS), sleeps=\(sleeps)" }
++}
++
+--- a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalSleepAdmissionRaceRegressionTests.swift
++++ b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalSleepAdmissionRaceRegressionTests.swift
+@@ -4,71 +4,145 @@
+ @testable import TemperatureCore
+ 
+ @Suite(.serialized) struct OptionalSleepAdmissionRaceRegressionTests {
+-    @Test func sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() async throws {
++    @Test(arguments: [2, 125])
++    func sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState(pollDelayMS: Int) async throws {
+         let profile = try Configuration.bundledProfile()
+         let configuration = try Configuration.bundledDefaults()
+-        let clock = TestClock(now: Fixtures.timestamp(ms: 0))
++        let clock = OptionalPhaseClock(now: Fixtures.timestamp(ms: 0))
+         let sources = profile.cpuKeys.map { DiscoveredSource(transportHandle: "smc:\($0)", provider: .smc, rawKey: $0,
+             registryID: "review-\($0)", encoding: profile.expectedSMCEncoding, byteCount: profile.expectedSMCSizeBytes) }
+             + [DiscoveredSource(transportHandle: "nvme:12345", provider: .nvme, rawKey: "TEMPERATURE", registryID: "12345",
+                 encoding: "uint16_le_kelvin", byteCount: 2, physicalInterconnectLocation: "Internal", interconnectLookupStatus: .found)]
++        let registry = ProfileRegistry(profile: profile)
++        let newCatalog = try registry.qualify(DiscoveredCatalog(generation: 2, sources: sources))
++        let newDefinitions = try SeriesCatalogBuilder.definitions(from: newCatalog)
++        let newSSD = try #require(newDefinitions.first { $0.kind == .ssd })
++        let newCPU = try #require(newDefinitions.first { $0.kind == .cpuMain })
++        let receipts = SleepRaceReceiptGate(ssdSeriesID: newSSD.seriesID, cpuSeriesID: newCPU.seriesID)
+         let failureGate = PendingFailureGate()
+         let transport = SleepRaceTransport(clock: clock, sources: sources, failureGate: failureGate)
+-        let client = QualifiedSensorClient(transport: transport, registry: ProfileRegistry(profile: profile))
+-        let root = FileManager.default.temporaryDirectory.appendingPathComponent("OptionalWake-\(UUID())")
+-        let session = SessionPersistenceActor(databaseURL: root.appendingPathComponent("monitor.sqlite"))
++        let client = QualifiedSensorClient(transport: transport, registry: registry)
++        let root = FileManager.default.temporaryDirectory.appendingPathComponent("OptionalSleepRace-\(UUID())")
++        let databaseURL = root.appendingPathComponent("monitor.sqlite")
++        let session = SessionPersistenceActor(databaseURL: databaseURL, configuration: configuration,
++            batchCommitOperation: { store, batch, sessionID, generation in
++                try receipts.beforeCommit(batch)
++                let receipt = try store.commitBatch(batch, sessionID: sessionID, snapshotGeneration: generation)
++                receipts.recordCommitted(batch)
++                return receipt
++            })
+         let controller = SessionMonitorController(clock: clock, client: client, session: session,
+             sessionMetadata: SessionMetadata(sessionID: SessionID(UUID()), startedWallUnixNS: 1, model: "Mac16,13", osBuild: "24G419", appVersion: "review"), configuration: configuration)
+         let snapshots = SleepRaceSnapshotLog()
+         let stream = await controller.snapshots()
+         let observer = Task { for await snapshot in stream { await snapshots.append(snapshot) } }
++        let driver = SleepRacePhaseDriver(clock: clock, snapshots: snapshots, pollDelayMS: pollDelayMS)
++        var sleepTask: Task<Void, Error>?
+         do {
+             try await controller.start()
+-            try await sleepRaceAdvanceUntil(clock: clock) { await transport.optionalReads >= 4 }
++            clock.advance(to: Fixtures.timestamp(ms: 500))
++            try await driver.wait("identify-initial-sampling") { clock.identifySamplingTask(waitingUntilMS: 550) }
++            try await driver.wait("identify-initial-publisher") {
++                await snapshots.latestElapsedNS >= 500_000_000 && clock.identifySnapshotTask(waitingUntilMS: 700)
++            }
++            for retryMS in [Int64(550), 650, 850] {
++                try await driver.wait("initial-retry-\(retryMS)") { clock.hasSamplingSleep(untilMS: retryMS) }
++                clock.advance(to: Fixtures.timestamp(ms: retryMS))
++            }
++            try await driver.wait("fourth-failure-in-flight") { failureGate.isWaiting }
+             #expect(await transport.optionalReads == 4)
+-            let sleepTask = Task { try await controller.suspendForSleep() }
+-            let cancelledDeadline = ContinuousClock.now + .seconds(2)
+-            while !failureGate.isCancelled {
+-                guard ContinuousClock.now < cancelledDeadline else { throw CocoaError(.fileReadUnknown) }
+-                try await Task.sleep(for: .milliseconds(2))
++            let ownedSleepTask = Task { try await controller.suspendForSleep() }
++            sleepTask = ownedSleepTask
++            try await driver.wait("suspend-cancels-fourth-in-flight-read") { failureGate.isCancelled }
++            #expect(failureGate.isWaiting, "Cancellation must occur while the fourth failure is still held")
++            if ProcessInfo.processInfo.environment["OPTIONAL_PHASE_NEGATIVE"] == "cancelled-fourth-cleanup" {
++                throw SleepRacePhaseTimeout(phase: "injected-cancelled-fourth-cleanup", elapsedNS: clock.now().elapsedNS, sleeps: clock.sleepDescription)
+             }
+             failureGate.release()
+-            try await sleepTask.value
+-            clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 2000))
++            try await ownedSleepTask.value
++            sleepTask = nil
++            let wakeMS = clock.now().elapsedNS / 1_000_000 + 2_000
++            clock.advance(to: Fixtures.timestamp(ms: wakeMS))
+             try await controller.resumeAfterWake()
+-            try await sleepRaceAdvanceUntil(clock: clock) { await transport.newOptionalReads >= 3 }
+-            clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 200))
+-            try await sleepRaceAwaitSnapshot(clock: clock, snapshots: snapshots)
++            // Wake starts new sampling/publisher tasks. Their first wake+200
++            // sleeps coincide, so identify roles only after the first SSD receipt.
++            let firstReadMS = wakeMS + 500
++            clock.advance(to: Fixtures.timestamp(ms: firstReadMS))
++            try await driver.wait("first-new-SSD-and-CPU-receipts") {
++                receipts.committedSSD == 1 && receipts.committedCPU >= 1
++            }
++            try await driver.wait("reidentify-wake-sampling") {
++                clock.identifySamplingTask(waitingUntilMS: firstReadMS + 100)
++            }
++            try await driver.wait("reidentify-wake-publisher") {
++                await snapshots.latestElapsedNS >= firstReadMS * 1_000_000
++                    && clock.identifySnapshotTask(waitingUntilMS: firstReadMS + 200)
++            }
++            let reader = try SQLiteStore(databaseURL: databaseURL)
++            defer { reader.close() }
++            func count(_ seriesID: SeriesID) throws -> Int64 {
++                try #require(try reader.queryInt64("SELECT COUNT(*) FROM raw_samples WHERE series_id = '\(seriesID.rawValue)'"))
++            }
++            #expect(try count(newCPU.seriesID) >= 1, "Wake CPU must produce a real SQLite commit")
++            // Each scheduler sleep proves callback completion after the real
++            // store commit and ProcessingReceipt; read counters alone do not.
++            for (readMS, expected) in [(firstReadMS, 1), (firstReadMS + 500, 2)] {
++                if expected == 2 { clock.advance(to: Fixtures.timestamp(ms: readMS)) }
++                try await driver.wait("new-receipt-\(expected)-and-callback") {
++                    receipts.committedSSD == expected && clock.nextSamplingDeadlineNS != nil
++                }
++                #expect(await transport.newOptionalReads == expected)
++                #expect(try count(newSSD.seriesID) == Int64(expected))
++                try await driver.publishSnapshot("new-unavailable-\(expected)", beforeMS: readMS + 500)
++                #expect(await snapshots.hasGeneration2SSD)
++                #expect(await snapshots.newSSDIsUnavailable, "One or two new committed readings must not recover the source")
++            }
++            clock.advance(to: Fixtures.timestamp(ms: firstReadMS + 1_000))
++            try await driver.wait("third-new-read-waits-before-commit") { receipts.isBlocked }
++            #expect(await transport.newOptionalReads == 3)
++            #expect(receipts.committedSSD == 2)
++            #expect(try count(newSSD.seriesID) == 2)
++            try await driver.publishSnapshot("third-uncommitted", beforeMS: firstReadMS + 1_500, waitForSampling: false)
++            #expect(await snapshots.newSSDIsUnavailable, "The third in-flight read is not a committed Receipt")
++            receipts.release()
++            try await driver.wait("third-receipt-or-fatal") {
++                if await controller.lastAcceptFailure()?.severity == .fatal { return true }
++                return receipts.committedSSD == 3 && clock.nextSamplingDeadlineNS != nil
++            }
++            try #require(await controller.lastAcceptFailure() == nil, "A rejected third Receipt must fail this success-path regression")
++            #expect(receipts.committedSSD == 3)
++            #expect(try count(newSSD.seriesID) == 3)
++            try await driver.publishSnapshot("three-new-receipts", beforeMS: firstReadMS + 1_500)
+             #expect(await transport.newOptionalReads == 3)
+             #expect(await snapshots.hasGeneration2SSD)
+-            let newCatalog = try ProfileRegistry(profile: profile).qualify(DiscoveredCatalog(generation: 2, sources: sources))
+-            let newSSD = try #require(SeriesCatalogBuilder.definitions(from: newCatalog).first { $0.kind == .ssd })
+-            let reader = try SQLiteStore(databaseURL: root.appendingPathComponent("monitor.sqlite"))
+-            let committedNewReads = try reader.queryInt64("SELECT COUNT(*) FROM raw_samples WHERE series_id = '\(newSSD.seriesID.rawValue)'")
++            #expect(await snapshots.newSSDIsAvailable, "Three new committed readings must clear the pre-sleep unavailable state")
++            print("SleepRace_PHASE_COMPLETE pollMS=\(pollDelayMS) newReads=\(await transport.newOptionalReads) newReceipts=\(receipts.committedSSD) cpuReceipts=\(receipts.committedCPU)")
+             reader.close()
+-            #expect(committedNewReads == 3)
+-            #expect(await snapshots.newSSDIsAvailable, "An optional source requalified after wake and three new committed readings must leave its old unavailable state")
+-            #expect(await controller.lastAcceptFailure() == nil)
+             await controller.stop()
+             await observer.value
+         } catch {
++            print("SleepRace_PHASE_FAILURE pollMS=\(pollDelayMS) elapsed=\(clock.now().elapsedNS) newReads=\(await transport.newOptionalReads) newReceipts=\(receipts.committedSSD) sleeps=\(clock.sleepDescription) error=\(error)")
++            failureGate.release()
++            if let sleepTask { _ = try? await sleepTask.value }
++            receipts.release()
+             await controller.stop()
+             observer.cancel()
+             await observer.value
++            print("SleepRace_PHASE_CLEANUP_COMPLETE pollMS=\(pollDelayMS)")
+             throw error
+         }
+     }
+ }
+ 
+ private actor SleepRaceTransport: SensorTransport {
+-    let clock: TestClock
++    let clock: OptionalPhaseClock
+     let sources: [DiscoveredSource]
+     private(set) var discoverCount = 0
+     private(set) var optionalReads = 0
+     private(set) var newOptionalReads = 0
+     private var shouldFailCPU = false
+     let failureGate: PendingFailureGate
+-    init(clock: TestClock, sources: [DiscoveredSource], failureGate: PendingFailureGate) { self.clock = clock; self.sources = sources; self.failureGate = failureGate }
++    init(clock: OptionalPhaseClock, sources: [DiscoveredSource], failureGate: PendingFailureGate) { self.clock = clock; self.sources = sources; self.failureGate = failureGate }
+     func armCPUTimeout() { shouldFailCPU = true }
+     func discoverRaw() async throws -> DiscoveredCatalog {
+         discoverCount += 1
+@@ -115,21 +189,71 @@
+     }
+ }
+ 
+-private func sleepRaceAdvanceUntil(clock: TestClock, predicate: () async -> Bool) async throws {
+-    let deadline = ContinuousClock.now + .seconds(4)
+-    while !(await predicate()) {
+-        guard ContinuousClock.now < deadline else { throw CocoaError(.fileReadUnknown) }
+-        clock.advance(to: Fixtures.timestamp(ms: clock.now().elapsedNS / 1_000_000 + 25))
+-        try await Task.sleep(for: .milliseconds(5))
+-    }
+-}
+-
+-private func sleepRaceAwaitSnapshot(clock: TestClock, snapshots: SleepRaceSnapshotLog) async throws {
+-    let deadline = ContinuousClock.now + .seconds(2)
+-    while await snapshots.latestElapsedNS < clock.now().elapsedNS {
+-        guard ContinuousClock.now < deadline else { throw CocoaError(.fileReadUnknown) }
+-        try await Task.sleep(for: .milliseconds(2))
+-    }
++
++private final class SleepRaceReceiptGate: @unchecked Sendable {
++    private let condition = NSCondition()
++    private let ssdSeriesID: SeriesID
++    private let cpuSeriesID: SeriesID
++    private var ssdCalls = 0
++    private var ssdCommitted = 0
++    private var cpuCommitted = 0
++    private var blocked = false
++    private var released = false
++    init(ssdSeriesID: SeriesID, cpuSeriesID: SeriesID) { self.ssdSeriesID = ssdSeriesID; self.cpuSeriesID = cpuSeriesID }
++    var committedSSD: Int { condition.withLock { ssdCommitted } }
++    var committedCPU: Int { condition.withLock { cpuCommitted } }
++    var isBlocked: Bool { condition.withLock { blocked } }
++    func beforeCommit(_ batch: PersistenceBatch) throws {
++        guard batch.raw.contains(where: { $0.seriesID == ssdSeriesID }) else { return }
++        condition.lock()
++        defer { condition.unlock() }
++        ssdCalls += 1
++        if ssdCalls == 3 {
++            blocked = true
++            while !released { condition.wait() }
++            blocked = false
++            if ProcessInfo.processInfo.environment["OPTIONAL_PHASE_NEGATIVE"] == "reject-third-receipt" {
++                throw SQLiteStoreError.integrityConflict(detail: "controlled third optional receipt rejection")
++            }
++        }
++    }
++    func recordCommitted(_ batch: PersistenceBatch) {
++        condition.withLock {
++            ssdCommitted += batch.raw.filter { $0.seriesID == ssdSeriesID }.count
++            cpuCommitted += batch.raw.filter { $0.seriesID == cpuSeriesID }.count
++        }
++    }
++    func release() { condition.withLock { released = true; condition.broadcast() } }
++}
++
++private struct SleepRacePhaseDriver {
++    let clock: OptionalPhaseClock
++    let snapshots: SleepRaceSnapshotLog
++    let pollDelayMS: Int
++    func wait(_ phase: String, timeout: Duration = .seconds(4), _ predicate: () async -> Bool) async throws {
++        let deadline = ContinuousClock.now + timeout
++        while !(await predicate()) {
++            guard ContinuousClock.now < deadline else {
++                throw SleepRacePhaseTimeout(phase: phase, elapsedNS: clock.now().elapsedNS, sleeps: clock.sleepDescription)
++            }
++            try await Task.sleep(for: .milliseconds(pollDelayMS))
++        }
++    }
++    func publishSnapshot(_ phase: String, beforeMS: Int64, waitForSampling: Bool = true) async throws {
++        try await wait(phase + "-publisher-registration") { clock.nextSnapshotDeadlineNS != nil }
++        let target = try #require(clock.nextSnapshotDeadlineNS)
++        try #require(target < beforeMS * 1_000_000, "Publishing must not start the next optional probe")
++        clock.advance(to: Fixtures.timestamp(ms: target / 1_000_000))
++        try await wait(phase + "-snapshot", timeout: .seconds(2)) { await snapshots.latestElapsedNS >= target }
++        if waitForSampling { try await wait(phase + "-sampling-callback") { clock.nextSamplingDeadlineNS != nil } }
++    }
++}
++
++private struct SleepRacePhaseTimeout: Error, CustomStringConvertible {
++    let phase: String
++    let elapsedNS: Int64
++    let sleeps: String
++    var description: String { "SleepRace phase timed out: \(phase), elapsed=\(elapsedNS), sleeps=\(sleeps)" }
+ }
+ 
+ private final class PendingFailureGate: @unchecked Sendable {
+@@ -138,6 +262,7 @@
+     private var cancelled = false
+     private var released = false
+     var isCancelled: Bool { lock.withLock { cancelled } }
++    var isWaiting: Bool { lock.withLock { continuation != nil && !released } }
+     func wait() async {
+         await withTaskCancellationHandler {
+             await withCheckedContinuation { continuation in

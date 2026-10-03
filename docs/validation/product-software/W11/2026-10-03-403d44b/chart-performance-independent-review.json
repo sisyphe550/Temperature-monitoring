@@ -1,0 +1,173 @@
+{
+  "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+  "cpu_max_series": "00000000-0000-4000-8000-000000000200",
+  "segments": [
+    1
+  ],
+  "freshness": [
+    "unknown"
+  ],
+  "source_wall_ns_unique": [
+    null
+  ],
+  "raw_total_in_snapshot": 6182,
+  "recent300s_count": 5945,
+  "recent300s_as_of_elapsed_ns": 325833504125,
+  "chart_point_cap": 2000,
+  "chart_mark_upper_bound_for_one_series": 4000,
+  "profile": {
+    "main_thread_samples": 650,
+    "outermost_charts_samples": 516,
+    "fraction": 0.7938461538461539,
+    "outermost_charts": [
+      [
+        258,
+        "???  (in Charts)  load address 0x1fca82000 + 0x13c734  [0x1fcbbe734]"
+      ],
+      [
+        3,
+        "???  (in Charts)  load address 0x1fca82000 + 0x2ea80  [0x1fcab0a80]"
+      ],
+      [
+        124,
+        "???  (in Charts)  load address 0x1fca82000 + 0x2af814  [0x1fcd31814]"
+      ],
+      [
+        101,
+        "???  (in Charts)  load address 0x1fca82000 + 0x2bc79c  [0x1fcd3e79c]"
+      ],
+      [
+        2,
+        "???  (in Charts)  load address 0x1fca82000 + 0x2f094  [0x1fcab1094]"
+      ],
+      [
+        25,
+        "???  (in Charts)  load address 0x1fca82000 + 0x2f370  [0x1fcab1370]"
+      ],
+      [
+        1,
+        "???  (in Charts)  load address 0x1fca82000 + 0x31514  [0x1fcab3514]"
+      ],
+      [
+        2,
+        "???  (in Charts)  load address 0x1fca82000 + 0x2c05ac  [0x1fcd425ac]"
+      ]
+    ]
+  },
+  "observer_resources": [
+    {
+      "utc": "2026-10-03T03:33:43.310286+00:00",
+      "app_cpu_percent": 30.2,
+      "rss_kib": 120944,
+      "worker_cpu_percent": 0.1
+    },
+    {
+      "utc": "2026-10-03T03:34:03.361622+00:00",
+      "app_cpu_percent": 24.7,
+      "rss_kib": 135632,
+      "worker_cpu_percent": 1.0
+    },
+    {
+      "utc": "2026-10-03T03:34:23.393584+00:00",
+      "app_cpu_percent": 40.8,
+      "rss_kib": 164368,
+      "worker_cpu_percent": 0.8
+    },
+    {
+      "utc": "2026-10-03T03:34:43.420525+00:00",
+      "app_cpu_percent": 49.7,
+      "rss_kib": 183920,
+      "worker_cpu_percent": 0.9
+    },
+    {
+      "utc": "2026-10-03T03:35:03.470071+00:00",
+      "app_cpu_percent": 54.2,
+      "rss_kib": 201632,
+      "worker_cpu_percent": 1.0
+    },
+    {
+      "utc": "2026-10-03T03:35:23.527452+00:00",
+      "app_cpu_percent": 68.2,
+      "rss_kib": 210016,
+      "worker_cpu_percent": 0.8
+    },
+    {
+      "utc": "2026-10-03T03:35:43.589555+00:00",
+      "app_cpu_percent": 116.9,
+      "rss_kib": 199536,
+      "worker_cpu_percent": 1.2
+    },
+    {
+      "utc": "2026-10-03T03:36:03.872479+00:00",
+      "app_cpu_percent": 113.3,
+      "rss_kib": 242064,
+      "worker_cpu_percent": 0.7
+    },
+    {
+      "utc": "2026-10-03T03:36:23.903337+00:00",
+      "app_cpu_percent": 97.8,
+      "rss_kib": 251968,
+      "worker_cpu_percent": 0.7
+    },
+    {
+      "utc": "2026-10-03T03:36:43.945862+00:00",
+      "app_cpu_percent": 85.8,
+      "rss_kib": 265888,
+      "worker_cpu_percent": 0.9
+    },
+    {
+      "utc": "2026-10-03T03:37:04.004150+00:00",
+      "app_cpu_percent": 88.8,
+      "rss_kib": 266320,
+      "worker_cpu_percent": 0.5
+    },
+    {
+      "utc": "2026-10-03T03:37:24.062075+00:00",
+      "app_cpu_percent": 101.9,
+      "rss_kib": 290384,
+      "worker_cpu_percent": 0.8
+    },
+    {
+      "utc": "2026-10-03T03:37:44.101426+00:00",
+      "app_cpu_percent": 110.4,
+      "rss_kib": 299744,
+      "worker_cpu_percent": 0.7
+    },
+    {
+      "utc": "2026-10-03T03:38:04.292354+00:00",
+      "app_cpu_percent": 121.8,
+      "rss_kib": 301584,
+      "worker_cpu_percent": 1.0
+    },
+    {
+      "utc": "2026-10-03T03:38:24.344635+00:00",
+      "app_cpu_percent": 117.3,
+      "rss_kib": 341856,
+      "worker_cpu_percent": 0.7
+    },
+    {
+      "utc": "2026-10-03T03:38:44.407309+00:00",
+      "app_cpu_percent": 120.3,
+      "rss_kib": 339584,
+      "worker_cpu_percent": 0.7
+    },
+    {
+      "utc": "2026-10-03T03:39:04.465142+00:00",
+      "app_cpu_percent": 157.2,
+      "rss_kib": 310048,
+      "worker_cpu_percent": 0.8
+    },
+    {
+      "utc": "2026-10-03T03:39:24.649930+00:00",
+      "app_cpu_percent": 163.3,
+      "rss_kib": 325264,
+      "worker_cpu_percent": 1.0
+    }
+  ],
+  "artifact_sha256": {
+    "/tmp/temperature-long-ui-20261003T033320Z/final-before-normal-quit.sqlite": "b734324c6a99cbde7b01fb486ddac30eea80f71f91dd27eb25b1f4e5a206bb79",
+    "/tmp/temperature-long-ui-20261003T033320Z/long-ui.log": "92053702913edfa1bdce18cd9b4702d29c20f7b04858e1e65398c5138264b463",
+    "/tmp/temperature-long-ui-20261003T033320Z/live-observations.jsonl": "990ea389ee9074859c123b11a00134d6539ec4bf4b90b1a7cf63a50eaf8bd782",
+    "/tmp/temperature-long-50ms-43405.sample.txt": "d429eded2e90f0ad906230d593715582550013d1d2056b163fa67538fb43e8a7"
+  }
+}

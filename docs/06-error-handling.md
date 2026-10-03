@@ -33,7 +33,7 @@
 | SENSOR-VALUE-003 | 连续无效编码或温度值 | 耗尽前可作为底层原因；最终读取耗尽保留SENSOR-READ-002 |
 | SENSOR-TAG-004 | 来源/定义身份无法建立或冲突 | 必需Fatal；未知可选标mappingUnknown |
 | SENSOR-TIMEOUT-005 | 驱动请求超过截止时间 | 回收worker，按读取预算重试；旧generation丢弃 |
-| SENSOR-PROTOCOL-006 | 帧超限、格式/版本错误、响应ID冲突 | 回收worker；结构性Fatal |
+| SENSOR-PROTOCOL-006 | 帧超限、格式/版本错误、响应ID冲突、worker意外退出/请求管道断开 | 回收worker；结构性Fatal |
 | DB-OPEN-001 | SQLite打开失败 | BUSY/LOCKED按DB预算；否则Fatal |
 | DB-INIT-002 | Schema创建失败 | Fatal |
 | DB-WRITE-003 | 写入重试耗尽 | Fatal |

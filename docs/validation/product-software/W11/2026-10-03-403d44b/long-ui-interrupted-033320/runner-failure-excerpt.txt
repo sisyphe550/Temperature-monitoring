@@ -1,0 +1,32 @@
+    t =   247.75s Find the "status.temperature" StatusItem
+    t =   247.87s Find the "cpu.period" PopUpButton
+LONG_UI_PROGRESS {"app_path":"\/Users\/sisyphus\/.codex\/worktrees\/product-audit-fixes\/Temperature monitoring\/build\/TemperatureMonitor.app","awake_uptime_seconds":2945219.1339187087,"continuous_monotonic_seconds":4901904.1784648327,"event":"LONG_UI_PROGRESS","held_awake_seconds":224.3807716248557,"period_ms":50,"selected":"50 ms","session_id":"790c134a-a3a5-44c3-97bd-e32647b8b704","status":"101.1 °C","utc":"2026-10-03T03:37:46.318Z"}
+    t =   267.91s Checking existence of `"fatal.code" StaticText`
+    t =   268.03s Find the "cpu.period" PopUpButton
+    t =   268.24s Find the "status.temperature" StatusItem
+    t =   268.54s Find the "cpu.period" PopUpButton
+LONG_UI_PROGRESS {"app_path":"\/Users\/sisyphus\/.codex\/worktrees\/product-audit-fixes\/Temperature monitoring\/build\/TemperatureMonitor.app","awake_uptime_seconds":2945239.8955639587,"continuous_monotonic_seconds":4901924.9401099999,"event":"LONG_UI_PROGRESS","held_awake_seconds":245.14243316650391,"period_ms":50,"selected":"50 ms","session_id":"790c134a-a3a5-44c3-97bd-e32647b8b704","status":"105.4 °C","utc":"2026-10-03T03:38:07.080Z"}
+    t =   288.67s Checking existence of `"fatal.code" StaticText`
+    t =   288.82s Find the "cpu.period" PopUpButton
+    t =   289.12s Find the "status.temperature" StatusItem
+    t =   289.24s Find the "cpu.period" PopUpButton
+LONG_UI_PROGRESS {"app_path":"\/Users\/sisyphus\/.codex\/worktrees\/product-audit-fixes\/Temperature monitoring\/build\/TemperatureMonitor.app","awake_uptime_seconds":2945260.5054092086,"continuous_monotonic_seconds":4901945.5499552079,"event":"LONG_UI_PROGRESS","held_awake_seconds":265.75226558325812,"period_ms":50,"selected":"50 ms","session_id":"790c134a-a3a5-44c3-97bd-e32647b8b704","status":"104.0 °C","utc":"2026-10-03T03:38:27.690Z"}
+    t =   309.28s Checking existence of `"fatal.code" StaticText`
+    t =   309.39s Find the "cpu.period" PopUpButton
+    t =   310.41s     Find the "cpu.period" PopUpButton (retry 1)
+    t =   310.66s Find the "status.temperature" StatusItem
+    t =   310.87s Find the "cpu.period" PopUpButton
+    t =   312.07s     Find the "cpu.period" PopUpButton (retry 1)
+    t =   313.12s     Find the "cpu.period" PopUpButton (retry 2)
+    t =   313.25s     Collecting debug information to assist test failure triage
+    t =   313.25s         Requesting snapshot of accessibility hierarchy for app with pid 43405
+    t =   313.38s     Requesting snapshot of accessibility hierarchy for app with pid 43405
+    t =   313.38s Using snapshot previously cached by application
+    t =   313.38s     Find: Descendants matching type PopUpButton
+    t =   313.38s     Requesting snapshot of accessibility hierarchy for app with pid 43405
+/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/UITests/TemperatureMonitorUITests.swift:421: error: -[TemperatureMonitorUITests.TemperatureMonitorUITests testLocalReleaseAppFivePeriodsTenMinutes] : Failed to get matching snapshot: No matches found for Descendants matching type PopUpButton from input {(
+    Application, pid: 43405, title: 'TemperatureMonitor'
+)}
+    t =   313.54s Tear Down
+LONG_UI_FINAL_SNAPSHOT failure_cleanup hold_seconds=30
+    t =   343.55s         Checking existence of `"温度监测" Window`

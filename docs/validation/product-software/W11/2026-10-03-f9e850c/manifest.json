@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "d9bb102ac1814591fac8490782aa423188beec8417dc0086cfe72f56aae478c9",
+      "bytes": 1986
+    },
+    {
+      "path": "check-results.json",
+      "sha256": "b6142e08ceeb5fa48a023f833a0d9ff4b0b7b419bb5c16e1dcc1b0ad4b2906cf",
+      "bytes": 1163
+    },
+    {
+      "path": "coverage/core-coverage.json.gz",
+      "sha256": "1aa03cb9784be6774a872e9fed2e6d7bc0b4869566882c6dc1d9e3f27379dc35",
+      "bytes": 146146,
+      "uncompressed_sha256": "a6c2bbc6403b91cb062749cd54d8d0ccc7f2ea32fb5d40a1e03bc9b4ee50939b",
+      "uncompressed_bytes": 1271975
+    },
+    {
+      "path": "full-core-summary.json",
+      "sha256": "b70530224573b4cbf4c74d04f6fc88de830babe97158d65ff1b9bbe07c2830c5",
+      "bytes": 3106
+    },
+    {
+      "path": "independent-readonly-check.json",
+      "sha256": "b3fcd74911411f41e4801e10ba5174affbf5a778f0b41c3a9128558540116a99",
+      "bytes": 1211
+    },
+    {
+      "path": "independent-readonly-check.py",
+      "sha256": "884cdcbfef43e5da04c3b75201770b679971e112cb15b4de0ebc6ba5e2515807",
+      "bytes": 5978
+    },
+    {
+      "path": "independent-review.md",
+      "sha256": "535884da7039f8d73f50e4d209bbaebde33781c97893505b567ac5f78de50aee",
+      "bytes": 6694
+    },
+    {
+      "path": "logs/full-core.log.gz",
+      "sha256": "61f4945edc4af8ae6d5f511e3360adb4fcea474c286219bc28ca1c059db04ae8",
+      "bytes": 10957,
+      "uncompressed_sha256": "d67977a22cc380d0dc6c7648f0f1eb6e711a873aae1b4cf54898ba804790bf78",
+      "uncompressed_bytes": 59654
+    },
+    {
+      "path": "logs/release-build.log.gz",
+      "sha256": "65bca682b541a2eea0176cb06ea8665776fc932e2b3763ee2b2be56fde545346",
+      "bytes": 7362,
+      "uncompressed_sha256": "2d188be49afefa0d0f04618ac0614bc570e0feffb5904ff4c16c6525eb8fa1c5",
+      "uncompressed_bytes": 106553
+    },
+    {
+      "path": "logs/ui-runner-bootstrap-failed.log.gz",
+      "sha256": "eae625f7f1ac8f5f50955ce084bc413661379cd04c210793713f85455704df14",
+      "bytes": 9016,
+      "uncompressed_sha256": "99b239df298df18f769993595ae53f2b8ba0136fe8d7cf204cf5f30f66ca2495",
+      "uncompressed_bytes": 160110
+    },
+    {
+      "path": "short-ui/01-Release-status-item-accessibility-and-scope.txt",
+      "sha256": "eade4a665475306e065d8d5e9d1d6d3c6775e67f4f740f2cafbeef8df93db449",
+      "bytes": 133
+    },
+    {
+      "path": "short-ui/02-Release-production-startup-dashboard.png",
+      "sha256": "8db238b19ded0d91e78cf16f16a51be80a762fc7d87496abc9552f91b8605949",
+      "bytes": 276122
+    },
+    {
+      "path": "short-ui/03-Release-optional-source-states.png",
+      "sha256": "1b9eeaa8553e5869405438de540570908443d40983c25d04d558762f4ff55657",
+      "bytes": 303559
+    },
+    {
+      "path": "short-ui/04-Release-CPU-50ms-after-8s.png",
+      "sha256": "91c6940a637f0db78d090d02cc9382e83af7b6d09fe289f94999ce1ccce1d57a",
+      "bytes": 294577
+    },
+    {
+      "path": "short-ui/05-Release-CPU-100ms-after-8s.png",
+      "sha256": "1c1acabbe5eade86f1167b6fcd9eaefa87f73351b4f08a2a84b8782e683efcd3",
+      "bytes": 296420
+    },
+    {
+      "path": "short-ui/06-Release-CPU-200ms-after-8s.png",
+      "sha256": "d0e97fd72f81c19c67ab0e58375b241c2e510f673397de43466f0046205e0fb9",
+      "bytes": 302702
+    },
+    {
+      "path": "short-ui/07-Release-CPU-500ms-after-8s.png",
+      "sha256": "f2e798037c0de4ca86bab23f65c332dd82ab35561bc116a48dc9f8355b45608b",
+      "bytes": 301907
+    },
+    {
+      "path": "short-ui/08-Release-CPU-1000ms-after-8s.png",
+      "sha256": "41d27139f370eb6752c5dd27f278b1f60299c23192dc7bde2df840aa03e36e38",
+      "bytes": 302176
+    },
+    {
+      "path": "short-ui/09-Release-history-5 分钟.png",
+      "sha256": "6396d3e907cfe1bf11f1a7685b57fc2983f1f7e1cbb8c44f5731fef752313cea",
+      "bytes": 303646
+    },
+    {
+      "path": "short-ui/10-Release-history-1 小时.png",
+      "sha256": "bfd6a1b5641fefec76e59cc37a9ede9e5fb5b039e770fd0a0c754488e9aec375",
+      "bytes": 304448
+    },
+    {
+      "path": "short-ui/11-Release-history-point-selection.png",
+      "sha256": "59c9b6c5bc8eb96d5681d14e5b70a3e5374924819f7e8cb0c3620b6a95b5ca1e",
+      "bytes": 319740
+    },
+    {
+      "path": "short-ui/12-Release-status-after-dashboard-close.png",
+      "sha256": "3c3a6f4e43897ffb581bcce1550256b0ebf05220d232b2dedd832a42f58bed54",
+      "bytes": 5500
+    },
+    {
+      "path": "short-ui/13-Release-reopened-same-session.png",
+      "sha256": "9c2f8588161420259045a98f05621e8cedf4bc65246c97792ddc236a1abd46e0",
+      "bytes": 308443
+    },
+    {
+      "path": "short-ui/14-Release-real-hardware-short-acceptance.txt",
+      "sha256": "4165759a3007e151e71d40543699438f788186eae40b6a5c3dbaa8e3679b4d3b",
+      "bytes": 1753
+    },
+    {
+      "path": "short-ui/build-and-run-identity.json",
+      "sha256": "9ddef9c0b8a9f0bb6e01c68e1af25c8a56ddb7811d5c971da81dea384204d0ce",
+      "bytes": 24323
+    },
+    {
+      "path": "short-ui/manifest.json",
+      "sha256": "5b12b426b9cc720f8061bbdf4e33419824abf5155d375d940d83bce61a5a0caa",
+      "bytes": 3684
+    },
+    {
+      "path": "short-ui/test-result-summary.txt",
+      "sha256": "7ee74754e55a30a159590103d3895deefe2bb99ff79de18fb074f74c83db86ac",
+      "bytes": 934
+    },
+    {
+      "path": "source-and-build-identity.json",
+      "sha256": "9e8b822a0ce2a46e5d9c598428f2b2235f7b17588eba8041e60155bba0df064f",
+      "bytes": 23193
+    },
+    {
+      "path": "sql-fix-summary.json",
+      "sha256": "76bebfa79df391dc8d13fcbcea6d312b3638f63643fff5a5dbad736c83062909",
+      "bytes": 738
+    },
+    {
+      "path": "sql-red-green/green.log.gz",
+      "sha256": "3b02c2dc8576daa41d77db9cd3171a4020d87704613c89539cd2e688515742b0",
+      "bytes": 876,
+      "uncompressed_sha256": "966b0255d2c4edc605ceb7d180900c93679f40fdfaa2672e275177ea789e60f2",
+      "uncompressed_bytes": 2558
+    },
+    {
+      "path": "sql-red-green/red-expected.log.gz",
+      "sha256": "9de9f9cbf44dea25697b72d30877f52c1f3d161b4806bec2fa8043ca083b8bf0",
+      "bytes": 1107,
+      "uncompressed_sha256": "d503d111bb80f77de78f8e010f7e1baaa72d656ca81870b925c6f5e53b429808",
+      "uncompressed_bytes": 3329
+    },
+    {
+      "path": "sql-red-green/report.md",
+      "sha256": "c98503ba6c851dafe2bfdf099029cfa2041ba344756cf9af6c76ceaec3c51e45",
+      "bytes": 2986
+    },
+    {
+      "path": "sql-red-green/source-hashes.json",
+      "sha256": "e9d81cb9a23114dd50283656e10a6696aa0417c09e6403a59621a96a74c8b63c",
+      "bytes": 2866
+    }
+  ],
+  "manifest_self_hash": "excluded",
+  "scope": "Immutable evidence for software SQL/TTL, full Core and bounded formal Release short UI; original bootstrap failure retained; no exact performance/physical sleep claim."
+}

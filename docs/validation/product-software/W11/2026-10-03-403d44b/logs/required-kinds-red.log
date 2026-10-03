@@ -1,0 +1,25 @@
+test_rejects_missing_required_evidence_kinds (__main__.EvidenceBindingTests.test_rejects_missing_required_evidence_kinds) ... FAIL
+test_rejects_empty_required_evidence_kinds (__main__.EvidenceBindingTests.test_rejects_empty_required_evidence_kinds) ... FAIL
+
+======================================================================
+FAIL: test_rejects_missing_required_evidence_kinds (__main__.EvidenceBindingTests.test_rejects_missing_required_evidence_kinds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/temperature-required-kinds-review-o5u8g4h8/scripts/tests/test-bind-acceptance-evidence.py", line 140, in test_rejects_missing_required_evidence_kinds
+    with self.assertRaisesRegex(ValueError, "required_evidence_kinds"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_empty_required_evidence_kinds (__main__.EvidenceBindingTests.test_rejects_empty_required_evidence_kinds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/temperature-required-kinds-review-o5u8g4h8/scripts/tests/test-bind-acceptance-evidence.py", line 146, in test_rejects_empty_required_evidence_kinds
+    with self.assertRaisesRegex(ValueError, "required_evidence_kinds"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.185s
+
+FAILED (failures=2)

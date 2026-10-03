@@ -1,0 +1,15 @@
+{
+  "formal_app": {
+    "path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+    "app_sha256": "e61a0ea6902eb5544894df8e4ad9fe7b636221846cbae0f557f387623a93429e",
+    "worker_sha256": "74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f"
+  },
+  "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+  "result": "partial-failed-runner",
+  "complete_600s_phases": 0,
+  "raw_log_sha256": "92053702913edfa1bdce18cd9b4702d29c20f7b04858e1e65398c5138264b463",
+  "raw_sample_sha256": "d429eded2e90f0ad906230d593715582550013d1d2056b163fa67538fb43e8a7",
+  "raw_log_path": "/tmp/temperature-long-ui-20261003T033320Z/long-ui.log",
+  "raw_sample_path": "/tmp/temperature-long-50ms-43405.sample.txt",
+  "scope": "Owned App excerpt and SQL/resource evidence; no unrelated app screenshot or complete UI hierarchy is published. Original files retained in /tmp."
+}

@@ -1,0 +1,22 @@
+{
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "long_run": {
+    "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+    "app_pid": 88391,
+    "worker_pid": 88506,
+    "facts": {
+      "method": "native CUA clicked actual app.quit button after final observation",
+      "app_and_worker_absent": true,
+      "owned_session_directory_absent": true,
+      "verification": "pgrep exit1 and Sessions listing empty after click; subsequent sleep session was separately created"
+    },
+    "basis": "Root recorded native CUA actual app.quit and pgrep/session-list verification in the already-generated duration ledger; this archive does not manufacture another live probe."
+  },
+  "sleep_observation_session": {
+    "session_id": "62ff3456-1c0b-4c43-b563-5f250f6e7fe3",
+    "app_pid": 36763,
+    "last_before_quit_observation_utc": "2026-10-03T08:01:21.278638+00:00",
+    "normal_quit_reported": true,
+    "basis": "Root task reports actual normal quit after stop observation; no post-quit raw command output file was supplied to this archiver, so this is attributed to root, not presented as a newly executed verification."
+  }
+}

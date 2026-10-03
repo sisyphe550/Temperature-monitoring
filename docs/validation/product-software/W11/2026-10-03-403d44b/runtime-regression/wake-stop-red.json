@@ -1,0 +1,9 @@
+{
+  "stage": "RED_WAKE_STOP",
+  "scenario": "stop-cancelled-wake",
+  "exit_code": 1,
+  "watchdog_fired": false,
+  "monotonic_seconds": 0.49983304226770997,
+  "stdout": "{\"awake_seconds\":0.0088566248305141926,\"event\":\"release_startup_discovery\",\"scenario\":\"stop-cancelled-wake\"}\n{\"awake_seconds\":0.012367166578769684,\"event\":\"startup_sleep_conclusion\",\"fatal_code\":\"\",\"history_cancelled_as_suspended\":true,\"scenario\":\"stop-cancelled-wake\"}\n{\"awake_seconds\":0.019302708096802235,\"event\":\"stop_cancelled_wake_conclusion\",\"fatal_code\":\"APP-INIT-001\",\"scenario\":\"stop-cancelled-wake\"}\n",
+  "stderr": ""
+}

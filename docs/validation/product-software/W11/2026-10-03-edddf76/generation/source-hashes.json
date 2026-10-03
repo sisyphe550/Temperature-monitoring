@@ -1,0 +1,8 @@
+{
+  "OptionalGeneration-baseline.swift": "c4b7634babcd53b0ed084ae052960f4e80ff55d2ffee07966dd4af7b38e8795b",
+  "OptionalGeneration-diagnostic.swift": "b7518957392dab43fe4ab9f59e8d95cb84bf96955f07db5791d9ae8f5049c668",
+  "OptionalGeneration-candidate.swift": "748bbadd26e22648df84cf5917edc27835942bd7ea7124e4f6623ae7f0a06fa9",
+  "SamplingService-baseline.swift": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+  "SamplingService-negative-control.swift": "aef4d4ef465984e6a6972c331cbaf1b1eeee7f99e093ea9d60b5843916366346",
+  "tests.patch": "7efcdda66e90281de171afbb7f1a710c88da51e65084ed815d25755d4e0f28b1"
+}

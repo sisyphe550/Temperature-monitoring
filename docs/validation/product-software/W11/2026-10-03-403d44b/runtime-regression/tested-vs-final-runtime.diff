@@ -1,0 +1,15 @@
+--- tested-runtime
++++ final-root-runtime
+@@ -277,8 +277,10 @@
+             return
+         }
+         let now = clock.now().elapsedNS
+-        let refreshNS = selectedHistoryRange == .fiveMinutes
+-            ? Int64(configuration.uiPublishMS) * 1_000_000 : 1_000_000_000
++        // History geometry updates independently of 200ms live value snapshots.
++        // Rebuilding thousands of Charts marks at the snapshot rate creates
++        // avoidable main-thread load; force reloads still respond immediately.
++        let refreshNS: Int64 = 1_000_000_000
+         if !force {
+             guard historyTask == nil else { return }
+             if let lastHistoryRefreshElapsedNS, now - lastHistoryRefreshElapsedNS < refreshNS { return }

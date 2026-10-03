@@ -1,0 +1,57 @@
+{
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "app_sha256": "9f786ee330531d2d194ef2c88f04c83c314de3253a1e218ea45df12f5aeabc3c",
+  "worker_sha256": "74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f",
+  "build_configuration": "Release",
+  "fixture": false,
+  "model": "Mac16,13",
+  "os_build": "24G419",
+  "original_xctest": {
+    "result": "failed",
+    "reason": "CPU picker missing after activation in 1000ms phase",
+    "test_duration_seconds": 2868.0662319660187,
+    "four_complete_phases": true,
+    "rewritten": false
+  },
+  "independent_duration_case": {
+    "result": "duration-condition-observed",
+    "periods_ms": [
+      50,
+      100,
+      200,
+      500,
+      1000
+    ],
+    "held_awake_seconds": [
+      601.2377714584582,
+      601.2950627496466,
+      601.2356231249869,
+      601.3008942496963,
+      641.6378361238167
+    ],
+    "same_continuous_app_session": true,
+    "fifth_phase_end_source": "Independent CUA+clock+same-session SQL supplemental; no restart or stitching separate runs."
+  },
+  "performance": {
+    "exact_scheduler_skipped": "not_measured",
+    "worker_read_batch_p95_p99": "not_measured",
+    "first_frame_p95": "not_measured",
+    "screen_display_delay_p95": "not_measured",
+    "successful_finish_interval": "measured separately, not equivalent to these gates",
+    "sql_pause_candidate": "Software replay confirms original query work; candidate new App not yet requalified by this long run."
+  },
+  "sleep_acceptance": {
+    "result": "skipped-by-user-for-this-round",
+    "completed_three_rounds": false,
+    "prior_observations": "partial"
+  },
+  "ttl_software": {
+    "result": "passed",
+    "production_source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+    "test_count": 3,
+    "suite_count": 2,
+    "test_sources": "Additional tmp-only tests, archived with manifest hashes; not all tests existed in c354 Git tree.",
+    "full_core_gate": "Not supplied here; parent will archive final full-suite coverage separately."
+  },
+  "overall_W11": "incomplete; no catalog verdict/count changes by this archive."
+}

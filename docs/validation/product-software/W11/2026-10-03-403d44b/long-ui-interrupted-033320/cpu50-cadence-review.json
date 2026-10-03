@@ -1,0 +1,49 @@
+{
+  "count": 6092,
+  "first_elapsed_s": 18.497954833,
+  "last_elapsed_s": 325.833504125,
+  "span_s": 307.335549292,
+  "mean_ms": 50.457322162534886,
+  "p50_ms": 49.98204199998213,
+  "p95_ms": 52.47224999999389,
+  "p99_ms": 58.07183299998542,
+  "max_ms": 255.50854099999754,
+  "count_dt_gt_75ms": 37,
+  "count_dt_gt_100ms": 17,
+  "ideal_period_opportunities_between_first_last": 6146.71098584,
+  "observed_intervals": 6091,
+  "cadence_shortfall_fraction": 0.009063544059309092,
+  "gaps": 0,
+  "per_minute": [
+    {
+      "minute": 0,
+      "count": 1195,
+      "duration_s": 60
+    },
+    {
+      "minute": 1,
+      "count": 1188,
+      "duration_s": 60
+    },
+    {
+      "minute": 2,
+      "count": 1196,
+      "duration_s": 60
+    },
+    {
+      "minute": 3,
+      "count": 1196,
+      "duration_s": 60
+    },
+    {
+      "minute": 4,
+      "count": 1184,
+      "duration_s": 60
+    },
+    {
+      "minute": 5,
+      "count": 133,
+      "duration_s": 7.335549291999996
+    }
+  ]
+}

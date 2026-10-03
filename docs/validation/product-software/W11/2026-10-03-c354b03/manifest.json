@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "immutable-local-acceptance-source-archive",
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "archive_root": "docs/validation/product-software/W11/2026-10-03-c354b03/",
+  "files": [
+    {
+      "path": "identity/source-commit-proof.json",
+      "sha256": "11bae6a762309e67bbaddba7febffef4f059a071cd6fcffd470422552d8fbe50",
+      "bytes": 640,
+      "original_path": "/tmp/temperature-w11-source-commit-proof.json"
+    },
+    {
+      "path": "identity/frozen-production-snapshot.json",
+      "sha256": "29aa2deb02c340f89dc3c61c2a6471d6a35dedf5cab3eadb473deb4aa4a41400",
+      "bytes": 12872,
+      "original_path": "/tmp/temperature-w11-anchor-production-snapshot.json",
+      "scope": "Frozen working-source inventory; commit proof separately binds all 88 production files to c354."
+    },
+    {
+      "path": "long-run/full-long-run-analysis.json",
+      "sha256": "71d8eba0bb0a4e251d17fd3cf129772932acfe0bd2c737d50d338eb47e70617e",
+      "bytes": 90967,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/full-long-run-analysis.json"
+    },
+    {
+      "path": "long-run/independent-1000ms-duration.json",
+      "sha256": "ddf0343dca7c97301c17bd01b83118a321b952f54054b7b567944992e9893f27",
+      "bytes": 1947,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/independent-1000ms-duration.json"
+    },
+    {
+      "path": "long-run/independent-five-period-duration-ledger.json",
+      "sha256": "a8fb7fc3ecaf640a1ffd8712e2ae7c667c50ab84ab8a146f49592f3447ceea82",
+      "bytes": 15347,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/independent-five-period-duration-ledger.json"
+    },
+    {
+      "path": "long-run/actual-1000ms-end.json",
+      "sha256": "1cc61fd7bf5a59686c4373181ca554abdce8d0b3d5f3f9f6588e3ee52fbc118d",
+      "bytes": 40248,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/independent-final-state/actual-1000ms-end.json"
+    },
+    {
+      "path": "long-run/actual-cpu-max-events.jsonl.gz",
+      "sha256": "a941b1fceb3a9195c17e4ed2f53204119eb8f6b7d4ebb02046c1a0bb0daa52a6",
+      "bytes": 397332,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/actual-cpu-max-events.jsonl",
+      "scope": "Original observer stops with failed runner; terminal extension is separate supplemental SQL of same session.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "05a832acb0fe7962e212e3fb55a9b709eb6b60e4e32a28c47a448eaa18580d79",
+      "uncompressed_bytes": 6393824
+    },
+    {
+      "path": "long-run/live-observations.jsonl.gz",
+      "sha256": "036ed20b381c7fb5a7c0ff5e54ca21b3007f6e721465dc3fac6b8927826c8965",
+      "bytes": 13953,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/live-observations.jsonl",
+      "scope": "Owned App/worker resource and SQL observations; sample maxima are not absolute peaks.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "ade20d5fd2c4b0017f1f2d10fd2e81ef8d1627aabdcc036476aca35cd1acf8cf",
+      "uncompressed_bytes": 153065
+    },
+    {
+      "path": "long-run/event-collector.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/event-collector.log"
+    },
+    {
+      "path": "long-run/live-monitor.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/live-monitor.log"
+    },
+    {
+      "path": "long-run/owned-long-ui-events.log",
+      "sha256": "01f66d922b1b1dd3fedee5f212b3f2e615959c724f85769ce060ade0d6a094ce",
+      "bytes": 64340,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/long-ui.log",
+      "scope": "Only LONG_UI_* records; full log remains outside archive."
+    },
+    {
+      "path": "long-run/original-xctest-failure-excerpt.json",
+      "sha256": "8f31a1007c5adab7ae45fa993adc6633c0346307d156b5fdd650e69e73bb0c17",
+      "bytes": 2440
+    },
+    {
+      "path": "long-run/owned-ui/01-LONG_UI-production-startup-dashboard.png",
+      "sha256": "56fba0d6f999e9b7ad6be7ce8c4392416f5e64bc62251ee3bdc0f833d08ee068",
+      "bytes": 280326,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/01-LONG_UI-production-startup-dashboard.png",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/02-LONG_UI-CPU-50ms-after-600s.png",
+      "sha256": "3454b03ea0f72d66be0d547327e3ab039632aca40cbb83b81b374e74a65126a2",
+      "bytes": 287305,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/02-LONG_UI-CPU-50ms-after-600s.png",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/03-LONG_UI-through-50ms-json.json",
+      "sha256": "343e3b0535ad7631f3962528f2d7ac955fc3a4afe2e4cb696ceb5727d37272a0",
+      "bytes": 16455,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/03-LONG_UI-through-50ms-json.json",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/04-LONG_UI-CPU-100ms-after-600s.png",
+      "sha256": "fd747cdf66fe68b9d0d0dfc64a743d3f9dbec8c23614b1da2c2d128cb1f1777e",
+      "bytes": 288856,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/04-LONG_UI-CPU-100ms-after-600s.png",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/05-LONG_UI-through-100ms-json.json",
+      "sha256": "39d47fe76716dd52fba843be6b7fb5bb48e8e7f34b8c868207ca2b3b0aad519c",
+      "bytes": 32203,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/05-LONG_UI-through-100ms-json.json",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/06-LONG_UI-CPU-200ms-after-600s.png",
+      "sha256": "5e5b55ab52c1b2adc80796f07a3d5159a23bfdb23da2519ef792dac4060a4079",
+      "bytes": 290347,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/06-LONG_UI-CPU-200ms-after-600s.png",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/07-LONG_UI-through-200ms-json.json",
+      "sha256": "b71ace86d11bdd1fb51b635538e6956c97799180dadd577b65243b148a2ca6b5",
+      "bytes": 47944,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/07-LONG_UI-through-200ms-json.json",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/08-LONG_UI-CPU-500ms-after-600s.png",
+      "sha256": "11dc15b44bb4c7c6c98e2a9ffc97c15c91a0c56ec863e6fc6ec89e72ca6bd9c4",
+      "bytes": 286748,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/08-LONG_UI-CPU-500ms-after-600s.png",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/09-LONG_UI-through-500ms-json.json",
+      "sha256": "6989d83522d553aefc3f7b883731996f80a9c77dd9cbe6b5f76feb88af056396",
+      "bytes": 63690,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/09-LONG_UI-through-500ms-json.json",
+      "scope": "Owned App window PNG or LONG_UI records only; original failed suite preserved."
+    },
+    {
+      "path": "long-run/owned-ui/manifest.json",
+      "sha256": "5a7c68e534bbc83e1eaed49803157a35d5e3b92cd031d15a3e7ef7edb3773f5e",
+      "bytes": 1640,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/owned-ui-export/manifest.json"
+    },
+    {
+      "path": "long-run/terminal-cpu-main-supplemental.jsonl.gz",
+      "sha256": "bf2a99d1fc4ce8f699bf3f7872251476617a0ef0031567f89da761fc1e79e455",
+      "bytes": 9465,
+      "original_path": "/tmp/temperature-long-ui-20261003T043223Z/independent-final-state/actual-1000ms-end.sqlite",
+      "scope": "Complete 344 terminal snapshot CPU-main rows; not a new App/session run.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "a6a17166724cc10a2218daf110aeda032d1ca12476f394fd2d2b6e18b74c31a1",
+      "uncompressed_bytes": 98634
+    },
+    {
+      "path": "long-run/terminal-cpu-main-query-and-overlap.json",
+      "sha256": "a260b2d3c3c73a029e73fc3231772e65560d69099312dc25986ca7d1a3220cfa",
+      "bytes": 1529
+    },
+    {
+      "path": "reproduction/complete-continuity-ledger-original.py",
+      "sha256": "d1c9e23c28008b5bb1e24a0e25b1e1ae29aee732a811eb7fe7231768c2ff5cd1",
+      "bytes": 5523,
+      "original_path": "/tmp/temperature-complete-continuity-ledger.py",
+      "scope": "Original already-executed script; contains original machine paths and root transcribed CUA/cleanup observations."
+    },
+    {
+      "path": "reproduction/record-1000ms-continuity-original.py",
+      "sha256": "e0d18134e6a9baae81fc3f8da01af2eea04e869f4d251a063578ee05c76d7474",
+      "bytes": 2234,
+      "original_path": "/tmp/temperature-record-1000ms-continuity.py"
+    },
+    {
+      "path": "reproduction/analyze-full-long-run-original.py",
+      "sha256": "743e1c4f296193bd3a328d857a02aa09687fc92348e6cb6bd29dea5cde732fa5",
+      "bytes": 5274,
+      "original_path": "/tmp/temperature-analyze-full-long-run.py"
+    },
+    {
+      "path": "reproduction/observe-new-long-ui-original.py",
+      "sha256": "223724fca2a42c6556f1b3e136ed55bd9b91f2974d9b5cf0a597bd7c14b142ab",
+      "bytes": 3356,
+      "original_path": "/tmp/temperature-observe-new-long-ui.py"
+    },
+    {
+      "path": "reproduction/collect-owned-cpu-events-original.py",
+      "sha256": "9d6de705c00315c4be7a4fae727bd8f37d8f9c863da24355669622c01053ced1",
+      "bytes": 1826,
+      "original_path": "/tmp/temperature-collect-owned-cpu-events.py"
+    },
+    {
+      "path": "performance/observability-review.md",
+      "sha256": "c7997fe8f5c56f97fd6d55d9d5530a1e750600e8a30bd12670a5313e4b8cc4a5",
+      "bytes": 15627,
+      "original_path": "/tmp/temperature-c354-performance-observability-review.md",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/charts-age-matched-comparison.md",
+      "sha256": "2e538606c0e3ca0128d58bf8a244fdeea2789a5a123a1c53531bf5893a7a57dd",
+      "bytes": 2228,
+      "original_path": "/tmp/temperature-charts-50ms-age-matched-comparison.md",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/charts-age-matched-comparison.json",
+      "sha256": "f536552f85901d510966ffa2935f37c4701d758bb539caa0f7aeecececcd9d41",
+      "bytes": 23381,
+      "original_path": "/tmp/temperature-charts-50ms-age-matched-comparison.json",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/maintenance-worker-readonly-review.md",
+      "sha256": "23cd7bd32771db7cb058f9787b056582e9b86f12b8e40b0a0f8c7e0651084e8f",
+      "bytes": 9418,
+      "original_path": "/tmp/temperature-043223-maintenance-worker-readonly-review.md",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/gap-segment-readonly.json",
+      "sha256": "017e001ce47098c6605e4887e00b73ab66bed3bb5698db8c1e706728b38c1158",
+      "bytes": 2648,
+      "original_path": "/tmp/temperature-043223-gap-segment-readonly.json",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/worker-resource-readonly.json",
+      "sha256": "78e8d8016959d3c26ad366a954d9a911615cf59b06e67a81d05543357658c3ec",
+      "bytes": 18374,
+      "original_path": "/tmp/temperature-043223-worker-resource-readonly.json",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/retention-original-query-plan.json",
+      "sha256": "73224853a4584763c1c580e4452b5b1de196e92a5589576a911eedec3f2a7d82",
+      "bytes": 771,
+      "original_path": "/tmp/temperature-043223-retention-query-plan.json",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/retention-copy-probe-execution-report.md",
+      "sha256": "071c261feed61da7a14368ef815eab6f0ee19932ae2cde8aad243c708625b8ac",
+      "bytes": 4484,
+      "original_path": "/tmp/temperature-retention-copy-probe-execution-report.md",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/retention-copy-probe-execution-summary.json",
+      "sha256": "8aaea4f7261b84ff1403df9f099d4af405d4a650091e5814e59218f258caaf25",
+      "bytes": 4915,
+      "original_path": "/tmp/temperature-retention-copy-probe-execution-summary.json",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/retention-exact-parent-query-plan.json",
+      "sha256": "60fc1bce7a0d5551267ae701fee499f0234062cbb266ffff73b6e9ea9a345524",
+      "bytes": 2281,
+      "original_path": "/tmp/temperature-retention-exact-parent-query-plan.json",
+      "scope": "Immutable dated source report: observations, timing, hypotheses and scope retain original meaning; candidate SQL is software replay, not same-App hardware requalification."
+    },
+    {
+      "path": "performance/retention-replay-bbtcr0lb.json",
+      "sha256": "da35b6846c4fc1fbf7628af56a10cfbc9910e70b2c0c255b92c156c1a7cbd05e",
+      "bytes": 14950,
+      "original_path": "/tmp/temperature-retention-copy-bbtcr0lb/results.json",
+      "scope": "Independent tmp SQLite copy; baseline/candidate replay only."
+    },
+    {
+      "path": "performance/retention-replay-xk3viaxm.json",
+      "sha256": "cb0f7376dc593087b77381c7d03ce3a84114509a08670ce06bbaef5d668b1e30",
+      "bytes": 14972,
+      "original_path": "/tmp/temperature-retention-copy-xk3viaxm/results.json",
+      "scope": "Independent tmp SQLite copy; baseline/candidate replay only."
+    },
+    {
+      "path": "performance/retention-replay-94tfrtwr.json",
+      "sha256": "e05c4da39d54c07e1776b2e4dcadf091a366ada921bc1624d176cafaf8b518ea",
+      "bytes": 14969,
+      "original_path": "/tmp/temperature-retention-copy-94tfrtwr/results.json",
+      "scope": "Independent tmp SQLite copy; baseline/candidate replay only."
+    },
+    {
+      "path": "ttl-software/executed-test-source-hashes.json",
+      "sha256": "e29ec139c47f6c555efba0b19b4cdc5a649177467de5133f4c10c6dbda7b8b80",
+      "bytes": 1807
+    },
+    {
+      "path": "ttl-software/actual-execution-results.json",
+      "sha256": "442a6d8d4ae6e65a1bd5c2ef6a958c3ec4ce5c48ece2f7a5caffc839f89a7982",
+      "bytes": 2267,
+      "original_path": "/tmp/temperature-ttl-boundary-review/actual-execution-results.json",
+      "scope": "Three targeted tmp-copy software tests; production c354 unchanged; not formal App/full-product coverage or physical sleep."
+    },
+    {
+      "path": "ttl-software/actual-execution-review.md",
+      "sha256": "39c09bd9319648607023fc8e0695cdefc721ca6fc249b5229cc3f7e308a9991b",
+      "bytes": 3600,
+      "original_path": "/tmp/temperature-ttl-boundary-review/actual-execution-review.md",
+      "scope": "Three targeted tmp-copy software tests; production c354 unchanged; not formal App/full-product coverage or physical sleep."
+    },
+    {
+      "path": "ttl-software/targeted-coverage-summary.json",
+      "sha256": "e37df7846adcf4a08b9da5a82fed9a817f49f54004675d87b9a959c9a801619a",
+      "bytes": 3132,
+      "original_path": "/tmp/temperature-ttl-boundary-review/targeted-coverage-summary.json",
+      "scope": "Three targeted tmp-copy software tests; production c354 unchanged; not formal App/full-product coverage or physical sleep."
+    },
+    {
+      "path": "ttl-software/TTLRequirementBoundaryTests.swift",
+      "sha256": "67363c71ea3504384c953db607d33bcc90f236c36e4a16caced1f15eab1eed46",
+      "bytes": 9859,
+      "original_path": "/tmp/temperature-ttl-boundary-review/TTLRequirementBoundaryTests.swift",
+      "scope": "Three targeted tmp-copy software tests; production c354 unchanged; not formal App/full-product coverage or physical sleep."
+    },
+    {
+      "path": "ttl-software/ttl-minimal-tests.patch.gz",
+      "sha256": "d3b8f64ec721d9b3c5d57c78e6f059ecf27c76a411dd93a7c13a0c89e1857920",
+      "bytes": 4027,
+      "original_path": "/tmp/temperature-ttl-boundary-review/ttl-minimal-tests.patch",
+      "scope": "Original tmp test diff losslessly compressed to preserve context-line bytes without normalizing evidence.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "912b1f690b9e7926cfa2e07f6bd665536045cc62ce71bc4354d69724e4cd60a8",
+      "uncompressed_bytes": 16236
+    },
+    {
+      "path": "ttl-software/RuntimeMaintenanceRegressionTests.swift",
+      "sha256": "5ffb3ffa4589b74df244900bfc51041e5959a883023653a907408d7d3c3805db",
+      "bytes": 7453,
+      "original_path": "/tmp/temperature-retention-tick-review/RuntimeMaintenanceRegressionTests.swift"
+    },
+    {
+      "path": "ttl-software/TestClock.swift",
+      "sha256": "ff8e1be4376fdad678c42a6f89e695e7594193ec2d0481c5f5e628c62dfdb4cb",
+      "bytes": 2577,
+      "original_path": "/tmp/temperature-retention-tick-review/TestClock.swift"
+    },
+    {
+      "path": "ttl-software/schedule-session-policy-review.md",
+      "sha256": "70f6c7a67ca1bcc222f747af6bd3689e8f4f6921c210c477b7a4d7c78e2bea6d",
+      "bytes": 4954,
+      "original_path": "/tmp/temperature-retention-tick-review/schedule-session-policy-review.md"
+    },
+    {
+      "path": "ttl-software/production-source-comparison.json",
+      "sha256": "0f6d0b5ecdecd1109267beba77454834ff8697dc513dada33c4581ac2f8ed330",
+      "bytes": 18873,
+      "original_path": "/tmp/temperature-ttl-software.sD1Hqe/production-source-comparison.json"
+    },
+    {
+      "path": "ttl-software/logs/ttl-tests-escalated.log.gz",
+      "sha256": "2c1416132113f9af384912a77a79499017cb4918f98cb270119498dc0a422339",
+      "bytes": 3911,
+      "original_path": "/tmp/temperature-ttl-software.sD1Hqe/ttl-tests-escalated.log",
+      "scope": "Passed 3 Swift Testing cases/2 suites; empty XCTest runner is separate; compressed losslessly.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "e0d3fbfb54fdb0818c0c69c227827583173a0d667f2e8b4dc0c731fe93076891",
+      "uncompressed_bytes": 56914
+    },
+    {
+      "path": "ttl-software/logs/ttl-tests-coverage.log.gz",
+      "sha256": "74c8db67a95f18da1728826b1f435014da79233050329225c8d3eb765f2de42e",
+      "bytes": 3709,
+      "original_path": "/tmp/temperature-ttl-software.sD1Hqe/ttl-tests-coverage.log",
+      "scope": "Targeted coverage only; not full core coverage gate.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "055b549df071eb7a45fe1cdfe3a11c35bb98a76833facab35ce7f299e63afb29",
+      "uncompressed_bytes": 56338
+    },
+    {
+      "path": "ttl-software/logs/sandbox-manifest-attempt.log.gz",
+      "sha256": "57a59e7f1f4364a041f2622b674c935ee08b0c4644d9a96ec2ac2c24bdecf1ed",
+      "bytes": 758,
+      "original_path": "/tmp/temperature-ttl-software.sD1Hqe/ttl-tests.log",
+      "scope": "Initial sandbox ModuleCache failure before test execution; not product failure.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "e2be85a00f1f98cc59ecb64a166ac569d42d648acb3836c4d0e00fc257603ee5",
+      "uncompressed_bytes": 4419
+    },
+    {
+      "path": "sleep-observed-partial/before-round-1.json",
+      "sha256": "9d5d2876f6d716db9c91a09ae28ec2c1887d4631eea6ef15703391d569cbcdc5",
+      "bytes": 4680,
+      "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/before-round-1.json",
+      "scope": "Same c354 separate owned session; observed attempts only; user later skipped formal three-round acceptance."
+    },
+    {
+      "path": "sleep-observed-partial/after-round-1.json",
+      "sha256": "f4524a06001f6db4e4dc2af1d96b0da430505880ac6dd30584085a6bac3ec515",
+      "bytes": 35016,
+      "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/after-round-1.json",
+      "scope": "Same c354 separate owned session; observed attempts only; user later skipped formal three-round acceptance."
+    },
+    {
+      "path": "sleep-observed-partial/stopped-by-user-final-observation.json",
+      "sha256": "e81330a6a5b42549001874c8d13f9d19762f721d1f817a685546c7c0bbe45017",
+      "bytes": 186830,
+      "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/stopped-by-user-final-observation.json",
+      "scope": "Same c354 separate owned session; observed attempts only; user later skipped formal three-round acceptance."
+    },
+    {
+      "path": "sleep-observed-partial/sleep-live-observations.jsonl.gz",
+      "sha256": "44b638a7f288f6e2f05b16864cf64293b3c53b320bdd3be62f17fad485720916",
+      "bytes": 88864,
+      "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/sleep-live-observations.jsonl",
+      "scope": "Owned-session snapshots only; observer pauses during OS sleep. Not a completed three-round suite.",
+      "encoding": "gzip; deterministic mtime=0",
+      "uncompressed_sha256": "25e72510b904c657540ded9ddf541a64e408c66f57b644a80fa70c9cc753c040",
+      "uncompressed_bytes": 4388729
+    },
+    {
+      "path": "sleep-observed-partial/snapshot-source-hashes.json",
+      "sha256": "4ff2c8a37bf9720f89fbc79c3b6efc40e8d75436e6d147f2db13b593a0e789e9",
+      "bytes": 740
+    },
+    {
+      "path": "user-scope.json",
+      "sha256": "dc1dd9eb568aa6e42c0ebc889d33c71c8338354cddef0f7bafa30108dbbfd9df",
+      "bytes": 1340
+    },
+    {
+      "path": "cleanup-facts.json",
+      "sha256": "1064d17ed4083232eda62e78acf25d2d801ed9ed58718b4b97d37f997452911a",
+      "bytes": 1145
+    },
+    {
+      "path": "verification-summary.json",
+      "sha256": "6b53cdf9f2f6f114340bf60498b6f6698d1b47709591e7b3c1499f37ec3b1e2a",
+      "bytes": 2103
+    },
+    {
+      "path": "README.md",
+      "sha256": "6008acb66c6f64fdbb203c049287e36ad8c5b3bce583418bf1c64fd96184cb23",
+      "bytes": 6218
+    }
+  ],
+  "manifest_self_hash": "Excluded to avoid recursive self-hash; all other archive files listed.",
+  "privacy_boundary": "9 explicitly exported owned-App attachments; no full-screen or other-application AX logs; original full log only referenced by path/hash.",
+  "acceptance_boundary": "Original XCTest failed; independent five-duration case observed; sleep three rounds skipped by latest user; exact performance not measured; no catalog verdict changes."
+}

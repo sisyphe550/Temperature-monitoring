@@ -1,0 +1,25 @@
+{
+  "date": "2026-10-03",
+  "tested_checkout_commit": "8222e0a90e7ad2efa25f6ee76745cff31087611f",
+  "production_and_test_sources_unchanged_since": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+  "command": "swift test --package-path Packages/TemperatureCore --no-parallel --enable-code-coverage",
+  "result": "passed",
+  "tests": 355,
+  "suites": 57,
+  "duration_seconds": 23.98,
+  "max_active_independent_tests_in_log": 1,
+  "max_active_suites_in_log": 1,
+  "coverage": {
+    "covered_lines": 7109,
+    "total_lines": 8002,
+    "minimum_ratio": 0.8
+  },
+  "internal_concurrency_assertions": "unchanged",
+  "cancelled_ci": {
+    "run_id": 37127192657,
+    "commit": "8222e0a90e7ad2efa25f6ee76745cff31087611f",
+    "result": "cancelled",
+    "product_deadlock_root_cause": "not_proven"
+  },
+  "final_head_ci": "read actual PR #26 checks before merge"
+}

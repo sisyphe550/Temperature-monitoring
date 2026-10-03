@@ -1,0 +1,92 @@
+{
+  "base_head": "7c13d94ba728616d14a74866c03545e966a73ffe",
+  "ci_run": 37114147439,
+  "ci_job": 111177560322,
+  "ci_error": "OptionalGenerationRecoveryRegressionTests.sourceGenerationChangeRequiresThreeNewOptionalReceipts Caught NSCocoaErrorDomain256; not SIGPIPE",
+  "ci_original_phase": "unrecorded; do not equate controlled slow-poll phase with unique original CI cause",
+  "change_scope": "one test file; task-identified sampling/publisher registration and real SQLite commits+SQL+snapshot; no production/App/default/schema/contract changes",
+  "runs": [
+    {
+      "log": "baseline-diagnostic.log",
+      "exit": 0,
+      "tests": 1,
+      "cases": 1,
+      "seconds": 0.746,
+      "scope": "original test+diagnostic labels; regular5ms poll"
+    },
+    {
+      "log": "slow-poll-red.log",
+      "exit": 1,
+      "tests": 1,
+      "issues": 1,
+      "seconds": 4.105,
+      "scope": "original driver, controlled125ms poll model; not actual runner stress",
+      "phase": "initial-unavailable",
+      "elapsedNS": 775000000,
+      "optionalReads": 3,
+      "newOptionalReads": 0,
+      "discoveries": 1,
+      "snapshotNS": 625000000,
+      "pendingSleepNS": [
+        825000000,
+        850000000,
+        1000000000,
+        60000000000
+      ]
+    },
+    {
+      "log": "candidate-compile-first.log",
+      "exit": 1,
+      "scope": "initial candidate missing configuration constructor argument; compile failure excluded from behavioral RED/GREEN"
+    },
+    {
+      "log": "candidate-green-before-negative.log",
+      "exit": 0,
+      "tests": 1,
+      "suites": 1,
+      "cases": 2,
+      "seconds": 3.182,
+      "pollMS": [
+        2,
+        125
+      ],
+      "oldReceipts": 2,
+      "newReceipts": 3,
+      "elapsedNS": 63050000000
+    },
+    {
+      "log": "negative-control-red.log",
+      "exit": 1,
+      "tests": 1,
+      "suites": 1,
+      "cases": 2,
+      "seconds": 2.852,
+      "issues": 4,
+      "scope": "copy-only omit reconnect validConsecutiveReads reset; first2 generation2 snapshots incorrectly available",
+      "flow_complete_marker_is_not_test_pass": true
+    },
+    {
+      "log": "candidate-green.log",
+      "exit": 0,
+      "tests": 1,
+      "suites": 1,
+      "cases": 2,
+      "seconds": 2.705,
+      "pollMS": [
+        2,
+        125
+      ],
+      "oldReceipts": 2,
+      "newReceipts": 3,
+      "elapsedNS": 63050000000,
+      "scope": "final source after restoring copy production; bounded targeted test only"
+    }
+  ],
+  "copy_production_restored_equal_to_repo": true,
+  "production_sampling_sha256": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+  "candidate_test_sha256": "748bbadd26e22648df84cf5917edc27835942bd7ea7124e4f6623ae7f0a06fa9",
+  "patch_sha256": "7efcdda66e90281de171afbb7f1a710c88da51e65084ed815d25755d4e0f28b1",
+  "no_repo_mutation_by_this_agent": true,
+  "no_gui_sensors_sleep_or_rss_probe": true,
+  "whole_core_coverage_ci_acceptance": "root integration and verification; not claimed by this subtask"
+}

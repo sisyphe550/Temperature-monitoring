@@ -1,0 +1,36 @@
+
+# Immutable compiler/test output may contain trailing spaces; do not normalize evidence.
+docs/validation/product-software/W11/**/logs/*.log -whitespace
+# Preserve the original Markdown hard line breaks.
+docs/validation/product-software/W11/report.md whitespace=-blank-at-eol
+
+# Preserve original trailing blank lines in immutable reviewed source reports.
+docs/validation/product-software/W11/2026-10-03-c354b03/performance/retention-copy-probe-execution-report.md whitespace=-blank-at-eof
+docs/validation/product-software/W11/2026-10-03-c354b03/ttl-software/actual-execution-review.md whitespace=-blank-at-eof
+docs/validation/product-software/W11/2026-10-03-f9e850c/sql-red-green/report.md whitespace=-blank-at-eof
+
+# Preserve exact unified-diff context whitespace in immutable SIGPIPE evidence.
+docs/validation/product-software/W11/2026-10-03-7124dc1/sigpipe/production.patch -whitespace
+docs/validation/product-software/W11/2026-10-03-7124dc1/sigpipe/tests.patch -whitespace
+
+# Preserve exact context spaces in the immutable generation-test evidence patch.
+docs/validation/product-software/W11/2026-10-03-edddf76/generation/tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/budget/tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/candidate-two-tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/final-two-tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-two-tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/wake-eof-normalization.patch -whitespace
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-OptionalWakeRecoveryRegressionTests.swift whitespace=-blank-at-eof
+
+# Preserve native Xcode/Swift output verbatim in this immutable evidence directory.
+docs/validation/course-delivery/2026-10-03-5984b9e/automated-attempt-ui.log -whitespace
+docs/validation/course-delivery/2026-10-03-5984b9e/full-core.log -whitespace
+
+# Preserve original output for the course CI orchestration record.
+docs/validation/course-delivery/2026-10-03-8222e0a-ci/cancelled-ci.log -whitespace
+docs/validation/course-delivery/2026-10-03-8222e0a-ci/serial-core.log -whitespace

@@ -3,12 +3,18 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
+import sys
 import json
 import re
 import sqlite3
 import tempfile
 from pathlib import Path
+
+sys.dont_write_bytecode = True
+from acceptance_evidence import TRACE_RESULT, load_and_validate, validate_bound
+from course_acceptance import validate_course_policy, strict_product_errors
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -105,8 +111,8 @@ def validate_requirements() -> None:
         digest = hashlib.sha256(body_match.group(1).encode("utf-8")).hexdigest()
         if row.get("body_sha256") != digest:
             fail(f"{requirement_id}: body_sha256 is stale")
-        if row.get("verification") != "pending-product-acceptance":
-            fail(f"{requirement_id}: must remain pending-product-acceptance")
+        if row.get("verification") not in {"pending-product-acceptance", "product-accepted-local", "product-waived"}:
+            fail(f"{requirement_id}: invalid verification status")
         tasks = row.get("tasks")
         tests = row.get("tests")
         design = row.get("design")
@@ -136,8 +142,14 @@ def validate_requirements() -> None:
         if row.get("status") == "retired":
             if status.strip() != "已删除" or result.strip() != "不适用（已删除）":
                 fail(f"17-traceability.md: {requirement_id} retired labels are inconsistent")
-        elif status.strip() != "现行基线" or result.strip() != "未完成产品验收":
+        elif status.strip() != "现行基线" or result.strip() != TRACE_RESULT.get(row.get("verification")):
             fail(f"17-traceability.md: {requirement_id} active labels are inconsistent")
+
+    try:
+        catalog = load_and_validate(ROOT, contract)
+        for message in validate_bound(ROOT, catalog, contract): fail(message)
+    except ValueError as error:
+        fail(f"acceptance evidence: {error}")
 
 
 def validate_contract_values() -> None:
@@ -533,6 +545,13 @@ def validate_entry_contracts() -> None:
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--product-acceptance", action="store_true",
+                       help="require course-local criteria with passed evidence (not all strict requirements)")
+    modes.add_argument("--strict-product-acceptance", action="store_true",
+                       help="require all 132 active strict requirements accepted or explicitly waived")
+    args = parser.parse_args()
     validate_requirements()
     validate_contract_values()
     validate_third_party_contract()
@@ -541,19 +560,37 @@ def main() -> int:
     validate_entry_contracts()
     validate_links()
     validate_required_check_names()
+    acceptance = load_json(CONTRACTS / "acceptance-v1.json")
+    try:
+        # Retain hash, source -> delivery -> HEAD and true Release/fixture checks.
+        catalog = load_and_validate(ROOT, acceptance)
+        for message in validate_course_policy(ROOT, acceptance, catalog,
+                                              require_complete=args.product_acceptance):
+            fail(message)
+    except ValueError as error:
+        fail(f"course acceptance evidence: {error}")
+    if args.strict_product_acceptance:
+        for message in strict_product_errors(acceptance):
+            fail(message)
+    profile = "strict-product" if args.strict_product_acceptance else "course-local"
     if ERRORS:
-        print(json.dumps({"status": "failed", "errors": ERRORS}, ensure_ascii=False, indent=2))
+        print(json.dumps({"status": "failed", "profile": profile, "errors": ERRORS}, ensure_ascii=False, indent=2))
         return 1
     print(
         json.dumps(
             {
                 "status": "passed",
+                "profile": profile,
                 "requirements": {"total": 134, "active": 132, "retired": 2},
                 "tasks": {"work_packages": 12, "execution_tasks": 50},
                 "test_groups": 20,
                 "contract_revision": 3,
-                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json"],
-                "scope": "documentation contracts only; production App and hardware acceptance remain pending",
+                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json", "course-delivery-v1.json"],
+                "scope": ("course-local criteria passed; strict 132 requirement qualification and exact-head CI are separate"
+                          if args.product_acceptance else
+                          "all active strict requirements accepted or waived; exact-head CI is separate"
+                          if args.strict_product_acceptance else
+                          "documentation and course policy structure only; no product acceptance claim"),
             },
             ensure_ascii=False,
             indent=2,

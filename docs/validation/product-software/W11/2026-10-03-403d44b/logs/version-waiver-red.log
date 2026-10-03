@@ -1,0 +1,25 @@
+test_rejects_wrong_acceptance_format_version (__main__.EvidenceBindingTests.test_rejects_wrong_acceptance_format_version) ... FAIL
+test_waiver_requires_waiver_evidence_kind_policy (__main__.EvidenceBindingTests.test_waiver_requires_waiver_evidence_kind_policy) ... FAIL
+
+======================================================================
+FAIL: test_rejects_wrong_acceptance_format_version (__main__.EvidenceBindingTests.test_rejects_wrong_acceptance_format_version)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/temperature-version-waiver-review-7h8myoi9/scripts/tests/test-bind-acceptance-evidence.py", line 450, in test_rejects_wrong_acceptance_format_version
+    with self.assertRaisesRegex(ValueError, "acceptance.*version"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_waiver_requires_waiver_evidence_kind_policy (__main__.EvidenceBindingTests.test_waiver_requires_waiver_evidence_kind_policy)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/temperature-version-waiver-review-7h8myoi9/scripts/tests/test-bind-acceptance-evidence.py", line 458, in test_waiver_requires_waiver_evidence_kind_policy
+    with self.assertRaisesRegex(ValueError, "REQ-127.*required_evidence_kinds"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.186s
+
+FAILED (failures=2)

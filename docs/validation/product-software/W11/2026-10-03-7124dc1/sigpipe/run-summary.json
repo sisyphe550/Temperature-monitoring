@@ -1,0 +1,92 @@
+{
+  "base_head": "f42ec002dc4121b187ff610bdcd55bc8d2da7cd1",
+  "ci_specific_test_causality": "unproven; signal13 and concurrent/buffered output do not identify a unique test",
+  "reproduced_product_defect": "WorkerClient writing a request to a pipe without a reader terminates the parent under default SIGPIPE",
+  "candidate": "per-descriptor F_SETNOSIGPIPE before process.run; cleanup6 pipe ends on prepublication failure; map direct/underlying POSIX EPIPE to existing workerExitedUnexpectedly",
+  "final_public_test_source_sha256": "157f0e4a6c2ece4531d86abcb59dafceaf80a2c4aa5fde3c607b073052443bc9",
+  "final_fixture_source_sha256": "10ebb08ea5cac80ff46660bb684da8019f153d0ae8a198bb09a020ba3ca1b897",
+  "runs": [
+    {
+      "log": "red-first.log",
+      "exit": 1,
+      "kind": "environment_failure",
+      "result": "Swift module cache sandbox denied; excluded from bug RED"
+    },
+    {
+      "log": "red.log",
+      "exit": 1,
+      "kind": "expected_red",
+      "signal": 13,
+      "scope": "initial direct-production-helper test; accessibility-only change"
+    },
+    {
+      "log": "green-fd.log",
+      "exit": 1,
+      "kind": "exploratory_failure",
+      "signal": 6,
+      "result": "per-write getter on already-closed FileHandle raises ObjC exception; rejected design"
+    },
+    {
+      "log": "red-unmapped.log",
+      "exit": 1,
+      "kind": "expected_error_boundary_red",
+      "tests": 3,
+      "issues": 1,
+      "result": "protected write throws Cocoa512/underlyingPOSIX32; mapping needed"
+    },
+    {
+      "log": "baseline-closed-handle.log",
+      "exit": 0,
+      "tests": 1,
+      "suites": 1,
+      "scope": "unmodified Foundation writeRequest behavior after FileHandle.close throws Swift error"
+    },
+    {
+      "log": "public-first-setup-timeout.log",
+      "exit": 1,
+      "kind": "fixture_setup_failure",
+      "result": "200ms discover timed out; not SIGPIPE RED"
+    },
+    {
+      "log": "public-red.log",
+      "exit": 1,
+      "kind": "expected_red",
+      "signal": 13,
+      "scope": "full f42 production source with final10s fixture+public test"
+    },
+    {
+      "log": "public-green.log",
+      "exit": 0,
+      "tests": 2,
+      "suites": 1,
+      "seconds": 0.617,
+      "scope": "final10s fixture+public transport test; typed sensorProtocol/exit and OS child ESRCH; 16 false launches auxiliary"
+    },
+    {
+      "log": "unit-green.log",
+      "exit": 0,
+      "tests": 4,
+      "suites": 1,
+      "scope": "final unit source+same candidate production; descriptor locality,default SIGPIPE unchanged,newline,EBADF,closedFileHandle Swift error"
+    },
+    {
+      "log": "invalid-origin-green.log",
+      "exit": 0,
+      "tests": 1,
+      "suites": 1,
+      "scope": "existing malformed/future origin rejection before hardware initialization"
+    },
+    {
+      "log": "runtime-green.log",
+      "exit": 0,
+      "tests": 34,
+      "suites": 4,
+      "seconds": 2.291,
+      "scope": "prior2s fixture/public version without final OSassert; WorkerLifecycleTests/WorkerProtocolTests/new2suites; overlaps public/unit counts"
+    }
+  ],
+  "no_repository_mutation_by_this_agent": true,
+  "no_gui_or_sensor_access_by_this_agent": true,
+  "whole_core_and_app_validation": "parent execution; not claimed by this report",
+  "worker_rss_probe": "cancelled/pending; no leak or improvement claimed"
+}

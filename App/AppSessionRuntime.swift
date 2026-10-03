@@ -11,6 +11,8 @@ enum AppSessionError: Error, Sendable {
 
 @MainActor
 final class AppSessionRuntime {
+    private enum HistoryLifecycleState { case inactive, starting, active, suspended }
+
     private let presentationModel: PresentationModel
     private let clock: MonitorClock
     private let coordinator: SessionCoordinator
@@ -18,8 +20,10 @@ final class AppSessionRuntime {
     private let profile: SensorProfile
     private let primaryCPUMetricID: MetricID
     private var snapshotTask: Task<Void, Never>?
+    private var startupTask: Task<Void, Error>?
     private var historyTask: Task<Void, Never>?
     private var historyRequestOrdinal: UInt64 = 0
+    private var historyLifecycleState: HistoryLifecycleState = .inactive
     private var lastHistoryRefreshElapsedNS: Int64?
     private var selectedHistoryRange: HistoryRange = .fiveMinutes
     private var selectedSeriesIDs: [SeriesID] = []
@@ -115,19 +119,40 @@ final class AppSessionRuntime {
         guard snapshotTask == nil else {
             return
         }
+        historyLifecycleState = .starting
+        let sessionID = SessionID(UUID())
+        let now = clock.now()
+        let metadata = SessionMetadata(
+            sessionID: sessionID,
+            startedWallUnixNS: now.wallUnixNS,
+            model: profile.model,
+            osBuild: ProcessInfo.processInfo.operatingSystemVersionString,
+            appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
+        )
+        startupTask = Task { [coordinator] in
+            try Task.checkCancellation()
+            try await coordinator.start(sessionMetadata: metadata)
+        }
         snapshotTask = Task { [weak self] in
             await self?.run()
         }
     }
 
     func stop() async {
+        historyLifecycleState = .inactive
+        let startup = startupTask
+        startup?.cancel()
         let snapshot = snapshotTask
         snapshotTask?.cancel()
         snapshotTask = nil
         historyTask?.cancel()
         historyTask = nil
         historyRequestOrdinal += 1
+        // Startup may not yet have reached the coordinator's lifecycle queue.
+        // Join it before stop so a delayed start cannot create an orphan session.
+        _ = await startup?.result
         await coordinator.stop()
+        startupTask = nil
         await snapshot?.value
     }
 
@@ -137,16 +162,34 @@ final class AppSessionRuntime {
 
     func suspendForSleep() async {
         if case .fatal = presentationModel.state { return }
+        guard historyLifecycleState == .starting || historyLifecycleState == .active else { return }
+        historyLifecycleState = .suspended
+        historyRequestOrdinal += 1
         historyTask?.cancel()
         historyTask = nil
-        do { try await coordinator.suspendForSleep() }
-        catch { await enterFatal((error as? MonitorFailure) ?? lifecycleFailure(error, operation: "sleep")) }
+        do {
+            try await startupTask?.value
+            guard historyLifecycleState == .suspended else { return }
+            try await coordinator.suspendForSleep()
+        } catch {
+            guard historyLifecycleState == .suspended, !Task.isCancelled else { return }
+            await enterFatal((error as? MonitorFailure) ?? lifecycleFailure(error, operation: "sleep"))
+        }
     }
 
     func resumeAfterWake() async {
         if case .fatal = presentationModel.state { return }
-        do { try await coordinator.resumeAfterWake(); requestHistoryReload(force: true) }
-        catch { await enterFatal((error as? MonitorFailure) ?? lifecycleFailure(error, operation: "wake")) }
+        guard historyLifecycleState == .suspended else { return }
+        do {
+            try await coordinator.resumeAfterWake()
+            guard historyLifecycleState == .suspended else { return }
+            historyLifecycleState = .active
+            requestHistoryReload(force: true)
+        }
+        catch {
+            guard historyLifecycleState == .suspended, !Task.isCancelled else { return }
+            await enterFatal((error as? MonitorFailure) ?? lifecycleFailure(error, operation: "wake"))
+        }
     }
 
     private func lifecycleFailure(_ error: Error, operation: String) -> MonitorFailure {
@@ -179,16 +222,10 @@ final class AppSessionRuntime {
 
     private func run() async {
         do {
-            let sessionID = SessionID(UUID())
-            let now = clock.now()
-            let metadata = SessionMetadata(
-                sessionID: sessionID,
-                startedWallUnixNS: now.wallUnixNS,
-                model: profile.model,
-                osBuild: ProcessInfo.processInfo.operatingSystemVersionString,
-                appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
-            )
-            try await coordinator.start(sessionMetadata: metadata)
+            guard let startupTask else { return }
+            try await startupTask.value
+            guard !Task.isCancelled else { return }
+            if historyLifecycleState == .starting { historyLifecycleState = .active }
             guard let stream = await coordinator.snapshots() else {
                 throw AppSessionError.startupFailed("snapshot stream unavailable")
             }
@@ -206,6 +243,7 @@ final class AppSessionRuntime {
             }
         } catch is CancellationError { return }
         catch {
+            guard !Task.isCancelled else { return }
             let failure = (error as? MonitorFailure) ?? MonitorFailure(code: .appInit, severity: .fatal,
                 component: "AppSessionRuntime", operation: "start", retryCount: 0, sourceID: nil,
                 underlyingCode: String(describing: error))
@@ -215,6 +253,8 @@ final class AppSessionRuntime {
 
     private func enterFatal(_ failure: MonitorFailure) async {
         if case .fatal = presentationModel.state { return }
+        historyLifecycleState = .inactive
+        historyRequestOrdinal += 1
         snapshotTask?.cancel()
         await coordinator.freezeForFatal()
         historyTask?.cancel()
@@ -225,6 +265,7 @@ final class AppSessionRuntime {
     }
 
     private func requestHistoryReload(force: Bool = false) {
+        guard historyLifecycleState == .active else { return }
         if selectedSeriesIDs.isEmpty || selectedSeriesIDs.count > configuration.historyMaxSeries {
             historyTask?.cancel()
             historyTask = nil
@@ -236,8 +277,10 @@ final class AppSessionRuntime {
             return
         }
         let now = clock.now().elapsedNS
-        let refreshNS = selectedHistoryRange == .fiveMinutes
-            ? Int64(configuration.uiPublishMS) * 1_000_000 : 1_000_000_000
+        // History geometry updates independently of 200ms live value snapshots.
+        // Rebuilding thousands of Charts marks at the snapshot rate creates
+        // avoidable main-thread load; force reloads still respond immediately.
+        let refreshNS: Int64 = 1_000_000_000
         if !force {
             guard historyTask == nil else { return }
             if let lastHistoryRefreshElapsedNS, now - lastHistoryRefreshElapsedNS < refreshNS { return }

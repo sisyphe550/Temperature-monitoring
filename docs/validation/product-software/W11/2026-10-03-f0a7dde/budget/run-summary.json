@@ -1,0 +1,75 @@
+{
+  "actualCI": {
+    "head": "44070d6ea5d8dbe3e64a1c0ddc206f5bd2597f97",
+    "failedCase": "OptionalProbeBudgetAcrossReconnectTests.unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget",
+    "caseDurationSeconds": 5.244,
+    "error": "NSCocoaErrorDomain Code=256",
+    "originalPhase": "unrecorded"
+  },
+  "slowPollingModel": {
+    "pollDelayMS": 125,
+    "exitCode": 1,
+    "tests": 1,
+    "cases": 2,
+    "durationSeconds": 4.796,
+    "failurePhase": "initial-unavailable",
+    "elapsedNS": 775000000,
+    "optionalReads": 3,
+    "newOptionalReads": 0,
+    "discoverCount": 1,
+    "latestSnapshotElapsedNS": 625000000,
+    "nextRetryElapsedNS": 850000000,
+    "pendingSleepElapsedNS": [
+      825000000,
+      850000000,
+      1000000000,
+      60000000000
+    ]
+  },
+  "candidateFinal": {
+    "exitCode": 0,
+    "tests": 2,
+    "cases": 4,
+    "durationSeconds": 2.429,
+    "budgetDurationSeconds": 2.132,
+    "generationDurationSeconds": 2.429,
+    "pollDelaysMS": [
+      2,
+      125
+    ],
+    "initialFailureReads": 4,
+    "failedRecoveryRounds": 3,
+    "probeElapsedNS": [
+      60850000000,
+      120850000000,
+      180850000000
+    ],
+    "finalOptionalReads": 7,
+    "finalNewOptionalReads": 0,
+    "finalCommittedBatches": 26,
+    "committedBatchCounterMeaning": "all actual SQLite commitBatch returns, not SSD-exclusive receipt count",
+    "finalElapsedNS": 242250000000
+  },
+  "negativeControlFinal": {
+    "change": "Remove only reconnect optionalStoppedKinds guard in copied SamplingService",
+    "exitCode": 1,
+    "tests": 1,
+    "cases": 2,
+    "issues": 12,
+    "durationSeconds": 2.318,
+    "finalOptionalReads": 10,
+    "finalNewOptionalReads": 3,
+    "completionMarkerIsPass": false
+  },
+  "excludedCompileAttempt": {
+    "file": "model-compile-first.log",
+    "reason": "instrumentation named TestClock property incorrectly; not behavioural RED"
+  },
+  "scope": {
+    "productionChanged": false,
+    "GUI": false,
+    "hardware": false,
+    "physicalSleep": false,
+    "wholeCoreRun": false
+  }
+}

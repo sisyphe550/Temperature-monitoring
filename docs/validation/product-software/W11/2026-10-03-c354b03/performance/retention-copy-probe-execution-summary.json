@@ -1,0 +1,102 @@
+{
+  "created_utc": "2026-10-03T08:08:17.441224+00:00",
+  "authorization": "root explicit GO after user skipped sleep and formal App normally quit",
+  "execution_kind": "software replay of copied immutable real-session SQLite snapshots; artificial ages marked, no hardware/actor/UI runtime measured",
+  "sqlite_version": "3.43.2",
+  "source_retention_sha256": "9ed9ed53ff1d4610f6e5a7c25b09b61d01c737af3e4a44a6f06bfcb3d813073a",
+  "cases": [
+    {
+      "path": "/tmp/temperature-retention-copy-bbtcr0lb/results.json",
+      "source_snapshot": "/private/tmp/temperature-long-ui-20261003T033320Z/final-before-normal-quit.sqlite",
+      "source_sha256": "b734324c6a99cbde7b01fb486ddac30eea80f71f91dd27eb25b1f4e5a206bb79",
+      "artificial_age_seconds": 120,
+      "raw_deletions_each": 34496,
+      "ema_deletions_each": 34496,
+      "baseline_transaction_ms": 1783.999125,
+      "candidate_transaction_ms": 250.013667,
+      "transaction_speedup": 7.135606410668742,
+      "raw_baseline_ms": 486.035292,
+      "raw_candidate_ms": 83.810208,
+      "ema_baseline_ms": 1243.342791,
+      "ema_candidate_ms": 96.953917,
+      "baseline_raw_ema_vm_steps": 37350482,
+      "candidate_raw_ema_vm_steps": 4721636,
+      "vm_step_ratio": 7.910495853555844,
+      "all_7_tables_survivors_equal": true,
+      "quick_check_ok": true,
+      "grace_exceeded": false,
+      "checkpoint_ms": {
+        "baseline": 0.0055,
+        "candidate": 0.005125
+      }
+    },
+    {
+      "path": "/tmp/temperature-retention-copy-xk3viaxm/results.json",
+      "source_snapshot": "/private/tmp/temperature-long-ui-20261003T043223Z/final-before-normal-quit.sqlite",
+      "source_sha256": "d979b97d7cf397539cef8c8c029e4f45e781f9265b213cf086f1d48f39a22bbd",
+      "artificial_age_seconds": 0,
+      "raw_deletions_each": 687,
+      "ema_deletions_each": 687,
+      "baseline_transaction_ms": 380.297667,
+      "candidate_transaction_ms": 7.467458,
+      "transaction_speedup": 50.927325871802694,
+      "raw_baseline_ms": 196.21825,
+      "raw_candidate_ms": 2.3015,
+      "ema_baseline_ms": 175.105708,
+      "ema_candidate_ms": 1.233333,
+      "baseline_raw_ema_vm_steps": 8467839,
+      "candidate_raw_ema_vm_steps": 91427,
+      "vm_step_ratio": 92.61858094435998,
+      "all_7_tables_survivors_equal": true,
+      "quick_check_ok": true,
+      "grace_exceeded": false,
+      "checkpoint_ms": {
+        "baseline": 5.529292,
+        "candidate": 4.435042
+      }
+    },
+    {
+      "path": "/tmp/temperature-retention-copy-94tfrtwr/results.json",
+      "source_snapshot": "/private/tmp/temperature-long-ui-20261003T043223Z/final-before-normal-quit.sqlite",
+      "source_sha256": "d979b97d7cf397539cef8c8c029e4f45e781f9265b213cf086f1d48f39a22bbd",
+      "artificial_age_seconds": 60,
+      "raw_deletions_each": 1646,
+      "ema_deletions_each": 1646,
+      "baseline_transaction_ms": 785.15975,
+      "candidate_transaction_ms": 18.752,
+      "transaction_speedup": 41.87072045648465,
+      "raw_baseline_ms": 385.603334,
+      "raw_candidate_ms": 10.221667,
+      "ema_baseline_ms": 386.679333,
+      "ema_candidate_ms": 2.873625,
+      "baseline_raw_ema_vm_steps": 20883754,
+      "candidate_raw_ema_vm_steps": 218992,
+      "vm_step_ratio": 95.3630908891649,
+      "all_7_tables_survivors_equal": true,
+      "quick_check_ok": true,
+      "grace_exceeded": false,
+      "checkpoint_ms": {
+        "baseline": 7.068333,
+        "candidate": 6.932625
+      }
+    }
+  ],
+  "candidate_patch": "/tmp/temperature-retention-exact-parent-candidate.patch",
+  "candidate_applied": false,
+  "candidate_apply_check_exit": 0,
+  "query_plan": "/tmp/temperature-retention-exact-parent-query-plan.json",
+  "prepared_probe_sha256": "4e90a7667bede555b3396db6c895020ef8b7bf2f2aca54b2dd540c61e3540a65",
+  "results_sha256": {
+    "/tmp/temperature-retention-copy-bbtcr0lb/results.json": "da35b6846c4fc1fbf7628af56a10cfbc9910e70b2c0c255b92c156c1a7cbd05e",
+    "/tmp/temperature-retention-copy-xk3viaxm/results.json": "cb0f7376dc593087b77381c7d03ce3a84114509a08670ce06bbaef5d668b1e30",
+    "/tmp/temperature-retention-copy-94tfrtwr/results.json": "e05c4da39d54c07e1776b2e4dcadf091a366ada921bc1624d176cafaf8b518ea"
+  },
+  "limits": [
+    "Statements reflect original frozen Retention prune transaction; capacity fallback and actors/scheduler not executed.",
+    "One sequential baseline\u2192candidate repetition per case; wall-time may include background-build/cache effects, VM step reduction is deterministic plan evidence.",
+    "Equivalent survivors proved for these real data copies with verified aligned 1s buckets, not arbitrary malformed/unaligned inputs.",
+    "No direct actual-runtime prune trace linking the observed 4.2s gap was captured.",
+    "Candidate 250ms high-density transaction can still defer a 50ms sampler; this does not prove skipped<=1%.",
+    "No production source/default/schema/API changed; no App/GUI or real hardware run."
+  ]
+}

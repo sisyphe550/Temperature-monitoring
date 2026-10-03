@@ -231,7 +231,7 @@ extension SQLiteStore {
                 WHERE width_s = 1
                   AND series_id = raw_samples.series_id
                   AND segment = raw_samples.segment
-                  AND start_elapsed_ns <= raw_samples.elapsed_ns
+                  AND start_elapsed_ns = (raw_samples.elapsed_ns / 1000000000) * 1000000000
                   AND end_elapsed_ns > raw_samples.elapsed_ns
               )
             """,
@@ -249,7 +249,7 @@ extension SQLiteStore {
                 WHERE width_s = 1
                   AND series_id = ema_samples.series_id
                   AND segment = ema_samples.segment
-                  AND start_elapsed_ns <= ema_samples.elapsed_ns
+                  AND start_elapsed_ns = (ema_samples.elapsed_ns / 1000000000) * 1000000000
                   AND end_elapsed_ns > ema_samples.elapsed_ns
               )
             """,

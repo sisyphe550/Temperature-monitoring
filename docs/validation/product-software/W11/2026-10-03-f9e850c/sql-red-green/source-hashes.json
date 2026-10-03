@@ -1,0 +1,72 @@
+{
+  "created_utc": "2026-10-03T08:28:13.507799+00:00",
+  "baseline_retention_sha256": "9ed9ed53ff1d4610f6e5a7c25b09b61d01c737af3e4a44a6f06bfcb3d813073a",
+  "candidate_retention_sha256": "693127c2d4c3a173204d13e92740ccb4dade7377cf6f694c8d654e299f0d8f90",
+  "unchanged_test_source_sha256": "721d59c4f192cea3c085cfc5f1c3e3ac6c227a481767391dbaa716c640e03153",
+  "red_log_sha256": "d503d111bb80f77de78f8e010f7e1baaa72d656ca81870b925c6f5e53b429808",
+  "red_exit": 1,
+  "red_expected_failures": 2,
+  "production_repo_modified": false,
+  "green_exit": 0,
+  "green_log_sha256": "966b0255d2c4edc605ceb7d180900c93679f40fdfaa2672e275177ea789e60f2",
+  "test_patch_sha256": "871dfa6349186015b24f990e79d40b27b6e1a3f156e09f63cdf33ecea1e5877b",
+  "production_patch_sha256": "43ce44deb49780e25f8854d8314c34c133f0d5fd530f48a48124854b8527388b",
+  "test_patch_apply_check_exit": 0,
+  "green_test_source_sha256": "721d59c4f192cea3c085cfc5f1c3e3ac6c227a481767391dbaa716c640e03153",
+  "scope": "Real bundled SQLite schema; fixed20 expired samples and32/2048 parent windows. Source-extracted real DELETE SQL algorithm counts separately from actual compiled SQLiteStore correctness calls and AggregationEngine recovery parent.",
+  "source_alignment_contract": {
+    "document": "docs/05-processing-pipeline.md:29",
+    "rule": "session elapsed=0 origin, [k*width,(k+1)*width), boundary goes to next window",
+    "implementation": [
+      "Aggregation.swift:13-22",
+      "Aggregation.swift:173-186",
+      "Aggregation.swift:62-75"
+    ],
+    "test": "midSecondRecoveryProducesAlignedPartialParentAndStoreKeepsSegmentsSeparate"
+  },
+  "vm_steps": {
+    "red-final": [
+      {
+        "table": "raw_samples",
+        "small_steps": 5057,
+        "large_steps": 246977,
+        "deleted": 20
+      },
+      {
+        "table": "ema_samples",
+        "small_steps": 4677,
+        "large_steps": 246597,
+        "deleted": 20
+      }
+    ],
+    "green": [
+      {
+        "table": "raw_samples",
+        "small_steps": 1358,
+        "large_steps": 1358,
+        "deleted": 20
+      },
+      {
+        "table": "ema_samples",
+        "small_steps": 978,
+        "large_steps": 978,
+        "deleted": 20
+      }
+    ]
+  },
+  "initial_attempts": [
+    {
+      "path": "/tmp/temperature-retention-scale-red-green/red-first.log",
+      "classification": "SwiftPM nested sandbox failed before tests; not the expected RED"
+    },
+    {
+      "path": "/tmp/temperature-retention-scale-red-green/red.log",
+      "classification": "test helper compile error private queryString, corrected in test only; not expected RED"
+    },
+    {
+      "path": "/tmp/temperature-retention-scale-red-green/red-expected.log",
+      "classification": "earlier same2 performance failures with3 Store checks, before adding generated recovery-parent test"
+    }
+  ],
+  "recorded_at_utc": "2026-10-03T08:32:38.931096+00:00"
+}

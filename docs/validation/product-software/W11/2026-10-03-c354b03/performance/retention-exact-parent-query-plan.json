@@ -1,0 +1,110 @@
+[
+  {
+    "variant": "baseline",
+    "table": "raw_samples",
+    "query_plan": [
+      [
+        4,
+        0,
+        202,
+        "SEARCH raw_samples USING INDEX raw_by_time (elapsed_ns<?)"
+      ],
+      [
+        12,
+        0,
+        0,
+        "CORRELATED SCALAR SUBQUERY 1"
+      ],
+      [
+        17,
+        12,
+        49,
+        "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns<?)"
+      ],
+      [
+        60,
+        0,
+        56,
+        "SEARCH sample_members USING COVERING INDEX sqlite_autoindex_sample_members_1 (derived_sample_id=?)"
+      ]
+    ]
+  },
+  {
+    "variant": "baseline",
+    "table": "ema_samples",
+    "query_plan": [
+      [
+        4,
+        0,
+        203,
+        "SEARCH ema_samples USING INDEX ema_by_time (elapsed_ns<?)"
+      ],
+      [
+        12,
+        0,
+        0,
+        "CORRELATED SCALAR SUBQUERY 1"
+      ],
+      [
+        17,
+        12,
+        49,
+        "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns<?)"
+      ]
+    ]
+  },
+  {
+    "variant": "exact-parent",
+    "table": "raw_samples",
+    "query_plan": [
+      [
+        4,
+        0,
+        202,
+        "SEARCH raw_samples USING INDEX raw_by_time (elapsed_ns<?)"
+      ],
+      [
+        12,
+        0,
+        0,
+        "CORRELATED SCALAR SUBQUERY 1"
+      ],
+      [
+        17,
+        12,
+        47,
+        "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns=?)"
+      ],
+      [
+        61,
+        0,
+        56,
+        "SEARCH sample_members USING COVERING INDEX sqlite_autoindex_sample_members_1 (derived_sample_id=?)"
+      ]
+    ]
+  },
+  {
+    "variant": "exact-parent",
+    "table": "ema_samples",
+    "query_plan": [
+      [
+        4,
+        0,
+        203,
+        "SEARCH ema_samples USING INDEX ema_by_time (elapsed_ns<?)"
+      ],
+      [
+        12,
+        0,
+        0,
+        "CORRELATED SCALAR SUBQUERY 1"
+      ],
+      [
+        17,
+        12,
+        47,
+        "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns=?)"
+      ]
+    ]
+  }
+]

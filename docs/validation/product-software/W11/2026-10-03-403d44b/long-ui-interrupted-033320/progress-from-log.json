@@ -1,0 +1,201 @@
+{
+  "source": "stdout JSON records extracted from long-ui.log; not a final XCTest attachment",
+  "tests": [
+    {
+      "test": "testLocalReleaseAppFivePeriodsTenMinutes()",
+      "status": "Failure",
+      "duration": "371.10251700878143"
+    }
+  ],
+  "complete_phases": 0,
+  "records": [
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2944975.036085625,
+      "continuous_monotonic_seconds": 4901660.080631583,
+      "event": "LONG_UI_BEGIN",
+      "launch_arguments": [],
+      "periods_ms": [
+        50,
+        100,
+        200,
+        500,
+        1000
+      ],
+      "required_awake_seconds_per_period": 600,
+      "scope": "Formal Release; no fixture; OS sleep/wake, SQL cadence, worker read-batch/skipped rates and display-delay percentiles require independent evidence.",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status_exists": true,
+      "status_is_hittable": false,
+      "utc": "2026-10-03T03:33:42.218Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2944994.786902625,
+      "continuous_monotonic_seconds": 4901679.831448583,
+      "event": "LONG_UI_PHASE_START",
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "start_awake_uptime_seconds": 2944994.753111792,
+      "start_utc": "2026-10-03T03:34:01.936Z",
+      "utc": "2026-10-03T03:34:01.969Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945014.9763409584,
+      "continuous_monotonic_seconds": 4901700.020886959,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 20.223207083530724,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "86.1 °C",
+      "utc": "2026-10-03T03:34:22.159Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945035.1855922085,
+      "continuous_monotonic_seconds": 4901720.230138208,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 40.43246320821345,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "84.9 °C",
+      "utc": "2026-10-03T03:34:42.368Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945055.4318936667,
+      "continuous_monotonic_seconds": 4901740.476439667,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 60.678747583180666,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "90.9 °C",
+      "utc": "2026-10-03T03:35:02.615Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945075.7485252083,
+      "continuous_monotonic_seconds": 4901760.79307125,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 80.99539166688919,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "91.5 °C",
+      "utc": "2026-10-03T03:35:22.932Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945096.1453263336,
+      "continuous_monotonic_seconds": 4901781.189872333,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 101.39218437485397,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "98.1 °C",
+      "utc": "2026-10-03T03:35:43.329Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945116.6242470834,
+      "continuous_monotonic_seconds": 4901801.668793041,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 121.87111641652882,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "95.7 °C",
+      "utc": "2026-10-03T03:36:03.808Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945137.1386432503,
+      "continuous_monotonic_seconds": 4901822.18318925,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 142.38551491685212,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "97.4 °C",
+      "utc": "2026-10-03T03:36:24.322Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945157.6664980003,
+      "continuous_monotonic_seconds": 4901842.711044,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 162.9133652918972,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "98.7 °C",
+      "utc": "2026-10-03T03:36:44.850Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945178.1669446668,
+      "continuous_monotonic_seconds": 4901863.211490625,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 183.41381187504157,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "98.3 °C",
+      "utc": "2026-10-03T03:37:05.351Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945198.6160733337,
+      "continuous_monotonic_seconds": 4901883.660619333,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 203.86294204182923,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "99.8 °C",
+      "utc": "2026-10-03T03:37:25.800Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945219.1339187087,
+      "continuous_monotonic_seconds": 4901904.178464833,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 224.3807716248557,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "101.1 °C",
+      "utc": "2026-10-03T03:37:46.318Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945239.8955639587,
+      "continuous_monotonic_seconds": 4901924.94011,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 245.1424331665039,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "105.4 °C",
+      "utc": "2026-10-03T03:38:07.080Z"
+    },
+    {
+      "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+      "awake_uptime_seconds": 2945260.5054092086,
+      "continuous_monotonic_seconds": 4901945.549955208,
+      "event": "LONG_UI_PROGRESS",
+      "held_awake_seconds": 265.7522655832581,
+      "period_ms": 50,
+      "selected": "50 ms",
+      "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+      "status": "104.0 °C",
+      "utc": "2026-10-03T03:38:27.690Z"
+    }
+  ]
+}

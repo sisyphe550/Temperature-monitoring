@@ -1,0 +1,823 @@
+[0/1] Planning build
+Building for debugging...
+[0/11] Write sources
+[2/11] Write swift-version--58304C5D6DBC2206.txt
+[4/13] Emitting module SensorRuntime
+[5/13] Compiling SensorRuntime SessionMonitorController.swift
+[5/16] Write Objects.LinkFileList
+[8/19] Linking ProtocolWorker
+[9/19] Linking SensorWorker
+[10/19] Applying ProtocolWorker
+[11/19] Linking ProductQualification
+[12/19] Applying SensorWorker
+[13/19] Applying ProductQualification
+[15/19] Compiling TemperatureCoreTests SuspendedHistoryRegressionTests.swift
+[16/19] Compiling TemperatureCoreTests ControllerFixture.swift
+[17/19] Emitting module TemperatureCoreTests
+[17/19] Write Objects.LinkFileList
+[18/19] Linking TemperatureCorePackageTests
+Build complete! (2.30s)
+Test Suite 'All tests' started at 2026-10-03 11:05:20.128.
+Test Suite 'All tests' passed at 2026-10-03 11:05:20.129.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite "TC-UPSTREAM-BOUNDARY" started.
+◇ Suite AppBundleConfigurationTests started.
+◇ Suite RetryPolicyTests started.
+◇ Suite PresentationHistoryRegressionTests started.
+◇ Suite DiagnosticsTests started.
+◇ Suite WatermarkTests started.
+◇ Suite HistoryBudgetRegressionTests started.
+◇ Suite RuntimeMaintenanceRegressionTests started.
+◇ Suite WorkerProtocolTests started.
+◇ Suite StorageLifecycleRegressionTests started.
+◇ Suite ContractTests started.
+◇ Suite SensorDecodingTests started.
+◇ Suite SamplingServiceTests started.
+◇ Suite LongSleepRecoveryRegressionTests started.
+◇ Suite ClockTests started.
+◇ Suite SuspendedHistoryRegressionTests started.
+◇ Suite RecoveredSourceGapRegressionTests started.
+◇ Suite ProcessingCoordinatorTests started.
+◇ Suite SQLiteStoreTests started.
+◇ Suite SessionClockRegressionTests started.
+◇ Suite ProcessingIdentityTests started.
+◇ Suite NVMeSourceQualificationTests started.
+◇ Suite HistoryQueryTests started.
+◇ Suite RetentionTests started.
+◇ Suite RingBufferTests started.
+◇ Suite SessionLifecycleTests started.
+◇ Suite OptionalSourceQualificationTests started.
+◇ Suite DiscoveryFactsProtocolTests started.
+◇ Suite WorkerLifecycleTests started.
+◇ Suite StorageFaultTests started.
+◇ Suite PresentationModelTests started.
+◇ Suite AggregationTests started.
+◇ Suite SourceRegistryTests started.
+◇ Suite OptionalAvailabilityIntegrationTests started.
+◇ Suite HistoryChartModelTests started.
+◇ Suite ContractCoverageTests started.
+◇ Suite MonitorIntegrationTests started.
+◇ Suite TrendTests started.
+◇ Suite SensorRecoveryRegressionTests started.
+◇ Suite OptionalSleepAdmissionRaceRegressionTests started.
+◇ Suite OptionalProbeBudgetAcrossReconnectTests started.
+◇ Suite ErrorCoordinatorTests started.
+◇ Suite BackpressureTests started.
+◇ Suite OptionalGenerationRecoveryRegressionTests started.
+◇ Suite ConfigurationTests started.
+◇ Suite RuntimeShutdownRegressionTests started.
+◇ Suite CommitRegressionTests started.
+◇ Suite RequestLifecycleRegressionTests started.
+◇ Suite OptionalWakeRecoveryRegressionTests started.
+◇ Suite EngineGapRegressionTests started.
+◇ Suite HistorySourceContinuityRegressionTests started.
+◇ Suite EMAProcessorTests started.
+◇ Test upstreamRollbackDoesNotReplayOldSample() started.
+◇ Test explicitGapBreaksLineEvenWithinOneSegment() started.
+◇ Suite "EndToEndTests" started.
+◇ Test onePointBudgetRejectsAContinuousRunWithTwoBoundaries() started.
+◇ Test distinctHIDRegistryIDsAreNotMerged() started.
+◇ Test processingValidateIsNotRetryable() started.
+◇ Test extraSourceVersionsAreRejectedExplicitly() started.
+◇ Test sensorBridgeSourceContainsNoWriteOrPrivilegeSymbols() started.
+◇ Test twoPointBudgetPreservesEnvelopeAndSampleCount() started.
+◇ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test appResourcesMatchBundledContracts() started.
+◇ Test missingHIDEventDoesNotFabricateZeroCelsius() started.
+◇ Test insufficientBudgetFailsInsteadOfDroppingSegments() started.
+◇ Test segmentBoundariesSurviveDownsampling() started.
+◇ Test structuralDatabaseFailuresAreNotRetryable() started.
+◇ Test transientDatabaseBusyIsRetryable() started.
+◇ Test sensorBudgetMatchesContract() started.
+◇ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() started.
+◇ Test sourceVersionsKeepTheirDefinitionsAndIndependentLines() started.
+◇ Test uiHistoryBudgetMatchesContract() started.
+◇ Test reportWriterReturnsFallbackWhenDirectoryIsNotWritable() started.
+◇ Test loggerPrunesFilesOlderThanTTL() started.
+◇ Test reportWriterDoesNotIncludeMachineSerialField() started.
+◇ Test databaseBudgetMatchesContract() started.
+◇ Test aggregateReductionRetainsWeightedMeanAndTotalCount() started.
+◇ Test staleGenerationIsRejectedWithoutStateChange() started.
+◇ Test rejectsNonCanonicalUUID() started.
+◇ Test safeWatermarkCapsAtBlockedWindowEnd() started.
+◇ Test loggerRetainsAtMostConfiguredFileCount() started.
+◇ Test runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep() started.
+◇ Test sensorReadFailureIsRetryable() started.
+◇ Test reportWriterKeepsAtMostConfiguredReportCount() started.
+◇ Test reportWriterCreatesBoundedReportFile() started.
+◇ Test rejectsResponseRequestIDMismatch() started.
+◇ Test twelveQualifiedSourcesDoNotInferTenPhysicalCores() started.
+◇ Test rejectsSourceIDOnWire() started.
+◇ Test rejectsUnknownCommand() started.
+◇ Test rejectsOversizeFrame() started.
+◇ Test receiptMismatchDoesNotAdvanceSnapshotGeneration() started.
+◇ Test loggerRotatesAtConfiguredSize() started.
+◇ Test smcRejectsTemperatureBelowAbsoluteZero() started.
+◇ Test rejectsFloatingPointGeneration() started.
+◇ Test rejectsWrongVersion() started.
+◇ Test finalizedReservationMetadataDoesNotGrowWithSessionReads() started.
+◇ Test inFlightReadingBlocksOneSecondClosure() started.
+◇ Test requestedPointBudgetIsRespectedAcrossEntireRange() started.
+◇ Test rejectsBadJSON() started.
+◇ Test rejectsResponseGenerationMismatch() started.
+◇ Test decodesLittleEndianFloatAs25Point5C() started.
+◇ Test protocolFailureUsesSensorProtocolCode() started.
+◇ Test discoverAndReadRoundTrip() started.
+◇ Test decodesNegativeSignedFixedPoint() started.
+◇ Test sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts() started.
+◇ Test encodingMatchingIsCaseSensitive() started.
+◇ Test unknownClosedEnumFailsDecoding() started.
+◇ Test obsoleteContractTokensAreAbsentFromSources() started.
+◇ Test decodesBigEndianSignedFixedPointAs25Point5C() started.
+◇ Test timestampPreservesNanoseconds() started.
+◇ Test presentationStateIsMutuallyExclusive() started.
+◇ Test smcBridgeSourceContainsNoWriteOrPrivilegeSymbols() started.
+◇ Test persistenceLeaseHasNoPublicCodableOrEmptyInit() started.
+◇ Test metricIDRejectsInvalidAndEmptyValues() started.
+◇ Test rejectsWrongLengthUnknownEncodingAndNonFiniteValues() started.
+◇ Test qualifiedSMCReadingRejectsChangedEncodingAndLength() started.
+◇ Test iopsAcceptsCelsiusCFNumberAndRejectsMissingBooleanInvalidValues() started.
+◇ Test readingOutcomeCannotCarrySuccessAndFailure() started.
+◇ Test rawKeysAreCaseSensitive() started.
+◇ Test fiftyMillisecondPeriodWithOneTwentyMillisecondReadDoesNotOverlap() started.
+◇ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() started.
+◇ Test decodesSmartKelvinLittleEndian() started.
+◇ Test integerTickConversionRoundTripsExactNanoseconds() started.
+◇ Test lateSampleLandsInSecondBucketAfterSafeAdvance() started.
+◇ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() started.
+◇ Test concurrentSleepsResumeOnceAndCancelRemovesOneWaiter() started.
+◇ Test missingRequiredViewFailsWithSchemaFatal() started.
+◇ Test taggedUUIDRequiresCanonicalLowercase() started.
+◇ Test badUserVersionFailsWithSchemaFatal() started.
+◇ Test callerCannotAccessRawSQLiteConnection() started.
+◇ Test sessionMetadataRoundTripThroughStore() started.
+◇ Test repeatedRequestCannotClaimNewUnconsumedLease() started.
+◇ Test repeatedBatchIsIdempotentThroughFixture() started.
+◇ Test sharedBasisProducesSameOriginForTwoClocks() started.
+◇ Test sessionPersistenceOpenPersistsMetadata() started.
+◇ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+◇ Test upstreamRollbackDoesNotCreateSample() started.
+◇ Test rejectsNonFiniteAndBelowAbsoluteZero() started.
+◇ Test cpuMaxSkippedWhenMemberMissing() started.
+◇ Test systemClockElapsedIsMonotonicAcrossTwoReads() started.
+◇ Test elapsedContinuesWhenWallClockRewinds() started.
+◇ Test nonMonotonicElapsedIsRejected() started.
+◇ Test cpuMaxSkippedWhenBatchSpanTooLarge() started.
+◇ Test staleGenerationIsRejected() started.
+◇ Test rejectsMoreThanEightSeries() started.
+◇ Test rejectsFiveMinuteSQLiteRange() started.
+◇ Test repeatedRequestIsIdempotent() started.
+◇ Test cpuMaxSkippedWhenDuplicateSource() started.
+◇ Test deletesAggregateExactlyAtCutoff() started.
+◇ Test cpuMaxEMAFollowsDerivedSeries() started.
+◇ Test failureReadingProducesNoSample() started.
+◇ Test cpuMaxTracksHotspotAcrossBatches() started.
+◇ Test downsamplingPreservesPeakAcross8640Buckets() started.
+◇ Test missingFailedAndUnattemptedInterconnectFactsBlockSelection() started.
+◇ Test duplicateTemperatureValuesKeepSeparateSamples() started.
+◇ Test retainsSamplesWithinThreeHundredSecondWindow() started.
+◇ Test pruneAfterLongSleepRemovesExpiredRows() started.
+◇ Test retainsRawWithoutOneSecondParent() started.
+◇ Test rejectsThirtyThirdActiveSeries() started.
+◇ Test coordinatorAcceptsScheduledReadThroughLeaseAndCommit() started.
+◇ Test concurrentQueriesMatchTheirRequestsOrReportSuperseded() started.
+◇ Test enforcesCapacityAfterWindowPrune() started.
+◇ Test thirtyThirdSeriesIsRejected() started.
+◇ Test externalDeviceDoesNotDisplaceUniqueInternalDevice() started.
+◇ Test shutdownRecordsCompletedSteps() started.
+◇ Test sameRequestIDDifferentPayloadFails() started.
+◇ Test externalOnlyIsUnavailableWithoutStoppingCPU() started.
+◇ Test cleanupRejectsSymlinkedSessionDirectory() started.
+◇ Test duplicateTransportHandleCannotReadAnotherDeviceAsSSD() started.
+◇ Test optionalIdentityIncludesGenerationAndSelectedProvider() started.
+◇ Test bundledSchemaSetsUserVersionForeignKeysAndViews() started.
+◇ Test foundRequiresNonemptyLocationAndRealRegistryIdentity() started.
+◇ Test cleanupGraceExceededIsFatal() started.
+◇ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() started.
+◇ Test duplicateBatteryIdentityIsUnavailableWithoutStoppingCPU() started.
+◇ Test processingBudgetMatchesContract() started.
+◇ Test returnsEmptyResultWhenNoData() started.
+◇ Test uniqueInternalNVMeIsQualifiedWithRealIdentityAndKelvinEvidence() started.
+◇ Test badBatteryEncodingFallsThroughToNextProfileCandidate() started.
+◇ Test missingIOPSIdentityFallsBackToValidSMC() started.
+◇ Test cleanupRemovesOrphanedMarkedSession() started.
+◇ Test multipleInternalDevicesAreUnavailable() started.
+◇ Test cleanupRejectsPathOutsideSessionsRoot() started.
+◇ Test invalidEncodingAndLengthDoNotBecomeSSD() started.
+◇ Test keepsSegmentsSeparateInResults() started.
+◇ Test rawAndEMABuffersAreIndependent() started.
+◇ Test stopIsIdempotent() started.
+◇ Test profilePrefersValidIOPSTemperatureOverSMC() started.
+◇ Test cleanupSkipsDirectoryWithMismatchedMarker() started.
+◇ Test cleanupPreservesExcludedActiveSession() started.
+◇ Test nonFiniteIOPSCannotDisplaceValidSMCBattery() started.
+◇ Test corruptedActiveDatabaseIsNotAutoDeleted() started.
+◇ Test unattemptedProviderFactsRemainNilAndAreOmitted() started.
+◇ Test secondLockHolderFailsWhileFirstHeld() started.
+◇ Test missingAndFailedLookupsRoundTripWithoutLocation() started.
+◇ Test cleanupSkipsDirectoryWithoutMarker() started.
+◇ Test fatalDisplayReceiptExpiresAfterConfiguredDuration() started.
+◇ Test encoderRejectsFoundWithoutLocation() started.
+◇ Test lockReleaseAllowsNewHolder() started.
+◇ Test rejectsFoundWithoutValidLocation() started.
+◇ Test secondBatchReusesExistingMetadataRows() started.
+◇ Test roundTripsRealNVMeInterconnectFacts() started.
+◇ Test batchStoresAggregatesTrendsAndSampleMembers() started.
+◇ Test absentOptionalProvidersProduceExplicitCapabilityRecords() started.
+◇ Test rejectsUnknownAndNonstringLookupStates() started.
+◇ Test fatalStateRejectsLaterRunningSnapshots() started.
+◇ Test historyChartStatesAreMutuallyExclusive() started.
+◇ Test sleepWakeOpensAndClosesSleepGap() started.
+◇ Test staleHidesValueAfterThreshold() started.
+◇ Test walHardLimitTriggersCapacityFailure() started.
+◇ Test gapEndRejectsConflictingClosure() started.
+◇ Test repeatedBatchIsIdempotent() started.
+◇ Test integrationAdvancePersistsBuckets() started.
+◇ Test sameSecondSegmentChangeKeepsBucketsSeparate() started.
+◇ Test sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets() started.
+◇ Test emptyWindowProducesNoBucket() started.
+◇ Test sparseTenSecondWindowClosesPartial() started.
+◇ Test inFlightRequestDefersWindowClosure() started.
+◇ Test failedStateDoesNotPromotePreviousToReady() started.
+◇ Test pointExactlyOnBoundaryGoesToNextWindow() started.
+◇ Test valueStatesAreMutuallyExclusive() started.
+◇ Test snapshotGenerationRegressionIsRejected() started.
+◇ Test failedTransactionRollsBackPartialBatch() started.
+◇ Test parentMergeUsesWeightedAverage() started.
+◇ Test cleanupRequiresHeldLock() started.
+◇ Test gapsAreIncludedInReadyState() started.
+◇ Test profileRegistryMarksMissingCPUKeyUnavailable() started.
+◇ Test plotSegmentsBreakOnSegmentBoundaries() started.
+◇ Test multipleSeriesAreRetainedUpToLimit() started.
+◇ Test chartStatesAreMutuallyExclusive() started.
+◇ Test optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+◇ Test peakMaxIsPreservedFromEnvelope() started.
+◇ Test nvmeKelvin300Is26Point85C() started.
+◇ Test profileRegistryRejectsDuplicateCPUKey() started.
+◇ Test profileRegistryKeepsDistinctHIDRegistryIDs() started.
+◇ Test batterySkipsBooleanIopsForTB1T() started.
+◇ Test hidMissingEventDoesNotYieldZeroCelsius() started.
+◇ Test oneSecondWindowAggregatesRawSamples() started.
+◇ Test nvmeRejectsParentTreeCycle() started.
+◇ Test stopDuringReadDoesNotAcceptLateResponse() started.
+◇ Test sameBatchIDDifferentPayloadIsIntegrityFailure() started.
+◇ Test gapEndAllowsMonotonicNullToValueUpdate() started.
+◇ Test nvmeSelectsUniqueInternalCandidate() started.
+◇ Test metricResolverDoesNotInferTenPhysicalCores() started.
+◇ Test profileRegistryRejectsEncodingMismatch() started.
+◇ Test batterySkipsIopsBooleanAndDoesNotFabricateZero() started.
+◇ Test hidKeepsSameNameWithDifferentRegistryIDs() started.
+◇ Test sessionMetadataRoundTrip() started.
+◇ Test taggedUUIDTypesEncodeAndDecode() started.
+◇ Test batteryFallsBackToTB1TWhenIopsMissing() started.
+◇ Test nvmeKelvinZeroIsNotReported() started.
+◇ Test processingReceiptAndPersistenceOwnerRoundTrip() started.
+◇ Test machBasisAndSystemClockSleepPastDeadline() started.
+◇ Test configurationLoadsFromTemporaryFiles() started.
+◇ Test presentationAndMonitorFailureRoundTrip() started.
+◇ Test configurationUnreadableFileThrows() started.
+◇ Test batteryPrefersIopsCFNumber() started.
+◇ Test profileQualifiesOnlyHighestPrioritySMCBatterySource() started.
+◇ Test risingTrendAboveStableBand() started.
+◇ Test sensorTransportAndQualifiedCatalogRoundTrip() started.
+◇ Test schedulingScriptMatchesControlledPlan() started.
+◇ Test twoPointsIsInsufficient() started.
+◇ Test gapSegmentExcludesOlderPoints() started.
+◇ Test staleThresholdUsesMaxThreePeriodsOrTwoSeconds() started.
+◇ Test profileRegistryQualifiesAllTwelveCPUKeys() started.
+◇ Test periodChangeDoesNotTriggerTimeoutGap() started.
+◇ Test historyAndGapRoundTrip() started.
+◇ Test closingGapIncrementsSegmentAndResetsEMA() started.
+◇ Test bucketTrendAndSampleRoundTrip() started.
+◇ Test successDiscoverReturnsCatalog() started.
+◇ Test missingOneRequiredCPUMemberStopsStartup() started.
+◇ Test rejectedCommitDoesNotAdvanceGapState() started.
+◇ Test readAndPersistenceBatchRoundTrip() started.
+◇ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() started.
+◇ Test uiHistoryBudgetIsIndependentFromDatabaseBudget() started.
+◇ Test pausedWriterBlocksCommitUntilReleased() started.
+◇ Test optionalSensorExhaustionMarksUnavailable() started.
+◇ Test highWatermarkPausesAndLowWatermarkResumes() started.
+◇ Test rejectsInvalidJSON() started.
+◇ Test unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget() started.
+◇ Test doubleCommitIsIntegrityFailure() started.
+◇ Test rejectsUnknownContractVersion() started.
+◇ Test rejectsContractVersionTwoWithoutNVMeFacts() started.
+◇ Test wrongGenerationCommitIsIntegrityFailure() started.
+◇ Test rejectsInvalidRetentionOrdering() started.
+◇ Test bundledProfileHasTwelveCaseSensitiveKeys() started.
+◇ Test sensorRetriesUseExactWaitSequence() started.
+◇ Test successResetsRetryBudget() started.
+◇ Test engineCommitFailureDoesNotAdvanceSnapshotGeneration() started.
+◇ Test fallingTrendBelowStableBand() started.
+◇ Test stableTrendAtTwoHundredthsPerSecond() started.
+◇ Test rejectsContractVersionOne() started.
+◇ Test rejectsReserveExceedingFlush() started.
+◇ Test rejectsInvalidWriterWatermarkOrdering() started.
+◇ Test gapReasonsPersistThroughMarkGap() started.
+◇ Test rejectsMissingRequiredField() started.
+◇ Test forgedReservationIsIntegrityFailure() started.
+◇ Test nvmeRejectsMultipleInternalCandidates() started.
+◇ Test bundledRevisionThreeDefaultsLoad() started.
+◇ Test rejectsDuplicateOrReorderedCPUKeys() started.
+◇ Test advanceEmitsTrendFromEMAHistory() started.
+◇ Test qualifiedClientMapsSourceIDsToReadBatch() started.
+◇ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() started.
+◇ Test coverageBelowEightyPercentIsInsufficient() started.
+◇ Test cancelledLeaseCannotCommit() started.
+◇ Test preparingOrFailingWakeDoesNotAdvanceSegment() started.
+◇ Test nonRetryableFailureEscalatesImmediately() started.
+◇ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() started.
+◇ Test rejectsNegativeCapacity() started.
+◇ Test failedReadCommitCanRetryWithoutAdvancingSamplesOrSequence() started.
+◇ Test pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges() started.
+◇ Test failedAggregationCommitRetainsWindowForRetry() started.
+◇ Test inFlightRegistrationSurvivesAggregationCommit() started.
+◇ Test concurrentAcceptsCommitDistinctSampleIDsAndOrderedEMA() started.
+◇ Test reserveAboveEventLimitIsIntegrityFailure() started.
+◇ Test commitPersistsExactlyOnce() started.
+◇ Test case passing 1 argument periodMS → 100 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 50 to fiveMinutesPreservesFullRangeAndExtrema(periodMS:) started.
+◇ Test wakeFirstReadUsesNewRequestIdentity() started.
+◇ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() started.
+◇ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() started.
+TemperatureMonitor fatal report: SENSOR-READ-002 | SamplingService | read | transport_error
+◇ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() started.
+◇ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() started.
+◇ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() started.
+◇ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() started.
+◇ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() started.
+◇ Test normalLongerPeriodDoesNotCreateFalseGap() started.
+◇ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() started.
+◇ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() started.
+◇ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() started.
+◇ Test case passing 1 argument range → .fiveMinutes to suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+◇ Test fiveMinuteHistoryRetainsPriorSourceDefinitionWithoutJoiningSeries() started.
+◇ Test case passing 1 argument rejectThirdReceipt → false to optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+◇ Test emaUsesActualElapsedTime() started.
+◇ Test rejectsNonPositiveDeltaTime() started.
+◇ Test gapBatchSurvivesPersistenceRoundTrip() started.
+◇ Test fullCPURawToHistorySoftwareLoop() started.
+◇ Test transientDatabaseBusyUsesRetryPolicy() started.
+◇ Test databaseBackpressureBlocksAdditionalReserve() started.
+◇ Test sessionCloseRemovesDatabaseSidecars() started.
+✔ Test onePointBudgetRejectsAContinuousRunWithTwoBoundaries() passed after 0.077 seconds.
+✔ Test explicitGapBreaksLineEvenWithinOneSegment() passed after 0.077 seconds.
+✔ Test extraSourceVersionsAreRejectedExplicitly() passed after 0.077 seconds.
+✔ Test missingHIDEventDoesNotFabricateZeroCelsius() passed after 0.078 seconds.
+✔ Test twoPointBudgetPreservesEnvelopeAndSampleCount() passed after 0.078 seconds.
+✔ Test insufficientBudgetFailsInsteadOfDroppingSegments() passed after 0.078 seconds.
+✔ Test structuralDatabaseFailuresAreNotRetryable() passed after 0.077 seconds.
+✔ Test transientDatabaseBusyIsRetryable() passed after 0.077 seconds.
+✔ Test sensorBudgetMatchesContract() passed after 0.078 seconds.
+✔ Test uiHistoryBudgetMatchesContract() passed after 0.078 seconds.
+✔ Test processingValidateIsNotRetryable() passed after 0.078 seconds.
+✔ Test distinctHIDRegistryIDsAreNotMerged() passed after 0.078 seconds.
+✔ Test sourceVersionsKeepTheirDefinitionsAndIndependentLines() passed after 0.078 seconds.
+✔ Test sensorBridgeSourceContainsNoWriteOrPrivilegeSymbols() passed after 0.078 seconds.
+✔ Test aggregateReductionRetainsWeightedMeanAndTotalCount() passed after 0.078 seconds.
+✔ Test appResourcesMatchBundledContracts() passed after 0.078 seconds.
+✔ Test databaseBudgetMatchesContract() passed after 0.078 seconds.
+✔ Test safeWatermarkCapsAtBlockedWindowEnd() passed after 0.078 seconds.
+✔ Test reportWriterReturnsFallbackWhenDirectoryIsNotWritable() passed after 0.078 seconds.
+✔ Test rejectsNonCanonicalUUID() passed after 0.078 seconds.
+✔ Test upstreamRollbackDoesNotReplayOldSample() passed after 0.078 seconds.
+✔ Test reportWriterDoesNotIncludeMachineSerialField() passed after 0.078 seconds.
+✔ Test staleGenerationIsRejectedWithoutStateChange() passed after 0.078 seconds.
+✔ Test rejectsResponseRequestIDMismatch() passed after 0.078 seconds.
+✔ Test twelveQualifiedSourcesDoNotInferTenPhysicalCores() passed after 0.078 seconds.
+✔ Test rejectsUnknownCommand() passed after 0.078 seconds.
+✔ Test rejectsOversizeFrame() passed after 0.079 seconds.
+✔ Test receiptMismatchDoesNotAdvanceSnapshotGeneration() passed after 0.079 seconds.
+✔ Test rejectsFloatingPointGeneration() passed after 0.079 seconds.
+✔ Test smcRejectsTemperatureBelowAbsoluteZero() passed after 0.079 seconds.
+✔ Test rejectsWrongVersion() passed after 0.079 seconds.
+✔ Test rejectsSourceIDOnWire() passed after 0.079 seconds.
+✔ Test inFlightReadingBlocksOneSecondClosure() passed after 0.079 seconds.
+✔ Test sensorReadFailureIsRetryable() passed after 0.078 seconds.
+✔ Test reportWriterCreatesBoundedReportFile() passed after 0.079 seconds.
+✔ Test rejectsResponseGenerationMismatch() passed after 0.079 seconds.
+✔ Test loggerPrunesFilesOlderThanTTL() passed after 0.080 seconds.
+✔ Test rejectsBadJSON() passed after 0.079 seconds.
+✔ Test protocolFailureUsesSensorProtocolCode() passed after 0.080 seconds.
+✔ Test discoverAndReadRoundTrip() passed after 0.079 seconds.
+✔ Test decodesNegativeSignedFixedPoint() passed after 0.079 seconds.
+✔ Test encodingMatchingIsCaseSensitive() passed after 0.079 seconds.
+✔ Test decodesLittleEndianFloatAs25Point5C() passed after 0.079 seconds.
+✔ Test unknownClosedEnumFailsDecoding() passed after 0.079 seconds.
+✔ Test decodesBigEndianSignedFixedPointAs25Point5C() passed after 0.079 seconds.
+✔ Test timestampPreservesNanoseconds() passed after 0.080 seconds.
+✔ Test presentationStateIsMutuallyExclusive() passed after 0.080 seconds.
+✔ Test reportWriterKeepsAtMostConfiguredReportCount() passed after 0.080 seconds.
+✔ Test persistenceLeaseHasNoPublicCodableOrEmptyInit() passed after 0.080 seconds.
+✔ Test metricIDRejectsInvalidAndEmptyValues() passed after 0.080 seconds.
+✔ Test rejectsWrongLengthUnknownEncodingAndNonFiniteValues() passed after 0.080 seconds.
+✔ Test qualifiedSMCReadingRejectsChangedEncodingAndLength() passed after 0.080 seconds.
+✔ Test iopsAcceptsCelsiusCFNumberAndRejectsMissingBooleanInvalidValues() passed after 0.080 seconds.
+✔ Test readingOutcomeCannotCarrySuccessAndFailure() passed after 0.080 seconds.
+✔ Test rawKeysAreCaseSensitive() passed after 0.080 seconds.
+✔ Test decodesSmartKelvinLittleEndian() passed after 0.080 seconds.
+✔ Test integerTickConversionRoundTripsExactNanoseconds() passed after 0.079 seconds.
+✔ Test lateSampleLandsInSecondBucketAfterSafeAdvance() passed after 0.080 seconds.
+✔ Test segmentBoundariesSurviveDownsampling() passed after 0.080 seconds.
+✔ Test taggedUUIDRequiresCanonicalLowercase() passed after 0.080 seconds.
+✔ Test callerCannotAccessRawSQLiteConnection() passed after 0.079 seconds.
+✔ Test requestedPointBudgetIsRespectedAcrossEntireRange() passed after 0.080 seconds.
+✔ Test smcBridgeSourceContainsNoWriteOrPrivilegeSymbols() passed after 0.080 seconds.
+✔ Test sharedBasisProducesSameOriginForTwoClocks() passed after 0.080 seconds.
+✔ Test repeatedRequestCannotClaimNewUnconsumedLease() passed after 0.080 seconds.
+✔ Test upstreamRollbackDoesNotCreateSample() passed after 0.080 seconds.
+✔ Test rejectsNonFiniteAndBelowAbsoluteZero() passed after 0.080 seconds.
+✔ Test systemClockElapsedIsMonotonicAcrossTwoReads() passed after 0.080 seconds.
+✔ Test elapsedContinuesWhenWallClockRewinds() passed after 0.080 seconds.
+✔ Test staleGenerationIsRejected() passed after 0.080 seconds.
+✔ Test cpuMaxSkippedWhenMemberMissing() passed after 0.080 seconds.
+✔ Test repeatedRequestIsIdempotent() passed after 0.080 seconds.
+✔ Test cpuMaxSkippedWhenBatchSpanTooLarge() passed after 0.080 seconds.
+✔ Test nonMonotonicElapsedIsRejected() passed after 0.080 seconds.
+✔ Test cpuMaxSkippedWhenDuplicateSource() passed after 0.080 seconds.
+✔ Test finalizedReservationMetadataDoesNotGrowWithSessionReads() passed after 0.081 seconds.
+✔ Test cpuMaxEMAFollowsDerivedSeries() passed after 0.080 seconds.
+✔ Test failureReadingProducesNoSample() passed after 0.080 seconds.
+✔ Test fiveMinutesPreservesFullRangeAndExtrema(periodMS:) with 2 test cases passed after 0.080 seconds.
+✔ Test rejectsThirtyThirdActiveSeries() passed after 0.080 seconds.
+✔ Test cpuMaxTracksHotspotAcrossBatches() passed after 0.080 seconds.
+✔ Test duplicateTemperatureValuesKeepSeparateSamples() passed after 0.080 seconds.
+✔ Test enforcesCapacityAfterWindowPrune() passed after 0.080 seconds.
+✔ Test externalDeviceDoesNotDisplaceUniqueInternalDevice() passed after 0.080 seconds.
+✔ Test loggerRotatesAtConfiguredSize() passed after 0.081 seconds.
+✔ Test sameRequestIDDifferentPayloadFails() passed after 0.080 seconds.
+✔ Test thirtyThirdSeriesIsRejected() passed after 0.080 seconds.
+✔ Test externalOnlyIsUnavailableWithoutStoppingCPU() passed after 0.080 seconds.
+✔ Test duplicateTransportHandleCannotReadAnotherDeviceAsSSD() passed after 0.080 seconds.
+✔ Test optionalIdentityIncludesGenerationAndSelectedProvider() passed after 0.080 seconds.
+✔ Test foundRequiresNonemptyLocationAndRealRegistryIdentity() passed after 0.080 seconds.
+✔ Test processingBudgetMatchesContract() passed after 0.080 seconds.
+✔ Test duplicateBatteryIdentityIsUnavailableWithoutStoppingCPU() passed after 0.080 seconds.
+✔ Test uniqueInternalNVMeIsQualifiedWithRealIdentityAndKelvinEvidence() passed after 0.080 seconds.
+✔ Test badBatteryEncodingFallsThroughToNextProfileCandidate() passed after 0.079 seconds.
+✔ Test multipleInternalDevicesAreUnavailable() passed after 0.080 seconds.
+✔ Test missingIOPSIdentityFallsBackToValidSMC() passed after 0.079 seconds.
+✔ Test invalidEncodingAndLengthDoNotBecomeSSD() passed after 0.079 seconds.
+✔ Test cleanupRemovesOrphanedMarkedSession() passed after 0.079 seconds.
+✔ Test cleanupRejectsPathOutsideSessionsRoot() passed after 0.079 seconds.
+✔ Test rawAndEMABuffersAreIndependent() passed after 0.080 seconds.
+✔ Test cleanupRejectsSymlinkedSessionDirectory() passed after 0.080 seconds.
+✔ Test profilePrefersValidIOPSTemperatureOverSMC() passed after 0.079 seconds.
+✔ Test nonFiniteIOPSCannotDisplaceValidSMCBattery() passed after 0.079 seconds.
+✔ Test unattemptedProviderFactsRemainNilAndAreOmitted() passed after 0.080 seconds.
+✔ Test cleanupPreservesExcludedActiveSession() passed after 0.080 seconds.
+✔ Test secondLockHolderFailsWhileFirstHeld() passed after 0.080 seconds.
+✔ Test cleanupSkipsDirectoryWithMismatchedMarker() passed after 0.080 seconds.
+✔ Test missingAndFailedLookupsRoundTripWithoutLocation() passed after 0.080 seconds.
+✔ Test fatalDisplayReceiptExpiresAfterConfiguredDuration() passed after 0.080 seconds.
+✔ Test encoderRejectsFoundWithoutLocation() passed after 0.080 seconds.
+✔ Test rejectsFoundWithoutValidLocation() passed after 0.080 seconds.
+✔ Test obsoleteContractTokensAreAbsentFromSources() passed after 0.081 seconds.
+✔ Test roundTripsRealNVMeInterconnectFacts() passed after 0.080 seconds.
+✔ Test absentOptionalProvidersProduceExplicitCapabilityRecords() passed after 0.080 seconds.
+✔ Test rejectsUnknownAndNonstringLookupStates() passed after 0.080 seconds.
+✔ Test lockReleaseAllowsNewHolder() passed after 0.080 seconds.
+✔ Test corruptedActiveDatabaseIsNotAutoDeleted() passed after 0.080 seconds.
+✔ Test emptyWindowProducesNoBucket() passed after 0.080 seconds.
+✔ Test sparseTenSecondWindowClosesPartial() passed after 0.080 seconds.
+✔ Test inFlightRequestDefersWindowClosure() passed after 0.080 seconds.
+✔ Test failedStateDoesNotPromotePreviousToReady() passed after 0.080 seconds.
+✔ Test integrationAdvancePersistsBuckets() passed after 0.080 seconds.
+✔ Test gapsAreIncludedInReadyState() passed after 0.080 seconds.
+✔ Test parentMergeUsesWeightedAverage() passed after 0.080 seconds.
+✔ Test sameSecondSegmentChangeKeepsBucketsSeparate() passed after 0.080 seconds.
+✔ Test pointExactlyOnBoundaryGoesToNextWindow() passed after 0.080 seconds.
+✔ Test chartStatesAreMutuallyExclusive() passed after 0.080 seconds.
+✔ Test plotSegmentsBreakOnSegmentBoundaries() passed after 0.080 seconds.
+✔ Test cleanupSkipsDirectoryWithoutMarker() passed after 0.081 seconds.
+✔ Test peakMaxIsPreservedFromEnvelope() passed after 0.080 seconds.
+✔ Test multipleSeriesAreRetainedUpToLimit() passed after 0.080 seconds.
+✔ Test missingFailedAndUnattemptedInterconnectFactsBlockSelection() passed after 0.081 seconds.
+✔ Test profileRegistryKeepsDistinctHIDRegistryIDs() passed after 0.080 seconds.
+✔ Test batterySkipsBooleanIopsForTB1T() passed after 0.080 seconds.
+✔ Test profileRegistryMarksMissingCPUKeyUnavailable() passed after 0.080 seconds.
+✔ Test nvmeRejectsParentTreeCycle() passed after 0.080 seconds.
+✔ Test profileRegistryRejectsDuplicateCPUKey() passed after 0.080 seconds.
+✔ Test oneSecondWindowAggregatesRawSamples() passed after 0.080 seconds.
+✔ Test hidMissingEventDoesNotYieldZeroCelsius() passed after 0.080 seconds.
+✔ Test nvmeSelectsUniqueInternalCandidate() passed after 0.080 seconds.
+✔ Test profileRegistryRejectsEncodingMismatch() passed after 0.080 seconds.
+✔ Test metricResolverDoesNotInferTenPhysicalCores() passed after 0.080 seconds.
+✔ Test batterySkipsIopsBooleanAndDoesNotFabricateZero() passed after 0.080 seconds.
+✔ Test sessionMetadataRoundTrip() passed after 0.080 seconds.
+✔ Test batteryFallsBackToTB1TWhenIopsMissing() passed after 0.080 seconds.
+✔ Test nvmeKelvinZeroIsNotReported() passed after 0.080 seconds.
+✔ Test machBasisAndSystemClockSleepPastDeadline() passed after 0.080 seconds.
+✔ Test processingReceiptAndPersistenceOwnerRoundTrip() passed after 0.080 seconds.
+✔ Test taggedUUIDTypesEncodeAndDecode() passed after 0.080 seconds.
+✔ Test batteryPrefersIopsCFNumber() passed after 0.080 seconds.
+✔ Test presentationAndMonitorFailureRoundTrip() passed after 0.080 seconds.
+✔ Test configurationUnreadableFileThrows() passed after 0.080 seconds.
+✔ Test profileQualifiesOnlyHighestPrioritySMCBatterySource() passed after 0.081 seconds.
+✔ Test risingTrendAboveStableBand() passed after 0.080 seconds.
+✔ Test hidKeepsSameNameWithDifferentRegistryIDs() passed after 0.080 seconds.
+✔ Test configurationLoadsFromTemporaryFiles() passed after 0.080 seconds.
+✔ Test twoPointsIsInsufficient() passed after 0.080 seconds.
+✔ Test gapSegmentExcludesOlderPoints() passed after 0.080 seconds.
+✔ Test sensorTransportAndQualifiedCatalogRoundTrip() passed after 0.080 seconds.
+✔ Test historyAndGapRoundTrip() passed after 0.080 seconds.
+✔ Test nvmeKelvin300Is26Point85C() passed after 0.080 seconds.
+✔ Test periodChangeDoesNotTriggerTimeoutGap() passed after 0.080 seconds.
+✔ Test bucketTrendAndSampleRoundTrip() passed after 0.080 seconds.
+✔ Test rejectedCommitDoesNotAdvanceGapState() passed after 0.080 seconds.
+✔ Test profileRegistryQualifiesAllTwelveCPUKeys() passed after 0.080 seconds.
+✔ Test closingGapIncrementsSegmentAndResetsEMA() passed after 0.080 seconds.
+✔ Test optionalSensorExhaustionMarksUnavailable() passed after 0.080 seconds.
+✔ Test rejectsInvalidJSON() passed after 0.080 seconds.
+✔ Test readAndPersistenceBatchRoundTrip() passed after 0.080 seconds.
+✔ Test rejectsUnknownContractVersion() passed after 0.080 seconds.
+✔ Test rejectsContractVersionTwoWithoutNVMeFacts() passed after 0.080 seconds.
+✔ Test bundledProfileHasTwelveCaseSensitiveKeys() passed after 0.080 seconds.
+✔ Test rejectsInvalidRetentionOrdering() passed after 0.080 seconds.
+✔ Test sensorRetriesUseExactWaitSequence() passed after 0.080 seconds.
+✔ Test successResetsRetryBudget() passed after 0.080 seconds.
+✔ Test engineCommitFailureDoesNotAdvanceSnapshotGeneration() passed after 0.080 seconds.
+✔ Test stableTrendAtTwoHundredthsPerSecond() passed after 0.080 seconds.
+✔ Test fallingTrendBelowStableBand() passed after 0.080 seconds.
+✔ Test rejectsReserveExceedingFlush() passed after 0.080 seconds.
+✔ Test rejectsContractVersionOne() passed after 0.080 seconds.
+✔ Test rejectsMissingRequiredField() passed after 0.080 seconds.
+✔ Test uiHistoryBudgetIsIndependentFromDatabaseBudget() passed after 0.080 seconds.
+✔ Test rejectsInvalidWriterWatermarkOrdering() passed after 0.080 seconds.
+✔ Test cleanupRequiresHeldLock() passed after 0.081 seconds.
+✔ Test bundledRevisionThreeDefaultsLoad() passed after 0.080 seconds.
+✔ Test nvmeRejectsMultipleInternalCandidates() passed after 0.081 seconds.
+✔ Test qualifiedClientMapsSourceIDsToReadBatch() passed after 0.081 seconds.
+✔ Test coverageBelowEightyPercentIsInsufficient() passed after 0.081 seconds.
+✔ Test advanceEmitsTrendFromEMAHistory() passed after 0.081 seconds.
+✔ Test nonRetryableFailureEscalatesImmediately() passed after 0.081 seconds.
+✔ Test rejectsDuplicateOrReorderedCPUKeys() passed after 0.081 seconds.
+✔ Test preparingOrFailingWakeDoesNotAdvanceSegment() passed after 0.081 seconds.
+✔ Test rejectsNegativeCapacity() passed after 0.081 seconds.
+✔ Test failedReadCommitCanRetryWithoutAdvancingSamplesOrSequence() passed after 0.081 seconds.
+✔ Test pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges() passed after 0.081 seconds.
+✔ Test failedAggregationCommitRetainsWindowForRetry() passed after 0.081 seconds.
+✔ Test gapReasonsPersistThroughMarkGap() passed after 0.081 seconds.
+✔ Test batteryCacheKeepsItsIndependentThreeSecondLifetime() passed after 0.084 seconds.
+✔ Test sessionMetadataRoundTripThroughStore() passed after 0.083 seconds.
+✔ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() passed after 0.074 seconds.
+✔ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() passed after 0.075 seconds.
+✔ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() passed after 0.074 seconds.
+✔ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() passed after 0.075 seconds.
+✔ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() passed after 0.073 seconds.
+✔ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() passed after 0.072 seconds.
+✔ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() passed after 0.072 seconds.
+✔ Test bundledSchemaSetsUserVersionForeignKeysAndViews() passed after 0.083 seconds.
+✔ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() passed after 0.074 seconds.
+✔ Test fatalStateRejectsLaterRunningSnapshots() passed after 0.083 seconds.
+✔ Test historyChartStatesAreMutuallyExclusive() passed after 0.083 seconds.
+✔ Test staleHidesValueAfterThreshold() passed after 0.083 seconds.
+✔ Test valueStatesAreMutuallyExclusive() passed after 0.083 seconds.
+✔ Test snapshotGenerationRegressionIsRejected() passed after 0.083 seconds.
+✔ Test normalLongerPeriodDoesNotCreateFalseGap() passed after 0.074 seconds.
+✔ Test staleThresholdUsesMaxThreePeriodsOrTwoSeconds() passed after 0.083 seconds.
+✔ Test fiveMinuteHistoryRetainsPriorSourceDefinitionWithoutJoiningSeries() passed after 0.026 seconds.
+✔ Test rejectsNonPositiveDeltaTime() passed after 0.010 seconds.
+✔ Test transientDatabaseBusyUsesRetryPolicy() passed after 0.010 seconds.
+✔ Test emaUsesActualElapsedTime() passed after 0.011 seconds.
+✔ Suite "TC-UPSTREAM-BOUNDARY" passed after 0.086 seconds.
+✔ Suite RetryPolicyTests passed after 0.086 seconds.
+✔ Suite AppBundleConfigurationTests passed after 0.086 seconds.
+✔ Suite WatermarkTests passed after 0.086 seconds.
+✔ Suite WorkerProtocolTests passed after 0.086 seconds.
+✔ Suite SensorDecodingTests passed after 0.086 seconds.
+✔ Suite ContractTests passed after 0.086 seconds.
+✔ Suite NVMeSourceQualificationTests passed after 0.086 seconds.
+✔ Suite ProcessingIdentityTests passed after 0.086 seconds.
+✔ Suite OptionalSourceQualificationTests passed after 0.086 seconds.
+✔ Suite DiscoveryFactsProtocolTests passed after 0.086 seconds.
+✔ Suite AggregationTests passed after 0.086 seconds.
+✔ Suite HistoryChartModelTests passed after 0.086 seconds.
+✔ Suite SourceRegistryTests passed after 0.086 seconds.
+✔ Suite ContractCoverageTests passed after 0.086 seconds.
+✔ Suite TrendTests passed after 0.086 seconds.
+✔ Suite ErrorCoordinatorTests passed after 0.086 seconds.
+✔ Suite ConfigurationTests passed after 0.086 seconds.
+✔ Suite PresentationHistoryRegressionTests passed after 0.087 seconds.
+✔ Suite EMAProcessorTests passed after 0.087 seconds.
+✔ Suite PresentationModelTests passed after 0.087 seconds.
+◇ Test forgedCancellationDoesNotInvalidateTheAuthenticLease() started.
+✔ Test coordinatorAcceptsScheduledReadThroughLeaseAndCommit() passed after 0.085 seconds.
+✔ Test inFlightRegistrationSurvivesAggregationCommit() passed after 0.083 seconds.
+◇ Test qualifiedUnavailableOptionalCapabilityHasVisibleRowWithoutSamples() started.
+◇ Test staleGenerationReadIsDiscardedWithoutAccept() started.
+✔ Test concurrentAcceptsCommitDistinctSampleIDsAndOrderedEMA() passed after 0.084 seconds.
+✔ Suite CommitRegressionTests passed after 0.089 seconds.
+✔ Test concurrentSleepsResumeOnceAndCancelRemovesOneWaiter() passed after 0.088 seconds.
+✔ Suite ClockTests passed after 0.090 seconds.
+✔ Test returnsEmptyResultWhenNoData() passed after 0.124 seconds.
+✔ Test sessionPersistenceOpenPersistsMetadata() passed after 0.145 seconds.
+✔ Test fiftyMillisecondPeriodWithOneTwentyMillisecondReadDoesNotOverlap() passed after 0.151 seconds.
+◇ Test simultaneousDueSchedulesPreferCPU() started.
+✔ Test rejectsMoreThanEightSeries() passed after 0.155 seconds.
+✔ Test repeatedBatchIsIdempotentThroughFixture() passed after 0.166 seconds.
+✔ Test gapEndRejectsConflictingClosure() passed after 0.166 seconds.
+✔ Test sqliteBudgetAppliesAcrossSegmentsWithoutLosingPeaksOrCounts() passed after 0.170 seconds.
+✔ Suite HistoryBudgetRegressionTests passed after 0.171 seconds.
+✔ Test retainsRawWithoutOneSecondParent() passed after 0.173 seconds.
+◇ Test case passing 1 argument range → .oneHour to suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) started.
+✔ Test badUserVersionFailsWithSchemaFatal() passed after 0.176 seconds.
+✔ Test pruneAfterLongSleepRemovesExpiredRows() passed after 0.180 seconds.
+✔ Test rejectsFiveMinuteSQLiteRange() passed after 0.181 seconds.
+✔ Test batchStoresAggregatesTrendsAndSampleMembers() passed after 0.181 seconds.
+✔ Test secondBatchReusesExistingMetadataRows() passed after 0.182 seconds.
+✔ Test highWatermarkPausesAndLowWatermarkResumes() passed after 0.183 seconds.
+✔ Test doubleCommitIsIntegrityFailure() passed after 0.183 seconds.
+✔ Test pausedWriterBlocksCommitUntilReleased() passed after 0.185 seconds.
+✔ Test forgedReservationIsIntegrityFailure() passed after 0.186 seconds.
+✔ Test runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep() passed after 0.190 seconds.
+◇ Test expiredRequestCannotBeReintroducedAsNewTemperature() started.
+✔ Test missingRequiredViewFailsWithSchemaFatal() passed after 0.190 seconds.
+✔ Suite SQLiteStoreTests passed after 0.192 seconds.
+✔ Test stopIsIdempotent() passed after 0.190 seconds.
+✔ Test expiredRequestCannotBeReintroducedAsNewTemperature() passed after 0.002 seconds.
+✔ Suite RuntimeMaintenanceRegressionTests passed after 0.194 seconds.
+✔ Test sessionCloseRemovesDatabaseSidecars() passed after 0.118 seconds.
+✔ Test keepsSegmentsSeparateInResults() passed after 0.192 seconds.
+✔ Test repeatedBatchIsIdempotent() passed after 0.195 seconds.
+✔ Test cleanupGraceExceededIsFatal() passed after 0.197 seconds.
+✔ Test cancelledLeaseCannotCommit() passed after 0.195 seconds.
+✔ Test deletesAggregateExactlyAtCutoff() passed after 0.198 seconds.
+✔ Suite RetentionTests passed after 0.200 seconds.
+✔ Test commitPersistsExactlyOnce() passed after 0.197 seconds.
+✔ Test missingOneRequiredCPUMemberStopsStartup() passed after 0.199 seconds.
+◇ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() started.
+✔ Test databaseBackpressureBlocksAdditionalReserve() passed after 0.127 seconds.
+✔ Test wrongGenerationCommitIsIntegrityFailure() passed after 0.200 seconds.
+✔ Test shutdownRecordsCompletedSteps() passed after 0.203 seconds.
+✔ Test gapBatchSurvivesPersistenceRoundTrip() passed after 0.130 seconds.
+✔ Test reserveAboveEventLimitIsIntegrityFailure() passed after 0.202 seconds.
+✔ Test failedTransactionRollsBackPartialBatch() passed after 0.203 seconds.
+✔ Suite BackpressureTests passed after 0.206 seconds.
+✔ Test sameBatchIDDifferentPayloadIsIntegrityFailure() passed after 0.205 seconds.
+✔ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() passed after 0.198 seconds.
+✔ Suite EngineGapRegressionTests passed after 0.209 seconds.
+✔ Test stopDuringReadDoesNotAcceptLateResponse() passed after 0.208 seconds.
+✔ Test gapEndAllowsMonotonicNullToValueUpdate() passed after 0.207 seconds.
+✔ Test fatalFreezeStopsIOButPreservesDatabaseUntilQuit() passed after 0.208 seconds.
+◇ Test stopWaitsForSessionDeletionAndIsIdempotent() started.
+✔ Test qualifiedUnavailableOptionalCapabilityHasVisibleRowWithoutSamples() passed after 0.124 seconds.
+✔ Suite HistorySourceContinuityRegressionTests passed after 0.212 seconds.
+✔ Test forgedCancellationDoesNotInvalidateTheAuthenticLease() passed after 0.126 seconds.
+◇ Test temporaryWriteFailureRetriesSameBatchAndPayload() started.
+✔ Test longSleepClosesPreSleepPartialBucketsBeforeWakePrunesRaw() passed after 0.213 seconds.
+✔ Suite LongSleepRecoveryRegressionTests passed after 0.215 seconds.
+✔ Test simultaneousDueSchedulesPreferCPU() passed after 0.065 seconds.
+◇ Test nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources() started.
+✔ Test stopWaitsForSessionDeletionAndIsIdempotent() passed after 0.008 seconds.
+✔ Suite RuntimeShutdownRegressionTests passed after 0.220 seconds.
+✔ Test staleGenerationReadIsDiscardedWithoutAccept() passed after 0.133 seconds.
+✔ Test suspendedHistoryIsCancellationWithoutFailureOrNewReceipt(range:) with 2 test cases passed after 0.220 seconds.
+◇ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+◇ Test acceptFailureCancelsLeaseWithoutStateChange() started.
+◇ Test case passing 1 argument range → .fiveMinutes to suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+✔ Test temporaryWriteFailureRetriesSameBatchAndPayload() passed after 0.012 seconds.
+◇ Test lostCommitAcknowledgementRetriesWithoutDuplicateSamples() started.
+◇ Test case passing 1 argument range → .oneHour to suspendedHistoryDoesNotDispatchToClosedPersistence(range:) started.
+✔ Test walHardLimitTriggersCapacityFailure() passed after 0.237 seconds.
+✔ Suite StorageFaultTests passed after 0.240 seconds.
+✔ Test lostCommitAcknowledgementRetriesWithoutDuplicateSamples() passed after 0.015 seconds.
+◇ Test reservationCreatedDuringWriteSurvivesActorReentry() started.
+✔ Test suspendedHistoryDoesNotDispatchToClosedPersistence(range:) with 2 test cases passed after 0.021 seconds.
+◇ Test unstartedAndStoppedHistoryKeepNotRunningFailure() started.
+✔ Test acceptFailureCancelsLeaseWithoutStateChange() passed after 0.025 seconds.
+◇ Test completedNonzeroReadReleasesPlannedWatermarkStart() started.
+✔ Test sleepWakeOpensAndClosesSleepGap() passed after 0.245 seconds.
+✔ Test loggerRetainsAtMostConfiguredFileCount() passed after 0.248 seconds.
+✔ Suite DiagnosticsTests passed after 0.249 seconds.
+✔ Test unstartedAndStoppedHistoryKeepNotRunningFailure() passed after 0.006 seconds.
+◇ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() started.
+✔ Test reservationCreatedDuringWriteSurvivesActorReentry() passed after 0.010 seconds.
+◇ Test writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError() started.
+✔ Test completedNonzeroReadReleasesPlannedWatermarkStart() passed after 0.012 seconds.
+◇ Test failedOrStaleReadReleasesWatermarkRegistration() started.
+✔ Test writeRetryExhaustionUsesFiveAdditionalAttemptsAndWriteError() passed after 0.015 seconds.
+◇ Test integrityConflictIsNotRetried() started.
+✔ Test failedOrStaleReadReleasesWatermarkRegistration() passed after 0.012 seconds.
+◇ Test stopCancelsInFlightReadAndReleasesWatermarkBeforeReturning() started.
+✔ Test integrityConflictIsNotRetried() passed after 0.005 seconds.
+◇ Test walSoftLimitAttemptsTruncateCheckpoint() started.
+✔ Test stopCancelsInFlightReadAndReleasesWatermarkBeforeReturning() passed after 0.006 seconds.
+◇ Test temporaryReservationBackpressurePausesInsteadOfLosingDueRead() started.
+✔ Test walSoftLimitAttemptsTruncateCheckpoint() passed after 0.007 seconds.
+◇ Test effectiveDatabaseSoftLimitPausesNewReservations() started.
+✔ Test wakeResumesCommittedSamplingAndClosedSleepGapHistory() passed after 0.032 seconds.
+✔ Suite SuspendedHistoryRegressionTests passed after 0.282 seconds.
+✔ Test nonzeroCPUReadDoesNotStarveSimultaneouslyDueOptionalSources() passed after 0.065 seconds.
+◇ Test failedOptionalSourceHasFiniteProbesAndNeedsThreeValidReads() started.
+✔ Test effectiveDatabaseSoftLimitPausesNewReservations() passed after 0.006 seconds.
+◇ Test closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles() started.
+✔ Test sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets() passed after 0.289 seconds.
+✔ Suite SessionLifecycleTests passed after 0.292 seconds.
+✔ Test fullCPURawToHistorySoftwareLoop() passed after 0.221 seconds.
+✔ Suite "EndToEndTests" passed after 0.297 seconds.
+✔ Test closeWaitsForAcceptedWriteAndDeletesAllDatabaseFiles() passed after 0.018 seconds.
+✔ Suite StorageLifecycleRegressionTests passed after 0.306 seconds.
+✔ Test schedulingScriptMatchesControlledPlan() passed after 0.345 seconds.
+◇ Test fiveMinuteHistoryUsesRealtimeMemoryPath() started.
+✔ Test wakeFirstReadUsesNewRequestIdentity() passed after 0.368 seconds.
+✔ Suite RequestLifecycleRegressionTests passed after 0.373 seconds.
+✔ Test failedOptionalSourceHasFiniteProbesAndNeedsThreeValidReads() passed after 0.130 seconds.
+◇ Test cpuPeriodChangeRecalculatesNextDue() started.
+✔ Test oneRecoverableTimeoutDoesNotPermanentlyStopProductionSampling() passed after 0.218 seconds.
+◇ Test repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal() started.
+✔ Test cpuPeriodChangeRecalculatesNextDue() passed after 0.036 seconds.
+◇ Test inFlightReadKeepsOldPeriodAfterPeriodChange() started.
+✔ Test fiveMinuteHistoryUsesRealtimeMemoryPath() passed after 0.111 seconds.
+◇ Test longHistoryUsesSQLiteQueryWithPersistedThrough() started.
+✔ Test inFlightReadKeepsOldPeriodAfterPeriodChange() passed after 0.010 seconds.
+◇ Test stopDuringWaitEndsScheduling() started.
+✔ Test temporaryReservationBackpressurePausesInsteadOfLosingDueRead() passed after 0.208 seconds.
+✔ Suite ProcessingCoordinatorTests passed after 0.488 seconds.
+✔ Test stopDuringWaitEndsScheduling() passed after 0.044 seconds.
+◇ Test optionalSourcesMissingDoNotSchedule() started.
+✔ Test concurrentQueriesMatchTheirRequestsOrReportSuperseded() passed after 0.504 seconds.
+✔ Test optionalSourcesMissingDoNotSchedule() passed after 0.004 seconds.
+◇ Test schedulePlannerSkipsOverdueWithoutCatchUp() started.
+✔ Test schedulePlannerSkipsOverdueWithoutCatchUp() passed after 0.001 seconds.
+✔ Suite SamplingServiceTests passed after 0.511 seconds.
+✔ Test downsamplingPreservesPeakAcross8640Buckets() passed after 0.514 seconds.
+✔ Suite HistoryQueryTests passed after 0.516 seconds.
+✔ Test successDiscoverReturnsCatalog() passed after 0.557 seconds.
+◇ Test rejectsOversizeResponse() started.
+✔ Test longHistoryUsesSQLiteQueryWithPersistedThrough() passed after 0.167 seconds.
+◇ Test concurrentControllerHistoryMatchesEachRequestOrReportsSuperseded() started.
+◇ Test case passing 1 argument rejectThirdReceipt → true to optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) started.
+✔ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState() passed after 0.696 seconds.
+✔ Suite OptionalSleepAdmissionRaceRegressionTests passed after 0.699 seconds.
+✔ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource() passed after 0.723 seconds.
+✔ Suite OptionalWakeRecoveryRegressionTests passed after 0.732 seconds.
+✔ Test rejectsOversizeResponse() passed after 0.285 seconds.
+◇ Test rejectsBadJSONResponse() started.
+✔ Test rejectsBadJSONResponse() passed after 0.015 seconds.
+◇ Test rejectsWrongResponseID() started.
+✔ Test rejectsWrongResponseID() passed after 0.020 seconds.
+◇ Test rejectsOldGenerationResponse() started.
+✔ Test optionalRecoveryRequiresThreeCommittedReadsAndKeepsCPUAlive(rejectThirdReceipt:) with 2 test cases passed after 0.892 seconds.
+✔ Suite OptionalAvailabilityIntegrationTests passed after 0.895 seconds.
+✔ Test rejectsOldGenerationResponse() passed after 0.020 seconds.
+◇ Test mapsCrashToProtocolFailure() started.
+✔ Test mapsCrashToProtocolFailure() passed after 0.010 seconds.
+◇ Test closeIsIdempotent() started.
+✔ Test closeIsIdempotent() passed after 0.017 seconds.
+◇ Test respawnsAfterCrashWithNewGeneration() started.
+✔ Test repeatedCPUTimeoutStopsAtRetryBudgetAndReportsFatal() passed after 0.514 seconds.
+◇ Test mismatchedTransportRequestIdentityIsRejected() started.
+✔ Test mismatchedTransportRequestIdentityIsRejected() passed after 0.001 seconds.
+◇ Test reconnectCreatesNewSourceAndSeriesIdentities() started.
+✔ Test reconnectCreatesNewSourceAndSeriesIdentities() passed after 0.001 seconds.
+◇ Test firstCPUFailureHasExplicitMainValueFailureState() started.
+✔ Test firstCPUFailureHasExplicitMainValueFailureState() passed after 0.001 seconds.
+✔ Suite SensorRecoveryRegressionTests passed after 0.938 seconds.
+✔ Test respawnsAfterCrashWithNewGeneration() passed after 0.029 seconds.
+◇ Test discoveredSourcesExposeHandlesNotSourceIDs() started.
+✔ Test unrelatedCPUReconnectMustNotRestartExhaustedOptionalProbeBudget() passed after 0.968 seconds.
+✔ Suite OptionalProbeBudgetAcrossReconnectTests passed after 0.972 seconds.
+✔ Test discoveredSourcesExposeHandlesNotSourceIDs() passed after 0.016 seconds.
+◇ Test successDiscoverAndReadOnSameConnection() started.
+✔ Test sourceGenerationChangeRequiresThreeNewOptionalReceipts() passed after 0.979 seconds.
+✔ Suite OptionalGenerationRecoveryRegressionTests passed after 0.983 seconds.
+✔ Test successDiscoverAndReadOnSameConnection() passed after 0.019 seconds.
+◇ Test discoverTimeoutRecyclesWorker() started.
+✔ Test concurrentControllerHistoryMatchesEachRequestOrReportsSuperseded() passed after 0.379 seconds.
+◇ Test snapshotsPublishAtMostEveryTwoHundredMilliseconds() started.
+✔ Test recoveredTimeoutClosesOldGenerationGapsBeforeInstallingNewSources() passed after 1.059 seconds.
+✔ Suite RecoveredSourceGapRegressionTests passed after 1.061 seconds.
+✔ Test snapshotsPublishAtMostEveryTwoHundredMilliseconds() passed after 0.320 seconds.
+◇ Test bufferingNewestSnapshotDropsIntermediateValues() started.
+✔ Test discoverTimeoutRecyclesWorker() passed after 0.331 seconds.
+◇ Test readTimeoutRecyclesWorker() started.
+✔ Test realWorkerKeepsParentClockOriginAcrossConnectionRestart() passed after 1.381 seconds.
+◇ Test malformedOrFutureParentOriginRejectsWorkerStartup() started.
+✔ Test malformedOrFutureParentOriginRejectsWorkerStartup() passed after 0.160 seconds.
+✔ Suite SessionClockRegressionTests passed after 1.544 seconds.
+✔ Test readTimeoutRecyclesWorker() passed after 0.272 seconds.
+◇ Test ignoreTermEndsWithKillWithinGrace() started.
+✔ Test ignoreTermEndsWithKillWithinGrace() passed after 0.382 seconds.
+◇ Test lateReplyDoesNotSatisfyTimedOutRequest() started.
+✔ Test bufferingNewestSnapshotDropsIntermediateValues() passed after 0.666 seconds.
+◇ Test fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory() started.
+✔ Test fullCPUSoftwareDataLoopPersistsRawMaxEMAAndHistory() passed after 0.222 seconds.
+◇ Test fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords() started.
+✔ Test lateReplyDoesNotSatisfyTimedOutRequest() passed after 0.283 seconds.
+◇ Test qualifiedClientClearsCatalogAfterReadTimeout() started.
+✔ Test qualifiedClientClearsCatalogAfterReadTimeout() passed after 0.271 seconds.
+◇ Test staleQualifiedCatalogDoesNotProduceReadBatch() started.
+✔ Test staleQualifiedCatalogDoesNotProduceReadBatch() passed after 0.001 seconds.
+◇ Test consecutiveCloseAfterTimeoutIsIdempotent() started.
+✔ Test fullCPUSoftwareDataLoopReceiptMatchesPersistedRecords() passed after 0.381 seconds.
+✔ Suite MonitorIntegrationTests passed after 2.598 seconds.
+✔ Test consecutiveCloseAfterTimeoutIsIdempotent() passed after 0.328 seconds.
+✔ Suite WorkerLifecycleTests passed after 2.868 seconds.
+✔ Test retainsSamplesWithinThreeHundredSecondWindow() passed after 2.934 seconds.
+✔ Suite RingBufferTests passed after 2.936 seconds.
+✔ Test run with 341 tests in 53 suites passed after 2.936 seconds.

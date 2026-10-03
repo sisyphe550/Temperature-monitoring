@@ -1,0 +1,24 @@
+Release app: /Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app
+Session: 99dc590a-03db-44a9-a48c-5d94a29445d7
+CPU12: Te05, 80.2 °C, 应用读取 12:00:22 · 测量更新时间未知
+Te09, 79.5 °C, 应用读取 12:00:22 · 测量更新时间未知
+Te0H, 76.7 °C, 应用读取 12:00:22 · 测量更新时间未知
+Te0S, 76.1 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp01, 89.7 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp05, 90.3 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp09, 85.2 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp0D, 84.9 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp0V, 92.4 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp0Y, 92.7 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp0b, 86.0 °C, 应用读取 12:00:22 · 测量更新时间未知
+Tp0e, 84.2 °C, 应用读取 12:00:22 · 测量更新时间未知
+Optional: TEMPERATURE, 44.9 °C, 应用读取 12:00:24 · 测量更新时间未知
+TB1T, 36.0 °C, 应用读取 12:00:23 · 测量更新时间未知
+50 ms: held 8.000053041614592 seconds; status 87.4 °C
+100 ms: held 8.003473916556686 seconds; status 87.3 °C
+200 ms: held 8.005025249905884 seconds; status 85.3 °C
+500 ms: held 8.00501300022006 seconds; status 84.8 °C
+1000 ms: held 8.003938333131373 seconds; status 94.5 °C
+Status AX: exists true; isHittable false; frame (748.0, 4.5, 69.0, 24.0). Right-click/context menu has not been accepted by this test.
+Normal quit via app.quit: notRunning; new session directory removed.
+Scope: production launch, standard LaunchServices reopen, window-button quit, five 8-second phases; not right-click/menu or 5x10-minute or 72-hour qualification.
