@@ -1,0 +1,114 @@
+{
+  "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+  "archive_manifest_files": 33,
+  "source_files_checked_against_git_and_working_bytes": 153,
+  "ui_owned_attachments": 14,
+  "ui_retry_tests": [
+    {
+      "test": "testLocalReleaseAppRealHardwareUI()",
+      "status": "Success",
+      "duration": "149.48459994792938"
+    }
+  ],
+  "only_changed_verdicts": [
+    "REQ-031",
+    "REQ-033",
+    "REQ-034",
+    "REQ-035",
+    "REQ-036",
+    "REQ-037"
+  ],
+  "requirements": {
+    "REQ-031": {
+      "required_tc": [
+        "TC-LIFECYCLE",
+        "TC-RETENTION"
+      ],
+      "required_kinds": [
+        "software"
+      ],
+      "verification": "product-accepted-local",
+      "new_case": "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+    },
+    "REQ-033": {
+      "required_tc": [
+        "TC-LIFECYCLE",
+        "TC-RETENTION"
+      ],
+      "required_kinds": [
+        "software"
+      ],
+      "verification": "product-accepted-local",
+      "new_case": "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+    },
+    "REQ-034": {
+      "required_tc": [
+        "TC-LIFECYCLE",
+        "TC-RETENTION"
+      ],
+      "required_kinds": [
+        "software"
+      ],
+      "verification": "product-accepted-local",
+      "new_case": "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+    },
+    "REQ-035": {
+      "required_tc": [
+        "TC-LIFECYCLE",
+        "TC-RETENTION"
+      ],
+      "required_kinds": [
+        "software"
+      ],
+      "verification": "product-accepted-local",
+      "new_case": "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#threeDayQueryFiltersExpiredRowsBeforePhysicalPrune()"
+    },
+    "REQ-036": {
+      "required_tc": [
+        "TC-LIFECYCLE",
+        "TC-RETENTION"
+      ],
+      "required_kinds": [
+        "software"
+      ],
+      "verification": "product-accepted-local",
+      "new_case": "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
+    },
+    "REQ-037": {
+      "required_tc": [
+        "TC-LIFECYCLE",
+        "TC-RETENTION"
+      ],
+      "required_kinds": [
+        "software"
+      ],
+      "verification": "product-accepted-local",
+      "new_case": "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerExecutesRetentionAtSixtySecondBoundaries()"
+    }
+  },
+  "counts": {
+    "catalog": {
+      "product-accepted-local": 100,
+      "pending-product-acceptance": 31,
+      "product-waived": 1
+    },
+    "retired": 2
+  },
+  "pending_scope": {
+    "REQ-094": {
+      "verification": "pending-product-acceptance",
+      "outstanding": [
+        "菜单栏点击/Popover、运行中UI重试/Fatal与其他未覆盖EARS用例仍待验收；c354五档只duration observed且原suite FAILED，精确性能未测。物理sleep本轮已由用户跳过，不要求重做也不标通过。"
+      ]
+    },
+    "REQ-110": {
+      "verification": "pending-product-acceptance",
+      "outstanding": [
+        "最终f9 App/worker的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块清单及同一产物sources+schedules+lifecycle整套资格仍未齐；现有新短测只8s，c354历史长测只duration observed，精确性能未测。",
+        "物理sleep本轮用户明确跳过，旧attempt保持partial；#46/#47修复与c354软件/单Fatal路径证据分别存在，不能由此盖完整组合通过。"
+      ]
+    }
+  },
+  "failures": [],
+  "scope": "Read-only hash/source/REQ binding checks and actual recorded retry log inspection. No test rerun, GUI or physical sleep."
+}

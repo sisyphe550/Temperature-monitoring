@@ -89,3 +89,5 @@ swift --version
 c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
 
 最新生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。
+
+最终源/归档与六项局部裁决由非实现者追加[补充独立审查](validation/product-software/W11/2026-10-03-d3d25c0/final-independent-review.md)，已核对153源文件、34归档文件及14自有UI附件；未批准整体W11、性能或合并。
