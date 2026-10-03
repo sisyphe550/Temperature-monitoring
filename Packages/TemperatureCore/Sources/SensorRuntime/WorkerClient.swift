@@ -284,7 +284,21 @@ public actor WorkerClient: SensorTransport, SensorConnectionGeneration {
         process.standardOutput = stdoutPipe
         process.standardError = stderrPipe
 
-        try process.run()
+        do {
+            // Configure the new descriptor before launching or publishing handles.
+            // Per-descriptor protection keeps the parent's signal policy unchanged.
+            try Self.configureRequestPipe(descriptor: stdinPipe.fileHandleForWriting.fileDescriptor)
+            try process.run()
+        } catch {
+            for handle in [
+                stdinPipe.fileHandleForReading, stdinPipe.fileHandleForWriting,
+                stdoutPipe.fileHandleForReading, stdoutPipe.fileHandleForWriting,
+                stderrPipe.fileHandleForReading, stderrPipe.fileHandleForWriting,
+            ] {
+                try? handle.close()
+            }
+            throw error
+        }
 
         try? stdinPipe.fileHandleForReading.close()
         try? stdoutPipe.fileHandleForWriting.close()
@@ -389,10 +403,27 @@ public actor WorkerClient: SensorTransport, SensorConnectionGeneration {
         }
     }
 
-    private static func writeRequest(_ requestData: Data, to handle: FileHandle) throws {
+    static func configureRequestPipe(descriptor: Int32) throws {
+        guard fcntl(descriptor, F_SETNOSIGPIPE, 1) != -1 else {
+            throw POSIXError(POSIXErrorCode(rawValue: errno) ?? .EIO)
+        }
+    }
+
+    static func writeRequest(_ requestData: Data, to handle: FileHandle) throws {
         var payload = requestData
         payload.append(0x0A)
-        try handle.write(contentsOf: payload)
+        do {
+            try handle.write(contentsOf: payload)
+        } catch {
+            let foundationError = error as NSError
+            let posixError = foundationError.domain == NSPOSIXErrorDomain
+                ? foundationError
+                : foundationError.userInfo[NSUnderlyingErrorKey] as? NSError
+            if posixError?.domain == NSPOSIXErrorDomain, posixError?.code == Int(EPIPE) {
+                throw WorkerClientError.workerExitedUnexpectedly
+            }
+            throw error
+        }
     }
 
     private static func readResponseLine(

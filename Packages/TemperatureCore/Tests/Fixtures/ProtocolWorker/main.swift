@@ -14,6 +14,7 @@ enum ProtocolWorkerScenario: String {
     case hangRead
     case ignoreTerm
     case lateRead
+    case closedInputAfterDiscover
 }
 
 @main
@@ -63,6 +64,14 @@ struct ProtocolWorker {
                 guard let responseLine = String(data: responseData, encoding: .utf8) else {
                     throw WorkerProtocolError.invalidJSON
                 }
+                if scenario == .closedInputAfterDiscover, request.command == .discover {
+                    // Close before the catalog response: the next request must
+                    // encounter a broken reader while this process stays alive.
+                    try FileHandle.standardInput.close()
+                    try writeResponseLine(responseLine)
+                    Thread.sleep(forTimeInterval: 10)
+                    return
+                }
                 try writeResponseLine(responseLine)
             }
         }
@@ -94,7 +103,7 @@ struct ProtocolWorker {
                 command: request.command,
                 payload: .closed
             )
-        case .success, .badJSON, .oversize, .crash, .hangDiscover, .hangRead, .ignoreTerm, .lateRead:
+        case .success, .badJSON, .oversize, .crash, .hangDiscover, .hangRead, .ignoreTerm, .lateRead, .closedInputAfterDiscover:
             break
         }
 
