@@ -1,0 +1,58 @@
+{
+  "scope": "real SQLite software/component regressions with virtual elapsed; no formal App/GUI/hardware/endurance/sleep",
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "production_file_count_compared": 66,
+  "production_sources_unchanged_and_copy_matches": true,
+  "run_directory": "/tmp/temperature-ttl-software.sD1Hqe",
+  "actual_log": "/tmp/temperature-ttl-software.sD1Hqe/ttl-tests-escalated.log",
+  "sandbox_attempt_log": "/tmp/temperature-ttl-software.sD1Hqe/ttl-tests.log",
+  "build_exit_code": 0,
+  "build_seconds": 40.37,
+  "swift_testing_test_count": 3,
+  "swift_testing_suite_count": 2,
+  "test_run_seconds": 0.041,
+  "tests": [
+    {
+      "name": "TTLRequirementBoundaryTests.onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents",
+      "result": "pass",
+      "seconds": 0.031,
+      "requirements": [
+        "REQ-031",
+        "REQ-033",
+        "REQ-034",
+        "REQ-036"
+      ]
+    },
+    {
+      "name": "TTLRequirementBoundaryTests.threeDayQueryFiltersExpiredRowsBeforePhysicalPrune",
+      "result": "pass",
+      "seconds": 0.03,
+      "requirements": [
+        "REQ-035"
+      ],
+      "limit": "whole bucket fully inside window; crossing-edge policy remains separate observation"
+    },
+    {
+      "name": "RuntimeMaintenanceRegressionTests.runningControllerExecutesRetentionAtSixtySecondBoundaries",
+      "result": "pass",
+      "seconds": 0.04,
+      "requirements": [
+        "REQ-037"
+      ],
+      "limit": "does not count empty DELETE or measure formal App wall-clock cadence"
+    }
+  ],
+  "patch": "/tmp/temperature-ttl-boundary-review/ttl-minimal-tests.patch",
+  "patch_sha256": "912b1f690b9e7926cfa2e07f6bd665536045cc62ce71bc4354d69724e4cd60a8",
+  "coverage": "a single coverage-instrumented targeted run also passed; full-product coverage remains the parent final-suite gate",
+  "hardware_sleep_status": "skipped by latest user instruction via parent; not executed",
+  "coverage_run": {
+    "log": "/tmp/temperature-ttl-software.sD1Hqe/ttl-tests-coverage.log",
+    "exit_code": 0,
+    "test_count": 3,
+    "test_run_seconds": 0.04,
+    "build_seconds": 35.0,
+    "summary": "/tmp/temperature-ttl-boundary-review/targeted-coverage-summary.json",
+    "full_product_gate_claimed": false
+  }
+}

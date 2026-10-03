@@ -49,7 +49,7 @@ swiftc -swift-version 6 -module-cache-path /tmp/temperature-monitor-contract -ty
 
 按[W11刷新计划](docs/superpowers/plans/2026-10-03-w11-acceptance-refresh.md)继续[PR #26](https://github.com/sisyphe550/Temperature-monitoring/pull/26)。当前该PR为Draft：新实机睡眠发现#46/#47，需要修复、重新构建及复测。旧W11报告保留为历史，不能作为当前完整验收结论。
 
-[逐REQ证据目录](docs/contracts/acceptance-evidence-catalog-v1.json)内容格式version2：每份证据有独立source_commit、SHA256、环境和适用范围。基于已冻结的403/a97/651证据，94项本地验收、37项待验收、1项用户授权本地分发豁免；新修复的通过状态须用新证据更新，不由TC组整体结果推导。
+[逐REQ证据目录](docs/contracts/acceptance-evidence-catalog-v1.json)内容格式version2：每份证据有独立source_commit、SHA256、环境和适用范围。403/a97/651登记保留为历史基线；当前逐REQ裁决以catalog中的有效覆盖、未完成项及用户授权范围为准。新修复须用新证据更新，不由TC组整体结果推导，不能沿用旧快照的通过数量作为当前状态。
 
 ```sh
 python3 scripts/bind-acceptance-evidence.py            # 只读核对
@@ -58,3 +58,9 @@ python3 scripts/validate-handoff.py --product-acceptance # 全验收；存在pen
 ```
 
 “应用读取时间”是软件收到有效数据的观测时间；“测量更新时间未知”表示SMC/NVMe/IOPS接口未提供可验证的硬件测量时间戳，不等于未读到温度。失败、缓存或超时由其它互斥展示状态表达。
+
+## 2026-10-03 c354独立duration与最新验收范围
+
+c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](docs/validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
+
+最新生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](docs/validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。

@@ -1,0 +1,36 @@
+{
+  "archive_manifest_files": 64,
+  "archive_failures": [],
+  "overlap_rows": 144,
+  "supplemental_rows": 344,
+  "new_rows": 200,
+  "reproduced_1000ms_count": 641,
+  "reproduced_span_seconds": 640.010117583,
+  "sql_aligned_parent_equivalence": [
+    {
+      "table": "raw_samples",
+      "samples": 408,
+      "parent_rows": 163,
+      "cutoff_cases": 7,
+      "equivalent": true,
+      "candidate_query_plan": [
+        "SCAN raw_samples",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns=?)"
+      ]
+    },
+    {
+      "table": "ema_samples",
+      "samples": 408,
+      "parent_rows": 158,
+      "cutoff_cases": 7,
+      "equivalent": true,
+      "candidate_query_plan": [
+        "SCAN ema_samples",
+        "CORRELATED SCALAR SUBQUERY 1",
+        "SEARCH aggregates USING INDEX sqlite_autoindex_aggregates_1 (series_id=? AND segment=? AND width_s=? AND start_elapsed_ns=?)"
+      ]
+    }
+  ],
+  "scope": "Read-only archive hashes and independent in-memory SQLite predicate equivalence. No formal App rerun, no hardware performance threshold measurement. No whole-REQ sleep waiver."
+}

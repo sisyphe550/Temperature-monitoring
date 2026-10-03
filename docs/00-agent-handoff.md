@@ -76,10 +76,16 @@ swift --version
 
 ## W11刷新：后续执行顺序
 
-1. [version2证据目录](contracts/acceptance-evidence-catalog-v1.json)与acceptance/17同步。当前94本地通过、37pending、1本地发行豁免；012/114仍retired。每项`covered_cases`与`outstanding`是后续验证清单。
+1. [version2证据目录](contracts/acceptance-evidence-catalog-v1.json)与acceptance/17同步。403/a97/651逐项登记是历史基线；当前状态以有效证据、逐REQ裁决与授权豁免为准，012/114仍retired。每项`covered_cases`与`outstanding`是后续验证清单，不以旧快照数量判当前完成度。
 2. 修复实机睡眠误Fatal #46和runtime Fatal退出死锁 #47；工具证据边界修复记录在#48。完整核心、Release、独立审查通过后，才用最终代码/同App+worker哈希做新硬件验收。
-3. 用户明确保留五档各10分钟与真实系统睡眠/人工唤醒。失败长测仅第一档约305秒，不能计任一档600秒通过；没有完成实机时不得更新qualified combination。
+3. 用户先前保留五档各10分钟与真实系统睡眠/人工唤醒；2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理验收标skipped-by-user，生命周期功能与软件回归保留。早前约305秒失败记录仍是历史；新c354五档duration条件由同一连续会话证据分别observed，原XCTest仍FAILED，正式性能仍pending，不等于完整qualified combination。
 4. 仅有验收记录缺口、没有实际可复现错误的条目继续pending，不凭推断建产品bug。历史源码/CI/fixture和正式App实机分别绑定。
 5. 普通push更新既有PR26；当前原工作区及其用户文件保留。最新head五CI、独立审查和零blocking满足后，才由维护者决定merge commit；保留功能分支。
 
 执行`python3 scripts/validate-handoff.py`只证明文档与证据绑定一致；完整验收用`--product-acceptance`，pending存在时会拒绝。禁止把前者当成整个产品通过。
+
+## 2026-10-03 c354证据与当前衔接
+
+c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
+
+最新生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。

@@ -496,8 +496,8 @@ python3 scripts/validate-handoff.py
 - [ ] 先记录Xcode/Swift/SDK构成build_toolchain，从最终App/worker load command核对deployment_target，再确认真实机器、系统和profile构成runtime_profile。任何字段不一致都阻止资格运行，不写入qualified combinations。
 - [ ] 逐键核对12CPU来源、flt4字节、单位证据、固定成员、未知freshness；SSD明确Internal唯一NVMe composite；Battery记录实际选中IOPS或TB键和优先级判定。周期读取失败按规范显式失败，不补0/旧值。
 - [ ] 对五档分别执行至少10分钟空闲及10分钟可控负载，记录计划/实际开始结束/批跨度/读取失败/重试/skipped/source时间信息；负载必须使用维护者批准的本地工具并记录命令。不得用相同温度比例推断硬件刷新频率。
-- [ ] 确认所有派生CPU批次12成员完整且跨度≤200ms；超范围被正确拒绝并重试。调度是否按日程/跳过过期机会由事件证据判定；CPU/内存/能耗只报告实测分布，不编造用户已暂缓的性能SLO。
-- [ ] 实机执行至少三轮sleep/wake、档位切换、窗口关闭重开、App退出重启、双实例、断网运行。验证新source/definition/segment、Gap、无跨会话恢复、停止后无孤立worker。
+- [ ] 确认所有派生CPU批次12成员完整且跨度≤200ms；超范围被正确拒绝并重试。调度是否按日程/跳过过期机会由事件证据判定；skipped及读批/首帧/显示延迟门槛按[10](10-test-strategy.md)执行，未测保持pending。CPU/内存/能耗暂无百分比硬指标，只报告实测分布与21规定的容量上限，不自行新增阈值，也不把这些指标的阈值暂缓解释为全部性能门槛豁免。
+- [ ] 实机原始验收要求至少三轮sleep/wake、档位切换、窗口关闭重开、App退出重启、双实例、断网运行；2026-10-03用户明确“跳过休眠测试”，本轮仅三轮物理睡眠/人工唤醒验收标skipped-by-user。已有attempt观察保留partial，不声称3轮passed；生命周期功能/软件回归及本条其他验证保留，仍验证新source/definition/segment、Gap、无跨会话恢复、停止后无孤立worker。
 - [ ] 持续运行至少73小时以实际越过最大72h TTL；保存分时资源、数据库/WAL/日志体积、队列最高值与最老年龄、清理进度。通过条件：未触发硬限、队列有界、查询TTL准确、父层先提交、无无限增长迹象；软件虚拟时钟测试不替代此记录。
 - [ ] 在验证工具完成后执行计划命令，预期生成可机器检查的证据与明确pass/fail；任何失败建立Issue并回归，不将旧V0报告重命名成产品报告：
 

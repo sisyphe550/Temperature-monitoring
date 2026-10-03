@@ -1,0 +1,29 @@
+[
+  {
+    "archived_file": "TTLRequirementBoundaryTests.swift",
+    "prepared_source": "/tmp/temperature-ttl-boundary-review/TTLRequirementBoundaryTests.swift",
+    "executed_source": "/tmp/temperature-ttl-software.sD1Hqe/snapshot/Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift",
+    "sha256": "67363c71ea3504384c953db607d33bcc90f236c36e4a16caced1f15eab1eed46",
+    "matches_executed_source": true,
+    "production_source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+    "scope": "Additional tmp test source, not asserted to already exist at c354 Git tree."
+  },
+  {
+    "archived_file": "RuntimeMaintenanceRegressionTests.swift",
+    "prepared_source": "/tmp/temperature-retention-tick-review/RuntimeMaintenanceRegressionTests.swift",
+    "executed_source": "/tmp/temperature-ttl-software.sD1Hqe/snapshot/Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift",
+    "sha256": "5ffb3ffa4589b74df244900bfc51041e5959a883023653a907408d7d3c3805db",
+    "matches_executed_source": true,
+    "production_source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+    "scope": "Additional tmp test source, not asserted to already exist at c354 Git tree."
+  },
+  {
+    "archived_file": "TestClock.swift",
+    "prepared_source": "/tmp/temperature-retention-tick-review/TestClock.swift",
+    "executed_source": "/tmp/temperature-ttl-software.sD1Hqe/snapshot/Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/TestClock.swift",
+    "sha256": "ff8e1be4376fdad678c42a6f89e695e7594193ec2d0481c5f5e628c62dfdb4cb",
+    "matches_executed_source": true,
+    "production_source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+    "scope": "Additional tmp test source, not asserted to already exist at c354 Git tree."
+  }
+]

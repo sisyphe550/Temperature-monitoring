@@ -2,7 +2,7 @@
   "version": 2,
   "date": "2026-10-03",
   "contract_revision": 3,
-  "delivery_commit": "403d44bab8f972461973c5a91699865b15515be2",
+  "delivery_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
   "artifacts": {
     "core-regression": {
       "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/full-core.log",
@@ -272,6 +272,89 @@
       ],
       "tc_groups": [
         "TC-WORKFLOW"
+      ]
+    },
+    "final-core-ttl": {
+      "path": "docs/validation/product-software/W11/2026-10-03-f9e850c/full-core-summary.json",
+      "sha256": "b70530224573b4cbf4c74d04f6fc88de830babe97158d65ff1b9bbe07c2830c5",
+      "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed source f9e850c; software and formal scope separately stated"
+      },
+      "scope": [
+        "Actual full349/55+89.01% Core; three new virtual elapsed + real SQLite TTL/maintenance vectors; specificREQ coverage only"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "final-formal-short": {
+      "path": "docs/validation/product-software/W11/2026-10-03-f9e850c/short-ui/build-and-run-identity.json",
+      "sha256": "9ddef9c0b8a9f0bb6e01c68e1af25c8a56ddb7811d5c971da81dea384204d0ce",
+      "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed source f9e850c; software and formal scope separately stated",
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "7bf8d21dcd825497484573ec57b79d773b3cb933e0e708791b3641a5d799722c",
+        "worker_sha256": "d0b6d7dbc08299b292dccc6e7076f494ce18366d5c5b0d7c3ba602c79b040b65",
+        "model": "Mac16,13",
+        "os_build": "24G419"
+      },
+      "scope": [
+        "f9正式Release1shortUI149.485sPASS; five8s/sources/history/point/reopen/quit only; initial bootstrap failed independently retained"
+      ],
+      "tc_groups": [
+        "TC-UI",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-HISTORY"
+      ]
+    },
+    "latest-sleep-scope": {
+      "path": "docs/validation/product-software/W11/2026-10-03-c354b03/user-scope.json",
+      "sha256": "dc1dd9eb568aa6e42c0ebc889d33c71c8338354cddef0f7bafa30108dbbfd9df",
+      "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+      "kind": "waiver",
+      "result": "waived",
+      "environment": {
+        "actual_machine": "Mac16,13",
+        "actual_OS": "15.7.3/24G419",
+        "context": "Actual committed source f9e850c; software and formal scope separately stated"
+      },
+      "scope": [
+        "Latest user explicitly skips this round physical sleep test; not wholeREQ waiver and not passed evidence"
+      ],
+      "tc_groups": [
+        "TC-LIFECYCLE"
       ]
     }
   },
@@ -786,20 +869,20 @@
       ]
     },
     "REQ-031": {
-      "verification": "pending-product-acceptance",
+      "verification": "product-accepted-local",
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
-        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()"
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
       ],
-      "outstanding": [
-        "未见1s层3600s cutoff两侧记录独立存留/删除断言；现有精确cutoff测试针对10s层。"
-      ],
-      "reason": "实际SQLite测试含过期1s父桶并断言聚合删除；当前Retention按width=1应用3600s。",
+      "outstanding": [],
+      "reason": "1s3600s cutoff−1/0/+1ns逐行删除/保留已在同一次真实SQLite prune验证。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
       "required_evidence_kinds": [
         "software"
       ],
       "evidence": [
-        "core-regression"
+        "core-regression",
+        "final-core-ttl"
       ]
     },
     "REQ-032": {
@@ -818,89 +901,89 @@
       ]
     },
     "REQ-033": {
-      "verification": "pending-product-acceptance",
+      "verification": "product-accepted-local",
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
-        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()"
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/SessionLifecycleTests.swift#sleepAcrossRetentionClosesRealParentsWithoutCreatingEmptyBuckets()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
       ],
-      "outstanding": [
-        "补1m层259200s cutoff两侧记录、prune后计数/身份断言；只需虚拟时间+真实SQLite，72/73h耐久已豁免。"
-      ],
-      "reason": "最大TTL配置与三天查询存在；长睡眠prune测试未插入过期1m层样本。",
+      "outstanding": [],
+      "reason": "1min259200s cutoff−1/0/+1ns逐行边界已通过虚拟时间+真实SQLite验证，72h实跑豁免与软件TTL分开。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
       "required_evidence_kinds": [
         "software"
       ],
       "evidence": [
-        "core-regression"
+        "core-regression",
+        "final-core-ttl"
       ]
     },
     "REQ-034": {
-      "verification": "pending-product-acceptance",
+      "verification": "product-accepted-local",
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/StorageFaultTests.swift#batchStoresAggregatesTrendsAndSampleMembers()",
-        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()"
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
       ],
-      "outstanding": [
-        "补trend_samples 3600s边界存留/删除断言，不需真实1h等待。"
-      ],
-      "reason": "Trend入库已测，但现有prune测试不含过期Trend行。",
+      "outstanding": [],
+      "reason": "Trend3600s cutoff两侧身份删除/保留由生产prune真实SQLite验证。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
       "required_evidence_kinds": [
         "software"
       ],
       "evidence": [
-        "core-regression"
+        "core-regression",
+        "final-core-ttl"
       ]
     },
     "REQ-035": {
-      "verification": "pending-product-acceptance",
+      "verification": "product-accepted-local",
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
-        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#historyAndGapRoundTrip()"
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ContractCoverageTests.swift#historyAndGapRoundTrip()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#threeDayQueryFiltersExpiredRowsBeforePhysicalPrune()"
       ],
-      "outstanding": [
-        "未见prune前已存在超过72h的1m记录时，三天查询立即排除它的独立用例；需要软件TTL过滤向量，不需72h实跑。"
-      ],
-      "reason": "API最大范围为threeDays且查询实现按asOf过滤；现有三天空结果发生在prune之后。",
+      "outstanding": [],
+      "reason": "prune前SQL仍有过期1min记录，threeDays查询立即过滤；正常范围内整桶仍返回。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
       "required_evidence_kinds": [
         "software"
       ],
       "evidence": [
-        "core-regression"
+        "core-regression",
+        "final-core-ttl"
       ]
     },
     "REQ-036": {
-      "verification": "pending-product-acceptance",
+      "verification": "product-accepted-local",
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#deletesAggregateExactlyAtCutoff()",
-        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()"
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RetentionTests.swift#pruneAfterLongSleepRemovesExpiredRows()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/TTLRequirementBoundaryTests.swift#onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents()"
       ],
-      "outstanding": [
-        "统一入口仍缺1s精确边界、1m259200s和Trend3600s逐表边界计数；不能由Raw/EMA删除推断所有层完整通过。"
-      ],
-      "reason": "同一prune入口已测Raw/EMA及部分聚合。",
+      "outstanding": [],
+      "reason": "同一生产prune对Raw/EMA、1s/10s/1min/Trend逐表边界判定并保留无已提交父桶样本。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
       "required_evidence_kinds": [
         "software"
       ],
       "evidence": [
-        "core-regression"
+        "core-regression",
+        "final-core-ttl"
       ]
     },
     "REQ-037": {
-      "verification": "pending-product-acceptance",
+      "verification": "product-accepted-local",
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerPrunesExpiredRawWithCommittedParentWithoutSleep()",
-        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()"
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledRevisionThreeDefaultsLoad()",
+        "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/RuntimeMaintenanceRegressionTests.swift#runningControllerExecutesRetentionAtSixtySecondBoundaries()"
       ],
-      "outstanding": [
-        "未观察59.999/60/120s维护注册/执行边界或正式App连续周期清理取证；当前证明已调度，不证明精确每60s。"
-      ],
-      "reason": "生产维护loop读取60s配置且运行中prune接线已回归，已有测试只一次跳到481s。",
+      "outstanding": [],
+      "reason": "生产Controller在59.999/60/119.999/120s虚拟elapsed，真实SQLite两次删除与维护等待登记证明60s执行边界。 最终f9完整Core与独立审查绑定；不是实机耐久/睡眠/性能通过。",
       "required_evidence_kinds": [
         "software"
       ],
       "evidence": [
-        "core-regression"
+        "core-regression",
+        "final-core-ttl"
       ]
     },
     "REQ-038": {
@@ -1938,10 +2021,11 @@
         "software-fixture:UITests/TemperatureMonitorUITests.swift#testCPUPeriodPickerSupportsAllFiveOptions()",
         "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
         "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
-        "formal-app-hardware:a97fd5a#五档8s/5min1h/reopen/quit正式黑盒通过"
+        "formal-app-hardware:a97fd5a#五档8s/5min1h/reopen/quit正式黑盒通过",
+        "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit"
       ],
       "outstanding": [
-        "菜单栏点击/Popover、运行中UI重试/Fatal、五档10min与真实系统sleep尚未完成，不能称所有用户可见功能EARS验收完整。"
+        "菜单栏点击/Popover、运行中UI重试/Fatal与其他未覆盖EARS用例仍待验收；c354五档只duration observed且原suite FAILED，精确性能未测。物理sleep本轮已由用户跳过，不要求重做也不标通过。"
       ],
       "reason": "已有对应EARS黑盒子集，但当前最终验收覆盖仍不完整。",
       "required_evidence_kinds": [
@@ -1951,7 +2035,8 @@
       ],
       "evidence": [
         "ui-fixtures",
-        "formal-short-app"
+        "formal-short-app",
+        "final-formal-short"
       ]
     },
     "REQ-095": {
@@ -2299,11 +2384,12 @@
       "covered_cases": [
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AppBundleConfigurationTests.swift#appResourcesMatchBundledContracts()",
         "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledProfileHasTwelveCaseSensitiveKeys()",
-        "formal-app-hardware:a97fd5a#a97 App/worker hash、签名、Mac16,13/24G419、Xcode/Swift/SDK已归档"
+        "formal-app-hardware:a97fd5a#a97 App/worker hash、签名、Mac16,13/24G419、Xcode/Swift/SDK已归档",
+        "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit"
       ],
       "outstanding": [
-        "新受测App/worker hash的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块完整清单未达到同一产物sources+schedules+lifecycle整套资格；五档10min与真实sleep未完成前不得复用旧组合盖章。",
-        "旧长测在50ms约305秒真实合盖；睡眠误Fatal #46、自动退出 #47，均需修复及新同hash实机验收。"
+        "最终f9 App/worker的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块清单及同一产物sources+schedules+lifecycle整套资格仍未齐；现有新短测只8s，c354历史长测只duration observed，精确性能未测。",
+        "物理sleep本轮用户明确跳过，旧attempt保持partial；#46/#47修复与c354软件/单Fatal路径证据分别存在，不能由此盖完整组合通过。"
       ],
       "reason": "最低15.7.3、配置/资源及实机身份已记录，但旧qualified组合属于14cac而非a97。",
       "required_evidence_kinds": [
@@ -2312,7 +2398,8 @@
       ],
       "evidence": [
         "core-regression",
-        "formal-short-app"
+        "formal-short-app",
+        "final-formal-short"
       ]
     },
     "REQ-111": {
@@ -2730,5 +2817,5 @@
       ]
     }
   },
-  "scope_note": "403d44b文档/旧生产证据基线。#46/#47的新修复未计入当前accepted；新生产commit及实机hash产生后单独更新，不回写历史。 新证据状态（待集成，不改变94/37/1）：#46启动/睡眠期间history取消的生产路径软件回归已GREEN；#47新Release运行中Fatal自动退出实机PASS，Session删除、报告保留；source/App/worker身份和原始记录仍待纳入仓内artifact。退出途中wake取消已有RED，GREEN/独立复核待确认。最新五档长测失败：50ms最后UI进度265.752s，DB最后elapsed325.833s，runner371.103s含清理；均不得记为600s完成。"
+  "scope_note": "当前delivery f9e850c；六项明确软件TTL缺口补证后局部accepted，其他裁决保留。c354五档持续时长observed但原XCTest FAILED，精确性能not_measured；本轮物理sleep用户明确跳过，功能/软件回归保留，非整REQ豁免。新f9完整349/55+89.01%及正式短UI重试PASS另有身份，首次runner bootstrap FAILED保留；不能继承c354完整硬件资格。W11和blocking/CI仍未完整关闭。"
 }

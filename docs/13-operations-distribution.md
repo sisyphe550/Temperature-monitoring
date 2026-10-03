@@ -72,7 +72,7 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 
 正式构建重跑来源、五档、sleep/wake、无网络本地运行、双实例、退出清理、日志不可写及平台矩阵验收。协议与UI只标实际观察证据等级；同型号不同OS build仍需登记该组合。
 
-## 目标机型资格矩阵
+## 历史目标机型资格矩阵
 
 `qualified_combinations` 在**同一 App/worker SHA** 完成 sources、schedules、lifecycle 三套实机套件后登记。2026-09-23 维护者决定**取消 ≥73h endurance 长跑**作为 W09 门禁；`endurance` 套件保留为可选诊断工具，不写入 `qualified_combinations`。
 
@@ -80,10 +80,16 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 |---|---|---|---|---|---|---|---|
 | Mac16,13 | 24G419 | `14cac6f…` | passed | passed | passed | cancelled（维护者豁免） | ad-hoc |
 
-`qualified_combinations` 已登记：`72339d42…` / `83e14d5e…`，suites=`[sources, schedules, lifecycle]`。证据目录见 `docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/`。
+历史`qualified_combinations` 已登记：`72339d42…` / `83e14d5e…`，suites=`[sources, schedules, lifecycle]`。该记录只适用于对应历史产物，不表示当前候选已取得资格。历史证据目录见 `docs/validation/product-hardware/Mac16,13-24G419/14cac6fe3b365ff36bf6c5c7e795dffc7319cf73/`。
 
 ## 2026-10-03 本机验收刷新记录
 
 - 最高正式稳定 macOS：**27.0.1**，Apple于2026-09-28发布；2026-10-03核对[Apple安全性更新列表](https://support.apple.com/en-us/100100)与[Developer发布记录26A434](https://developer.apple.com/news/releases/?id=09282026c)。[机器记录](validation/product-software/W11/2026-10-03-403d44b/latest-stable-macos.json)保留查询日期和出处。本机仍15.7.3/24G419；该版本核对不构成27.0.1运行认证。
-- 上述14cac6f资格矩阵是历史结果。PR44合入main403d44b后，a97正式App只有五档8秒等短测证据；五档各10分钟与真实系统睡眠/唤醒仍需新验收，不能延用历史passed为当前资格。
+- 上述14cac6f资格矩阵是历史结果。PR44合入main403d44b后，a97正式App只有五档8秒等短测证据；当时五档各10分钟与真实系统睡眠/唤醒尚未完成；最新c354 duration与物理sleep跳过见后续条目，不能延用历史passed为当前资格。
 - 2026-10-03合盖长测在第一档未满600秒时中断，随后发现睡眠历史刷新误Fatal（#46）与runtime Fatal退出卡住（#47）。新修复必须重新构建正式App并绑定新源码/二进制hash。
+- 历史长测冻结的受测生产源码为`c354b0392a91367d42708d7424fd0e133af825b9`，正式Release App SHA256=`9f786ee330531d2d194ef2c88f04c83c314de3253a1e218ea45df12f5aeabc3c`，worker SHA256=`74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f`；本机仍Mac16,13/15.7.3/24G419。[短测](validation/product-software/W11/2026-10-03-403d44b/anchor-release-short-ui/14-Release-real-hardware-short-acceptance.txt)已执行五档各8秒、主窗历史/图表点选、关闭重开和正常退出清理；[runtime Fatal记录](validation/product-software/W11/2026-10-03-403d44b/anchor-release-runtime-fatal/result.json)证明该产物的实际自动退出与会话清理，均不替代五档600秒或真实系统睡眠。
+- c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。原始记录见[c354不可变归档](validation/product-software/W11/2026-10-03-c354b03/README.md)与[user-scope](validation/product-software/W11/2026-10-03-c354b03/user-scope.json)。不得登记sources+schedules+lifecycle整套passed或把W11标完成；后续Issue #50修复的新产物f9已完成独立软件门禁与正式短测，见[新产物记录](validation/product-software/W11/2026-10-03-f9e850c/README.md)，不能继承该c354长测为新产物性能资格。
+
+### 当前交付候选f9e850c
+
+新App SHA256=`7bf8d21dcd825497484573ec57b79d773b3cb933e0e708791b3641a5d799722c`；worker SHA256=`d0b6d7dbc08299b292dccc6e7076f494ce18366d5c5b0d7c3ba602c79b040b65`；本机环境未变。349/55软件回归、89.01%覆盖与149.485秒正式短测分别归档。未登记整套qualified combination，五档精确性能仍未测；本轮物理sleep用户已跳过。PR26保留Draft，未满足零blocking和全部验收条件，不能合并。

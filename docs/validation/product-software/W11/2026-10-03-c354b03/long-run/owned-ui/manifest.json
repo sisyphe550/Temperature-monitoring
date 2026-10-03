@@ -1,0 +1,65 @@
+{
+  "tests": [
+    {
+      "test": "testLocalReleaseAppFivePeriodsTenMinutes()",
+      "status": "Failure",
+      "duration": "2868.0662319660187"
+    }
+  ],
+  "attachments": [
+    {
+      "name": "LONG_UI-production-startup-dashboard",
+      "type": "public.png",
+      "file": "01-LONG_UI-production-startup-dashboard.png",
+      "bytes": 280326
+    },
+    {
+      "name": "LONG_UI-CPU-50ms-after-600s",
+      "type": "public.png",
+      "file": "02-LONG_UI-CPU-50ms-after-600s.png",
+      "bytes": 287305
+    },
+    {
+      "name": "LONG_UI-through-50ms-json",
+      "type": "public.json",
+      "file": "03-LONG_UI-through-50ms-json.json",
+      "bytes": 16455
+    },
+    {
+      "name": "LONG_UI-CPU-100ms-after-600s",
+      "type": "public.png",
+      "file": "04-LONG_UI-CPU-100ms-after-600s.png",
+      "bytes": 288856
+    },
+    {
+      "name": "LONG_UI-through-100ms-json",
+      "type": "public.json",
+      "file": "05-LONG_UI-through-100ms-json.json",
+      "bytes": 32203
+    },
+    {
+      "name": "LONG_UI-CPU-200ms-after-600s",
+      "type": "public.png",
+      "file": "06-LONG_UI-CPU-200ms-after-600s.png",
+      "bytes": 290347
+    },
+    {
+      "name": "LONG_UI-through-200ms-json",
+      "type": "public.json",
+      "file": "07-LONG_UI-through-200ms-json.json",
+      "bytes": 47944
+    },
+    {
+      "name": "LONG_UI-CPU-500ms-after-600s",
+      "type": "public.png",
+      "file": "08-LONG_UI-CPU-500ms-after-600s.png",
+      "bytes": 286748
+    },
+    {
+      "name": "LONG_UI-through-500ms-json",
+      "type": "public.json",
+      "file": "09-LONG_UI-through-500ms-json.json",
+      "bytes": 63690
+    }
+  ]
+}

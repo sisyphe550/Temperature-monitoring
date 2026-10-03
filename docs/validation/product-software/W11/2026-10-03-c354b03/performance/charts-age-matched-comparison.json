@@ -1,0 +1,670 @@
+{
+  "scope": "same formal 50 ms CPU period; matched by UI phase age within about 6 s; no 200/500 phase rows used",
+  "units": "ps %CPU:100 equals one logical-core equivalent; RSS KiB is resident allocation, not live heap leak; TIME delta divided by monotonic observer span is average over observed subspan, not the full phase",
+  "runs": {
+    "033320": {
+      "run": "/tmp/temperature-long-ui-20261003T033320Z",
+      "phase_start": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2944994.786902625,
+        "continuous_monotonic_seconds": 4901679.831448583,
+        "event": "LONG_UI_PHASE_START",
+        "period_ms": 50,
+        "selected": "50 ms",
+        "session_id": "790c134a-a3a5-44c3-97bd-e32647b8b704",
+        "start_awake_uptime_seconds": 2944994.753111792,
+        "start_utc": "2026-10-03T03:34:01.936Z",
+        "utc": "2026-10-03T03:34:01.969Z"
+      },
+      "phase_end": null,
+      "rows": [
+        {
+          "utc": "2026-10-03T03:34:03.361622+00:00",
+          "seconds_from_ui_50_start": 1.3926219940185547,
+          "observer_monotonic_seconds": 2944996.179209375,
+          "pid": 43405,
+          "ps_cpu_percent": 24.7,
+          "rss_kib": 135632,
+          "cpu_time_s": 7.21
+        },
+        {
+          "utc": "2026-10-03T03:34:23.393584+00:00",
+          "seconds_from_ui_50_start": 21.424583911895752,
+          "observer_monotonic_seconds": 2945016.211002791,
+          "pid": 43405,
+          "ps_cpu_percent": 40.8,
+          "rss_kib": 164368,
+          "cpu_time_s": 13.72
+        },
+        {
+          "utc": "2026-10-03T03:34:43.420525+00:00",
+          "seconds_from_ui_50_start": 41.45152497291565,
+          "observer_monotonic_seconds": 2945036.237799916,
+          "pid": 43405,
+          "ps_cpu_percent": 49.7,
+          "rss_kib": 183920,
+          "cpu_time_s": 21.86
+        },
+        {
+          "utc": "2026-10-03T03:35:03.470071+00:00",
+          "seconds_from_ui_50_start": 61.501070976257324,
+          "observer_monotonic_seconds": 2945056.287183291,
+          "pid": 43405,
+          "ps_cpu_percent": 54.2,
+          "rss_kib": 201632,
+          "cpu_time_s": 32.25
+        },
+        {
+          "utc": "2026-10-03T03:35:23.527452+00:00",
+          "seconds_from_ui_50_start": 81.55845189094543,
+          "observer_monotonic_seconds": 2945076.344397916,
+          "pid": 43405,
+          "ps_cpu_percent": 68.2,
+          "rss_kib": 210016,
+          "cpu_time_s": 44.54
+        },
+        {
+          "utc": "2026-10-03T03:35:43.589555+00:00",
+          "seconds_from_ui_50_start": 101.62055492401123,
+          "observer_monotonic_seconds": 2945096.406525,
+          "pid": 43405,
+          "ps_cpu_percent": 116.9,
+          "rss_kib": 199536,
+          "cpu_time_s": 60.8
+        },
+        {
+          "utc": "2026-10-03T03:36:03.872479+00:00",
+          "seconds_from_ui_50_start": 121.9034788608551,
+          "observer_monotonic_seconds": 2945116.689093375,
+          "pid": 43405,
+          "ps_cpu_percent": 113.3,
+          "rss_kib": 242064,
+          "cpu_time_s": 79.39
+        },
+        {
+          "utc": "2026-10-03T03:36:23.903337+00:00",
+          "seconds_from_ui_50_start": 141.93433690071106,
+          "observer_monotonic_seconds": 2945136.7197925,
+          "pid": 43405,
+          "ps_cpu_percent": 97.8,
+          "rss_kib": 251968,
+          "cpu_time_s": 98.47999999999999
+        },
+        {
+          "utc": "2026-10-03T03:36:43.945862+00:00",
+          "seconds_from_ui_50_start": 161.97686195373535,
+          "observer_monotonic_seconds": 2945156.762175875,
+          "pid": 43405,
+          "ps_cpu_percent": 85.8,
+          "rss_kib": 265888,
+          "cpu_time_s": 118.24000000000001
+        },
+        {
+          "utc": "2026-10-03T03:37:04.004150+00:00",
+          "seconds_from_ui_50_start": 182.03514981269836,
+          "observer_monotonic_seconds": 2945176.820288,
+          "pid": 43405,
+          "ps_cpu_percent": 88.8,
+          "rss_kib": 266320,
+          "cpu_time_s": 138.73
+        },
+        {
+          "utc": "2026-10-03T03:37:24.062075+00:00",
+          "seconds_from_ui_50_start": 202.09307479858398,
+          "observer_monotonic_seconds": 2945196.878048,
+          "pid": 43405,
+          "ps_cpu_percent": 101.9,
+          "rss_kib": 290384,
+          "cpu_time_s": 159.46
+        },
+        {
+          "utc": "2026-10-03T03:37:44.101426+00:00",
+          "seconds_from_ui_50_start": 222.1324257850647,
+          "observer_monotonic_seconds": 2945216.9172385,
+          "pid": 43405,
+          "ps_cpu_percent": 110.4,
+          "rss_kib": 299744,
+          "cpu_time_s": 181.44
+        },
+        {
+          "utc": "2026-10-03T03:38:04.292354+00:00",
+          "seconds_from_ui_50_start": 242.3233540058136,
+          "observer_monotonic_seconds": 2945237.108051875,
+          "pid": 43405,
+          "ps_cpu_percent": 121.8,
+          "rss_kib": 301584,
+          "cpu_time_s": 204.49
+        },
+        {
+          "utc": "2026-10-03T03:38:24.344635+00:00",
+          "seconds_from_ui_50_start": 262.37563490867615,
+          "observer_monotonic_seconds": 2945257.160168958,
+          "pid": 43405,
+          "ps_cpu_percent": 117.3,
+          "rss_kib": 341856,
+          "cpu_time_s": 230.37
+        },
+        {
+          "utc": "2026-10-03T03:38:44.407309+00:00",
+          "seconds_from_ui_50_start": 282.4383089542389,
+          "observer_monotonic_seconds": 2945277.222665,
+          "pid": 43405,
+          "ps_cpu_percent": 120.3,
+          "rss_kib": 339584,
+          "cpu_time_s": 256.53
+        },
+        {
+          "utc": "2026-10-03T03:39:04.465142+00:00",
+          "seconds_from_ui_50_start": 302.496141910553,
+          "observer_monotonic_seconds": 2945297.280323083,
+          "pid": 43405,
+          "ps_cpu_percent": 157.2,
+          "rss_kib": 310048,
+          "cpu_time_s": 284.56
+        },
+        {
+          "utc": "2026-10-03T03:39:24.649930+00:00",
+          "seconds_from_ui_50_start": 322.6809298992157,
+          "observer_monotonic_seconds": 2945317.46499225,
+          "pid": 43405,
+          "ps_cpu_percent": 163.3,
+          "rss_kib": 325264,
+          "cpu_time_s": 315.58
+        }
+      ]
+    },
+    "043223": {
+      "run": "/tmp/temperature-long-ui-20261003T043223Z",
+      "phase_start": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2948518.923593417,
+        "continuous_monotonic_seconds": 4905203.968139417,
+        "event": "LONG_UI_PHASE_START",
+        "period_ms": 50,
+        "selected": "50 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2948518.8913937085,
+        "start_utc": "2026-10-03T04:32:46.146Z",
+        "utc": "2026-10-03T04:32:46.179Z"
+      },
+      "phase_end": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2949120.1929424587,
+        "continuous_monotonic_seconds": 4905805.2374885,
+        "event": "LONG_UI_PHASE_END",
+        "held_awake_seconds": 601.2377714584582,
+        "period_ms": 50,
+        "selected": "50 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2948518.8913937085,
+        "start_utc": "2026-10-03T04:32:46.146Z",
+        "status": "92.0 \u00b0C",
+        "utc": "2026-10-03T04:42:47.456Z"
+      },
+      "rows": [
+        {
+          "utc": "2026-10-03T04:33:02.321787+00:00",
+          "seconds_from_ui_50_start": 16.142787218093872,
+          "observer_monotonic_seconds": 2948535.066681916,
+          "pid": 88391,
+          "ps_cpu_percent": 25.8,
+          "rss_kib": 142096,
+          "cpu_time_s": 5.87
+        },
+        {
+          "utc": "2026-10-03T04:33:22.352314+00:00",
+          "seconds_from_ui_50_start": 36.17331409454346,
+          "observer_monotonic_seconds": 2948555.096922291,
+          "pid": 88391,
+          "ps_cpu_percent": 25.4,
+          "rss_kib": 183136,
+          "cpu_time_s": 11.16
+        },
+        {
+          "utc": "2026-10-03T04:33:42.380797+00:00",
+          "seconds_from_ui_50_start": 56.201797008514404,
+          "observer_monotonic_seconds": 2948575.125150625,
+          "pid": 88391,
+          "ps_cpu_percent": 27.8,
+          "rss_kib": 202912,
+          "cpu_time_s": 16.86
+        },
+        {
+          "utc": "2026-10-03T04:34:02.414027+00:00",
+          "seconds_from_ui_50_start": 76.23502707481384,
+          "observer_monotonic_seconds": 2948595.158077375,
+          "pid": 88391,
+          "ps_cpu_percent": 30.3,
+          "rss_kib": 231424,
+          "cpu_time_s": 22.72
+        },
+        {
+          "utc": "2026-10-03T04:34:22.465092+00:00",
+          "seconds_from_ui_50_start": 96.28609204292297,
+          "observer_monotonic_seconds": 2948615.208860083,
+          "pid": 88391,
+          "ps_cpu_percent": 38.9,
+          "rss_kib": 237024,
+          "cpu_time_s": 28.68
+        },
+        {
+          "utc": "2026-10-03T04:34:42.499880+00:00",
+          "seconds_from_ui_50_start": 116.32088017463684,
+          "observer_monotonic_seconds": 2948635.24336575,
+          "pid": 88391,
+          "ps_cpu_percent": 30.9,
+          "rss_kib": 259312,
+          "cpu_time_s": 35.17
+        },
+        {
+          "utc": "2026-10-03T04:35:02.594950+00:00",
+          "seconds_from_ui_50_start": 136.41595005989075,
+          "observer_monotonic_seconds": 2948655.33814775,
+          "pid": 88391,
+          "ps_cpu_percent": 48.6,
+          "rss_kib": 284144,
+          "cpu_time_s": 42.08
+        },
+        {
+          "utc": "2026-10-03T04:35:22.630721+00:00",
+          "seconds_from_ui_50_start": 156.45172119140625,
+          "observer_monotonic_seconds": 2948675.373648625,
+          "pid": 88391,
+          "ps_cpu_percent": 30.2,
+          "rss_kib": 287056,
+          "cpu_time_s": 49.35
+        },
+        {
+          "utc": "2026-10-03T04:35:42.666586+00:00",
+          "seconds_from_ui_50_start": 176.48758602142334,
+          "observer_monotonic_seconds": 2948695.409226458,
+          "pid": 88391,
+          "ps_cpu_percent": 47.5,
+          "rss_kib": 289056,
+          "cpu_time_s": 57.26
+        },
+        {
+          "utc": "2026-10-03T04:36:02.701393+00:00",
+          "seconds_from_ui_50_start": 196.52239298820496,
+          "observer_monotonic_seconds": 2948715.443743291,
+          "pid": 88391,
+          "ps_cpu_percent": 35.1,
+          "rss_kib": 288400,
+          "cpu_time_s": 65.65
+        },
+        {
+          "utc": "2026-10-03T04:36:22.734827+00:00",
+          "seconds_from_ui_50_start": 216.5558271408081,
+          "observer_monotonic_seconds": 2948735.476897583,
+          "pid": 88391,
+          "ps_cpu_percent": 53.8,
+          "rss_kib": 318256,
+          "cpu_time_s": 74.69
+        },
+        {
+          "utc": "2026-10-03T04:36:42.769453+00:00",
+          "seconds_from_ui_50_start": 236.59045314788818,
+          "observer_monotonic_seconds": 2948755.511237291,
+          "pid": 88391,
+          "ps_cpu_percent": 38.3,
+          "rss_kib": 322400,
+          "cpu_time_s": 84.45
+        },
+        {
+          "utc": "2026-10-03T04:37:02.935196+00:00",
+          "seconds_from_ui_50_start": 256.7561960220337,
+          "observer_monotonic_seconds": 2948775.676703541,
+          "pid": 88391,
+          "ps_cpu_percent": 63.8,
+          "rss_kib": 371216,
+          "cpu_time_s": 94.99000000000001
+        },
+        {
+          "utc": "2026-10-03T04:37:22.974260+00:00",
+          "seconds_from_ui_50_start": 276.79526019096375,
+          "observer_monotonic_seconds": 2948795.715489625,
+          "pid": 88391,
+          "ps_cpu_percent": 53.4,
+          "rss_kib": 378656,
+          "cpu_time_s": 106.17
+        },
+        {
+          "utc": "2026-10-03T04:37:43.024962+00:00",
+          "seconds_from_ui_50_start": 296.8459620475769,
+          "observer_monotonic_seconds": 2948815.765904125,
+          "pid": 88391,
+          "ps_cpu_percent": 73.6,
+          "rss_kib": 379264,
+          "cpu_time_s": 118.3
+        },
+        {
+          "utc": "2026-10-03T04:38:03.084214+00:00",
+          "seconds_from_ui_50_start": 316.9052140712738,
+          "observer_monotonic_seconds": 2948835.824873666,
+          "pid": 88391,
+          "ps_cpu_percent": 71.8,
+          "rss_kib": 378336,
+          "cpu_time_s": 133.29
+        },
+        {
+          "utc": "2026-10-03T04:38:23.162987+00:00",
+          "seconds_from_ui_50_start": 336.9839870929718,
+          "observer_monotonic_seconds": 2948855.903361625,
+          "pid": 88391,
+          "ps_cpu_percent": 72.3,
+          "rss_kib": 379440,
+          "cpu_time_s": 148.73
+        },
+        {
+          "utc": "2026-10-03T04:38:43.208711+00:00",
+          "seconds_from_ui_50_start": 357.0297110080719,
+          "observer_monotonic_seconds": 2948875.948800625,
+          "pid": 88391,
+          "ps_cpu_percent": 80.6,
+          "rss_kib": 380416,
+          "cpu_time_s": 164.5
+        },
+        {
+          "utc": "2026-10-03T04:39:03.466345+00:00",
+          "seconds_from_ui_50_start": 377.28734517097473,
+          "observer_monotonic_seconds": 2948896.206148416,
+          "pid": 88391,
+          "ps_cpu_percent": 73.7,
+          "rss_kib": 379472,
+          "cpu_time_s": 179.89
+        },
+        {
+          "utc": "2026-10-03T04:39:23.510199+00:00",
+          "seconds_from_ui_50_start": 397.33119916915894,
+          "observer_monotonic_seconds": 2948916.2497155,
+          "pid": 88391,
+          "ps_cpu_percent": 80.5,
+          "rss_kib": 379600,
+          "cpu_time_s": 195.47
+        },
+        {
+          "utc": "2026-10-03T04:39:43.557164+00:00",
+          "seconds_from_ui_50_start": 417.37816405296326,
+          "observer_monotonic_seconds": 2948936.296405416,
+          "pid": 88391,
+          "ps_cpu_percent": 70.4,
+          "rss_kib": 381520,
+          "cpu_time_s": 211.12
+        },
+        {
+          "utc": "2026-10-03T04:40:03.607680+00:00",
+          "seconds_from_ui_50_start": 437.4286801815033,
+          "observer_monotonic_seconds": 2948956.346630958,
+          "pid": 88391,
+          "ps_cpu_percent": 70.1,
+          "rss_kib": 379920,
+          "cpu_time_s": 226.62
+        },
+        {
+          "utc": "2026-10-03T04:40:23.659073+00:00",
+          "seconds_from_ui_50_start": 457.48007321357727,
+          "observer_monotonic_seconds": 2948976.397745791,
+          "pid": 88391,
+          "ps_cpu_percent": 67.9,
+          "rss_kib": 381696,
+          "cpu_time_s": 242.09
+        },
+        {
+          "utc": "2026-10-03T04:40:43.708512+00:00",
+          "seconds_from_ui_50_start": 477.52951216697693,
+          "observer_monotonic_seconds": 2948996.446903416,
+          "pid": 88391,
+          "ps_cpu_percent": 74.2,
+          "rss_kib": 381168,
+          "cpu_time_s": 258.19
+        },
+        {
+          "utc": "2026-10-03T04:41:03.944091+00:00",
+          "seconds_from_ui_50_start": 497.7650911808014,
+          "observer_monotonic_seconds": 2949016.682218125,
+          "pid": 88391,
+          "ps_cpu_percent": 95.5,
+          "rss_kib": 381248,
+          "cpu_time_s": 273.69
+        },
+        {
+          "utc": "2026-10-03T04:41:23.992769+00:00",
+          "seconds_from_ui_50_start": 517.8137691020966,
+          "observer_monotonic_seconds": 2949036.7306055,
+          "pid": 88391,
+          "ps_cpu_percent": 74.2,
+          "rss_kib": 381104,
+          "cpu_time_s": 289.28
+        },
+        {
+          "utc": "2026-10-03T04:41:44.040584+00:00",
+          "seconds_from_ui_50_start": 537.861584186554,
+          "observer_monotonic_seconds": 2949056.778126583,
+          "pid": 88391,
+          "ps_cpu_percent": 93.8,
+          "rss_kib": 380416,
+          "cpu_time_s": 305.48
+        },
+        {
+          "utc": "2026-10-03T04:42:04.082344+00:00",
+          "seconds_from_ui_50_start": 557.9033441543579,
+          "observer_monotonic_seconds": 2949076.819600541,
+          "pid": 88391,
+          "ps_cpu_percent": 67.1,
+          "rss_kib": 382400,
+          "cpu_time_s": 321.11
+        },
+        {
+          "utc": "2026-10-03T04:42:24.130350+00:00",
+          "seconds_from_ui_50_start": 577.9513502120972,
+          "observer_monotonic_seconds": 2949096.867317833,
+          "pid": 88391,
+          "ps_cpu_percent": 68.4,
+          "rss_kib": 383056,
+          "cpu_time_s": 336.94
+        },
+        {
+          "utc": "2026-10-03T04:42:44.176317+00:00",
+          "seconds_from_ui_50_start": 597.9973170757294,
+          "observer_monotonic_seconds": 2949116.9130935,
+          "pid": 88391,
+          "ps_cpu_percent": 84.4,
+          "rss_kib": 380400,
+          "cpu_time_s": 353.39
+        }
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "nominal_seconds": 60,
+      "baseline": {
+        "utc": "2026-10-03T03:35:03.470071+00:00",
+        "seconds_from_ui_50_start": 61.501070976257324,
+        "observer_monotonic_seconds": 2945056.287183291,
+        "pid": 43405,
+        "ps_cpu_percent": 54.2,
+        "rss_kib": 201632,
+        "cpu_time_s": 32.25
+      },
+      "candidate": {
+        "utc": "2026-10-03T04:33:42.380797+00:00",
+        "seconds_from_ui_50_start": 56.201797008514404,
+        "observer_monotonic_seconds": 2948575.125150625,
+        "pid": 88391,
+        "ps_cpu_percent": 27.8,
+        "rss_kib": 202912,
+        "cpu_time_s": 16.86
+      },
+      "phase_age_difference_s": -5.29927396774292
+    },
+    {
+      "nominal_seconds": 120,
+      "baseline": {
+        "utc": "2026-10-03T03:36:03.872479+00:00",
+        "seconds_from_ui_50_start": 121.9034788608551,
+        "observer_monotonic_seconds": 2945116.689093375,
+        "pid": 43405,
+        "ps_cpu_percent": 113.3,
+        "rss_kib": 242064,
+        "cpu_time_s": 79.39
+      },
+      "candidate": {
+        "utc": "2026-10-03T04:34:42.499880+00:00",
+        "seconds_from_ui_50_start": 116.32088017463684,
+        "observer_monotonic_seconds": 2948635.24336575,
+        "pid": 88391,
+        "ps_cpu_percent": 30.9,
+        "rss_kib": 259312,
+        "cpu_time_s": 35.17
+      },
+      "phase_age_difference_s": -5.582598686218262
+    },
+    {
+      "nominal_seconds": 180,
+      "baseline": {
+        "utc": "2026-10-03T03:37:04.004150+00:00",
+        "seconds_from_ui_50_start": 182.03514981269836,
+        "observer_monotonic_seconds": 2945176.820288,
+        "pid": 43405,
+        "ps_cpu_percent": 88.8,
+        "rss_kib": 266320,
+        "cpu_time_s": 138.73
+      },
+      "candidate": {
+        "utc": "2026-10-03T04:35:42.666586+00:00",
+        "seconds_from_ui_50_start": 176.48758602142334,
+        "observer_monotonic_seconds": 2948695.409226458,
+        "pid": 88391,
+        "ps_cpu_percent": 47.5,
+        "rss_kib": 289056,
+        "cpu_time_s": 57.26
+      },
+      "phase_age_difference_s": -5.547563791275024
+    },
+    {
+      "nominal_seconds": 240,
+      "baseline": {
+        "utc": "2026-10-03T03:38:04.292354+00:00",
+        "seconds_from_ui_50_start": 242.3233540058136,
+        "observer_monotonic_seconds": 2945237.108051875,
+        "pid": 43405,
+        "ps_cpu_percent": 121.8,
+        "rss_kib": 301584,
+        "cpu_time_s": 204.49
+      },
+      "candidate": {
+        "utc": "2026-10-03T04:36:42.769453+00:00",
+        "seconds_from_ui_50_start": 236.59045314788818,
+        "observer_monotonic_seconds": 2948755.511237291,
+        "pid": 88391,
+        "ps_cpu_percent": 38.3,
+        "rss_kib": 322400,
+        "cpu_time_s": 84.45
+      },
+      "phase_age_difference_s": -5.732900857925415
+    },
+    {
+      "nominal_seconds": 300,
+      "baseline": {
+        "utc": "2026-10-03T03:39:04.465142+00:00",
+        "seconds_from_ui_50_start": 302.496141910553,
+        "observer_monotonic_seconds": 2945297.280323083,
+        "pid": 43405,
+        "ps_cpu_percent": 157.2,
+        "rss_kib": 310048,
+        "cpu_time_s": 284.56
+      },
+      "candidate": {
+        "utc": "2026-10-03T04:37:43.024962+00:00",
+        "seconds_from_ui_50_start": 296.8459620475769,
+        "observer_monotonic_seconds": 2948815.765904125,
+        "pid": 88391,
+        "ps_cpu_percent": 73.6,
+        "rss_kib": 379264,
+        "cpu_time_s": 118.3
+      },
+      "phase_age_difference_s": -5.650179862976074
+    },
+    {
+      "nominal_seconds": 320,
+      "baseline": {
+        "utc": "2026-10-03T03:39:24.649930+00:00",
+        "seconds_from_ui_50_start": 322.6809298992157,
+        "observer_monotonic_seconds": 2945317.46499225,
+        "pid": 43405,
+        "ps_cpu_percent": 163.3,
+        "rss_kib": 325264,
+        "cpu_time_s": 315.58
+      },
+      "candidate": {
+        "utc": "2026-10-03T04:38:03.084214+00:00",
+        "seconds_from_ui_50_start": 316.9052140712738,
+        "observer_monotonic_seconds": 2948835.824873666,
+        "pid": 88391,
+        "ps_cpu_percent": 71.8,
+        "rss_kib": 378336,
+        "cpu_time_s": 133.29
+      },
+      "phase_age_difference_s": -5.7757158279418945
+    }
+  ],
+  "common_subspans": {
+    "033320": {
+      "from": {
+        "utc": "2026-10-03T03:35:03.470071+00:00",
+        "seconds_from_ui_50_start": 61.501070976257324,
+        "observer_monotonic_seconds": 2945056.287183291,
+        "pid": 43405,
+        "ps_cpu_percent": 54.2,
+        "rss_kib": 201632,
+        "cpu_time_s": 32.25
+      },
+      "to": {
+        "utc": "2026-10-03T03:39:24.649930+00:00",
+        "seconds_from_ui_50_start": 322.6809298992157,
+        "observer_monotonic_seconds": 2945317.46499225,
+        "pid": 43405,
+        "ps_cpu_percent": 163.3,
+        "rss_kib": 325264,
+        "cpu_time_s": 315.58
+      },
+      "wall_observer_subspan_s": 261.17780895903707,
+      "cpu_time_delta_s": 283.33,
+      "subspan_cpu_percent_from_delta": 108.48165130462415,
+      "paired_ps_cpu_median": 117.55
+    },
+    "043223": {
+      "from": {
+        "utc": "2026-10-03T04:33:42.380797+00:00",
+        "seconds_from_ui_50_start": 56.201797008514404,
+        "observer_monotonic_seconds": 2948575.125150625,
+        "pid": 88391,
+        "ps_cpu_percent": 27.8,
+        "rss_kib": 202912,
+        "cpu_time_s": 16.86
+      },
+      "to": {
+        "utc": "2026-10-03T04:38:03.084214+00:00",
+        "seconds_from_ui_50_start": 316.9052140712738,
+        "observer_monotonic_seconds": 2948835.824873666,
+        "pid": 88391,
+        "ps_cpu_percent": 71.8,
+        "rss_kib": 378336,
+        "cpu_time_s": 133.29
+      },
+      "wall_observer_subspan_s": 260.69972304068506,
+      "cpu_time_delta_s": 116.42999999999999,
+      "subspan_cpu_percent_from_delta": 44.66057679003741,
+      "paired_ps_cpu_median": 42.9
+    }
+  },
+  "baseline_to_candidate_common_subspan_cpu_reduction_fraction": 0.5883121592182686,
+  "limits": [
+    "Different sessions and product versions; uncontrolled host background work / thermal state / UI runner activation differ.",
+    "Candidate contains history 1 Hz scheduling and Equatable isolation together, cannot attribute separately.",
+    "Original baseline ended early after AX picker snapshot failure; candidate full 600-second 50ms stage completed.",
+    "RSS has not decreased and does not establish or exclude retained objects.",
+    "No candidate stack profile was taken during frozen long test; residual work cannot be assigned solely to Charts."
+  ]
+}

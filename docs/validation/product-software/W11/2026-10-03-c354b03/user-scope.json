@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "explicit-user-local-acceptance-scope",
+  "user_quote_exact": "跳过休眠测试",
+  "received_at_utc": "2026-10-03T08:00:00Z",
+  "authorization_source": "Direct human instruction in root conversation; timestamp supplied by root task record.",
+  "applies_to": "This round of three physical OS sleep/manual-wake acceptance cycles only.",
+  "status": "skipped-by-user-for-this-round",
+  "preserved": [
+    "sleep/wake lifecycle functionality",
+    "software lifecycle regressions",
+    "same-session Gap/source-generation/worker behavior requirements",
+    "five CPU sampling periods",
+    "performance thresholds",
+    "all other unwaived requirements"
+  ],
+  "existing_waivers_unchanged": [
+    "72/73h hardware endurance",
+    "notarization/public distribution",
+    "other-model qualification"
+  ],
+  "REQ-127": "Existing whole-requirement local distribution waiver scope remains unchanged; this file does not add a whole-REQ waiver or update catalog verdicts.",
+  "observed_attempts": "Two sleep attempts had been triggered before the skip instruction; before/after/stop observations remain partial. Deep Idle and later lid closure were observed by root; no three-round passed claim.",
+  "no_future_scheduled_action": "No further physical sleep is requested or scheduled by this artifact."
+}

@@ -1,0 +1,34 @@
+{
+  "event": "INDEPENDENT_1000MS_CONTINUOUS_DURATION_OBSERVATION",
+  "utc": "2026-10-03T05:23:52.307352+00:00",
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+  "period_ms": 1000,
+  "original_xctest_result": "failed_ax_cpu_picker_missing",
+  "original_last_ui_progress_awake_seconds": 360.96940612467006,
+  "phase_start": {
+    "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+    "awake_uptime_seconds": 2950943.396352917,
+    "continuous_monotonic_seconds": 4907628.440898917,
+    "event": "LONG_UI_PHASE_START",
+    "period_ms": 1000,
+    "selected": "1000 ms",
+    "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+    "start_awake_uptime_seconds": 2950943.364966542,
+    "start_utc": "2026-10-03T05:13:10.654Z",
+    "utc": "2026-10-03T05:13:10.686Z"
+  },
+  "awake_uptime_seconds": 2951585.002802666,
+  "continuous_monotonic_seconds": 4908270.047348958,
+  "held_awake_seconds": 641.6378361238167,
+  "duration_at_least_600_seconds": true,
+  "app_and_worker_processes": "88391     1 /Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app/Contents/MacOS/TemperatureMonitor\n88506 88391 /Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app/Contents/MacOS/SensorWorker\n",
+  "ps_exit": 0,
+  "source_identity_unchanged": "Source and App/worker binaries are frozen; process and session observed unchanged.",
+  "limits": [
+    "This independent duration observation does not rewrite the failed XCTest result.",
+    "AX picker was temporarily unavailable to XCTest; independent CUA found the live main window.",
+    "UI observations and successful CPU raw continuity must be reviewed with this timing record.",
+    "No exact scheduler skipped, read-batch or display-delay percentile is measured."
+  ]
+}

@@ -1,0 +1,406 @@
+{
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "app_sha256": "9f786ee330531d2d194ef2c88f04c83c314de3253a1e218ea45df12f5aeabc3c",
+  "worker_sha256": "74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f",
+  "execution": "formal-release-app",
+  "fixture": false,
+  "configuration": "Release",
+  "model": "Mac16,13",
+  "os_build": "24G419",
+  "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+  "original_xctest_result": "failed_ax_cpu_picker_missing",
+  "original_four_complete_phases": [
+    {
+      "period_ms": 50,
+      "start": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2948518.923593417,
+        "continuous_monotonic_seconds": 4905203.968139417,
+        "event": "LONG_UI_PHASE_START",
+        "period_ms": 50,
+        "selected": "50 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2948518.8913937085,
+        "start_utc": "2026-10-03T04:32:46.146Z",
+        "utc": "2026-10-03T04:32:46.179Z"
+      },
+      "end": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2949120.1929424587,
+        "continuous_monotonic_seconds": 4905805.2374885,
+        "event": "LONG_UI_PHASE_END",
+        "held_awake_seconds": 601.2377714584582,
+        "period_ms": 50,
+        "selected": "50 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2948518.8913937085,
+        "start_utc": "2026-10-03T04:32:46.146Z",
+        "status": "92.0 °C",
+        "utc": "2026-10-03T04:42:47.456Z"
+      },
+      "held_awake_seconds": 601.2377714584582,
+      "observed_continuous_seconds": 601.2693490833044,
+      "complete_600_awake_seconds": true,
+      "own_cpu_main_success_count_inside_ui_window": 11896,
+      "first": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:594",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 1,
+        "elapsed_ns": 8149686708,
+        "wall_ns": 1791001966221689000,
+        "period_ms": 50,
+        "value_c": 91.0724868774414,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "last": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:157029",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 3,
+        "elapsed_ns": 609320905666,
+        "wall_ns": 1791002567401394000,
+        "period_ms": 50,
+        "value_c": 91.22201538085938,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "observed_interval_ms": {
+        "p50": 49.9945,
+        "p95": 52.516125,
+        "p99": 68.396625,
+        "max": 1572.638208
+      },
+      "cadence_count_shortfall_estimate_percent": 1.0681181592707811,
+      "segment_transitions": [
+        {
+          "start_elapsed_ns": 542049534458,
+          "end_elapsed_ns": 543199658083,
+          "gap_ms": 1150.123625,
+          "old_segment": 1,
+          "new_segment": 2
+        },
+        {
+          "start_elapsed_ns": 603148449958,
+          "end_elapsed_ns": 604721088166,
+          "gap_ms": 1572.638208,
+          "old_segment": 2,
+          "new_segment": 3
+        }
+      ]
+    },
+    {
+      "period_ms": 100,
+      "start": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2949124.868006792,
+        "continuous_monotonic_seconds": 4905809.912552917,
+        "event": "LONG_UI_PHASE_START",
+        "period_ms": 100,
+        "selected": "100 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2949124.8149117087,
+        "start_utc": "2026-10-03T04:42:52.078Z",
+        "utc": "2026-10-03T04:42:52.131Z"
+      },
+      "end": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2949726.176464375,
+        "continuous_monotonic_seconds": 4906411.221010417,
+        "event": "LONG_UI_PHASE_END",
+        "held_awake_seconds": 601.2950627496466,
+        "period_ms": 100,
+        "selected": "100 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2949124.8149117087,
+        "start_utc": "2026-10-03T04:42:52.078Z",
+        "status": "81.6 °C",
+        "utc": "2026-10-03T04:52:53.448Z"
+      },
+      "held_awake_seconds": 601.2950627496466,
+      "observed_continuous_seconds": 601.30845749937,
+      "complete_600_awake_seconds": true,
+      "own_cpu_main_success_count_inside_ui_window": 5854,
+      "first": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:158173",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 3,
+        "elapsed_ns": 614070859166,
+        "wall_ns": 1791002572151414000,
+        "period_ms": 100,
+        "value_c": 94.62432098388672,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "last": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:236040",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 7,
+        "elapsed_ns": 1215274664291,
+        "wall_ns": 1791003173363695000,
+        "period_ms": 100,
+        "value_c": 81.34228515625,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "observed_interval_ms": {
+        "p50": 99.983625,
+        "p95": 104.172083,
+        "p99": 105.832541,
+        "max": 4199.867666
+      },
+      "cadence_count_shortfall_estimate_percent": 2.645326757653055,
+      "segment_transitions": [
+        {
+          "start_elapsed_ns": 664669981083,
+          "end_elapsed_ns": 666469932958,
+          "gap_ms": 1799.951875,
+          "old_segment": 3,
+          "new_segment": 4
+        },
+        {
+          "start_elapsed_ns": 726473795666,
+          "end_elapsed_ns": 728676738208,
+          "gap_ms": 2202.942542,
+          "old_segment": 4,
+          "new_segment": 5
+        },
+        {
+          "start_elapsed_ns": 788673930000,
+          "end_elapsed_ns": 791269567166,
+          "gap_ms": 2595.637166,
+          "old_segment": 5,
+          "new_segment": 6
+        },
+        {
+          "start_elapsed_ns": 851273980125,
+          "end_elapsed_ns": 855473847791,
+          "gap_ms": 4199.867666,
+          "old_segment": 6,
+          "new_segment": 7
+        }
+      ]
+    },
+    {
+      "period_ms": 200,
+      "start": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2949730.6666658334,
+        "continuous_monotonic_seconds": 4906415.711211792,
+        "event": "LONG_UI_PHASE_START",
+        "period_ms": 200,
+        "selected": "200 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2949730.634244625,
+        "start_utc": "2026-10-03T04:52:57.906Z",
+        "utc": "2026-10-03T04:52:57.939Z"
+      },
+      "end": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2950331.950213625,
+        "continuous_monotonic_seconds": 4907016.994759708,
+        "event": "LONG_UI_PHASE_END",
+        "held_awake_seconds": 601.2356231249869,
+        "period_ms": 200,
+        "selected": "200 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2949730.634244625,
+        "start_utc": "2026-10-03T04:52:57.906Z",
+        "status": "77.9 °C",
+        "utc": "2026-10-03T05:02:59.231Z"
+      },
+      "held_awake_seconds": 601.2356231249869,
+      "observed_continuous_seconds": 601.2835479155183,
+      "complete_600_awake_seconds": true,
+      "own_cpu_main_success_count_inside_ui_window": 2977,
+      "first": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:236627",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 7,
+        "elapsed_ns": 1219934678666,
+        "wall_ns": 1791003178023776000,
+        "period_ms": 200,
+        "value_c": 85.75247955322266,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "last": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:277112",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 10,
+        "elapsed_ns": 1820934904708,
+        "wall_ns": 1791003779032490000,
+        "period_ms": 200,
+        "value_c": 77.879638671875,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "observed_interval_ms": {
+        "p50": 199.903833,
+        "p95": 210.479083,
+        "p99": 212.096583,
+        "max": 1199.771792
+      },
+      "cadence_count_shortfall_estimate_percent": 0.9650954842726933,
+      "segment_transitions": [
+        {
+          "start_elapsed_ns": 1457935538916,
+          "end_elapsed_ns": 1458964162125,
+          "gap_ms": 1028.623209,
+          "old_segment": 7,
+          "new_segment": 8
+        },
+        {
+          "start_elapsed_ns": 1518928382458,
+          "end_elapsed_ns": 1520128154250,
+          "gap_ms": 1199.771792,
+          "old_segment": 8,
+          "new_segment": 9
+        },
+        {
+          "start_elapsed_ns": 1640735651333,
+          "end_elapsed_ns": 1641739907958,
+          "gap_ms": 1004.256625,
+          "old_segment": 9,
+          "new_segment": 10
+        }
+      ]
+    },
+    {
+      "period_ms": 500,
+      "start": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2950336.7947738334,
+        "continuous_monotonic_seconds": 4907021.839319875,
+        "event": "LONG_UI_PHASE_START",
+        "period_ms": 500,
+        "selected": "500 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2950336.7598912087,
+        "start_utc": "2026-10-03T05:03:04.040Z",
+        "utc": "2026-10-03T05:03:04.075Z"
+      },
+      "end": {
+        "app_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/build/TemperatureMonitor.app",
+        "awake_uptime_seconds": 2950938.1253362503,
+        "continuous_monotonic_seconds": 4907623.169882375,
+        "event": "LONG_UI_PHASE_END",
+        "held_awake_seconds": 601.3008942496963,
+        "period_ms": 500,
+        "selected": "500 ms",
+        "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+        "start_awake_uptime_seconds": 2950336.7598912087,
+        "start_utc": "2026-10-03T05:03:04.040Z",
+        "status": "77.2 °C",
+        "utc": "2026-10-03T05:13:05.414Z"
+      },
+      "held_awake_seconds": 601.3008942496963,
+      "observed_continuous_seconds": 601.3305624993518,
+      "complete_600_awake_seconds": true,
+      "own_cpu_main_success_count_inside_ui_window": 1203,
+      "first": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:277439",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 10,
+        "elapsed_ns": 1826119187708,
+        "wall_ns": 1791003784216853000,
+        "period_ms": 500,
+        "value_c": 81.98682403564453,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "last": {
+        "sample_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191:294868",
+        "series_id": "00000000-0000-4000-8000-000000000200",
+        "segment": 10,
+        "elapsed_ns": 2427124490250,
+        "wall_ns": 1791004385230657000,
+        "period_ms": 500,
+        "value_c": 77.84517669677734,
+        "freshness": "unknown",
+        "source_wall_ns": null
+      },
+      "observed_interval_ms": {
+        "p50": 499.929125,
+        "p95": 516.068042,
+        "p99": 518.907542,
+        "max": 714.48325
+      },
+      "cadence_count_shortfall_estimate_percent": 0.0008822787382345432,
+      "segment_transitions": []
+    }
+  ],
+  "independent_1000ms_continuity": {
+    "period_ms": 1000,
+    "held_awake_seconds": 641.6378361238167,
+    "start_utc": "2026-10-03T05:13:10.686Z",
+    "end_utc": "2026-10-03T05:23:52.307352+00:00",
+    "duration_at_least_600_seconds": true,
+    "successful_cpu_main_count": 641,
+    "observed_sample_span_seconds": 640.010117583,
+    "successful_finish_interval_ms": {
+      "p50": 999.158084,
+      "p95": 1024.350125,
+      "p99": 1030.746375,
+      "max": 1398.931417
+    },
+    "cadence_count_shortfall_estimate_percent": 0.0015808473525780187,
+    "evidence_kind": "independent CUA+clock+owned SQLite observation of the same continuous interval",
+    "same_app_pid": 88391,
+    "same_worker_pid": 88506,
+    "same_session": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+    "elapsed_strictly_increasing": true,
+    "segments": [
+      10
+    ],
+    "snapshot_row_count": 344,
+    "overlapping_sample_ids": 144,
+    "new_sample_ids_from_snapshot": 200
+  },
+  "all_five_duration_conditions_observed": true,
+  "ui_observations_transcribed_from_native_cua": [
+    {
+      "utc": "2026-10-03T05:20:34Z",
+      "period_ms": 1000,
+      "cpu_ema_c": 79.7,
+      "scope": "Cua getApp main dashboard, no process restart; initial observation time rounded to UI second"
+    },
+    {
+      "utc": "2026-10-03T05:22:26.859Z",
+      "cpu_ema_c": 76.1,
+      "scope": "updated main dashboard AX diff"
+    },
+    {
+      "utc": "2026-10-03T05:24:02.859Z",
+      "period_ms": 1000,
+      "cpu_ema_c": 82.3,
+      "fatal_present": false,
+      "scope": "full main dashboard AX"
+    }
+  ],
+  "normal_exit": {
+    "method": "native CUA clicked actual app.quit button after final observation",
+    "app_and_worker_absent": true,
+    "owned_session_directory_absent": true,
+    "verification": "pgrep exit1 and Sessions listing empty after click; subsequent sleep session was separately created"
+  },
+  "not_measured": {
+    "exact_scheduler_skipped": null,
+    "worker_read_batch_latency": null,
+    "screen_display_delay": null,
+    "first_frame_latency": null
+  },
+  "merge_method": "union by sample_id of original collector and final same-session SQLite snapshot; every overlapping record equal; original files remain unchanged",
+  "limits": [
+    "The original failed XCTest is not rewritten as passed.",
+    "Supplemental final interval never stopped or changed App/session; no separate partial runs are stitched.",
+    "Original observers stopped with the runner; their tail alone does not cover the final extension.",
+    "Owned SQLite snapshot overlaps original raw collector and adds the uninterrupted final readings.",
+    "Interval percentiles and count shortfall do not measure exact skipped, read latency or display latency.",
+    "CPU12 protocol and qualification evidence are separate from this CPU-main continuity ledger."
+  ],
+  "input_hashes": {
+    "actual-cpu-max-events.jsonl": "05a832acb0fe7962e212e3fb55a9b709eb6b60e4e32a28c47a448eaa18580d79",
+    "independent-1000ms-duration.json": "ddf0343dca7c97301c17bd01b83118a321b952f54054b7b567944992e9893f27",
+    "independent-final-state/actual-1000ms-end.sqlite": "37fb26e91c1748e67cd8efc6546e73faea94e822ff4b4875df78c9dc39cd21b8"
+  }
+}

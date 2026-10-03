@@ -1,0 +1,70 @@
+{
+  "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+  "result": "passed",
+  "command": "swift test --package-path Packages/TemperatureCore --enable-code-coverage",
+  "exit_code": 0,
+  "tests": 349,
+  "suites": 55,
+  "core_coverage": {
+    "covered": 7095,
+    "total": 7971,
+    "percent": 89.01016183665789,
+    "scope": "TemperatureCore + SensorRuntime production Swift; App UI, C bridge and worker entry excluded"
+  },
+  "evidence": [
+    {
+      "path": "logs/full-core.log.gz",
+      "sha256": "61f4945edc4af8ae6d5f511e3360adb4fcea474c286219bc28ca1c059db04ae8",
+      "bytes": 10957,
+      "original_path": "/tmp/temperature-w11-retention-final-core.log",
+      "uncompressed_sha256": "d67977a22cc380d0dc6c7648f0f1eb6e711a873aae1b4cf54898ba804790bf78",
+      "uncompressed_bytes": 59654
+    },
+    {
+      "path": "logs/release-build.log.gz",
+      "sha256": "65bca682b541a2eea0176cb06ea8665776fc932e2b3763ee2b2be56fde545346",
+      "bytes": 7362,
+      "original_path": "/tmp/temperature-w11-retention-release-build.log",
+      "uncompressed_sha256": "2d188be49afefa0d0f04618ac0614bc570e0feffb5904ff4c16c6525eb8fa1c5",
+      "uncompressed_bytes": 106553
+    },
+    {
+      "path": "logs/ui-runner-bootstrap-failed.log.gz",
+      "sha256": "eae625f7f1ac8f5f50955ce084bc413661379cd04c210793713f85455704df14",
+      "bytes": 9016,
+      "original_path": "/tmp/temperature-w11-retention-release-smoke.log",
+      "uncompressed_sha256": "99b239df298df18f769993595ae53f2b8ba0136fe8d7cf204cf5f30f66ca2495",
+      "uncompressed_bytes": 160110
+    },
+    {
+      "path": "coverage/core-coverage.json.gz",
+      "sha256": "1aa03cb9784be6774a872e9fed2e6d7bc0b4869566882c6dc1d9e3f27379dc35",
+      "bytes": 146146,
+      "original_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/.build/arm64-apple-macosx/debug/codecov/TemperatureCore.json",
+      "uncompressed_sha256": "a6c2bbc6403b91cb062749cd54d8d0ccc7f2ea32fb5d40a1e03bc9b4ee50939b",
+      "uncompressed_bytes": 1271975
+    }
+  ],
+  "source_identity": "source-and-build-identity.json",
+  "new_cases": {
+    "REQ-031": [
+      "TTLRequirementBoundaryTests.onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents"
+    ],
+    "REQ-033": [
+      "TTLRequirementBoundaryTests.onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents"
+    ],
+    "REQ-034": [
+      "TTLRequirementBoundaryTests.onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents"
+    ],
+    "REQ-035": [
+      "TTLRequirementBoundaryTests.threeDayQueryFiltersExpiredRowsBeforePhysicalPrune"
+    ],
+    "REQ-036": [
+      "TTLRequirementBoundaryTests.onePruneAppliesEveryLayerCutoffAndPreservesRawWithoutCommittedParents"
+    ],
+    "REQ-037": [
+      "RuntimeMaintenanceRegressionTests.runningControllerExecutesRetentionAtSixtySecondBoundaries"
+    ]
+  },
+  "scope": "Full real SQLite/component software regression. Virtual elapsed vectors cover TTL and maintenance boundary requirements; not formal UI, hardware performance, 72-hour endurance or physical sleep acceptance."
+}

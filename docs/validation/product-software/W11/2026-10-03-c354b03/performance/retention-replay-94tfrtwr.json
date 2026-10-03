@@ -1,0 +1,462 @@
+{
+  "scope": "copied SQLite statements only; no actor/scheduler/hardware timing; candidate not applied to product",
+  "sqlite_version": "3.43.2",
+  "source_snapshot": "/private/tmp/temperature-long-ui-20261003T043223Z/final-before-normal-quit.sqlite",
+  "source_snapshot_sha256": "d979b97d7cf397539cef8c8c029e4f45e781f9265b213cf086f1d48f39a22bbd",
+  "retention_source_sha256": "9ed9ed53ff1d4610f6e5a7c25b09b61d01c737af3e4a44a6f06bfcb3d813073a",
+  "source_statements": {
+    "deleteRawSamples": "DELETE FROM raw_samples\nWHERE elapsed_ns <= ?\nAND EXISTS (\nSELECT 1 FROM aggregates\nWHERE width_s = 1\nAND series_id = raw_samples.series_id\nAND segment = raw_samples.segment\nAND start_elapsed_ns <= raw_samples.elapsed_ns\nAND end_elapsed_ns > raw_samples.elapsed_ns\n)",
+    "deleteEMASamples": "DELETE FROM ema_samples\nWHERE elapsed_ns <= ?\nAND EXISTS (\nSELECT 1 FROM aggregates\nWHERE width_s = 1\nAND series_id = ema_samples.series_id\nAND segment = ema_samples.segment\nAND start_elapsed_ns <= ema_samples.elapsed_ns\nAND end_elapsed_ns > ema_samples.elapsed_ns\n)",
+    "deleteTrendSamples": "DELETE FROM trend_samples WHERE elapsed_ns <= ?",
+    "deleteAggregates": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+    "deleteClosedGaps": "DELETE FROM gaps\nWHERE end_elapsed_ns IS NOT NULL AND end_elapsed_ns <= ?",
+    "deleteCommittedBatches": "DELETE FROM committed_batches WHERE committed_elapsed_ns <= ?",
+    "hasRawSamples": "SELECT 1 FROM raw_samples WHERE elapsed_ns <= ? LIMIT 1",
+    "hasEMASamples": "SELECT 1 FROM ema_samples WHERE elapsed_ns <= ? LIMIT 1",
+    "hasAggregates": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1"
+  },
+  "recorded_max_raw_elapsed_ns": 2832788810833,
+  "replay_now_elapsed_ns": 2892788810833,
+  "artificial_age_seconds": 60,
+  "all_logical_survivors_equal": true,
+  "results": [
+    {
+      "variant": "baseline",
+      "repetition": 0,
+      "database": "/tmp/temperature-retention-copy-94tfrtwr/0-baseline.sqlite",
+      "transaction_ms": 785.15975,
+      "statements": [
+        {
+          "sql": "BEGIN IMMEDIATE",
+          "bindings": [],
+          "duration_ms": 0.003,
+          "vm_steps": 5,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM raw_samples\nWHERE elapsed_ns <= ?\nAND EXISTS (\nSELECT 1 FROM aggregates\nWHERE width_s = 1\nAND series_id = raw_samples.series_id\nAND segment = raw_samples.segment\nAND start_elapsed_ns <= raw_samples.elapsed_ns\nAND end_elapsed_ns > raw_samples.elapsed_ns\n)",
+          "bindings": [
+            2592788810833
+          ],
+          "duration_ms": 385.603334,
+          "vm_steps": 10472346,
+          "direct_changes": 1646,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM ema_samples\nWHERE elapsed_ns <= ?\nAND EXISTS (\nSELECT 1 FROM aggregates\nWHERE width_s = 1\nAND series_id = ema_samples.series_id\nAND segment = ema_samples.segment\nAND start_elapsed_ns <= ema_samples.elapsed_ns\nAND end_elapsed_ns > ema_samples.elapsed_ns\n)",
+          "bindings": [
+            2592788810833
+          ],
+          "duration_ms": 386.679333,
+          "vm_steps": 10411408,
+          "direct_changes": 1646,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM trend_samples WHERE elapsed_ns <= ?",
+          "bindings": [
+            -707211189167
+          ],
+          "duration_ms": 0.006834,
+          "vm_steps": 16,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+          "bindings": [
+            1,
+            -707211189167
+          ],
+          "duration_ms": 0.003708,
+          "vm_steps": 20,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+          "bindings": [
+            10,
+            -83507211189167
+          ],
+          "duration_ms": 0.003417,
+          "vm_steps": 20,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+          "bindings": [
+            60,
+            -256307211189167
+          ],
+          "duration_ms": 0.002167,
+          "vm_steps": 20,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM gaps\nWHERE end_elapsed_ns IS NOT NULL AND end_elapsed_ns <= ?",
+          "bindings": [
+            -256307211189167
+          ],
+          "duration_ms": 0.002,
+          "vm_steps": 18,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM committed_batches WHERE committed_elapsed_ns <= ?",
+          "bindings": [
+            2292788810833
+          ],
+          "duration_ms": 0.494167,
+          "vm_steps": 13460,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "COMMIT",
+          "bindings": [],
+          "duration_ms": 12.071666,
+          "vm_steps": 3,
+          "direct_changes": 617,
+          "rows": []
+        }
+      ],
+      "grace_queries": [
+        {
+          "sql": "SELECT 1 FROM raw_samples WHERE elapsed_ns <= ? LIMIT 1",
+          "bindings": [
+            2472788810833
+          ],
+          "duration_ms": 0.009084,
+          "vm_steps": 12,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM ema_samples WHERE elapsed_ns <= ? LIMIT 1",
+          "bindings": [
+            2472788810833
+          ],
+          "duration_ms": 0.003375,
+          "vm_steps": 12,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1",
+          "bindings": [
+            1,
+            -827211189167
+          ],
+          "duration_ms": 0.003791,
+          "vm_steps": 15,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1",
+          "bindings": [
+            10,
+            -83627211189167
+          ],
+          "duration_ms": 0.003042,
+          "vm_steps": 15,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1",
+          "bindings": [
+            60,
+            -256427211189167
+          ],
+          "duration_ms": 0.002625,
+          "vm_steps": 15,
+          "direct_changes": 617,
+          "rows": []
+        }
+      ],
+      "checkpoint": {
+        "sql": "PRAGMA wal_checkpoint(PASSIVE)",
+        "bindings": [],
+        "duration_ms": 7.068333,
+        "vm_steps": 6,
+        "direct_changes": 617,
+        "rows": [
+          [
+            0,
+            421,
+            421
+          ]
+        ]
+      },
+      "quick_check": {
+        "sql": "PRAGMA quick_check",
+        "bindings": [],
+        "duration_ms": 52.037375,
+        "vm_steps": 6185636,
+        "direct_changes": 617,
+        "rows": [
+          [
+            "ok"
+          ]
+        ]
+      },
+      "logical_survivors": {
+        "raw_samples": {
+          "count": 3840,
+          "sha256": "1db4f66c41e6b2a0ea44f7dc761f2919d4a54566fffe9d3ffcf47dcd111be298"
+        },
+        "ema_samples": {
+          "count": 3840,
+          "sha256": "849dee2700f19a68d30d20ab167b698e265cbce396abf5a2fbd098e2889ea186"
+        },
+        "sample_members": {
+          "count": 2880,
+          "sha256": "d026867f8de62a56cef29334acfcf391944ed34795e17de1052d424b6b9dfb97"
+        },
+        "aggregates": {
+          "count": 47535,
+          "sha256": "230780b9c6a6f5c617fad4d0150ce93f36e72c206b66cc0d9ce618adc9228099"
+        },
+        "trend_samples": {
+          "count": 42375,
+          "sha256": "898b88159986ee2ac78500f88d120f1a8a8ec9e67f2721fe3f4625f90a7cec19"
+        },
+        "gaps": {
+          "count": 123,
+          "sha256": "36a34f27df30f8d8351898fd0095f4987975ddc5552941048235fb9e9b89be13"
+        },
+        "committed_batches": {
+          "count": 2838,
+          "sha256": "41104609ff07890d5358fcaa53a0bdbe87b3f13763660104acd29155bc18f9b1"
+        }
+      },
+      "grace_exceeded": false
+    },
+    {
+      "variant": "exact-parent",
+      "repetition": 0,
+      "database": "/tmp/temperature-retention-copy-94tfrtwr/0-exact-parent.sqlite",
+      "transaction_ms": 18.752,
+      "statements": [
+        {
+          "sql": "BEGIN IMMEDIATE",
+          "bindings": [],
+          "duration_ms": 0.167,
+          "vm_steps": 5,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM raw_samples\nWHERE elapsed_ns <= ?\nAND EXISTS (\nSELECT 1 FROM aggregates\nWHERE width_s = 1\nAND series_id = raw_samples.series_id\nAND segment = raw_samples.segment\nAND start_elapsed_ns = (raw_samples.elapsed_ns / 1000000000) * 1000000000\nAND end_elapsed_ns > raw_samples.elapsed_ns\n)",
+          "bindings": [
+            2592788810833
+          ],
+          "duration_ms": 10.221667,
+          "vm_steps": 139965,
+          "direct_changes": 1646,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM ema_samples\nWHERE elapsed_ns <= ?\nAND EXISTS (\nSELECT 1 FROM aggregates\nWHERE width_s = 1\nAND series_id = ema_samples.series_id\nAND segment = ema_samples.segment\nAND start_elapsed_ns = (ema_samples.elapsed_ns / 1000000000) * 1000000000\nAND end_elapsed_ns > ema_samples.elapsed_ns\n)",
+          "bindings": [
+            2592788810833
+          ],
+          "duration_ms": 2.873625,
+          "vm_steps": 79027,
+          "direct_changes": 1646,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM trend_samples WHERE elapsed_ns <= ?",
+          "bindings": [
+            -707211189167
+          ],
+          "duration_ms": 0.003292,
+          "vm_steps": 16,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+          "bindings": [
+            1,
+            -707211189167
+          ],
+          "duration_ms": 0.004417,
+          "vm_steps": 20,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+          "bindings": [
+            10,
+            -83507211189167
+          ],
+          "duration_ms": 0.002125,
+          "vm_steps": 20,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?",
+          "bindings": [
+            60,
+            -256307211189167
+          ],
+          "duration_ms": 0.002,
+          "vm_steps": 20,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM gaps\nWHERE end_elapsed_ns IS NOT NULL AND end_elapsed_ns <= ?",
+          "bindings": [
+            -256307211189167
+          ],
+          "duration_ms": 0.003,
+          "vm_steps": 18,
+          "direct_changes": 0,
+          "rows": []
+        },
+        {
+          "sql": "DELETE FROM committed_batches WHERE committed_elapsed_ns <= ?",
+          "bindings": [
+            2292788810833
+          ],
+          "duration_ms": 0.492167,
+          "vm_steps": 13460,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "COMMIT",
+          "bindings": [],
+          "duration_ms": 4.792708,
+          "vm_steps": 3,
+          "direct_changes": 617,
+          "rows": []
+        }
+      ],
+      "grace_queries": [
+        {
+          "sql": "SELECT 1 FROM raw_samples WHERE elapsed_ns <= ? LIMIT 1",
+          "bindings": [
+            2472788810833
+          ],
+          "duration_ms": 0.006709,
+          "vm_steps": 12,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM ema_samples WHERE elapsed_ns <= ? LIMIT 1",
+          "bindings": [
+            2472788810833
+          ],
+          "duration_ms": 0.003417,
+          "vm_steps": 12,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1",
+          "bindings": [
+            1,
+            -827211189167
+          ],
+          "duration_ms": 0.00325,
+          "vm_steps": 15,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1",
+          "bindings": [
+            10,
+            -83627211189167
+          ],
+          "duration_ms": 0.002792,
+          "vm_steps": 15,
+          "direct_changes": 617,
+          "rows": []
+        },
+        {
+          "sql": "SELECT 1 FROM aggregates\nWHERE width_s = ? AND end_elapsed_ns <= ?\nLIMIT 1",
+          "bindings": [
+            60,
+            -256427211189167
+          ],
+          "duration_ms": 0.002708,
+          "vm_steps": 15,
+          "direct_changes": 617,
+          "rows": []
+        }
+      ],
+      "checkpoint": {
+        "sql": "PRAGMA wal_checkpoint(PASSIVE)",
+        "bindings": [],
+        "duration_ms": 6.932625,
+        "vm_steps": 6,
+        "direct_changes": 617,
+        "rows": [
+          [
+            0,
+            421,
+            421
+          ]
+        ]
+      },
+      "quick_check": {
+        "sql": "PRAGMA quick_check",
+        "bindings": [],
+        "duration_ms": 52.3015,
+        "vm_steps": 6185636,
+        "direct_changes": 617,
+        "rows": [
+          [
+            "ok"
+          ]
+        ]
+      },
+      "logical_survivors": {
+        "raw_samples": {
+          "count": 3840,
+          "sha256": "1db4f66c41e6b2a0ea44f7dc761f2919d4a54566fffe9d3ffcf47dcd111be298"
+        },
+        "ema_samples": {
+          "count": 3840,
+          "sha256": "849dee2700f19a68d30d20ab167b698e265cbce396abf5a2fbd098e2889ea186"
+        },
+        "sample_members": {
+          "count": 2880,
+          "sha256": "d026867f8de62a56cef29334acfcf391944ed34795e17de1052d424b6b9dfb97"
+        },
+        "aggregates": {
+          "count": 47535,
+          "sha256": "230780b9c6a6f5c617fad4d0150ce93f36e72c206b66cc0d9ce618adc9228099"
+        },
+        "trend_samples": {
+          "count": 42375,
+          "sha256": "898b88159986ee2ac78500f88d120f1a8a8ec9e67f2721fe3f4625f90a7cec19"
+        },
+        "gaps": {
+          "count": 123,
+          "sha256": "36a34f27df30f8d8351898fd0095f4987975ddc5552941048235fb9e9b89be13"
+        },
+        "committed_batches": {
+          "count": 2838,
+          "sha256": "41104609ff07890d5358fcaa53a0bdbe87b3f13763660104acd29155bc18f9b1"
+        }
+      },
+      "grace_exceeded": false
+    }
+  ]
+}

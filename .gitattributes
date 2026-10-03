@@ -3,3 +3,8 @@
 docs/validation/product-software/W11/**/logs/*.log -whitespace
 # Preserve the original Markdown hard line breaks.
 docs/validation/product-software/W11/report.md whitespace=-blank-at-eol
+
+# Preserve original trailing blank lines in immutable reviewed source reports.
+docs/validation/product-software/W11/2026-10-03-c354b03/performance/retention-copy-probe-execution-report.md whitespace=-blank-at-eof
+docs/validation/product-software/W11/2026-10-03-c354b03/ttl-software/actual-execution-review.md whitespace=-blank-at-eof
+docs/validation/product-software/W11/2026-10-03-f9e850c/sql-red-green/report.md whitespace=-blank-at-eof

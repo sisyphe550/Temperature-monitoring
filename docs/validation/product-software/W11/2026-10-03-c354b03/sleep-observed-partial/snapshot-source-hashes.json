@@ -1,0 +1,20 @@
+[
+  {
+    "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/before-round-1.sqlite",
+    "sha256": "0b14a0697e624bf984d6d8d5a03859c40f01b4f14ea874653303c7c652795e78",
+    "bytes": 1720320,
+    "database_not_committed": true
+  },
+  {
+    "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/after-round-1.sqlite",
+    "sha256": "57b9da1cd52a075299a252624509a5d58d1f07402299e7c5f585fe9acb38af08",
+    "bytes": 29872128,
+    "database_not_committed": true
+  },
+  {
+    "original_path": "/tmp/temperature-real-sleep-20261003T052500Z/stopped-by-user-final-observation.sqlite",
+    "sha256": "0f13d37f410cb5d409c5b1e44da5f1e4480d353ad6d276d12033ff417316247a",
+    "bytes": 48689152,
+    "database_not_committed": true
+  }
+]

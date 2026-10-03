@@ -1,0 +1,62 @@
+{
+  "original_log_path": "/tmp/temperature-long-ui-20261003T043223Z/long-ui.log",
+  "original_log_sha256": "d9d8612b7d79dc7533f21f55f18ac1e6a9eb1da434f4752a2c09c939b9cc06f4",
+  "original_log_bytes": 465162,
+  "original_xctest_result": "FAILED",
+  "selected_lines": [
+    {
+      "original_line": 1591,
+      "text": "Test Suite 'Selected tests' started at 2026-10-03 12:32:37.834."
+    },
+    {
+      "original_line": 1592,
+      "text": "Test Suite 'TemperatureMonitorUITests.xctest' started at 2026-10-03 12:32:37.834."
+    },
+    {
+      "original_line": 1593,
+      "text": "Test Suite 'TemperatureMonitorUITests' started at 2026-10-03 12:32:37.834."
+    },
+    {
+      "original_line": 1594,
+      "text": "Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testLocalReleaseAppFivePeriodsTenMinutes]' started."
+    },
+    {
+      "original_line": 3229,
+      "text": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/UITests/TemperatureMonitorUITests.swift:432: error: -[TemperatureMonitorUITests.TemperatureMonitorUITests testLocalReleaseAppFivePeriodsTenMinutes] : XCTAssertTrue failed - CPU picker is missing after activation."
+    },
+    {
+      "original_line": 3250,
+      "text": "Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testLocalReleaseAppFivePeriodsTenMinutes]' failed (2868.066 seconds)."
+    },
+    {
+      "original_line": 3251,
+      "text": "Test Suite 'TemperatureMonitorUITests' failed at 2026-10-03 13:20:25.901."
+    },
+    {
+      "original_line": 3252,
+      "text": "\t Executed 1 test, with 1 failure (0 unexpected) in 2868.066 (2868.067) seconds"
+    },
+    {
+      "original_line": 3253,
+      "text": "Test Suite 'TemperatureMonitorUITests.xctest' failed at 2026-10-03 13:20:25.901."
+    },
+    {
+      "original_line": 3254,
+      "text": "\t Executed 1 test, with 1 failure (0 unexpected) in 2868.066 (2868.067) seconds"
+    },
+    {
+      "original_line": 3255,
+      "text": "Test Suite 'Selected tests' failed at 2026-10-03 13:20:25.902."
+    },
+    {
+      "original_line": 3256,
+      "text": "\t Executed 1 test, with 1 failure (0 unexpected) in 2868.066 (2868.068) seconds"
+    },
+    {
+      "original_line": 3264,
+      "text": "** TEST FAILED **"
+    }
+  ],
+  "excluded": "Full raw log, other-application AX trees, and whole-screen media.",
+  "original_xcresult_path": "/tmp/temperature-long-ui-20261003T043223Z/long-ui.xcresult"
+}

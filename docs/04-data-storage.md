@@ -79,3 +79,7 @@ SQLite删行复用空间、不保证缩小主文件，因此主库软限看有�
 ## 审查修复的运行边界（2026-10-02）
 
 父控制器每retentionTickSeconds执行prune；Raw/EMA只有已提交1s父层时删除，缺父层保留并按grace失败。终结Lease reservation立即回收，重复cancel幂等，终结后commit仍DB-INTEGRITY-010。临时数据库错误按既定预算重试相同BatchID和payload。MonitorEngine请求重放缓存保留Raw TTL内记录，SHA256指纹、最多writerMaxRecords项；过期重放显式PROCESSING-VALIDATE失败(expired_request)，不能复写为新样本。Sample身份依赖Receipt后推进的会话单调序号，不保留全会话ID集合。
+
+## 父一秒窗口查找（2026-10-03）
+
+删除过期Raw/EMA仍须同series、同segment且已提交的width=1父桶。依据05的elapsed=0整秒对齐规则，SQL用`start_elapsed_ns=(sample.elapsed_ns/1_000_000_000)*1_000_000_000`精确命中既有复合主键，并保留`end_elapsed_ns>sample.elapsed_ns`半开条件。恢复发生在秒中间时partial父仍对齐整秒；缺父、错series/segment/width不授权删除。此两行查找优化不改TTL、事务、schema或API；[真实SQLite规模及语义回归](validation/product-software/W11/2026-10-03-f9e850c/README.md)证明软件算法改进，不证明正式App性能门槛通过。

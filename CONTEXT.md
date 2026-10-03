@@ -47,6 +47,12 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 ### 2026-10-03 验收刷新
 
-PR44已merge commit合入main403d44b；旧W11 PR26恢复Draft。新真实睡眠暴露历史刷新误Fatal(#46)和自动退出卡住(#47)，在当前隔离feature工作树修复并重验。五档各10分钟、真实sleep/wake保留；旧短测不替代。
+PR44已merge commit合入main403d44b；旧W11 PR26恢复Draft。新真实睡眠暴露历史刷新误Fatal(#46)和自动退出卡住(#47)，在当前隔离feature工作树修复并重验。五档各10分钟保留；2026-10-03 08:00UTC用户明确“跳过休眠测试”，本轮三轮物理验收仅标skipped-by-user，生命周期功能和软件回归仍保留；旧短测不替代其他未豁免门槛。
 
 证据catalog格式version2，产品契约族仍v1/revision3；source commit须在delivery且delivery须在当前HEAD历史中。逐REQ声明必需证据种类、已覆盖和未测项，formal实机必须记录Release/fixture=false/App+worker hash/机型系统。声明结构门禁不自动证明报告真实性，仍需独立审查。
+
+### 2026-10-03 c354证据与用户范围更新
+
+c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](docs/validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
+
+最新生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](docs/validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。

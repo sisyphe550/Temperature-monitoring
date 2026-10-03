@@ -1,0 +1,33 @@
+{
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "snapshot_original_path": "/tmp/temperature-long-ui-20261003T043223Z/independent-final-state/actual-1000ms-end.sqlite",
+  "snapshot_sha256": "37fb26e91c1748e67cd8efc6546e73faea94e822ff4b4875df78c9dc39cd21b8",
+  "snapshot_not_committed": true,
+  "snapshot_bytes": 72560640,
+  "open_mode": "readonly + query_only",
+  "session_id": "ad735257-fea5-41a0-8e1b-644c8d2bc191",
+  "query": "SELECT r.sample_id,r.series_id,r.segment,r.elapsed_ns,r.wall_ns,r.period_ms,r.value_c,r.freshness,r.source_wall_ns FROM raw_samples r JOIN series s USING(series_id) WHERE s.kind='cpuMain' ORDER BY elapsed_ns",
+  "columns": [
+    "sample_id",
+    "series_id",
+    "segment",
+    "elapsed_ns",
+    "wall_ns",
+    "period_ms",
+    "value_c",
+    "freshness",
+    "source_wall_ns"
+  ],
+  "terminal_rows": 344,
+  "overlap_identical": 144,
+  "new_rows": 200,
+  "unique_records_by": "sample_id",
+  "merged_1000ms_rows_inside_original_continuous_interval": 641,
+  "actual_observed_sample_span_seconds": 640.010117583,
+  "phase_window_utc": [
+    "2026-10-03T05:13:10.686Z",
+    "2026-10-03T05:23:52.307352+00:00"
+  ],
+  "formula": "merge original collector + complete terminal SQL rows by sample_id; assert all overlaps exactly equal; restrict to period_ms=1000 and phase wall_ns window; sort elapsed_ns",
+  "limits": "Same process/session continuous extension; original failed XCTest is not changed. Successful finish intervals are not exact scheduler skipped or read/display latency."
+}

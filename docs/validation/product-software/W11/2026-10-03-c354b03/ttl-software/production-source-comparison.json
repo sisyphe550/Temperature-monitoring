@@ -1,0 +1,403 @@
+{
+  "source_commit": "c354b0392a91367d42708d7424fd0e133af825b9",
+  "source_files_compared": 66,
+  "all_production_files_match": true,
+  "files": [
+    {
+      "path": "Package.swift",
+      "original_sha256": "30f47f853d736bff5880b3d2022140f0eb9881d533aff41255623cb383a757a7",
+      "copy_sha256": "30f47f853d736bff5880b3d2022140f0eb9881d533aff41255623cb383a757a7",
+      "matches": true
+    },
+    {
+      "path": "Sources/CSQLite/module.modulemap",
+      "original_sha256": "bbfe59a972a3e8e09e347c04bc22c0eacd2544881af8a4b6068bfc30b38466e8",
+      "copy_sha256": "bbfe59a972a3e8e09e347c04bc22c0eacd2544881af8a4b6068bfc30b38466e8",
+      "matches": true
+    },
+    {
+      "path": "Sources/CSQLite/shim.h",
+      "original_sha256": "b052d8e561e942f97b503033ecd2eaa2b35213bdbf374983efe9e68eabdfc024",
+      "copy_sha256": "b052d8e561e942f97b503033ecd2eaa2b35213bdbf374983efe9e68eabdfc024",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/EnduranceCollector.swift",
+      "original_sha256": "e9d60aa72700b417abb93e134b089d11792dd8ed7a3142abcb0fcdd4f35e3c2b",
+      "copy_sha256": "e9d60aa72700b417abb93e134b089d11792dd8ed7a3142abcb0fcdd4f35e3c2b",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/Entry.swift",
+      "original_sha256": "50e52023cb44957532e9e10a26d351abc02b541a339240b7d32abc0fb53c6915",
+      "copy_sha256": "50e52023cb44957532e9e10a26d351abc02b541a339240b7d32abc0fb53c6915",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/LifecycleCollector.swift",
+      "original_sha256": "7f9c14160f8373156d2b6e224fc6775510e993ce07c7c967cc97ef9b5729cd81",
+      "copy_sha256": "7f9c14160f8373156d2b6e224fc6775510e993ce07c7c967cc97ef9b5729cd81",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/ProductQualificationMain.swift",
+      "original_sha256": "7dad4f530a64cb35c88a9b531e9ea151c6d0742471483f9803b05cdd27ba3ccf",
+      "copy_sha256": "7dad4f530a64cb35c88a9b531e9ea151c6d0742471483f9803b05cdd27ba3ccf",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/SQLiteEvidence.swift",
+      "original_sha256": "d58f949c52dcff19d68e0fbbe41176f003f94dc611bd095fd34f08c19c5c5988",
+      "copy_sha256": "d58f949c52dcff19d68e0fbbe41176f003f94dc611bd095fd34f08c19c5c5988",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/SchedulesCollector.swift",
+      "original_sha256": "87432f2ae0d8562a075f7de96c381b4d17ade1effd02fa50d75d1a3a17513f4b",
+      "copy_sha256": "87432f2ae0d8562a075f7de96c381b4d17ade1effd02fa50d75d1a3a17513f4b",
+      "matches": true
+    },
+    {
+      "path": "Sources/ProductQualification/SourcesCollector.swift",
+      "original_sha256": "9084a6042c3bd76d36864d9b4fba6cbd0c4e9d415cd42aa110964e5536164285",
+      "copy_sha256": "9084a6042c3bd76d36864d9b4fba6cbd0c4e9d415cd42aa110964e5536164285",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorBridge/SensorBridge.c",
+      "original_sha256": "c303f5c2e0af28bead4fded263f13a47d6a5b35d6b8246235269376464d49a2d",
+      "copy_sha256": "c303f5c2e0af28bead4fded263f13a47d6a5b35d6b8246235269376464d49a2d",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorBridge/include/SensorBridge.h",
+      "original_sha256": "38969ae7dbf726ea083a2cde2b444d0241ca4c9481f92a6a2c3d0f1cd2358895",
+      "copy_sha256": "38969ae7dbf726ea083a2cde2b444d0241ca4c9481f92a6a2c3d0f1cd2358895",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorRuntime/ProcessingCoordinator.swift",
+      "original_sha256": "0a234cf11c427ba56c9dfcc0a97e1d35eca34a0228bf900d6eb4657183e34e4b",
+      "copy_sha256": "0a234cf11c427ba56c9dfcc0a97e1d35eca34a0228bf900d6eb4657183e34e4b",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorRuntime/SamplingService.swift",
+      "original_sha256": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+      "copy_sha256": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorRuntime/SeriesCatalogBuilder.swift",
+      "original_sha256": "0caea82d70367e9dbbfd9d7ce9816b79e3f4dcfcdf40655962afa2b983983ea0",
+      "copy_sha256": "0caea82d70367e9dbbfd9d7ce9816b79e3f4dcfcdf40655962afa2b983983ea0",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorRuntime/SessionMonitorController.swift",
+      "original_sha256": "4293bd925f6c334732faba8acf98b4b2c0032bb9a07eaaedf264da007befa5a6",
+      "copy_sha256": "4293bd925f6c334732faba8acf98b4b2c0032bb9a07eaaedf264da007befa5a6",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorRuntime/WorkerClient.swift",
+      "original_sha256": "7915319f626ca44e25d1936c7fd7848ab3ea39e9dc11b13f313fc30d66b3da0b",
+      "copy_sha256": "7915319f626ca44e25d1936c7fd7848ab3ea39e9dc11b13f313fc30d66b3da0b",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorRuntime/WorkerProtocol.swift",
+      "original_sha256": "e83330f9e652615d21922fe1bf9671e6cee87d113a7f8998b3d4106facbbb6d4",
+      "copy_sha256": "e83330f9e652615d21922fe1bf9671e6cee87d113a7f8998b3d4106facbbb6d4",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorWorker/HardwareSession.swift",
+      "original_sha256": "d6b0e83ed735885370199c25e7d6927cbc75422673ca09f0b30283bbd0b03fb2",
+      "copy_sha256": "d6b0e83ed735885370199c25e7d6927cbc75422673ca09f0b30283bbd0b03fb2",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorWorker/SensorBridgeSupport.swift",
+      "original_sha256": "786ec3394dbcd074ca290d5d6a43049b1df3abfa706d7b8dbaa6766d07624e60",
+      "copy_sha256": "786ec3394dbcd074ca290d5d6a43049b1df3abfa706d7b8dbaa6766d07624e60",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorWorker/SensorWorkerEntry.swift",
+      "original_sha256": "9216fb1ab293ca5b557551f7ee0ad88360977aa1fa42ab7e799f00af1cf0b90f",
+      "copy_sha256": "9216fb1ab293ca5b557551f7ee0ad88360977aa1fa42ab7e799f00af1cf0b90f",
+      "matches": true
+    },
+    {
+      "path": "Sources/SensorWorker/WorkerClock.swift",
+      "original_sha256": "18dc61dfe2d02509e15ab8a15a2c8db899e8e3f864ae69de93cfead1fa573fa9",
+      "copy_sha256": "18dc61dfe2d02509e15ab8a15a2c8db899e8e3f864ae69de93cfead1fa573fa9",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Clock.swift",
+      "original_sha256": "36b53b318840a4e41e35e4247a5163bb580f04610c8a0bd551ee7fb4e8ca16e5",
+      "copy_sha256": "36b53b318840a4e41e35e4247a5163bb580f04610c8a0bd551ee7fb4e8ca16e5",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Configuration.swift",
+      "original_sha256": "14601aafd6c6a62e33dbcff8c6e6ce994cf9ef36efffa2e8fdb8464646707902",
+      "copy_sha256": "14601aafd6c6a62e33dbcff8c6e6ce994cf9ef36efffa2e8fdb8464646707902",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/ConnectionIdentity.swift",
+      "original_sha256": "7d6a0ac48fc8a77bcb3a45e37770308e060264e7564fdd4f1103efc8e93647e8",
+      "copy_sha256": "7d6a0ac48fc8a77bcb3a45e37770308e060264e7564fdd4f1103efc8e93647e8",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/Identifiers.swift",
+      "original_sha256": "5e24adb61ae813a534b6626b6c015a052404c31985557b1723d7f9a835e3d6ca",
+      "copy_sha256": "5e24adb61ae813a534b6626b6c015a052404c31985557b1723d7f9a835e3d6ca",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/PersistenceTypes.swift",
+      "original_sha256": "637189907e90dffb5a198ee0f632e0521adf80edd966b7ceab7bd96f5508e3d1",
+      "copy_sha256": "637189907e90dffb5a198ee0f632e0521adf80edd966b7ceab7bd96f5508e3d1",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/PresentationTypes.swift",
+      "original_sha256": "b03e3091bfd339eba87769ead6dcd4f25580e7a045369a28655eb842ac9def36",
+      "copy_sha256": "b03e3091bfd339eba87769ead6dcd4f25580e7a045369a28655eb842ac9def36",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/SensorTypes.swift",
+      "original_sha256": "7bb302a5e18ab2d1ec47120e6cabbd4aea63c1bfcbe4d6ddbc583824964c1e7a",
+      "copy_sha256": "7bb302a5e18ab2d1ec47120e6cabbd4aea63c1bfcbe4d6ddbc583824964c1e7a",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/DiagnosticLogger.swift",
+      "original_sha256": "a5ebbd67a61d2cd5e6d777d2dd189c85abcf6bd27f2296312f58d8cc405ec325",
+      "copy_sha256": "a5ebbd67a61d2cd5e6d777d2dd189c85abcf6bd27f2296312f58d8cc405ec325",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/ErrorCoordinator.swift",
+      "original_sha256": "6a9a41134f2c9077e23ad4fe32623df73d398089f975ca0344af45a03d0dc96f",
+      "copy_sha256": "6a9a41134f2c9077e23ad4fe32623df73d398089f975ca0344af45a03d0dc96f",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/FatalDisplayReceipt.swift",
+      "original_sha256": "3938520b0b856cfe9922f29f657153e18c0784c4b9095bfdd5c7ead677df57a3",
+      "copy_sha256": "3938520b0b856cfe9922f29f657153e18c0784c4b9095bfdd5c7ead677df57a3",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/MonitorFailure.swift",
+      "original_sha256": "7a56d6f7a5a26ff8f5d7dccf29b5902041c440f58744d48725b622572f272f6c",
+      "copy_sha256": "7a56d6f7a5a26ff8f5d7dccf29b5902041c440f58744d48725b622572f272f6c",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/MonitorShutdown.swift",
+      "original_sha256": "d7e503a57d5838223805bbe225d18785ccd71c7fe47cb3f2cca1f4314a2a0748",
+      "copy_sha256": "d7e503a57d5838223805bbe225d18785ccd71c7fe47cb3f2cca1f4314a2a0748",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/ReportWriter.swift",
+      "original_sha256": "0a64aabeb26972dea6ad68c40e21b60f93db8e56bc4fddf98fae0951fc9637f0",
+      "copy_sha256": "0a64aabeb26972dea6ad68c40e21b60f93db8e56bc4fddf98fae0951fc9637f0",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/RetryPolicy.swift",
+      "original_sha256": "2267a0b95a6d3d19ea0f5933d4cb604c8e14bbf32c75c3a335369945115e0d52",
+      "copy_sha256": "2267a0b95a6d3d19ea0f5933d4cb604c8e14bbf32c75c3a335369945115e0d52",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/MetricResolver.swift",
+      "original_sha256": "fe4c60caff730d3e55b5738e02c6e6ff7a61322bf7ed562a530967fcb7ac3e0f",
+      "copy_sha256": "fe4c60caff730d3e55b5738e02c6e6ff7a61322bf7ed562a530967fcb7ac3e0f",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/MonitorEngine.swift",
+      "original_sha256": "d1088d37983c78829ea6467515e93f45ceac64b1b5c733b7ff8be6b1a4a6b629",
+      "copy_sha256": "d1088d37983c78829ea6467515e93f45ceac64b1b5c733b7ff8be6b1a4a6b629",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/BoundedQueue.swift",
+      "original_sha256": "fd5dc98a425eb91517f31267ecdbe3a469b3fdaa225efdf5a93a0abcb8acf020",
+      "copy_sha256": "fd5dc98a425eb91517f31267ecdbe3a469b3fdaa225efdf5a93a0abcb8acf020",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/PersistenceBatchMetrics.swift",
+      "original_sha256": "ef738e6633d7d8121b42b931a860fcf7eee9ed51ae7ef94da2d66d7fee929629",
+      "copy_sha256": "ef738e6633d7d8121b42b931a860fcf7eee9ed51ae7ef94da2d66d7fee929629",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/SessionPersistence.swift",
+      "original_sha256": "a681e4b18497f4af11b18585190b794beee6a5e3fb516abefb737d362540c683",
+      "copy_sha256": "a681e4b18497f4af11b18585190b794beee6a5e3fb516abefb737d362540c683",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/StorageWriter.swift",
+      "original_sha256": "27fcfc1090501e4285e38eca27f72bcd52e27822c345f20710e283db243de34e",
+      "copy_sha256": "27fcfc1090501e4285e38eca27f72bcd52e27822c345f20710e283db243de34e",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/Aggregation.swift",
+      "original_sha256": "aa74c7271f1030ee058ff76b35137ac6f66125af599c3fdc70699c3498290cf2",
+      "copy_sha256": "aa74c7271f1030ee058ff76b35137ac6f66125af599c3fdc70699c3498290cf2",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/CPUMaxDerivation.swift",
+      "original_sha256": "d0d711588e4d95108a22d67c1e7a7a4285cc740a4169d663adab5f40131053c7",
+      "copy_sha256": "d0d711588e4d95108a22d67c1e7a7a4285cc740a4169d663adab5f40131053c7",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/EMA.swift",
+      "original_sha256": "54382e0ac12b713cef280b53b147fea2f85224545fa659437e80e6154811fa4e",
+      "copy_sha256": "54382e0ac12b713cef280b53b147fea2f85224545fa659437e80e6154811fa4e",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/RingBuffer.swift",
+      "original_sha256": "55c8768f35f37b3789dcfe6d118423a1c21aa9e832d8c5d2403f5658eb68454a",
+      "copy_sha256": "55c8768f35f37b3789dcfe6d118423a1c21aa9e832d8c5d2403f5658eb68454a",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/SafeWatermark.swift",
+      "original_sha256": "bcec1cb4e18525534c7a3a490537a3c3c809750d6dd442854557f82d6636883d",
+      "copy_sha256": "bcec1cb4e18525534c7a3a490537a3c3c809750d6dd442854557f82d6636883d",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/SampleValidation.swift",
+      "original_sha256": "cb7d776968f34b98fcc3caaafd7b77620cd480236710949c6633c389d3dcc3f6",
+      "copy_sha256": "cb7d776968f34b98fcc3caaafd7b77620cd480236710949c6633c389d3dcc3f6",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/Trend.swift",
+      "original_sha256": "93dffe66026244ff915cf2d8c6b538f33edb7136cd9647a82c68a22a024c647a",
+      "copy_sha256": "93dffe66026244ff915cf2d8c6b538f33edb7136cd9647a82c68a22a024c647a",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/QualifiedSensorClient.swift",
+      "original_sha256": "0d869702e505fec14e164d1c2fa5eb521ba511709cc974b5bde1f54cbf751fa1",
+      "copy_sha256": "0d869702e505fec14e164d1c2fa5eb521ba511709cc974b5bde1f54cbf751fa1",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Registry.swift",
+      "original_sha256": "db053168342d95da1150ccaf183a0ad198609757a3b1a683cfa4647bec104de5",
+      "copy_sha256": "db053168342d95da1150ccaf183a0ad198609757a3b1a683cfa4647bec104de5",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Resources/defaults-v1.json",
+      "original_sha256": "70abeabf49f423a5956c7bf1025db57f531bb7ce2b1437ea218a05d0be5b83c5",
+      "copy_sha256": "70abeabf49f423a5956c7bf1025db57f531bb7ce2b1437ea218a05d0be5b83c5",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Resources/first-profile-v1.json",
+      "original_sha256": "39e444d22ab6d51a7bc6768e0cbcdef02cb992a21e069e08f709ded69864c108",
+      "copy_sha256": "39e444d22ab6d51a7bc6768e0cbcdef02cb992a21e069e08f709ded69864c108",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Resources/schema-v1.sql",
+      "original_sha256": "f435d7f0ba5ce01392ec14d3d3581e9b10d9e6fccbf44ef9659f3f5487fe056e",
+      "copy_sha256": "f435d7f0ba5ce01392ec14d3d3581e9b10d9e6fccbf44ef9659f3f5487fe056e",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/SensorDecoding.swift",
+      "original_sha256": "fb2c9abddeb95efbc9cfceccdc26c4fd793a1b0b77e5aaf353554c00f21623af",
+      "copy_sha256": "fb2c9abddeb95efbc9cfceccdc26c4fd793a1b0b77e5aaf353554c00f21623af",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/SessionLock.swift",
+      "original_sha256": "cf014ec56f82459330331118e92bc3a20a23fa5be7f5fc087f809abf4f6195fc",
+      "copy_sha256": "cf014ec56f82459330331118e92bc3a20a23fa5be7f5fc087f809abf4f6195fc",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/BatchCanonicalHash.swift",
+      "original_sha256": "98af0dbf2bf83ae380a66703b0e3066715ad9870ad096f1788fe15533c33a8a1",
+      "copy_sha256": "98af0dbf2bf83ae380a66703b0e3066715ad9870ad096f1788fe15533c33a8a1",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/BatchCommit.swift",
+      "original_sha256": "bb3827c5c77cbcccb786cc74c0245d78318d185c129468132cd49dceb5cd32a0",
+      "copy_sha256": "bb3827c5c77cbcccb786cc74c0245d78318d185c129468132cd49dceb5cd32a0",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/HistoryQuery.swift",
+      "original_sha256": "f456256a70aa2f03bb6124c3dd492cb5c2f7d5accfbcbde9299e88e716d766ce",
+      "copy_sha256": "f456256a70aa2f03bb6124c3dd492cb5c2f7d5accfbcbde9299e88e716d766ce",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/Retention.swift",
+      "original_sha256": "9ed9ed53ff1d4610f6e5a7c25b09b61d01c737af3e4a44a6f06bfcb3d813073a",
+      "copy_sha256": "9ed9ed53ff1d4610f6e5a7c25b09b61d01c737af3e4a44a6f06bfcb3d813073a",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/SQLiteStore.swift",
+      "original_sha256": "74bcdd70fd1de8e879202e59b178e8d806dd4d4bf37513032db018ea175c7a3b",
+      "copy_sha256": "74bcdd70fd1de8e879202e59b178e8d806dd4d4bf37513032db018ea175c7a3b",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/SessionCleanup.swift",
+      "original_sha256": "83309fc818ab612f3daf58bdb3281d4c4df9a3b8f670977febe5ca7c43d65e34",
+      "copy_sha256": "83309fc818ab612f3daf58bdb3281d4c4df9a3b8f670977febe5ca7c43d65e34",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperatureCore/TemperatureCoreModule.swift",
+      "original_sha256": "9897fcc0184d8d479a551614b71a0c0474178b6452a25c0550f5df11f00c1c05",
+      "copy_sha256": "9897fcc0184d8d479a551614b71a0c0474178b6452a25c0550f5df11f00c1c05",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperaturePresentation/HistoryChartModel.swift",
+      "original_sha256": "0f1888fd0ffe5ce1d20844914c2d48daa85023c4426adb52233f1d1150b4b217",
+      "copy_sha256": "0f1888fd0ffe5ce1d20844914c2d48daa85023c4426adb52233f1d1150b4b217",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperaturePresentation/PresentationModel.swift",
+      "original_sha256": "ed861826842c87ed847a5eb4beb7b37528ca878e6399544862ec6a7b4d18670b",
+      "copy_sha256": "ed861826842c87ed847a5eb4beb7b37528ca878e6399544862ec6a7b4d18670b",
+      "matches": true
+    },
+    {
+      "path": "Sources/TemperaturePresentation/PresentationState.swift",
+      "original_sha256": "b2c305b6e1ed2731e692bf6766d76ca075893078294e0a3e430aef5422488e87",
+      "copy_sha256": "b2c305b6e1ed2731e692bf6766d76ca075893078294e0a3e430aef5422488e87",
+      "matches": true
+    }
+  ]
+}

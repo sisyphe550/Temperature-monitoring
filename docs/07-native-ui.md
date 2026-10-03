@@ -128,7 +128,7 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 采样、存储与渲染分别调度；快照发布上限每200ms一次，隐藏窗口停止绘图。该UI节奏不改变用户CPU五档设置，性能通过W09实测验收。
 
-## 8. UI验收清单（计划，未执行）
+## 8. UI验收清单（按分项证据判定）
 
 - 菜单栏保持摄氏一位小数；无值、缓存、过期状态不同，主线程不执行硬件读取。
 - 左/右键、Esc、点击外部、全屏/锚点变化、主窗口关闭和重新打开符合第2节。
@@ -148,4 +148,10 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 短测中，50ms采样运行约五分钟后，主App CPU观察值达到120–163%（macOS单核100%口径）；一秒`sample`窗口的主线程栈中Charts约占79.38%。这没有证明CPU读取skipped超过1%，也没有证明测试AX失效由Charts造成；原始测量与边界见[独立记录](validation/product-software/W11/2026-10-03-403d44b/chart-performance-independent-review.md)。
 
-实时温度快照仍按现有200ms发布上限更新，自动历史查询及几何刷新采用一秒节流；用户切换范围、来源与唤醒强制刷新仍立即执行。`HistoryChartView`按整个`HistoryChartState`与最近毫秒化的wall−elapsed显示偏移比较，日期转换共用该偏移；相同结果与相同显示偏移不重复布局，墙钟跳变会更新坐标。显示量化误差最多0.5ms，原始时间戳不变；跨量化边界的微小抖动仍可能重绘。新增点、Gap、segment、来源或加载/失败状态照常重绘，点选日期保留本地状态。未改变CPU五档、Raw/EMA、查询层、边界、2000点上限或默认配置。最终正式Release构建、签名与上游边界通过；同一版本的实际点选已显示温度与样本数，五档8秒、范围切换、重开、正常退出通过。五分钟填充后的CPU对比、五档600秒与真实sleep/wake仍需独立记录。墙钟锚点的算术边界与源码审查见[补充审查](validation/product-software/W11/2026-10-03-403d44b/anchor-production-independent-review.md)。
+实时温度快照仍按现有200ms发布上限更新，自动历史查询及几何刷新采用一秒节流；用户切换范围、来源与唤醒强制刷新仍立即执行。`HistoryChartView`按整个`HistoryChartState`与最近毫秒化的wall−elapsed显示偏移比较，日期转换共用该偏移；相同结果与相同显示偏移不重复布局，墙钟跳变会更新坐标。显示量化误差最多0.5ms，原始时间戳不变；跨量化边界的微小抖动仍可能重绘。新增点、Gap、segment、来源或加载/失败状态照常重绘，点选日期保留本地状态。未改变CPU五档、Raw/EMA、查询层、边界、2000点上限或默认配置。最终正式Release构建、签名与上游边界通过；同一版本的实际点选已显示温度与样本数，五档8秒、范围切换、重开、正常退出通过。相同50ms存活时间的CPU对比及五档duration条件已有新独立记录，原长测XCTest仍FAILED；三轮物理sleep/wake按用户最新指令跳过，精确性能仍pending。墙钟锚点的算术边界与源码审查见[补充审查](validation/product-software/W11/2026-10-03-403d44b/anchor-production-independent-review.md)。
+
+### c354独立UI观察与性能边界
+
+c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
+
+最新生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。

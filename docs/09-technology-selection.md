@@ -1,6 +1,6 @@
 # 技术与依赖冻结基线
 
-更新：2026-10-02；实施契约v1族修订3。生产代码已存在，以下用于维护、缺陷修复和验收。
+更新：2026-10-03；实施契约v1族修订3。生产代码已存在，以下用于维护、缺陷修复和验收。
 
 | 部分 | 本版选择 | 依据 |
 |---|---|---|
@@ -14,10 +14,10 @@
 | build_toolchain | Xcode16.4＋Swift 6 language mode＋macOS15.5 SDK；后续更高版本须跑全套检查 | [Apple版本矩阵](https://developer.apple.com/xcode/system-requirements)列出此组合，不声称它是最新版；实际编译器完整版本进入发布清单 |
 | deployment_target | 预期`MACOSX_DEPLOYMENT_TARGET=15.7.3`、`ARCHS=arm64`；完整Xcode可用后须验证工具链接受patch级目标，并复核最终二进制LC_BUILD_VERSION | 若工具链不能表达15.7.3，必须提出契约修订；不得自行改成15.0或用运行时检查掩盖构建声明 |
 | runtime_profile | Mac16,13＋macOS≥15.7.3＋first-profile-v1；未知机型或不匹配profile拒绝运行 | 固定CPU12成员及可选SSD/Battery路线；不是全部Air通用表 |
-| qualified_combinations | 当前为空，待W09逐App SHA/签名/机型/OS build登记；2026-09-15 CLI原型只保留为前置可行性证据 | 源码、SDK或原型可行性不能替代正式App实机通过 |
+| qualified_combinations | [13](13-operations-distribution.md)保留14cac6f的历史资格组合；当前c354b039候选须按自身App/worker SHA、签名、机型/OS build与实际通过用例重新登记，完整资格仍pending；2026-09-15 CLI原型只保留为前置可行性证据 | 历史组合、源码、SDK或原型不能替代当前正式App实机通过 |
 | 分发 | 本地Debug/Release可先ad-hoc；正式ZIP使用Developer ID、Hardened Runtime、公证 | 13的两级交付 |
 
-本机目前只有Command Line Tools，能做Swift核心/原型与契约验证；Xcode项目和XCUITest阶段需要安装完整Xcode。不能把缺Xcode写成传感器方案不可行，也不能声称UI测试已执行。
+初期仅有Command Line Tools是历史环境限制；当前已具备完整Xcode 26.3，已有产品核心回归、正式Release本机短测和XCUITest执行证据。构建工具链的完整版本须绑定每次受测产物记录，不能由已有构建或旧UI结果推导当前候选的完整实机资格；当前c354b039候选边界见[13](13-operations-distribution.md)与[10](10-test-strategy.md)。
 
 ## 四类平台字段的使用规则
 

@@ -1,0 +1,24 @@
+{
+  "source_commit": "f9e850cb6986ca9b22980849c503080c8b5d96ee",
+  "issue": 50,
+  "result": "passed",
+  "production_changed_lines": 2,
+  "raw_vm_steps": {
+    "baseline_32": 5057,
+    "baseline_2048": 246977,
+    "fixed_32": 1358,
+    "fixed_2048": 1358
+  },
+  "ema_vm_steps": {
+    "baseline_32": 4677,
+    "baseline_2048": 246597,
+    "fixed_32": 978,
+    "fixed_2048": 978
+  },
+  "expected_red_exit_code": 1,
+  "green_exit_code": 0,
+  "tests": 5,
+  "cases": 6,
+  "independent_equivalence": "408 samples x 7 cutoffs x Raw/EMA, aligned parent cases",
+  "scope": "Fix verified SQL work growth and preserves compiled Store semantics. Does not prove all live long-run pauses originated here or formal 50ms performance thresholds passed."
+}
