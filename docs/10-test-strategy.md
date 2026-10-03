@@ -1,8 +1,6 @@
 # 测试、验收向量与证据标准
 
-更新：2026-10-03；实施契约v1族修订3。产品核心回归、fixture UI和正式Release本机短测已有分层执行证据，历史结果仍绑定原源码/产物；下列用例是验收标准，是否通过必须逐项核对对应证据，不能由一组结果推导全部产品通过。
-
-受测生产源码`c354b0392a91367d42708d7424fd0e133af825b9`的[独立归档](validation/product-software/W11/2026-10-03-c354b03/README.md)区分实际duration证据、原XCTest失败、性能未测与用户跳过本轮物理休眠。c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。新SQL修复与其最终Core/Release回归须另绑定源码及App/worker身份，不能继承c354完整资格；W11和逐REQ未完成项仍按当前catalog与有效证据判定。
+更新：2026-10-03；实施契约v1族修订3。当前本机课程门槛为[课程范围](course-delivery-scope.md)及[五criterion政策](contracts/course-delivery-v1.json)，全132项资格是可选扩展。软件、fixture、正式Release实机和发行证据分开，旧失败/未测结果保持，不因范围收缩批量通过。当前最小收尾仍进行中。
 
 ## 自动化和实机分层
 
@@ -25,9 +23,9 @@
 | TC-UPSTREAM-BOUNDARY | Stats旧值回退、SwiftTempBar缺事件/名称分类、12来源对10物理核、同名不同registryID、Release产物扫描、缺第三方登记/许可 | 旧值不生成新样本；缺事件不生成0°C；名称/数量不产生物理语义；不同registryID不合并；无写SMC/root/helper/fixture；copied/modified未登记即失败 |
 | TC-WORKFLOW | 失败CI、open blocking Issue、过期head检查、未保护main | 必须拒绝合并；merge commit且保留远端分支；通过不能只看旧SHA |
 | TC-DOCS | 134ID/132active/2retired、链接、DDL、参数、任务与正文hash | `validate-handoff.py`通过；已删除项不进入实现任务 |
-| TC-RELEASE | 最终ZIP/worker签名、Gatekeeper、公证、离线运行、权限复测 | 与发布清单相同SHA；没有凭证时明确未完成正式分发 |
-| TC-ENDURANCE | 72h真实运行，默认200ms；五档各10min另测；虚拟长时压力 | 队列/Buffer/DB/WAL/日志均未破上限，TTL/缺口正确，无崩溃和未解释丢样本 |
-| TC-ACCEPTANCE | 逐项132现行REQ附日志和构建/环境 | 不留无任务/无测试/无结果项；2退役明确不适用 |
+| TC-RELEASE | 当前本机Release/worker ad-hoc签名和身份；可选Developer ID、公证ZIP、Gatekeeper/发行复测 | 本机交付绑定实际SHA；未执行公证不标通过，也不阻塞当前本机课程 |
+| TC-ENDURANCE | 可选72/73h真实运行与五档各10min；必要软件虚拟时间TTL/有界回归保留 | 本轮不执行实机长跑；未测不标通过。72h历史功能、TTL与数据边界不变 |
+| TC-ACCEPTANCE | 当前五课程criterion绑定原证据；旧132项逐REQ矩阵保留 | course-local与旧strict资格分别判定；pending不批量接受，2退役不适用 |
 
 ## 必须覆盖的交叉场景
 
@@ -58,24 +56,33 @@ python3 scripts/validate-handoff.py
 
 原型8测试与55/55 ProbeCore覆盖不等于产品80%门禁。正式UI黑盒不能只测ViewModel；托管macOS CI不证明Air传感器。
 
-## 硬件验收口径
+## 本轮正式App与资源观察
 
-W09首先确认身份、单位、固定集合，再以普通用户的正式App构建测试五档各10分钟，记录实际间隔、批耗时、skipped、失败、CPU/内存与来源新鲜度。正常空闲目标：skipped≤1%，读批p95≤所选周期，p99≤2×周期，首帧/显示延迟p95≤500ms；这些是v1验收门槛，未测不得标为通过。超标不删五档，登记缺陷并优化；受控负载段单列，仍要求界面响应、有界且缺口如实记录。
+W09使用当前源码构建的正式Release App，普通用户、无fixture。确认真实CPU12/来源单位和数值，执行启动、五档短切换、历史范围/点选、菜单/Popover、关窗重开同会话及正常退出。首50ms档约330秒覆盖最近5分钟图，其他四档各8秒；同会话观察owned App/child Worker CPU/RSS及交互，不使用压力负载，也不重复五档10分钟或物理睡眠。
 
-本轮UI长测分别记录清醒持续秒数、档位、温度与退出清理；SQL/collector记录成功样本完成间隔及资源观察值。当前正式App证据未导出精确scheduler skipped、读批开始/结束或可关联的屏幕呈现时间，不能用Raw相邻完成间隔、理想点数短缺或20秒一次的AX读取替代上述性能指标。五档持续性、真实睡眠和性能门槛必须分项判定；未测性能保持pending。
+COURSE-CPU结合正式App成功读取与必要软件失败回归证明边界；实际硬件短测未发生故障时，不声称实机故障路径已触发。失败不补0/旧值、CPU缺成员不能派生max、SQLite故障不发布未提交状态等必须保留；关键数据、管道、生命周期、退出/残留清理软件回归属于COURSE-REGRESSIONS。正常退出本次App/Worker结束且本会话目录消失；不额外强杀第二次真实App。
 
-CPU/内存/能耗暂无百分比硬指标，资源有界上限按21执行；每个结果保存测量口径（CPU是否单核百分比）。用户已豁免本轮72/73h耐久；不得将短时测试标成长测通过。若未来恢复该验收，72小时真实测试用默认200ms、记录首末小时与每小时资源，不能用几分钟或虚拟时钟冒充。受控CPU负载只用普通用户、限定时长，不改风扇、不禁用系统保护；出现系统严重热状态就停止负载并如实记录。
+COURSE-RESOURCES记录时间、档位/图表、owned PID/PPID、CPU单核100%口径、累计CPU TIME、RSS KiB及操作响应。比较50ms稳定后段的区间CPU与RSS变化，报告明显异常、趋稳或观察不足；不发明百分比阈值，不把预热/填图缓存等同泄漏。短测只支持本机本轮观察，不能证明全部硬件无泄漏或准确延迟百分位。
 
-每次报告记录源码SHA、App/worker哈希、profile版本、机型/OS build、权限/签名、用例、输入、预期/实际、状态及原始证据。发生可复现缺陷按11建Issue并回归。现有2026-09-15证据原样保存；新增测试另建按日期/提交命名目录。
+每份报告保存source/App/worker SHA、profile、机型/OS build、权限/签名、输入、预期/实际、时长、结果及原始证据。真实可复现缺陷按11建Issue并回归，真实blocking未解决不得合并。
+
+## 可选严格资格
+
+旧扩展资格保留五档各10分钟空闲/受控负载、真实sleep/wake及72/73h耐久；对应旧性能目标skipped≤1%、读批p95≤周期/p99≤2×周期、首帧/显示p95≤500ms留在strict模式，不是当前课程门槛。未测保持未测，不能用Raw相邻完成间隔、理想点数短缺或间歇AX快照替代精确指标。若未来明确恢复该范围，再新增实机证据；不修改历史报告。
+
+取消长跑不删除72h分层历史、容量/TTL120秒清理宽限或软件sleep/wake；CPU成员、周期、单位、失败状态、算法与schema不变。原型/CLI、CI和模拟不替代正式App实机；当前本机短测不替代可选扩展资格。
 
 ## 修订3适用回归（2026-10-02）
 
-TC-SENSOR/TC-UPSTREAM-BOUNDARY覆盖NVMe位置事实缺失、父树失败、非Internal、多候选、WorkerProtocol闭合枚举和Battery资格化；TC-SCHEDULE覆盖CPU非零耗时下Battery/SSD同相位不饥饿；TC-DB/TC-RETENTION覆盖临时错误相同payload重试、并发reservation和周期TTL；TC-VALIDATE/TC-ERROR覆盖CPU缺成员、超时恢复/耗尽、日志报告、过期重放拒绝。REQ映射与任务DAG不变，修复证据另存；模拟通过不等于正式硬件通过。用户已豁免72/73h、公证、公开发行与跨机型认证，本轮短时Release验证与上述软件回归仍必需。
+TC-SENSOR/TC-UPSTREAM-BOUNDARY覆盖NVMe位置事实缺失、父树失败、非Internal、多候选、WorkerProtocol闭合枚举和Battery资格化；TC-SCHEDULE覆盖CPU非零耗时下Battery/SSD同相位不饥饿；TC-DB/TC-RETENTION覆盖临时错误相同payload重试、并发reservation和周期TTL；TC-VALIDATE/TC-ERROR覆盖CPU缺成员、超时恢复/耗尽、日志报告、过期重放拒绝。REQ映射与任务DAG不变，修复证据另存；模拟通过不等于正式硬件通过。最新课程范围将实机长测、公证/发行/跨机与精确性能列为可选，本轮正式App短测和上述必要软件回归仍必需。
 
-## 当前源码回归与断管负例
+## 本轮门槛与已有证据
 
-当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。 [新证据](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原f42失败CI，不据并行日志顺序推断唯一触发测试。新增公开断管用例/fixture同源RED→GREEN，涵盖错误代码与实际子进程回收；单测涵盖正常newline帧、独立管道/全局SIGPIPE状态、-1无效描述符和已关闭FileHandle的Swift错误。完整回归计数355包含这些用例，不重复相加局部suite计数。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。
+```sh
+python3 scripts/validate-handoff.py --product-acceptance
+python3 scripts/validate-handoff.py --strict-product-acceptance
+```
 
-## 当前交接的测试同步修正
+course-local检查COURSE-CPU/FUNCTIONS/RESOURCES/REGRESSIONS/CORE，strict保留旧全132项资格；不是同一完成状态。核心≥80%及异常分母不变。最终独立审查、同head五CI和零真实blocking在11的外部流程回读，不让文档CI要求自身未来完成。
 
-交接测试提交`f0a7dde76e3e02e66f23aed47915bb75e2fa438b`修正可选来源Generation、Budget、Wake、SleepAdmissionRace四项回归及共同任务时钟；生产/构建输入相对7124仍为空diff。原7c13与44070的CI失败保留，Cocoa256来自测试等待到期，实际CI唯一阶段未知。按真实SQLite提交、任务未来sleep边界驱动后，正常/125ms慢轮询通过；探测预算生产复制件负控、第三Receipt拒绝及第四读取消清理负控均在目标位置失败并终止，断言未弱化。最终完整Core355项/57组PASS3.093秒，覆盖7116/8002=88.93%；157份源码、构建和测试文件与实际Git对象匹配，独立审查无阻断。 [最新软件归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)另列最终源、完整回归、原失败和负控；[上一轮Generation归档](validation/product-software/W11/2026-10-03-edddf76/README.md)保持原件。正式App未重建/重测，7124短测保留原source/App/worker身份。本轮真实休眠验收按用户要求跳过，软件生命周期回归保留。验收仍100accepted/31pending/1waived/2retired，精确性能等缺口未自动接受，PR26保持Draft。完成当前修复、证据绑定与远端检查后按用户要求暂停，不启动新验收；最新head CI与Issue按GitHub回读，不能由本段宣称完整产品通过。
+[7124归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留断管错误/子进程回收、完整Core和原正式App短测；[f0归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)保留Generation/Budget/Wake/SleepAdmissionRace的提交边界同步、失败及负控。旧逐REQ仍100accepted/31pending/1waived/2retired；本轮全Core与正式短测须另绑定实际源码/产物，不因这些链接预先通过。

@@ -1,5 +1,9 @@
 # 需求到设计、执行任务与验收的追踪矩阵
 
+## 课程交付与严格资格的区别
+
+本表保留每条需求的原有严格资格事实，不把取消的验收写成 PASS。课程交付使用[课程范围](course-delivery-scope.md)与[course-delivery-v1.json](contracts/course-delivery-v1.json)中的 134 项分层和五个固定检查项；核心行为由正式 App 短测及完整 Core 回归组合验证。`python3 scripts/validate-handoff.py --product-acceptance` 检查课程交付；`--strict-product-acceptance` 检查全部 132 项严格资格。二者输出明确的 profile。
+
 更新：2026-10-02；实施契约v1族修订3；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
 
 | 需求 | 当前状态 | 设计 | 执行任务 | 验收组 | 产品结果 |

@@ -1,5 +1,7 @@
 # Git、GitHub与执行门禁
 
+> 本轮课程交付（2026-10-03）以[course-delivery-scope](course-delivery-scope.md)为准。保留真实CPU、核心操作、异常/数据/资源修复、Core≥80%、必要CI和一次最终独立审查；休眠/72h耐久/公证/公开发行/跨机认证/精确SLO/五档各10分钟为本轮不验收。下文实现语义、来源真实性和容量界限不放松；完整资格路线与历史记录不得当作课程阻塞。用户已授权适用门禁通过后merge commit并保留开发分支。
+
 更新：2026-10-02；contract revision 3执行方案。远端`git@github.com:sisyphe550/Temperature-monitoring.git`，主分支main。文档基线已由[PR #4](https://github.com/sisyphe550/Temperature-monitoring/pull/4) 合入；[PR #5](https://github.com/sisyphe550/Temperature-monitoring/pull/5) 将 `blocking-issues` 放到默认分支；T00.5 在该检查对真实 open PR head 成功后启用 required 规则。回读证据见 `docs/validation/product-software/W00/`。
 
 ## 分支与集成

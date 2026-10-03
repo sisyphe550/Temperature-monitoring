@@ -1,6 +1,6 @@
 # 原生界面与开源复用基线
 
-更新日期：2026-10-02；实施契约v1族修订3。来源：C01既有界面需求、C09开源前端复用、C10完整交接与C11实时内存路径。**开源复用方向已确认；下述布局与交互为授权细化的设计基线，已实现为App，当前完善历史、状态与交互并重新验证。**
+更新日期：2026-10-03；实施契约v1族修订3。来源：C01既有界面需求、C09开源前端复用、C10完整交接与C11实时内存路径。**开源复用方向与实现设计不变；当前按[课程交付范围](course-delivery-scope.md)完成本机正式App短测，尚未声明本轮通过。**
 
 ## 1. 选定参考与复用范围
 
@@ -16,7 +16,7 @@
 
 已检查MacMonitor仓库中的[面板截图](https://github.com/ryyansafar/MacMonitor/blob/2fff106238e17e318f1b48775034c461f6464257/assets/screenshots/dashboard.png)。其中`CoreTile`显示的是**CPU占用率百分比**，不是逐核温度；本项目不引入该组件。历史图表及本项目的主窗口是本地需求扩展，不能宣称上游已经实现我们的SQLite/EMA/72小时契约。
 
-代码与截图检查记录见[UI来源清单](research/2026-09-17-native-ui-sources.json)。三项参考固定版本均有MIT文件；实施时若复制/改写实质代码，保留作者版权、完整许可和改动记录，登记第三方声明。本轮只更新设计文档，未导入UI代码或品牌图标。
+代码与截图检查记录见[UI来源清单](research/2026-09-17-native-ui-sources.json)。三项参考固定版本均有MIT文件；实施时若复制/改写实质代码，保留作者版权、完整许可和改动记录，登记第三方声明。上述来源清单是设计研究记录；当前App已实现，实际代码导入仍以third-party-v1及notice为准，不由研究记录推断。
 
 ## 2. 页面与用户操作
 
@@ -126,9 +126,11 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 6. `HistoryChartModel`：查询服务选择可用层级，转换为`HistoryChartState`，按显示点数降采样且保留min/max、缺口与定义版本。
 7. 移植实质代码前先更新`contracts/third-party-v1.json`及ThirdPartyNotices，逐文件登记来源、MIT版权/许可和修改范围；保持业务模型与上游遥测对象解耦。
 
-采样、存储与渲染分别调度；快照发布上限每200ms一次，隐藏窗口停止绘图。该UI节奏不改变用户CPU五档设置，性能通过W09实测验收。
+采样、存储与渲染分别调度；快照发布上限每200ms一次，隐藏窗口停止绘图。该UI节奏不改变用户CPU五档设置；本轮W09以同一次正式App短测的资源与响应观察判定，精确性能及长测是可选扩展。
 
-## 8. UI验收清单（按分项证据判定）
+## 8. UI功能基线与验收范围
+
+本轮COURSE-FUNCTIONS验证标准启动、CPU12/单位、五档短切换、来源选择、历史范围/点选、关窗继续采样、标准重开与正常退出，并记录菜单/Popover的本机实际操作。首50ms约330s、其他各8s，同次观察CPU/RSS与响应；不加压力负载、不恢复五档10min或物理sleep。以下保留设计用例；浅深色、全屏等未在本轮执行的扩展项不能由短测推成PASS。
 
 - 菜单栏保持摄氏一位小数；无值、缓存、过期状态不同，主线程不执行硬件读取。
 - 左/右键、Esc、点击外部、全屏/锚点变化、主窗口关闭和重新打开符合第2节。
@@ -144,18 +146,10 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 本机2026-10-02正式App录像证实，拥挤的刘海屏菜单栏可使状态项在AX树中存在但未绘制，坐标点击无法打开菜单。软件不改变其他App或系统缩放设置，也不保证被宿主隐藏的菜单项可点击。正式启动及标准reopen都打开同一主窗口；主窗口提供退出入口，使温度、设置和退出仍可访问。菜单栏正常显示时保留既有左／右键交互，是否通过以真实点击证据判定。
 
-## 2026-10-03 实机性能修正方案
+## 当前图表方案与证据边界
 
-短测中，50ms采样运行约五分钟后，主App CPU观察值达到120–163%（macOS单核100%口径）；一秒`sample`窗口的主线程栈中Charts约占79.38%。这没有证明CPU读取skipped超过1%，也没有证明测试AX失效由Charts造成；原始测量与边界见[独立记录](validation/product-software/W11/2026-10-03-403d44b/chart-performance-independent-review.md)。
+实时数值快照仍按200ms发布上限更新；自动历史查询/几何刷新限1Hz，用户切换范围/来源及唤醒的force刷新保持即时。HistoryChartView按HistoryChartState及毫秒化wall−elapsed偏移比较，几何相同不重复布局，墙钟跳变仍更新日期坐标；原始时间戳不变，选中点保留本地状态。CPU五档、Raw/EMA、查询层、2000点上限、defaults/API/schema均不变。
 
-实时温度快照仍按现有200ms发布上限更新，自动历史查询及几何刷新采用一秒节流；用户切换范围、来源与唤醒强制刷新仍立即执行。`HistoryChartView`按整个`HistoryChartState`与最近毫秒化的wall−elapsed显示偏移比较，日期转换共用该偏移；相同结果与相同显示偏移不重复布局，墙钟跳变会更新坐标。显示量化误差最多0.5ms，原始时间戳不变；跨量化边界的微小抖动仍可能重绘。新增点、Gap、segment、来源或加载/失败状态照常重绘，点选日期保留本地状态。未改变CPU五档、Raw/EMA、查询层、边界、2000点上限或默认配置。最终正式Release构建、签名与上游边界通过；同一版本的实际点选已显示温度与样本数，五档8秒、范围切换、重开、正常退出通过。相同50ms存活时间的CPU对比及五档duration条件已有新独立记录，原长测XCTest仍FAILED；三轮物理sleep/wake按用户最新指令跳过，精确性能仍pending。墙钟锚点的算术边界与源码审查见[补充审查](validation/product-software/W11/2026-10-03-403d44b/anchor-production-independent-review.md)。
+Issue #49旧[同阶段对比](validation/product-software/W11/2026-10-03-c354b03/performance/charts-age-matched-comparison.md)支持本机CPU开销下降，未证明RSS增长解决。COURSE-RESOURCES在本轮同一正式App会话记录330秒50ms图表填充及后段CPU/RSS/交互，结合实际异常判定本机可演示；短测不证明无泄漏、不推断精确skipped/p95/p99或跨机性能。
 
-### c354独立UI观察与性能边界
-
-c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
-
-前次生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。
-
-## 2026-10-03 当前Worker管道修复
-
-当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。 [最终源码与证据](validation/product-software/W11/2026-10-03-7124dc1/README.md)保存155份源文件身份、二进制完整SHA、14份自有附件和独立审查。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。
+[7124正式短测](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原产物的五档8秒、图表点选、关窗重开与退出；[c354归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保留FAILED长测与duration观察。当前本轮短测仍待执行/绑定，不修改这些历史结果。物理睡眠/长测及严格性能当前为可选扩展，软件生命周期功能与回归保留。

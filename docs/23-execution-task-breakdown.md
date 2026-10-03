@@ -79,9 +79,9 @@ flowchart LR
 | W06 | `feature/w06-lifecycle` | W05 | 故障、日志、单实例、sleep/wake和退出通过 |
 | W07 | `feature/w07-native-ui` | W06 | UI黑盒、状态、图表与辅助功能通过 |
 | W08 | `feature/w08-app-integration` | W07 | 当前源码App/worker构建、E2E和app-build通过 |
-| W09 | `feature/w09-hardware-qualification` | W08 | 目标组合五档、生命周期和73h报告通过 |
-| W10 | `feature/w10-release` | W09 | 正式签名、公证及最终配置复测通过；无凭证则生成可审计阻塞边界，发布保持pending |
-| W11 | `feature/w11-acceptance` | W10或明确的无凭证边界 | 132项逐条证据、最终审查和合并条件一致 |
+| W09 | `feature/w09-hardware-qualification` | W08 | 本机核心操作短测与资源/响应证据通过 |
+| W10 | `feature/w10-release` | W09 | 完整本机ad-hoc App与启动说明；公开发行可选 |
+| W11 | `feature/w11-acceptance` | W10或明确的无凭证边界 | 五个课程检查项、一次最终审查和同head合并门禁一致 |
 
 ## W00：基线与仓库门禁
 
@@ -173,25 +173,25 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T09.1 资格脚本与四类平台schema | T08.3 | 资格脚本/总结器及测试 | 输入App/profile/suite；分开记录build_toolchain、二进制deployment_target、runtime_profile、qualified_combinations | 缺任一字段、load command与配置不符、dry-run调用旧probe均失败 | T09.2取得可审计采集入口；`test: add product qualification schema` |
-| - [ ] T09.2 来源与五档实机 | T09.1 | 新的`product-hardware/<model-build>/<sha>/`证据 | 绑定App/worker SHA、签名、机型和OS build；确认12键、SSD、Battery；五档各≥10min；不推断刷新率 | summary阈值、来源证据、名称/数量不产生物理语义；失败组合不得进入qualified list | 固定通过组合或blocking Issue；`test: qualify target sensor sources and schedules` |
-| - [ ] T09.3 生命周期与负载实机 | T09.2 | `product-hardware/<model-build>/<sha>/{lifecycle,processes,report}.json`、GitHub Issue/回归报告 | 3轮sleep/wake、换档、关窗、退出重启、双实例、断网；停止无孤儿worker | 验证source/definition/segment/Gap/TTL和进程清单 | T09.4取得稳定候选App；`test: qualify target lifecycle behavior` |
-| - [ ] T09.4 73小时耐久与组合登记 | T09.3 | endurance证据、`docs/13-operations-distribution.md`资格矩阵 | 连续≥73h越过72h TTL；资源/DB/WAL/log/队列；全部套件通过后原子登记qualified combination | **2026-09-23 维护者取消≥73h实机长跑**；可选 endurance 工具保留；`qualified_combinations` 门禁为 sources+schedules+lifecycle | W10只接收此SHA/报告；`test: qualify long-running target build` |
+| - [ ] T09.1 课程收尾 | T08.3 | 构建/签名/profile/本机身份 | 完整正式App含worker；不运行DerivedData中间产物 | 确认Mac16,13/OS/build、来源/单位与二进制身份 | T09.2使用此App；`test: identify local course app` |
+| - [ ] T09.2 课程收尾 | T09.1 | 正式App核心短测证据 | 真实CPU12与°C、五档短切换；不补0/旧值、不推断刷新率 | 正式App fixture=false；精确SLO及五档各10min可选 | T09.3保持同会话；`test: verify local sampling controls` |
+| - [ ] T09.3 课程收尾 | T09.2 | 核心操作记录与软件生命周期回归 | 启动、历史、关窗重开、正常退出/清理；物理睡眠跳过 | 界面响应、同会话与正常退出；软件sleep/wake仍保留 | T09.4复用同次短测；`test: verify local app lifecycle` |
+| - [ ] T09.4 课程收尾 | T09.3 | App/owned worker资源记录 | 填充五分钟历史后的持续采样/响应/CPU/RSS观察；72h耐久不验收 | 不把短测当绝无泄漏；真实持续异常仍blocking；严格组合不批量PASS | T10交付此App；`test: observe local course resources` |
 
 ## W10：正式签名与公证
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T10.1 可重复发布脚本 | T09.4 | `scripts/package-release.sh`、`scripts/tests/test-package-release.sh`、`docs/validation/releases/<version>/report.md` | 验证凭证；重建；worker→App签名；ZIP→notary→staple→spctl→最终ZIP；日志不泄密 | **2026-09-23 维护者豁免公证**；脚本作为可选工具交付；本机 ad-hoc App 为正式交付 | 有凭证时可输出notarized ZIP；无凭证/无需求时明确waived；`build: add notarized release packaging` |
-| - [ ] T10.2 正式配置复测或阻塞边界 | T10.1 | release manifest/block文件、正式App实机证据、资格矩阵 | manifest保存四类平台字段、App/ZIP SHA、Team/ticket和third-party/notice hash；正式配置重跑全套；无凭证只记录阻塞 | **waived** with T10.1 for local-only target；W09 ad-hoc 资格仍有效 | W11从明确 local-complete 状态开始；`test: qualify signed release configuration` |
+| - [ ] T10.1 课程收尾 | T09.4 | 本机ad-hoc App及notice | 完整App、来源真实、签名及复用边界；Developer ID/公证可选 | codesign verify、TC-UPSTREAM-BOUNDARY；不虚称notarized | T10.2启动说明；`build: package local course app` |
+| - [ ] T10.2 课程收尾 | T10.1 | 启动说明及支持范围 | 仅本机/当前OS课程使用；公开发行和跨机认证未执行 | 完整可运行App路径；不要求外部证书、再次长测或公开上传 | T11最小收尾；`docs: describe local course delivery` |
 
 ## W11：逐需求验收与最终交付
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T11.1 逐REQ与20组测试证据绑定 | T10.2 | acceptance JSON、追踪矩阵、third-party contract、W11验收报告 | 132项逐条绑定SHA/TC/环境；20组测试定义与映射完整；012/114只retired；copied/modified都有许可证据 | validator拒绝空证据、错SHA、模拟冒充实机、退役项pass、缺TC-UPSTREAM/third-party notice | 产出机器可审计验收表；`docs: bind requirement acceptance evidence` |
-| - [ ] T11.2 全分支独立审查 | T11.1 | independent-review、GitHub Issues及修复commit | 检查资格化来源、Lease能力、退出、固定成员、缺口、水位、幂等、Presentation状态、路径/许可/Release fallback | 全套文档/Core/App/UI/实机/发布门禁；open blocking必须为0 | 得到非实现者审查结论；`docs: record final independent review` |
-| - [ ] T11.3 exact-head合并与交付 | T11.2 | W11 PR说明、`docs/validation/product-software/W11/<head>/delivery.md` | 核对最新head五检查、ruleset、blocking、支持矩阵、本地App/ZIP状态；维护者merge commit并保留分支 | `gh pr checks`、rules API、merge commit两个parent、远端分支存在 | 项目状态准确分为本地完成/正式发布完成；`docs: finalize project delivery` |
+| - [ ] T11.1 课程收尾 | T10.2 | course policy、catalog、acceptance和追踪 | 保留134分层/132严格事实；绑定五个课程criterion与实际证据 | hash/祖先/正式App/覆盖率不放松；course gate与strict模式分开 | T11.2读取同一结果；`docs: bind course delivery evidence` |
+| - [ ] T11.2 课程收尾 | T11.1 | 完整Core≥80%、最终App短测、一次独立审查 | 必要生产回归；普通同步不加模型/负控/多轮审查/逐文件hash | 真实缺陷不删；原有效断言保留；审查未通过不得合并 | T11.3核最新head；`test: finish course regression and review` |
+| - [ ] T11.3 课程收尾 | T11.2 | PR、五required CI、rules、交付报告 | 用户已授权push/ready/merge commit；零真实blocking；保留分支 | 最新head不变、五checks、merge两parent、远端分支存在 | 交付App/启动说明/范围后停止；`docs: finalize course delivery` |
 
 ## 工作包结束检查
 
@@ -203,14 +203,6 @@ flowchart LR
 - [ ] 审查者可以仅凭PR、验证报告和本文件理解输入、输出、失败边界和下一W的消费接口。
 - [ ] 合并使用merge commit，保留远端分支；依赖W未合并前不从旧main开始后续正式PR。
 
-## 当前状态
+## 当前执行入口
 
-本文保留原50项任务及DAG用于追踪。生产App和产品任务已实现，PR44已修复#27～#43及测试同步#45并合入main403d44b；当前按[W11刷新计划](superpowers/plans/2026-10-03-w11-acceptance-refresh.md)处理新实机#46/#47与验收工具#48并重新验收；当前状态以00和新日期/提交证据为准，2026-09-18记录保持历史。
-
-本次拆分的一致性、依赖图和命令结果见[2026-09-19任务拆分验证](research/2026-09-19-task-breakdown-validation.md)。
-
-W11逐项缺口以`acceptance-v1.json`的`acceptance_notes.outstanding`及version2证据目录为准。50个任务/DAG不变；现行局部验收结果不是勾选整个W11完成的依据。 403基线当时37项pending的历史最小验证、条件判定、依赖与禁止替代方式见[执行清单](validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.md)及[机器可读JSON](validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.json)；该清单保持历史原件。当前catalog已有六项软件TTL补证，剩31项pending，以acceptance_notes.outstanding为当前任务入口；物理sleep本轮用户已跳过，不能照历史清单再次执行。清单不新增需求、实现或验收通过结论。
-
-## 当前执行衔接（2026-10-03 7124dc1）
-
-#46/#47生命周期及退出、#50父桶查找、#51断管错误边界已各有修复及对应验证；最新全355项回归与正式App短测见[归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)。后续工作从catalog逐REQ outstanding与GitHub实际open blocking继续；保留100accepted/31pending/1waived/2retired，本轮物理sleep用户已跳过，不再安排。最新head CI、独立审查和零blocking未满足前保持PR26 Draft，不宣称W11完成。
+50个任务与DAG保持不变；本轮验收以[课程范围](course-delivery-scope.md)、course policy和新交付报告为准。旧strict pending与历史失败仍保留，不再按旧完整资格清单追加长测。实际CI/独立审查/合并未完成时，不宣称已交付或已合并。

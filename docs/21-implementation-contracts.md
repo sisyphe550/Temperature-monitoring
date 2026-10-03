@@ -1,6 +1,6 @@
 # 实施契约v1族：修订3唯一参数、类型与存储定义
 
-更新：2026-10-02；contract revision 3。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
+更新：2026-10-03；contract revision 3。当前本机验收适用[课程范围](course-delivery-scope.md)，公开API/default/profile/schema不变。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
 
 ## 机器可读交付物
 
@@ -12,7 +12,8 @@
 | [schema-v1.sql](contracts/schema-v1.sql) | SQLite DDL、键、索引、视图与PRAGMA | 本次修订不改变存储schema；W03按04实现事务 |
 | [third-party-v1.json](contracts/third-party-v1.json) | 实际复制/修改代码、许可和method-only边界 | 文档校验及W08通知文件门禁 |
 | [acceptance-v1.json](contracts/acceptance-v1.json) | 134项REQ到设计、任务和测试的映射 | W11逐项附证据；012/114保持retired |
-| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T11.3依赖图及W归属 | 23逐任务执行；依赖未因修订3改变 |
+| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T11.3依赖图及W归属 | 23逐任务执行；50项任务/DAG不变 |
+| [course-delivery-v1.json](contracts/course-delivery-v1.json) | core/auxiliary/optional/retired分类与五课程criterion | 独立验收政策，非公开API或schema修订；不覆盖旧逐REQ事实 |
 
 文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=3`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订3，不得同时保留旧路径。
 
@@ -157,4 +158,12 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 - 正式App实机environment记录execution=formal-release-app、Release、fixture=false、固定Bundle ID、App/worker SHA256、model和os_build。结构校验不能代替报告人工审核或真实测量。
 - 每个active REQ显式包含verification、evidence、covered_cases、outstanding、reason和非空required_evidence_kinds。accepted仅允许passed非waiver证据，满足映射TC与全部必需kind，无outstanding；pending可保留partial和缺项，不自动提升。
 - 只有REQ127允许用户授权本机整REQ豁免且只要求waiver证据；耐久/发行子用例的豁免不能把其他整REQ标为waived。012/114不得进入结果目录，也不得附pass证据。
-- binder默认dry-run；`--write`在两份文档均校验并stage后写入，IO失败回滚。普通handoff验证绑定一致；`--product-acceptance`要求所有132active均accepted/授权waived，否则拒绝。
+- binder默认dry-run；`--write`在两份文档均校验并stage后写入，IO失败回滚。普通handoff验证绑定一致；当前`--product-acceptance`检查五课程criterion，旧全132active资格由`--strict-product-acceptance`检查，pending存在时拒绝。
+
+## 本机课程验收政策（2026-10-03）
+
+[课程范围](course-delivery-scope.md)及course-delivery-v1是用户最新授权的验收政策，不改变contract revision3、现行公开接口、默认数值、CPU12/profile、schema或50任务DAG。五criterion为COURSE-CPU、COURSE-FUNCTIONS、COURSE-RESOURCES、COURSE-REGRESSIONS和COURSE-CORE；正式App短测和必要软件证据互补，不能伪称一类证据证明另一类。
+
+旧acceptance矩阵/目录保持100accepted/31pending/1waived/2retired事实；core/auxiliary/optional/retired课程分类不通过批量修改旧REQ status获得完成。严格全132、五档10min、物理sleep、72/73h、公证/发行/跨机和精确性能当前是可选扩展。72h历史功能、异常语义、≥80%覆盖、third-party与Release边界保留。
+
+课程五criterion只绑定实际软件与本机产物证据。最终一次独立审查、同head五CI、零真实blocking、仓库保护、merge commit和分支保留由11外部流程核验，不作为CI文档gate要求自身未来成功的先决条件。当前最小收尾仍进行中，不声明未来实测或合并已通过。

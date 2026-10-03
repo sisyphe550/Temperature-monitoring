@@ -37,30 +37,18 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 ## 文档优先级
 
-当前用户指令 > 01现行需求＋21契约及contracts > 02～13专项设计 > 22/23执行步骤。15/18记录决策与来源；19/20解释复用；旧research/validation是历史证据，不能作为重新启用旧要求的理由。冲突须修正文档、验收映射和测试，不靠隐藏代码决定。
+当前用户指令 > course-delivery-scope及course-delivery-v1课程验收政策 > 01现行功能＋21实现契约及contracts > 02～13专项设计 > 22/23执行步骤。15/18记录决策与来源；19/20解释复用；旧research/validation是历史证据，不能作为重新启用旧要求的理由。冲突须修正文档、验收映射和测试，不靠隐藏代码决定。
 
 本轮C10授权形成完整交接，工程参数已经选择；不能把选择写成实测通过，也不能把没有完全匹配开源代码的自有算法伪称直接移植。C11已解决实时数据路径。
 
-## 当前实现状态
+## 当前交付范围与状态
 
-已有生产Core、SensorWorker、App、Xcode工程及CI；2026-10-02正式App审查确认本机CPU12→Raw max→EMA可运行，历史与故障/清理等17项缺陷已按修复计划解决；a97fd5a核心337测试、独立审查及正式Release本机短测通过，详细范围见docs/validation/product-fixes/2026-10-02-a97fd5a/report.md。修复PR和原W11验收PR分开处理，不能将短测标为全部正式验收。用户仅本机使用，豁免72/73h、公证、公开发行与跨机型认证；72h会话历史功能保留。文档基线与 `blocking-issues` 已合入 main；T00.5 启用 `main-protection` ruleset。其他 agent 按 22 完成任务及证据；不应重新研究已删除的逐核接口。
+最新用户直接授权恢复最小收尾，目标是本机课程演示App，满足当前课程门槛后完成PR合并交付；这覆盖此前“当前工作完成后暂停”以及五档各10分钟/物理睡眠的旧执行要求。授权要点、五criterion和停止条件以[课程交付范围](docs/course-delivery-scope.md)及[课程政策](docs/contracts/course-delivery-v1.json)为准。
 
-### 2026-10-03 验收刷新
+公开API/default/profile/schema仍revision3，50个任务与DAG不变。完整Core及≥80%覆盖、关键失败/数据/生命周期软件回归、CPU12 Raw max→EMA、来源单位与失败不造值必须保留；本机正式App完成启动、五档短切换、历史、关窗重开与正常退出。同一次短测首50ms档约330秒覆盖最近5分钟图表，其余档各8秒，同时观察App/Worker CPU、RSS和交互，不加压力负载。严格132资格、五档10分钟、物理sleep、72/73h耐久、公证/跨机及精确性能为可选扩展，不阻塞当前本机交付。
 
-PR44已merge commit合入main403d44b；旧W11 PR26恢复Draft。新真实睡眠暴露历史刷新误Fatal(#46)和自动退出卡住(#47)，在当前隔离feature工作树修复并重验。五档各10分钟保留；2026-10-03 08:00UTC用户明确“跳过休眠测试”，本轮三轮物理验收仅标skipped-by-user，生命周期功能和软件回归仍保留；旧短测不替代其他未豁免门槛。
+当前最小收尾仍进行中，不宣称本轮App短测、五criterion、独立审查、head CI或合并已通过。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与旧全132项扩展资格分开判定，不把pending改成passed。
 
-证据catalog格式version2，产品契约族仍v1/revision3；source commit须在delivery且delivery须在当前HEAD历史中。逐REQ声明必需证据种类、已覆盖和未测项，formal实机必须记录Release/fixture=false/App+worker hash/机型系统。声明结构门禁不自动证明报告真实性，仍需独立审查。
+[c354不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保留原FAILED suite、duration补证、partial物理sleep及not_measured性能；[原产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)和[原修复](docs/validation/product-fixes/2026-10-02-a97fd5a/report.md)保留当时范围。历史记录中的当时“必须继续长测/暂停/保持Draft”不重新启用当前已授权取消的门槛。
 
-### 2026-10-03 c354证据与用户范围更新
-
-c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。 [不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保存原失败suite、四档phase、末档同Session独立补证、Raw/SQL overlap、资源与正常退出；[最新user-scope](docs/validation/product-software/W11/2026-10-03-c354b03/user-scope.json)保存用户原话。
-
-前次生产源码`f9e850cb6986ca9b22980849c503080c8b5d96ee`已集成Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)两行父窗口索引查找修复及TTL回归；完整349测试/55组通过、核心覆盖89.01%，正式Release构建/签名/上游边界通过。新App短测重试1项149.485秒PASS，首次runner启动失败独立保留；[最终归档](docs/validation/product-software/W11/2026-10-03-f9e850c/README.md)保存153份源码匹配、App/worker身份、原日志hash和14份自有UI附件。六项明确软件TTL缺口已局部补齐：当前100项本机接受、31项待验收、1项豁免、2项退役。此裁决不继承c354长测为新产物完整资格；W11、精确性能、物理菜单/其他未测要求及blocking/CI仍按实际证据处理。
-
-## 2026-10-03 当前Worker管道修复
-
-当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。 [最终源码与证据](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)保存155份源文件身份、二进制完整SHA、14份自有附件和独立审查。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。
-
-## 当前交接的测试同步修正
-
-交接测试提交`f0a7dde76e3e02e66f23aed47915bb75e2fa438b`修正可选来源Generation、Budget、Wake、SleepAdmissionRace四项回归及共同任务时钟；生产/构建输入相对7124仍为空diff。原7c13与44070的CI失败保留，Cocoa256来自测试等待到期，实际CI唯一阶段未知。按真实SQLite提交、任务未来sleep边界驱动后，正常/125ms慢轮询通过；探测预算生产复制件负控、第三Receipt拒绝及第四读取消清理负控均在目标位置失败并终止，断言未弱化。最终完整Core355项/57组PASS3.093秒，覆盖7116/8002=88.93%；157份源码、构建和测试文件与实际Git对象匹配，独立审查无阻断。 [最新软件归档](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)另列最终源、完整回归、原失败和负控；[上一轮Generation归档](docs/validation/product-software/W11/2026-10-03-edddf76/README.md)保持原件。正式App未重建/重测，7124短测保留原source/App/worker身份。本轮真实休眠验收按用户要求跳过，软件生命周期回归保留。验收仍100accepted/31pending/1waived/2retired，精确性能等缺口未自动接受，PR26保持Draft。完成当前修复、证据绑定与远端检查后按用户要求暂停，不启动新验收；最新head CI与Issue按GitHub回读，不能由本段宣称完整产品通过。
+收尾依[11](docs/11-git-github-workflow.md)进行一次最终独立审查，回读同head五CI、零真实blocking与保护配置后按用户授权merge commit，保留本地/远端分支；完成即停止扩展工作。

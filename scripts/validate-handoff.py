@@ -14,6 +14,7 @@ from pathlib import Path
 
 sys.dont_write_bytecode = True
 from acceptance_evidence import TRACE_RESULT, load_and_validate, validate_bound
+from course_acceptance import validate_course_policy, strict_product_errors
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -545,7 +546,11 @@ def validate_entry_contracts() -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--product-acceptance", action="store_true", help="require all active requirements accepted or explicitly waived")
+    modes = parser.add_mutually_exclusive_group()
+    modes.add_argument("--product-acceptance", action="store_true",
+                       help="require course-local criteria with passed evidence (not all strict requirements)")
+    modes.add_argument("--strict-product-acceptance", action="store_true",
+                       help="require all 132 active strict requirements accepted or explicitly waived")
     args = parser.parse_args()
     validate_requirements()
     validate_contract_values()
@@ -555,23 +560,37 @@ def main() -> int:
     validate_entry_contracts()
     validate_links()
     validate_required_check_names()
-    if args.product_acceptance:
-        rows = load_json(CONTRACTS / "acceptance-v1.json").get("requirements", [])
-        pending = [row["id"] for row in rows if row.get("status") == "active" and row.get("verification") == "pending-product-acceptance"]
-        if pending: fail(f"product acceptance incomplete: {len(pending)} active requirements still pending: {pending}")
+    acceptance = load_json(CONTRACTS / "acceptance-v1.json")
+    try:
+        # Retain hash, source -> delivery -> HEAD and true Release/fixture checks.
+        catalog = load_and_validate(ROOT, acceptance)
+        for message in validate_course_policy(ROOT, acceptance, catalog,
+                                              require_complete=args.product_acceptance):
+            fail(message)
+    except ValueError as error:
+        fail(f"course acceptance evidence: {error}")
+    if args.strict_product_acceptance:
+        for message in strict_product_errors(acceptance):
+            fail(message)
+    profile = "strict-product" if args.strict_product_acceptance else "course-local"
     if ERRORS:
-        print(json.dumps({"status": "failed", "errors": ERRORS}, ensure_ascii=False, indent=2))
+        print(json.dumps({"status": "failed", "profile": profile, "errors": ERRORS}, ensure_ascii=False, indent=2))
         return 1
     print(
         json.dumps(
             {
                 "status": "passed",
+                "profile": profile,
                 "requirements": {"total": 134, "active": 132, "retired": 2},
                 "tasks": {"work_packages": 12, "execution_tasks": 50},
                 "test_groups": 20,
                 "contract_revision": 3,
-                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json"],
-                "scope": "documentation contracts only; production App and hardware acceptance remain pending",
+                "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json", "course-delivery-v1.json"],
+                "scope": ("course-local criteria passed; strict 132 requirement qualification and exact-head CI are separate"
+                          if args.product_acceptance else
+                          "all active strict requirements accepted or waived; exact-head CI is separate"
+                          if args.strict_product_acceptance else
+                          "documentation and course policy structure only; no product acceptance claim"),
             },
             ensure_ascii=False,
             indent=2,
