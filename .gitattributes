@@ -15,3 +15,13 @@ docs/validation/product-software/W11/2026-10-03-7124dc1/sigpipe/tests.patch -whi
 
 # Preserve exact context spaces in the immutable generation-test evidence patch.
 docs/validation/product-software/W11/2026-10-03-edddf76/generation/tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/budget/tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/candidate-two-tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/final-two-tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-two-tests.patch -whitespace
+
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/wake-eof-normalization.patch -whitespace

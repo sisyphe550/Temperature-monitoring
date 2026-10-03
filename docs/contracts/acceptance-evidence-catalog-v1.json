@@ -2,7 +2,7 @@
   "version": 2,
   "date": "2026-10-03",
   "contract_revision": 3,
-  "delivery_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+  "delivery_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
   "artifacts": {
     "core-regression": {
       "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/full-core.log",
@@ -433,6 +433,39 @@
       },
       "scope": [
         "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
+      ]
+    },
+    "optional-family-final-core": {
+      "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+      "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+      "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+      },
+      "scope": [
+        "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
       ],
       "tc_groups": [
         "TC-ACCEPTANCE",
@@ -982,7 +1015,8 @@
         "core-regression",
         "final-core-ttl",
         "sigpipe-final-core",
-        "generation-final-core"
+        "generation-final-core",
+        "optional-family-final-core"
       ]
     },
     "REQ-032": {
@@ -1016,7 +1050,8 @@
         "core-regression",
         "final-core-ttl",
         "sigpipe-final-core",
-        "generation-final-core"
+        "generation-final-core",
+        "optional-family-final-core"
       ]
     },
     "REQ-034": {
@@ -1035,7 +1070,8 @@
         "core-regression",
         "final-core-ttl",
         "sigpipe-final-core",
-        "generation-final-core"
+        "generation-final-core",
+        "optional-family-final-core"
       ]
     },
     "REQ-035": {
@@ -1054,7 +1090,8 @@
         "core-regression",
         "final-core-ttl",
         "sigpipe-final-core",
-        "generation-final-core"
+        "generation-final-core",
+        "optional-family-final-core"
       ]
     },
     "REQ-036": {
@@ -1074,7 +1111,8 @@
         "core-regression",
         "final-core-ttl",
         "sigpipe-final-core",
-        "generation-final-core"
+        "generation-final-core",
+        "optional-family-final-core"
       ]
     },
     "REQ-037": {
@@ -1093,7 +1131,8 @@
         "core-regression",
         "final-core-ttl",
         "sigpipe-final-core",
-        "generation-final-core"
+        "generation-final-core",
+        "optional-family-final-core"
       ]
     },
     "REQ-038": {
@@ -2931,5 +2970,5 @@
       ]
     }
   },
-  "scope_note": "当前delivery 7124dc1包含#51请求管道SIGPIPE修复；实际完整355/57+88.98%、正式Release短UI1项87.162sPASS另有身份及原CI失败。既有100accepted/31pending/1waived/2retired逐REQ裁决不批量改变；六项TTL软件证据继续保持f9来源，并由新完整回归补充。c354历史duration仅observed、原suite FAILED；本轮物理sleep用户明确跳过，功能/软件回归保留。精确性能not_measured，W11/blocking/新headCI仍独立处理。 最新测试同步提交edddf76仅更改单个代际恢复回归驱动，生产及构建输入仍7124、正式短测保留原身份；新完整Core与原7c13 CI失败另归档。逐REQ数量不变，新head CI仍独立核对。"
+  "scope_note": "当前delivery 7124dc1包含#51请求管道SIGPIPE修复；实际完整355/57+88.98%、正式Release短UI1项87.162sPASS另有身份及原CI失败。既有100accepted/31pending/1waived/2retired逐REQ裁决不批量改变；六项TTL软件证据继续保持f9来源，并由新完整回归补充。c354历史duration仅observed、原suite FAILED；本轮物理sleep用户明确跳过，功能/软件回归保留。精确性能not_measured，W11/blocking/新headCI仍独立处理。 最新测试同步提交edddf76仅更改单个代际恢复回归驱动，生产及构建输入仍7124、正式短测保留原身份；新完整Core与原7c13 CI失败另归档。逐REQ数量不变，新head CI仍独立核对。 最新测试同步提交f0a7dde完成可选来源回归组的实际提交/任务时钟同步与软件生命周期清理；生产/构建输入仍7124，正式App未重跑；原44070 CI失败保留。逐REQ数量不变，新head CI另核对。"
 }

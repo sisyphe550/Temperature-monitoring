@@ -1,0 +1,7 @@
+--- a/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift
++++ b/Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift
+@@ -245,4 +245,3 @@
+     let sleeps: String
+     var description: String { "Wake phase timed out: \(phase), elapsed=\(elapsedNS), sleeps=\(sleeps)" }
+ }
+-

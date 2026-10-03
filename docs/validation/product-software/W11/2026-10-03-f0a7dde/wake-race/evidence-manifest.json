@@ -1,0 +1,42 @@
+{
+  "source_commit": "44070d6ea5d8dbe3e64a1c0ddc206f5bd2597f97",
+  "production_source_files_unchanged": 65,
+  "hardware_or_gui_or_real_sleep": false,
+  "files": {
+    "baseline-OptionalSleepAdmissionRaceRegressionTests.swift": "5cbca901c4b1cc375533e7210cd49140c1a12dfc89e262a865a9bcc6e7f5af50",
+    "baseline-OptionalWakeRecoveryRegressionTests.swift": "a6026f067b543bd8efe9471cc6a7a3338c37c0a2c76b56f82bd94ac1973fc61d",
+    "candidate-OptionalSleepAdmissionRaceRegressionTests.swift": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+    "candidate-OptionalWakeRecoveryRegressionTests.swift": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+    "candidate-green-results.json": "a37f60e777ff53d8749dac92bc2942ddfc0a29add3983ed2bf00e543620afb03",
+    "candidate-green.exit-code": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "candidate-green.log": "27744c21e1bde92a448d221532a40fa0270a4a032fda5a3aac26021373858481",
+    "candidate-source-hashes.json": "62e23a7ea8b6370c8faa5738d6cc1a95f683947adf2b3af05bd58738ef6870e7",
+    "candidate-two-tests.patch": "19168b85a49d5c32f6bad62b869a976f1e507aaa2352519375392fcb1988858a",
+    "final-source-hashes.json": "ea788ed77b09d78ba7ff761dcd6d812fe30f836373dfcb7cb8c038880be99f9b",
+    "final-two-tests.patch": "25de65bdecc10b535919eb8673db04da5a7fbfd20714ea7201fbea2f62414bbd",
+    "negative-cancelled-fourth-cleanup.exit-code": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "negative-cancelled-fourth-cleanup.log": "4b368d5cec08fabbab88cbcda5f68013dc600d5bc50a17a8ebf43fd879b24a7b",
+    "negative-control-results.json": "231a7690edc74c601400a91387616ef993ec70b7ae3e66f1fcdc1fa5231eca05",
+    "negative-reject-third-receipt.exit-code": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "negative-reject-third-receipt.log": "262989cf3e32a3670f23caedc5e29ba53e12c580fb352615d9f5ee98fee9af28",
+    "production-unchanged-check.json": "a052b57ade8613c594fa2bc451be5fb509d1c99e8cd53cc6818bf603ea4fd5b7",
+    "report.md": "99eed669c290cfc12611e2d0442d4058444fd70acb92d2f740c4a185867ce9d6",
+    "run-tests.sh": "b5f40f5f4cf87127cc75a03e524cecddaf1757170fcb1331356504d4116b4b27",
+    "source-manifest.json": "9c4c6c2d05a796cb39543a38676927dd6224f0e72554376e4e48e2569f9411e7",
+    "tested-OptionalSleepAdmissionRaceRegressionTests.swift": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+    "tested-OptionalWakeRecoveryRegressionTests.swift": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+    "tested-candidate-source-hashes.json": "69f09e14ff5ae4a06f2934a52418c3d25fec0624d55d20d2e6b1440e40294634",
+    "tested-two-tests.patch": "19168b85a49d5c32f6bad62b869a976f1e507aaa2352519375392fcb1988858a",
+    "wake-eof-normalization.patch": "f45f3ef7471bea1da7ff51182e81c0fa309b127d43d7e228c0898586217fa8ac",
+    "TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift": "51c8249850b9a41dabcf14c703c5244372cb3b7e3843eccdbb9e511103dbce22"
+  },
+  "tested_source_sha256": {
+    "OptionalWakeRecoveryRegressionTests.swift": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+    "OptionalSleepAdmissionRaceRegressionTests.swift": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3"
+  },
+  "final_source_sha256": {
+    "OptionalWakeRecoveryRegressionTests.swift": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+    "OptionalSleepAdmissionRaceRegressionTests.swift": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3"
+  },
+  "scope": "This agent prepared only2testfiles patch; root executed whitelisted filtered tests; all raw failures retained."
+}

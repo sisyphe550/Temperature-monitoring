@@ -2778,6 +2778,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "generation-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+          "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+          "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "optional-family-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3019,6 +3053,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "generation-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+          "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+          "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "optional-family-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3193,6 +3261,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "generation-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+          "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+          "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "optional-family-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3367,6 +3469,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "generation-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+          "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+          "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "optional-family-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3541,6 +3677,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "generation-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+          "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+          "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "optional-family-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3716,6 +3886,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "generation-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-f0a7dde/full-core-summary.json",
+          "sha256": "f50cecbbf57b26a90298a9ea33b9b5aa2facb029d3e3ff1aec7aeefb3de6f0a9",
+          "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only optional-family fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; receipt/task-clock synchronization and lifecycle cleanup; physical sleep skipped by user; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "optional-family-final-core"
         }
       ],
       "acceptance_notes": {

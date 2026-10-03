@@ -1,0 +1,54 @@
+{
+  "status": "candidate-green-completed",
+  "exit_code": 0,
+  "swift_testing_test_functions": 2,
+  "parameter_cases": 4,
+  "build_seconds": 35.01,
+  "test_seconds": 2.018,
+  "cases": [
+    {
+      "suite": "Wake",
+      "poll_delay_ms": 2,
+      "new_reads": 3,
+      "new_committed_receipts": 3,
+      "new_cpu_commits": 7
+    },
+    {
+      "suite": "SleepRace",
+      "poll_delay_ms": 2,
+      "new_reads": 3,
+      "new_committed_receipts": 3,
+      "new_cpu_commits": 7
+    },
+    {
+      "suite": "Wake",
+      "poll_delay_ms": 125,
+      "new_reads": 3,
+      "new_committed_receipts": 3,
+      "new_cpu_commits": 7
+    },
+    {
+      "suite": "SleepRace",
+      "poll_delay_ms": 125,
+      "new_reads": 3,
+      "new_committed_receipts": 3,
+      "new_cpu_commits": 7
+    }
+  ],
+  "log_sha256": "27744c21e1bde92a448d221532a40fa0270a4a032fda5a3aac26021373858481",
+  "claims_excluded": [
+    "original CI Wake/Race failure stage is not proven",
+    "production behavior modified",
+    "real system sleep or hardware validation",
+    "test seam controls count as production mutation testing"
+  ],
+  "tested_source_sha256": {
+    "OptionalWakeRecoveryRegressionTests.swift": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+    "OptionalSleepAdmissionRaceRegressionTests.swift": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3"
+  },
+  "final_source_sha256": {
+    "OptionalWakeRecoveryRegressionTests.swift": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+    "OptionalSleepAdmissionRaceRegressionTests.swift": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3"
+  },
+  "tested_to_final_difference": "Wake only removes one empty EOF line; Race unchanged. Root full Core verification covers final source."
+}

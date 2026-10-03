@@ -1,0 +1,12 @@
+{
+  "OptionalWakeRecoveryRegressionTests.swift": {
+    "tested_sha256": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+    "final_sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+    "difference": "remove one empty EOF line only"
+  },
+  "OptionalSleepAdmissionRaceRegressionTests.swift": {
+    "tested_sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+    "final_sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+    "difference": "none"
+  }
+}

@@ -97,3 +97,11 @@ f9e850cb包含两行SQL修复和八个新增@Test函数，生产接口/默认值
 - [x] 保留7c13 Core失败；明确helper抛Cocoa256，具体CI等待阶段未知，受控125ms慢轮询只证明虚拟推进/墙钟耦合。
 - [x] edddf76仅更改单测试，真实Receipt/任务睡眠边界驱动，正常/慢poll通过，删除生产计数reset的复制件负控4issues，生产原件恢复。根完整355/57、88.93%及独立审查通过，[新归档](../../validation/product-software/W11/2026-10-03-edddf76/README.md)保持旧正式App身份，不重复实机或回写7124档案。
 - [ ] 新文档head CI及open blocking按GitHub实际结果核对；PR继续Draft，31项验收缺口未自动接受。
+
+## #52同族回归的最终同步与暂停边界
+
+- [x] 原44070 Core Budget等待超时日志与同head检查保留；并行只读审查识别Wake/Race同机制风险，不声称它们已在原CI失败。
+- [x] f0a7dde四项回归与共用task clock按真实SQLite提交同步，保留三次新成功/预算/CPU继续/第四读取消；失败清理先release、join自有suspend，再stop。原墙钟4s/2s限额未延长，整套未串行。
+- [x] 完整最终Core355/57 PASS3.093秒、88.93%覆盖，生产/build输入空diff，157文件Git身份与独立审查通过。[新软件归档](../../validation/product-software/W11/2026-10-03-f0a7dde/README.md)保留旧执行与最终EOF规范身份和受控负控；不重复正式App或物理休眠。
+- 最新普通push head技术CI与已修复Issue状态由PR26回读；性能/物理UI等31项pending及#49继续保留，PR为Draft。
+- 用户要求“在完成当前工作后暂停”：只完成这次修复、证据绑定与远端检查；之后停止，不启动新性能验收或硬件长测。恢复须用户新指令。

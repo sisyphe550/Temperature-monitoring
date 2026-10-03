@@ -1,0 +1,6 @@
+{
+  "source_commit": "44070d6ea5d8dbe3e64a1c0ddc206f5bd2597f97",
+  "production_files_unchanged": 65,
+  "shared_helper_sha256": "51c8249850b9a41dabcf14c703c5244372cb3b7e3843eccdbb9e511103dbce22",
+  "scope": "Only2 candidate testfiles; helper copied for isolated compilation, not included in patch; no App/hardware/system-sleep or repository mutation."
+}

@@ -1,0 +1,11 @@
+{
+  "source_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+  "production_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "result": "passed",
+  "exit_code": 0,
+  "tests": 355,
+  "suites": 57,
+  "coverage_summary": "Core line coverage: 7116/8002 = 88.93%",
+  "source_identity": "source-identity.json",
+  "scope": "Full software regression after test-only optional-source family synchronization. Actual CI timeout phase unknown. Lifecycle tests are software simulations; physical sleep skipped by user. No new formal App/performance qualification."
+}

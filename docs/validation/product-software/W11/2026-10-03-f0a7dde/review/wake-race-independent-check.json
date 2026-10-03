@@ -1,0 +1,643 @@
+{
+  "baseline": "44070d6ea5d8dbe3e64a1c0ddc206f5bd2597f97",
+  "final_manifest_sha256": "057b4d1e54190fda74a0d210db9c9844d3a773f2a81a4b684633c4e2830c2a28",
+  "manifest_entries": 26,
+  "manifest_checks": [
+    {
+      "file": "baseline-OptionalSleepAdmissionRaceRegressionTests.swift",
+      "bytes": 8948,
+      "sha256": "5cbca901c4b1cc375533e7210cd49140c1a12dfc89e262a865a9bcc6e7f5af50",
+      "match": true
+    },
+    {
+      "file": "baseline-OptionalWakeRecoveryRegressionTests.swift",
+      "bytes": 7445,
+      "sha256": "a6026f067b543bd8efe9471cc6a7a3338c37c0a2c76b56f82bd94ac1973fc61d",
+      "match": true
+    },
+    {
+      "file": "candidate-OptionalSleepAdmissionRaceRegressionTests.swift",
+      "bytes": 16485,
+      "sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "match": true
+    },
+    {
+      "file": "candidate-OptionalWakeRecoveryRegressionTests.swift",
+      "bytes": 14542,
+      "sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+      "match": true
+    },
+    {
+      "file": "candidate-green-results.json",
+      "bytes": 1785,
+      "sha256": "a37f60e777ff53d8749dac92bc2942ddfc0a29add3983ed2bf00e543620afb03",
+      "match": true
+    },
+    {
+      "file": "candidate-green.exit-code",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "match": true
+    },
+    {
+      "file": "candidate-green.log",
+      "bytes": 60696,
+      "sha256": "27744c21e1bde92a448d221532a40fa0270a4a032fda5a3aac26021373858481",
+      "match": true
+    },
+    {
+      "file": "candidate-source-hashes.json",
+      "bytes": 239,
+      "sha256": "62e23a7ea8b6370c8faa5738d6cc1a95f683947adf2b3af05bd58738ef6870e7",
+      "match": true
+    },
+    {
+      "file": "candidate-two-tests.patch",
+      "bytes": 32054,
+      "sha256": "19168b85a49d5c32f6bad62b869a976f1e507aaa2352519375392fcb1988858a",
+      "match": true
+    },
+    {
+      "file": "final-source-hashes.json",
+      "bytes": 547,
+      "sha256": "ea788ed77b09d78ba7ff761dcd6d812fe30f836373dfcb7cb8c038880be99f9b",
+      "match": true
+    },
+    {
+      "file": "final-two-tests.patch",
+      "bytes": 32052,
+      "sha256": "25de65bdecc10b535919eb8673db04da5a7fbfd20714ea7201fbea2f62414bbd",
+      "match": true
+    },
+    {
+      "file": "negative-cancelled-fourth-cleanup.exit-code",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "match": true
+    },
+    {
+      "file": "negative-cancelled-fourth-cleanup.log",
+      "bytes": 2433,
+      "sha256": "4b368d5cec08fabbab88cbcda5f68013dc600d5bc50a17a8ebf43fd879b24a7b",
+      "match": true
+    },
+    {
+      "file": "negative-control-results.json",
+      "bytes": 2503,
+      "sha256": "231a7690edc74c601400a91387616ef993ec70b7ae3e66f1fcdc1fa5231eca05",
+      "match": true
+    },
+    {
+      "file": "negative-reject-third-receipt.exit-code",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "match": true
+    },
+    {
+      "file": "negative-reject-third-receipt.log",
+      "bytes": 5643,
+      "sha256": "262989cf3e32a3670f23caedc5e29ba53e12c580fb352615d9f5ee98fee9af28",
+      "match": true
+    },
+    {
+      "file": "production-unchanged-check.json",
+      "bytes": 353,
+      "sha256": "a052b57ade8613c594fa2bc451be5fb509d1c99e8cd53cc6818bf603ea4fd5b7",
+      "match": true
+    },
+    {
+      "file": "report.md",
+      "bytes": 6676,
+      "sha256": "99eed669c290cfc12611e2d0442d4058444fd70acb92d2f740c4a185867ce9d6",
+      "match": true
+    },
+    {
+      "file": "run-tests.sh",
+      "bytes": 1886,
+      "sha256": "b5f40f5f4cf87127cc75a03e524cecddaf1757170fcb1331356504d4116b4b27",
+      "match": true
+    },
+    {
+      "file": "source-manifest.json",
+      "bytes": 8711,
+      "sha256": "9c4c6c2d05a796cb39543a38676927dd6224f0e72554376e4e48e2569f9411e7",
+      "match": true
+    },
+    {
+      "file": "tested-OptionalSleepAdmissionRaceRegressionTests.swift",
+      "bytes": 16485,
+      "sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "match": true
+    },
+    {
+      "file": "tested-OptionalWakeRecoveryRegressionTests.swift",
+      "bytes": 14543,
+      "sha256": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+      "match": true
+    },
+    {
+      "file": "tested-candidate-source-hashes.json",
+      "bytes": 239,
+      "sha256": "69f09e14ff5ae4a06f2934a52418c3d25fec0624d55d20d2e6b1440e40294634",
+      "match": true
+    },
+    {
+      "file": "tested-two-tests.patch",
+      "bytes": 32054,
+      "sha256": "19168b85a49d5c32f6bad62b869a976f1e507aaa2352519375392fcb1988858a",
+      "match": true
+    },
+    {
+      "file": "wake-eof-normalization.patch",
+      "bytes": 355,
+      "sha256": "f45f3ef7471bea1da7ff51182e81c0fa309b127d43d7e228c0898586217fa8ac",
+      "match": true
+    },
+    {
+      "file": "TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift",
+      "bytes": 2817,
+      "sha256": "51c8249850b9a41dabcf14c703c5244372cb3b7e3843eccdbb9e511103dbce22",
+      "match": true
+    }
+  ],
+  "patch_checks": [
+    {
+      "patch": "tested-two-tests.patch",
+      "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift",
+      "sha256": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+      "matches_candidate": true
+    },
+    {
+      "patch": "tested-two-tests.patch",
+      "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalSleepAdmissionRaceRegressionTests.swift",
+      "sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "matches_candidate": true
+    },
+    {
+      "patch": "final-two-tests.patch",
+      "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift",
+      "sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+      "matches_candidate": true
+    },
+    {
+      "patch": "final-two-tests.patch",
+      "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalSleepAdmissionRaceRegressionTests.swift",
+      "sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "matches_candidate": true
+    }
+  ],
+  "candidate_identities": [
+    {
+      "name": "OptionalWakeRecoveryRegressionTests.swift",
+      "tested_sha256": "1db8b4054ad6422e292de0bfde68ab8b1236ec9239c89f590aea499b3c838772",
+      "final_sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+      "repo_sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+      "only_eof_normalization_or_equal": true,
+      "repo_final_match": true
+    },
+    {
+      "name": "OptionalSleepAdmissionRaceRegressionTests.swift",
+      "tested_sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "final_sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "repo_sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "only_eof_normalization_or_equal": true,
+      "repo_final_match": true
+    }
+  ],
+  "family_source_checks": [
+    {
+      "path": "OptionalGenerationRecoveryRegressionTests.swift",
+      "sha256": "712e20cd493db0ca63974b40bd02654d9cc53124ff364ed1d28350e07d943ee5",
+      "match": true
+    },
+    {
+      "path": "OptionalProbeBudgetAcrossReconnectTests.swift",
+      "sha256": "74783e93c50a2c4345575f72a406f8a5200d411d411f988a3e796d07ec2d43a2",
+      "match": true
+    },
+    {
+      "path": "OptionalSleepAdmissionRaceRegressionTests.swift",
+      "sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+      "match": true
+    },
+    {
+      "path": "OptionalWakeRecoveryRegressionTests.swift",
+      "sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+      "match": true
+    },
+    {
+      "path": "TestSupport/OptionalPhaseClock.swift",
+      "sha256": "51c8249850b9a41dabcf14c703c5244372cb3b7e3843eccdbb9e511103dbce22",
+      "match": true
+    }
+  ],
+  "source_and_package_checks": [
+    {
+      "path": "Sources/CSQLite/module.modulemap",
+      "sha256": "bbfe59a972a3e8e09e347c04bc22c0eacd2544881af8a4b6068bfc30b38466e8",
+      "match": true
+    },
+    {
+      "path": "Sources/CSQLite/shim.h",
+      "sha256": "b052d8e561e942f97b503033ecd2eaa2b35213bdbf374983efe9e68eabdfc024",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/EnduranceCollector.swift",
+      "sha256": "e9d60aa72700b417abb93e134b089d11792dd8ed7a3142abcb0fcdd4f35e3c2b",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/Entry.swift",
+      "sha256": "50e52023cb44957532e9e10a26d351abc02b541a339240b7d32abc0fb53c6915",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/LifecycleCollector.swift",
+      "sha256": "7f9c14160f8373156d2b6e224fc6775510e993ce07c7c967cc97ef9b5729cd81",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/ProductQualificationMain.swift",
+      "sha256": "7dad4f530a64cb35c88a9b531e9ea151c6d0742471483f9803b05cdd27ba3ccf",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/SQLiteEvidence.swift",
+      "sha256": "d58f949c52dcff19d68e0fbbe41176f003f94dc611bd095fd34f08c19c5c5988",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/SchedulesCollector.swift",
+      "sha256": "87432f2ae0d8562a075f7de96c381b4d17ade1effd02fa50d75d1a3a17513f4b",
+      "match": true
+    },
+    {
+      "path": "Sources/ProductQualification/SourcesCollector.swift",
+      "sha256": "9084a6042c3bd76d36864d9b4fba6cbd0c4e9d415cd42aa110964e5536164285",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorBridge/SensorBridge.c",
+      "sha256": "c303f5c2e0af28bead4fded263f13a47d6a5b35d6b8246235269376464d49a2d",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorBridge/include/SensorBridge.h",
+      "sha256": "38969ae7dbf726ea083a2cde2b444d0241ca4c9481f92a6a2c3d0f1cd2358895",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorRuntime/ProcessingCoordinator.swift",
+      "sha256": "0a234cf11c427ba56c9dfcc0a97e1d35eca34a0228bf900d6eb4657183e34e4b",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorRuntime/SamplingService.swift",
+      "sha256": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorRuntime/SeriesCatalogBuilder.swift",
+      "sha256": "0caea82d70367e9dbbfd9d7ce9816b79e3f4dcfcdf40655962afa2b983983ea0",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorRuntime/SessionMonitorController.swift",
+      "sha256": "4293bd925f6c334732faba8acf98b4b2c0032bb9a07eaaedf264da007befa5a6",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorRuntime/WorkerClient.swift",
+      "sha256": "3e354752bab5fea10546708a86378114149908500cef60bc93b1c0e9f90a3a29",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorRuntime/WorkerProtocol.swift",
+      "sha256": "e83330f9e652615d21922fe1bf9671e6cee87d113a7f8998b3d4106facbbb6d4",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorWorker/HardwareSession.swift",
+      "sha256": "d6b0e83ed735885370199c25e7d6927cbc75422673ca09f0b30283bbd0b03fb2",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorWorker/SensorBridgeSupport.swift",
+      "sha256": "786ec3394dbcd074ca290d5d6a43049b1df3abfa706d7b8dbaa6766d07624e60",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorWorker/SensorWorkerEntry.swift",
+      "sha256": "9216fb1ab293ca5b557551f7ee0ad88360977aa1fa42ab7e799f00af1cf0b90f",
+      "match": true
+    },
+    {
+      "path": "Sources/SensorWorker/WorkerClock.swift",
+      "sha256": "18dc61dfe2d02509e15ab8a15a2c8db899e8e3f864ae69de93cfead1fa573fa9",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Clock.swift",
+      "sha256": "36b53b318840a4e41e35e4247a5163bb580f04610c8a0bd551ee7fb4e8ca16e5",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Configuration.swift",
+      "sha256": "14601aafd6c6a62e33dbcff8c6e6ce994cf9ef36efffa2e8fdb8464646707902",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/ConnectionIdentity.swift",
+      "sha256": "7d6a0ac48fc8a77bcb3a45e37770308e060264e7564fdd4f1103efc8e93647e8",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/Identifiers.swift",
+      "sha256": "5e24adb61ae813a534b6626b6c015a052404c31985557b1723d7f9a835e3d6ca",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/PersistenceTypes.swift",
+      "sha256": "637189907e90dffb5a198ee0f632e0521adf80edd966b7ceab7bd96f5508e3d1",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/PresentationTypes.swift",
+      "sha256": "b03e3091bfd339eba87769ead6dcd4f25580e7a045369a28655eb842ac9def36",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Contracts/SensorTypes.swift",
+      "sha256": "7bb302a5e18ab2d1ec47120e6cabbd4aea63c1bfcbe4d6ddbc583824964c1e7a",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/DiagnosticLogger.swift",
+      "sha256": "a5ebbd67a61d2cd5e6d777d2dd189c85abcf6bd27f2296312f58d8cc405ec325",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/ErrorCoordinator.swift",
+      "sha256": "6a9a41134f2c9077e23ad4fe32623df73d398089f975ca0344af45a03d0dc96f",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/FatalDisplayReceipt.swift",
+      "sha256": "3938520b0b856cfe9922f29f657153e18c0784c4b9095bfdd5c7ead677df57a3",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/MonitorFailure.swift",
+      "sha256": "7a56d6f7a5a26ff8f5d7dccf29b5902041c440f58744d48725b622572f272f6c",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/MonitorShutdown.swift",
+      "sha256": "d7e503a57d5838223805bbe225d18785ccd71c7fe47cb3f2cca1f4314a2a0748",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/ReportWriter.swift",
+      "sha256": "0a64aabeb26972dea6ad68c40e21b60f93db8e56bc4fddf98fae0951fc9637f0",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Diagnostics/RetryPolicy.swift",
+      "sha256": "2267a0b95a6d3d19ea0f5933d4cb604c8e14bbf32c75c3a335369945115e0d52",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/MetricResolver.swift",
+      "sha256": "fe4c60caff730d3e55b5738e02c6e6ff7a61322bf7ed562a530967fcb7ac3e0f",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/MonitorEngine.swift",
+      "sha256": "d1088d37983c78829ea6467515e93f45ceac64b1b5c733b7ff8be6b1a4a6b629",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/BoundedQueue.swift",
+      "sha256": "fd5dc98a425eb91517f31267ecdbe3a469b3fdaa225efdf5a93a0abcb8acf020",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/PersistenceBatchMetrics.swift",
+      "sha256": "ef738e6633d7d8121b42b931a860fcf7eee9ed51ae7ef94da2d66d7fee929629",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/SessionPersistence.swift",
+      "sha256": "a681e4b18497f4af11b18585190b794beee6a5e3fb516abefb737d362540c683",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Persistence/StorageWriter.swift",
+      "sha256": "27fcfc1090501e4285e38eca27f72bcd52e27822c345f20710e283db243de34e",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/Aggregation.swift",
+      "sha256": "aa74c7271f1030ee058ff76b35137ac6f66125af599c3fdc70699c3498290cf2",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/CPUMaxDerivation.swift",
+      "sha256": "d0d711588e4d95108a22d67c1e7a7a4285cc740a4169d663adab5f40131053c7",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/EMA.swift",
+      "sha256": "54382e0ac12b713cef280b53b147fea2f85224545fa659437e80e6154811fa4e",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/RingBuffer.swift",
+      "sha256": "55c8768f35f37b3789dcfe6d118423a1c21aa9e832d8c5d2403f5658eb68454a",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/SafeWatermark.swift",
+      "sha256": "bcec1cb4e18525534c7a3a490537a3c3c809750d6dd442854557f82d6636883d",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/SampleValidation.swift",
+      "sha256": "cb7d776968f34b98fcc3caaafd7b77620cd480236710949c6633c389d3dcc3f6",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Processing/Trend.swift",
+      "sha256": "93dffe66026244ff915cf2d8c6b538f33edb7136cd9647a82c68a22a024c647a",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/QualifiedSensorClient.swift",
+      "sha256": "0d869702e505fec14e164d1c2fa5eb521ba511709cc974b5bde1f54cbf751fa1",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Registry.swift",
+      "sha256": "db053168342d95da1150ccaf183a0ad198609757a3b1a683cfa4647bec104de5",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Resources/defaults-v1.json",
+      "sha256": "70abeabf49f423a5956c7bf1025db57f531bb7ce2b1437ea218a05d0be5b83c5",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Resources/first-profile-v1.json",
+      "sha256": "39e444d22ab6d51a7bc6768e0cbcdef02cb992a21e069e08f709ded69864c108",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Resources/schema-v1.sql",
+      "sha256": "f435d7f0ba5ce01392ec14d3d3581e9b10d9e6fccbf44ef9659f3f5487fe056e",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/SensorDecoding.swift",
+      "sha256": "fb2c9abddeb95efbc9cfceccdc26c4fd793a1b0b77e5aaf353554c00f21623af",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/SessionLock.swift",
+      "sha256": "cf014ec56f82459330331118e92bc3a20a23fa5be7f5fc087f809abf4f6195fc",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/BatchCanonicalHash.swift",
+      "sha256": "98af0dbf2bf83ae380a66703b0e3066715ad9870ad096f1788fe15533c33a8a1",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/BatchCommit.swift",
+      "sha256": "bb3827c5c77cbcccb786cc74c0245d78318d185c129468132cd49dceb5cd32a0",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/HistoryQuery.swift",
+      "sha256": "f456256a70aa2f03bb6124c3dd492cb5c2f7d5accfbcbde9299e88e716d766ce",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/Retention.swift",
+      "sha256": "693127c2d4c3a173204d13e92740ccb4dade7377cf6f694c8d654e299f0d8f90",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/SQLiteStore.swift",
+      "sha256": "74bcdd70fd1de8e879202e59b178e8d806dd4d4bf37513032db018ea175c7a3b",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/Storage/SessionCleanup.swift",
+      "sha256": "83309fc818ab612f3daf58bdb3281d4c4df9a3b8f670977febe5ca7c43d65e34",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperatureCore/TemperatureCoreModule.swift",
+      "sha256": "9897fcc0184d8d479a551614b71a0c0474178b6452a25c0550f5df11f00c1c05",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperaturePresentation/HistoryChartModel.swift",
+      "sha256": "0f1888fd0ffe5ce1d20844914c2d48daa85023c4426adb52233f1d1150b4b217",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperaturePresentation/PresentationModel.swift",
+      "sha256": "ed861826842c87ed847a5eb4beb7b37528ca878e6399544862ec6a7b4d18670b",
+      "match": true
+    },
+    {
+      "path": "Sources/TemperaturePresentation/PresentationState.swift",
+      "sha256": "b2c305b6e1ed2731e692bf6766d76ca075893078294e0a3e430aef5422488e87",
+      "match": true
+    },
+    {
+      "path": "Package.swift",
+      "sha256": "30f47f853d736bff5880b3d2022140f0eb9881d533aff41255623cb383a757a7",
+      "match": true
+    }
+  ],
+  "production_build_diff_vs_7124": [],
+  "run_checks": [
+    {
+      "name": "candidate-green",
+      "summary": "Test run with 2 tests in 2 suites passed after 2.018 seconds.",
+      "exit_code": 0,
+      "match": true,
+      "sha256": "27744c21e1bde92a448d221532a40fa0270a4a032fda5a3aac26021373858481"
+    },
+    {
+      "name": "negative-reject-third-receipt",
+      "summary": "Test run with 2 tests in 2 suites failed after 1.911 seconds with 4 issues.",
+      "exit_code": 1,
+      "match": true,
+      "sha256": "262989cf3e32a3670f23caedc5e29ba53e12c580fb352615d9f5ee98fee9af28"
+    },
+    {
+      "name": "negative-cancelled-fourth-cleanup",
+      "summary": "Test run with 1 test in 1 suite failed after 0.699 seconds with 2 issues.",
+      "exit_code": 1,
+      "match": true,
+      "sha256": "4b368d5cec08fabbab88cbcda5f68013dc600d5bc50a17a8ebf43fd879b24a7b"
+    }
+  ],
+  "final_root_core": {
+    "log_path": "/tmp/temperature-w11-optional-family-final-core.log",
+    "sha256": "9ae3dd9a36ee2c43f6f1cb37e5df3c815a35361a47014d3f2e86a5c691155197",
+    "summary": "355 tests /57 suites PASS3.093s"
+  },
+  "final_root_coverage": {
+    "raw_path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/.build/arm64-apple-macosx/debug/codecov/TemperatureCore.json",
+    "sha256": "52ee37a7bd31625959e9a12d6894e25b51fdc5e34e0960aed1f7bf554e3317e2",
+    "selected_files": 43,
+    "covered": 7116,
+    "total": 8002,
+    "ratio": 0.889277680579855
+  },
+  "source_commit_binding": {
+    "commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+    "changed_paths": [
+      "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift",
+      "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift",
+      "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalSleepAdmissionRaceRegressionTests.swift",
+      "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift",
+      "Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift"
+    ],
+    "only_five_expected_test_paths": true,
+    "source_matches": [
+      {
+        "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift",
+        "git_sha256": "712e20cd493db0ca63974b40bd02654d9cc53124ff364ed1d28350e07d943ee5",
+        "match": true
+      },
+      {
+        "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalProbeBudgetAcrossReconnectTests.swift",
+        "git_sha256": "74783e93c50a2c4345575f72a406f8a5200d411d411f988a3e796d07ec2d43a2",
+        "match": true
+      },
+      {
+        "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalSleepAdmissionRaceRegressionTests.swift",
+        "git_sha256": "b18cd27d3d163713db133ff9d03ff71ec803dc5fcb8b45165f2b3b0c3dec47c3",
+        "match": true
+      },
+      {
+        "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalWakeRecoveryRegressionTests.swift",
+        "git_sha256": "58692895a8c8407fd03403553a73884b55bd1242dd8289fb79e1db6c982f676c",
+        "match": true
+      },
+      {
+        "path": "Packages/TemperatureCore/Tests/TemperatureCoreTests/TestSupport/OptionalPhaseClock.swift",
+        "git_sha256": "51c8249850b9a41dabcf14c703c5244372cb3b7e3843eccdbb9e511103dbce22",
+        "match": true
+      }
+    ],
+    "worktree_clean": true
+  },
+  "failures": []
+}
