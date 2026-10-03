@@ -99,3 +99,7 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。
 
 App SHA256=`eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651`；worker SHA256=`12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96`；受测环境Mac16,13、macOS15.7.3/24G419，构建Xcode26.3/macOS26.2 SDK、Swift6 language mode。正式短测退出后本轮App/worker不存在、对应会话目录清理。[身份与原证据](validation/product-software/W11/2026-10-03-7124dc1/README.md)按source/build/runtime分别保存；未登记整套qualified combination，精确性能仍未测。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。
+
+## 当前交接的测试同步修正
+
+交接提交`edddf76ddcffd3396315c52ede11eccda3ca2392`仅修改可选来源代际恢复回归测试。原7c13 CI失败保留；Cocoa256来自测试等待到期，不是已证明的文件IO故障。新用例按真实SQLite提交和采样/发布任务睡眠边界推进，2ms/125ms轮询均通过；去掉重连计数清零的负控仍检出4项预期失败。最终Core355项/57组通过，覆盖7116/8002=88.93%。156份生产、构建脚本及测试源与提交对象匹配，生产/构建输入相对7124空diff，正式App未重建/重测，原7124短测保留其真实source/App/worker身份。 [最新软件归档](validation/product-software/W11/2026-10-03-edddf76/README.md)。验收仍100accepted/31pending/1waived/2retired；本轮物理sleep已按用户要求跳过，精确性能及其他未覆盖项仍pending。PR26保持Draft，最新head CI和open blocking须回读，不由本段宣称全部通过。

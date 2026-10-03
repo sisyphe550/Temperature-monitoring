@@ -91,3 +91,9 @@ f9e850cb包含两行SQL修复和八个新增@Test函数，生产接口/默认值
 - [x] 7124dc1集成spawn前请求管道保护和EPIPE错误边界；完整355/57回归、88.98%覆盖、Release构建/签名/边界、实际87.162秒短UI及独立审查另存[新归档](../../validation/product-software/W11/2026-10-03-7124dc1/README.md)。
 - [x] 本轮物理休眠skipped-by-user；软件生命周期保留，新任务不得重复请求人工唤醒。
 - [ ] 最新文档head的GitHub CI和open blocking回读；PR26保持Draft，31项pending与精确性能不通过本次修复批量接受。
+
+## #52测试驱动修正
+
+- [x] 保留7c13 Core失败；明确helper抛Cocoa256，具体CI等待阶段未知，受控125ms慢轮询只证明虚拟推进/墙钟耦合。
+- [x] edddf76仅更改单测试，真实Receipt/任务睡眠边界驱动，正常/慢poll通过，删除生产计数reset的复制件负控4issues，生产原件恢复。根完整355/57、88.93%及独立审查通过，[新归档](../../validation/product-software/W11/2026-10-03-edddf76/README.md)保持旧正式App身份，不重复实机或回写7124档案。
+- [ ] 新文档head CI及open blocking按GitHub实际结果核对；PR继续Draft，31项验收缺口未自动接受。

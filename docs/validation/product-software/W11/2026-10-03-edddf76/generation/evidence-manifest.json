@@ -1,0 +1,96 @@
+{
+  "base_head": "7c13d94ba728616d14a74866c03545e966a73ffe",
+  "scope": "single test-only driver fix; no production/gui/hardware change",
+  "artifacts": [
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/OptionalGeneration-baseline.swift",
+      "bytes": 8744,
+      "sha256": "c4b7634babcd53b0ed084ae052960f4e80ff55d2ffee07966dd4af7b38e8795b"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/OptionalGeneration-candidate.swift",
+      "bytes": 16208,
+      "sha256": "748bbadd26e22648df84cf5917edc27835942bd7ea7124e4f6623ae7f0a06fa9"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/OptionalGeneration-diagnostic.swift",
+      "bytes": 10417,
+      "sha256": "b7518957392dab43fe4ab9f59e8d95cb84bf96955f07db5791d9ae8f5049c668"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/SamplingService-baseline.swift",
+      "bytes": 27999,
+      "sha256": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/SamplingService-negative-control.swift",
+      "bytes": 28021,
+      "sha256": "aef4d4ef465984e6a6972c331cbaf1b1eeee7f99e093ea9d60b5843916366346"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/baseline-diagnostic.log",
+      "bytes": 1675,
+      "sha256": "6d9c665cccc9524fe86b47555c19b2bb6ca12b30c883301a6fc4eb14bbd415a3"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/candidate-compile-first.log",
+      "bytes": 2805,
+      "sha256": "02142f6d515e2a09100c25dec5d89c50d376844f94ac3f5612dca56bc26108e6"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/candidate-green-before-negative.log",
+      "bytes": 1703,
+      "sha256": "fe2f8616ad28c38b716a57a75a8163c63da305778f7c19eb04ba2668396c4b16"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/candidate-green.log",
+      "bytes": 1931,
+      "sha256": "968723a9e217257dafd0662a32e81ea3a3e8ed950111d2123e2abfc44056df99"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/ci-7c13-failed.log",
+      "bytes": 181627,
+      "sha256": "6cd2a31e76fee1a45e15cf6e2d6d81503e32c9b62c3f1ad7f5e596ed4ca38ed0"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/negative-control-red.log",
+      "bytes": 4106,
+      "sha256": "2a2f21d657227029580337efd409f7a7e9ef56d9eb6b0bff8e2ab20ba5125f14"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/production-restoration.json",
+      "bytes": 260,
+      "sha256": "6afaaaeaeedf961390bb2c772a19fb462550787bfc077dbdab62006a84533558"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/report.md",
+      "bytes": 7714,
+      "sha256": "546854869063c3eff434b974f4eeabd015d4989472b25fba554cb2201b21bdab"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/run-summary.json",
+      "bytes": 2991,
+      "sha256": "8f1f02a0c992c3c110fa164c6e0ac956df77f2a2bda1031ab3df976aaf93f010"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/run-tests-executed-snapshot.sh",
+      "bytes": 1934,
+      "sha256": "cbb5a1d40928650fdff98d2e6eaa8d83aeb6f33996943fc0ad126af8c948031e"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/slow-poll-red.log",
+      "bytes": 1634,
+      "sha256": "b8eb1dffefe47f55b340802001a136682319fc4478cd8f4b241dd043c359481f"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/source-hashes.json",
+      "bytes": 628,
+      "sha256": "5b595c2c1886415a3397394fd8fe0566a8dbcd03c47362710e7275317d6eec12"
+    },
+    {
+      "path": "/tmp/temperature-optional-generation-ci-probe/tests.patch",
+      "bytes": 18249,
+      "sha256": "7efcdda66e90281de171afbb7f1a710c88da51e65084ed815d25755d4e0f28b1"
+    }
+  ]
+}

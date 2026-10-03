@@ -75,3 +75,7 @@ TC-SENSOR/TC-UPSTREAM-BOUNDARY覆盖NVMe位置事实缺失、父树失败、非I
 ## 当前源码回归与断管负例
 
 当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。 [新证据](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原f42失败CI，不据并行日志顺序推断唯一触发测试。新增公开断管用例/fixture同源RED→GREEN，涵盖错误代码与实际子进程回收；单测涵盖正常newline帧、独立管道/全局SIGPIPE状态、-1无效描述符和已关闭FileHandle的Swift错误。完整回归计数355包含这些用例，不重复相加局部suite计数。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。
+
+## 当前交接的测试同步修正
+
+交接提交`edddf76ddcffd3396315c52ede11eccda3ca2392`仅修改可选来源代际恢复回归测试。原7c13 CI失败保留；Cocoa256来自测试等待到期，不是已证明的文件IO故障。新用例按真实SQLite提交和采样/发布任务睡眠边界推进，2ms/125ms轮询均通过；去掉重连计数清零的负控仍检出4项预期失败。最终Core355项/57组通过，覆盖7116/8002=88.93%。156份生产、构建脚本及测试源与提交对象匹配，生产/构建输入相对7124空diff，正式App未重建/重测，原7124短测保留其真实source/App/worker身份。 [最新软件归档](validation/product-software/W11/2026-10-03-edddf76/README.md)。验收仍100accepted/31pending/1waived/2retired；本轮物理sleep已按用户要求跳过，精确性能及其他未覆盖项仍pending。PR26保持Draft，最新head CI和open blocking须回读，不由本段宣称全部通过。

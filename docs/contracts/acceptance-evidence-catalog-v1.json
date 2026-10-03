@@ -2,7 +2,7 @@
   "version": 2,
   "date": "2026-10-03",
   "contract_revision": 3,
-  "delivery_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "delivery_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
   "artifacts": {
     "core-regression": {
       "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/full-core.log",
@@ -420,6 +420,39 @@
         "TC-SCHEDULE",
         "TC-SENSOR",
         "TC-HISTORY"
+      ]
+    },
+    "generation-final-core": {
+      "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+      "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+      "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "context": "Actual committed test-only fix; production/build inputs equal7124"
+      },
+      "scope": [
+        "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-AGG",
+        "TC-BUFFER",
+        "TC-DOCS",
+        "TC-EMA",
+        "TC-ERROR",
+        "TC-HISTORY",
+        "TC-LIFECYCLE",
+        "TC-PLATFORM",
+        "TC-RETENTION",
+        "TC-SCHEDULE",
+        "TC-SENSOR",
+        "TC-STORAGE",
+        "TC-TREND",
+        "TC-UI",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-VALIDATE",
+        "TC-WORKFLOW"
       ]
     }
   },
@@ -948,7 +981,8 @@
       "evidence": [
         "core-regression",
         "final-core-ttl",
-        "sigpipe-final-core"
+        "sigpipe-final-core",
+        "generation-final-core"
       ]
     },
     "REQ-032": {
@@ -981,7 +1015,8 @@
       "evidence": [
         "core-regression",
         "final-core-ttl",
-        "sigpipe-final-core"
+        "sigpipe-final-core",
+        "generation-final-core"
       ]
     },
     "REQ-034": {
@@ -999,7 +1034,8 @@
       "evidence": [
         "core-regression",
         "final-core-ttl",
-        "sigpipe-final-core"
+        "sigpipe-final-core",
+        "generation-final-core"
       ]
     },
     "REQ-035": {
@@ -1017,7 +1053,8 @@
       "evidence": [
         "core-regression",
         "final-core-ttl",
-        "sigpipe-final-core"
+        "sigpipe-final-core",
+        "generation-final-core"
       ]
     },
     "REQ-036": {
@@ -1036,7 +1073,8 @@
       "evidence": [
         "core-regression",
         "final-core-ttl",
-        "sigpipe-final-core"
+        "sigpipe-final-core",
+        "generation-final-core"
       ]
     },
     "REQ-037": {
@@ -1054,7 +1092,8 @@
       "evidence": [
         "core-regression",
         "final-core-ttl",
-        "sigpipe-final-core"
+        "sigpipe-final-core",
+        "generation-final-core"
       ]
     },
     "REQ-038": {
@@ -2892,5 +2931,5 @@
       ]
     }
   },
-  "scope_note": "当前delivery 7124dc1包含#51请求管道SIGPIPE修复；实际完整355/57+88.98%、正式Release短UI1项87.162sPASS另有身份及原CI失败。既有100accepted/31pending/1waived/2retired逐REQ裁决不批量改变；六项TTL软件证据继续保持f9来源，并由新完整回归补充。c354历史duration仅observed、原suite FAILED；本轮物理sleep用户明确跳过，功能/软件回归保留。精确性能not_measured，W11/blocking/新headCI仍独立处理。"
+  "scope_note": "当前delivery 7124dc1包含#51请求管道SIGPIPE修复；实际完整355/57+88.98%、正式Release短UI1项87.162sPASS另有身份及原CI失败。既有100accepted/31pending/1waived/2retired逐REQ裁决不批量改变；六项TTL软件证据继续保持f9来源，并由新完整回归补充。c354历史duration仅observed、原suite FAILED；本轮物理sleep用户明确跳过，功能/软件回归保留。精确性能not_measured，W11/blocking/新headCI仍独立处理。 最新测试同步提交edddf76仅更改单个代际恢复回归驱动，生产及构建输入仍7124、正式短测保留原身份；新完整Core与原7c13 CI失败另归档。逐REQ数量不变，新head CI仍独立核对。"
 }

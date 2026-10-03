@@ -2744,6 +2744,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "sigpipe-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+          "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+          "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "generation-final-core"
         }
       ],
       "acceptance_notes": {
@@ -2951,6 +2985,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "sigpipe-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+          "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+          "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "generation-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3091,6 +3159,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "sigpipe-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+          "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+          "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "generation-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3231,6 +3333,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "sigpipe-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+          "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+          "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "generation-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3371,6 +3507,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "sigpipe-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+          "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+          "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "generation-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3512,6 +3682,40 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "sigpipe-final-core"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-edddf76/full-core-summary.json",
+          "sha256": "58cf1b0f7a8fe98047fae0eb8a0cf706e785c0b8bee5ac6aa575380be45c1637",
+          "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "context": "Actual committed test-only fix; production/build inputs equal7124"
+          },
+          "scope": [
+            "Full software regression; deterministic receipt/task-clock barriers; not formal hardware qualification"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "generation-final-core"
         }
       ],
       "acceptance_notes": {

@@ -1,0 +1,32 @@
+{
+  "source_commit": "edddf76ddcffd3396315c52ede11eccda3ca2392",
+  "base_commit": "7c13d94ba728616d14a74866c03545e966a73ffe",
+  "manifest_artifacts": 18,
+  "manifest_unique_paths": 18,
+  "manifest_sha256": "28a3df731a74ab4fa0bd8c254168e6b2eca523ff65ddaeb7344ebff8faf48c09",
+  "source_hashes": {
+    "OptionalGeneration-baseline.swift": "c4b7634babcd53b0ed084ae052960f4e80ff55d2ffee07966dd4af7b38e8795b",
+    "OptionalGeneration-diagnostic.swift": "b7518957392dab43fe4ab9f59e8d95cb84bf96955f07db5791d9ae8f5049c668",
+    "OptionalGeneration-candidate.swift": "748bbadd26e22648df84cf5917edc27835942bd7ea7124e4f6623ae7f0a06fa9",
+    "SamplingService-baseline.swift": "64d74335e7f426532fc299b35d9c48f3edbdf6b4ff7dcbe809473f94882e31c3",
+    "SamplingService-negative-control.swift": "aef4d4ef465984e6a6972c331cbaf1b1eeee7f99e093ea9d60b5843916366346",
+    "tests.patch": "7efcdda66e90281de171afbb7f1a710c88da51e65084ed815d25755d4e0f28b1"
+  },
+  "commit_changed_files": [
+    "Packages/TemperatureCore/Tests/TemperatureCoreTests/OptionalGenerationRecoveryRegressionTests.swift"
+  ],
+  "production_build_diff_from_7124": [],
+  "restored_copy_production_files": 66,
+  "candidate_copy_and_Git_equal": true,
+  "patch_reconstruction_equal": true,
+  "negative_control_single_reset_omission": true,
+  "coverage": {
+    "covered": 7116,
+    "total": 8002,
+    "ratio": 0.889277680579855,
+    "path": "/Users/sisyphus/.codex/worktrees/product-audit-fixes/Temperature monitoring/Packages/TemperatureCore/.build/arm64-apple-macosx/debug/codecov/TemperatureCore.json",
+    "sha256": "256fb0ccc8d4152f599811509e4b7db8d3db6d1be56f73954ef9721ff407579d"
+  },
+  "root_full_core_log_sha256": "515918ed7807b08b0cfab62f8fbcfe6dc1b480e7f67c80440c004b6e3bb86ba2",
+  "failures": []
+}
