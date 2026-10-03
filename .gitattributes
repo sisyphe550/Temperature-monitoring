@@ -25,3 +25,4 @@ docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/final-two-test
 docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-two-tests.patch -whitespace
 
 docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/wake-eof-normalization.patch -whitespace
+docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-OptionalWakeRecoveryRegressionTests.swift whitespace=-blank-at-eof
