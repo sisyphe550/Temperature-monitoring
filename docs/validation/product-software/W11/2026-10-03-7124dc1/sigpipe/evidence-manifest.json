@@ -1,0 +1,177 @@
+{
+  "base_head": "f42ec002dc4121b187ff610bdcd55bc8d2da7cd1",
+  "artifact_root": "/tmp/temperature-sigpipe-red-green",
+  "scope": "read-only repository; tmp-only probes/candidate; no GUI/sensor/RSS A-B",
+  "artifacts": [
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/WorkerClient-baseline.swift",
+      "bytes": 15363,
+      "sha256": "7915319f626ca44e25d1936c7fd7848ab3ea39e9dc11b13f313fc30d66b3da0b"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/WorkerClient-candidate.swift",
+      "bytes": 16722,
+      "sha256": "3e354752bab5fea10546708a86378114149908500cef60bc93b1c0e9f90a3a29"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/WorkerPipeWriteTests-baseline-evolution.swift",
+      "bytes": 2412,
+      "sha256": "f5abb720398caed10a4883da12be1771c0baa37298fac0f4e09726aa2458733a"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/WorkerPipeWriteTests-final.swift",
+      "bytes": 2695,
+      "sha256": "9501a823082e3fd10124abae50d72d9ded4241dfc9084792cbf1d3b2e98f2631"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/WorkerPipeWriteTests-initial-red.swift",
+      "bytes": 2383,
+      "sha256": "7586fe0086a9d925101b66e449101d29e838a484ea9dab6b4b97f0fbb64cc7f5"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/baseline-closed-handle.log",
+      "bytes": 1660,
+      "sha256": "1bcb0482d2d7557ac08246efc34b8dc1e1ba809fdf3a77d87c0a64d9a74570af"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/fd-probe-results.json",
+      "bytes": 421,
+      "sha256": "e248642dff36a37528d99b1bc449575197e3edd976c43800b3f898fb6515bfa0"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/fd-protected.log",
+      "bytes": 148,
+      "sha256": "d4b8f9c841034712d94b7fca4cd1c47cb85dc34fa9ace6c97402cdc2b6fdb9e7"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/fd-unprotected.log",
+      "bytes": 82,
+      "sha256": "8d69f652a0b554091bfccf756c806089d25635ad38b780563d10034e5447be68"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/fd_probe",
+      "bytes": 33944,
+      "sha256": "3ca2cef25ac1fbb9bb498a01f7686d7616c9c679d95b28ef7cc96be83381fe72"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/fd_probe.c",
+      "bytes": 1571,
+      "sha256": "464d7137a4429f638b1ed51ac97e3d8edf919b39ce813cee3d480a533093ce76"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/green-fd.log",
+      "bytes": 6875,
+      "sha256": "eaf9b71946b2314930b56d357e6c1fe9c3a2752c065ddf0ed0d9bfc1226dfa70"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/invalid-origin-green.log",
+      "bytes": 980,
+      "sha256": "51311536bc2a4bd6b5845c593603adb159bb1d2f1ed7cc57deb82a97a8e3285b"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/production.patch",
+      "bytes": 2244,
+      "sha256": "ec5ee344542b5fe281b7d177761c0e3d47eeac74a33ba7941f29dc27161e6d65"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/public-first-setup-timeout.log",
+      "bytes": 19036,
+      "sha256": "8b0018f990bfd1de4949628a5d0ee5c0048a1e6ca095ef71d5081950506e42e0"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/public-green-2s.log",
+      "bytes": 6027,
+      "sha256": "e658f79be3b592803e5b9b31b015d55ae28a86fab9be3446150071354c8bf165"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/public-green.log",
+      "bytes": 6027,
+      "sha256": "54670e36af338e63e4d0d7320042b274dda1a02b18d82cab753570ab1208c3c8"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/public-red-10s-before-os-check.log",
+      "bytes": 18453,
+      "sha256": "2ce9fac6b7334420b6934182ed0a4a7da1ddb69e8d7402c33c1df155f0a94bc8"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/public-red-2s.log",
+      "bytes": 1035,
+      "sha256": "842ed0a9adb0ad4110f5abcfc5ee8543abc2d2a2486aad77473b9bce4fdfd65f"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/public-red.log",
+      "bytes": 1035,
+      "sha256": "e6a163aa997b61a5f9962dd207e2e03951a7bf5d41dcac82f93daa1fadb0272a"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/red-first.log",
+      "bytes": 4249,
+      "sha256": "cfb848d262c78eadf99631bb9136ef09aae1db1aaba1024efbf6858a4ebcf486"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/red-unmapped.log",
+      "bytes": 1975,
+      "sha256": "6547b3a2a5e76888157ace772bb55ec7defb9965354cb3722793c388a2713ee3"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/red.log",
+      "bytes": 57264,
+      "sha256": "683c7a22291fcdbe5451c4774fe261e960e3bf3d58b5ce5f74246d9eeccd3814"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/report.md",
+      "bytes": 8067,
+      "sha256": "cac6adada6708e68b518e732899b218a887f0ef27f3fb30bdf3e305e4610b55b"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/run-summary.json",
+      "bytes": 3340,
+      "sha256": "381cfb445453996fd72eb371cbfd7944cdf1632c538f5f9eaf5944c84638b0ed"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/run-tests.sh",
+      "bytes": 1052,
+      "sha256": "910c353586cac8f0a246b9f49ebc0591a3e84e99813e63ad55c41e336cef17f7"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/runtime-green.log",
+      "bytes": 5453,
+      "sha256": "453a6b2f1df520be00c82ba8f24e5ad7eecae4b2a2abacd835f61226a56ea092"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/source-hashes.json",
+      "bytes": 1064,
+      "sha256": "1076900458a393a4cdfeac35aadaa11277d6b9ca51794f7d4f1670fc3ac325da"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/tests.patch",
+      "bytes": 6781,
+      "sha256": "93672b6186ad2b552f09a9adbdf5f229b3f1ed4540ebcb21b858df5aae36d242"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/unit-green.log",
+      "bytes": 1452,
+      "sha256": "994c2506ca8b83774026da5ca02a70030135360f7b531cf698e1f7bd98566e7c"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/TemperatureCore/Sources/SensorRuntime/WorkerClient.swift",
+      "bytes": 16722,
+      "sha256": "3e354752bab5fea10546708a86378114149908500cef60bc93b1c0e9f90a3a29"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift",
+      "bytes": 5940,
+      "sha256": "10ebb08ea5cac80ff46660bb684da8019f153d0ae8a198bb09a020ba3ca1b897"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/TemperatureCore/Tests/SensorRuntimeTests/WorkerPipeWriteTests.swift",
+      "bytes": 2695,
+      "sha256": "9501a823082e3fd10124abae50d72d9ded4241dfc9084792cbf1d3b2e98f2631"
+    },
+    {
+      "path": "/tmp/temperature-sigpipe-red-green/TemperatureCore/Tests/SensorRuntimeTests/WorkerBrokenPipeIntegrationTests.swift",
+      "bytes": 2352,
+      "sha256": "157f0e4a6c2ece4531d86abcb59dafceaf80a2c4aa5fde3c607b073052443bc9"
+    }
+  ]
+}

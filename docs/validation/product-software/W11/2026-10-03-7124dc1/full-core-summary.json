@@ -1,0 +1,16 @@
+{
+  "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "result": "passed",
+  "command": "swift test --package-path Packages/TemperatureCore --enable-code-coverage",
+  "exit_code": 0,
+  "tests": 355,
+  "suites": 57,
+  "core_coverage": {
+    "covered": 7120,
+    "total": 8002,
+    "percent": 88.97775556110972,
+    "scope": "TemperatureCore + SensorRuntime production Swift; excludes App UI/C bridge/worker entry/tests"
+  },
+  "source_identity": "source-and-build-identity.json",
+  "scope": "Actual full software regression including TTL, lifecycle and pipe failure; virtual vectors and worker fixture are not formal hardware endurance/performance or physical sleep evidence."
+}

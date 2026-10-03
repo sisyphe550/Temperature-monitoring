@@ -1,0 +1,20 @@
+{
+  "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "full_core_exit_code": 0,
+  "coverage_exit_code": 0,
+  "release_build_exit_code": 0,
+  "signature_exit_code": 0,
+  "upstream_boundary_exit_code": 0,
+  "short_ui_exit_code": 0,
+  "short_ui_tests": 1,
+  "short_ui_duration_seconds": 87.16197001934052,
+  "physical_sleep": "skipped-by-user",
+  "prior_f42_ci": "One Core run passed; another signal13 failed. Original failure retained; new head CI must be separately verified.",
+  "performance_metrics": "not_measured",
+  "acceptance_counts": {
+    "accepted": 100,
+    "pending": 31,
+    "waived": 1,
+    "retired": 2
+  }
+}

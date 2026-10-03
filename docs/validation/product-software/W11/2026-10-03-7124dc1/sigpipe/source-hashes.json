@@ -1,0 +1,11 @@
+{
+  "WorkerClient-baseline.swift": "7915319f626ca44e25d1936c7fd7848ab3ea39e9dc11b13f313fc30d66b3da0b",
+  "TemperatureCore/Sources/SensorRuntime/WorkerClient.swift": "3e354752bab5fea10546708a86378114149908500cef60bc93b1c0e9f90a3a29",
+  "WorkerPipeWriteTests-initial-red.swift": "7586fe0086a9d925101b66e449101d29e838a484ea9dab6b4b97f0fbb64cc7f5",
+  "WorkerPipeWriteTests-baseline-evolution.swift": "f5abb720398caed10a4883da12be1771c0baa37298fac0f4e09726aa2458733a",
+  "production.patch": "ec5ee344542b5fe281b7d177761c0e3d47eeac74a33ba7941f29dc27161e6d65",
+  "tests.patch": "93672b6186ad2b552f09a9adbdf5f229b3f1ed4540ebcb21b858df5aae36d242",
+  "TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift": "10ebb08ea5cac80ff46660bb684da8019f153d0ae8a198bb09a020ba3ca1b897",
+  "TemperatureCore/Tests/SensorRuntimeTests/WorkerBrokenPipeIntegrationTests.swift": "157f0e4a6c2ece4531d86abcb59dafceaf80a2c4aa5fde3c607b073052443bc9",
+  "TemperatureCore/Tests/SensorRuntimeTests/WorkerPipeWriteTests.swift": "9501a823082e3fd10124abae50d72d9ded4241dfc9084792cbf1d3b2e98f2631"
+}

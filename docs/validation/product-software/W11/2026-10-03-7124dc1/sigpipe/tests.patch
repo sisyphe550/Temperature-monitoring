@@ -1,0 +1,151 @@
+--- a/Packages/TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift
++++ b/Packages/TemperatureCore/Tests/Fixtures/ProtocolWorker/main.swift
+@@ -14,6 +14,7 @@
+     case hangRead
+     case ignoreTerm
+     case lateRead
++    case closedInputAfterDiscover
+ }
+ 
+ @main
+@@ -63,6 +64,14 @@
+                 guard let responseLine = String(data: responseData, encoding: .utf8) else {
+                     throw WorkerProtocolError.invalidJSON
+                 }
++                if scenario == .closedInputAfterDiscover, request.command == .discover {
++                    // Close before the catalog response: the next request must
++                    // encounter a broken reader while this process stays alive.
++                    try FileHandle.standardInput.close()
++                    try writeResponseLine(responseLine)
++                    Thread.sleep(forTimeInterval: 10)
++                    return
++                }
+                 try writeResponseLine(responseLine)
+             }
+         }
+@@ -94,7 +103,7 @@
+                 command: request.command,
+                 payload: .closed
+             )
+-        case .success, .badJSON, .oversize, .crash, .hangDiscover, .hangRead, .ignoreTerm, .lateRead:
++        case .success, .badJSON, .oversize, .crash, .hangDiscover, .hangRead, .ignoreTerm, .lateRead, .closedInputAfterDiscover:
+             break
+         }
+ 
+--- /dev/null
++++ b/Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerBrokenPipeIntegrationTests.swift
+@@ -0,0 +1,51 @@
++import Darwin
++import Foundation
++import Testing
++import SensorRuntime
++import TemperatureCore
++
++@Suite(.serialized) struct WorkerBrokenPipeIntegrationTests {
++    @Test func publicClientMapsClosedWorkerInputToProtocolFailureAndReapsChild() async throws {
++        var disposition = sigaction()
++        try #require(sigaction(SIGPIPE, nil, &disposition) == 0)
++        try #require(disposition.__sigaction_u.__sa_handler == nil)
++        let client = try WorkerTestSupport.client(scenario: "closedInputAfterDiscover", timeouts: WorkerClientTimeouts(readDeadlineMS: 1_000, discoverDeadlineMS: 5_000, terminateGraceMS: 100))
++        do {
++            let catalog = try await client.discoverRaw()
++            let childPID = try #require(await client.childProcessID)
++            // The fixture closes stdin before writing this catalog, so readRaw
++            // deterministically meets a closed reader through production spawn/IO.
++            do {
++                _ = try await client.readRaw(TransportReadRequest(
++                    requestID: RequestID(UUID()), generation: catalog.generation,
++                    transportHandles: ["smc:Tp01"], requestedPeriodMS: 200
++                ))
++                Issue.record("expected protocol failure from closed worker input")
++            } catch let failure as MonitorFailure {
++                #expect(failure.code == .sensorProtocol)
++                #expect(failure.underlyingCode == "exit")
++            }
++            #expect(await client.childProcessID == nil)
++            let status = kill(childPID, 0)
++            let savedErrno = errno
++            #expect(status == -1)
++            #expect(savedErrno == ESRCH)
++            await client.close()
++        } catch {
++            await client.close()
++            throw error
++        }
++    }
++
++    @Test func immediateExitWorkerIsReportedWithoutTerminatingParent() async throws {
++        for _ in 0..<16 {
++            let client = WorkerClient(configuration: WorkerClientConfiguration(
++                executableURL: URL(fileURLWithPath: "/usr/bin/false"),
++                timeouts: WorkerTestSupport.fastTimeouts
++            ))
++            do { _ = try await client.discoverRaw(); Issue.record("expected early worker exit") }
++            catch let failure as MonitorFailure { #expect(failure.code == .sensorProtocol) }
++            await client.close()
++        }
++    }
++}
+--- /dev/null
++++ b/Packages/TemperatureCore/Tests/SensorRuntimeTests/WorkerPipeWriteTests.swift
+@@ -0,0 +1,60 @@
++import Darwin
++import Foundation
++import Testing
++@testable import SensorRuntime
++
++@Suite(.serialized) struct WorkerPipeWriteTests {
++    @Test func closedReaderThrowsWithoutChangingGlobalSignalDispositionOrOtherPipe() throws {
++        var dispositionBefore = sigaction()
++        try #require(sigaction(SIGPIPE, nil, &dispositionBefore) == 0)
++        try #require(dispositionBefore.__sigaction_u.__sa_handler == nil)
++        let pipe = Pipe()
++        let other = Pipe()
++        defer {
++            try? pipe.fileHandleForWriting.close()
++            try? other.fileHandleForReading.close()
++            try? other.fileHandleForWriting.close()
++        }
++        let descriptor = pipe.fileHandleForWriting.fileDescriptor
++        #expect(fcntl(descriptor, F_GETNOSIGPIPE) == 0)
++        #expect(fcntl(other.fileHandleForWriting.fileDescriptor, F_GETNOSIGPIPE) == 0)
++        try WorkerClient.configureRequestPipe(descriptor: descriptor)
++        try pipe.fileHandleForReading.close()
++        #expect(throws: WorkerClientError.workerExitedUnexpectedly) {
++            try WorkerClient.writeRequest(Data("broken reader".utf8), to: pipe.fileHandleForWriting)
++        }
++        #expect(fcntl(descriptor, F_GETNOSIGPIPE) == 1)
++        #expect(fcntl(other.fileHandleForWriting.fileDescriptor, F_GETNOSIGPIPE) == 0)
++        var dispositionAfter = sigaction()
++        try #require(sigaction(SIGPIPE, nil, &dispositionAfter) == 0)
++        #expect(dispositionAfter.__sigaction_u.__sa_handler == nil)
++        #expect(dispositionAfter.sa_flags == dispositionBefore.sa_flags)
++    }
++
++    @Test func successfulWriteKeepsCompleteNewlineDelimitedFrame() throws {
++        let pipe = Pipe()
++        defer {
++            try? pipe.fileHandleForReading.close()
++            try? pipe.fileHandleForWriting.close()
++        }
++        try WorkerClient.configureRequestPipe(descriptor: pipe.fileHandleForWriting.fileDescriptor)
++        try WorkerClient.writeRequest(Data("{\"command\":\"discover\"}".utf8), to: pipe.fileHandleForWriting)
++        let received = try #require(try pipe.fileHandleForReading.read(upToCount: 23))
++        #expect(received == Data("{\"command\":\"discover\"}\n".utf8))
++    }
++
++    @Test func invalidDescriptorReportsFlagSetupFailure() {
++        #expect(throws: POSIXError(.EBADF)) {
++            try WorkerClient.configureRequestPipe(descriptor: -1)
++        }
++    }
++
++    @Test func alreadyClosedFileHandleWriteThrowsSwiftError() throws {
++        let pipe = Pipe()
++        try pipe.fileHandleForReading.close()
++        try pipe.fileHandleForWriting.close()
++        #expect(throws: (any Error).self) {
++            try WorkerClient.writeRequest(Data("closed".utf8), to: pipe.fileHandleForWriting)
++        }
++    }
++}

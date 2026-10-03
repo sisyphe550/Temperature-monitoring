@@ -210,3 +210,7 @@ flowchart LR
 本次拆分的一致性、依赖图和命令结果见[2026-09-19任务拆分验证](research/2026-09-19-task-breakdown-validation.md)。
 
 W11逐项缺口以`acceptance-v1.json`的`acceptance_notes.outstanding`及version2证据目录为准。50个任务/DAG不变；现行局部验收结果不是勾选整个W11完成的依据。 403基线当时37项pending的历史最小验证、条件判定、依赖与禁止替代方式见[执行清单](validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.md)及[机器可读JSON](validation/product-software/W11/2026-10-03-403d44b/pending-execution-checklist.json)；该清单保持历史原件。当前catalog已有六项软件TTL补证，剩31项pending，以acceptance_notes.outstanding为当前任务入口；物理sleep本轮用户已跳过，不能照历史清单再次执行。清单不新增需求、实现或验收通过结论。
+
+## 当前执行衔接（2026-10-03 7124dc1）
+
+#46/#47生命周期及退出、#50父桶查找、#51断管错误边界已各有修复及对应验证；最新全355项回归与正式App短测见[归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)。后续工作从catalog逐REQ outstanding与GitHub实际open blocking继续；保留100accepted/31pending/1waived/2retired，本轮物理sleep用户已跳过，不再安排。最新head CI、独立审查和零blocking未满足前保持PR26 Draft，不宣称W11完成。

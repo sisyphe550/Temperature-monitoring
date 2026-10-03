@@ -90,6 +90,12 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 - 历史长测冻结的受测生产源码为`c354b0392a91367d42708d7424fd0e133af825b9`，正式Release App SHA256=`9f786ee330531d2d194ef2c88f04c83c314de3253a1e218ea45df12f5aeabc3c`，worker SHA256=`74b44d0617c4524e6cf24024ad48e64304b56b8f0b18c459ad8c364c7f8cb59f`；本机仍Mac16,13/15.7.3/24G419。[短测](validation/product-software/W11/2026-10-03-403d44b/anchor-release-short-ui/14-Release-real-hardware-short-acceptance.txt)已执行五档各8秒、主窗历史/图表点选、关闭重开和正常退出清理；[runtime Fatal记录](validation/product-software/W11/2026-10-03-403d44b/anchor-release-runtime-fatal/result.json)证明该产物的实际自动退出与会话清理，均不替代五档600秒或真实系统睡眠。
 - c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约601秒；1000ms在同一App/worker/Session连续区间经独立clock、Cua与末端SQL补证641.637秒。原XCTest因最后一档AX控件缺失仍为FAILED，不能改suite通过。精确scheduler skipped、读批p95/p99及首帧/屏幕显示p95仍not_measured，性能门槛不变。用户2026-10-03 08:00UTC明确“跳过休眠测试”，本轮三轮物理睡眠/人工唤醒验收仅标skipped-by-user；已经触发的两次attempt观察保留partial，生命周期功能和软件回归继续保留。原始记录见[c354不可变归档](validation/product-software/W11/2026-10-03-c354b03/README.md)与[user-scope](validation/product-software/W11/2026-10-03-c354b03/user-scope.json)。不得登记sources+schedules+lifecycle整套passed或把W11标完成；后续Issue #50修复的新产物f9已完成独立软件门禁与正式短测，见[新产物记录](validation/product-software/W11/2026-10-03-f9e850c/README.md)，不能继承该c354长测为新产物性能资格。
 
-### 当前交付候选f9e850c
+### 历史交付候选f9e850c
 
 新App SHA256=`7bf8d21dcd825497484573ec57b79d773b3cb933e0e708791b3641a5d799722c`；worker SHA256=`d0b6d7dbc08299b292dccc6e7076f494ce18366d5c5b0d7c3ba602c79b040b65`；本机环境未变。349/55软件回归、89.01%覆盖与149.485秒正式短测分别归档。未登记整套qualified combination，五档精确性能仍未测；本轮物理sleep用户已跳过。PR26保留Draft，未满足零blocking和全部验收条件，不能合并。
+
+### 当前交付候选7124dc1
+
+当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。
+
+App SHA256=`eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651`；worker SHA256=`12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96`；受测环境Mac16,13、macOS15.7.3/24G419，构建Xcode26.3/macOS26.2 SDK、Swift6 language mode。正式短测退出后本轮App/worker不存在、对应会话目录清理。[身份与原证据](validation/product-software/W11/2026-10-03-7124dc1/README.md)按source/build/runtime分别保存；未登记整套qualified combination，精确性能仍未测。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。

@@ -117,3 +117,7 @@ App单实例锁成功后才创建数据库和worker。stop幂等，停止后任�
 ## 修订3实现衔接（2026-10-02）
 
 Worker传递NVMe位置与查询状态纯事实，ProfileRegistry消费并给出Qualified/unavailable；SeriesCatalogBuilder对Mac16,13强制完整CPU12，并按连接generation生成Source/Series实例与definitionVersion。来源改变不连接旧曲线。SamplingService所有终结路径释放planned注册，临时故障按预算重资格化；ProcessingCoordinator冻结首次关键错误，Controller写Diagnostics日志/报告，AppSessionRuntime把该错误送入唯一PresentationState。
+
+## Worker请求管道保护（2026-10-03）
+
+WorkerClient在创建stdin pipe后、process.run之前配置该请求端F_SETNOSIGPIPE，尚未发布的创建失败路径关闭六端。原Foundation写入保留，直接/underlying POSIX EPIPE转换为workerExitedUnexpectedly，由现有perform路径回收子进程并返回SENSOR-PROTOCOL-006/underlying=exit；不新增公开错误、generation、contract字段或全局信号状态。公开断管fixture关闭stdin后才发catalog，测试下一次readRaw及实际子PID ESRCH。其他既有异步FileHandle句柄竞态不能由本项推出全部已修复。[本次范围与独立审查](validation/product-software/W11/2026-10-03-7124dc1/README.md)。

@@ -572,3 +572,7 @@ git diff --check
 - [ ] 对应测试、Core80%门禁、既有原型回归和文档验证通过；UI/实机/发布按任务阶段真实执行。
 - [ ] 保存失败与回归证据，更新本任务REQ映射；通过独立审查后提交PR，不直接推main。
 - [ ] 接下任务前确认前置合同已合入main；不能从旧main丢失已批准设计，也不能把文档计划命令写成已执行事实。
+
+## 当前执行衔接（2026-10-03 7124dc1）
+
+#46/#47生命周期及退出、#50父桶查找、#51断管错误边界已各有修复及对应验证；最新全355项回归与正式App短测见[归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)。后续工作从catalog逐REQ outstanding与GitHub实际open blocking继续；保留100accepted/31pending/1waived/2retired，本轮物理sleep用户已跳过，不再安排。最新head CI、独立审查和零blocking未满足前保持PR26 Draft，不宣称W11完成。

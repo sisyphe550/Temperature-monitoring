@@ -2708,6 +2708,42 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "final-core-ttl"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+          "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "sigpipe-final-core"
         }
       ],
       "acceptance_notes": {
@@ -2879,6 +2915,42 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "final-core-ttl"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+          "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "sigpipe-final-core"
         }
       ],
       "acceptance_notes": {
@@ -2983,6 +3055,42 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "final-core-ttl"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+          "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "sigpipe-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3087,6 +3195,42 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "final-core-ttl"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+          "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "sigpipe-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3191,6 +3335,42 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "final-core-ttl"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+          "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "sigpipe-final-core"
         }
       ],
       "acceptance_notes": {
@@ -3296,6 +3476,42 @@
             "TC-WORKFLOW"
           ],
           "artifact_id": "final-core-ttl"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/full-core-summary.json",
+          "sha256": "c0b20b8788ea4881fff1cd6a5beb5327fc5de3e77c27ea5de779a9a7074b4e65",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-ACCEPTANCE",
+            "TC-AGG",
+            "TC-BUFFER",
+            "TC-DOCS",
+            "TC-EMA",
+            "TC-ERROR",
+            "TC-HISTORY",
+            "TC-LIFECYCLE",
+            "TC-PLATFORM",
+            "TC-RETENTION",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-STORAGE",
+            "TC-TREND",
+            "TC-UI",
+            "TC-UPSTREAM-BOUNDARY",
+            "TC-VALIDATE",
+            "TC-WORKFLOW"
+          ],
+          "artifact_id": "sigpipe-final-core"
         }
       ],
       "acceptance_notes": {
@@ -8820,6 +9036,37 @@
             "TC-HISTORY"
           ],
           "artifact_id": "final-formal-short"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/short-ui/build-and-run-identity.json",
+          "sha256": "994442a3f2c61cbe8be83199d1abbf2390895948eb079defbc773dd1c5896559",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "formal-app-hardware",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated",
+            "execution": "formal-release-app",
+            "build_configuration": "Release",
+            "fixture": false,
+            "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+            "app_sha256": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+            "worker_sha256": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96",
+            "model": "Mac16,13",
+            "os_build": "24G419"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-UI",
+            "TC-LIFECYCLE",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-HISTORY"
+          ],
+          "artifact_id": "sigpipe-final-formal-short"
         }
       ],
       "acceptance_notes": {
@@ -8828,7 +9075,8 @@
           "software-fixture:UITests/TemperatureMonitorUITests.swift#testCachedFixtureLabelsStatusAndReadFailure()",
           "software-fixture:UITests/TemperatureMonitorUITests.swift#testUnavailableSourceShowsReasonAndCannotBeSelected()",
           "formal-app-hardware:a97fd5a#五档8s/5min1h/reopen/quit正式黑盒通过",
-          "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit"
+          "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit",
+          "formal-app-hardware:7124dc1#Release87.162s五档8秒/范围/点选/同会话reopen/正常quit"
         ],
         "outstanding": [
           "菜单栏点击/Popover、运行中UI重试/Fatal与其他未覆盖EARS用例仍待验收；c354五档只duration observed且原suite FAILED，精确性能未测。物理sleep本轮已由用户跳过，不要求重做也不标通过。"
@@ -11556,6 +11804,37 @@
             "TC-HISTORY"
           ],
           "artifact_id": "final-formal-short"
+        },
+        {
+          "path": "docs/validation/product-software/W11/2026-10-03-7124dc1/short-ui/build-and-run-identity.json",
+          "sha256": "994442a3f2c61cbe8be83199d1abbf2390895948eb079defbc773dd1c5896559",
+          "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+          "kind": "formal-app-hardware",
+          "result": "passed",
+          "environment": {
+            "actual_machine": "Mac16,13",
+            "actual_OS": "15.7.3/24G419",
+            "context": "Actual committed final pipe fix; software and formal short scope separately stated",
+            "execution": "formal-release-app",
+            "build_configuration": "Release",
+            "fixture": false,
+            "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+            "app_sha256": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+            "worker_sha256": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96",
+            "model": "Mac16,13",
+            "os_build": "24G419"
+          },
+          "scope": [
+            "Final pipe fix scoped regression; no wholesale W11/performance/sleep claim"
+          ],
+          "tc_groups": [
+            "TC-UI",
+            "TC-LIFECYCLE",
+            "TC-SCHEDULE",
+            "TC-SENSOR",
+            "TC-HISTORY"
+          ],
+          "artifact_id": "sigpipe-final-formal-short"
         }
       ],
       "acceptance_notes": {
@@ -11563,10 +11842,11 @@
           "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/AppBundleConfigurationTests.swift#appResourcesMatchBundledContracts()",
           "software:Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift#bundledProfileHasTwelveCaseSensitiveKeys()",
           "formal-app-hardware:a97fd5a#a97 App/worker hash、签名、Mac16,13/24G419、Xcode/Swift/SDK已归档",
-          "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit"
+          "formal-app-hardware:f9e850c#Release149.485s五档8秒/范围/点选/同会话reopen/正常quit",
+          "formal-app-hardware:7124dc1#Release87.162s五档8秒/范围/点选/同会话reopen/正常quit"
         ],
         "outstanding": [
-          "最终f9 App/worker的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块清单及同一产物sources+schedules+lifecycle整套资格仍未齐；现有新短测只8s，c354历史长测只duration observed，精确性能未测。",
+          "最终7124dc1 App/worker的build_toolchain/deployment_target/runtime_profile/qualified_combinations四块清单及同一产物sources+schedules+lifecycle整套资格仍未齐；现有新短测只8s，c354历史长测只duration observed，精确性能未测。",
           "物理sleep本轮用户明确跳过，旧attempt保持partial；#46/#47修复与c354软件/单Fatal路径证据分别存在，不能由此盖完整组合通过。"
         ],
         "reason": "最低15.7.3、配置/资源及实机身份已记录，但旧qualified组合属于14cac而非a97。",

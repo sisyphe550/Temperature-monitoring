@@ -71,3 +71,7 @@ CPU/内存/能耗暂无百分比硬指标，资源有界上限按21执行；每�
 ## 修订3适用回归（2026-10-02）
 
 TC-SENSOR/TC-UPSTREAM-BOUNDARY覆盖NVMe位置事实缺失、父树失败、非Internal、多候选、WorkerProtocol闭合枚举和Battery资格化；TC-SCHEDULE覆盖CPU非零耗时下Battery/SSD同相位不饥饿；TC-DB/TC-RETENTION覆盖临时错误相同payload重试、并发reservation和周期TTL；TC-VALIDATE/TC-ERROR覆盖CPU缺成员、超时恢复/耗尽、日志报告、过期重放拒绝。REQ映射与任务DAG不变，修复证据另存；模拟通过不等于正式硬件通过。用户已豁免72/73h、公证、公开发行与跨机型认证，本轮短时Release验证与上述软件回归仍必需。
+
+## 当前源码回归与断管负例
+
+当前生产源码`7124dc1644516f471d69930024589342c0ca34c9`追加Issue [#51](https://github.com/sisyphe550/Temperature-monitoring/issues/51)修复：新请求管道在spawn前配置SIGPIPE保护，断管EPIPE进入既有协议错误及worker回收；全局信号策略、公开接口、schema和默认值不变。同一公开接口用例在原f42源码signal13 RED、候选GREEN，实际子PID已回收。完整Core355项/57组PASS，覆盖7120/8002=88.98%；Release构建、签名、上游边界通过，正式App新短测1项87.162秒PASS。 [新证据](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原f42失败CI，不据并行日志顺序推断唯一触发测试。新增公开断管用例/fixture同源RED→GREEN，涵盖错误代码与实际子进程回收；单测涵盖正常newline帧、独立管道/全局SIGPIPE状态、-1无效描述符和已关闭FileHandle的Swift错误。完整回归计数355包含这些用例，不重复相加局部suite计数。 当前仍为100项接受、31项待验收、1项豁免、2项退役；本轮物理休眠按用户要求跳过，软件生命周期回归保留。原f42 CI失败、c354 FAILED长测和f9历史验证均保持原件；短测不等同完整硬件性能资格，PR26保持Draft。

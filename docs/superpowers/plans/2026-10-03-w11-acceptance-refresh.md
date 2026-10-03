@@ -81,6 +81,13 @@ c354五档清醒时长条件已分别observed：50/100/200/500ms原phase各约60
 
 Issue [#50](https://github.com/sisyphe550/Temperature-monitoring/issues/50)的SQL性能修复、最终Core门禁及新Release短测须按实际新source/App/worker另记录；不将c354长测继承为新产物完整资格。当前W11未完成，物理菜单/其他未覆盖要求、精确性能和blocking/CI均按当前有效证据逐项处理，不由本段自动更新catalog或全部REQ结果。
 
-## 当前源码与局部裁决
+## f9源码与局部裁决（历史）
 
 f9e850cb包含两行SQL修复和八个新增@Test函数，生产接口/默认值/schema不变。当前目录与binder同步为100accepted/31pending/1waived/2retired；只关闭六项明确软件TTL证据缺口。适用门禁及新Release短测通过，PR26仍Draft，exact-head CI与open blocking须GitHub回读，不声称W11完成。
+
+## 当前断管修复与最终回归
+
+- [x] f42 exact-head CI出现signal13后建立#51；同一最终公开接口/fixture在原生产源码RED与候选GREEN，原CI失败保留，不猜测唯一触发测试。
+- [x] 7124dc1集成spawn前请求管道保护和EPIPE错误边界；完整355/57回归、88.98%覆盖、Release构建/签名/边界、实际87.162秒短UI及独立审查另存[新归档](../../validation/product-software/W11/2026-10-03-7124dc1/README.md)。
+- [x] 本轮物理休眠skipped-by-user；软件生命周期保留，新任务不得重复请求人工唤醒。
+- [ ] 最新文档head的GitHub CI和open blocking回读；PR26保持Draft，31项pending与精确性能不通过本次修复批量接受。

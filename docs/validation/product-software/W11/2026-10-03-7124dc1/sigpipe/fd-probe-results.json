@@ -1,0 +1,14 @@
+[
+  {
+    "mode": "unprotected",
+    "returncode": -13,
+    "stdout": "default_SIGPIPE=1 protected=0 set=0 before=0 after=0 other_before=0 other_after=0\n",
+    "stderr": ""
+  },
+  {
+    "mode": "protected",
+    "returncode": 0,
+    "stdout": "default_SIGPIPE=1 protected=1 set=0 before=0 after=1 other_before=0 other_after=0\nwrite_result=-1 errno=32 EPIPE=32\nclosed_fcntl=-1 errno=9 EBADF=9\n",
+    "stderr": ""
+  }
+]

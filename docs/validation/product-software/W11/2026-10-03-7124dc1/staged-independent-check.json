@@ -1,0 +1,12 @@
+{
+  "source_commit": "7124dc1644516f471d69930024589342c0ca34c9",
+  "source_files": 155,
+  "git_and_worktree_sources_matched": true,
+  "staged_files": 68,
+  "manifest_entries": 67,
+  "manifest_unique_paths": 67,
+  "manifest_before_report_correction_sha256": "8760c6f83573180383a53ed8b30a38745763187d170ca8b7fab3651bf66bb6e8",
+  "identity_sha256": "d2ff00f459f27ec51e30da2a053d19608faa05d010bf7bef60a0263022d97e4e",
+  "gzip_integrity_checked": 23,
+  "failures": []
+}
