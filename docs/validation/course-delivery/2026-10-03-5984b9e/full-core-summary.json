@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-03",
+  "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+  "delivery_policy_commit": "5984b9e869467218e117976df7d7a320121b14d5",
+  "result": "passed",
+  "tests": 355,
+  "suites": 57,
+  "duration_seconds": 3.196,
+  "coverage_summary": "Core line coverage: 7116/8002 = 88.93%",
+  "coverage_scope": "Production Swift TemperatureCore+SensorRuntime; unchanged denominator8002. Tests/App UI/C bridge/worker entry/CSQLite excluded as before.",
+  "command": "swift test --package-path Packages/TemperatureCore --enable-code-coverage",
+  "regressions": [
+    "WorkerPipeWriteTests: local SIGPIPE/EPIPE and owned child reaping",
+    "Retention/TTL actual SQLite/series/segment/cutoff/cascade/idempotence",
+    "EngineGap/invalid/read-failure: no0/no old-value fabricated sample",
+    "AppRuntime history cancellation/start/stop and bounded lifecycle",
+    "Optional Generation/Budget/Wake/Race receipt/clock synchronization",
+    "Presentation/history equality and time-anchor tests"
+  ],
+  "log": "full-core.log",
+  "coverage": "core-coverage.txt",
+  "scope": "Software fault regressions; not actual induced hardware fault or physical sleep."
+}

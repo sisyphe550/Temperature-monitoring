@@ -14,7 +14,7 @@
 |---|---|---|
 | V2-01 | 普通用户正式App确认CPU12、来源单位与Raw max→EMA数值 | source/App/worker SHA、profile和机型系统；不减少成员或推断物理核/准确度 |
 | V2-02 | 保留SSD内置唯一SMART/Battery固定单源与Unavailable状态 | 实际来源/单位/优先级或明确不可用；单项故障CPU继续，不平均或替换口径 |
-| V2-03 | 同一次正式App五档短切换及资源/响应观察，首50ms约330s、其他8s | CPU TIME/RSS、阶段时间与UI响应；精确skipped/p95/p99、五档10min/压力负载为可选 |
+| V2-03 | 同一次正式App五档短切换及资源/响应观察，同次观察已填充的五分钟历史，五档短切换 | CPU TIME/RSS、阶段时间与UI响应；精确skipped/p95/p99、五档10min/压力负载为可选 |
 | V2-04 | 本轮关窗重开同会话、正常退出；必要worker失败/晚到/软件sleep-wake回归 | 不留本轮App/worker或会话库；物理sleep/唤醒和额外真实强杀不执行 |
 | V2-05 | 必要软件完整数据链、Raw/EMA、峰值/TTL、幂等、背压、缓存与Gap回归 | 全Core及覆盖≥80%，异常路径不能缩减；72h历史功能与软件TTL仍保留 |
 | V2-06 | 本机ad-hoc Release构建/签名和课程证据交付 | 五criterion与Git门禁；72/73h长跑、Developer ID/公证、公开发行/跨机为可选 |

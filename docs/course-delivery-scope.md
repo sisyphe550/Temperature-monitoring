@@ -1,6 +1,6 @@
 # 本机课程交付范围
 
-更新：2026-10-03。当前目标：在用户自己的MacBook Air完成课程演示、交付可运行ad-hoc Release App并合并本轮PR。实施契约仍v1族revision3，公开API、默认值、profile、schema与50项任务/DAG不变。本轮最小收尾进行中，以下条件不是未来通过或已合并声明。
+更新：2026-10-03。当前目标：在用户自己的MacBook Air完成课程演示、交付可运行ad-hoc Release App并合并本轮PR。实施契约仍v1族revision3，公开API、默认值、profile、schema与50项任务/DAG不变。当前核心测试、App观察与课程门禁已通过；独立审查、CI与合并另按实际结果核对。
 
 ## 最新直接授权（要点转述）
 
@@ -40,7 +40,7 @@
 3. W11：完成本轮全Core/必要回归及五criterion证据绑定，文档检查、一次最终独立审查；随后回读同PR head五CI、零真实blocking与仓库保护，再按用户授权push/调整PR状态/merge commit，保留开发分支。外部流程见[11](11-git-github-workflow.md)。五criterion不要求CI自身未来状态，避免自证循环。
 4. 合并后回读merge commit两个parent与远端分支，给出可启动本机App路径、实际结果和边界，完成即停；没有新用户授权不扩大到长测、物理sleep、多轮审查、负控、压力负载或公开发布。
 
-当前构建入口：`bash scripts/build-app.sh`，输出`build/TemperatureMonitor.app`；`bash scripts/launch-app.sh`执行标准LaunchServices启动。最终交付目录/哈希与实际结果由本轮delivery补录，不提前声明通过。
+当前构建入口：`bash scripts/build-app.sh`，输出`build/TemperatureMonitor.app`；`bash scripts/launch-app.sh`执行标准LaunchServices启动。本轮可运行App、哈希与实际结果见[课程报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。
 
 ## 门禁与历史事实
 
@@ -53,3 +53,7 @@ python3 scripts/validate-handoff.py --strict-product-acceptance
 普通检查验证文档/绑定一致；course-local只判当前五criterion；strict模式保留旧全132项扩展资格，旧pending存在时拒绝。文档结构通过不证明实测真实性，最终审查要核原证据。五项required CI和真实blocking按11由外部流程检查，不能通过删除真实bug标签绕过。
 
 [7124正式App归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)、[f0软件归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)、[c354原FAILED长测](validation/product-software/W11/2026-10-03-c354b03/README.md)各自保留源码与产物身份。Issue #49既有记录支持CPU开销改善，未证明RSS增长解决；本轮是否仍有可复现异常由一次最终资源/响应观察判定，不能把可选精确性能未测虚称通过或用它强迫继续全资格实验。
+
+## 本轮测试与交付记录
+
+当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。

@@ -58,7 +58,7 @@ python3 scripts/validate-handoff.py
 
 ## 本轮正式App与资源观察
 
-W09使用当前源码构建的正式Release App，普通用户、无fixture。确认真实CPU12/来源单位和数值，执行启动、五档短切换、历史范围/点选、菜单/Popover、关窗重开同会话及正常退出。首50ms档约330秒覆盖最近5分钟图，其他四档各8秒；同会话观察owned App/child Worker CPU/RSS及交互，不使用压力负载，也不重复五档10分钟或物理睡眠。
+W09使用当前源码构建的正式Release App，普通用户、无fixture。确认真实CPU12/来源单位和数值，执行启动、五档短切换、历史范围/点选、菜单/Popover、关窗重开同会话及正常退出。同次观察已填充的五分钟历史，五档短切换；同会话观察owned App/child Worker CPU/RSS及交互，不使用压力负载，也不重复五档10分钟或物理睡眠。
 
 COURSE-CPU结合正式App成功读取与必要软件失败回归证明边界；实际硬件短测未发生故障时，不声称实机故障路径已触发。失败不补0/旧值、CPU缺成员不能派生max、SQLite故障不发布未提交状态等必须保留；关键数据、管道、生命周期、退出/残留清理软件回归属于COURSE-REGRESSIONS。正常退出本次App/Worker结束且本会话目录消失；不额外强杀第二次真实App。
 

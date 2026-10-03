@@ -26,3 +26,7 @@ docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-two-tes
 
 docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/wake-eof-normalization.patch -whitespace
 docs/validation/product-software/W11/2026-10-03-f0a7dde/wake-race/tested-OptionalWakeRecoveryRegressionTests.swift whitespace=-blank-at-eof
+
+# Preserve native Xcode/Swift output verbatim in this immutable evidence directory.
+docs/validation/course-delivery/2026-10-03-5984b9e/automated-attempt-ui.log -whitespace
+docs/validation/course-delivery/2026-10-03-5984b9e/full-core.log -whitespace

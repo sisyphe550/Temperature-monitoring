@@ -36,7 +36,7 @@
 | Developer ID/Team/公证凭证 | 本轮不是必需输入 | 仅未来启动可选公开发行时索取，不阻塞本机ad-hoc目标 |
 | 更多机型/系统或严格性能 | 无本轮证据，不扩大支持 | 跨机/精确skipped/p95/p99/首帧/显示、长跑与物理sleep为可选，不假写PASS |
 
-没有未决架构/数据流/UI状态或第三方复用选择。最新用户授权覆盖先前暂停及五档10min要求；当前只有[五课程criterion](contracts/course-delivery-v1.json)与上述最小收尾，不把旧31pending等同当前31个阻塞任务。真实可复现错误仍按11建Issue/修复，不能隐去blocking或降低CPU、单位、数据、TTL语义。当前最终短测/审查/CI/合并尚须本轮结果确认。
+没有未决架构/数据流/UI状态或第三方复用选择。最新用户授权覆盖先前暂停及五档10min要求；当前只有[五课程criterion](contracts/course-delivery-v1.json)与上述最小收尾，不把旧31pending等同当前31个阻塞任务。真实可复现错误仍按11建Issue/修复，不能隐去blocking或降低CPU、单位、数据、TTL语义。最终App核心观察与课程门禁已有本轮记录；审查/CI/合并仍以实际结果确认。
 
 ## 不作为待实现功能
 

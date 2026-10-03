@@ -130,7 +130,7 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 ## 8. UI功能基线与验收范围
 
-本轮COURSE-FUNCTIONS验证标准启动、CPU12/单位、五档短切换、来源选择、历史范围/点选、关窗继续采样、标准重开与正常退出，并记录菜单/Popover的本机实际操作。首50ms约330s、其他各8s，同次观察CPU/RSS与响应；不加压力负载、不恢复五档10min或物理sleep。以下保留设计用例；浅深色、全屏等未在本轮执行的扩展项不能由短测推成PASS。
+本轮COURSE-FUNCTIONS验证标准启动、CPU12/单位、五档短切换、来源选择、历史范围/点选、关窗继续采样、标准重开与正常退出，并记录菜单/Popover的本机实际操作。同次观察已填充的五分钟历史，五档短切换，同次观察CPU/RSS与响应；不加压力负载、不恢复五档10min或物理sleep。以下保留设计用例；浅深色、全屏等未在本轮执行的扩展项不能由短测推成PASS。
 
 - 菜单栏保持摄氏一位小数；无值、缓存、过期状态不同，主线程不执行硬件读取。
 - 左/右键、Esc、点击外部、全屏/锚点变化、主窗口关闭和重新打开符合第2节。
@@ -150,6 +150,6 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 
 实时数值快照仍按200ms发布上限更新；自动历史查询/几何刷新限1Hz，用户切换范围/来源及唤醒的force刷新保持即时。HistoryChartView按HistoryChartState及毫秒化wall−elapsed偏移比较，几何相同不重复布局，墙钟跳变仍更新日期坐标；原始时间戳不变，选中点保留本地状态。CPU五档、Raw/EMA、查询层、2000点上限、defaults/API/schema均不变。
 
-Issue #49旧[同阶段对比](validation/product-software/W11/2026-10-03-c354b03/performance/charts-age-matched-comparison.md)支持本机CPU开销下降，未证明RSS增长解决。COURSE-RESOURCES在本轮同一正式App会话记录330秒50ms图表填充及后段CPU/RSS/交互，结合实际异常判定本机可演示；短测不证明无泄漏、不推断精确skipped/p95/p99或跨机性能。
+Issue #49旧[同阶段对比](validation/product-software/W11/2026-10-03-c354b03/performance/charts-age-matched-comparison.md)支持本机CPU开销下降，未证明RSS增长解决。COURSE-RESOURCES在本轮同一正式App会话记录50ms五分钟历史填充及后段CPU/RSS/交互，结合实际异常判定本机可演示；短测不证明无泄漏、不推断精确skipped/p95/p99或跨机性能。
 
-[7124正式短测](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原产物的五档8秒、图表点选、关窗重开与退出；[c354归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保留FAILED长测与duration观察。当前本轮短测仍待执行/绑定，不修改这些历史结果。物理睡眠/长测及严格性能当前为可选扩展，软件生命周期功能与回归保留。
+[7124正式短测](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原产物的五档8秒、图表点选、关窗重开与退出；[c354归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保留FAILED长测与duration观察。本轮自动AX失败与原生核心补验已分别归档，见[课程报告](validation/course-delivery/2026-10-03-5984b9e/README.md)，不修改这些历史结果。物理睡眠/长测及严格性能当前为可选扩展，软件生命周期功能与回归保留。

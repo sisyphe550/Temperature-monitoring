@@ -162,7 +162,10 @@
         "software",
         "formal-app-hardware"
       ],
-      "evidence": []
+      "evidence": [
+        "course-final-core",
+        "course-final-formal-app"
+      ]
     },
     {
       "id": "COURSE-FUNCTIONS",
@@ -189,7 +192,10 @@
       "required_evidence_kinds": [
         "formal-app-hardware"
       ],
-      "evidence": []
+      "evidence": [
+        "course-final-formal-app",
+        "sigpipe-final-formal-short"
+      ]
     },
     {
       "id": "COURSE-RESOURCES",
@@ -205,7 +211,9 @@
       "required_evidence_kinds": [
         "formal-app-hardware"
       ],
-      "evidence": []
+      "evidence": [
+        "course-final-formal-app"
+      ]
     },
     {
       "id": "COURSE-REGRESSIONS",
@@ -239,7 +247,9 @@
       "required_evidence_kinds": [
         "software"
       ],
-      "evidence": []
+      "evidence": [
+        "course-final-core"
+      ]
     },
     {
       "id": "COURSE-CORE",
@@ -255,7 +265,9 @@
       "required_evidence_kinds": [
         "software"
       ],
-      "evidence": []
+      "evidence": [
+        "course-final-core"
+      ]
     }
   ]
 }

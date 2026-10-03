@@ -45,9 +45,9 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 最新用户直接授权恢复最小收尾，目标是本机课程演示App，满足当前课程门槛后完成PR合并交付；这覆盖此前“当前工作完成后暂停”以及五档各10分钟/物理睡眠的旧执行要求。授权要点、五criterion和停止条件以[课程交付范围](docs/course-delivery-scope.md)及[课程政策](docs/contracts/course-delivery-v1.json)为准。
 
-公开API/default/profile/schema仍revision3，50个任务与DAG不变。完整Core及≥80%覆盖、关键失败/数据/生命周期软件回归、CPU12 Raw max→EMA、来源单位与失败不造值必须保留；本机正式App完成启动、五档短切换、历史、关窗重开与正常退出。同一次短测首50ms档约330秒覆盖最近5分钟图表，其余档各8秒，同时观察App/Worker CPU、RSS和交互，不加压力负载。严格132资格、五档10分钟、物理sleep、72/73h耐久、公证/跨机及精确性能为可选扩展，不阻塞当前本机交付。
+公开API/default/profile/schema仍revision3，50个任务与DAG不变。完整Core及≥80%覆盖、关键失败/数据/生命周期软件回归、CPU12 Raw max→EMA、来源单位与失败不造值必须保留；本机正式App完成启动、五档短切换、历史、关窗重开与正常退出。同一次短测同次观察已填充的五分钟历史，五档短切换，同时观察App/Worker CPU、RSS和交互，不加压力负载。严格132资格、五档10分钟、物理sleep、72/73h耐久、公证/跨机及精确性能为可选扩展，不阻塞当前本机交付。
 
-当前最小收尾仍进行中，不宣称本轮App短测、五criterion、独立审查、head CI或合并已通过。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与旧全132项扩展资格分开判定，不把pending改成passed。
+本轮App核心观察与五criterion通过；独立审查、同head CI和合并仍按PR实际结果确认。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与旧全132项扩展资格分开判定，不把pending改成passed。
 
 [c354不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保留原FAILED suite、duration补证、partial物理sleep及not_measured性能；[原产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)和[原修复](docs/validation/product-fixes/2026-10-02-a97fd5a/report.md)保留当时范围。历史记录中的当时“必须继续长测/暂停/保持Draft”不重新启用当前已授权取消的门槛。
 

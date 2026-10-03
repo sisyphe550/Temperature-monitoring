@@ -1,0 +1,36 @@
+test_active_requirement_cannot_be_marked_retired (__main__.CourseAcceptanceTests.test_active_requirement_cannot_be_marked_retired) ... ok
+test_complete_core_coverage_at_80_percent_is_accepted (__main__.CourseAcceptanceTests.test_complete_core_coverage_at_80_percent_is_accepted) ... ok
+test_complete_core_coverage_rejects_missing_summary (__main__.CourseAcceptanceTests.test_complete_core_coverage_rejects_missing_summary) ... ok
+test_complete_core_coverage_uses_counts_not_claimed_percentage (__main__.CourseAcceptanceTests.test_complete_core_coverage_uses_counts_not_claimed_percentage) ... ok
+test_complete_rejects_nonpassing_extra_evidence_even_with_passed_kind (__main__.CourseAcceptanceTests.test_complete_rejects_nonpassing_extra_evidence_even_with_passed_kind) ... ok
+test_complete_rejects_partial_not_run_and_failed_artifacts (__main__.CourseAcceptanceTests.test_complete_rejects_partial_not_run_and_failed_artifacts) ... ok
+test_complete_requires_passed_evidence_for_each_declared_kind (__main__.CourseAcceptanceTests.test_complete_requires_passed_evidence_for_each_declared_kind) ... ok
+test_duplicate_artifact_reference_is_rejected (__main__.CourseAcceptanceTests.test_duplicate_artifact_reference_is_rejected) ... ok
+test_duplicate_criterion_is_rejected (__main__.CourseAcceptanceTests.test_duplicate_criterion_is_rejected) ... ok
+test_duplicate_requirement_reference_is_rejected (__main__.CourseAcceptanceTests.test_duplicate_requirement_reference_is_rejected) ... ok
+test_each_required_criterion_cannot_be_deleted (__main__.CourseAcceptanceTests.test_each_required_criterion_cannot_be_deleted) ... ok
+test_each_required_kind_cannot_be_omitted (__main__.CourseAcceptanceTests.test_each_required_kind_cannot_be_omitted) ... ok
+test_empty_authorization_is_rejected (__main__.CourseAcceptanceTests.test_empty_authorization_is_rejected) ... ok
+test_empty_criterion_description_is_rejected (__main__.CourseAcceptanceTests.test_empty_criterion_description_is_rejected) ... ok
+test_empty_requirements_are_rejected (__main__.CourseAcceptanceTests.test_empty_requirements_are_rejected) ... ok
+test_hardware_criterion_cannot_replace_kind_with_software (__main__.CourseAcceptanceTests.test_hardware_criterion_cannot_replace_kind_with_software) ... ok
+test_normal_policy_allows_empty_evidence_but_complete_rejects_it (__main__.CourseAcceptanceTests.test_normal_policy_allows_empty_evidence_but_complete_rejects_it) ... ok
+test_requirement_tier_mapping_must_cover_every_requirement (__main__.CourseAcceptanceTests.test_requirement_tier_mapping_must_cover_every_requirement) ... ok
+test_requirement_tier_mapping_rejects_unknown_requirement (__main__.CourseAcceptanceTests.test_requirement_tier_mapping_rejects_unknown_requirement) ... ok
+test_requirement_tier_rejects_unknown_tier (__main__.CourseAcceptanceTests.test_requirement_tier_rejects_unknown_tier) ... ok
+test_retired_requirement_cannot_become_core (__main__.CourseAcceptanceTests.test_retired_requirement_cannot_become_core) ... ok
+test_software_criterion_cannot_replace_kind_with_hardware (__main__.CourseAcceptanceTests.test_software_criterion_cannot_replace_kind_with_hardware) ... ok
+test_strict_product_accepts_all_active_accepted_or_explicitly_waived (__main__.CourseAcceptanceTests.test_strict_product_accepts_all_active_accepted_or_explicitly_waived) ... ok
+test_strict_product_still_rejects_31_pending_requirements (__main__.CourseAcceptanceTests.test_strict_product_still_rejects_31_pending_requirements) ... ok
+test_unknown_artifact_reference_is_rejected_in_normal_and_complete (__main__.CourseAcceptanceTests.test_unknown_artifact_reference_is_rejected_in_normal_and_complete) ... ok
+test_unknown_criterion_is_rejected (__main__.CourseAcceptanceTests.test_unknown_criterion_is_rejected) ... ok
+test_unknown_required_evidence_kind_is_rejected (__main__.CourseAcceptanceTests.test_unknown_required_evidence_kind_is_rejected) ... ok
+test_unknown_requirement_reference_is_rejected (__main__.CourseAcceptanceTests.test_unknown_requirement_reference_is_rejected) ... ok
+test_valid_policy_accepts_complete_passed_criteria (__main__.CourseAcceptanceTests.test_valid_policy_accepts_complete_passed_criteria) ... ok
+test_version_revision_and_target_cannot_drift (__main__.CourseAcceptanceTests.test_version_revision_and_target_cannot_drift) ... ok
+test_wrong_field_types_are_rejected_without_crashing (__main__.CourseAcceptanceTests.test_wrong_field_types_are_rejected_without_crashing) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.054s
+
+OK

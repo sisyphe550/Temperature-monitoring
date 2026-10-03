@@ -60,7 +60,7 @@ codesign --verify --deep --strict --verbose=2 build/TemperatureMonitor.app
 bash scripts/launch-app.sh
 ```
 
-build-app.sh构建Release App与worker，复制当次Products/Release到`build/TemperatureMonitor.app`、嵌入worker/契约/许可资源并ad-hoc签名。记录源码及App/worker SHA、工具链/系统/profile和实际短测；最终交付路径待delivery实录，不预先声称通过。launch-app.sh采用标准LaunchServices打开/重开，无fixture或测试专用UI参数。
+build-app.sh构建Release App与worker，复制当次Products/Release到`build/TemperatureMonitor.app`、嵌入worker/契约/许可资源并ad-hoc签名。记录源码及App/worker SHA、工具链/系统/profile和实际短测；本轮App/worker签名与复用边界通过，实际路径与SHA见[课程报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。launch-app.sh采用标准LaunchServices打开/重开，无fixture或测试专用UI参数。
 
 ## 可选发行命令契约
 
@@ -94,7 +94,7 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 
 ## 当前收尾与历史身份
 
-当前W09同一次正式App短测执行五档短切换（首50ms约330秒，其余各8秒）、最近5分钟图与资源/响应观察、标准启动/历史/关窗重开/正常退出；无压力负载、物理sleep或长跑。必要软件生命周期/退出/残留清理回归保留，72小时历史功能不变。W10交付本机ad-hoc App，W11依五criterion及11的外部门禁完成授权merge commit后停止。
+当前W09同一次正式App短测执行五档短切换（同次观察已填充的五分钟历史，五档短切换）、最近5分钟图与资源/响应观察、标准启动/历史/关窗重开/正常退出；无压力负载、物理sleep或长跑。必要软件生命周期/退出/残留清理回归保留，72小时历史功能不变。W10交付本机ad-hoc App，W11依五criterion及11的外部门禁完成授权merge commit后停止。
 
 [7124归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留App SHA eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651、Worker SHA 12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96与当次Mac16,13/macOS15.7.3/24G419环境；[f0软件归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)记录测试同步，生产/构建输入相对7124不变。当前新短测/资源和最终二进制身份仍须本轮另录，不继承旧结果。
 

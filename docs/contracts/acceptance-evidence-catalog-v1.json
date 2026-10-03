@@ -2,7 +2,7 @@
   "version": 2,
   "date": "2026-10-03",
   "contract_revision": 3,
-  "delivery_commit": "f0a7dde76e3e02e66f23aed47915bb75e2fa438b",
+  "delivery_commit": "5984b9e869467218e117976df7d7a320121b14d5",
   "artifacts": {
     "core-regression": {
       "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/full-core.log",
@@ -486,6 +486,60 @@
         "TC-UPSTREAM-BOUNDARY",
         "TC-VALIDATE",
         "TC-WORKFLOW"
+      ]
+    },
+    "course-final-core": {
+      "path": "docs/validation/course-delivery/2026-10-03-5984b9e/full-core-summary.json",
+      "sha256": "6e0c81c5b4ae1623b3261c9c09a39a1b457aae92b9740e364f08ab848ba0a18a",
+      "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "context": "One fresh fullCore; production/Core test sources exactly f24"
+      },
+      "scope": [
+        "FullCore355/57; Core88.93%; critical regression cases software only"
+      ],
+      "tc_groups": [
+        "TC-ACCEPTANCE",
+        "TC-SENSOR",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-STORAGE",
+        "TC-HISTORY",
+        "TC-RETENTION",
+        "TC-VALIDATE",
+        "TC-ERROR",
+        "TC-UPSTREAM-BOUNDARY"
+      ]
+    },
+    "course-final-formal-app": {
+      "path": "docs/validation/course-delivery/2026-10-03-5984b9e/formal-app-summary.json",
+      "sha256": "f825d6d97df2ebf7f79f58f6e816a26a9d461e2a948748eaa65d2652e107c97f",
+      "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651",
+        "worker_sha256": "12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96",
+        "model": "Mac16,13",
+        "os_build": "24G419",
+        "os_version": "15.7.3",
+        "Xcode": "26.3/17C529"
+      },
+      "scope": [
+        "Final actual local Release App; manual core completion after preserved AX driver failure; filled-history resource observation; not fullstrict132 qualification"
+      ],
+      "tc_groups": [
+        "TC-SENSOR",
+        "TC-UI",
+        "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-HISTORY"
       ]
     }
   },
@@ -2970,5 +3024,5 @@
       ]
     }
   },
-  "scope_note": "当前delivery 7124dc1包含#51请求管道SIGPIPE修复；实际完整355/57+88.98%、正式Release短UI1项87.162sPASS另有身份及原CI失败。既有100accepted/31pending/1waived/2retired逐REQ裁决不批量改变；六项TTL软件证据继续保持f9来源，并由新完整回归补充。c354历史duration仅observed、原suite FAILED；本轮物理sleep用户明确跳过，功能/软件回归保留。精确性能not_measured，W11/blocking/新headCI仍独立处理。 最新测试同步提交edddf76仅更改单个代际恢复回归驱动，生产及构建输入仍7124、正式短测保留原身份；新完整Core与原7c13 CI失败另归档。逐REQ数量不变，新head CI仍独立核对。 最新测试同步提交f0a7dde完成可选来源回归组的实际提交/任务时钟同步与软件生命周期清理；生产/构建输入仍7124，正式App未重跑；原44070 CI失败保留。逐REQ数量不变，新head CI另核对。"
+  "scope_note": "2026-10-03用户授权course-local交付；五个课程criterion单独绑定。保留全部旧严格逐REQ结果100accepted/31pending/1waived/2retired和历史失败。原五档各10min/精确SLO/休眠72h/公开发行等不再为课程门槛；真实缺陷、Core80%、必要CI、一次最终独立审查仍适用。新正式App重建与原生核心补验/资源记录详见course目录；自动AX失败原样保留，未批量PASS旧资格。"
 }

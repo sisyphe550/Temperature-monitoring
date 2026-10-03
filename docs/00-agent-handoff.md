@@ -1,6 +1,6 @@
 # Agent实施交接入口
 
-更新：2026-10-03；实施契约v1族，contract revision 3。当前目标是用户本机课程演示App，采用ad-hoc Release交付。最小收尾进行中，最终短测、独立审查、同head CI与合并须按本轮证据确认。
+更新：2026-10-03；实施契约v1族，contract revision 3。当前目标是用户本机课程演示App，采用ad-hoc Release交付。正式App核心观察、课程五项门禁与完整Core/88.93%覆盖通过；独立审查、同head CI及合并须按实际远端结果核对。
 
 ## 先读的资料
 
@@ -52,7 +52,7 @@ bash scripts/build-app.sh
 bash scripts/launch-app.sh
 ```
 
-先保留用户改动，不reset或覆盖；独立功能从最新main建立feature分支。构建输出`build/TemperatureMonitor.app`，正式交付路径/SHA待最终交付记录。正式App短测复用testLocalReleaseAppRealHardwareUI，无fixture：CPU12/单位、启动、五档短切换、历史/点选、关窗重开、正常退出。首50ms约330s覆盖最近5分钟图，其他档各8s；同次观察App/Worker CPU/RSS和交互，不加压力负载。关键失败/数据/生命周期沿用必要软件回归，再运行本轮完整Core及≥80%覆盖。
+先保留用户改动，不reset或覆盖；独立功能从最新main建立feature分支。构建输出`build/TemperatureMonitor.app`，正式交付路径/SHA见[课程报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。正式App无fixture验证CPU12/单位、启动、五档短切换、历史、关窗重开与退出；短测访问树不稳定时原有效断言保留，以原生界面补验并记录失败。点选复用相同二进制的既有正式证据。同次观察已填充的五分钟历史，五档短切换；同次观察App/Worker CPU/RSS和交互，不加压力负载。关键失败/数据/生命周期沿用必要软件回归，再运行本轮完整Core及≥80%覆盖。
 
 ```sh
 python3 scripts/bind-acceptance-evidence.py
@@ -66,3 +66,7 @@ python3 scripts/validate-handoff.py --product-acceptance
 五课程criterion通过、文档/契约一致、一次最终独立审查无阻断、同PR head五required CI通过且无真实blocking后，按用户授权push、修改PR状态并merge commit，回读两个parent及远端分支保留，交付本机App路径与结果后停止。Git外部检查按11执行，不使文档CI要求自身未来通过而形成循环。
 
 发现真实可复现缺陷：复现→Issue→必要修复/回归；不能降低CPU集合、单位、数据完整性、TTL或故障语义。只有单纯可选扩展未测不构成本机课程blocking。当前不安排新长测、物理睡眠、额外负控或公开发布。完整Xcode/本机已具备；没有公证凭证不阻塞本机目标，也不声明公证或跨机通过。
+
+## 本轮测试与交付记录
+
+当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
