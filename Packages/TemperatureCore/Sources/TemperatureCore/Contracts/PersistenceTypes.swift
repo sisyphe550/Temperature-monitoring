@@ -104,6 +104,7 @@ public protocol SessionPersistence:
     SessionStoreCapability {}
 
 public protocol ProcessingEngine: Sendable {
+    func setCPUWarningRule(_ rule: CPUWarningRule) async throws
     func accept(_ batch: ReadBatch, lease: PersistenceLease) async throws -> ProcessingReceipt
     func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt
     func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt
@@ -112,6 +113,7 @@ public protocol ProcessingEngine: Sendable {
 }
 
 public protocol MonitorController: Sendable {
+    func setCPUWarningRule(_ rule: CPUWarningRule) async throws
     func start() async throws
     func setCPUPeriod(milliseconds: Int) async throws
     func snapshots() async -> AsyncStream<Snapshot>

@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "date": "2026-10-03",
-  "contract_revision": 3,
+  "date": "2026-10-14",
+  "contract_revision": 4,
   "delivery_commit": "5984b9e869467218e117976df7d7a320121b14d5",
   "artifacts": {
     "core-regression": {
@@ -2852,20 +2852,18 @@
       ]
     },
     "REQ-125": {
-      "verification": "product-accepted-local",
-      "covered_cases": [
-        "software-source-audit:403d44b#App+Core生产源码未使用UNUserNotificationCenter/NSUserNotification高温报警入口；设置无高温告警功能",
-        "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()"
+      "verification": "pending-product-acceptance",
+      "covered_cases": [],
+      "outstanding": [
+        "TC-WARNING纯规则/Receipt/偏好/通知完整软件回归尚未执行",
+        "修订4正式App设置、正常温度单一预警状态及同会话短测尚未执行"
       ],
-      "outstanding": [],
-      "reason": "排除项可由当前生产源码/设置入口静态核对，不需人为制造高温；仅限本轮已审源码。",
+      "reason": "REQ-125已从排除告警改为CPU预警；旧无告警源码和设置证据不适用，新行为未测保持pending。",
       "required_evidence_kinds": [
-        "software"
+        "software",
+        "formal-app-hardware"
       ],
-      "evidence": [
-        "ui-fixtures",
-        "source-audit"
-      ]
+      "evidence": []
     },
     "REQ-126": {
       "verification": "product-accepted-local",
@@ -3024,5 +3022,5 @@
       ]
     }
   },
-  "scope_note": "2026-10-03用户授权course-local交付；五个课程criterion单独绑定。保留全部旧严格逐REQ结果100accepted/31pending/1waived/2retired和历史失败。原五档各10min/精确SLO/休眠72h/公开发行等不再为课程门槛；真实缺陷、Core80%、必要CI、一次最终独立审查仍适用。新正式App重建与原生核心补验/资源记录详见course目录；自动AX失败原样保留，未批量PASS旧资格。"
+  "scope_note": "2026-10-03用户授权course-local交付；五个课程criterion单独绑定。保留全部旧严格逐REQ结果100accepted/31pending/1waived/2retired和历史失败。原五档各10min/精确SLO/休眠72h/公开发行等不再为课程门槛；真实缺陷、Core80%、必要CI、一次最终独立审查仍适用。新正式App重建与原生核心补验/资源记录详见course目录；自动AX失败原样保留，未批量PASS旧资格。 2026-10-14修订4仅REQ125新增预警行为清除旧適用证据并pending；原历史artifact不改写。"
 }

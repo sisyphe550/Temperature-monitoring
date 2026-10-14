@@ -1,21 +1,21 @@
-# 实施契约v1族：修订3唯一参数、类型与存储定义
+# 实施契约v1族：修订4唯一参数、类型与存储定义
 
-更新：2026-10-03；contract revision 3。当前本机验收适用[课程范围](course-delivery-scope.md)，公开API/default/profile/schema不变。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
+更新：2026-10-14；contract revision 4。当前本机验收适用[课程范围](course-delivery-scope.md)，本修订新增CPU预警公开API和defaults；硬件profile内容及SQLite schema不变。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
 
 ## 机器可读交付物
 
 | 文件 | 权威内容 | 使用方式 |
 |---|---|---|
-| [defaults-v1.json](contracts/defaults-v1.json) | `contract_version=3`及全部周期、算法、容量和截止时间 | W01加载并拒绝其他修订；数值不得在别处重定义 |
+| [defaults-v1.json](contracts/defaults-v1.json) | `contract_version=4`及全部周期、算法、容量和截止时间 | W01加载并拒绝其他修订；数值不得在别处重定义 |
 | [first-profile-v1.json](contracts/first-profile-v1.json) | 首机型、固定成员、可选来源优先级和证据状态 | W02资格化来源；不是正式App兼容报告 |
-| [api-v1.swift](contracts/api-v1.swift) | 修订3值类型、互斥状态和服务接口 | W01拆入08所列文件；通过typecheck不等于产品实现 |
+| [api-v1.swift](contracts/api-v1.swift) | 修订4值类型、互斥状态和服务接口 | W01拆入08所列文件；通过typecheck不等于产品实现 |
 | [schema-v1.sql](contracts/schema-v1.sql) | SQLite DDL、键、索引、视图与PRAGMA | 本次修订不改变存储schema；W03按04实现事务 |
 | [third-party-v1.json](contracts/third-party-v1.json) | 实际复制/修改代码、许可和method-only边界 | 文档校验及W08通知文件门禁 |
 | [acceptance-v1.json](contracts/acceptance-v1.json) | 134项REQ到设计、任务和测试的映射 | W11逐项附证据；012/114保持retired |
-| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T11.3依赖图及W归属 | 23逐任务执行；50项任务/DAG不变 |
+| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T12.5依赖图及W归属 | 23逐任务执行；保留原50项任务/DAG，新增W12五项 |
 | [course-delivery-v1.json](contracts/course-delivery-v1.json) | core/auxiliary/optional/retired分类与五课程criterion | 独立验收政策，非公开API或schema修订；不覆盖旧逐REQ事实 |
 
-文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=3`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订3，不得同时保留旧路径。
+文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=4`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订4，不得同时保留旧路径。
 
 ## 强类型身份
 
@@ -146,13 +146,13 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 
 这些命令只验证文档契约、Swift类型和DDL；不证明生产App、UI、硬件或发布配置已实现。
 
-## 修订3迁移与不变量（2026-10-02）
+## 修订3历史迁移与不变量（2026-10-02）
 
-产品审查发现NVMe发现事实缺少传输字段；修订3为DiscoveredSource增加上述两个可选事实及闭合枚举。WorkerProtocol使用同名camelCase键，nil省略；非字符串、未知枚举及found缺位置为结构错误。来源资格仍由Registry决定，worker不声明物理语义。配置只接受contract_version=3；schema仍user_version=1，profile键集、全部数值默认值和50项任务DAG不变。新字段属于现有W01/W02/T01.2/T02.3接口落地，不新增工作包；acceptance/tasks标记contract_revision=3，原REQ编号和测试组不变。修订2历史证据不回写，也不能作为修订3硬件通过证据。
+当时修订3为DiscoveredSource增加NVMe传输事实和闭合枚举，WorkerProtocol同名camelCase键；来源资格仍由Registry决定。该历史迁移没有改变schema user_version=1或CPU12。修订2/3旧硬件证据保留原源码和产物身份，不能证明本修订4新增CPU预警通过。
 
 ## W11证据绑定工具契约（2026-10-03）
 
-产品公开API、默认值、profile与schema不变，仍contract revision3。`acceptance-v1.json`格式version1保留134项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
+本节证据工具格式继续适用于contract revision4；新增CPU预警的旧REQ-125结果必须重置为pending。`acceptance-v1.json`格式version1保留134项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
 
 - delivery/source均为真实40位Git commit；source是delivery祖先，delivery是当前HEAD祖先。每artifact文件须在repo内且SHA256匹配；kind=`software/formal-app-hardware/ci/reference/waiver`，result=`passed/partial/waived`，scope/TC/environment明确。
 - 正式App实机environment记录execution=formal-release-app、Release、fixture=false、固定Bundle ID、App/worker SHA256、model和os_build。结构校验不能代替报告人工审核或真实测量。
@@ -162,8 +162,16 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 
 ## 本机课程验收政策（2026-10-03）
 
-[课程范围](course-delivery-scope.md)及course-delivery-v1是用户最新授权的验收政策，不改变contract revision3、现行公开接口、默认数值、CPU12/profile、schema或50任务DAG。五criterion为COURSE-CPU、COURSE-FUNCTIONS、COURSE-RESOURCES、COURSE-REGRESSIONS和COURSE-CORE；正式App短测和必要软件证据互补，不能伪称一类证据证明另一类。
+[课程范围](course-delivery-scope.md)及course-delivery-v1是用户最新授权的验收政策，不取消CPU12/profile、SQLite schema、原50任务DAG与课程范围；CPU预警扩展以本修订4和W12为准。五criterion为COURSE-CPU、COURSE-FUNCTIONS、COURSE-RESOURCES、COURSE-REGRESSIONS和COURSE-CORE；正式App短测和必要软件证据互补，不能伪称一类证据证明另一类。
 
 旧acceptance矩阵/目录保持100accepted/31pending/1waived/2retired事实；core/auxiliary/optional/retired课程分类不通过批量修改旧REQ status获得完成。严格全132、五档10min、物理sleep、72/73h、公证/发行/跨机和精确性能当前是可选扩展。72h历史功能、异常语义、≥80%覆盖、third-party与Release边界保留。
 
 课程五criterion只绑定实际软件与本机产物证据。最终一次独立审查、同head五CI、零真实blocking、仓库保护、merge commit和分支保留由11外部流程核验，不作为CI文档gate要求自身未来成功的先决条件。当前最小收尾仍进行中，不声明未来实测或合并已通过。
+
+## 修订4：CPU预警（2026-10-14）
+
+新增强类型CPUWarningEventID、CPUWarningRule/State/Event/Snapshot和endReason；Snapshot.warning与RunningPresentationState.warning必须显式提供。ProcessingEngine及MonitorController新增setCPUWarningRule(_:) async throws。规则构造与解码校验温度finite5…120、时长整数1…300；RuntimeConfiguration.cpuWarning:CPUWarningConfiguration从defaults.cpu_warning生成`public var cpuWarningRule: CPUWarningRule { get throws }`。12参数及持续/中断/Receipt/通知完整见[24](24-cpu-warning.md)。
+
+defaults和first-profile的contract_version、acceptance/tasks/catalog/course-policy的contract_revision统一4；profile_version=1、CPU12/profile硬件语义、worker协议版本与schema user_version=1不变。134REQ与012/114退役保留；原50DAG不改依赖，新增W12五任务，terminal=T12.5。REQ125重新pending且无旧适用证据，普通gate可接受pending，product gate需新TC-WARNING软件与正式App证据。
+
+CPUWarningConfiguration的12个Codable字段与defaults.cpu_warning逐项camelCase映射：enabled、thresholdC、durationSeconds、systemNotificationsEnabled、thresholdMinC、thresholdMaxC、durationMinSeconds、durationMaxSeconds、recoveryHysteresisC、recoveryDurationSeconds、notificationCooldownSeconds、eventLimit；字段型别分别Bool/Double/Int/Bool/Double/Double/Int/Int/Double/Int/Int/Int。配置加载验证冻结范围和恢复/通知/容量值，不能用try!生成rule。CPUWarningState新增recovering(eventID,since)，该状态仍属于同一个活跃事件，视图不依据since自行推进恢复。

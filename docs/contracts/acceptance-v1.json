@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "date": "2026-10-02",
+  "date": "2026-10-14",
   "requirements": [
     {
       "id": "REQ-001",
@@ -13638,85 +13638,31 @@
       "id": "REQ-125",
       "status": "active",
       "design": [
+        "24-cpu-warning.md",
         "07-native-ui.md",
-        "13-operations-distribution.md"
+        "21-implementation-contracts.md"
       ],
       "tasks": [
-        "W07",
-        "W08"
+        "W12"
       ],
       "tests": [
+        "TC-WARNING",
         "TC-UI",
         "TC-LIFECYCLE"
       ],
-      "body_sha256": "2964ede59e39c1acef59ea22e8575839d9d430e4f8331d783a42fc6dd59665ae",
-      "verification": "product-accepted-local",
-      "evidence": [
-        {
-          "path": "docs/validation/product-fixes/2026-10-02-a97fd5a/logs/ui-fixtures.log",
-          "sha256": "9a2d3deb9dd3e60b19b0f176178baa4743a75ed43b915d744c46b1d815aeb813",
-          "source_commit": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
-          "kind": "software",
-          "result": "passed",
-          "environment": {
-            "actual_machine": "Mac16,13",
-            "actual_OS": "15.7.3/24G419",
-            "context": "frozen historical artifact; per-REQ bounds remain explicit"
-          },
-          "scope": [
-            "Debug fixture实际执行16项PASS；2项条件SKIP排除；不计正式App硬件资格"
-          ],
-          "tc_groups": [
-            "TC-ERROR",
-            "TC-HISTORY",
-            "TC-LIFECYCLE",
-            "TC-PLATFORM",
-            "TC-SCHEDULE",
-            "TC-SENSOR",
-            "TC-UI",
-            "TC-UPSTREAM-BOUNDARY",
-            "TC-WORKFLOW"
-          ],
-          "artifact_id": "ui-fixtures"
-        },
-        {
-          "path": "docs/validation/product-software/W11/2026-10-03-403d44b/independent-requirement-review.json",
-          "sha256": "40e95728a5c90a67421d3b92bf0718e50ed3254fd40356251fb8de0e21621747",
-          "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
-          "kind": "software",
-          "result": "passed",
-          "environment": {
-            "actual_machine": "Mac16,13",
-            "actual_OS": "15.7.3/24G419",
-            "context": "frozen historical artifact; per-REQ bounds remain explicit"
-          },
-          "scope": [
-            "独立逐REQ源码/日志核对；scope内声明未重跑App/测试，不代替正式实机"
-          ],
-          "tc_groups": [
-            "TC-DOCS",
-            "TC-HISTORY",
-            "TC-LIFECYCLE",
-            "TC-PLATFORM",
-            "TC-RETENTION",
-            "TC-SCHEDULE",
-            "TC-SENSOR",
-            "TC-UI",
-            "TC-UPSTREAM-BOUNDARY",
-            "TC-WORKFLOW"
-          ],
-          "artifact_id": "source-audit"
-        }
-      ],
+      "body_sha256": "70c386ac88a20368961bd560546e1069c819547e1910c04d5f0b155db6956229",
+      "verification": "pending-product-acceptance",
+      "evidence": [],
       "acceptance_notes": {
-        "covered_cases": [
-          "software-source-audit:403d44b#App+Core生产源码未使用UNUserNotificationCenter/NSUserNotification高温报警入口；设置无高温告警功能",
-          "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()"
+        "covered_cases": [],
+        "outstanding": [
+          "TC-WARNING纯规则/Receipt/偏好/通知完整软件回归尚未执行",
+          "修订4正式App设置、正常温度单一预警状态及同会话短测尚未执行"
         ],
-        "outstanding": [],
-        "reason": "排除项可由当前生产源码/设置入口静态核对，不需人为制造高温；仅限本轮已审源码。",
+        "reason": "REQ-125已从排除告警改为CPU预警；旧无告警源码和设置证据不适用，新行为未测保持pending。",
         "required_evidence_kinds": [
-          "software"
+          "software",
+          "formal-app-hardware"
         ]
       }
     },
@@ -14533,5 +14479,5 @@
       }
     }
   ],
-  "contract_revision": 3
+  "contract_revision": 4
 }

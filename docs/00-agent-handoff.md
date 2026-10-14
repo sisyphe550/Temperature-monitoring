@@ -1,14 +1,14 @@
 # Agent实施交接入口
 
-更新：2026-10-03；实施契约v1族，contract revision 3。当前目标是用户本机课程演示App，采用ad-hoc Release交付。正式App核心观察、课程五项门禁与完整Core/88.93%覆盖通过；独立审查、同head CI及合并须按实际远端结果核对。
+更新：2026-10-14；实施契约v1族，contract revision 4。当前目标是用户本机课程演示App，采用ad-hoc Release交付。修订3原App核心观察、课程五项门禁与旧Core/88.93%覆盖通过；新预警验收pending，独立审查、同head CI及合并须按实际远端结果核对。
 
 ## 先读的资料
 
 1. [课程交付范围](course-delivery-scope.md)与[课程政策](contracts/course-delivery-v1.json)：最新直接授权、五criterion及可选扩展。
 2. [现行需求01](01-requirements.md)与[追踪17](17-traceability.md)：134项映射、132历史active、2retired；旧逐REQ结果保留。
-3. [可行性20](20-feasibility-and-reuse.md)与[实施契约21](21-implementation-contracts.md)：E1/E2/D、revision3、固定JSON/Swift/SQL/第三方边界。
+3. [可行性20](20-feasibility-and-reuse.md)与[实施契约21](21-implementation-contracts.md)：E1/E2/D、revision4、固定JSON/Swift/SQL/第三方边界。
 4. [架构02](02-architecture.md)与[组件08](08-component-design.md)：实时路径、worker及文件边界。
-5. [工作包22](22-agent-implementation-plan.md)与[50项任务23](23-execution-task-breakdown.md)：接口衔接、现行W09～W11退出条件；任务和DAG不变。
+5. [工作包22](22-agent-implementation-plan.md)与[55项任务23](23-execution-task-breakdown.md)：接口衔接、现行W09～W11退出条件；保留原50任务与依赖，新增W12五任务。
 6. [测试10](10-test-strategy.md)、[本机交付13](13-operations-distribution.md)和[Git流程11](11-git-github-workflow.md)：软件/实机证据、构建、CI、Issue、merge commit。
 
 其他专项03～09细化实现；16登记已定设计与实际依赖。research/validation是原始证据，不能用历史段落恢复当前取消的执行门槛。
@@ -28,7 +28,7 @@
 
 C11已确认课程不要求数据库强制往返；当前内存实时路径保持。最新直接授权覆盖此前暂停和长测要求，详见课程范围中的授权要点；未执行的扩展不能写PASS。
 
-## 修订3接口边界
+## 修订4接口边界
 
 - SensorTransport输出DiscoveredCatalog；Registry按profile、单位、编码、证据和generation生成QualifiedSourceCatalog，只有Qualified来源进入采样/加工/存储/UI。
 - ReadingOutcome成功/失败互斥；失败不得造0°C、旧值或新样本。
@@ -72,3 +72,7 @@ python3 scripts/validate-handoff.py --product-acceptance
 当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
 
 Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)；原取消任务保留，App与有效测试断言不变。最终同head五CI和零blocking仍按Git流程回读。
+
+## CPU预警修订4（2026-10-14）
+
+先读[24专项](24-cpu-warning.md)、[已批准设计](superpowers/specs/2026-10-14-cpu-warning-design.md)及[五任务计划](superpowers/plans/2026-10-14-cpu-warning.md)。REQ-125已改为Raw CPU12/elapsed预警；W12新增T12.1～T12.5，工作包13/任务55/TC21。API/defaults统一revision4，SQLite user_version=1/profile_version=1及worker协议版本不变。新行为pending，历史课程通过只属于原产物；课程门禁在原五criterion内加入warning证据，不能由旧无告警结果或CI软件推断正式App通过。

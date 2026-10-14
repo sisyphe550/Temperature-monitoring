@@ -78,6 +78,15 @@ public actor SessionMonitorController: MonitorController {
         }
     }
 
+    public func setCPUWarningRule(_ rule: CPUWarningRule) async throws {
+        guard running, let engine else {
+            throw Self.failure(code: .processingValidate, operation: "setCPUWarningRule", underlyingCode: "not_running")
+        }
+        try await engine.setCPUWarningRule(rule)
+        lastSnapshotPublishElapsedNS = nil
+        await publishSnapshotIfDue()
+    }
+
     public func setCPUPeriod(milliseconds: Int) async throws {
         guard running, let coordinator, let engine else {
             throw Self.failure(

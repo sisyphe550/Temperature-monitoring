@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "contract_revision": 3,
+  "contract_revision": 4,
   "target": "course-local",
-  "authorization": "2026-10-03 用户明确授权收敛为本人的 Mac 上可使用和演示的课程作业；取消真实休眠、72小时、公证/公开发行/跨机型、精确性能SLO和五档各10分钟门槛。真实缺陷仍须修复；保留覆盖率80%、必要CI、一次最终独立审查与merge commit。",
+  "authorization": "2026-10-03 用户明确授权收敛为本人的 Mac 上可使用和演示的课程作业；取消真实休眠、72小时、公证/公开发行/跨机型、精确性能SLO和五档各10分钟门槛。真实缺陷仍须修复；保留覆盖率80%、必要CI、一次最终独立审查与merge commit。 2026-10-14用户批准CPU预警方案与先文档后开发，新REQ125及TC-WARNING进入既有五criterion，不恢复已豁免扩展。",
   "requirement_tiers": {
     "REQ-001": "core",
     "REQ-002": "core",
@@ -169,7 +169,7 @@
     },
     {
       "id": "COURSE-FUNCTIONS",
-      "description": "正式 App 启动、五档短测切换、历史查看与点选、关窗重开保留会话、正常退出清理会话。",
+      "description": "正式 App 启动、五档短测切换、历史查看与点选、关窗重开保留会话、正常退出清理会话。 新增CPU预警的设置/统一状态与TC-WARNING按修订4重新验收。",
       "requirements": [
         "REQ-001",
         "REQ-002",
@@ -187,7 +187,8 @@
         "REQ-108",
         "REQ-120",
         "REQ-121",
-        "REQ-129"
+        "REQ-129",
+        "REQ-125"
       ],
       "required_evidence_kinds": [
         "formal-app-hardware"
@@ -217,7 +218,7 @@
     },
     {
       "id": "COURSE-REGRESSIONS",
-      "description": "保留并通过崩溃、死锁、取消生命周期、SQL 数据/清理、失败不造样本与采样预算等必要核心回归。",
+      "description": "保留并通过崩溃、死锁、取消生命周期、SQL 数据/清理、失败不造样本与采样预算等必要核心回归。 新增CPU预警的设置/统一状态与TC-WARNING按修订4重新验收。",
       "requirements": [
         "REQ-013",
         "REQ-014",
@@ -242,7 +243,8 @@
         "REQ-087",
         "REQ-091",
         "REQ-093",
-        "REQ-095"
+        "REQ-095",
+        "REQ-125"
       ],
       "required_evidence_kinds": [
         "software"

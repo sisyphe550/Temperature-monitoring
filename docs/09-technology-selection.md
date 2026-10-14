@@ -1,6 +1,6 @@
 # 技术与依赖冻结基线
 
-更新：2026-10-03；实施契约v1族修订3。生产代码已存在，以下用于维护、缺陷修复和验收。
+更新：2026-10-14；实施契约v1族修订4。生产代码已存在，以下用于维护、缺陷修复和验收。
 
 | 部分 | 本版选择 | 依据 |
 |---|---|---|
@@ -45,3 +45,5 @@ SensorWorker由SwiftPM executable构建，复制到App的Contents/MacOS并作为
 ## Worker请求管道的错误边界
 
 新建请求管道在worker启动及IOHandles发布前配置F_SETNOSIGPIPE；配置或Process.run失败关闭尚未发布的六端句柄。写入仍用Foundation完整newline帧，只把直接或underlying POSIX EPIPE映射到既有worker退出错误，不改其他错误。没有安装进程级SIG_IGN；相互独立的管道不受影响，不声称同一管道dup别名标志独立。基于平台API调用，没有复制XNU实现。[原源码RED→候选GREEN](validation/product-software/W11/2026-10-03-7124dc1/README.md)是软件接口证据，不是正式硬件长测。
+
+CPU预警使用系统UserNotifications和UserDefaults，纯规则/通知策略仍在Swift包中可注入测试；无第三方依赖或硬件写入。四字段保存和有界内存事件按[24](24-cpu-warning.md)，SQLite schema和worker协议版本不变。

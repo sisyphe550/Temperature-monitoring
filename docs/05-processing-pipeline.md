@@ -1,6 +1,6 @@
 # 校验、EMA、Raw聚合与趋势契约
 
-更新：2026-10-02；contract revision 3。以下参数是实现选择，不是传感器精度或实测性能结论。机器可读值见[defaults-v1.json](contracts/defaults-v1.json)。
+更新：2026-10-14；contract revision 4。以下参数是实现选择，不是传感器精度或实测性能结论。机器可读值见[defaults-v1.json](contracts/defaults-v1.json)。
 
 ## 输入与顺序
 
@@ -51,3 +51,9 @@ coverageNS定义为同段内有效观测所覆盖的时间并集：每个点从�
 ## 串行与幂等
 
 加工器一个actor串行处理。每个ReadBatch、水位或Gap都携带对应PersistenceLease；临时输出经SessionPersistence commit接纳并取得ProcessingReceipt后才交换内部状态。变更方法不向生产调用者返回完整PersistenceBatch。重试相同BatchID只做存储，不重跑EMA或累计count。纯算法违反不变量直接结构性错误；只有外部暂时执行失败可按06重试。算法断言与验收向量见[10](10-test-strategy.md)。
+
+## CPU预警（revision4）
+
+[24](24-cpu-warning.md)的Evaluator只用合格CPU12同批完整Raw max与实际elapsed，EMA数值不参与。预警副本跟随匹配Receipt交换，失败/不匹配/重放不发布；Gap/过期/CPU定义变化闭合interrupted、下一新读数累计。snapshot不能从旧值推进持续或恢复。
+
+快照读取不等待正在进行的持久化提交，只发布已提交值；快照允许到期中断，禁止生成新样本或触发/恢复事件。匹配Receipt后统一按当前时钟重查本批CPU样本TTL；若等待期间已到期，或已发布预警发生过期中断，则以当前已发布的事件历史重新暂算本批，不能用旧暂算副本复活事件，也不能用迟到的过期样本新触发。该语义不依赖是否有快照消费者。

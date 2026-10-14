@@ -1,4 +1,4 @@
-// Design contract family v1, contract revision 3. Not the production implementation.
+// Design contract family v1, contract revision 4. Not the production implementation.
 // Copy into Packages/TemperatureCore and split by the file map in docs/08.
 import Foundation
 
@@ -153,6 +153,7 @@ public enum RequestIDTag: Sendable {}
 public enum BatchIDTag: Sendable {}
 public enum GapIDTag: Sendable {}
 public enum WatermarkEventIDTag: Sendable {}
+public enum CPUWarningEventIDTag: Sendable {}
 
 public typealias SessionID = TaggedUUID<SessionIDTag>
 public typealias SourceID = TaggedUUID<SourceIDTag>
@@ -161,6 +162,7 @@ public typealias RequestID = TaggedUUID<RequestIDTag>
 public typealias BatchID = TaggedUUID<BatchIDTag>
 public typealias GapID = TaggedUUID<GapIDTag>
 public typealias WatermarkEventID = TaggedUUID<WatermarkEventIDTag>
+public typealias CPUWarningEventID = TaggedUUID<CPUWarningEventIDTag>
 
 public struct MetricID: Codable, Sendable, Hashable {
     public let rawValue: String
@@ -744,25 +746,125 @@ public struct LatestValue: Sendable, Equatable {
     }
 }
 
+public enum CPUWarningRuleError: Error, Sendable, Equatable {
+    case thresholdOutOfRange
+    case durationOutOfRange
+}
+
+public struct CPUWarningRule: Codable, Sendable, Equatable {
+    public let enabled: Bool
+    public let thresholdC: Double
+    public let durationSeconds: Int
+    public let systemNotificationsEnabled: Bool
+
+    public init(enabled: Bool, thresholdC: Double, durationSeconds: Int,
+                systemNotificationsEnabled: Bool) throws {
+        guard thresholdC.isFinite, (5.0...120.0).contains(thresholdC) else {
+            throw CPUWarningRuleError.thresholdOutOfRange
+        }
+        guard (1...300).contains(durationSeconds) else {
+            throw CPUWarningRuleError.durationOutOfRange
+        }
+        self.enabled = enabled
+        self.thresholdC = thresholdC
+        self.durationSeconds = durationSeconds
+        self.systemNotificationsEnabled = systemNotificationsEnabled
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case enabled, thresholdC, durationSeconds, systemNotificationsEnabled
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        try self.init(enabled: values.decode(Bool.self, forKey: .enabled),
+                      thresholdC: values.decode(Double.self, forKey: .thresholdC),
+                      durationSeconds: values.decode(Int.self, forKey: .durationSeconds),
+                      systemNotificationsEnabled: values.decode(Bool.self, forKey: .systemNotificationsEnabled))
+    }
+}
+
+public enum CPUWarningInterruptionReason: String, Sendable, Equatable {
+    case noData, readFailure, gap, sourceChange, stale, lifecycle
+}
+
+public enum CPUWarningEventEndReason: Sendable, Equatable {
+    case recovered
+    case ruleChanged
+    case disabled
+    case interrupted(CPUWarningInterruptionReason)
+}
+
+public enum CPUWarningEventEnd: Sendable, Equatable {
+    case active
+    case ended(at: Timestamp, reason: CPUWarningEventEndReason)
+}
+
+public struct CPUWarningEvent: Sendable, Equatable {
+    public let eventID: CPUWarningEventID
+    public let sessionID: SessionID
+    public let started: Timestamp // Timestamp of the valid sample that establishes the event.
+    public let thresholdC: Double
+    public let durationSeconds: Int
+    public let peakRawMaxC: Double
+    public let end: CPUWarningEventEnd
+
+    public init(eventID: CPUWarningEventID, sessionID: SessionID, started: Timestamp,
+                thresholdC: Double, durationSeconds: Int, peakRawMaxC: Double,
+                end: CPUWarningEventEnd) {
+        self.eventID = eventID
+        self.sessionID = sessionID
+        self.started = started
+        self.thresholdC = thresholdC
+        self.durationSeconds = durationSeconds
+        self.peakRawMaxC = peakRawMaxC
+        self.end = end
+    }
+}
+
+public enum CPUWarningState: Sendable, Equatable {
+    case disabled
+    case monitoring
+    case pending(since: Timestamp)
+    case active(eventID: CPUWarningEventID)
+    case recovering(eventID: CPUWarningEventID, since: Timestamp)
+    case unableToAssess(reason: CPUWarningInterruptionReason)
+}
+
+public struct CPUWarningSnapshot: Sendable, Equatable {
+    public let rule: CPUWarningRule
+    public let state: CPUWarningState
+    public let events: [CPUWarningEvent] // Newest first, at most defaults.cpu_warning.event_limit.
+
+    public init(rule: CPUWarningRule, state: CPUWarningState, events: [CPUWarningEvent]) {
+        self.rule = rule
+        self.state = state
+        self.events = events
+    }
+}
+
 public struct Snapshot: Sendable, Equatable {
     public let asOf: Timestamp
     public let values: [LatestValue]
     public let gapIDs: [GapID]
     public let cpuPeriodMS: Int
     public let generation: UInt64
+    public let warning: CPUWarningSnapshot
 
     public init(
         asOf: Timestamp,
         values: [LatestValue],
         gapIDs: [GapID],
         cpuPeriodMS: Int,
-        generation: UInt64
+        generation: UInt64,
+        warning: CPUWarningSnapshot
     ) {
         self.asOf = asOf
         self.values = values
         self.gapIDs = gapIDs
         self.cpuPeriodMS = cpuPeriodMS
         self.generation = generation
+        self.warning = warning
     }
 }
 
@@ -948,19 +1050,22 @@ public struct RunningPresentationState: Sendable, Equatable {
     public let primaryCPU: TemperatureValueState
     public let sections: [TemperatureSectionState]
     public let chart: HistoryChartState
+    public let warning: CPUWarningSnapshot
 
     public init(
         asOf: Timestamp,
         cpuPeriodMS: Int,
         primaryCPU: TemperatureValueState,
         sections: [TemperatureSectionState],
-        chart: HistoryChartState
+        chart: HistoryChartState,
+        warning: CPUWarningSnapshot
     ) {
         self.asOf = asOf
         self.cpuPeriodMS = cpuPeriodMS
         self.primaryCPU = primaryCPU
         self.sections = sections
         self.chart = chart
+        self.warning = warning
     }
 }
 
@@ -1046,6 +1151,7 @@ public protocol SessionPersistence:
     SessionStoreCapability {}
 
 public protocol ProcessingEngine: Sendable {
+    func setCPUWarningRule(_ rule: CPUWarningRule) async throws
     func accept(_ batch: ReadBatch, lease: PersistenceLease) async throws -> ProcessingReceipt
     func advance(to timestamp: Timestamp, lease: PersistenceLease) async throws -> ProcessingReceipt
     func markGap(_ gap: Gap, lease: PersistenceLease) async throws -> ProcessingReceipt
@@ -1056,6 +1162,7 @@ public protocol ProcessingEngine: Sendable {
 public protocol MonitorController: Sendable {
     func start() async throws
     func setCPUPeriod(milliseconds: Int) async throws
+    func setCPUWarningRule(_ rule: CPUWarningRule) async throws
     func snapshots() async -> AsyncStream<Snapshot>
     func history(_ request: HistoryRequest) async throws -> HistoryResult
     func stop() async

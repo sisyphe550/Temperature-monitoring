@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "contract_revision": 3,
+  "contract_revision": 4,
   "entry_task": "T00.1",
-  "terminal_task": "T11.3",
+  "terminal_task": "T12.5",
   "tasks": [
     {"id":"T00.1","work_package":"W00","depends_on":[]},
     {"id":"T00.2","work_package":"W00","depends_on":["T00.1"]},
@@ -53,6 +53,11 @@
     {"id":"T10.2","work_package":"W10","depends_on":["T10.1"]},
     {"id":"T11.1","work_package":"W11","depends_on":["T10.2"]},
     {"id":"T11.2","work_package":"W11","depends_on":["T11.1"]},
-    {"id":"T11.3","work_package":"W11","depends_on":["T11.2"]}
+    {"id":"T11.3","work_package":"W11","depends_on":["T11.2"]},
+    {"id":"T12.1","work_package":"W12","depends_on":["T11.3"]},
+    {"id":"T12.2","work_package":"W12","depends_on":["T12.1"]},
+    {"id":"T12.3","work_package":"W12","depends_on":["T12.2"]},
+    {"id":"T12.4","work_package":"W12","depends_on":["T12.3"]},
+    {"id":"T12.5","work_package":"W12","depends_on":["T12.4"]}
   ]
 }

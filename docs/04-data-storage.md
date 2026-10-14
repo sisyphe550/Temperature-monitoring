@@ -1,6 +1,6 @@
 # 数据模型、SQLite与有界保留
 
-更新：2026-10-02；contract revision 3。[schema-v1.sql](contracts/schema-v1.sql)仍是user_version 1的可执行DDL；[api-v1.swift](contracts/api-v1.swift)定义强类型边界。
+更新：2026-10-14；contract revision 4。[schema-v1.sql](contracts/schema-v1.sql)仍是user_version 1的可执行DDL；[api-v1.swift](contracts/api-v1.swift)定义强类型边界。
 
 ## 身份与表
 
@@ -83,3 +83,7 @@ SQLite删行复用空间、不保证缩小主文件，因此主库软限看有�
 ## 父一秒窗口查找（2026-10-03）
 
 删除过期Raw/EMA仍须同series、同segment且已提交的width=1父桶。依据05的elapsed=0整秒对齐规则，SQL用`start_elapsed_ns=(sample.elapsed_ns/1_000_000_000)*1_000_000_000`精确命中既有复合主键，并保留`end_elapsed_ns>sample.elapsed_ns`半开条件。恢复发生在秒中间时partial父仍对齐整秒；缺父、错series/segment/width不授权删除。此两行查找优化不改TTL、事务、schema或API；[真实SQLite规模及语义回归](validation/product-software/W11/2026-10-03-f9e850c/README.md)证明软件算法改进，不证明正式App性能门槛通过。
+
+## CPU预警存储边界（revision4）
+
+[24](24-cpu-warning.md)只新增四字段规则UserDefaults与本会话50条内存事件。预警不新增SQLite表或温度副本，schema-v1.sql/user_version=1保持；Raw/EMA仍按现行事务提交。预警活动与Receipt同边界发布，但事件不进入PersistenceBatch。

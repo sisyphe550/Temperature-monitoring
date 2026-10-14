@@ -59,8 +59,8 @@ def _unique_object(pairs: list[tuple[str, object]]) -> dict:
 def _requirement_rows(acceptance: dict) -> dict[str, dict]:
     if not isinstance(acceptance, dict) or acceptance.get("version") != 1:
         raise ValueError("acceptance: version must be 1")
-    if not isinstance(acceptance, dict) or acceptance.get("contract_revision") != 3:
-        raise ValueError("acceptance: contract_revision must be 3")
+    if not isinstance(acceptance, dict) or acceptance.get("contract_revision") != 4:
+        raise ValueError("acceptance: contract_revision must be 4")
     rows = acceptance.get("requirements")
     if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
         raise ValueError("acceptance: requirements must be an array of objects")
@@ -116,6 +116,122 @@ def _validate_formal_environment(environment: object, label: str) -> None:
         _text(environment.get(field), f"{label}.{field}")
 
 
+WARNING_CASES = {
+    "software": {
+        "trigger-recovery", "interruption-and-time", "receipt-and-replay", "rule-change",
+        "events-bounded", "config-persistence", "notification-policy",
+    },
+    "formal-app-hardware": {
+        "real-cpu", "cpu-warning-trigger", "rule-change-not-recovered", "close-reopen",
+        "quit", "config-persistence", "notification-handler",
+    },
+}
+
+
+def validate_cpu_warning_report(root: Path, artifact: dict, *, check_source: bool = True) -> dict:
+    """Bind warning claims to report contents and original files, not TC labels.
+
+    This validates inspectable evidence structure; it cannot independently certify
+    the truth of measured observations, banner visibility or a notification click.
+    Course policy receives a provenance-validated catalog and skips only the
+    repeated Git source check; all payload and raw-file checks remain mandatory.
+    """
+    root = root.resolve()
+    label = "CPU warning report"
+    kind = artifact.get("kind")
+    if not isinstance(kind, str) or kind not in WARNING_CASES:
+        raise ValueError(f"{label}: TC-WARNING requires software or formal-app-hardware")
+    path = _artifact_path(root, artifact.get("path"), label)
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_object)
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+        raise ValueError(f"{label}: must be a JSON object: {error}") from error
+    if not isinstance(report, dict):
+        raise ValueError(f"{label}: must be a JSON object")
+    if type(report.get("contract_version")) is not int or report.get("contract_version") != 4:
+        raise ValueError(f"{label}: contract_version must be 4")
+    if report.get("feature") != "cpu-warning":
+        raise ValueError(f"{label}: feature must be cpu-warning")
+    for field in ("kind", "source_commit", "result", "environment"):
+        if report.get(field) != artifact.get(field):
+            raise ValueError(f"{label}: {field} does not match artifact metadata")
+    if not isinstance(report.get("environment"), dict) or not report["environment"]:
+        raise ValueError(f"{label}: environment must be a non-empty object")
+    if kind == "formal-app-hardware":
+        _validate_formal_environment(report["environment"], label)
+    cases = report.get("warning_cases")
+    if not isinstance(cases, dict) or not cases:
+        raise ValueError(f"{label}: warning_cases must be a non-empty object")
+    if artifact.get("result") == "passed":
+        missing = WARNING_CASES[kind] - set(cases)
+        if missing:
+            raise ValueError(f"{label}: missing required warning cases {sorted(missing)}")
+    for case_id, case in cases.items():
+        case_label = f"{label} {case_id}"
+        if not isinstance(case, dict):
+            raise ValueError(f"{case_label}: case must be an object")
+        outcome = case.get("result")
+        if not isinstance(outcome, str) or outcome not in {"passed", "failed", "not_observed", "pending", "permission-denied", "permission-unavailable"}:
+            raise ValueError(f"{case_label}: unknown case result")
+        _text(case.get("observed"), f"{case_label}.observed")
+        if artifact.get("result") == "passed" and case_id in WARNING_CASES[kind]:
+            allowed = {"passed"}
+            if kind == "formal-app-hardware" and case_id == "notification-handler":
+                allowed |= {"permission-denied", "permission-unavailable"}
+            if outcome not in allowed:
+                raise ValueError(f"{case_label}: required case did not pass")
+        needs_raw = outcome in {"passed", "failed", "permission-denied", "permission-unavailable"}
+        evidence = case.get("evidence")
+        if not isinstance(evidence, list) or (needs_raw and not evidence):
+            raise ValueError(f"{case_label}: requires original evidence references")
+        for item in evidence:
+            if not isinstance(item, dict):
+                raise ValueError(f"{case_label}: evidence reference must be an object")
+            raw = _artifact_path(root, item.get("path"), f"{case_label}.evidence.path")
+            digest = _hex(item.get("sha256"), 64, f"{case_label}.evidence.sha256")
+            if hashlib.sha256(raw.read_bytes()).hexdigest() != digest:
+                raise ValueError(f"{case_label}: original evidence hash does not match")
+        if kind == "formal-app-hardware" and case_id == "notification-handler" and needs_raw:
+            combinations = {
+                "passed": ("authorized", "request-accepted"),
+                "permission-denied": ("denied", "authorization-denied"),
+                "permission-unavailable": ("unavailable", "request-failed"),
+            }
+            if outcome not in combinations or (case.get("authorization"), case.get("adapter_request")) != combinations[outcome]:
+                raise ValueError(f"{case_label}: must record actual authorization and adapter request outcome")
+            for field in ("observed_banner", "notification_click"):
+                if type(case.get(field)) is not bool:
+                    raise ValueError(f"{case_label}: {field} must state an observed boolean fact")
+            if outcome != "passed":
+                if case.get("sampling_continued") is not True or case.get("status_visible") is not True:
+                    raise ValueError(f"{case_label}: refusal/unavailability requires functioning sampling and visible status")
+                if case.get("observed_banner") is not False or case.get("notification_click") is not False:
+                    raise ValueError(f"{case_label}: refusal/unavailability cannot prove a banner or click")
+            if outcome == "permission-unavailable":
+                _text(case.get("error"), f"{case_label}.error")
+    if check_source:
+        source = _hex(artifact.get("source_commit"), 40, f"{label}.source_commit")
+        def git(*arguments: str) -> subprocess.CompletedProcess:
+            try:
+                return subprocess.run(["git", "-C", str(root), *arguments], text=True,
+                                      capture_output=True, check=False)
+            except OSError as error:
+                raise ValueError(f"{label}: Git source check failed: {error}") from error
+        saved = git("show", f"{source}:docs/contracts/defaults-v1.json")
+        try:
+            defaults = json.loads(saved.stdout, object_pairs_hook=_unique_object)
+        except (json.JSONDecodeError, ValueError) as error:
+            raise ValueError(f"{label}: source must contain revision4 warning defaults") from error
+        if saved.returncode != 0 or not isinstance(defaults, dict) or type(defaults.get("contract_version")) is not int or defaults.get("contract_version") != 4 or not isinstance(defaults.get("cpu_warning"), dict):
+            raise ValueError(f"{label}: source must contain revision4 cpu-warning defaults")
+        for declaration in ("struct CPUWarningRule", "struct CPUWarningEvaluator"):
+            found = git("grep", "-l", "--fixed-strings", declaration, source, "--",
+                        "Packages/TemperatureCore/Sources/TemperatureCore")
+            if found.returncode != 0 or not found.stdout.strip():
+                raise ValueError(f"{label}: source lacks implemented {declaration}")
+    return report
+
+
 def _authorized_local_waiver(text: str) -> bool:
     return all(re.search(pattern, text, re.IGNORECASE) for pattern in (
         r"用户|\buser\b", r"本机|本地|\blocal\b", r"授权|\bauthoriz(?:ed|ation)\b",
@@ -127,8 +243,8 @@ def _validate_catalog(root: Path, catalog: dict, acceptance: dict) -> None:
     rows = _requirement_rows(acceptance)
     if not isinstance(catalog, dict) or catalog.get("version") != 2:
         raise ValueError("catalog: version must be 2")
-    if catalog.get("contract_revision") != 3:
-        raise ValueError("catalog: contract_revision must be 3")
+    if catalog.get("contract_revision") != 4:
+        raise ValueError("catalog: contract_revision must be 4")
     delivery = _hex(catalog.get("delivery_commit"), 40, "catalog.delivery_commit")
     commits = set()
 
@@ -186,6 +302,8 @@ def _validate_catalog(root: Path, catalog: dict, acceptance: dict) -> None:
         groups = _strings(artifact.get("tc_groups"), f"{label}.tc_groups", nonempty=True)
         if any(not re.fullmatch(r"TC-[A-Z0-9-]+", tc) for tc in groups):
             raise ValueError(f"{label}.tc_groups: invalid TC group")
+        if "TC-WARNING" in groups:
+            validate_cpu_warning_report(root, artifact)
 
     results = catalog.get("requirement_results")
     if not isinstance(results, dict):

@@ -31,7 +31,75 @@ public struct RetentionSeconds: Codable, Sendable, Equatable {
     }
 }
 
+public struct CPUWarningConfiguration: Codable, Sendable, Equatable {
+    public let enabled: Bool
+    public let thresholdC: Double
+    public let durationSeconds: Int
+    public let systemNotificationsEnabled: Bool
+    public let thresholdMinC: Double
+    public let thresholdMaxC: Double
+    public let durationMinSeconds: Int
+    public let durationMaxSeconds: Int
+    public let recoveryHysteresisC: Double
+    public let recoveryDurationSeconds: Int
+    public let notificationCooldownSeconds: Int
+    public let eventLimit: Int
+
+    enum CodingKeys: String, CodingKey {
+        case enabled = "enabled"
+        case thresholdC = "threshold_c"
+        case durationSeconds = "duration_seconds"
+        case systemNotificationsEnabled = "system_notifications_enabled"
+        case thresholdMinC = "threshold_min_c"
+        case thresholdMaxC = "threshold_max_c"
+        case durationMinSeconds = "duration_min_seconds"
+        case durationMaxSeconds = "duration_max_seconds"
+        case recoveryHysteresisC = "recovery_hysteresis_c"
+        case recoveryDurationSeconds = "recovery_duration_seconds"
+        case notificationCooldownSeconds = "notification_cooldown_seconds"
+        case eventLimit = "event_limit"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        enabled = try values.decode(Bool.self, forKey: .enabled)
+        thresholdC = try values.decode(Double.self, forKey: .thresholdC)
+        durationSeconds = try values.decode(Int.self, forKey: .durationSeconds)
+        systemNotificationsEnabled = try values.decode(Bool.self, forKey: .systemNotificationsEnabled)
+        thresholdMinC = try values.decode(Double.self, forKey: .thresholdMinC)
+        thresholdMaxC = try values.decode(Double.self, forKey: .thresholdMaxC)
+        durationMinSeconds = try values.decode(Int.self, forKey: .durationMinSeconds)
+        durationMaxSeconds = try values.decode(Int.self, forKey: .durationMaxSeconds)
+        recoveryHysteresisC = try values.decode(Double.self, forKey: .recoveryHysteresisC)
+        recoveryDurationSeconds = try values.decode(Int.self, forKey: .recoveryDurationSeconds)
+        notificationCooldownSeconds = try values.decode(Int.self, forKey: .notificationCooldownSeconds)
+        eventLimit = try values.decode(Int.self, forKey: .eventLimit)
+        try validate()
+    }
+
+    // Decode establishes the rule invariant, including direct RuntimeConfiguration decoding.
+    func validate() throws {
+        guard thresholdC.isFinite, (5.0...120.0).contains(thresholdC),
+              (1...300).contains(durationSeconds),
+              thresholdMinC == 5, thresholdMaxC == 120,
+              durationMinSeconds == 1, durationMaxSeconds == 300,
+              recoveryHysteresisC == 5, recoveryDurationSeconds == 10,
+              notificationCooldownSeconds == 60, eventLimit == 50
+        else { throw ConfigurationError.invalidValue("cpu_warning") }
+    }
+}
+
 public struct RuntimeConfiguration: Codable, Sendable, Equatable {
+    public let cpuWarning: CPUWarningConfiguration
+
+    public var cpuWarningRule: CPUWarningRule {
+        get throws {
+            try CPUWarningRule(enabled: cpuWarning.enabled, thresholdC: cpuWarning.thresholdC,
+                durationSeconds: cpuWarning.durationSeconds,
+                systemNotificationsEnabled: cpuWarning.systemNotificationsEnabled)
+        }
+    }
+
     public let contractVersion: Int
     public let minimumMacos: String
     public let product: String
@@ -96,6 +164,7 @@ public struct RuntimeConfiguration: Codable, Sendable, Equatable {
     public let discoveryMaxSources: Int
 
     enum CodingKeys: String, CodingKey {
+        case cpuWarning = "cpu_warning"
         case contractVersion = "contract_version"
         case minimumMacos = "minimum_macos"
         case product
@@ -249,6 +318,8 @@ public enum Configuration {
         let configuration: RuntimeConfiguration
         do {
             configuration = try decoder.decode(RuntimeConfiguration.self, from: data)
+        } catch let error as ConfigurationError {
+            throw error
         } catch DecodingError.keyNotFound(let key, _) {
             throw ConfigurationError.missingField(key.stringValue)
         } catch DecodingError.valueNotFound(_, let context) {
@@ -279,9 +350,10 @@ public enum Configuration {
     }
 
     static func validate(_ configuration: RuntimeConfiguration) throws {
-        guard configuration.contractVersion == 3 else {
+        guard configuration.contractVersion == 4 else {
             throw ConfigurationError.unsupportedContractVersion(configuration.contractVersion)
         }
+        try configuration.cpuWarning.validate()
         let intervals = [50, 100, 200, 500, 1000]
         guard configuration.cpuIntervalsMS == intervals else {
             throw ConfigurationError.invalidValue("cpu_intervals_ms")

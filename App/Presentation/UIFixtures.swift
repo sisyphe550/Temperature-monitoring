@@ -4,6 +4,14 @@ import TemperaturePresentation
 
 @MainActor
 enum UIFixtures {
+    private static func warningSnapshot() -> CPUWarningSnapshot {
+        // Debug-only fixture construction uses the validated bundled contract.
+        guard let rule = try? Configuration.bundledDefaults().cpuWarningRule else {
+            preconditionFailure("Invalid bundled CPU warning fixture configuration")
+        }
+        return CPUWarningSnapshot(rule: rule, state: .unableToAssess(reason: .noData), events: [])
+    }
+
     static func apply(named name: String, to model: PresentationModel) {
         switch name {
         case "basic":
@@ -58,7 +66,7 @@ enum UIFixtures {
                 ],
                 gapIDs: [],
                 cpuPeriodMS: cpuPeriodMS,
-                generation: generation
+                generation: generation, warning: warningSnapshot()
             )
         )
     }
@@ -70,7 +78,7 @@ enum UIFixtures {
             makeLatest(definition: definition, valueC: temperatures[index], at: now)
         }
         _ = model.apply(snapshot: Snapshot(asOf: now, values: values, gapIDs: [],
-            cpuPeriodMS: cpuPeriodMS, generation: generation))
+            cpuPeriodMS: cpuPeriodMS, generation: generation, warning: warningSnapshot()))
     }
 
     private static func sourceDefinitions() -> [SeriesDefinition] {
@@ -118,7 +126,7 @@ enum UIFixtures {
         let latest = LatestValue(definition: definition, state: .available(
             ema: EMAValue(sampleID: "fixture:cached", seriesID: definition.seriesID, segment: 1,
                 timestamp: observed, valueC: 58.3), lastSuccessfulAt: observed, lastFailure: failure))
-        _ = model.apply(snapshot: Snapshot(asOf: now, values: [latest], gapIDs: [], cpuPeriodMS: 200, generation: 1))
+        _ = model.apply(snapshot: Snapshot(asOf: now, values: [latest], gapIDs: [], cpuPeriodMS: 200, generation: 1, warning: warningSnapshot()))
     }
 
     static func applyUnavailable(to model: PresentationModel) {
@@ -127,7 +135,7 @@ enum UIFixtures {
         let values = [makeLatest(definition: definitions[0], valueC: 61.2, at: now),
             LatestValue(definition: definitions[2], state: .unavailable(capability: .unsupported,
                 reason: "当前设备未发现可读取的SSD温度来源"))]
-        _ = model.apply(snapshot: Snapshot(asOf: now, values: values, gapIDs: [], cpuPeriodMS: 200, generation: 1))
+        _ = model.apply(snapshot: Snapshot(asOf: now, values: values, gapIDs: [], cpuPeriodMS: 200, generation: 1, warning: warningSnapshot()))
     }
 
     static func applyStale(to model: PresentationModel) {
@@ -164,7 +172,7 @@ enum UIFixtures {
                 ],
                 gapIDs: [],
                 cpuPeriodMS: 200,
-                generation: 1
+                generation: 1, warning: warningSnapshot()
             )
         )
     }

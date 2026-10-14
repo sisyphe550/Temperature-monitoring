@@ -51,6 +51,8 @@ struct TemperatureDashboard: View {
     private func sourceList(_ running: RunningPresentationState) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
+                CPUWarningStatusView(warning: running.warning, asOf: running.asOf)
+                CPUWarningEventsView(warning: running.warning)
                 Text("历史比较（最多8个来源版本）").font(.caption).foregroundStyle(.secondary)
                 Toggle(isOn: selection(Self.primaryMetricID)) {
                     VStack(alignment: .leading, spacing: 3) {

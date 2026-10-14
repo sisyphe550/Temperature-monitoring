@@ -1,6 +1,6 @@
 # 设计决策闭合与待执行验证
 
-更新：2026-10-03；实施契约v1族修订3。当前验证按[课程范围](course-delivery-scope.md)执行，不恢复旧长测或暂停要求。原OQ编号保留用于追溯。**设计已决定、实现待验收、外部输入待具备是三种状态；不能混用。**
+更新：2026-10-14；实施契约v1族修订4。当前验证按[课程范围](course-delivery-scope.md)执行，不恢复旧长测或暂停要求。原OQ编号保留用于追溯。**设计已决定、实现待验收、外部输入待具备是三种状态；不能混用。**
 
 ## 原设计问题的明确处理
 
@@ -22,7 +22,7 @@
 | OQ-14 | build_toolchain、deployment_target、runtime_profile、qualified_combinations分开；Swift6与实际Xcode工具链分开记录、系统SQLite、schema-v1/WAL/NORMAL、固定文件布局 | 08/09/13/contracts | W01/W03验证构建/存储；W09登记正式App组合 |
 | OQ-15 | feature/PR/merge commit；检查名、blocking标签、0最低平台审批＋独立审查、人工合并 | 11 | W00门禁已落地；2026-10-02 API回读main-protection为active |
 | OQ-16 | 工作名/Bundle ID确定；本机ad-hoc App交付；Developer ID公证ZIP为可选，手动更新 | 13 | W08/W10当前本机交付无需正式凭证；可选发行由维护者提供 |
-| OQ-17 | 契约修订3固定ReadingOutcome、资格化来源、SessionPersistence能力视图、PersistenceLease/ProcessingReceipt和PresentationState；无并行旧API | 02～10/21 | W01～W08按唯一类型实现；不再作为设计问题 |
+| OQ-17 | 契约修订4固定ReadingOutcome、资格化来源、SessionPersistence能力视图、PersistenceLease/ProcessingReceipt和PresentationState；无并行旧API | 02～10/21 | W01～W08按唯一类型实现；不再作为设计问题 |
 
 上述事项的**设计分支已收敛**，不能继续按旧文档同时实现两套路径。实测不符合基线时记录失败、修订受影响契约及测试，不将“已决定”改写为“已验证”。
 
@@ -40,4 +40,4 @@
 
 ## 不作为待实现功能
 
-逐物理核温度、物理Package精确映射、全芯片绝对热点、外部/任意SSD、硬件20Hz刷新保证、±0.1°C准确度、root修复权限、HID同名自动合并、未知IORegistry单位猜测、任意历史区间、自动更新、告警及自启动均不进入首版任务清单。
+逐物理核温度、物理Package精确映射、全芯片绝对热点、外部/任意SSD、硬件20Hz刷新保证、±0.1°C准确度、root修复权限、HID同名自动合并、未知IORegistry单位猜测、任意历史区间、自动更新及自启动均不进入任务清单。CPU预警按[24](24-cpu-warning.md)进入W12，验收pending。

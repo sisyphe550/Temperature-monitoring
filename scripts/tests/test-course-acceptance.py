@@ -11,6 +11,7 @@ import tempfile
 import unittest
 
 MODULE_PATH = Path(__file__).resolve().parents[1] / "course_acceptance.py"
+sys.path.insert(0, str(MODULE_PATH.parent))
 CHECKS = {
     "COURSE-CPU": ("REQ-001", "formal-app-hardware", "hardware"),
     "COURSE-FUNCTIONS": ("REQ-002", "formal-app-hardware", "hardware"),
@@ -37,7 +38,7 @@ class CourseAcceptanceTests(unittest.TestCase):
         self.acceptance = self.make_acceptance()
         self.catalog = {
             "version": 2,
-            "contract_revision": 3,
+            "contract_revision": 4,
             "artifacts": {
                 "hardware": self.artifact("formal-app-hardware", "hardware.json"),
                 "software": self.artifact("software", "coverage.json"),
@@ -47,9 +48,10 @@ class CourseAcceptanceTests(unittest.TestCase):
         # The caller already validated catalog hashes/provenance. Only coverage
         # contents are consumed here; no synthetic fixture claims real hardware.
         self.write_coverage("Core line coverage: 88/100 = 88.00%")
+        self.write_warning_payloads()
         self.policy = {
             "version": 1,
-            "contract_revision": 3,
+            "contract_revision": 4,
             "target": "course-local",
             "authorization": "Synthetic unit-test authorization for course-local scope.",
             "requirement_tiers": {
@@ -70,6 +72,14 @@ class CourseAcceptanceTests(unittest.TestCase):
         for requirement_id, _, _ in CHECKS.values():
             self.policy["requirement_tiers"][requirement_id] = "core"
         self.policy["requirement_tiers"]["REQ-127"] = "optional"
+        self.policy["requirement_tiers"]["REQ-125"] = "core"
+        for check_id in ("COURSE-FUNCTIONS", "COURSE-REGRESSIONS"):
+            self.check(check_id)["requirements"].append("REQ-125")
+        self.warning = next(row for row in self.acceptance["requirements"] if row["id"] == "REQ-125")
+        self.warning["verification"] = "product-accepted-local"
+        # Swap another active fixture row to keep the original 31-pending boundary test.
+        next(row for row in self.acceptance["requirements"] if row["id"] == "REQ-101")["verification"] = "pending-product-acceptance"
+
 
     @staticmethod
     def artifact(kind: str, path: str) -> dict:
@@ -81,7 +91,7 @@ class CourseAcceptanceTests(unittest.TestCase):
             "result": "passed",
             "environment": {"execution": "synthetic-unit-fixture", "fixture": True},
             "scope": ["Synthetic policy-schema fixture only"],
-            "tc_groups": ["TC-ACCEPTANCE"],
+            "tc_groups": ["TC-ACCEPTANCE", "TC-WARNING"],
         }
 
     @staticmethod
@@ -106,10 +116,45 @@ class CourseAcceptanceTests(unittest.TestCase):
             })
         # Keep exactly 31 pending + 1 waived among 132 active requirements.
         next(row for row in rows if row["id"] == "REQ-102")["verification"] = "pending-product-acceptance"
-        return {"version": 1, "contract_revision": 3, "requirements": rows}
+        return {"version": 1, "contract_revision": 4, "requirements": rows}
+
+    def write_warning_payloads(self) -> None:
+        import hashlib
+        raw = self.root / "warning-original.log"
+        raw.write_text("Synthetic warning evidence only; no App or hardware executed.\n")
+        reference = {"path": "warning-original.log", "sha256": hashlib.sha256(raw.read_bytes()).hexdigest()}
+        names = {
+            "software": ["trigger-recovery", "interruption-and-time", "receipt-and-replay", "rule-change",
+                         "events-bounded", "config-persistence", "notification-policy"],
+            "hardware": ["real-cpu", "cpu-warning-trigger", "rule-change-not-recovered", "close-reopen",
+                         "quit", "config-persistence", "notification-handler"],
+        }
+        self.catalog["artifacts"]["hardware"]["environment"] = {
+            "execution": "formal-release-app", "build_configuration": "Release", "fixture": False,
+            "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor", "app_sha256": "a" * 64,
+            "worker_sha256": "b" * 64, "model": "SyntheticSchema", "os_build": "SyntheticSchema",
+            "context": "synthetic schema only; not hardware evidence",
+        }
+        for artifact_id, cases in names.items():
+            artifact = self.catalog["artifacts"][artifact_id]
+            path = self.root / artifact["path"]
+            report = json.loads(path.read_text()) if path.is_file() else {}
+            report.update(contract_version=4, feature="cpu-warning", kind=artifact["kind"],
+                          source_commit=artifact["source_commit"], result=artifact["result"],
+                          environment=copy.deepcopy(artifact["environment"]),
+                          warning_cases={name: {"result": "passed", "observed": "Synthetic schema only",
+                                                "evidence": [copy.deepcopy(reference)]} for name in cases})
+            if artifact_id == "hardware":
+                report["warning_cases"]["notification-handler"].update(
+                    authorization="authorized", adapter_request="request-accepted",
+                    observed_banner=False, notification_click=False)
+            path.write_text(json.dumps(report))
 
     def write_coverage(self, summary: str | None) -> None:
-        data = {} if summary is None else {"coverage_summary": summary}
+        path = self.root / "coverage.json"
+        data = json.loads(path.read_text()) if path.is_file() else {}
+        data.pop("coverage_summary", None)
+        if summary is not None: data["coverage_summary"] = summary
         (self.root / "coverage.json").write_text(json.dumps(data), encoding="utf-8")
 
     def errors(self, complete: bool = False) -> list[str]:
@@ -128,6 +173,35 @@ class CourseAcceptanceTests(unittest.TestCase):
 
     def check(self, check_id: str) -> dict:
         return next(row for row in self.policy["checks"] if row["id"] == check_id)
+
+    def test_relabelled_real_old_report_payloads_are_rejected(self) -> None:
+        old = MODULE_PATH.parents[1] / "docs/validation/course-delivery/2026-10-03-5984b9e"
+        (self.root / "coverage.json").write_text((old / "full-core-summary.json").read_text())
+        (self.root / "hardware.json").write_text((old / "formal-app-summary.json").read_text())
+        self.assert_rejected(complete=True)
+
+    def test_warning_mapping_cannot_be_removed(self) -> None:
+        for check_id in ("COURSE-FUNCTIONS", "COURSE-REGRESSIONS"):
+            with self.subTest(check_id=check_id):
+                row = self.check(check_id)
+                row["requirements"].remove("REQ-125")
+                self.assert_rejected()
+                row["requirements"].append("REQ-125")
+
+    def test_warning_pending_allows_structure_but_blocks_completion(self) -> None:
+        self.warning["verification"] = "pending-product-acceptance"
+        self.assertEqual([], self.errors())
+        self.assert_rejected(complete=True)
+
+    def test_old_no_warning_evidence_cannot_prove_new_warning(self) -> None:
+        for artifact in self.catalog["artifacts"].values():
+            artifact["tc_groups"] = ["TC-UI", "TC-LIFECYCLE"]
+        self.assertEqual([], self.errors())
+        self.assert_rejected(complete=True)
+
+    def test_warning_software_cannot_replace_formal_warning_observation(self) -> None:
+        self.catalog["artifacts"]["hardware"]["tc_groups"] = ["TC-UI"]
+        self.assert_rejected(complete=True)
 
     def test_valid_policy_accepts_complete_passed_criteria(self) -> None:
         self.assertEqual([], self.errors(complete=True))

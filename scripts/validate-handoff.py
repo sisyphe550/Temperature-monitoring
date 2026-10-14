@@ -75,14 +75,22 @@ def validate_requirements() -> None:
         fail(f"acceptance-v1.json: retired IDs are {sorted(retired_ids)}, expected REQ-012/114")
 
     task_text = (DOCS / "22-agent-implementation-plan.md").read_text(encoding="utf-8")
-    defined_tasks = set(re.findall(r"^## (W(?:0\d|1[01]))：", task_text, re.MULTILINE))
-    if defined_tasks != {f"W{number:02d}" for number in range(12)}:
-        fail(f"22-agent-implementation-plan.md: W00..W11 mismatch: {sorted(defined_tasks)}")
+    defined_tasks = set(re.findall(r"^## (W(?:0\d|1[012]))：", task_text, re.MULTILINE))
+    if defined_tasks != {f"W{number:02d}" for number in range(13)}:
+        fail(f"22-agent-implementation-plan.md: W00..W12 mismatch: {sorted(defined_tasks)}")
 
     test_text = (DOCS / "10-test-strategy.md").read_text(encoding="utf-8")
     defined_tests = set(re.findall(r"^\| (TC-[A-Z0-9-]+) \|", test_text, re.MULTILINE))
-    if len(defined_tests) != 20:
-        fail(f"10-test-strategy.md: expected 20 TC groups, found {len(defined_tests)}")
+    if len(defined_tests) != 21:
+        fail(f"10-test-strategy.md: expected 21 TC groups, found {len(defined_tests)}")
+
+    warning_row = by_id["REQ-125"]
+    if warning_row.get("tasks") != ["W12"] or warning_row.get("tests") != ["TC-WARNING", "TC-UI", "TC-LIFECYCLE"]:
+        fail("REQ-125: must retain W12 and TC-WARNING/TC-UI/TC-LIFECYCLE mapping")
+    if "24-cpu-warning.md" not in warning_row.get("design", []):
+        fail("REQ-125: missing current CPU warning design")
+    if set(warning_row.get("acceptance_notes", {}).get("required_evidence_kinds", [])) != {"software", "formal-app-hardware"}:
+        fail("REQ-125: requires software and formal-app-hardware warning evidence")
 
     upstream_boundary_ids = (
         "REQ-009", "REQ-013", "REQ-014", "REQ-070", "REQ-079", "REQ-083",
@@ -155,7 +163,7 @@ def validate_requirements() -> None:
 def validate_contract_values() -> None:
     defaults = load_json(CONTRACTS / "defaults-v1.json")
     exact = {
-        "contract_version": 3,
+        "contract_version": 4,
         "cpu_intervals_ms": [50, 100, 200, 500, 1000],
         "cpu_default_ms": 200,
         "ssd_interval_ms": 500,
@@ -175,6 +183,30 @@ def validate_contract_values() -> None:
     for key, expected in exact.items():
         if defaults.get(key) != expected:
             fail(f"defaults-v1.json: {key}={defaults.get(key)!r}, expected {expected!r}")
+    warning_exact = {
+        "enabled": True,
+        "threshold_c": 90.0,
+        "duration_seconds": 5,
+        "system_notifications_enabled": False,
+        "threshold_min_c": 5.0,
+        "threshold_max_c": 120.0,
+        "duration_min_seconds": 1,
+        "duration_max_seconds": 300,
+        "recovery_hysteresis_c": 5.0,
+        "recovery_duration_seconds": 10,
+        "notification_cooldown_seconds": 60,
+        "event_limit": 50,
+    }
+    warning = defaults.get("cpu_warning")
+    if not isinstance(warning, dict):
+        fail("defaults-v1.json: cpu_warning must be an object")
+    else:
+        if set(warning) != set(warning_exact):
+            fail("defaults-v1.json: cpu_warning must contain exactly the frozen warning fields")
+        for key, expected in warning_exact.items():
+            if type(warning.get(key)) is not type(expected) or warning.get(key) != expected:
+                fail(f"defaults-v1.json: cpu_warning.{key}={warning.get(key)!r}, expected {expected!r}")
+
     if not (
         defaults.get("writer_resume_below_records", 0)
         < defaults.get("writer_pause_at_records", 0)
@@ -185,6 +217,8 @@ def validate_contract_values() -> None:
         fail("defaults-v1.json: one event reservation exceeds a transaction")
 
     profile = load_json(CONTRACTS / "first-profile-v1.json")
+    if profile.get("contract_version") != 4:
+        fail("first-profile-v1.json: contract_version must be 4")
     expected_keys = ["Te05", "Te0S", "Te09", "Te0H", "Tp01", "Tp05", "Tp09", "Tp0D", "Tp0V", "Tp0Y", "Tp0b", "Tp0e"]
     if profile.get("model") != "Mac16,13" or profile.get("cpu_keys") != expected_keys:
         fail("first-profile-v1.json: first model or ordered 12-key CPU set changed")
@@ -261,6 +295,9 @@ def validate_third_party_contract() -> None:
     for token in (
         "ReadingOutcome", "QualifiedSourceCatalog", "PersistenceLease",
         "PersistenceOwner", "ProcessingReceipt", "PresentationState",
+        "CPUWarningRule", "CPUWarningState", "CPUWarningEvent", "CPUWarningSnapshot",
+        "case recovering(eventID: CPUWarningEventID, since: Timestamp)",
+        "setCPUWarningRule(_ rule: CPUWarningRule)",
     ):
         if token not in api:
             fail(f"api-v1.swift: missing {token}")
@@ -274,19 +311,21 @@ def validate_third_party_contract() -> None:
 
 def validate_task_graph() -> None:
     contract = load_json(CONTRACTS / "tasks-v1.json")
+    if contract.get("contract_revision") != 4:
+        fail("tasks-v1.json: contract_revision must be 4")
     rows = contract.get("tasks", [])
     if not isinstance(rows, list):
         fail("tasks-v1.json: tasks must be an array")
         return
-    if len(rows) != 50:
-        fail(f"tasks-v1.json: expected 50 execution tasks, found {len(rows)}")
+    if len(rows) != 55:
+        fail(f"tasks-v1.json: expected 55 execution tasks, found {len(rows)}")
     by_id: dict[str, dict] = {}
     for row in rows:
         if not isinstance(row, dict):
             fail("tasks-v1.json: every task must be an object")
             continue
         task_id = row.get("id")
-        if not isinstance(task_id, str) or not re.fullmatch(r"T(?:0\d|1[01])\.\d", task_id):
+        if not isinstance(task_id, str) or not re.fullmatch(r"T(?:0\d|1[012])\.\d", task_id):
             fail(f"tasks-v1.json: invalid task ID {task_id!r}")
             continue
         if task_id in by_id:
@@ -298,8 +337,8 @@ def validate_task_graph() -> None:
         if not isinstance(row.get("depends_on"), list):
             fail(f"tasks-v1.json: {task_id}.depends_on must be an array")
 
-    if contract.get("entry_task") != "T00.1" or contract.get("terminal_task") != "T11.3":
-        fail("tasks-v1.json: entry/terminal task must be T00.1/T11.3")
+    if contract.get("entry_task") != "T00.1" or contract.get("terminal_task") != "T12.5":
+        fail("tasks-v1.json: entry/terminal task must be T00.1/T12.5")
     roots = {task_id for task_id, row in by_id.items() if row.get("depends_on") == []}
     if roots != {"T00.1"}:
         fail(f"tasks-v1.json: only T00.1 may be a root, found {sorted(roots)}")
@@ -344,15 +383,15 @@ def validate_task_graph() -> None:
         for dependency in by_id[task_id].get("depends_on", []):
             collect(dependency)
 
-    collect("T11.3")
+    collect("T12.5")
     if ancestors != set(by_id):
         fail(f"tasks-v1.json: tasks not connected to terminal: {sorted(set(by_id) - ancestors)}")
 
     plan = (DOCS / "23-execution-task-breakdown.md").read_text(encoding="utf-8")
-    plan_ids = re.findall(r"^\| - \[ \] (T(?:0\d|1[01])\.\d) ", plan, re.MULTILINE)
+    plan_ids = re.findall(r"^\| - \[ \] (T(?:0\d|1[012])\.\d) ", plan, re.MULTILINE)
     if plan_ids != [row.get("id") for row in rows if isinstance(row, dict)]:
         fail("23-execution-task-breakdown.md: checkbox task order differs from tasks-v1.json")
-    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[ \] T(?:0\d|1[01])\.\d ", line)]
+    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[ \] T(?:0\d|1[012])\.\d ", line)]
     for line in task_lines:
         columns = [column.strip() for column in line.strip().strip("|").split("|")]
         if len(columns) != 6 or any(not column for column in columns):
@@ -362,10 +401,10 @@ def validate_task_graph() -> None:
             fail(f"23-execution-task-breakdown.md: placeholder marker present: {marker}")
 
     packages = {row.get("work_package") for row in rows if isinstance(row, dict)}
-    if packages != {f"W{number:02d}" for number in range(12)}:
+    if packages != {f"W{number:02d}" for number in range(13)}:
         fail(f"tasks-v1.json: work-package coverage mismatch: {sorted(packages)}")
     expected_counts = {"W00": 5, "W01": 4, "W02": 6, "W03": 4, "W04": 5, "W05": 5,
-                       "W06": 4, "W07": 5, "W08": 3, "W09": 4, "W10": 2, "W11": 3}
+                       "W06": 4, "W07": 5, "W08": 3, "W09": 4, "W10": 2, "W11": 3, "W12": 5}
     actual_counts = {package: sum(row.get("work_package") == package for row in rows if isinstance(row, dict))
                      for package in expected_counts}
     if actual_counts != expected_counts:
@@ -517,7 +556,7 @@ def validate_entry_contracts() -> None:
         DOCS / "21-implementation-contracts.md",
     ]
     required_tokens = (
-        "contract revision 3",
+        "contract revision 4",
         "Discovered",
         "Qualified",
         "ReadingOutcome",
@@ -582,9 +621,9 @@ def main() -> int:
                 "status": "passed",
                 "profile": profile,
                 "requirements": {"total": 134, "active": 132, "retired": 2},
-                "tasks": {"work_packages": 12, "execution_tasks": 50},
-                "test_groups": 20,
-                "contract_revision": 3,
+                "tasks": {"work_packages": 13, "execution_tasks": 55},
+                "test_groups": 21,
+                "contract_revision": 4,
                 "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json", "course-delivery-v1.json"],
                 "scope": ("course-local criteria passed; strict 132 requirement qualification and exact-head CI are separate"
                           if args.product_acceptance else

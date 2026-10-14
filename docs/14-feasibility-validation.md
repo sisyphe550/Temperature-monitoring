@@ -1,6 +1,6 @@
 # 已存证据与当前本机验证
 
-更新：2026-10-03；实现契约revision3不变。本轮按[课程交付范围](course-delivery-scope.md)完成最小收尾，历史原型、validation/research不改写。下列验证路线已有工具/实现，不构成未来通过声明。
+更新：2026-10-14；实现契约revision4不变。本轮按[课程交付范围](course-delivery-scope.md)完成最小收尾，历史原型、validation/research不改写。下列验证路线已有工具/实现，不构成未来通过声明。
 
 ## 已经执行的历史范围
 

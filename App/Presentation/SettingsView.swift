@@ -13,6 +13,7 @@ struct SettingsView: View {
             } else {
                 Form {
                     if case let .running(running) = presentationModel.state {
+                        CPUWarningSettingsView(warning: running.warning, actions: actions)
                         Section("CPU 采样周期") {
                             CPUPeriodPicker(selectedPeriodMS: running.cpuPeriodMS,
                                 onSelect: { actions?.setCPUPeriod(milliseconds: $0) })

@@ -1,6 +1,6 @@
 # 会话、诊断、构建与分发
 
-更新：2026-10-03；实施契约v1族修订3。本轮按[课程范围](course-delivery-scope.md)交付本机ad-hoc Release App，最小收尾进行中；公证/公开发行/跨机为可选扩展，不阻塞当前目标。
+更新：2026-10-14；实施契约v1族修订4。本轮按[课程范围](course-delivery-scope.md)交付本机ad-hoc Release App，最小收尾进行中；公证/公开发行/跨机为可选扩展，不阻塞当前目标。
 
 ## 标识与目录
 
@@ -99,3 +99,7 @@ ditto -c -k --keepParent build/TemperatureMonitor.app build/TemperatureMonitor-n
 [7124归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留App SHA eae5c0b46776eebfa7a297cae46ac0a0d08ad833fa574230897d2ee54da35651、Worker SHA 12356c172d67e4d6161543aa86a6a0616d5133e3121ac91bd0f9cb6e03c78c96与当次Mac16,13/macOS15.7.3/24G419环境；[f0软件归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)记录测试同步，生产/构建输入相对7124不变。当前新短测/资源和最终二进制身份仍须本轮另录，不继承旧结果。
 
 [c354原长测](validation/product-software/W11/2026-10-03-c354b03/README.md)的FAILED suite/duration观察/not_measured性能及[f9修复](validation/product-software/W11/2026-10-03-f9e850c/README.md)保持历史。旧逐REQ100accepted/31pending/1waived/2retired不批量改为PASS；取消严格长测、公证或跨机门槛不等于它们通过，也不声明未测试系统兼容。
+
+## CPU预警交付边界（revision4）
+
+本机Release新增[24](24-cpu-warning.md)预警设置与可选系统通知；系统授权仅用户开启时请求，拒绝不阻塞采样。事件只本会话内存且退出丢弃，通知点击只打开匹配会话主窗。新产物须重新绑定App/worker SHA和正式短测；旧无告警报告不能证明新REQ125。ad-hoc课程范围、长测/物理sleep/公证及跨机可选边界保持。

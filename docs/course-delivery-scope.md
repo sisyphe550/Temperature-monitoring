@@ -1,6 +1,6 @@
 # 本机课程交付范围
 
-更新：2026-10-03。当前目标：在用户自己的MacBook Air完成课程演示、交付可运行ad-hoc Release App并合并本轮PR。实施契约仍v1族revision3，公开API、默认值、profile、schema与50项任务/DAG不变。当前核心测试、App观察与课程门禁已通过；独立审查、CI与合并另按实际结果核对。
+更新：2026-10-14。当前目标：在用户自己的MacBook Air完成课程演示、交付可运行ad-hoc Release App并合并本轮PR。实施契约为v1族revision4；新增CPU预警API/default，profile硬件定义和SQLite schema不变，保留原50任务并新增W12五任务。修订3原核心测试、App观察与课程门禁已通过；新预警尚待验收，独立审查、CI与合并另按实际结果核对。
 
 ## 最新直接授权（要点转述）
 
@@ -59,3 +59,7 @@ python3 scripts/validate-handoff.py --strict-product-acceptance
 当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
 
 Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)；原取消任务保留，App与有效测试断言不变。最终同head五CI和零blocking仍按Git流程回读。
+
+## 2026-10-14 CPU预警扩展
+
+用户批准[24](24-cpu-warning.md)新增行为，先更新权威文档再开发。五criterion数量保持；COURSE-FUNCTIONS加入REQ125的正式App设置/状态，COURSE-REGRESSIONS加入TC-WARNING；product-acceptance要求新REQ125已验收且对应warning证据，旧无告警结果不适用。新行为pending，历史课程通过仍绑定旧源码/产物。本轮仍为本机短测/Core>=80%/五CI/一次独立审查，不恢复长测或公证。

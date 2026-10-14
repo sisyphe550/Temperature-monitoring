@@ -4,7 +4,7 @@
 
 本表保留每条需求的原有严格资格事实，不把取消的验收写成 PASS。课程交付使用[课程范围](course-delivery-scope.md)与[course-delivery-v1.json](contracts/course-delivery-v1.json)中的 134 项分层和五个固定检查项；核心行为由正式 App 短测及完整 Core 回归组合验证。`python3 scripts/validate-handoff.py --product-acceptance` 检查课程交付；`--strict-product-acceptance` 检查全部 132 项严格资格。二者输出明确的 profile。
 
-更新：2026-10-02；实施契约v1族修订3；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
+更新：2026-10-14；实施契约v1族修订4；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
 
 | 需求 | 当前状态 | 设计 | 执行任务 | 验收组 | 产品结果 |
 |---|---|---|---|---|---|
@@ -132,7 +132,7 @@
 | REQ-122 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 本地验收通过 |
 | REQ-123 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 本地验收通过 |
 | REQ-124 | 现行基线 | [04](04-data-storage.md) | W03 | TC-STORAGE | 本地验收通过 |
-| REQ-125 | 现行基线 | [07](07-native-ui.md)、[13](13-operations-distribution.md) | W07/W08 | TC-UI/TC-LIFECYCLE | 本地验收通过 |
+| REQ-125 | 现行基线 | [24](24-cpu-warning.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W12 | TC-WARNING/TC-UI/TC-LIFECYCLE | 未完成产品验收 |
 | REQ-126 | 现行基线 | [07](07-native-ui.md)、[13](13-operations-distribution.md) | W07/W08 | TC-UI/TC-LIFECYCLE | 本地验收通过 |
 | REQ-127 | 现行基线 | [13](13-operations-distribution.md) | W10 | TC-RELEASE | 已豁免（本地交付） |
 | REQ-128 | 现行基线 | [11](11-git-github-workflow.md) | W00 | TC-WORKFLOW | 本地验收通过 |
@@ -149,4 +149,8 @@
 - 012/114保留退役编号；不新增恢复任务，不按测试通过处理删除。
 - 每项通过须附源码SHA、构建、输入/预期/实际、测试日志；实机另附机型/系统build/权限。
 - 修改需求正文时同时更新JSON的body_sha256、设计、任务和测试；执行`scripts/validate-handoff.py`防止漏项。
-- W00～W11定义见[实施计划](22-agent-implementation-plan.md)，测试组详见[10](10-test-strategy.md)。
+- W00～W12定义见[实施计划](22-agent-implementation-plan.md)，测试组详见[10](10-test-strategy.md)。
+
+## REQ-125新增行为的证据边界
+
+2026-10-14以[24](24-cpu-warning.md)替代旧排除告警正文。仅该条旧结果从accepted转pending，因此现行逐REQ为99accepted/32pending/1waived/2retired；旧100/31历史记录不回写。新软件TC-WARNING、正式App设置/状态短测和实际通知限制须另存，不能用旧源码无通知API的证据验收。
