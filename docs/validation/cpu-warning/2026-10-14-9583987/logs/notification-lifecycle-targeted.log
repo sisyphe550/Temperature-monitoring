@@ -1,0 +1,93 @@
+Building for debugging...
+[0/10] Write sources
+[2/10] Write swift-version--58304C5D6DBC2206.txt
+[4/6] Emitting module TemperaturePresentation
+[5/6] Compiling TemperaturePresentation CPUWarningNotificationPolicy.swift
+[6/9] Emitting module TemperatureCoreTests
+[7/9] Compiling TemperatureCoreTests CPUWarningNotificationTests.swift
+[7/9] Write Objects.LinkFileList
+[8/9] Linking TemperatureCorePackageTests
+Build complete! (2.25s)
+Test Suite 'Selected tests' started at 2026-10-14 19:23:03.674.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-14 19:23:03.675.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-14 19:23:03.675.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-14 19:23:03.675.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite CPUWarningNotificationPolicyTests started.
+◇ Suite CPUWarningNotificationDispatcherTests started.
+◇ Suite CPUWarningPreferencesTests started.
+◇ Test evictedOldEventsCannotBeReplayedAfterManyEpisodes() started.
+◇ Test repeatedSnapshotsAndPermissionChangesCannotReplayOneEvent() started.
+◇ Test differentEventsRespectElapsedCooldownEvenWhenWallClockJumps() started.
+◇ Test recoveringRemainsCurrentUntilTheEventEndsAndRuleChangesInvalidateAttempts() started.
+◇ Test disabledNotificationsConsumeTheEventWithoutLaterReplay() started.
+◇ Test lateForeignEndedAndFutureEventsAreSuppressed() started.
+◇ Test savedRuleSurvivesNewPreferencesInstanceWithoutSessionState() started.
+◇ Test denialDoesNotRepeatPromptOrReplayWhenPermissionChanges() started.
+✔ Test disabledNotificationsConsumeTheEventWithoutLaterReplay() passed after 0.004 seconds.
+✔ Test differentEventsRespectElapsedCooldownEvenWhenWallClockJumps() passed after 0.004 seconds.
+✔ Test repeatedSnapshotsAndPermissionChangesCannotReplayOneEvent() passed after 0.004 seconds.
+✔ Test lateForeignEndedAndFutureEventsAreSuppressed() passed after 0.004 seconds.
+✔ Test recoveringRemainsCurrentUntilTheEventEndsAndRuleChangesInvalidateAttempts() passed after 0.004 seconds.
+✔ Test evictedOldEventsCannotBeReplayedAfterManyEpisodes() passed after 0.004 seconds.
+✔ Suite CPUWarningNotificationPolicyTests passed after 0.004 seconds.
+✔ Test savedRuleSurvivesNewPreferencesInstanceWithoutSessionState() passed after 0.005 seconds.
+◇ Test invalidFieldsUseDefaultsWhileValidNotificationChoiceSurvives() started.
+✔ Test invalidFieldsUseDefaultsWhileValidNotificationChoiceSurvives() passed after 0.001 seconds.
+◇ Test missingFieldsDoNotDiscardAnExplicitDisabledChoice() started.
+✔ Test missingFieldsDoNotDiscardAnExplicitDisabledChoice() passed after 0.001 seconds.
+◇ Test invalidThresholdNeverDisablesMonitoring(thresholdJSON:) started.
+◇ Test case passing 1 argument thresholdJSON → "4.99" to invalidThresholdNeverDisablesMonitoring(thresholdJSON:) started.
+◇ Test case passing 1 argument thresholdJSON → "120.01" to invalidThresholdNeverDisablesMonitoring(thresholdJSON:) started.
+◇ Test case passing 1 argument thresholdJSON → "1e309" to invalidThresholdNeverDisablesMonitoring(thresholdJSON:) started.
+◇ Test case passing 1 argument thresholdJSON → ""NaN"" to invalidThresholdNeverDisablesMonitoring(thresholdJSON:) started.
+✔ Test invalidThresholdNeverDisablesMonitoring(thresholdJSON:) with 4 test cases passed after 0.003 seconds.
+◇ Test durationRequiresAnIntegerWithinRange(durationJSON:) started.
+◇ Test case passing 1 argument durationJSON → "0" to durationRequiresAnIntegerWithinRange(durationJSON:) started.
+◇ Test case passing 1 argument durationJSON → "301" to durationRequiresAnIntegerWithinRange(durationJSON:) started.
+◇ Test case passing 1 argument durationJSON → "1.5" to durationRequiresAnIntegerWithinRange(durationJSON:) started.
+◇ Test case passing 1 argument durationJSON → ""5"" to durationRequiresAnIntegerWithinRange(durationJSON:) started.
+✔ Test durationRequiresAnIntegerWithinRange(durationJSON:) with 4 test cases passed after 0.002 seconds.
+◇ Test malformedOrUnexpectedStoredValueReportsAnIssue() started.
+✔ Test malformedOrUnexpectedStoredValueReportsAnIssue() passed after 0.001 seconds.
+◇ Test saveFailureAndReadbackMismatchAreVisible() started.
+✔ Test saveFailureAndReadbackMismatchAreVisible() passed after 0.001 seconds.
+✔ Suite CPUWarningPreferencesTests passed after 0.015 seconds.
+✔ Test denialDoesNotRepeatPromptOrReplayWhenPermissionChanges() passed after 0.015 seconds.
+◇ Test delayedAuthorizationCannotSendAnInvalidatedEvent(invalidation:) started.
+◇ Test case passing 1 argument invalidation → "recovered" to delayedAuthorizationCannotSendAnInvalidatedEvent(invalidation:) started.
+◇ Test case passing 1 argument invalidation → "ruleChanged" to delayedAuthorizationCannotSendAnInvalidatedEvent(invalidation:) started.
+◇ Test case passing 1 argument invalidation → "stop" to delayedAuthorizationCannotSendAnInvalidatedEvent(invalidation:) started.
+✔ Test delayedAuthorizationCannotSendAnInvalidatedEvent(invalidation:) with 3 test cases passed after 0.004 seconds.
+◇ Test delayedPermissionExpiresUsingMonotonicTimeWithoutAnotherSnapshot() started.
+✔ Test delayedPermissionExpiresUsingMonotonicTimeWithoutAnotherSnapshot() passed after 0.001 seconds.
+◇ Test delayedAuthorizationStartsCooldownAtActualDeliveryAttempt() started.
+✔ Test delayedAuthorizationStartsCooldownAtActualDeliveryAttempt() passed after 0.001 seconds.
+◇ Test acceptedRequestIsCanceledIfEventEndsWhileAddIsSuspended() started.
+✔ Test acceptedRequestIsCanceledIfEventEndsWhileAddIsSuspended() passed after 0.001 seconds.
+◇ Test deliveryFailureIsVisibleAndTheEventIsNotRetried() started.
+✔ Test deliveryFailureIsVisibleAndTheEventIsNotRetried() passed after 0.001 seconds.
+◇ Test disabledRuleCancelsAnAuthorizationRequestBeforeItStarts() started.
+✔ Test disabledRuleCancelsAnAuthorizationRequestBeforeItStarts() passed after 0.001 seconds.
+◇ Test permissionFailureIsVisibleAndNeverEscalatesToDelivery() started.
+✔ Test permissionFailureIsVisibleAndNeverEscalatesToDelivery() passed after 0.001 seconds.
+◇ Test committedSoftwareSuspendInvalidatesPendingNotificationWithoutAnotherSnapshot() started.
+✔ Test committedSoftwareSuspendInvalidatesPendingNotificationWithoutAnotherSnapshot() passed after 0.004 seconds.
+◇ Test sameSessionResumePreservesCooldownAndConsumedEvents() started.
+✔ Test sameSessionResumePreservesCooldownAndConsumedEvents() passed after 0.001 seconds.
+◇ Test lateAuthorizationAfterResumeWaitsForANewCommittedEvent() started.
+✔ Test lateAuthorizationAfterResumeWaitsForANewCommittedEvent() passed after 0.002 seconds.
+◇ Test suspendedAddIsCanceledEvenIfItReturnsAfterResume() started.
+✔ Test suspendedAddIsCanceledEvenIfItReturnsAfterResume() passed after 0.001 seconds.
+◇ Test stopCannotBeResumedWithoutStartingANewSession() started.
+✔ Test stopCannotBeResumedWithoutStartingANewSession() passed after 0.001 seconds.
+◇ Test pauseBeforeQueuedTasksRunCannotStartAPermissionPrompt() started.
+✔ Test pauseBeforeQueuedTasksRunCannotStartAPermissionPrompt() passed after 0.001 seconds.
+◇ Test notificationClickCanOnlyOpenTheRunningSession() started.
+✔ Test notificationClickCanOnlyOpenTheRunningSession() passed after 0.001 seconds.
+✔ Suite CPUWarningNotificationDispatcherTests passed after 0.038 seconds.
+✔ Test run with 28 tests in 3 suites passed after 0.038 seconds.

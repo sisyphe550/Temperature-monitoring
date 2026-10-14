@@ -1,6 +1,6 @@
 # Agent实施交接入口
 
-更新：2026-10-14；实施契约v1族，contract revision 4。当前目标是用户本机课程演示App，采用ad-hoc Release交付。修订3原App核心观察、课程五项门禁与旧Core/88.93%覆盖通过；新预警验收pending，独立审查、同head CI及合并须按实际远端结果核对。
+更新：2026-10-14；实施契约v1族，contract revision 4。当前目标是用户本机课程演示App，采用ad-hoc Release交付。修订4预警软件、正式App短测及课程五项门禁通过；完整Core413项/62组、覆盖89.18%。独立审查、同head CI及合并须按实际远端结果核对。
 
 ## 先读的资料
 
@@ -38,7 +38,7 @@ C11已确认课程不要求数据库强制往返；当前内存实时路径保�
 
 ## 当前仓库与历史证据
 
-生产Core、SensorWorker、App、Xcode工程和五CI已存在。PR44修复已以merge commit合入main403d44b；W11 PR26当前收尾继续，不因历史Draft文字禁止本轮授权合并。最终PR状态/HEAD/检查/Issue须回读GitHub，不由本文推断。
+生产Core、SensorWorker、App、Xcode工程和五CI已存在。本轮基线为已合入PR26的main d02f7f2；CPU预警从其创建feature/cpu-warning，生产源码9583987。最终PR状态/HEAD/检查/Issue须回读GitHub，不由本文推断。
 
 [7124归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)保存生产修复、正式App短测及二进制身份；[f0归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)保存可选来源同步回归，生产/构建输入相对7124不变。旧逐REQ裁决100accepted/31pending/1waived/2retired保持事实；[c354归档](validation/product-software/W11/2026-10-03-c354b03/README.md)中的FAILED长测、duration观察及未测性能保留。历史结果只适用于其源码/产物，不预先证明本轮短测。
 
@@ -76,3 +76,5 @@ Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录
 ## CPU预警修订4（2026-10-14）
 
 先读[24专项](24-cpu-warning.md)、[已批准设计](superpowers/specs/2026-10-14-cpu-warning-design.md)及[五任务计划](superpowers/plans/2026-10-14-cpu-warning.md)。REQ-125已改为Raw CPU12/elapsed预警；W12新增T12.1～T12.5，工作包13/任务55/TC21。API/defaults统一revision4，SQLite user_version=1/profile_version=1及worker协议版本不变。新行为pending，历史课程通过只属于原产物；课程门禁在原五criterion内加入warning证据，不能由旧无告警结果或CI软件推断正式App通过。
+
+本次CPU预警交付与测试边界见[报告](validation/cpu-warning/2026-10-14-9583987/report.md)；旧状态不冒充新功能资格。

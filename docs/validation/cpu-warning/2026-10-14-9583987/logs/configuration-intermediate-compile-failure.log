@@ -1,0 +1,43 @@
+[0/1] Planning build
+Building for debugging...
+[0/14] Write sources
+[1/14] Copying defaults-v1.json
+[1/14] Write sources
+[5/15] Copying first-profile-v1.json
+[6/15] Write swift-version--58304C5D6DBC2206.txt
+[8/20] Emitting module TemperatureCore
+[9/20] Compiling TemperatureCore PresentationTypes.swift
+[10/20] Compiling TemperatureCore MonitorEngine.swift
+[11/20] Compiling TemperatureCore Configuration.swift
+[12/20] Compiling TemperatureCore PersistenceTypes.swift
+[13/32] Compiling TemperatureCore Retention.swift
+[14/32] Compiling TemperatureCore StorageWriter.swift
+[15/32] Compiling TemperatureCore BoundedQueue.swift
+[16/32] Compiling TemperatureCore Trend.swift
+[17/32] Compiling TemperatureCore EMA.swift
+[18/32] Compiling TemperatureCore RetryPolicy.swift
+[19/32] Compiling TemperatureCore FatalDisplayReceipt.swift
+[20/32] Compiling TemperatureCore ReportWriter.swift
+[21/32] Compiling TemperatureCore SessionPersistence.swift
+[22/32] Compiling TemperatureCore DiagnosticLogger.swift
+[23/32] Compiling TemperatureCore ErrorCoordinator.swift
+[24/32] Compiling TemperatureCore Registry.swift
+[25/46] Compiling TemperaturePresentation PresentationState.swift
+[26/46] Compiling TemperaturePresentation PresentationModel.swift
+[27/46] Emitting module TemperaturePresentation
+[28/46] Compiling TemperaturePresentation HistoryChartModel.swift
+[29/46] Emitting module SensorRuntime
+[30/46] Compiling SensorRuntime WorkerClient.swift
+[31/46] Compiling SensorRuntime WorkerProtocol.swift
+[32/46] Compiling SensorRuntime SamplingService.swift
+[33/46] Compiling SensorRuntime ProcessingCoordinator.swift
+[34/46] Compiling SensorRuntime SeriesCatalogBuilder.swift
+[35/46] Compiling SensorRuntime SessionMonitorController.swift
+/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/Packages/TemperatureCore/Sources/SensorRuntime/SessionMonitorController.swift:86:15: error: cannot find 'publishSnapshot' in scope
+ 84 |         }
+ 85 |         try await engine.setCPUWarningRule(rule)
+ 86 |         await publishSnapshot(force: true)
+    |               `- error: cannot find 'publishSnapshot' in scope
+ 87 |     }
+ 88 | 
+error: fatalError

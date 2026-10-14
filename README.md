@@ -1,6 +1,6 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本机课程演示项目。实施契约v1族，**contract revision 4**；当前目标为用户本机可运行的ad-hoc Release App。修订3原App核心观察与课程五项门禁通过；旧完整Core355/57、覆盖88.93%仅适用原产物，新预警验收pending。独立审查、同head CI和合并按PR实际结果另核对。
+Apple Silicon MacBook Air本机课程演示项目。实施契约v1族，**contract revision 4**；当前目标为用户本机可运行的ad-hoc Release App。修订4 CPU预警软件及正式App短测、课程五项门禁通过；完整Core413/62、覆盖89.18%。独立审查、同head CI和合并按PR实际结果另核对。
 
 ## 当前范围与接手入口
 
@@ -23,7 +23,7 @@ bash scripts/build-app.sh
 bash scripts/launch-app.sh
 ```
 
-构建脚本当前输出`build/TemperatureMonitor.app`，嵌入同次构建的SensorWorker并ad-hoc签名；可运行交付App与二进制SHA见[课程报告](docs/validation/course-delivery/2026-10-03-5984b9e/README.md)。无需公证凭证即可本机运行，不声称全部Air或其他OS支持。
+构建脚本当前输出`build/TemperatureMonitor.app`，嵌入同次构建的SensorWorker并ad-hoc签名；最新可运行交付App与二进制SHA见[CPU预警交付报告](docs/validation/cpu-warning/2026-10-14-9583987/report.md)；原课程报告作为历史记录保留。无需公证凭证即可本机运行，不声称全部Air或其他OS支持。
 
 “应用读取时间”是收到有效值的观测时间；“测量更新时间未知”表示接口未给出可验证硬件测量时间戳，不等于没读到温度。缓存、过期或失败由互斥状态另行表达。
 
@@ -66,4 +66,4 @@ Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录
 
 ## CPU预警修订4（2026-10-14）
 
-[CPU预警](docs/24-cpu-warning.md)默认启用90°C持续5秒，恢复低5°C持续10秒；建议值可调整，不是Apple安全限值。系统通知默认关闭；最近50事件仅本会话内存。新增REQ-125/W12仍待软件与正式App验证，旧课程报告证明的是其原产物。
+[CPU预警](docs/24-cpu-warning.md)默认启用90°C持续5秒，恢复低5°C持续10秒；建议值可调整，不是Apple安全限值。系统通知默认关闭；最近50事件仅本会话内存。REQ-125/W12软件与正式App短测通过，完整Core413项、覆盖89.18%，一次最终独立审查及#54/#55/#56修复复核PASS。实机横幅/点击及自然恢复未观察，边界见[新报告](docs/validation/cpu-warning/2026-10-14-9583987/report.md)。Git合并状态以本轮PR实际检查为准；旧课程报告证明的是其原产物。

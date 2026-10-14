@@ -152,7 +152,7 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 
 ## W11证据绑定工具契约（2026-10-03）
 
-本节证据工具格式继续适用于contract revision4；新增CPU预警的旧REQ-125结果必须重置为pending。`acceptance-v1.json`格式version1保留134项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
+本节证据工具格式继续适用于contract revision4；新增CPU预警在开发阶段将旧REQ-125结果重置为pending；现已用新软件/正式短测证据验收，旧排除告警证据仍不可复用。`acceptance-v1.json`格式version1保留134项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
 
 - delivery/source均为真实40位Git commit；source是delivery祖先，delivery是当前HEAD祖先。每artifact文件须在repo内且SHA256匹配；kind=`software/formal-app-hardware/ci/reference/waiver`，result=`passed/partial/waived`，scope/TC/environment明确。
 - 正式App实机environment记录execution=formal-release-app、Release、fixture=false、固定Bundle ID、App/worker SHA256、model和os_build。结构校验不能代替报告人工审核或真实测量。
@@ -172,6 +172,6 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 
 新增强类型CPUWarningEventID、CPUWarningRule/State/Event/Snapshot和endReason；Snapshot.warning与RunningPresentationState.warning必须显式提供。ProcessingEngine及MonitorController新增setCPUWarningRule(_:) async throws。规则构造与解码校验温度finite5…120、时长整数1…300；RuntimeConfiguration.cpuWarning:CPUWarningConfiguration从defaults.cpu_warning生成`public var cpuWarningRule: CPUWarningRule { get throws }`。12参数及持续/中断/Receipt/通知完整见[24](24-cpu-warning.md)。
 
-defaults和first-profile的contract_version、acceptance/tasks/catalog/course-policy的contract_revision统一4；profile_version=1、CPU12/profile硬件语义、worker协议版本与schema user_version=1不变。134REQ与012/114退役保留；原50DAG不改依赖，新增W12五任务，terminal=T12.5。REQ125重新pending且无旧适用证据，普通gate可接受pending，product gate需新TC-WARNING软件与正式App证据。
+defaults和first-profile的contract_version、acceptance/tasks/catalog/course-policy的contract_revision统一4；profile_version=1、CPU12/profile硬件语义、worker协议版本与schema user_version=1不变。134REQ与012/114退役保留；原50DAG不改依赖，新增W12五任务，terminal=T12.5。REQ125开发阶段重新pending且移除旧适用证据；本轮新TC-WARNING软件与正式App证据已满足course-local门禁，同head CI和合并仍独立回读。
 
 CPUWarningConfiguration的12个Codable字段与defaults.cpu_warning逐项camelCase映射：enabled、thresholdC、durationSeconds、systemNotificationsEnabled、thresholdMinC、thresholdMaxC、durationMinSeconds、durationMaxSeconds、recoveryHysteresisC、recoveryDurationSeconds、notificationCooldownSeconds、eventLimit；字段型别分别Bool/Double/Int/Bool/Double/Double/Int/Int/Double/Int/Int/Int。配置加载验证冻结范围和恢复/通知/容量值，不能用try!生成rule。CPUWarningState新增recovering(eventID,since)，该状态仍属于同一个活跃事件，视图不依据since自行推进恢复。

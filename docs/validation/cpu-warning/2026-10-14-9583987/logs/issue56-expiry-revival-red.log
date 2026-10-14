@@ -1,0 +1,30 @@
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/11] Compiling TemperatureCore MonitorEngine.swift
+[4/11] Emitting module TemperatureCore
+[4/15] Write Objects.LinkFileList
+[8/15] Linking ProtocolWorker
+[9/15] Linking ProductQualification
+[10/15] Linking SensorWorker
+[11/15] Applying ProtocolWorker
+[12/15] Applying ProductQualification
+[12/15] Applying SensorWorker
+[14/15] Linking TemperatureCorePackageTests
+Build complete! (1.29s)
+Test Suite 'Selected tests' started at 2026-10-14 19:31:24.692.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-14 19:31:24.693.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-14 19:31:24.693.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-14 19:31:24.693.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite CPUWarningCommitTests started.
+◇ Test snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt() started.
+✘ Test snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt() recorded an issue at CPUWarningCommitTests.swift:185:13: Expectation failed: (after.events.first?.end → .active) == (.ended(at: Fixtures.timestamp(ms: 8100), reason: .interrupted(.stale)) → .ended(at: TemperatureCore.Timestamp(elapsedNS: 8100000000, wallUnixNS: 1700000008100000000), reason: TemperatureCore.CPUWarningEventEndReason.interrupted(TemperatureCore.CPUWarningInterruptionReason.stale)))
+✘ Test snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt() recorded an issue at CPUWarningCommitTests.swift:186:13: Expectation failed: (after.state → .active(eventID: TemperatureCore.TaggedUUID<TemperatureCore.CPUWarningEventIDTag>(rawValue: "c357ca0c-1e3b-4645-a440-8797dca333a7"))) == (.pending(since: Fixtures.timestamp(ms: 7000)) → .pending(since: TemperatureCore.Timestamp(elapsedNS: 7000000000, wallUnixNS: 1700000007000000000)))
+✘ Test snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt() failed after 0.013 seconds with 2 issues.
+✘ Suite CPUWarningCommitTests failed after 0.013 seconds with 2 issues.
+✘ Test run with 1 test in 1 suite failed after 0.013 seconds with 2 issues.

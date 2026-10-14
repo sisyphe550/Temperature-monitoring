@@ -1,0 +1,10 @@
+Timestamp               Ty Process[PID:TID]
+2026-10-14 20:12:22.035 Df TemperatureMonitor[46134:4c6711] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Creating a user notification center
+2026-10-14 20:12:22.094 Df TemperatureMonitor[46134:4c6711] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Getting notification settings (async)
+2026-10-14 20:12:22.095 Df TemperatureMonitor[46134:4c674a] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Got notification settings [ hasResult: 1 hasCompletionHandler: 1 ]
+2026-10-14 20:12:43.186 Df TemperatureMonitor[46134:4c6711] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Getting notification settings (async)
+2026-10-14 20:12:43.186 Df TemperatureMonitor[46134:4c674f] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Got notification settings [ hasResult: 1 hasCompletionHandler: 1 ]
+2026-10-14 20:12:48.464 Df TemperatureMonitor[46134:4c6711] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Getting notification settings (async)
+2026-10-14 20:12:48.464 Df TemperatureMonitor[46134:4c6733] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Got notification settings [ hasResult: 1 hasCompletionHandler: 1 ]
+2026-10-14 20:12:48.464 Df TemperatureMonitor[46134:4c6711] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Adding notification request 0EAD-E328 to destinations: Default, contentDate: (null)
+2026-10-14 20:12:48.465 Df TemperatureMonitor[46134:4c6733] [com.apple.UserNotifications:Connections] [io.github.sisyphe550.TemperatureMonitor] Added notification request: [ hasError: 0 hasCompletionHandler: 1 ]

@@ -47,7 +47,7 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 CPU预警新增公开API/default并升级revision4；profile的CPU12/版本及SQLite user_version=1不变，保留原50任务并新增W12五任务。完整Core及≥80%覆盖、关键失败/数据/生命周期软件回归、CPU12 Raw max→EMA、来源单位与失败不造值必须保留；本机正式App完成启动、五档短切换、历史、关窗重开与正常退出。同一次短测同次观察已填充的五分钟历史，五档短切换，同时观察App/Worker CPU、RSS和交互，不加压力负载。严格132资格、五档10分钟、物理sleep、72/73h耐久、公证/跨机及精确性能为可选扩展，不阻塞当前本机交付。
 
-2026-10-03原App核心观察与五criterion通过；新预警仍pending，独立审查、同head CI和合并仍按PR实际结果确认。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与旧全132项扩展资格分开判定，不把pending改成passed。
+2026-10-03原App核心观察与五criterion保持原事实；本轮CPU预警软件及正式短测、课程五criterion与同次独立审查已通过，同head CI和合并仍待实际回读。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与旧全132项扩展资格分开判定，不把pending改成passed。
 
 [c354不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保留原FAILED suite、duration补证、partial物理sleep及not_measured性能；[原产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)和[原修复](docs/validation/product-fixes/2026-10-02-a97fd5a/report.md)保留当时范围。历史记录中的当时“必须继续长测/暂停/保持Draft”不重新启用当前已授权取消的门槛。
 
@@ -55,4 +55,10 @@ CPU预警新增公开API/default并升级revision4；profile的CPU12/版本及SQ
 
 ## CPU预警修订4
 
-用户2026-10-14批准[24](docs/24-cpu-warning.md)方案，先完成权威文档和五任务计划再开发。新REQ-125清除旧排除告警证据并pending；默认启用90°C/5秒、低5°C/10秒恢复、通知默认关闭、events50仅内存。更新规则/Receipt/中断和通知边界均以24和API为准，课程范围未恢复长测。
+用户2026-10-14批准[24](docs/24-cpu-warning.md)方案，先完成权威文档和五任务计划再开发。新REQ-125已清除旧排除告警证据并用本轮新证据验收；默认启用90°C/5秒、低5°C/10秒恢复、通知默认关闭、events50仅内存。更新规则/Receipt/中断和通知边界均以24和API为准，课程范围未恢复长测。
+
+## W12当前验证状态（2026-10-14）
+
+源码`958398772918c3cf61cf5eb552bb24759197b755`的[新证据](docs/validation/cpu-warning/2026-10-14-9583987/README.md)记录完整Core413项/62组、23.854秒通过，覆盖7426/8327=89.18%。同一次最终独立审查已复核#54/#55/#56并PASS；初次完整失败和全部红绿记录保留。
+
+本机正式Release预警短测及course-local五criterion已通过。通知授权/API请求接受属于已观察事实，横幅和真实点击未观察，不从软件路由或API结果推定。当前逐REQ为100accepted/31pending/1waived/2retired，不等于全132项严格资格完成；同PR head五CI、blocking状态与merge commit仍待根agent回读。

@@ -1,0 +1,7 @@
+baseline complete errors: ['COURSE-FUNCTIONS: requires passed TC-WARNING formal-app-hardware evidence', 'COURSE-REGRESSIONS: requires passed TC-WARNING software evidence', 'course CPU warning REQ-125: new behavior requires product-accepted-local evidence']
+relabeled validate_catalog: passed
+relabeled binding errors: []
+relabeled complete course errors: []
+{"artifact_id": "course-final-core", "path": "docs/validation/course-delivery/2026-10-03-5984b9e/full-core-summary.json", "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5", "sha256_unchanged_and_matches": true, "environment_unchanged": true, "report_contains_TC_WARNING": false}
+{"artifact_id": "course-final-formal-app", "path": "docs/validation/course-delivery/2026-10-03-5984b9e/formal-app-summary.json", "source_commit": "f24f503976467a62d4e1050ea1b4ac87a2412bb5", "sha256_unchanged_and_matches": true, "environment_unchanged": true, "report_contains_TC_WARNING": false}
+REPRODUCED: historical reports passed without any new warning evidence.

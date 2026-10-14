@@ -1,0 +1,346 @@
+{
+  "contract_version": 4,
+  "feature": "cpu-warning",
+  "kind": "software",
+  "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+  "result": "passed",
+  "environment": {
+    "execution": "software-tests",
+    "os_version": "15.7.3",
+    "os_build": "24G419",
+    "architecture": "arm64",
+    "swift_version": "Apple Swift 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)",
+    "xcode_version": "26.3 (17C529)",
+    "scope": "Swift Testing with TestClock/mock sensor and notification backend; isolated UserDefaults. No hardware qualification claim."
+  },
+  "warning_cases": {
+    "trigger-recovery": {
+      "observed": "最终完整Core记录触发包容边界、尖峰重置、Raw最大值而非EMA、回差与10秒恢复断言通过；仅受控软件输入，不声称实机达到90°C或自然恢复。",
+      "test_cases": [
+        "shortSpikeAndBelowThresholdRestartTheCandidate",
+        "inclusiveFiveSecondBoundaryUsesRawPeakAndTriggerTime",
+        "recoveryRequiresTenSecondsAndResetsInsideHysteresisBand",
+        "committedCPU12RawMaximumTriggersWhileEMAStillBelowThreshold"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-targeted.log",
+          "sha256": "50f23a85a945aaee0553f8e86089e38fd32b5a370d25563fbe3e6bdc5af330dd"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        }
+      ]
+    },
+    "interruption-and-time": {
+      "observed": "最终完整Core记录五档/换档、elapsed/墙钟、未知硬件更新时间、CPU成员失败/来源/Gap/过期/软件生命周期通过；#56修复后snapshot无需等待heldcommit，OptionalSleepAdmissionRace/WakeRecovery通过。",
+      "test_cases": [
+        "elapsedTimeWinsOverWallClockAndRepeatedOrOlderSamples",
+        "fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp",
+        "periodSwitchPreservesCandidateWithoutUsingSampleCount",
+        "oneFailedMemberInterruptsActiveWarningAndRestartsDuration",
+        "CPUDefinitionChangeEndsEventAndRequiresNewSeriesData",
+        "committedGapAndSleepInterruptButRejectedTransitionDoesNot",
+        "snapshotRefreshNeverTriggersOrRecoversAndStalenessOnlyInterrupts"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-targeted.log",
+          "sha256": "50f23a85a945aaee0553f8e86089e38fd32b5a370d25563fbe3e6bdc5af330dd"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-targeted.log",
+          "sha256": "e73274c9497fa5586b728406b25b61f9d6f3f25a7666658144482c2900ebe265"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-full-core-failed.log",
+          "sha256": "13e8e0c772d539dbbb381690fe79200edabb1efce6a57715c48627573b48231b"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-final-targeted.log",
+          "sha256": "96e4900d7e4276c64e6b95727b0f03ffca836c77819c6a95190bf8ab6b626d5e"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-fixed.log",
+          "sha256": "c4f18d8fc4b7fce2d95c2f0b28f1ca8b6ce9801b65fa460e63335a2ce9c0fa15"
+        }
+      ]
+    },
+    "receipt-and-replay": {
+      "observed": "最终完整Core记录提交失败/拒绝/重放不造事件、规则串行更新与heldcommit快照边界通过。独立无消费者TTL探针确认超期触发样本迟到提交时events=0、unableToAssess(stale)；3000ms边界可触发、3001/15000ms不可触发。",
+      "test_cases": [
+        "rejectedAndFailedReadCommitDoNotTriggerAndReplayDoesNotDuplicate",
+        "ruleChangeWaitsForInFlightCommitAndCannotBeOverwritten",
+        "heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot",
+        "snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-targeted.log",
+          "sha256": "50f23a85a945aaee0553f8e86089e38fd32b5a370d25563fbe3e6bdc5af330dd"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/affected-targeted.log",
+          "sha256": "00313d09bcf8035d0c8e1718a87310fc86ff502ae8a53b3a9752d22475a663c9"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-full-core-failed.log",
+          "sha256": "13e8e0c772d539dbbb381690fe79200edabb1efce6a57715c48627573b48231b"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-final-targeted.log",
+          "sha256": "96e4900d7e4276c64e6b95727b0f03ffca836c77819c6a95190bf8ab6b626d5e"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-fixed.log",
+          "sha256": "c4f18d8fc4b7fce2d95c2f0b28f1ca8b6ce9801b65fa460e63335a2ce9c0fa15"
+        }
+      ]
+    },
+    "rule-change": {
+      "observed": "最终完整Core记录ruleChanged/disabled独立结束、相同规则保持活跃及恢复候选、在途提交规则顺序、运行时与Presentation精确转发通过。",
+      "test_cases": [
+        "changedRuleAndDisableHaveDistinctEndReasons",
+        "identicalRulePreservesActiveEventAndRecoveryCandidate",
+        "runtimeRuleActionPublishesTheUpdatedWarningWithoutTemperatureIO",
+        "chartRebuildPreservesTheExactWarningBoundary"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-targeted.log",
+          "sha256": "50f23a85a945aaee0553f8e86089e38fd32b5a370d25563fbe3e6bdc5af330dd"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/affected-targeted.log",
+          "sha256": "00313d09bcf8035d0c8e1718a87310fc86ff502ae8a53b3a9752d22475a663c9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        }
+      ]
+    },
+    "events-bounded": {
+      "observed": "最终完整Core记录最近50唯一事件及淘汰旧事件不通过权限变化回放，预警与通知策略保持有界。",
+      "test_cases": [
+        "eventHistoryRetainsFiftyNewestEventsAndUniqueIdentity",
+        "evictedOldEventsCannotBeReplayedAfterManyEpisodes"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-targeted.log",
+          "sha256": "50f23a85a945aaee0553f8e86089e38fd32b5a370d25563fbe3e6bdc5af330dd"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-targeted.log",
+          "sha256": "e73274c9497fa5586b728406b25b61f9d6f3f25a7666658144482c2900ebe265"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        }
+      ]
+    },
+    "config-persistence": {
+      "observed": "最终完整Core记录仅四字段规则保存、跨Preferences实例读取、非法字段可见默认、整数时长、写入/读回失败状态通过；仅测试进程读取事实，不证明物理落盘或正式App重启验收。",
+      "test_cases": [
+        "savedRuleSurvivesNewPreferencesInstanceWithoutSessionState",
+        "invalidFieldsUseDefaultsWhileValidNotificationChoiceSurvives",
+        "durationRequiresAnIntegerWithinRange",
+        "malformedOrUnexpectedStoredValueReportsAnIssue",
+        "saveFailureAndReadbackMismatchAreVisible"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-targeted.log",
+          "sha256": "e73274c9497fa5586b728406b25b61f9d6f3f25a7666658144482c2900ebe265"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/affected-targeted.log",
+          "sha256": "00313d09bcf8035d0c8e1718a87310fc86ff502ae8a53b3a9752d22475a663c9"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        }
+      ]
+    },
+    "notification-policy": {
+      "observed": "最终完整Core记录去重/60秒elapsed冷却/晚授权、拒绝/失败可见、同会话pause/resume、挂起add取消和匹配session点击软件路由通过。#54独立复核adds=0；fake backend/策略结果不证明系统横幅或真实点击。",
+      "test_cases": [
+        "differentEventsRespectElapsedCooldownEvenWhenWallClockJumps",
+        "lateForeignEndedAndFutureEventsAreSuppressed",
+        "delayedAuthorizationCannotSendAnInvalidatedEvent",
+        "delayedAuthorizationStartsCooldownAtActualDeliveryAttempt",
+        "committedSoftwareSuspendInvalidatesPendingNotificationWithoutAnotherSnapshot",
+        "sameSessionResumePreservesCooldownAndConsumedEvents",
+        "suspendedAddIsCanceledEvenIfItReturnsAfterResume",
+        "notificationClickCanOnlyOpenTheRunningSession"
+      ],
+      "result": "passed",
+      "targeted_development_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-targeted.log",
+          "sha256": "e73274c9497fa5586b728406b25b61f9d6f3f25a7666658144482c2900ebe265"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue54-review-fixed-probe.log",
+          "sha256": "f3cc0b83cf12d3621db3ea1e8f1a947cfd4b6bb1cdae3f61b3fc85dfcc6e23cd"
+        }
+      ],
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+          "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue54-review-fixed-probe.log",
+          "sha256": "f3cc0b83cf12d3621db3ea1e8f1a947cfd4b6bb1cdae3f61b3fc85dfcc6e23cd"
+        }
+      ]
+    }
+  },
+  "full_core": {
+    "result": "passed",
+    "tests": 413,
+    "suites": 62,
+    "duration_seconds": 23.854,
+    "issues": 0,
+    "declared_command": "swift test --package-path Packages/TemperatureCore --no-parallel --enable-code-coverage",
+    "evidence": [
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+        "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-core-coverage.log",
+        "sha256": "2e0025cd76fddf01f1c4e45fd2fcd738ad94bb666ef6b2047c57ebfe9e0ce84b"
+      }
+    ]
+  },
+  "coverage_summary": "Core line coverage: 7426/8327 = 89.18%",
+  "coverage_note": "Sources/TemperatureCore and Sources/SensorRuntime production Swift; tests/App UI/C bridge/worker entry/CSQLite excluded by existing gate.",
+  "outstanding": [
+    "Root final formal Release CPU warning/notification observation and App/worker identity",
+    "Same PR head five required CI and final catalog binding/merge workflow"
+  ],
+  "scope_note": "Software behavior and coverage passed at source9583987. Old failures remain explicit; no formal hardware or notification banner/click result is declared.",
+  "date": "2026-10-14",
+  "initial_full_regression": {
+    "result": "failed",
+    "tests": 411,
+    "suites": 62,
+    "issues": 4,
+    "duration_seconds": 31.672,
+    "reason": "Real heldcommit/snapshot production boundary Issue56; preserved as failed, not relabeled flaky.",
+    "evidence": [
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-full-core-failed.log",
+        "sha256": "13e8e0c772d539dbbb381690fe79200edabb1efce6a57715c48627573b48231b"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-coverage-empty.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "additional_checks": [
+    {
+      "name": "api-typecheck",
+      "result": "passed",
+      "scope": "Standalone Swift6 contract typecheck only.",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-api-typecheck.json",
+          "sha256": "05dc771b8abb66e027445e3b67012f8bdb75d445011aab0d9bad1a134ce4c99c"
+        }
+      ]
+    },
+    {
+      "name": "documentation-gate",
+      "result": "passed",
+      "scope": "134REQ/13W/55T/21TC/revision4 structural handoff; no product qualification claim.",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-docs-gate.log",
+          "sha256": "9587c6c91e6ef3bcd130d2b202e61b4d8912f8d65d7070da938da23faebeb791"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-docs-negative-gate.log",
+          "sha256": "54215844b987312f5a23d4683ec2bc739cf10c7dd4ceb09e12a9f3ac748c025f"
+        }
+      ]
+    },
+    {
+      "name": "evidence-binding-tests",
+      "result": "passed",
+      "scope": "44 synthetic/provenance/real-old-report attack tests; no actual hardware execution.",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-evidence-binder-tests.log",
+          "sha256": "64b33cbbe33d4941f157f3c6f14b182709f25612678d5e90e5514fdeb1253e83"
+        }
+      ]
+    },
+    {
+      "name": "course-policy-tests",
+      "result": "passed",
+      "scope": "36 policy boundary tests; does not itself prove the five real course criteria.",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-course-policy-tests.log",
+          "sha256": "af6cfc01e55f1850a72505d042eedd88e2bd48c4fc6d7543f253efa1dcae858a"
+        }
+      ]
+    },
+    {
+      "name": "probe-unit-tests",
+      "result": "passed",
+      "scope": "8 prototype unit tests/1suite. Does not substitute production Core coverage or hardware.",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/probe-unit-eight.log",
+          "sha256": "e27e46f10f029346e1897fca96b74ea49a3637afa010b0dc32c6696cd576bba0"
+        }
+      ]
+    },
+    {
+      "name": "release-upstream-boundary",
+      "result": "passed",
+      "scope": "Observed scan passed for its then-current build path; final App identity remains root-owned.",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/release-upstream-boundary-observation.log",
+          "sha256": "516ba2c91aa2906730b7a3fe6080d137cc5275773438a17039e5bf230c8935d8"
+        }
+      ]
+    }
+  ]
+}

@@ -30,3 +30,7 @@ W00按文档基线、可信门禁、规则回读三个PR完成仓库引导。W01
 ## W12 CPU预警扩展
 
 保留原W00～W11/50任务，新增W12与T12.1～T12.5，共13工作包/55任务/21TC。按[专项设计](24-cpu-warning.md)和[实施计划](superpowers/plans/2026-10-14-cpu-warning.md)完成规则→提交→保存通知→UI→验证，文档成稿前不写生产。
+
+### W12已验证范围
+
+[源码9583987的新证据](validation/cpu-warning/2026-10-14-9583987/README.md)记录Core413项/62组和89.18%通过、正式Release预警短测通过、同次最终独立审查#54/#55/#56复核PASS及course-local五criterion通过。T12.1～T12.4实现与验证已完成；T12.5剩同head五CI/真实blocking/merge及交付回读。旧失败和31条strict pending保持，不提前声明合并或全132资格完成。

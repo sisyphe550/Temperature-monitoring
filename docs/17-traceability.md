@@ -132,7 +132,7 @@
 | REQ-122 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 本地验收通过 |
 | REQ-123 | 现行基线 | [07](07-native-ui.md) | W07 | TC-UI | 本地验收通过 |
 | REQ-124 | 现行基线 | [04](04-data-storage.md) | W03 | TC-STORAGE | 本地验收通过 |
-| REQ-125 | 现行基线 | [24](24-cpu-warning.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W12 | TC-WARNING/TC-UI/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-125 | 现行基线 | [24](24-cpu-warning.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W12 | TC-WARNING/TC-UI/TC-LIFECYCLE | 本地验收通过 |
 | REQ-126 | 现行基线 | [07](07-native-ui.md)、[13](13-operations-distribution.md) | W07/W08 | TC-UI/TC-LIFECYCLE | 本地验收通过 |
 | REQ-127 | 现行基线 | [13](13-operations-distribution.md) | W10 | TC-RELEASE | 已豁免（本地交付） |
 | REQ-128 | 现行基线 | [11](11-git-github-workflow.md) | W00 | TC-WORKFLOW | 本地验收通过 |
@@ -154,3 +154,7 @@
 ## REQ-125新增行为的证据边界
 
 2026-10-14以[24](24-cpu-warning.md)替代旧排除告警正文。仅该条旧结果从accepted转pending，因此现行逐REQ为99accepted/32pending/1waived/2retired；旧100/31历史记录不回写。新软件TC-WARNING、正式App设置/状态短测和实际通知限制须另存，不能用旧源码无通知API的证据验收。
+
+## W12当前验收状态（2026-10-14，源码9583987）
+
+上方新增行为pending段描述开发初期重置旧REQ-125证据的阶段。本轮已用[新软件与正式Release短测证据](validation/cpu-warning/2026-10-14-9583987/README.md)验收REQ-125；binder生成的映射为当前结果。当前100accepted/31pending/1waived/2retired，course-local五criterion通过，未声称全132条strict资格通过。Core413项/62组、覆盖89.18%，同次最终独立审查#54/#55/#56复核PASS；同head CI和merge仍待回读。通知横幅与真实点击未观察，不作为已发生事实。

@@ -164,7 +164,9 @@
       ],
       "evidence": [
         "course-final-core",
-        "course-final-formal-app"
+        "course-final-formal-app",
+        "cpu-warning-formal-app",
+        "cpu-warning-software"
       ]
     },
     {
@@ -195,7 +197,8 @@
       ],
       "evidence": [
         "course-final-formal-app",
-        "sigpipe-final-formal-short"
+        "sigpipe-final-formal-short",
+        "cpu-warning-formal-app"
       ]
     },
     {
@@ -213,7 +216,8 @@
         "formal-app-hardware"
       ],
       "evidence": [
-        "course-final-formal-app"
+        "course-final-formal-app",
+        "cpu-warning-formal-app"
       ]
     },
     {
@@ -250,7 +254,8 @@
         "software"
       ],
       "evidence": [
-        "course-final-core"
+        "course-final-core",
+        "cpu-warning-software"
       ]
     },
     {
@@ -268,7 +273,7 @@
         "software"
       ],
       "evidence": [
-        "course-final-core"
+        "cpu-warning-software"
       ]
     }
   ]

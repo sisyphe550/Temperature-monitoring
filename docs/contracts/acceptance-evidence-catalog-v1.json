@@ -2,7 +2,7 @@
   "version": 2,
   "date": "2026-10-14",
   "contract_revision": 4,
-  "delivery_commit": "5984b9e869467218e117976df7d7a320121b14d5",
+  "delivery_commit": "958398772918c3cf61cf5eb552bb24759197b755",
   "artifacts": {
     "core-regression": {
       "path": "docs/validation/product-fixes/2026-10-03-651b29e/logs/full-core.log",
@@ -538,6 +538,66 @@
         "TC-SENSOR",
         "TC-UI",
         "TC-LIFECYCLE",
+        "TC-SCHEDULE",
+        "TC-HISTORY"
+      ]
+    },
+    "cpu-warning-software": {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/software.json",
+      "sha256": "384f4f5cb0157fd762d85fb3cbf598b2802a7e4e45272f8c875fe2be065a3a28",
+      "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+      "kind": "software",
+      "result": "passed",
+      "environment": {
+        "execution": "software-tests",
+        "os_version": "15.7.3",
+        "os_build": "24G419",
+        "architecture": "arm64",
+        "swift_version": "Apple Swift 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)",
+        "xcode_version": "26.3 (17C529)",
+        "scope": "Swift Testing with TestClock/mock sensor and notification backend; isolated UserDefaults. No hardware qualification claim."
+      },
+      "scope": [
+        "413 tests/62 suites完整Core及89.18%既有分母覆盖；7CPU预警软件cases，不证明硬件或横幅"
+      ],
+      "tc_groups": [
+        "TC-WARNING",
+        "TC-LIFECYCLE",
+        "TC-UI",
+        "TC-STORAGE",
+        "TC-SENSOR",
+        "TC-ERROR",
+        "TC-VALIDATE",
+        "TC-UPSTREAM-BOUNDARY",
+        "TC-DOCS"
+      ]
+    },
+    "cpu-warning-formal-app": {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/formal-app-short.json",
+      "sha256": "5fcb7a0af3f577b051b1fb9a49b76754d1c4fae985c875a0fa92fdb0f4b2da77",
+      "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+      "kind": "formal-app-hardware",
+      "result": "passed",
+      "environment": {
+        "execution": "formal-release-app",
+        "build_configuration": "Release",
+        "fixture": false,
+        "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+        "app_sha256": "1f3300a8ae5a73047b546533bb9ab70cd0a4ec30828a7f767ed8e78b34f56c88",
+        "worker_sha256": "e02cfab86922dbac0a9484ca0b9a7d3fcd4370e6b21d889f2c928d86bda908cc",
+        "model": "Mac16,13",
+        "os_build": "24G419",
+        "os_version": "15.7.3",
+        "observation": "Native CUA AX + scoped process and UserNotifications system logs"
+      },
+      "scope": [
+        "Mac16,13/15.7.3正式Release无fixture，真实CPU预警及核心短测；通知API已接受，横幅/点击未观察"
+      ],
+      "tc_groups": [
+        "TC-WARNING",
+        "TC-UI",
+        "TC-LIFECYCLE",
+        "TC-SENSOR",
         "TC-SCHEDULE",
         "TC-HISTORY"
       ]
@@ -2852,18 +2912,21 @@
       ]
     },
     "REQ-125": {
-      "verification": "pending-product-acceptance",
-      "covered_cases": [],
-      "outstanding": [
-        "TC-WARNING纯规则/Receipt/偏好/通知完整软件回归尚未执行",
-        "修订4正式App设置、正常温度单一预警状态及同会话短测尚未执行"
+      "verification": "product-accepted-local",
+      "covered_cases": [
+        "software:cpu-warning#trigger-recovery/interruption-and-time/receipt-and-replay/rule-change/events-bounded/config-persistence/notification-policy",
+        "formal-release:cpu-warning#real-cpu/trigger/ruleChanged/close-reopen/quit/preferences/notification-api-accepted"
       ],
-      "reason": "REQ-125已从排除告警改为CPU预警；旧无告警源码和设置证据不适用，新行为未测保持pending。",
+      "outstanding": [],
+      "reason": "本机预警核心及7软件/7正式App cases已验证；自然恢复由软件覆盖，系统横幅/真实点击未观察，不宣称跨机或公开发行。",
       "required_evidence_kinds": [
         "software",
         "formal-app-hardware"
       ],
-      "evidence": []
+      "evidence": [
+        "cpu-warning-software",
+        "cpu-warning-formal-app"
+      ]
     },
     "REQ-126": {
       "verification": "product-accepted-local",

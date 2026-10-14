@@ -40,4 +40,8 @@
 
 ## 不作为待实现功能
 
-逐物理核温度、物理Package精确映射、全芯片绝对热点、外部/任意SSD、硬件20Hz刷新保证、±0.1°C准确度、root修复权限、HID同名自动合并、未知IORegistry单位猜测、任意历史区间、自动更新及自启动均不进入任务清单。CPU预警按[24](24-cpu-warning.md)进入W12，验收pending。
+逐物理核温度、物理Package精确映射、全芯片绝对热点、外部/任意SSD、硬件20Hz刷新保证、±0.1°C准确度、root修复权限、HID同名自动合并、未知IORegistry单位猜测、任意历史区间、自动更新及自启动均不进入任务清单。CPU预警按[24](24-cpu-warning.md)已完成W12实现、软件与本机正式短测；同head CI和合并仍待回读。
+
+## W12剩余流程
+
+[当前证据](validation/cpu-warning/2026-10-14-9583987/README.md)已记录Core413/62、89.18%、正式预警短测及同次最终审查#54/#55/#56复核PASS，course-local五criterion通过。待执行仅同PR head五CI、真实blocking与merge/交付回读；不因31项strict pending继续可选长测。通知横幅和真实点击未观察的边界保留，不把API接受等同用户看见。
