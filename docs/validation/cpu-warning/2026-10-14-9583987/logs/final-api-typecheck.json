@@ -1,0 +1,17 @@
+{
+  "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+  "command": [
+    "swiftc",
+    "-swift-version",
+    "6",
+    "-module-cache-path",
+    "/private/tmp/cpu-warning-final-contract-cache",
+    "-typecheck",
+    "docs/contracts/api-v1.swift"
+  ],
+  "input": "docs/contracts/api-v1.swift",
+  "exit_code": 0,
+  "stdout": "",
+  "stderr": "",
+  "scope": "Standalone contract typecheck only, no hardware or App acceptance."
+}

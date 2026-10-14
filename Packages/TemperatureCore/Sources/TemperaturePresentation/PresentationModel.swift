@@ -43,7 +43,8 @@ public final class PresentationModel {
                     cpuPeriodMS: running.cpuPeriodMS,
                     primaryCPU: running.primaryCPU,
                     sections: running.sections,
-                    chart: chartState
+                    chart: chartState,
+                    warning: running.warning
                 )
             )
         }
@@ -98,7 +99,8 @@ public final class PresentationModel {
                 cpuPeriodMS: running.cpuPeriodMS,
                 primaryCPU: running.primaryCPU,
                 sections: running.sections,
-                chart: chartState
+                chart: chartState,
+                warning: running.warning
             )
         )
     }
@@ -111,7 +113,8 @@ public final class PresentationModel {
             cpuPeriodMS: snapshot.cpuPeriodMS,
             primaryCPU: primaryCPU,
             sections: sections,
-            chart: chartState
+            chart: chartState,
+            warning: snapshot.warning
         )
     }
 

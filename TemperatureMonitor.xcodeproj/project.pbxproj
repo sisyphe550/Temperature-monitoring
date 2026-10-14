@@ -34,6 +34,8 @@
 		A10000000000000000000099 /* TemperatureCore in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000081 /* TemperatureCore */; };
 		A1000000000000000000009A /* SensorRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000082 /* SensorRuntime */; };
 		A1000000000000000000009B /* TemperaturePresentation in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000083 /* TemperaturePresentation */; };
+		C100000000000000000000A1 /* CPUWarningNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000001 /* CPUWarningNotificationController.swift */; };
+		C100000000000000000000A2 /* CPUWarningViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000002 /* CPUWarningViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		A10000000000000000000020 /* TemperatureMonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureMonitorUITests.swift; sourceTree = "<group>"; };
 		A10000000000000000000050 /* TemperatureMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemperatureMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000051 /* TemperatureMonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemperatureMonitorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C10000000000000000000001 /* CPUWarningNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUWarningNotificationController.swift; sourceTree = "<group>"; };
+		C10000000000000000000002 /* CPUWarningViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUWarningViews.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +140,7 @@
 				A10000000000000000000014 /* AppDelegate.swift */,
 				A10000000000000000000022 /* AppBundleConfiguration.swift */,
 				A10000000000000000000023 /* AppSessionRuntime.swift */,
+				C10000000000000000000001 /* CPUWarningNotificationController.swift */,
 				A10000000000000000000011 /* SessionCoordinator.swift */,
 				A10000000000000000000008 /* Resources */,
 				A10000000000000000000007 /* Presentation */,
@@ -168,6 +173,7 @@
 				A1000000000000000000001B /* DashboardWindowController.swift */,
 				A1000000000000000000001C /* TemperatureDashboard.swift */,
 				A1000000000000000000001D /* SettingsView.swift */,
+				C10000000000000000000002 /* CPUWarningViews.swift */,
 				A1000000000000000000001E /* HistoryChartModel.swift */,
 				A1000000000000000000001F /* HistoryChartView.swift */,
 				A10000000000000000000021 /* FatalView.swift */,
@@ -292,6 +298,8 @@
 				A100000000000000000000A2 /* DashboardWindowController.swift in Sources */,
 				A100000000000000000000A3 /* TemperatureDashboard.swift in Sources */,
 				A100000000000000000000A4 /* SettingsView.swift in Sources */,
+				C100000000000000000000A2 /* CPUWarningViews.swift in Sources */,
+				C100000000000000000000A1 /* CPUWarningNotificationController.swift in Sources */,
 				A100000000000000000000A5 /* HistoryChartModel.swift in Sources */,
 				A100000000000000000000A6 /* HistoryChartView.swift in Sources */,
 				A100000000000000000000A7 /* FatalView.swift in Sources */,

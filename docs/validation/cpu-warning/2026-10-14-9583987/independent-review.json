@@ -1,0 +1,122 @@
+{
+  "feature": "cpu-warning",
+  "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+  "result": "passed",
+  "review_rounds": {
+    "initial_full_independent_review": 1,
+    "targeted_fix_recheck": "Issues54/55/56 completed within the same final review",
+    "additional_full_review": 0
+  },
+  "initial_findings": [
+    {
+      "priority": "P2",
+      "issue": "https://github.com/sisyphe550/Temperature-monitoring/issues/54",
+      "description": "Committed software sleep interrupted engine warning but pending notification authorization could add once; same-session lifecycle forwarding missing.",
+      "reproduction": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue54-review-reproduction.log",
+          "sha256": "6062456acae843f086f9e7f01ac15ec42f704ac4aaa25d6aa9df5188da45431a"
+        }
+      ],
+      "targeted_fix_observation": "Independent fixed probe records zero adds after interruption and zero adds after same-session resume without a new snapshot.",
+      "recheck_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue54-review-fixed-probe.log",
+          "sha256": "f3cc0b83cf12d3621db3ea1e8f1a947cfd4b6bb1cdae3f61b3fc85dfcc6e23cd"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-targeted.log",
+          "sha256": "e73274c9497fa5586b728406b25b61f9d6f3f25a7666658144482c2900ebe265"
+        }
+      ]
+    },
+    {
+      "priority": "P2",
+      "issue": "https://github.com/sisyphe550/Temperature-monitoring/issues/55",
+      "description": "Historical hashed reports could be relabeled TC-WARNING to satisfy new REQ125 without new warning payload.",
+      "reproduction": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-review-reproduction.log",
+          "sha256": "dd179ab3e747c3df3df4260e462ed527443813fa2e93aebe0778272836cd87bb"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-binder-red.log",
+          "sha256": "7eae0ac7c858e4db758c5563da35fba82e6ad29ee30767b2152d5ebdbcac4cc5"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-course-red.log",
+          "sha256": "ab9a3323e164e077bd3eb769829aa346f76ca7e31d05e6c593d6046d4577e07d"
+        }
+      ],
+      "targeted_fix_observation": "Typed warning payload/original hashes/source version checks reject metadata attack; binder44/course36 logs pass.",
+      "recheck_evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-binder-targeted.log",
+          "sha256": "30eb600ba45456c064d3c9a1edce781eade1eddf0c146051316e9c7db0468b00"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-course-targeted.log",
+          "sha256": "f1c8eca06e58fffffa3345c286be78ead1e54b8999cd2671b1ab543b0392c2ef"
+        }
+      ]
+    }
+  ],
+  "completed_recheck_decision": {
+    "decision": "同一次最终审查PASS；54/55/56已修复并复核，未发现新增P1/P2。",
+    "provenance": "Verbatim original reviewer final message preserved by root",
+    "evidence": [
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/independent-review-original.md",
+        "sha256": "de0873d686075a3dc14d9f8f4497b66fab30942d85a9c218827d9e3dadeede81"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-fixed.log",
+        "sha256": "c4f18d8fc4b7fce2d95c2f0b28f1ca8b6ce9801b65fa460e63335a2ce9c0fa15"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-final-targeted.log",
+        "sha256": "96e4900d7e4276c64e6b95727b0f03ffca836c77819c6a95190bf8ab6b626d5e"
+      }
+    ]
+  },
+  "additional_full_regression_finding": {
+    "issue": "https://github.com/sisyphe550/Temperature-monitoring/issues/56",
+    "result": "fixed-and-independently-rechecked",
+    "observed": "Snapshot heldcommit等待解除；匹配Receipt后重新检查CPU样本TTL，过期样本不触发或复活旧事件。",
+    "reproduction": [
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-full-core-failed.log",
+        "sha256": "13e8e0c772d539dbbb381690fe79200edabb1efce6a57715c48627573b48231b"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-snapshot-block-red.log",
+        "sha256": "2ec98d4201dfe24ca04dcfdd651a515f3407d38bb8b3d1b9e5c043cfe16e5f6f"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-expiry-revival-red.log",
+        "sha256": "1e1c03d109361fd90fbd502e8c99cdbe554d719173b1967324a264dc77e3b0e3"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-held-trigger-ttl-red.log",
+        "sha256": "56e9451b633ea2ab172502e50c1a6a960d68769ab0832df816201dc672b1297e"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-red.log",
+        "sha256": "49cdb887ff31367285d4a935d91369fc584ac04e15dfee5f7b8065deb292bff7"
+      }
+    ],
+    "evidence": [
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-final-targeted.log",
+        "sha256": "96e4900d7e4276c64e6b95727b0f03ffca836c77819c6a95190bf8ab6b626d5e"
+      },
+      {
+        "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-fixed.log",
+        "sha256": "c4f18d8fc4b7fce2d95c2f0b28f1ca8b6ce9801b65fa460e63335a2ce9c0fa15"
+      }
+    ]
+  },
+  "limitation": "Independent software/implementation review passed at source9583987. Formal App/hardware and same-head CI remain separately verified by root; review did not duplicate fullCore.",
+  "contract_version": 4,
+  "reviewer": "/root/warning_final_review"
+}

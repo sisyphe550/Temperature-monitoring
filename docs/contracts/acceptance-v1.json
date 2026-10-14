@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "date": "2026-10-02",
+  "date": "2026-10-14",
   "requirements": [
     {
       "id": "REQ-001",
@@ -13638,85 +13638,94 @@
       "id": "REQ-125",
       "status": "active",
       "design": [
+        "24-cpu-warning.md",
         "07-native-ui.md",
-        "13-operations-distribution.md"
+        "21-implementation-contracts.md"
       ],
       "tasks": [
-        "W07",
-        "W08"
+        "W12"
       ],
       "tests": [
+        "TC-WARNING",
         "TC-UI",
         "TC-LIFECYCLE"
       ],
-      "body_sha256": "2964ede59e39c1acef59ea22e8575839d9d430e4f8331d783a42fc6dd59665ae",
+      "body_sha256": "70c386ac88a20368961bd560546e1069c819547e1910c04d5f0b155db6956229",
       "verification": "product-accepted-local",
       "evidence": [
         {
-          "path": "docs/validation/product-fixes/2026-10-02-a97fd5a/logs/ui-fixtures.log",
-          "sha256": "9a2d3deb9dd3e60b19b0f176178baa4743a75ed43b915d744c46b1d815aeb813",
-          "source_commit": "a97fd5a8d6ec53c957be7b05de2a3803e24effc2",
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/software.json",
+          "sha256": "384f4f5cb0157fd762d85fb3cbf598b2802a7e4e45272f8c875fe2be065a3a28",
+          "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
           "kind": "software",
           "result": "passed",
           "environment": {
-            "actual_machine": "Mac16,13",
-            "actual_OS": "15.7.3/24G419",
-            "context": "frozen historical artifact; per-REQ bounds remain explicit"
+            "execution": "software-tests",
+            "os_version": "15.7.3",
+            "os_build": "24G419",
+            "architecture": "arm64",
+            "swift_version": "Apple Swift 6.2.4 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)",
+            "xcode_version": "26.3 (17C529)",
+            "scope": "Swift Testing with TestClock/mock sensor and notification backend; isolated UserDefaults. No hardware qualification claim."
           },
           "scope": [
-            "Debug fixture实际执行16项PASS；2项条件SKIP排除；不计正式App硬件资格"
+            "413 tests/62 suites完整Core及89.18%既有分母覆盖；7CPU预警软件cases，不证明硬件或横幅"
           ],
           "tc_groups": [
-            "TC-ERROR",
-            "TC-HISTORY",
+            "TC-WARNING",
             "TC-LIFECYCLE",
-            "TC-PLATFORM",
-            "TC-SCHEDULE",
-            "TC-SENSOR",
             "TC-UI",
+            "TC-STORAGE",
+            "TC-SENSOR",
+            "TC-ERROR",
+            "TC-VALIDATE",
             "TC-UPSTREAM-BOUNDARY",
-            "TC-WORKFLOW"
+            "TC-DOCS"
           ],
-          "artifact_id": "ui-fixtures"
+          "artifact_id": "cpu-warning-software"
         },
         {
-          "path": "docs/validation/product-software/W11/2026-10-03-403d44b/independent-requirement-review.json",
-          "sha256": "40e95728a5c90a67421d3b92bf0718e50ed3254fd40356251fb8de0e21621747",
-          "source_commit": "403d44bab8f972461973c5a91699865b15515be2",
-          "kind": "software",
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/formal-app-short.json",
+          "sha256": "5fcb7a0af3f577b051b1fb9a49b76754d1c4fae985c875a0fa92fdb0f4b2da77",
+          "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+          "kind": "formal-app-hardware",
           "result": "passed",
           "environment": {
-            "actual_machine": "Mac16,13",
-            "actual_OS": "15.7.3/24G419",
-            "context": "frozen historical artifact; per-REQ bounds remain explicit"
+            "execution": "formal-release-app",
+            "build_configuration": "Release",
+            "fixture": false,
+            "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+            "app_sha256": "1f3300a8ae5a73047b546533bb9ab70cd0a4ec30828a7f767ed8e78b34f56c88",
+            "worker_sha256": "e02cfab86922dbac0a9484ca0b9a7d3fcd4370e6b21d889f2c928d86bda908cc",
+            "model": "Mac16,13",
+            "os_build": "24G419",
+            "os_version": "15.7.3",
+            "observation": "Native CUA AX + scoped process and UserNotifications system logs"
           },
           "scope": [
-            "独立逐REQ源码/日志核对；scope内声明未重跑App/测试，不代替正式实机"
+            "Mac16,13/15.7.3正式Release无fixture，真实CPU预警及核心短测；通知API已接受，横幅/点击未观察"
           ],
           "tc_groups": [
-            "TC-DOCS",
-            "TC-HISTORY",
-            "TC-LIFECYCLE",
-            "TC-PLATFORM",
-            "TC-RETENTION",
-            "TC-SCHEDULE",
-            "TC-SENSOR",
+            "TC-WARNING",
             "TC-UI",
-            "TC-UPSTREAM-BOUNDARY",
-            "TC-WORKFLOW"
+            "TC-LIFECYCLE",
+            "TC-SENSOR",
+            "TC-SCHEDULE",
+            "TC-HISTORY"
           ],
-          "artifact_id": "source-audit"
+          "artifact_id": "cpu-warning-formal-app"
         }
       ],
       "acceptance_notes": {
         "covered_cases": [
-          "software-source-audit:403d44b#App+Core生产源码未使用UNUserNotificationCenter/NSUserNotification高温报警入口；设置无高温告警功能",
-          "software-fixture:UITests/TemperatureMonitorUITests.swift#testSettingsHasDiagnosticsAndLicenseEntries()"
+          "software:cpu-warning#trigger-recovery/interruption-and-time/receipt-and-replay/rule-change/events-bounded/config-persistence/notification-policy",
+          "formal-release:cpu-warning#real-cpu/trigger/ruleChanged/close-reopen/quit/preferences/notification-api-accepted"
         ],
         "outstanding": [],
-        "reason": "排除项可由当前生产源码/设置入口静态核对，不需人为制造高温；仅限本轮已审源码。",
+        "reason": "本机预警核心及7软件/7正式App cases已验证；自然恢复由软件覆盖，系统横幅/真实点击未观察，不宣称跨机或公开发行。",
         "required_evidence_kinds": [
-          "software"
+          "software",
+          "formal-app-hardware"
         ]
       }
     },
@@ -14533,5 +14542,5 @@
       }
     }
   ],
-  "contract_revision": 3
+  "contract_revision": 4
 }

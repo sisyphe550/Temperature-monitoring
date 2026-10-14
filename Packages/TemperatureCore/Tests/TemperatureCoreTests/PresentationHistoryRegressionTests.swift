@@ -101,7 +101,7 @@ import Testing
                 timestamp: observed, valueC: 31), lastSuccessfulAt: observed, lastFailure: failure))
         let model = PresentationModel(primaryCPUMetricID: try MetricID(validating: "cpu.zone.max"))
         model.apply(snapshot: Snapshot(asOf: Timestamp(elapsedNS: 2_500_000_000,
-            wallUnixNS: 1_700_000_002_500_000_000), values: [value], gapIDs: [], cpuPeriodMS: 50, generation: 1))
+            wallUnixNS: 1_700_000_002_500_000_000), values: [value], gapIDs: [], cpuPeriodMS: 50, generation: 1, warning: try testWarningSnapshot()))
         guard case let .running(running) = model.state,
               let row = running.sections.first?.rows.first else { Issue.record("Missing battery"); return }
         guard case let .cached(valueC, _, reason) = row.value else { Issue.record("Battery expired before its third period"); return }

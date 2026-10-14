@@ -1,0 +1,129 @@
+{
+  "contract_version": 4,
+  "feature": "cpu-warning",
+  "kind": "formal-app-hardware",
+  "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+  "result": "passed",
+  "environment": {
+    "execution": "formal-release-app",
+    "build_configuration": "Release",
+    "fixture": false,
+    "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+    "app_sha256": "1f3300a8ae5a73047b546533bb9ab70cd0a4ec30828a7f767ed8e78b34f56c88",
+    "worker_sha256": "e02cfab86922dbac0a9484ca0b9a7d3fcd4370e6b21d889f2c928d86bda908cc",
+    "model": "Mac16,13",
+    "os_build": "24G419",
+    "os_version": "15.7.3",
+    "observation": "Native CUA AX + scoped process and UserNotifications system logs"
+  },
+  "warning_cases": {
+    "real-cpu": {
+      "observed": "真实Release进程显示CPU12固定键及°C。20:12:30 CPU最高EMA47.4°C，后续真实读取持续变化；启动无值时显示—而非0。Freshness未知明确为测量更新时间未知。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-native-observations.json",
+          "sha256": "69b4662a2db73dd1ebbc5a460892e205a1b1d34787a4e35816d12d6ebac26b94"
+        }
+      ],
+      "result": "passed"
+    },
+    "cpu-warning-trigger": {
+      "observed": "35°C/5秒实际规则；20:12:47显示已观察4秒且事件0，20:12:48触发，随后Raw峰值56.9°C、事件1。降低用户阈值演示，未使用fixture或施加过热压力。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-native-observations.json",
+          "sha256": "69b4662a2db73dd1ebbc5a460892e205a1b1d34787a4e35816d12d6ebac26b94"
+        }
+      ],
+      "result": "passed"
+    },
+    "rule-change-not-recovered": {
+      "observed": "20:14:28恢复90°C阈值，旧35°C事件保留且结束为规则变更；没有标为温度恢复。真实自然恢复未观察，恢复算法由软件测试验证。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-native-observations.json",
+          "sha256": "69b4662a2db73dd1ebbc5a460892e205a1b1d34787a4e35816d12d6ebac26b94"
+        }
+      ],
+      "result": "passed"
+    },
+    "close-reopen": {
+      "observed": "刷新AX后点击close85，读取进程时仍同App46134/Worker46135；显式getApp重开后CPU读取时间前进、同20:12:48事件且count1。五档短切换和24小时范围历史比较未改变预警事件；范围选择不表示积累24小时实测。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-native-observations.json",
+          "sha256": "69b4662a2db73dd1ebbc5a460892e205a1b1d34787a4e35816d12d6ebac26b94"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-resources-closed.log",
+          "sha256": "ab5453bfcb5138e50515781737dbf17833999f1ec9d3866388f9fb09e7314cf3"
+        }
+      ],
+      "result": "passed"
+    },
+    "quit": {
+      "observed": "通过正式App退出按钮结束两次会话；只读进程清单App/Worker均为空，无孤儿采集进程。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-quit-first.json",
+          "sha256": "0b66225c6f15ee686435c062603029622a856e7687e4dfcef40c302d4d4283be"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-quit-final.json",
+          "sha256": "9d259f34b8db787d4b0e1bf820368af0f34b012ce5bcbc1e3300e3b04fb87677"
+        }
+      ],
+      "result": "passed"
+    },
+    "config-persistence": {
+      "observed": "真实进程重启后四字段enabled=true/90°C/5秒/notification=true保持，events=0且重新读取真实值。4°C输入拒绝且原90°C规则保留。最终恢复90°C/5秒/通知off、周期200ms并保存。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-native-observations.json",
+          "sha256": "69b4662a2db73dd1ebbc5a460892e205a1b1d34787a4e35816d12d6ebac26b94"
+        }
+      ],
+      "result": "passed"
+    },
+    "notification-handler": {
+      "observed": "正式App设置显示系统通知已允许；20:12:48.465系统日志Added notification request hasError0，证明普通UN适配器请求被接受。实际横幅/通知点击未观察；点击路由、拒绝/失败与取消由软件测试覆盖，不把API接受当横幅已达。",
+      "evidence": [
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-native-observations.json",
+          "sha256": "69b4662a2db73dd1ebbc5a460892e205a1b1d34787a4e35816d12d6ebac26b94"
+        },
+        {
+          "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/formal-notification-system.log",
+          "sha256": "ab67357d6a29acd3bb605b9823061e2e7fd8ab0d577e644fb13c3475ee8a2259"
+        }
+      ],
+      "authorization": "authorized",
+      "adapter_request": "request-accepted",
+      "observed_banner": false,
+      "notification_click": false,
+      "sampling_continued": true,
+      "status_visible": true,
+      "result": "passed"
+    }
+  },
+  "additional_core_checks": {
+    "sampling": "50/100/200/500/1000ms可切换，实际读取继续，200ms已恢复",
+    "history": "CPU+SSD的24h筛选范围可加载并显示已记录Raw峰值",
+    "invalid_rule": "4°C rejected without changing current90°C rule",
+    "resources": "本次约3分钟+约1分钟两会话可响应；App约112–175MB RSS，Worker约8–11MB。启动填充可增长；短测不证明长时资源曲线。原五分钟资源证据保留，软件有界容量测试通过。"
+  },
+  "not_accepted_this_round": [
+    "真实系统睡眠",
+    "72小时耐久",
+    "五档各10分钟",
+    "公开发行/公证",
+    "跨机型认证",
+    "精确p95/p99/skipped/首帧/显示延迟"
+  ],
+  "not_observed": [
+    "自然温度恢复",
+    "系统横幅实际显示",
+    "通知实际点击"
+  ],
+  "ui_automation_note": "XCTest构建后Timed out while enabling automation mode，未运行业务断言；原断言保留。正式产品UI功能通过nativeCUA检查，不把XCTest标为PASS。"
+}

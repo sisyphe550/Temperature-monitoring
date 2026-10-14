@@ -1,0 +1,47 @@
+Building for debugging...
+[0/13] /Users/sisyphus/.codex/worktrees/cpu-warning/Temperature runner.swift
+[1/13] Write sources
+[2/13] Write sensor-probe-entitlement.plist
+[3/13] Write sources
+[6/13] Write swift-version--58304C5D6DBC2206.txt
+[7/15] Compiling SensorBridge SensorBridge.c
+[9/15] Emitting module ProbeCore
+[10/15] Compiling ProbeCore ProbeCore.swift
+[11/20] Emitting module SensorProbe
+[12/20] Compiling SensorProbe main.swift
+[13/20] Compiling SensorProbe Hardware.swift
+[13/20] Write Objects.LinkFileList
+[14/20] Linking sensor-probe
+[15/20] Applying sensor-probe
+[17/20] Emitting module ProbeCoreTests
+[18/20] Compiling ProbeCoreTests ProbeCoreTests.swift
+[19/22] Emitting module SensorProbePackageTests
+[20/22] Compiling SensorProbePackageTests runner.swift
+[20/22] Write Objects.LinkFileList
+[21/22] Linking SensorProbePackageTests
+Build complete! (3.95s)
+Test Suite 'All tests' started at 2026-10-14 20:09:52.215.
+Test Suite 'All tests' passed at 2026-10-14 20:09:52.217.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite ProbeCoreTests started.
+◇ Test testOptionsRejectUnboundedOrAmbiguousRuns() started.
+◇ Test testNVMeKelvinConversionAndMissingValue() started.
+◇ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() started.
+◇ Test testSMCDecodesFloatAndSignedFixedPoint() started.
+◇ Test testMalformedAndNonFiniteSMCValuesHaveNoTemperature() started.
+◇ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() started.
+◇ Test testCSVPreservesCommasQuotesAndNewlines() started.
+◇ Test testOptionsApplyDefaultsAndAllFiveIntervals() started.
+✔ Test testMalformedAndNonFiniteSMCValuesHaveNoTemperature() passed after 0.001 seconds.
+✔ Test testScheduleSkipsElapsedSlotsWithoutCatchupOrDrift() passed after 0.001 seconds.
+✔ Test testSMCDecodesFloatAndSignedFixedPoint() passed after 0.001 seconds.
+✔ Test testZeroAndRepeatedFiniteReadingsAreNotDiscarded() passed after 0.001 seconds.
+✔ Test testCSVPreservesCommasQuotesAndNewlines() passed after 0.001 seconds.
+✔ Test testOptionsApplyDefaultsAndAllFiveIntervals() passed after 0.001 seconds.
+✔ Test testNVMeKelvinConversionAndMissingValue() passed after 0.001 seconds.
+✔ Test testOptionsRejectUnboundedOrAmbiguousRuns() passed after 0.001 seconds.
+✔ Suite ProbeCoreTests passed after 0.001 seconds.
+✔ Test run with 8 tests in 1 suite passed after 0.001 seconds.

@@ -1,5 +1,5 @@
 {
-  "contract_version": 3,
+  "contract_version": 4,
   "minimum_macos": "15.7.3",
   "product": "TemperatureMonitor",
   "bundle_id": "io.github.sisyphe550.TemperatureMonitor",
@@ -101,5 +101,19 @@
   "cpu_max_batch_span_ms": 200,
   "writer_reserve_records_per_event": 512,
   "writer_max_payload_bytes": 33554432,
-  "discovery_max_sources": 256
+  "discovery_max_sources": 256,
+  "cpu_warning": {
+    "enabled": true,
+    "threshold_c": 90.0,
+    "duration_seconds": 5,
+    "system_notifications_enabled": false,
+    "threshold_min_c": 5.0,
+    "threshold_max_c": 120.0,
+    "duration_min_seconds": 1,
+    "duration_max_seconds": 300,
+    "recovery_hysteresis_c": 5.0,
+    "recovery_duration_seconds": 10,
+    "notification_cooldown_seconds": 60,
+    "event_limit": 50
+  }
 }

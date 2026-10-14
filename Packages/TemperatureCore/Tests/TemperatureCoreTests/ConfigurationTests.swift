@@ -3,15 +3,57 @@ import Testing
 @testable import TemperatureCore
 
 @Suite struct ConfigurationTests {
-    @Test func bundledRevisionThreeDefaultsLoad() throws {
+    @Test func bundledRevisionFourDefaultsLoad() throws {
         let configuration = try Configuration.bundledDefaults()
-        #expect(configuration.contractVersion == 3)
+        #expect(configuration.contractVersion == 4)
         #expect(configuration.cpuIntervalsMS == [50, 100, 200, 500, 1000])
         #expect(configuration.cpuDefaultMS == 200)
         #expect(configuration.emaTauSeconds.cpuMain > 0)
         #expect(configuration.writerResumeBelowRecords < configuration.writerPauseAtRecords)
         #expect(configuration.writerPauseAtRecords < configuration.writerMaxRecords)
         #expect(configuration.writerReserveRecordsPerEvent <= configuration.writerFlushRecords)
+    }
+
+    @Test func bundledCPUWarningDefaultsAndRuleAreFrozen() throws {
+        let configuration = try Configuration.bundledDefaults()
+        let defaults = configuration.cpuWarning
+        let rule = try configuration.cpuWarningRule
+        #expect(rule.enabled)
+        #expect(rule.thresholdC == 90)
+        #expect(rule.durationSeconds == 5)
+        #expect(!rule.systemNotificationsEnabled)
+        #expect(defaults.recoveryHysteresisC == 5)
+        #expect(defaults.recoveryDurationSeconds == 10)
+        #expect(defaults.notificationCooldownSeconds == 60)
+        #expect(defaults.eventLimit == 50)
+    }
+
+    @Test func rejectsRevisionThreeWithoutWarningContract() throws {
+        let json = try mutatedDefaults { $0["contract_version"] = NSNumber(value: 3) }
+        #expect(throws: ConfigurationError.unsupportedContractVersion(3)) {
+            _ = try Configuration.decodeConfiguration(json)
+        }
+    }
+
+    @Test func rejectsInvalidWarningDurationAndPolicyBounds() throws {
+        for (key, value) in [("threshold_c", 4), ("duration_seconds", 0), ("event_limit", 0),
+                             ("recovery_duration_seconds", 0), ("notification_cooldown_seconds", 0),
+                             ("threshold_min_c", 6)] {
+            let json = try mutatedDefaults {
+                let warning = $0["cpu_warning"] as! NSMutableDictionary
+                warning[key] = NSNumber(value: value)
+            }
+            #expect(throws: ConfigurationError.invalidValue("cpu_warning")) {
+                _ = try Configuration.decodeConfiguration(json)
+            }
+        }
+    }
+
+    @Test func rejectsMissingCPUWarningConfiguration() throws {
+        let json = try mutatedDefaults { $0.removeObject(forKey: "cpu_warning") }
+        #expect(throws: ConfigurationError.missingField("cpu_warning")) {
+            _ = try Configuration.decodeConfiguration(json)
+        }
     }
 
     @Test func bundledProfileHasTwelveCaseSensitiveKeys() throws {

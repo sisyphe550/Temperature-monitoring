@@ -8,7 +8,7 @@
 
 **Tech Stack:** Swift 6、SwiftPM tools-version 6.0、少量C/IOKit、系统SQLite3、SwiftUI/AppKit/Swift Charts、Swift Testing、XCTest/XCUITest；build toolchain、deployment target、runtime profile和qualified combinations分别记录。
 
-**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义50个可审查执行任务。参数、类型、DDL、profile和实际第三方导入分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)、[third-party](contracts/third-party-v1.json)为准；只接受`contract_version=3`。
+**Spec:** 从[交接入口](00-agent-handoff.md)开始，顺序阅读[01](01-requirements.md)、[02](02-architecture.md)至[13](13-operations-distribution.md)、[20](20-feasibility-and-reuse.md)、[21](21-implementation-contracts.md)。本页定义W级设计与里程碑边界，[23](23-execution-task-breakdown.md)定义55个可审查执行任务。参数、类型、DDL、profile和实际第三方导入分别以[defaults](contracts/defaults-v1.json)、[API](contracts/api-v1.swift)、[schema](contracts/schema-v1.sql)、[profile](contracts/first-profile-v1.json)、[third-party](contracts/third-party-v1.json)为准；只接受`contract_version=4`。
 
 ## Global Constraints
 
@@ -22,13 +22,13 @@
 - 每条有效Raw和EMA均进入持久化链；最近五分钟图表读内存EMA。C11已取消数据库强制往返要求，不能恢复旧REQ-047的读表限制。
 - Raw/EMA保留300s，1s层3600s、10s层86400s、1min层259200s、趋势3600s；每60s清理、物理宽限120s。年龄使用包含睡眠的elapsed时间。
 - 参数JSON中的tau、趋势、队列、期限、容量是冻结的v1设计值，尚未宣称性能实测达标。实现者不得静默减成员、降档、删历史或丢样本来获得“通过”。
-- 不引入服务器、Web前端、Docker、第三方采集CLI、root服务、高温告警、登录自启动、自动更新、SMC写入或风扇控制。
+- 不引入服务器、Web前端、Docker、第三方采集CLI、root服务、登录自启动、自动更新、SMC写入或风扇控制。
 - copied/modified第三方文件必须先登记third-party-v1、许可hash、notice和修改说明；R04/R07只允许method-only。研究manifest不能代替实际导入契约。
 - 完整Xcode、真实目标机、仓库管理员权限、正式签名凭证是执行环境依赖。缺少其中一项时完成其余可独立任务，将对应交付标为未执行或等待外部条件，不能写假通过。
 
 ## 任务顺序、文件与证据约定
 
-依赖顺序：`W00 → W01 → {W02,W03,W04} → W05 → W06 → W07 → W08 → W09 → W10 → W11`。W02/W03/W04接口独立，可在明确文件所有权后分别实施；不要求并发。
+依赖顺序：`W00 → W01 → {W02,W03,W04} → W05 → W06 → W07 → W08 → W09 → W10 → W11 → W12`。W02/W03/W04接口独立，可在明确文件所有权后分别实施；不要求并发。
 
 现有资产：`prototypes/sensor-probe/`、`.github/workflows/probe.yml`、`scripts/check-probe-coverage.py`、设计文档和历史验证记录。原型继续保留，不能将其测试覆盖率当产品覆盖率。
 
@@ -163,10 +163,10 @@ const state = blockers.length === 0 ? "success" : "failure";
 
 **文件：** 新建Package、Contracts四文件、Configuration、Clock、MonitorFailure；`Tests/TemperatureCoreTests/{ContractTests,ClockTests,ConfigurationTests}.swift`及上述TestSupport；`scripts/check-core-coverage.py`、`.github/workflows/core.yml`。
 
-**接口：** 按修订3 API逐字拆分强类型UUID、ReadingOutcome、SeriesFormula、SegmentReason、MonitorErrorCode、PersistenceLease/Owner/Receipt、Presentation状态和协议；`SystemClock: MonitorClock`。在Configuration定义`RuntimeConfiguration`与`SensorProfile`，字段/CodingKeys逐项匹配JSON；入口为`load(from:)`且只接受`contract_version=3`。
+**接口：** 按修订4 API逐字拆分强类型UUID、ReadingOutcome、SeriesFormula、SegmentReason、MonitorErrorCode、PersistenceLease/Owner/Receipt、Presentation状态和协议；`SystemClock: MonitorClock`。在Configuration定义`RuntimeConfiguration`与`SensorProfile`，字段/CodingKeys逐项匹配JSON；入口为`load(from:)`且只接受`contract_version=4`。
 
 - [ ] 建最小SwiftPM library与TemperatureCoreTests target；先加入合同编译测试及拒绝非法配置的测试，再运行确认缺实现时失败。Package只声明已经有源文件的target，后续W02/W03再加入Runtime/Bridge/Worker/CSQLite。
-- [ ] 复制修订3 API类型；独立模块测试构造Timestamp、规范UUID的ReadRequest和Sample。无效/非规范UUID、非法MetricID和未知封闭枚举必须解码失败；ReadingOutcome、PresentationState、HistoryChartState的互斥分支必须无法表达“双状态”。源码门禁确认旧可空读数和旧预留类型token不存在。
+- [ ] 复制修订4 API类型；独立模块测试构造Timestamp、规范UUID的ReadRequest和Sample。无效/非规范UUID、非法MetricID和未知封闭枚举必须解码失败；ReadingOutcome、PresentationState、HistoryChartState的互斥分支必须无法表达“双状态”。源码门禁确认旧可空读数和旧预留类型token不存在。
 
 ```swift
 @Test func timestampPreservesNanoseconds() throws {
@@ -178,7 +178,7 @@ const state = blockers.length === 0 ? "success" : "failure";
 }
 ```
 
-- [ ] 配置加载验证：`contract_version=3`、CPU五档精确集合、默认200、tau均>0、TTL递增、resume<pause<max、单事件预留≤事务上限、profile12键无重复且区分大小写、active series含派生。坏JSON、版本1/未知版本、负容量、删除必填参数必须抛错；不得静默退回硬编码默认值。
+- [ ] 配置加载验证：`contract_version=4`、CPU五档精确集合、默认200、tau均>0、TTL递增、resume<pause<max、单事件预留≤事务上限、profile12键无重复且区分大小写、active series含派生。坏JSON、版本1/未知版本、负容量、删除必填参数必须抛错；不得静默退回硬编码默认值。
 - [ ] 以主进程共享的`mach_continuous_time`基准和`mach_timebase_info`生成elapsed；跨进程沿用同一基准。整数商余/宽乘防溢出；ContinuousClock只负责异步等待剩余时长。TestClock模拟睡眠前进、墙钟回拨及取消，不等待真实72小时。
 - [ ] Clock测试输入elapsed=10s、wall回退3600s，预期elapsed继续增加；整数时间往返不丢纳秒；同时登记多sleep等待和取消一个等待，其他到期等待各恢复一次。
 - [ ] 运行以下计划命令，预期所有测试通过且Swift 6并发检查通过。`check-core-coverage.py`统计Core和SensorRuntime生产Swift可执行行，不包含测试、App UI、C桥接与worker入口；未达到80%时失败，并报告各文件分母，不能沿用ProbeCore的55行分母。
@@ -192,7 +192,7 @@ python3 scripts/check-core-coverage.py
 
 - [ ] 使`core-tests`在`feature/**`及PR运行实际Swift测试和80%门禁，加入main必需检查；提交可独立评审的类型/时钟工作，附红绿测试证据。
 
-**完成条件：** 修订3身份与互斥状态跨模块可用、配置拒绝旧版本、测试时钟可控、Core测试门禁实际执行。此阶段不读硬件。
+**完成条件：** 修订4身份与互斥状态跨模块可用、配置拒绝旧版本、测试时钟可控、Core测试门禁实际执行。此阶段不读硬件。
 
 ## W02：来源注册、SensorWorker协议与硬件边界
 
@@ -438,7 +438,7 @@ func testCPUPeriodPicker() throws {
 - [ ] 按07固定来源实现NSStatusItem/NSPopover与分组行；若复制/修改上游文件，先登记third-party-v1和ThirdPartyNotices。完成左键切换、右键命令、Esc/点击外部关闭；340×640pt面板按屏幕限高，960×680pt主窗最小800×560pt，关闭窗口采集继续。
 - [ ] 所有数值视图只消费TemperatureValueState：live/cached显示EMA和一位小数°C，loading/stale隐藏为`— °C`，unavailable显示原因；cached失败不生成样本，freshness未知不写“刚测量”。CPU标题固定profile主指标。
 - [ ] HistoryChartModel把查询结果转换为HistoryChartState；视图只消费该状态。实现5min内存EMA、其余历史avg和min/max包络，默认CPU主指标、最多8源、每源2000点；按series+segment断线，不以平滑制造Raw峰值。
-- [ ] Settings提供五档、来源显示、日志文件夹、版本/许可；无高温告警、登录项、更新网络入口。来源详情暴露key/provider/evidence，正常页面不显示调试堆栈。
+- [ ] Settings提供五档、来源显示、日志文件夹、版本/许可；CPU预警由W12扩展，登录项与更新网络入口不实现。来源详情暴露key/provider/evidence，正常页面不显示调试堆栈。
 - [ ] FatalView连接W06展示回执与30s倒计时，错误文本和报告操作可访问；渲染失败NSAlert兜底。检查浅/深色、减少透明度、键盘导航、窄屏、滚动和辅助功能文本。
 - [ ] 用本任务创建的scheme执行下列计划命令；XCUITest及需人工的菜单栏/视觉项目分别留证，不能因为automation未识别菜单栏就跳过：
 
@@ -459,7 +459,7 @@ xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -con
 **接口：** App通过本地Swift Package使用Core/Runtime；创建唯一SessionCoordinator与PresentationModel。构建脚本产物固定为`build/TemperatureMonitor.app`，内嵌同一构建的`Contents/MacOS/SensorWorker`。
 
 - [ ] 完成W07创建的macOS App、UI test target和共享scheme的生产装配；复核Swift6、arm64、预期deployment15.7.3、Bundle ID按defaults。用`xcodebuild -showBuildSettings`验证工具链接受目标设置，失败则阻止RC并提出契约修订。接入唯一真实SessionCoordinator与PresentationModel，关闭App Sandbox，无root/private entitlement。
-- [ ] 将contract revision 3的defaults/profile/third-party资源复制到App，schema作为Package资源加载；CI逐字比对资源。为third-party-v1中每个copied/modified本地路径生成或核对ThirdPartyNotices；缺固定commit、许可hash、版权、修改说明或notice时失败。R04/R07不得出现复制代码。
+- [ ] 将contract revision 4的defaults/profile/third-party资源复制到App，schema作为Package资源加载；CI逐字比对资源。为third-party-v1中每个copied/modified本地路径生成或核对ThirdPartyNotices；缺固定commit、许可hash、版权、修改说明或notice时失败。R04/R07不得出现复制代码。
 - [ ] 实现build-app.sh：`set -euo pipefail`，校验完整Xcode、构建Release与SensorWorker、从本次DerivedData复制App、嵌入worker/资源；路径或新产物缺失立即失败，不能签/测旧包。本地先worker后App进行ad-hoc签名。
 
 ```sh
@@ -528,3 +528,31 @@ python3 scripts/validate-handoff.py
 ## 当前执行衔接
 
 本轮采用[课程范围](course-delivery-scope.md)；旧证据保持原件，最终结果与未验收项见新课程交付报告。#49依据本轮实际资源/响应观察及必要回归处理，不能仅因取消精确性能指标而关闭。CI、独立审查与合并须以实际远端状态为准。
+
+## W12：CPU温度预警
+
+**需求/测试：** REQ-125；TC-WARNING/TC-UI/TC-LIFECYCLE/TC-DOCS。依赖已合入最新main的W11；新增功能分支feature/cpu-warning。原W00～W11及50任务保持，新增T12.1～T12.5，共13W/55T/21TC。
+
+**接口/文件：** [24](24-cpu-warning.md)与[五任务计划](superpowers/plans/2026-10-14-cpu-warning.md)精确定义CPUWarningRule/State/Event/Snapshot、Configuration.cpuWarning、Evaluator、Receipt、规则更新、四字段偏好、通知和UI。API/default/profile按revision4原子同步，SQLite user_version=1/worker协议不变。
+
+- [ ] T12.1：规则/纯Evaluator、阈值时长/恢复/五档/墙钟/50条测试。
+- [ ] T12.2：CPU12 Raw、Receipt、幂等、中断/重入与统一Snapshot/Presentation接入。
+- [ ] T12.3：四字段UserDefaults、有界通知去重60秒、授权晚到/拒绝与同会话点击。
+- [ ] T12.4：设置、菜单栏/Popover/Dashboard/事件区单一状态、校验与辅助功能。
+- [ ] T12.5：文档门禁、完整Core>=80%、App/UI、正式短测、新REQ125证据与一次最终独立审查、同head五CI；根agent统一原子提交与授权merge流程。
+
+**退出：** 各任务红绿与异常边界有实证；旧无告警证据排除，新REQ125已按新软件/正式App证据验收；同head CI与合并仍待回读。保留本机课程范围，不启动物理sleep/长测/公证或人为高温。具体命令/接口/Review Focus见五任务计划。
+
+### W12实现、验证与最终退出状态（2026-10-14）
+
+[源码9583987证据](validation/cpu-warning/2026-10-14-9583987/README.md)记录完整Core413项/62组通过、覆盖89.18%、正式Release预警短测通过和同次最终审查#54/#55/#56复核PASS；course-local五criterion已通过。规划任务行与DAG保留，以下表说明本轮实际完成边界。
+
+| 任务 | 当前完成边界 |
+|---|---|
+| T12.1 | 规则/配置/纯Evaluator与边界验证完成 |
+| T12.2 | CPU12 Raw、Receipt/重放/heldcommit/TTL及统一快照接入验证完成 |
+| T12.3 | 四字段偏好、有界通知策略及软件授权/取消/同session路由验证完成；API接受不等于横幅或真实点击 |
+| T12.4 | 原生设置/各处状态/事件与本机正式短测完成；实机通知横幅与点击未观察 |
+| T12.5 | 新证据绑定、软件/正式短测、覆盖和一次独立审查完成；同PR head五CI、真实blocking、merge/交付回读待完成 |
+
+当前状态不声明全132项strict资格通过，也不恢复物理sleep/长测/公证/跨机。W12最终退出须按Git流程实际回读后确认。

@@ -1,0 +1,18 @@
+test_relabelled_real_old_report_payloads_are_rejected (__main__.CourseAcceptanceTests.test_relabelled_real_old_report_payloads_are_rejected) ... FAIL
+
+======================================================================
+FAIL: test_relabelled_real_old_report_payloads_are_rejected (__main__.CourseAcceptanceTests.test_relabelled_real_old_report_payloads_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/scripts/tests/test-course-acceptance.py", line 144, in test_relabelled_real_old_report_payloads_are_rejected
+    self.assert_rejected(complete=True)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/scripts/tests/test-course-acceptance.py", line 135, in assert_rejected
+    self.assertTrue(self.errors(complete), "invalid course-local policy must return errors")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [] is not true : invalid course-local policy must return errors
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (failures=1)

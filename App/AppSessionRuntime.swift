@@ -7,6 +7,7 @@ import TemperaturePresentation
 enum AppSessionError: Error, Sendable {
     case missingSensorWorker
     case startupFailed(String)
+    case warningPreferencesSaveFailed(String)
 }
 
 @MainActor
@@ -17,6 +18,9 @@ final class AppSessionRuntime {
     private let clock: MonitorClock
     private let coordinator: SessionCoordinator
     private let configuration: RuntimeConfiguration
+    private let warningPreferences: CPUWarningPreferences
+    private let warningNotifications: CPUWarningNotificationController
+    private(set) var warningPreferencesIssueText: String?
     private let profile: SensorProfile
     private let primaryCPUMetricID: MetricID
     private var snapshotTask: Task<Void, Never>?
@@ -38,12 +42,15 @@ final class AppSessionRuntime {
         clock: MonitorClock,
         configuration: RuntimeConfiguration,
         profile: SensorProfile,
-        primaryCPUMetricID: MetricID
-    ) {
+        primaryCPUMetricID: MetricID,
+        onOpenDashboard: @escaping @MainActor () -> Void
+    ) throws {
         self.presentationModel = presentationModel
         self.coordinator = coordinator
         self.clock = clock
         self.configuration = configuration
+        warningPreferences = try CPUWarningPreferences(configuration: configuration)
+        warningNotifications = CPUWarningNotificationController(configuration: configuration, onOpenDashboard: onOpenDashboard)
         self.profile = profile
         self.primaryCPUMetricID = primaryCPUMetricID
         selectedMetricIDs = [primaryCPUMetricID]
@@ -51,7 +58,8 @@ final class AppSessionRuntime {
 
     static func makeProduction(
         presentationModel: PresentationModel,
-        primaryCPUMetricID: MetricID
+        primaryCPUMetricID: MetricID,
+        onOpenDashboard: @escaping @MainActor () -> Void
     ) throws -> AppSessionRuntime {
         let configuration = try AppBundleConfiguration.loadRuntimeConfiguration()
         let profile = try AppBundleConfiguration.loadProfile()
@@ -92,13 +100,14 @@ final class AppSessionRuntime {
             configuration: configuration,
             applicationSupportBase: supportBase
         )
-        return AppSessionRuntime(
+        return try AppSessionRuntime(
             presentationModel: presentationModel,
             coordinator: coordinator,
             clock: clock,
             configuration: configuration,
             profile: profile,
-            primaryCPUMetricID: primaryCPUMetricID
+            primaryCPUMetricID: primaryCPUMetricID,
+            onOpenDashboard: onOpenDashboard
         )
     }
 
@@ -129,9 +138,15 @@ final class AppSessionRuntime {
             osBuild: ProcessInfo.processInfo.operatingSystemVersionString,
             appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.0"
         )
+        let preferences = warningPreferences.load()
+        warningPreferencesIssueText = preferences.issues.isEmpty ? nil :
+            "保存规则包含无效字段，已使用对应默认值：" + preferences.issues.map { $0.field + "（" + $0.reason + "）" }.joined(separator: "；")
+        warningNotifications.start(sessionID: sessionID)
+        warningNotifications.update(rule: preferences.rule)
         startupTask = Task { [coordinator] in
             try Task.checkCancellation()
             try await coordinator.start(sessionMetadata: metadata)
+            try await coordinator.setCPUWarningRule(preferences.rule)
         }
         snapshotTask = Task { [weak self] in
             await self?.run()
@@ -139,6 +154,7 @@ final class AppSessionRuntime {
     }
 
     func stop() async {
+        warningNotifications.stop()
         historyLifecycleState = .inactive
         let startup = startupTask
         startup?.cancel()
@@ -164,6 +180,7 @@ final class AppSessionRuntime {
         if case .fatal = presentationModel.state { return }
         guard historyLifecycleState == .starting || historyLifecycleState == .active else { return }
         historyLifecycleState = .suspended
+        warningNotifications.pause()
         historyRequestOrdinal += 1
         historyTask?.cancel()
         historyTask = nil
@@ -183,6 +200,7 @@ final class AppSessionRuntime {
         do {
             try await coordinator.resumeAfterWake()
             guard historyLifecycleState == .suspended else { return }
+            warningNotifications.resume()
             historyLifecycleState = .active
             requestHistoryReload(force: true)
         }
@@ -216,6 +234,25 @@ final class AppSessionRuntime {
         requestHistoryReload(force: true)
     }
 
+    var cpuWarningNotificationStatus: CPUWarningNotificationStatus { warningNotifications.status }
+
+    func refreshCPUWarningNotificationAuthorization() { warningNotifications.refreshAuthorization() }
+
+    func applyCPUWarningRule(_ rule: CPUWarningRule) async throws {
+        try await startupTask?.value
+        guard snapshotTask != nil else { throw AppSessionError.startupFailed("采集会话尚未运行") }
+        if case .fatal = presentationModel.state { throw AppSessionError.startupFailed("致命故障状态不能修改预警") }
+        try await coordinator.setCPUWarningRule(rule)
+        warningNotifications.update(rule: rule)
+        do {
+            try warningPreferences.save(rule)
+            warningPreferencesIssueText = nil
+        } catch {
+            warningPreferencesIssueText = "本会话已应用规则，但保存失败；下次启动可能恢复原规则。"
+            throw AppSessionError.warningPreferencesSaveFailed(String(describing: error))
+        }
+    }
+
     func setCPUPeriod(milliseconds: Int) async throws {
         try await coordinator.setCPUPeriod(milliseconds: milliseconds)
     }
@@ -238,6 +275,7 @@ final class AppSessionRuntime {
                     return
                 }
                 presentationModel.apply(snapshot: snapshot)
+                warningNotifications.consume(snapshot: snapshot.warning, at: snapshot.asOf)
                 updateSelectedSeries(from: snapshot, primaryMetricID: primaryCPUMetricID)
                 requestHistoryReload()
             }
@@ -252,6 +290,7 @@ final class AppSessionRuntime {
     }
 
     private func enterFatal(_ failure: MonitorFailure) async {
+        warningNotifications.stop()
         if case .fatal = presentationModel.state { return }
         historyLifecycleState = .inactive
         historyRequestOrdinal += 1

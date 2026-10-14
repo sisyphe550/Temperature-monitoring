@@ -1,0 +1,27 @@
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Emitting module TemperatureCoreTests
+[4/5] Compiling TemperatureCoreTests CPUWarningCommitTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (2.80s)
+Test Suite 'Selected tests' started at 2026-10-14 20:09:21.555.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-14 20:09:21.555.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-14 20:09:21.556.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-14 20:09:21.556.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite CPUWarningCommitTests started.
+◇ Test heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) started.
+◇ Test case passing 2 arguments delayMS → 15000, shouldTrigger → false to heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) started.
+◇ Test case passing 2 arguments delayMS → 3001, shouldTrigger → false to heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) started.
+◇ Test case passing 2 arguments delayMS → 3000, shouldTrigger → true to heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) started.
+✘ Test heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) recorded an issue with 2 arguments delayMS → 15000, shouldTrigger → false at CPUWarningCommitTests.swift:175:9: Expectation failed: (warning.events.count → 1) == ((shouldTrigger ? 1 : 0) → 0)
+✘ Test heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) recorded an issue with 2 arguments delayMS → 3001, shouldTrigger → false at CPUWarningCommitTests.swift:175:9: Expectation failed: (warning.events.count → 1) == ((shouldTrigger ? 1 : 0) → 0)
+✘ Test heldTriggerReceiptRechecksSampleTTLWithoutAnySnapshot(delayMS:shouldTrigger:) with 3 test cases failed after 0.007 seconds with 2 issues.
+✘ Suite CPUWarningCommitTests failed after 0.007 seconds with 2 issues.
+✘ Test run with 1 test in 1 suite failed after 0.007 seconds with 2 issues.

@@ -1,0 +1,3 @@
+Warning events after an expired CPU triggering sample finally commits: 0
+State: unableToAssess(reason: TemperatureCore.CPUWarningInterruptionReason.stale)
+First event: nil

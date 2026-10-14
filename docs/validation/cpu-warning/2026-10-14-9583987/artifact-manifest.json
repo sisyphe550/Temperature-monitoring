@@ -1,0 +1,239 @@
+{
+  "feature": "cpu-warning",
+  "date": "2026-10-14",
+  "captured_at_utc": "2026-10-14T11:32:45.387791+00:00",
+  "state": "software-passed-source-bound-formal-and-ci-separate",
+  "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+  "note": "Original failed/targeted records remain byte-for-byte. Final software observations bind to source9583987; no hardware result is declared here.",
+  "files": [
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-red.log",
+      "sha256": "556cbdd072720e43de1c89528aa6ec94188ecbdc88a0ba41dd8ebc79457ae349",
+      "bytes": 14124,
+      "copied_from": "/private/tmp/cpu-warning-behavior-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/behavior-targeted.log",
+      "sha256": "50f23a85a945aaee0553f8e86089e38fd32b5a370d25563fbe3e6bdc5af330dd",
+      "bytes": 11088,
+      "copied_from": "/private/tmp/cpu-warning-behavior-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/affected-targeted.log",
+      "sha256": "00313d09bcf8035d0c8e1718a87310fc86ff502ae8a53b3a9752d22475a663c9",
+      "bytes": 18588,
+      "copied_from": "/private/tmp/cpu-warning-affected-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-red.log",
+      "sha256": "953f5298db188924223b9da087264ff877a010102b14d4c077d0b98ab07e85c8",
+      "bytes": 2770,
+      "copied_from": "/private/tmp/cpu-warning-notification-suspend-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/notification-lifecycle-targeted.log",
+      "sha256": "e73274c9497fa5586b728406b25b61f9d6f3f25a7666658144482c2900ebe265",
+      "bytes": 7589,
+      "copied_from": "/private/tmp/cpu-warning-notification-suspend-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/configuration-red.log",
+      "sha256": "eb1ac4db42c762d844f903fd48a4261653f184f0aa7dc6862c60258d5f1c12e9",
+      "bytes": 1482,
+      "copied_from": "/private/tmp/temperature-warning-configuration-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/configuration-intermediate-compile-failure.log",
+      "sha256": "ddc96bf33b1ac9a4371f216923da7093b0c7a1cc719b7a8bd9f7bb44c68db616",
+      "bytes": 2151,
+      "copied_from": "/private/tmp/temperature-warning-configuration-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-full-core-failed.log",
+      "sha256": "13e8e0c772d539dbbb381690fe79200edabb1efce6a57715c48627573b48231b",
+      "bytes": 94727,
+      "copied_from": "/private/tmp/temperature-warning-final-core.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/first-coverage-empty.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "copied_from": "/private/tmp/temperature-warning-final-coverage.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/pre-issue56-release-build.log",
+      "sha256": "043231485465049c3a55b66236b43a396179dc26ae163018d738f1c8d9b4cd23",
+      "bytes": 187150,
+      "copied_from": "/private/tmp/temperature-warning-final-release-build.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue54-review-reproduction.log",
+      "sha256": "6062456acae843f086f9e7f01ac15ec42f704ac4aaa25d6aa9df5188da45431a",
+      "bytes": 383,
+      "copied_from": "/private/tmp/cpu-warning-suspend-review-probe.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue54-review-fixed-probe.log",
+      "sha256": "f3cc0b83cf12d3621db3ea1e8f1a947cfd4b6bb1cdae3f61b3fc85dfcc6e23cd",
+      "bytes": 451,
+      "copied_from": "/private/tmp/cpu-warning-suspend-review-fixed-probe.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-review-reproduction.log",
+      "sha256": "dd179ab3e747c3df3df4260e462ed527443813fa2e93aebe0778272836cd87bb",
+      "bytes": 1015,
+      "copied_from": "/private/tmp/cpu-warning-contract-probe-20261014.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-binder-red.log",
+      "sha256": "7eae0ac7c858e4db758c5563da35fba82e6ad29ee30767b2152d5ebdbcac4cc5",
+      "bytes": 949,
+      "copied_from": "/private/tmp/cpu-warning-issue55-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-course-red.log",
+      "sha256": "ab9a3323e164e077bd3eb769829aa346f76ca7e31d05e6c593d6046d4577e07d",
+      "bytes": 1267,
+      "copied_from": "/private/tmp/cpu-warning-issue55-course-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-binder-targeted.log",
+      "sha256": "30eb600ba45456c064d3c9a1edce781eade1eddf0c146051316e9c7db0468b00",
+      "bytes": 6687,
+      "copied_from": "/private/tmp/cpu-warning-issue55-bind-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue55-course-targeted.log",
+      "sha256": "f1c8eca06e58fffffa3345c286be78ead1e54b8999cd2671b1ab543b0392c2ef",
+      "bytes": 5297,
+      "copied_from": "/private/tmp/cpu-warning-issue55-course-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/probes/issue54-original.swift",
+      "sha256": "f010ca65a1ba220cc7d72aafc34b398c533b43cf74fb8ea3f107059993bc22db",
+      "bytes": 4839,
+      "copied_from": "/private/tmp/cpu-warning-suspend-review-probe.swift"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/probes/issue54-fixed.swift",
+      "sha256": "e6b3b38b2d34556f8ae8abf70c8c820f57cb36ec1d0f18bd591ef224c74c05ec",
+      "bytes": 5136,
+      "copied_from": "/private/tmp/cpu-warning-suspend-review-fixed-probe.swift"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/probes/issue55-metadata-attack.py",
+      "sha256": "8dd9cbaa552959dd9d909f1ebe12966d05d98708fa34f86bdad3d1d9ef3a8af9",
+      "bytes": 2931,
+      "copied_from": "/private/tmp/cpu-warning-contract-probe-20261014.py"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-full-core.log",
+      "sha256": "3ec8d477d5872be37c7c7bac60bac8fa851c131e9ec87e33251d958c904895d5",
+      "bytes": 93466,
+      "copied_from": "/private/tmp/temperature-warning-final-core-v2.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-core-coverage.log",
+      "sha256": "2e0025cd76fddf01f1c4e45fd2fcd738ad94bb666ef6b2047c57ebfe9e0ce84b",
+      "bytes": 7034,
+      "copied_from": "/private/tmp/temperature-warning-final-coverage-v2.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-held-trigger-ttl-red.log",
+      "sha256": "56e9451b633ea2ab172502e50c1a6a960d68769ab0832df816201dc672b1297e",
+      "bytes": 2354,
+      "copied_from": "/private/tmp/cpu-warning-held-trigger-ttl-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-final-targeted.log",
+      "sha256": "96e4900d7e4276c64e6b95727b0f03ffca836c77819c6a95190bf8ab6b626d5e",
+      "bytes": 12889,
+      "copied_from": "/private/tmp/cpu-warning-held-trigger-ttl-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-snapshot-block-red.log",
+      "sha256": "2ec98d4201dfe24ca04dcfdd651a515f3407d38bb8b3d1b9e5c043cfe16e5f6f",
+      "bytes": 22599,
+      "copied_from": "/private/tmp/cpu-warning-snapshot-block-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-expiry-revival-red.log",
+      "sha256": "1e1c03d109361fd90fbd502e8c99cdbe554d719173b1967324a264dc77e3b0e3",
+      "bytes": 2390,
+      "copied_from": "/private/tmp/cpu-warning-expiry-revival-red.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-snapshot-fix-targeted.log",
+      "sha256": "e564d1a7ccb52ac371d35b2f9faba3d5dcc7e645801c92f0075a7437e5d17637",
+      "bytes": 15721,
+      "copied_from": "/private/tmp/cpu-warning-snapshot-fix-green.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-red.log",
+      "sha256": "49cdb887ff31367285d4a935d91369fc584ac04e15dfee5f7b8065deb292bff7",
+      "bytes": 835,
+      "copied_from": "/private/tmp/cpu-warning-expired-held-cpu-review-probe.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/issue56-independent-expired-trigger-fixed.log",
+      "sha256": "c4f18d8fc4b7fce2d95c2f0b28f1ca8b6ce9801b65fa460e63335a2ce9c0fa15",
+      "bytes": 172,
+      "copied_from": "/private/tmp/cpu-warning-expired-held-cpu-review-fixed-probe.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/probes/issue56-expired-held-cpu.swift",
+      "sha256": "de8d252422619e3975b84162e37ef8185be702fbe0d3172b00e634ddaf78c1a8",
+      "bytes": 4761,
+      "copied_from": "/private/tmp/cpu-warning-expired-held-cpu-review-probe.swift"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/independent-review-original.md",
+      "sha256": "de0873d686075a3dc14d9f8f4497b66fab30942d85a9c218827d9e3dadeede81",
+      "bytes": 799,
+      "copied_from": "/private/tmp/cpu-warning-final-independent-review.md"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/probe-unit-eight.log",
+      "sha256": "e27e46f10f029346e1897fca96b74ea49a3637afa010b0dc32c6696cd576bba0",
+      "bytes": 2502,
+      "copied_from": "/private/tmp/temperature-warning-probe.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-docs-gate.log",
+      "sha256": "9587c6c91e6ef3bcd130d2b202e61b4d8912f8d65d7070da938da23faebeb791",
+      "bytes": 559,
+      "copied_from": "/private/tmp/temperature-warning-docs-gate.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-docs-negative-gate.log",
+      "sha256": "54215844b987312f5a23d4683ec2bc739cf10c7dd4ceb09e12a9f3ac748c025f",
+      "bytes": 591,
+      "copied_from": "/private/tmp/temperature-warning-docs-negative.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-evidence-binder-tests.log",
+      "sha256": "64b33cbbe33d4941f157f3c6f14b182709f25612678d5e90e5514fdeb1253e83",
+      "bytes": 6687,
+      "copied_from": "/private/tmp/temperature-warning-evidence-gate.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-course-policy-tests.log",
+      "sha256": "af6cfc01e55f1850a72505d042eedd88e2bd48c4fc6d7543f253efa1dcae858a",
+      "bytes": 5297,
+      "copied_from": "/private/tmp/temperature-warning-course-gate.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/release-upstream-boundary-observation.log",
+      "sha256": "516ba2c91aa2906730b7a3fe6080d137cc5275773438a17039e5bf230c8935d8",
+      "bytes": 140,
+      "copied_from": "/private/tmp/temperature-warning-final-upstream.log"
+    },
+    {
+      "path": "docs/validation/cpu-warning/2026-10-14-9583987/logs/final-api-typecheck.json",
+      "sha256": "05dc771b8abb66e027445e3b67012f8bdb75d445011aab0d9bad1a134ce4c99c",
+      "bytes": 435,
+      "copied_from": "/private/tmp/cpu-warning-final-api-typecheck.json"
+    }
+  ],
+  "finalized_at_utc": "2026-10-14T12:16:58.631843+00:00"
+}

@@ -1,6 +1,6 @@
 # 原生界面与开源复用基线
 
-更新日期：2026-10-03；实施契约v1族修订3。来源：C01既有界面需求、C09开源前端复用、C10完整交接与C11实时内存路径。**开源复用方向与实现设计不变；当前按[课程交付范围](course-delivery-scope.md)完成本机正式App短测，尚未声明本轮通过。**
+更新日期：2026-10-14；实施契约v1族修订4。来源：C01既有界面需求、C09开源前端复用、C10完整交接与C11实时内存路径。**开源复用方向与实现设计不变；当前按[课程交付范围](course-delivery-scope.md)完成本机正式App短测，尚未声明本轮通过。**
 
 ## 1. 选定参考与复用范围
 
@@ -138,7 +138,7 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 - CPU五档只影响后续采样；隐藏窗口不绘图但采集与会话继续。
 - EMA、聚合avg/max、缺口和来源切换正确；72小时仍限本会话，不跨重启恢复。
 - 检查浅/深色、减少透明度、键盘与辅助功能、小屏限高及大量来源滚动。
-- 不引入上游告警、自启动、风扇控制、GPU/功耗监控、联网更新等未授权功能。
+- CPU预警采用[24](24-cpu-warning.md)的自有状态和规则；不引入自启动、风扇控制、GPU/功耗监控、联网更新等未授权功能。
 
 关联：[需求](01-requirements.md)、[构件](08-component-design.md)、[测试](10-test-strategy.md)、[方案覆盖](19-reference-informed-design.md)。
 
@@ -153,3 +153,7 @@ SSD主值采用已定义的SMART composite口径；NAND、邻近温度等候选�
 Issue #49旧[同阶段对比](validation/product-software/W11/2026-10-03-c354b03/performance/charts-age-matched-comparison.md)支持本机CPU开销下降，未证明RSS增长解决。COURSE-RESOURCES在本轮同一正式App会话记录50ms五分钟历史填充及后段CPU/RSS/交互，结合实际异常判定本机可演示；短测不证明无泄漏、不推断精确skipped/p95/p99或跨机性能。
 
 [7124正式短测](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留原产物的五档8秒、图表点选、关窗重开与退出；[c354归档](validation/product-software/W11/2026-10-03-c354b03/README.md)保留FAILED长测与duration观察。本轮自动AX失败与原生核心补验已分别归档，见[课程报告](validation/course-delivery/2026-10-03-5984b9e/README.md)，不修改这些历史结果。物理睡眠/长测及严格性能当前为可选扩展，软件生命周期功能与回归保留。
+
+## CPU预警展示与设置（revision4）
+
+菜单栏、Popover、Dashboard、设置和事件区只读同一RunningPresentationState.warning。显示disabled/monitoring/pending/active/recovering/unableToAssess并区分结束原因；不把“无法判断”写恢复，不加危险或损坏结论。设置含预警开关、有限阈值5…120°C、整数时长1…300秒和默认关闭的系统通知；错误保留当前规则且可见。事件区最新优先最多50条本会话记录，关窗口保留、新会话空；键盘和小屏可访问。通知授权事实独立于CPU状态，点击同会话打开主窗。精确行为和文案依据见[24](24-cpu-warning.md)。

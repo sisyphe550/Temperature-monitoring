@@ -1,0 +1,3 @@
+Engine warning after sleep: unableToAssess(reason: TemperatureCore.CPUWarningInterruptionReason.lifecycle)
+Engine event end: ended(at: TemperatureCore.Timestamp(elapsedNS: 6000000000, wallUnixNS: 6000000000), reason: TemperatureCore.CPUWarningEventEndReason.interrupted(TemperatureCore.CPUWarningInterruptionReason.lifecycle))
+Notification adds after committed sleep interruption: 1

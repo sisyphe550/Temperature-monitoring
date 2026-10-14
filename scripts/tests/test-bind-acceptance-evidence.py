@@ -65,11 +65,11 @@ class EvidenceBindingTests(unittest.TestCase):
                          "tests": [] if retired else tests,
                          "design": ["fixture.md"], "tasks": [] if retired else ["W11"],
                          "verification": "not-applicable" if retired else PENDING})
-        self.acceptance = {"version": 1, "contract_revision": 3,
+        self.acceptance = {"version": 1, "contract_revision": 4,
                            "date": "2026-10-03", "requirements": rows,
                            "preserved_metadata": {"note": "keep this"}}
         self.catalog = {
-            "version": 2, "contract_revision": 3, "delivery_commit": self.delivery_commit,
+            "version": 2, "contract_revision": 4, "delivery_commit": self.delivery_commit,
             "artifacts": {
                 "software": self.artifact("software", "passed", ["TC-DOCS", "TC-SCHEDULE", "TC-SENSOR"]),
                 "hardware": self.artifact("formal-app-hardware", "passed", ["TC-SENSOR"]),
@@ -142,6 +142,151 @@ class EvidenceBindingTests(unittest.TestCase):
             "covered_cases": ["CPUSchedulingTests.fiveIntervals"], "outstanding": [],
             "reason": "对应软件用例通过", "required_evidence_kinds": ["software"],
         }
+
+    def warning_report(self, kind: str) -> tuple[dict, dict]:
+        # Synthetic payload/Git schema only; no hardware or real App execution.
+        if not hasattr(self, "warning_source"):
+            defaults = json.loads((SCRIPTS.parent / "docs/contracts/defaults-v1.json").read_text())
+            (self.root / "docs/contracts/defaults-v1.json").write_text(json.dumps(defaults))
+            code = self.root / "Packages/TemperatureCore/Sources/TemperatureCore/Warnings/Types.swift"
+            code.parent.mkdir(parents=True)
+            code.write_text("public struct CPUWarningRule {}\nstruct CPUWarningEvaluator {}\n")
+            self.git("add", "docs/contracts/defaults-v1.json", str(code.relative_to(self.root)))
+            self.git("commit", "--quiet", "-m", "synthetic revision4 warning source")
+            self.warning_source = self.git("rev-parse", "HEAD")
+            self.catalog["delivery_commit"] = self.warning_source
+        artifact = copy.deepcopy(self.catalog["artifacts"]["hardware" if kind == "formal-app-hardware" else "software"])
+        artifact.update(path=f"docs/validation/warning-{kind}.json", source_commit=self.warning_source,
+                        tc_groups=["TC-WARNING"], result="passed")
+        if kind == "software":
+            artifact["environment"] = {"execution": "synthetic-unit-schema", "note": "not hardware evidence"}
+        raw = self.root / "docs/validation/warning-original.log"
+        raw.write_text("Synthetic warning report original-log fixture; no actual hardware claims.\n")
+        reference = {"path": str(raw.relative_to(self.root)), "sha256": hashlib.sha256(raw.read_bytes()).hexdigest()}
+        required = {
+            "software": ["trigger-recovery", "interruption-and-time", "receipt-and-replay", "rule-change",
+                         "events-bounded", "config-persistence", "notification-policy"],
+            "formal-app-hardware": ["real-cpu", "cpu-warning-trigger", "rule-change-not-recovered", "close-reopen",
+                                    "quit", "config-persistence", "notification-handler"],
+        }
+        report = {"contract_version": 4, "feature": "cpu-warning", "kind": kind,
+                  "source_commit": self.warning_source, "result": "passed",
+                  "environment": copy.deepcopy(artifact["environment"]),
+                  "warning_cases": {case_id: {"result": "passed", "observed": "Synthetic schema fixture only",
+                                              "evidence": [copy.deepcopy(reference)]} for case_id in required[kind]}}
+        if kind == "formal-app-hardware":
+            report["warning_cases"]["notification-handler"].update(
+                authorization="authorized", adapter_request="request-accepted",
+                observed_banner=False, notification_click=False)
+        return artifact, report
+
+    def write_warning_report(self, artifact: dict, report: dict) -> None:
+        path = self.root / artifact["path"]
+        path.write_text(json.dumps(report))
+        artifact["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+
+    def test_typed_warning_reports_bind_original_files_and_source(self) -> None:
+        for kind in ("software", "formal-app-hardware"):
+            artifact, report = self.warning_report(kind)
+            self.write_warning_report(artifact, report)
+            self.catalog["artifacts"]["warning-" + kind] = artifact
+        self.load()
+
+    def test_warning_report_identity_cannot_be_relabelled(self) -> None:
+        artifact, original = self.warning_report("formal-app-hardware")
+        for field, wrong in (("contract_version", 3), ("feature", "old-no-warning"),
+                             ("source_commit", self.source_commit), ("kind", "software"),
+                             ("result", "partial"), ("environment", {"app_sha256": "c" * 64})):
+            with self.subTest(field=field):
+                report = copy.deepcopy(original); report[field] = wrong
+                self.write_warning_report(artifact, report)
+                with self.assertRaisesRegex(ValueError, "CPU warning report"):
+                    self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_warning_report_requires_specific_passed_cases(self) -> None:
+        artifact, original = self.warning_report("software")
+        for mutation in ("missing", "failed", "unobserved", "boolean", "missing-log"):
+            with self.subTest(mutation=mutation):
+                report = copy.deepcopy(original)
+                case = report["warning_cases"]["trigger-recovery"]
+                if mutation == "missing": del report["warning_cases"]["trigger-recovery"]
+                elif mutation == "failed": case["result"] = "failed"
+                elif mutation == "unobserved": case["observed"] = ""
+                elif mutation == "boolean": case["result"] = True
+                else: case["evidence"] = []
+                self.write_warning_report(artifact, report)
+                with self.assertRaisesRegex(ValueError, "CPU warning report"):
+                    self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_warning_report_original_log_hash_and_path_are_checked(self) -> None:
+        artifact, original = self.warning_report("software")
+        for field, bad in (("sha256", "0" * 64), ("path", "../outside.log")):
+            report = copy.deepcopy(original)
+            report["warning_cases"]["receipt-and-replay"]["evidence"][0][field] = bad
+            self.write_warning_report(artifact, report)
+            with self.assertRaisesRegex(ValueError, "CPU warning report"):
+                self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_warning_report_revision4_payload_cannot_use_old_source(self) -> None:
+        artifact, report = self.warning_report("software")
+        artifact["source_commit"] = self.source_commit
+        report["source_commit"] = self.source_commit
+        self.write_warning_report(artifact, report)
+        with self.assertRaisesRegex(ValueError, "source must contain revision4"):
+            self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_warning_report_source_requires_warning_implementation(self) -> None:
+        artifact, report = self.warning_report("software")
+        code = self.root / "Packages/TemperatureCore/Sources/TemperatureCore/Warnings/Types.swift"
+        code.write_text("public struct CPUWarningRule {}\n")
+        self.git("commit", "--quiet", "-am", "synthetic source missing evaluator")
+        artifact["source_commit"] = report["source_commit"] = self.git("rev-parse", "HEAD")
+        self.write_warning_report(artifact, report)
+        with self.assertRaisesRegex(ValueError, "source lacks implemented struct CPUWarningEvaluator"):
+            self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_warning_notification_refusal_records_limits_without_claiming_banner(self) -> None:
+        artifact, original = self.warning_report("formal-app-hardware")
+        for result, authorization, request in (("permission-denied", "denied", "authorization-denied"),
+                                               ("permission-unavailable", "unavailable", "request-failed")):
+            report = copy.deepcopy(original)
+            case = report["warning_cases"]["notification-handler"]
+            case.update(result=result, authorization=authorization, adapter_request=request,
+                        sampling_continued=True, status_visible=True, error="Synthetic API refusal")
+            self.write_warning_report(artifact, report)
+            self.module().validate_cpu_warning_report(self.root, artifact)
+            case["observed_banner"] = True
+            self.write_warning_report(artifact, report)
+            with self.assertRaisesRegex(ValueError, "cannot prove a banner"):
+                self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_warning_pending_permission_or_missing_ui_is_not_verified(self) -> None:
+        artifact, original = self.warning_report("formal-app-hardware")
+        for changes in ({"authorization": "notRequested"}, {"adapter_request": "requestPending"},
+                        {"result": "permission-denied", "authorization": "denied",
+                         "adapter_request": "authorization-denied", "sampling_continued": False,
+                         "status_visible": True}):
+            report = copy.deepcopy(original)
+            report["warning_cases"]["notification-handler"].update(changes)
+            self.write_warning_report(artifact, report)
+            with self.assertRaisesRegex(ValueError, "CPU warning report"):
+                self.module().validate_cpu_warning_report(self.root, artifact)
+
+    def test_rejects_relabelled_real_pre_warning_reports(self) -> None:
+        repository = SCRIPTS.parent
+        acceptance = json.loads((repository / ACCEPTANCE_PATH).read_text())
+        catalog = json.loads((repository / CATALOG_PATH).read_text())
+        for artifact_id in ("course-final-core", "course-final-formal-app"):
+            if "TC-WARNING" not in catalog["artifacts"][artifact_id]["tc_groups"]:
+                catalog["artifacts"][artifact_id]["tc_groups"].append("TC-WARNING")
+        catalog["requirement_results"]["REQ-125"] = {
+            "verification": ACCEPTED, "evidence": ["course-final-core", "course-final-formal-app"],
+            "covered_cases": ["Metadata relabel attack; old reports unchanged"], "outstanding": [],
+            "reason": "Synthetic attack reproduction, never actual new hardware evidence",
+            "required_evidence_kinds": ["software", "formal-app-hardware"],
+        }
+        with self.assertRaisesRegex(ValueError, "CPU warning report|cpu-warning"):
+            self.module()._validate_catalog(repository, catalog, acceptance)
 
     def test_rejects_missing_required_evidence_kinds(self) -> None:
         self.accept("REQ-008", ["software", "validation"])

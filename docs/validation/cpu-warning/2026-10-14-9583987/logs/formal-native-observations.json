@@ -1,0 +1,80 @@
+{
+  "provenance": "Root records excerpts returned by native cua_repl AX; this is an observation log, not an XCTest pass or a full AX transcript.",
+  "source_commit": "958398772918c3cf61cf5eb552bb24759197b755",
+  "execution": "formal-release-app",
+  "fixture": false,
+  "real_cpu": {
+    "at": "20:12:30",
+    "cpu_max_ema_c": 47.4,
+    "unit": "°C",
+    "source_keys": [
+      "Te05",
+      "Te09",
+      "Te0H",
+      "Te0S",
+      "Tp01",
+      "Tp05",
+      "Tp09",
+      "Tp0D",
+      "Tp0V",
+      "Tp0Y",
+      "Tp0b",
+      "Tp0e"
+    ],
+    "label": "应用读取 20:12:30 · 测量更新时间未知"
+  },
+  "rule_apply": "当前规则：启用，≥ 35.0 °C持续5秒。 系统通知已允许；实际横幅受系统通知设置影响。 设置已应用并保存。",
+  "pending": "20:12:47 持续超阈值，待触发 Raw最高温度 ≥ 35.0 °C，持续5秒；已观察4秒。 本会话预警记录（0）",
+  "active": "CPU温度预警 触发于20:12:48；Raw事件峰值 56.9 °C；阈值 35.0 °C。 ≤ 30.0 °C持续10秒才恢复；判断使用Raw，温度图显示EMA。",
+  "event": "20:12:48 · Raw峰值 56.9 °C 阈值 35.0 °C · 持续5秒 仍在预警；本会话预警记录（1）",
+  "close_reopen": {
+    "action": "Refreshed AX close button index85, native click returned; process log taken before explicit getApp reopen. Earlier automated closed-state AX reopened the window and is excluded as closed-window evidence.",
+    "pid": 46134,
+    "worker_pid": 46135,
+    "after_reopen": "20:13:48 CPU温度预警 触发于20:12:48；Raw事件峰值56.9°C；本会话预警记录（1）；CPU最高温度45.6°C"
+  },
+  "sampling_periods": [
+    {
+      "ms": 50,
+      "read": "20:13:54",
+      "ema_c": 44.3
+    },
+    {
+      "ms": 100,
+      "read": "20:14:05",
+      "ema_c": 45.3
+    },
+    {
+      "ms": 500,
+      "read": "20:14:06",
+      "ema_c": 46.8
+    },
+    {
+      "ms": 1000,
+      "read": "20:14:07",
+      "ema_c": 47.4
+    },
+    {
+      "ms": 200,
+      "read": "20:14:08",
+      "ema_c": 47.1
+    }
+  ],
+  "period_warning": "100/500/1000/200ms full AX retained same 20:12:48 event and record count1; 50ms diff showed period applied and new real CPU reading.",
+  "history": "20:14:20 24小时范围：历史平均温度及已记录最低/最高 比较：CPU热区最高温度 · 来源1、TEMPERATURE · 来源1 已记录Raw峰值：56.9 °C。范围是筛选窗口，实际数据只覆盖本会话短测。",
+  "rule_change": "20:12:48 · Raw峰值 56.9 °C 阈值 35.0 °C · 持续5秒 规则变更 · 20:14:28；当前监测≥90.0°C持续5秒。没有把规则变更标成温度恢复。",
+  "relaunch": {
+    "at": "20:14:52",
+    "event_count": 0,
+    "new_real_ema_c": 42.0,
+    "settings": "启用CPU预警on；触发90.0；持续5；系统通知on，跨真实进程重启保留四字段；旧事件未恢复。"
+  },
+  "invalid_input": "4°C被拒绝：触发温度必须是5–120 °C之间的有限数。当前规则仍≥90.0°C持续5秒。",
+  "restored_defaults": "启用CPU预警on；触发90.0；持续5；系统通知off；设置已应用并保存；CPU周期200ms。",
+  "limits": {
+    "natural_recovery": "not_observed; deterministic software tests cover recovery",
+    "observed_banner": false,
+    "notification_click": false,
+    "menu_bar_warning": "shared-state/source reviewed; no separate native menu-bar observation claimed"
+  }
+}

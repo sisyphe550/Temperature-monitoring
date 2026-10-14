@@ -29,6 +29,10 @@ public actor MonitorEngine: ProcessingEngine {
     private let commit: PersistenceCommitCapability
     private let sessionID: SessionID
     private let configuration: RuntimeConfiguration
+    private var warningEvaluator: CPUWarningEvaluator
+    private var warningObservedPeriodMS: Int?
+    // Snapshots may expire committed data during commit's actor suspension.
+    private var warningExpiryRevision: UInt64 = 0
     private var sourceToSeries: [SourceID: SeriesDefinition]
     private var maximumDefinitions: [SeriesDefinition]
     private let emaProcessor: EMAProcessor
@@ -81,6 +85,12 @@ public actor MonitorEngine: ProcessingEngine {
         self.commit = commit
         sessionID = session.sessionID
         self.configuration = configuration
+        // CPUWarningConfiguration validates its rule and fixed policy during
+        // decoding, before a RuntimeConfiguration can reach this initializer.
+        warningEvaluator = CPUWarningEvaluator(rule: try! configuration.cpuWarningRule,
+            recoveryHysteresisC: configuration.cpuWarning.recoveryHysteresisC,
+            recoveryDurationSeconds: configuration.cpuWarning.recoveryDurationSeconds,
+            eventLimit: configuration.cpuWarning.eventLimit)
         self.qualifiedSources = qualifiedSources
         self.sessionStartedAt = sessionStartedAt ?? clock.now()
         sourceToSeries = Dictionary(
@@ -112,6 +122,14 @@ public actor MonitorEngine: ProcessingEngine {
         for definition in definitions {
             try? buffers.registerSeries(definition.seriesID)
         }
+    }
+
+    public func setCPUWarningRule(_ rule: CPUWarningRule) async throws {
+        await beginMutation()
+        defer { endMutation() }
+        let changed = warningEvaluator.snapshot.rule != rule
+        warningEvaluator.updateRule(rule, at: clock.now())
+        if changed { warningObservedPeriodMS = nil }
     }
 
     public func accept(_ batch: ReadBatch, lease: PersistenceLease) async throws -> ProcessingReceipt {
@@ -150,6 +168,9 @@ public actor MonitorEngine: ProcessingEngine {
         var stagedFailures = lastFailureBySeries
         var stagedEMA = lastEMABySeries
         var stagedGaps = currentGapChanges()
+        let initialWarningExpiryRevision = warningExpiryRevision
+        var stagedWarning = warningEvaluator
+        var stagedWarningPeriod = warningObservedPeriodMS
 
         let now = clock.now()
         var rawSamples: [Sample] = []
@@ -253,6 +274,8 @@ public actor MonitorEngine: ProcessingEngine {
             }
         }
 
+        stageCPUWarning(batch: batch, rawSamples: rawSamples, gaps: stagedGaps,
+            at: now, evaluator: &stagedWarning, observedPeriodMS: &stagedWarningPeriod)
         let persistenceBatch = makePersistenceBatch(
             raw: rawSamples,
             ema: emaSamples,
@@ -264,6 +287,25 @@ public actor MonitorEngine: ProcessingEngine {
 
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
+        let receiptNow = clock.now()
+        let cpuSample = warningCPUDefinition.flatMap { definition in
+            rawSamples.first { $0.seriesID == definition.seriesID }
+        }
+        let cpuSampleExpired = cpuSample.map {
+            receiptNow.elapsedNS - $0.timestamp.elapsedNS > warningStaleThresholdNS(periodMS: $0.periodMS)
+        } ?? false
+        if warningExpiryRevision != initialWarningExpiryRevision || cpuSampleExpired {
+            // A published expiry or a sample that aged out while awaiting its
+            // receipt invalidates the draft. Rebase on committed event history
+            // and check this batch at receipt time, without reviving old events
+            // or adding a trigger/recovery based on an expired observation.
+            stagedWarning = warningEvaluator
+            stagedWarningPeriod = warningObservedPeriodMS
+            stageCPUWarning(batch: batch, rawSamples: rawSamples, gaps: stagedGaps,
+                at: receiptNow, evaluator: &stagedWarning, observedPeriodMS: &stagedWarningPeriod)
+        }
+        warningEvaluator = stagedWarning
+        warningObservedPeriodMS = stagedWarningPeriod
         acceptedGeneration = max(acceptedGeneration, batch.generation)
         nextSampleSequence = stagedSequence
         seriesState = stagedSeriesState
@@ -328,6 +370,13 @@ public actor MonitorEngine: ProcessingEngine {
     public func replaceDefinitions(_ definitions: [SeriesDefinition], qualifiedSources: [QualifiedSource] = [], capabilityValues: [LatestValue] = []) async {
         await beginMutation()
         defer { endMutation() }
+        let warningDefinitionsChanged = cpuDefinitions(in: definitions) != cpuDefinitions(in: Array(seriesDefinitions.values))
+        let warningSourcesChanged = !qualifiedSources.isEmpty
+            && cpuSources(in: qualifiedSources) != cpuSources(in: self.qualifiedSources)
+        if warningDefinitionsChanged || warningSourcesChanged {
+            warningEvaluator.interrupt(reason: .sourceChange, at: clock.now())
+            warningObservedPeriodMS = nil
+        }
         let now = clock.now().elapsedNS
         let nextIDs = Set(definitions.map(\.seriesID))
         for oldID in seriesDefinitions.keys where !nextIDs.contains(oldID) {
@@ -431,6 +480,7 @@ public actor MonitorEngine: ProcessingEngine {
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
+        interruptWarningForCommittedTransition(gaps: gaps, segments: segments)
 
         var gapChanges = currentGapChanges()
         for gap in gaps { stageCommittedGap(gap, changes: &gapChanges) }
@@ -511,6 +561,7 @@ public actor MonitorEngine: ProcessingEngine {
         let receipt = try await commit.commit(persistenceBatch, using: lease)
         try validateReceipt(receipt, for: persistenceBatch)
         markInitialMetadataCommittedIfNeeded(for: persistenceBatch)
+        interruptWarningForCommittedTransition(gaps: [gap], segments: segments)
         var gapChanges = currentGapChanges()
         stageCommittedGap(gap, changes: &gapChanges)
         applyGapChanges(gapChanges)
@@ -525,6 +576,9 @@ public actor MonitorEngine: ProcessingEngine {
     }
 
     public func snapshot(at timestamp: Timestamp) async -> Snapshot {
+        // A held IO commit must not block publication of the last committed
+        // values. Expiry can only interrupt an event; it never adds samples.
+        expireCPUWarning(at: timestamp)
         let values = seriesDefinitions.values
             .sorted { $0.displayName < $1.displayName }
             .map { definition -> LatestValue in
@@ -554,7 +608,8 @@ public actor MonitorEngine: ProcessingEngine {
             values: values + capabilityValues,
             gapIDs: Array(activeGapIDs),
             cpuPeriodMS: cpuPeriodMS,
-            generation: snapshotGeneration
+            generation: snapshotGeneration,
+            warning: warningEvaluator.snapshot
         )
     }
 
@@ -586,6 +641,78 @@ public actor MonitorEngine: ProcessingEngine {
             availableFromElapsedNS: points.map(\.elapsedNS).min(),
             persistedThroughElapsedNS: nil
         )
+    }
+
+    private var warningCPUDefinition: SeriesDefinition? {
+        let candidates = maximumDefinitions.filter {
+            $0.metricID.rawValue == "cpu.zone.max" && $0.kind == .cpuMain
+                && $0.memberSourceIDs.count == 12 && Set($0.memberSourceIDs).count == 12
+                && $0.memberSourceIDs.allSatisfy { sourceToSeries[$0]?.kind == .cpuZone }
+        }
+        return candidates.count == 1 ? candidates.first : nil
+    }
+
+    private func stageCPUWarning(batch: ReadBatch, rawSamples: [Sample], gaps: GapChanges,
+        at now: Timestamp, evaluator: inout CPUWarningEvaluator, observedPeriodMS: inout Int?) {
+        guard let definition = warningCPUDefinition else { return }
+        let readings = batch.readings.filter { definition.memberSourceIDs.contains($0.sourceID) }
+        guard let latest = readings.map(\.finished).max(by: { $0.elapsedNS < $1.elapsedNS }) else { return }
+        let previous = seriesState[definition.seriesID]
+        guard latest.elapsedNS >= (previous?.lastElapsedNS ?? Int64.min),
+              latest.elapsedNS >= (previous?.minimumElapsedNS ?? 0) else { return }
+        if let sample = rawSamples.first(where: { $0.seriesID == definition.seriesID }) {
+            if gaps.writes.values.contains(where: { $0.seriesID == definition.seriesID }) {
+                evaluator.interrupt(reason: .gap, at: sample.timestamp)
+            }
+            if now.elapsedNS - sample.timestamp.elapsedNS > warningStaleThresholdNS(periodMS: sample.periodMS) {
+                evaluator.interrupt(reason: .stale, at: now)
+                observedPeriodMS = nil
+            } else {
+                evaluator.observe(rawMaxC: sample.valueC, at: sample.timestamp, sessionID: sessionID)
+                observedPeriodMS = sample.periodMS
+            }
+        } else {
+            let failed = readings.contains { if case .failure = $0.outcome { return true }; return false }
+            evaluator.interrupt(reason: failed ? .readFailure : .noData, at: latest)
+            observedPeriodMS = nil
+        }
+    }
+
+    private func interruptWarningForCommittedTransition(gaps: [Gap], segments: [Segment]) {
+        let cpuIDs = Set(cpuDefinitions(in: Array(seriesDefinitions.values)).map(\.seriesID))
+        let cpuGaps = gaps.filter { cpuIDs.contains($0.seriesID) }
+        let cpuSegments = segments.filter { cpuIDs.contains($0.seriesID) }
+        guard !cpuGaps.isEmpty || !cpuSegments.isEmpty else { return }
+        let elapsed = cpuGaps.map { $0.endedElapsedNS ?? $0.startedElapsedNS }
+            + cpuSegments.map { $0.started.elapsedNS }
+        let now = clock.now()
+        let endElapsed = elapsed.max() ?? now.elapsedNS
+        let timestamp = Timestamp(elapsedNS: endElapsed, wallUnixNS: now.wallUnixNS + endElapsed - now.elapsedNS)
+        let lifecycle = cpuGaps.contains { $0.reason == .sleep } || cpuSegments.contains { $0.reason == .wake }
+        warningEvaluator.interrupt(reason: lifecycle ? .lifecycle : .gap, at: timestamp)
+        warningObservedPeriodMS = nil
+    }
+
+    private func expireCPUWarning(at timestamp: Timestamp) {
+        guard let last = warningEvaluator.lastObservedAt, let periodMS = warningObservedPeriodMS,
+              timestamp.elapsedNS - last.elapsedNS > warningStaleThresholdNS(periodMS: periodMS) else { return }
+        warningEvaluator.interrupt(reason: .stale, at: timestamp)
+        warningObservedPeriodMS = nil
+        warningExpiryRevision &+= 1
+    }
+
+    private func warningStaleThresholdNS(periodMS: Int) -> Int64 {
+        max(Int64(periodMS) * 3, 2_000) * 1_000_000
+    }
+
+    private func cpuDefinitions(in definitions: [SeriesDefinition]) -> [SeriesDefinition] {
+        definitions.filter { $0.kind == .cpuMain || $0.kind == .cpuZone }
+            .sorted { $0.seriesID.rawValue < $1.seriesID.rawValue }
+    }
+
+    private func cpuSources(in sources: [QualifiedSource]) -> [QualifiedSource] {
+        sources.filter { $0.kind == .cpuMain || $0.kind == .cpuZone }
+            .sorted { $0.sourceID.rawValue < $1.sourceID.rawValue }
     }
 
     private func pruneArchivedEMA(nowElapsedNS: Int64) {

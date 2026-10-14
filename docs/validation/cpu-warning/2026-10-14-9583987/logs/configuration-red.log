@@ -1,0 +1,22 @@
+[0/1] Planning build
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Emitting module TemperatureCoreTests
+[4/5] Compiling TemperatureCoreTests ConfigurationTests.swift
+/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift:19:38: error: value of type 'RuntimeConfiguration' has no member 'cpuWarning'
+ 17 |     @Test func bundledCPUWarningDefaultsAndRuleAreFrozen() throws {
+ 18 |         let configuration = try Configuration.bundledDefaults()
+ 19 |         let defaults = configuration.cpuWarning
+    |                                      `- error: value of type 'RuntimeConfiguration' has no member 'cpuWarning'
+ 20 |         let rule = try configuration.cpuWarningRule
+ 21 |         #expect(rule.enabled)
+
+/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/Packages/TemperatureCore/Tests/TemperatureCoreTests/ConfigurationTests.swift:20:38: error: value of type 'RuntimeConfiguration' has no member 'cpuWarningRule'
+ 18 |         let configuration = try Configuration.bundledDefaults()
+ 19 |         let defaults = configuration.cpuWarning
+ 20 |         let rule = try configuration.cpuWarningRule
+    |                                      `- error: value of type 'RuntimeConfiguration' has no member 'cpuWarningRule'
+ 21 |         #expect(rule.enabled)
+ 22 |         #expect(rule.thresholdC == 90)
+error: fatalError

@@ -1,0 +1,26 @@
+{
+  "status": "passed",
+  "profile": "course-local",
+  "requirements": {
+    "total": 134,
+    "active": 132,
+    "retired": 2
+  },
+  "tasks": {
+    "work_packages": 13,
+    "execution_tasks": 55
+  },
+  "test_groups": 21,
+  "contract_revision": 4,
+  "contracts": [
+    "defaults-v1.json",
+    "first-profile-v1.json",
+    "api-v1.swift",
+    "schema-v1.sql",
+    "third-party-v1.json",
+    "acceptance-v1.json",
+    "tasks-v1.json",
+    "course-delivery-v1.json"
+  ],
+  "scope": "documentation and course policy structure only; no product acceptance claim"
+}

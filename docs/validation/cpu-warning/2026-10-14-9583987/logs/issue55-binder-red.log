@@ -1,0 +1,15 @@
+test_rejects_relabelled_real_pre_warning_reports (__main__.EvidenceBindingTests.test_rejects_relabelled_real_pre_warning_reports) ... FAIL
+
+======================================================================
+FAIL: test_rejects_relabelled_real_pre_warning_reports (__main__.EvidenceBindingTests.test_rejects_relabelled_real_pre_warning_reports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/scripts/tests/test-bind-acceptance-evidence.py", line 159, in test_rejects_relabelled_real_pre_warning_reports
+    with self.assertRaisesRegex(ValueError, "CPU warning report|cpu-warning"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.187s
+
+FAILED (failures=1)

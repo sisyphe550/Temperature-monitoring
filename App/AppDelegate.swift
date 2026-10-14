@@ -46,7 +46,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
         } else {
             do {
                 let runtime = try AppSessionRuntime.makeProduction(presentationModel: presentationModel,
-                    primaryCPUMetricID: primaryCPUMetricID)
+                    primaryCPUMetricID: primaryCPUMetricID, onOpenDashboard: { [weak self] in self?.openDashboard() })
                 runtime.setFatalHandler { [weak self, weak runtime] receipt in self?.showFatal(receipt, delayMS: runtime?.remainingFatalMS(receipt)) }
                 sessionRuntime = runtime
                 runtime.start()
@@ -218,6 +218,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, PresentationActions {
         }
         selectedHistoryRange = range
         UIFixtures.applyHistory(to: presentationModel, range: range, metricIDs: selectedHistoryMetricIDs)
+    }
+
+    func applyCPUWarningRule(_ rule: CPUWarningRule) async throws {
+        guard let sessionRuntime else { throw AppSessionError.startupFailed("此测试界面没有正式采集会话") }
+        try await sessionRuntime.applyCPUWarningRule(rule)
+    }
+
+    func cpuWarningNotificationStatus() -> CPUWarningNotificationStatus? { sessionRuntime?.cpuWarningNotificationStatus }
+    func cpuWarningPreferencesIssueText() -> String? { sessionRuntime?.warningPreferencesIssueText }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+        sessionRuntime?.refreshCPUWarningNotificationAuthorization()
     }
 
     func setCPUPeriod(milliseconds: Int) {

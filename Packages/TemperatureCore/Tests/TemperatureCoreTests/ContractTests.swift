@@ -60,14 +60,15 @@ import Testing
         }
     }
 
-    @Test func presentationStateIsMutuallyExclusive() {
+    @Test func presentationStateIsMutuallyExclusive() throws {
         let running = PresentationState.running(
             RunningPresentationState(
                 asOf: Timestamp(elapsedNS: 0, wallUnixNS: 0),
                 cpuPeriodMS: 200,
                 primaryCPU: .loading,
                 sections: [],
-                chart: .loading(previous: [])
+                chart: .loading(previous: []),
+                warning: try testWarningSnapshot()
             )
         )
         let fatal = PresentationState.fatal(

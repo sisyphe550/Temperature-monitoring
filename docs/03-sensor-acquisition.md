@@ -2,7 +2,7 @@
 
 > 本轮课程交付（2026-10-03）以[course-delivery-scope](course-delivery-scope.md)为准。保留真实CPU、核心操作、异常/数据/资源修复、Core≥80%、必要CI和一次最终独立审查；休眠/72h耐久/公证/公开发行/跨机认证/精确SLO/五档各10分钟为本轮不验收。下文实现语义、来源真实性和容量界限不放松；完整资格路线与历史记录不得当作课程阻塞。用户已授权适用门禁通过后merge commit并保留开发分支。
 
-更新：2026-10-02；contract revision 3。逐物理核心温度已删除；物理Package和全芯片绝对最高温不再作为产品承诺。完整函数、ABI、来源与证据见[硬件审计](research/2026-09-17-handoff-interface-audit.md)。
+更新：2026-10-14；contract revision 4。逐物理核心温度已删除；物理Package和全芯片绝对最高温不再作为产品承诺。完整函数、ABI、来源与证据见[硬件审计](research/2026-09-17-handoff-interface-audit.md)。
 
 ## 可行性与证据
 
@@ -67,6 +67,6 @@ SourceID是连接代次内的小写标准UUID强类型，另存原始键/Registr
 
 App Sandbox关闭、无管理员权限、无私有entitlement。权限拒绝按能力状态与必需性处理，不能要求用户关闭SIP或提权。正式Developer ID/Hardened Runtime构建按[13](13-operations-distribution.md)再测。
 
-## 修订3：NVMe可观察事实（2026-10-02）
+## 修订4：NVMe可观察事实（2026-10-02）
 
 DiscoveredSource新增可选physicalInterconnectLocation与interconnectLookupStatus（found/missingProperty/lookupFailed；nil表示该provider未尝试查询）。worker传递IOKit实际查询结果；found必须携带非空位置。Registry只有在唯一候选明确Internal、编码/单位合格时资格化SSD。缺字段、查询失败、External或多个候选均保留具体Unavailable原因；不从名字、device数组索引推断。Battery继续经同一Registry按IOPS/TB1T/TB2T/TB0T优先级选择唯一合格来源。

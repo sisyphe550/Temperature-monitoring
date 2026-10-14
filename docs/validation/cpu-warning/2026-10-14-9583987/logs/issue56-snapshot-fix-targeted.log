@@ -1,0 +1,197 @@
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/11] Emitting module TemperatureCore
+[4/11] Compiling TemperatureCore MonitorEngine.swift
+[5/15] Emitting module TemperaturePresentation
+[6/15] Emitting module SensorRuntime
+[7/15] Compiling SensorRuntime ProcessingCoordinator.swift
+[8/15] Compiling SensorRuntime SessionMonitorController.swift
+[8/18] Write Objects.LinkFileList
+[10/50] Linking ProtocolWorker
+[11/50] Linking SensorWorker
+[13/50] Compiling ProductQualification SchedulesCollector.swift
+/Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/Packages/TemperatureCore/Sources/ProductQualification/SchedulesCollector.swift:179:25: warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+177 |         var model = [CChar](repeating: 0, count: size)
+178 |         sysctlbyname("hw.model", &model, &size, nil, 0)
+179 |         let hostModel = String(cString: model)
+    |                         `- warning: 'init(cString:)' is deprecated: Use String(decoding: array, as: UTF8.self) instead, after truncating the null termination. [#DeprecatedDeclaration]
+180 |         guard hostModel == profile.model else {
+181 |             throw QualificationError.hostModelMismatch(expected: profile.model, actual: hostModel)
+
+[#DeprecatedDeclaration]: <https://docs.swift.org/compiler/documentation/diagnostics/deprecated-declaration>
+[13/50] Applying ProtocolWorker
+[14/50] Applying SensorWorker
+[16/50] Compiling ProductQualification LifecycleCollector.swift
+[17/50] Emitting module ProductQualification
+[18/50] Compiling ProductQualification EnduranceCollector.swift
+[18/51] Write Objects.LinkFileList
+[20/51] Compiling TemperatureCoreTests ControllerFixture.swift
+[21/51] Compiling TemperatureCoreTests ProcessorFixture.swift
+[21/53] Linking ProductQualification
+[22/53] Applying ProductQualification
+[24/53] Emitting module SensorRuntimeTests
+[25/53] Compiling SensorRuntimeTests ProcessingCoordinatorTests.swift
+[26/53] Compiling TemperatureCoreTests LongSleepRecoveryRegressionTests.swift
+[27/53] Compiling TemperatureCoreTests MonitorIntegrationTests.swift
+[28/53] Compiling TemperatureCoreTests OptionalAvailabilityIntegrationTests.swift
+[29/53] Compiling TemperatureCoreTests SessionLifecycleTests.swift
+[30/53] Compiling TemperatureCoreTests SuspendedHistoryRegressionTests.swift
+[31/53] Compiling TemperatureCoreTests OptionalGenerationRecoveryRegressionTests.swift
+[32/53] Compiling TemperatureCoreTests OptionalProbeBudgetAcrossReconnectTests.swift
+[33/53] Compiling TemperatureCoreTests OptionalSleepAdmissionRaceRegressionTests.swift
+[34/53] Compiling TemperatureCoreTests RuntimeMaintenanceRegressionTests.swift
+[35/53] Compiling TemperatureCoreTests RuntimeShutdownRegressionTests.swift
+[36/53] Compiling TemperatureCoreTests SensorRecoveryRegressionTests.swift
+[37/53] Compiling TemperatureCoreTests TrendTests.swift
+[38/53] Compiling TemperatureCoreTests WatermarkTests.swift
+[39/53] Emitting module TemperatureCoreTests
+[40/53] Compiling TemperatureCoreTests EndToEndTests.swift
+[41/53] Compiling TemperatureCoreTests EngineGapRegressionTests.swift
+[42/53] Compiling TemperatureCoreTests HistorySourceContinuityRegressionTests.swift
+[43/53] Compiling TemperatureCoreTests CPUWarningNotificationTests.swift
+[44/53] Compiling TemperatureCoreTests CommitRegressionTests.swift
+[45/53] Compiling TemperatureCoreTests EMAProcessorTests.swift
+[46/53] Compiling TemperatureCoreTests AggregationTests.swift
+[47/53] Compiling TemperatureCoreTests BackpressureTests.swift
+[48/53] Compiling TemperatureCoreTests CPUWarningCommitTests.swift
+[49/53] Compiling TemperatureCoreTests OptionalWakeRecoveryRegressionTests.swift
+[50/53] Compiling TemperatureCoreTests ProcessingIdentityTests.swift
+[51/53] Compiling TemperatureCoreTests RecoveredSourceGapRegressionTests.swift
+[51/53] Write Objects.LinkFileList
+[52/53] Linking TemperatureCorePackageTests
+Build complete! (5.80s)
+Test Suite 'Selected tests' started at 2026-10-14 19:32:08.257.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-14 19:32:08.258.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-14 19:32:08.258.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-14 19:32:08.258.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite CPUWarningCommitTests started.
+◇ Test committedCPU12RawMaximumTriggersWhileEMAStillBelowThreshold() started.
+✔ Test committedCPU12RawMaximumTriggersWhileEMAStillBelowThreshold() passed after 0.013 seconds.
+◇ Test fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 50 to fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 100 to fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 200 to fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 500 to fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) started.
+◇ Test case passing 1 argument periodMS → 1000 to fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) started.
+✔ Test fiveSamplingPeriodsUseElapsedTimeWithUnknownHardwareTimestamp(periodMS:) with 5 test cases passed after 0.015 seconds.
+◇ Test periodSwitchPreservesCandidateWithoutUsingSampleCount() started.
+✔ Test periodSwitchPreservesCandidateWithoutUsingSampleCount() passed after 0.027 seconds.
+◇ Test oneFailedMemberInterruptsActiveWarningAndRestartsDuration() started.
+✔ Test oneFailedMemberInterruptsActiveWarningAndRestartsDuration() passed after 0.005 seconds.
+◇ Test optionalFailuresAndOptionalDefinitionChangesPreserveCPUAccumulator() started.
+✔ Test optionalFailuresAndOptionalDefinitionChangesPreserveCPUAccumulator() passed after 0.002 seconds.
+◇ Test CPUDefinitionChangeEndsEventAndRequiresNewSeriesData() started.
+✔ Test CPUDefinitionChangeEndsEventAndRequiresNewSeriesData() passed after 0.002 seconds.
+◇ Test committedGapAndSleepInterruptButRejectedTransitionDoesNot() started.
+✔ Test committedGapAndSleepInterruptButRejectedTransitionDoesNot() passed after 0.004 seconds.
+◇ Test snapshotRefreshNeverTriggersOrRecoversAndStalenessOnlyInterrupts() started.
+✔ Test snapshotRefreshNeverTriggersOrRecoversAndStalenessOnlyInterrupts() passed after 0.002 seconds.
+◇ Test rejectedAndFailedReadCommitDoNotTriggerAndReplayDoesNotDuplicate() started.
+✔ Test rejectedAndFailedReadCommitDoNotTriggerAndReplayDoesNotDuplicate() passed after 0.002 seconds.
+◇ Test ruleChangeWaitsForInFlightCommitAndCannotBeOverwritten() started.
+✔ Test ruleChangeWaitsForInFlightCommitAndCannotBeOverwritten() passed after 0.002 seconds.
+◇ Test fewerThanTwelveSourcesCannotTriggerWarning() started.
+✔ Test fewerThanTwelveSourcesCannotTriggerWarning() passed after 0.001 seconds.
+◇ Test snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt() started.
+✔ Test snapshotExpiresCommittedWarningDuringHeldCommitAndReceiptCannotReviveIt() passed after 0.008 seconds.
+◇ Test runtimeRuleActionPublishesTheUpdatedWarningWithoutTemperatureIO() started.
+✔ Test runtimeRuleActionPublishesTheUpdatedWarningWithoutTemperatureIO() passed after 0.006 seconds.
+◇ Test chartRebuildPreservesTheExactWarningBoundary() started.
+✔ Test chartRebuildPreservesTheExactWarningBoundary() passed after 0.002 seconds.
+✔ Suite CPUWarningCommitTests passed after 0.097 seconds.
+◇ Suite CPUWarningEvaluatorTests started.
+◇ Test shortSpikeAndBelowThresholdRestartTheCandidate() started.
+✔ Test shortSpikeAndBelowThresholdRestartTheCandidate() passed after 0.001 seconds.
+◇ Test inclusiveFiveSecondBoundaryUsesRawPeakAndTriggerTime() started.
+✔ Test inclusiveFiveSecondBoundaryUsesRawPeakAndTriggerTime() passed after 0.001 seconds.
+◇ Test recoveryRequiresTenSecondsAndResetsInsideHysteresisBand() started.
+✔ Test recoveryRequiresTenSecondsAndResetsInsideHysteresisBand() passed after 0.001 seconds.
+◇ Test elapsedTimeWinsOverWallClockAndRepeatedOrOlderSamples() started.
+✔ Test elapsedTimeWinsOverWallClockAndRepeatedOrOlderSamples() passed after 0.001 seconds.
+◇ Test interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+◇ Test case passing 1 argument reason → .noData to interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+◇ Test case passing 1 argument reason → .readFailure to interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+◇ Test case passing 1 argument reason → .gap to interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+◇ Test case passing 1 argument reason → .sourceChange to interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+◇ Test case passing 1 argument reason → .stale to interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+◇ Test case passing 1 argument reason → .lifecycle to interruptionsCloseTheEventAndRequireANewCandidate(reason:) started.
+✔ Test interruptionsCloseTheEventAndRequireANewCandidate(reason:) with 6 test cases passed after 0.001 seconds.
+◇ Test changedRuleAndDisableHaveDistinctEndReasons() started.
+✔ Test changedRuleAndDisableHaveDistinctEndReasons() passed after 0.001 seconds.
+◇ Test identicalRulePreservesActiveEventAndRecoveryCandidate() started.
+✔ Test identicalRulePreservesActiveEventAndRecoveryCandidate() passed after 0.001 seconds.
+◇ Test eventHistoryRetainsFiftyNewestEventsAndUniqueIdentity() started.
+✔ Test eventHistoryRetainsFiftyNewestEventsAndUniqueIdentity() passed after 0.001 seconds.
+◇ Test ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) started.
+◇ Test case passing 1 argument value → nan to ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) started.
+◇ Test case passing 1 argument value → inf to ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) started.
+◇ Test case passing 1 argument value → -inf to ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) started.
+◇ Test case passing 1 argument value → 4.99 to ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) started.
+◇ Test case passing 1 argument value → 120.01 to ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) started.
+✔ Test ruleRejectsNonFiniteOrOutsideTemperatureRange(value:) with 5 test cases passed after 0.001 seconds.
+◇ Test ruleRejectsOutsideDurationRange(value:) started.
+◇ Test case passing 1 argument value → 0 to ruleRejectsOutsideDurationRange(value:) started.
+◇ Test case passing 1 argument value → 301 to ruleRejectsOutsideDurationRange(value:) started.
+✔ Test ruleRejectsOutsideDurationRange(value:) with 2 test cases passed after 0.001 seconds.
+◇ Test ruleDecoderCannotBypassValidation() started.
+✔ Test ruleDecoderCannotBypassValidation() passed after 0.001 seconds.
+✔ Suite CPUWarningEvaluatorTests passed after 0.002 seconds.
+◇ Suite CommitRegressionTests started.
+◇ Test failedReadCommitCanRetryWithoutAdvancingSamplesOrSequence() started.
+✔ Test failedReadCommitCanRetryWithoutAdvancingSamplesOrSequence() passed after 0.001 seconds.
+◇ Test failedAggregationCommitRetainsWindowForRetry() started.
+✔ Test failedAggregationCommitRetainsWindowForRetry() passed after 0.001 seconds.
+◇ Test preparingOrFailingWakeDoesNotAdvanceSegment() started.
+✔ Test preparingOrFailingWakeDoesNotAdvanceSegment() passed after 0.001 seconds.
+◇ Test inFlightRegistrationSurvivesAggregationCommit() started.
+✔ Test inFlightRegistrationSurvivesAggregationCommit() passed after 0.001 seconds.
+◇ Test concurrentAcceptsCommitDistinctSampleIDsAndOrderedEMA() started.
+✔ Test concurrentAcceptsCommitDistinctSampleIDsAndOrderedEMA() passed after 0.001 seconds.
+◇ Test pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges() started.
+✔ Test pendingCPUReadUsesItsRequestedPeriodAfterPickerChanges() passed after 0.001 seconds.
+✔ Suite CommitRegressionTests passed after 0.001 seconds.
+◇ Suite EngineGapRegressionTests started.
+◇ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() started.
+✔ Test explicitReadFailureOpensOneGapAndRecoveryResetsEMA() passed after 0.001 seconds.
+◇ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() started.
+✔ Test elapsedTimeoutPersistsClosedGapAndNewSegmentWithSamples() passed after 0.001 seconds.
+◇ Test normalLongerPeriodDoesNotCreateFalseGap() started.
+✔ Test normalLongerPeriodDoesNotCreateFalseGap() passed after 0.001 seconds.
+◇ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() started.
+✔ Test failedCPU12MemberAlsoGapsMaximumAndRecoveryUsesRawMaximum() passed after 0.001 seconds.
+◇ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() started.
+✔ Test rejectedRecoveryReceiptDoesNotLeakSegmentOrCloseGap() passed after 0.001 seconds.
+◇ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() started.
+✔ Test failedGapReceiptDoesNotPublishGapAndRetryOnlyOpensOne() passed after 0.001 seconds.
+◇ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() started.
+✔ Test manualGapClosurePersistsSegmentAndStartsAtInclusiveEnd() passed after 0.001 seconds.
+◇ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() started.
+✔ Test lifecycleGapHistoryRetainsReasonAndExpiresClosedGaps() passed after 0.001 seconds.
+◇ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() started.
+✔ Test actualSQLiteStoresFailureAndRecoveryGapWithItsSegment() passed after 0.005 seconds.
+◇ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() started.
+✔ Test optionalAvailabilityRequiresExplicitRecoveryEvenAfterValidReads() passed after 0.001 seconds.
+✔ Suite EngineGapRegressionTests passed after 0.009 seconds.
+◇ Suite OptionalSleepAdmissionRaceRegressionTests started.
+◇ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState(pollDelayMS:) started.
+◇ Test case passing 1 argument pollDelayMS → 2 to sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState(pollDelayMS:) started.
+SleepRace_PHASE_COMPLETE pollMS=2 newReads=3 newReceipts=3 cpuReceipts=7
+◇ Test case passing 1 argument pollDelayMS → 125 to sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState(pollDelayMS:) started.
+SleepRace_PHASE_COMPLETE pollMS=125 newReads=3 newReceipts=3 cpuReceipts=7
+✔ Test sleepWaitsForFinalFailureBeforeCapturingWakeRecoveryState(pollDelayMS:) with 2 test cases passed after 2.138 seconds.
+✔ Suite OptionalSleepAdmissionRaceRegressionTests passed after 2.138 seconds.
+◇ Suite OptionalWakeRecoveryRegressionTests started.
+◇ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource(pollDelayMS:) started.
+◇ Test case passing 1 argument pollDelayMS → 2 to wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource(pollDelayMS:) started.
+Wake_PHASE_COMPLETE pollMS=2 newReads=3 newReceipts=3 cpuReceipts=7
+◇ Test case passing 1 argument pollDelayMS → 125 to wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource(pollDelayMS:) started.
+Wake_PHASE_COMPLETE pollMS=125 newReads=3 newReceipts=3 cpuReceipts=7
+✔ Test wakeRediscoveryCanRecoverPreviouslyUnavailableOptionalSource(pollDelayMS:) with 2 test cases passed after 1.945 seconds.
+✔ Suite OptionalWakeRecoveryRegressionTests passed after 1.945 seconds.
+✔ Test run with 43 tests in 6 suites passed after 4.196 seconds.

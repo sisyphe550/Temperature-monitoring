@@ -64,6 +64,7 @@ struct TemperaturePopoverView: View {
     @ViewBuilder
     private func runningContent(_ running: RunningPresentationState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
+            CPUWarningStatusView(warning: running.warning, asOf: running.asOf, compact: true)
             Text("CPU热区最高温度").font(.headline)
             Text(TemperatureFormatting.primaryText(running.primaryCPU))
                 .font(.system(.title2, design: .monospaced))

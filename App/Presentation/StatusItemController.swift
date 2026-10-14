@@ -166,14 +166,16 @@ final class StatusItemController: NSObject, NSPopoverDelegate {
 
     private func refreshStatusButton(_ button: NSStatusBarButton) {
         let title = TemperatureFormatting.statusTitle(for: presentationModel.state)
-        button.title = title
+        let warningActive = if case let .running(running) = presentationModel.state { CPUWarningFormatting.isActive(running.warning.state) } else { false }
+        let accessibleTitle = title + (warningActive ? " ⚠" : "")
+        button.title = accessibleTitle
         if case let .running(running) = presentationModel.state {
-            button.toolTip = TemperatureFormatting.stateDescription(running.primaryCPU)
+            button.toolTip = TemperatureFormatting.stateDescription(running.primaryCPU) + " · " + CPUWarningFormatting.title(running.warning.state)
         } else {
             button.toolTip = nil
         }
         button.setAccessibilityIdentifier("status.temperature")
-        button.setAccessibilityLabel(title)
-        button.setAccessibilityValue(title)
+        button.setAccessibilityLabel(accessibleTitle)
+        button.setAccessibilityValue(accessibleTitle)
     }
 }

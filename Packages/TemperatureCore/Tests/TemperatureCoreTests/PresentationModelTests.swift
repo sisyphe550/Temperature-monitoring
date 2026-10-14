@@ -235,7 +235,8 @@ private func sampleSnapshot(
         values: [LatestValue(definition: definition, state: state)],
         gapIDs: [],
         cpuPeriodMS: cpuPeriodMS,
-        generation: generation
+        generation: generation,
+        warning: try testWarningSnapshot()
     )
 }
 

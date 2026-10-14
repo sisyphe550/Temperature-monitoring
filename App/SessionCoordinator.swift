@@ -182,6 +182,11 @@ public actor SessionCoordinator {
         return try await controller.history(request)
     }
 
+    public func setCPUWarningRule(_ rule: CPUWarningRule) async throws {
+        guard let controller else { throw SessionCoordinatorError.notRunning }
+        try await controller.setCPUWarningRule(rule)
+    }
+
     public func setCPUPeriod(milliseconds: Int) async throws {
         guard let controller else {
             throw SessionCoordinatorError.notRunning

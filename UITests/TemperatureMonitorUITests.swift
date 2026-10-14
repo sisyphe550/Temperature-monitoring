@@ -33,6 +33,27 @@ final class TemperatureMonitorUITests: XCTestCase {
         XCTAssertTrue(app.buttons["fatal.copy"].exists)
     }
 
+    func testCPUWarningSettingsControlsAndValidation() throws {
+        let app = launch(fixture: "basic", open: "settings")
+        XCTAssertTrue(app.windows["设置"].waitForExistence(timeout: 10))
+        let enabled = app.descendants(matching: .any)["warning.enabled"].firstMatch
+        XCTAssertTrue(enabled.waitForExistence(timeout: 5), "CPU warning controls must be available.")
+        let threshold = app.textFields["warning.threshold"]
+        let duration = app.textFields["warning.duration"]
+        XCTAssertTrue(threshold.exists)
+        XCTAssertTrue(duration.exists)
+        XCTAssertTrue(app.descendants(matching: .any)["warning.notifications"].firstMatch.exists)
+        threshold.click()
+        threshold.typeKey("a", modifierFlags: .command)
+        threshold.typeText("4")
+        app.buttons["warning.apply"].click()
+        let feedback = app.staticTexts.matching(NSPredicate(format: "value CONTAINS %@ OR label CONTAINS %@", "触发温度必须", "触发温度必须")).firstMatch
+        XCTAssertTrue(feedback.waitForExistence(timeout: 5))
+        XCTAssertTrue(realText(feedback).contains("5") && realText(feedback).contains("120"), realText(feedback))
+        XCTAssertTrue(realText(app.staticTexts["warning.rule"]).contains("≥ 90.0 °C"), "Invalid draft must not change the live rule.")
+        XCTAssertFalse(app.staticTexts["fatal.code"].exists)
+    }
+
     func testSettingsWindowOpens() throws {
         let app = launch(fixture: "basic", open: "settings")
         let settingsWindow = app.windows["设置"]
@@ -486,7 +507,7 @@ final class TemperatureMonitorUITests: XCTestCase {
     }
 
     private func realHasTemperature(_ text: String) -> Bool {
-        text.range(of: #"^[0-9]+(?:\.[0-9]+)? °C$"#, options: .regularExpression) != nil
+        text.range(of: #"^[0-9]+(?:\.[0-9]+)? °C(?: ⚠)?$"#, options: .regularExpression) != nil
     }
 
     private func realText(_ element: XCUIElement) -> String {

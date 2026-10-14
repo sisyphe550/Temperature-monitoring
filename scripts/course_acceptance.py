@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import re
 
+from acceptance_evidence import validate_cpu_warning_report
+
 POLICY_PATH = Path("docs/contracts/course-delivery-v1.json")
 REQUIREMENT_IDS = {f"REQ-{number:03d}" for number in range(1, 135)}
 RETIRED_IDS = {"REQ-012", "REQ-114"}
@@ -66,7 +68,7 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
         return [f"course-delivery-v1.json: invalid policy: {error}"]
     if not isinstance(policy, dict):
         return ["course-delivery-v1.json: top level must be an object"]
-    for key, expected in (("version", 1), ("contract_revision", 3), ("target", "course-local")):
+    for key, expected in (("version", 1), ("contract_revision", 4), ("target", "course-local")):
         if type(policy.get(key)) is not type(expected) or policy.get(key) != expected:
             errors.append(f"course policy {key}: must be {expected!r}")
     if not isinstance(policy.get("authorization"), str) or not policy["authorization"].strip():
@@ -126,6 +128,9 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
             errors.append(f"{check_id}.required_evidence_kinds: unsupported kind")
         if CHECK_KINDS[check_id] not in required:
             errors.append(f"{check_id}: cannot remove required {CHECK_KINDS[check_id]} evidence")
+        warning_criterion = check_id in {"COURSE-FUNCTIONS", "COURSE-REGRESSIONS"}
+        if warning_criterion and "REQ-125" not in requirements:
+            errors.append(f"{check_id}: must include revision4 CPU warning REQ-125")
         evidence = strings(row.get("evidence"), f"{check_id}.evidence")
         missing = set(evidence) - set(artifacts)
         if missing:
@@ -143,10 +148,28 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
                      and isinstance(artifact.get("kind"), str)}
             if not set(required) <= kinds:
                 errors.append(f"{check_id}: missing passed evidence kinds {sorted(set(required) - kinds)}")
+            if warning_criterion:
+                warning_reports = [artifact for artifact in selected
+                                   if artifact.get("kind") == CHECK_KINDS[check_id]
+                                   and artifact.get("result") == "passed"
+                                   and "TC-WARNING" in artifact.get("tc_groups", [])]
+                if not warning_reports:
+                    errors.append(f"{check_id}: requires passed TC-WARNING {CHECK_KINDS[check_id]} evidence")
+                for artifact in warning_reports:
+                    try:
+                        validate_cpu_warning_report(root, artifact, check_source=False)
+                    except ValueError as error:
+                        errors.append(f"{check_id}: {error}")
             if check_id == "COURSE-CORE" and not any(
                     artifact.get("kind") == "software" and artifact.get("result") == "passed"
                     and _coverage(root, artifact) for artifact in selected):
                 errors.append("COURSE-CORE: requires production Core line coverage >=80% in evidence")
+    if tiers.get("REQ-125") != "core":
+        errors.append("course policy REQ-125: CPU warning must remain core")
+    if require_complete:
+        warning = next((row for row in rows if isinstance(row, dict) and row.get("id") == "REQ-125"), {})
+        if warning.get("verification") != "product-accepted-local":
+            errors.append("course CPU warning REQ-125: new behavior requires product-accepted-local evidence")
     if len(seen) != len(CHECK_KINDS) or set(seen) != set(CHECK_KINDS):
         errors.append("course policy checks: must contain each of the five required criteria exactly once")
     return errors
