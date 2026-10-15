@@ -22,7 +22,7 @@ TRACE_RESULT = {
 }
 KINDS = {"software", "formal-app-hardware", "ci", "waiver", "reference"}
 RETIRED_IDS = {"REQ-012", "REQ-114"}
-REQUIREMENT_IDS = {f"REQ-{number:03d}" for number in range(1, 135)}
+REQUIREMENT_IDS = {f"REQ-{number:03d}" for number in range(1, 136)}
 
 
 def _text(value: object, label: str) -> str:
@@ -59,8 +59,8 @@ def _unique_object(pairs: list[tuple[str, object]]) -> dict:
 def _requirement_rows(acceptance: dict) -> dict[str, dict]:
     if not isinstance(acceptance, dict) or acceptance.get("version") != 1:
         raise ValueError("acceptance: version must be 1")
-    if not isinstance(acceptance, dict) or acceptance.get("contract_revision") != 4:
-        raise ValueError("acceptance: contract_revision must be 4")
+    if not isinstance(acceptance, dict) or acceptance.get("contract_revision") != 5:
+        raise ValueError("acceptance: contract_revision must be 5")
     rows = acceptance.get("requirements")
     if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
         raise ValueError("acceptance: requirements must be an array of objects")
@@ -71,7 +71,7 @@ def _requirement_rows(acceptance: dict) -> dict[str, dict]:
             raise ValueError(f"acceptance: duplicate {requirement_id}")
         by_id[requirement_id] = row
     if set(by_id) != REQUIREMENT_IDS:
-        raise ValueError("acceptance: must contain REQ-001..REQ-134 exactly once")
+        raise ValueError("acceptance: must contain REQ-001..REQ-135 exactly once")
     for requirement_id, row in by_id.items():
         expected = "retired" if requirement_id in RETIRED_IDS else "active"
         if row.get("status") != expected:
@@ -148,8 +148,8 @@ def validate_cpu_warning_report(root: Path, artifact: dict, *, check_source: boo
         raise ValueError(f"{label}: must be a JSON object: {error}") from error
     if not isinstance(report, dict):
         raise ValueError(f"{label}: must be a JSON object")
-    if type(report.get("contract_version")) is not int or report.get("contract_version") != 4:
-        raise ValueError(f"{label}: contract_version must be 4")
+    if type(report.get("contract_version")) is not int or report.get("contract_version") not in {4, 5}:
+        raise ValueError(f"{label}: contract_version must be 4 or 5")
     if report.get("feature") != "cpu-warning":
         raise ValueError(f"{label}: feature must be cpu-warning")
     for field in ("kind", "source_commit", "result", "environment"):
@@ -221,10 +221,97 @@ def validate_cpu_warning_report(root: Path, artifact: dict, *, check_source: boo
         try:
             defaults = json.loads(saved.stdout, object_pairs_hook=_unique_object)
         except (json.JSONDecodeError, ValueError) as error:
-            raise ValueError(f"{label}: source must contain revision4 warning defaults") from error
-        if saved.returncode != 0 or not isinstance(defaults, dict) or type(defaults.get("contract_version")) is not int or defaults.get("contract_version") != 4 or not isinstance(defaults.get("cpu_warning"), dict):
-            raise ValueError(f"{label}: source must contain revision4 cpu-warning defaults")
+            raise ValueError(f"{label}: source must contain revision{report['contract_version']} warning defaults") from error
+        if saved.returncode != 0 or not isinstance(defaults, dict) or type(defaults.get("contract_version")) is not int or defaults.get("contract_version") != report["contract_version"] or not isinstance(defaults.get("cpu_warning"), dict):
+            raise ValueError(f"{label}: source must contain revision{report['contract_version']} cpu-warning defaults")
         for declaration in ("struct CPUWarningRule", "struct CPUWarningEvaluator"):
+            found = git("grep", "-l", "--fixed-strings", declaration, source, "--",
+                        "Packages/TemperatureCore/Sources/TemperatureCore")
+            if found.returncode != 0 or not found.stdout.strip():
+                raise ValueError(f"{label}: source lacks implemented {declaration}")
+    return report
+
+
+
+ANALYSIS_CASES = {
+    "software": {
+        "system-thermal-state", "cpu-assessment", "warning-independent", "trend-window-and-gap",
+        "receipt-replay-and-expiry", "rule-change", "advice-policy",
+    },
+    "formal-app-hardware": {
+        "real-cpu-analysis", "system-thermal-state", "trend-display", "warning-disabled", "close-reopen", "quit",
+    },
+}
+
+
+def validate_temperature_analysis_report(root: Path, artifact: dict, *, check_source: bool = True) -> dict:
+    """Require new analysis observations and source provenance, never a relabelled old report."""
+    root = root.resolve()
+    label = "Temperature analysis report"
+    kind = artifact.get("kind")
+    if not isinstance(kind, str) or kind not in ANALYSIS_CASES:
+        raise ValueError(f"{label}: TC-ANALYSIS requires software or formal-app-hardware")
+    path = _artifact_path(root, artifact.get("path"), label)
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_object)
+    except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+        raise ValueError(f"{label}: must be a JSON object: {error}") from error
+    if not isinstance(report, dict):
+        raise ValueError(f"{label}: must be a JSON object")
+    if type(report.get("contract_version")) is not int or report.get("contract_version") != 5:
+        raise ValueError(f"{label}: contract_version must be 5")
+    if report.get("feature") != "temperature-analysis":
+        raise ValueError(f"{label}: feature must be temperature-analysis")
+    for field in ("kind", "source_commit", "result", "environment"):
+        if report.get(field) != artifact.get(field):
+            raise ValueError(f"{label}: {field} does not match artifact metadata")
+    if not isinstance(report.get("environment"), dict) or not report["environment"]:
+        raise ValueError(f"{label}: environment must be a non-empty object")
+    if kind == "formal-app-hardware":
+        _validate_formal_environment(report["environment"], label)
+    cases = report.get("analysis_cases")
+    if not isinstance(cases, dict) or not cases:
+        raise ValueError(f"{label}: analysis_cases must be a non-empty object")
+    if artifact.get("result") == "passed":
+        missing = ANALYSIS_CASES[kind] - set(cases)
+        if missing:
+            raise ValueError(f"{label}: missing required analysis cases {sorted(missing)}")
+    for case_id, case in cases.items():
+        case_label = f"{label} {case_id}"
+        if not isinstance(case, dict):
+            raise ValueError(f"{case_label}: case must be an object")
+        outcome = case.get("result")
+        if not isinstance(outcome, str) or outcome not in {"passed", "failed", "not_observed", "pending"}:
+            raise ValueError(f"{case_label}: unknown case result")
+        _text(case.get("observed"), f"{case_label}.observed")
+        if artifact.get("result") == "passed" and case_id in ANALYSIS_CASES[kind] and outcome != "passed":
+            raise ValueError(f"{case_label}: required case did not pass")
+        evidence = case.get("evidence")
+        if not isinstance(evidence, list) or (outcome in {"passed", "failed"} and not evidence):
+            raise ValueError(f"{case_label}: requires original evidence references")
+        for item in evidence:
+            if not isinstance(item, dict):
+                raise ValueError(f"{case_label}: evidence reference must be an object")
+            raw = _artifact_path(root, item.get("path"), f"{case_label}.evidence.path")
+            digest = _hex(item.get("sha256"), 64, f"{case_label}.evidence.sha256")
+            if hashlib.sha256(raw.read_bytes()).hexdigest() != digest:
+                raise ValueError(f"{case_label}: original evidence hash does not match")
+    if check_source:
+        source = _hex(artifact.get("source_commit"), 40, f"{label}.source_commit")
+        def git(*arguments: str) -> subprocess.CompletedProcess:
+            try:
+                return subprocess.run(["git", "-C", str(root), *arguments], text=True,
+                                      capture_output=True, check=False)
+            except OSError as error:
+                raise ValueError(f"{label}: Git source check failed: {error}") from error
+        saved = git("show", f"{source}:docs/contracts/defaults-v1.json")
+        try:
+            defaults = json.loads(saved.stdout, object_pairs_hook=_unique_object)
+        except (json.JSONDecodeError, ValueError) as error:
+            raise ValueError(f"{label}: source must contain revision5 defaults") from error
+        if saved.returncode != 0 or not isinstance(defaults, dict) or type(defaults.get("contract_version")) is not int or defaults.get("contract_version") != 5:
+            raise ValueError(f"{label}: source must contain revision5 defaults")
+        for declaration in ("struct CPUAnalysisEvaluator", "enum TemperatureAdvicePolicy"):
             found = git("grep", "-l", "--fixed-strings", declaration, source, "--",
                         "Packages/TemperatureCore/Sources/TemperatureCore")
             if found.returncode != 0 or not found.stdout.strip():
@@ -243,8 +330,8 @@ def _validate_catalog(root: Path, catalog: dict, acceptance: dict) -> None:
     rows = _requirement_rows(acceptance)
     if not isinstance(catalog, dict) or catalog.get("version") != 2:
         raise ValueError("catalog: version must be 2")
-    if catalog.get("contract_revision") != 4:
-        raise ValueError("catalog: contract_revision must be 4")
+    if catalog.get("contract_revision") != 5:
+        raise ValueError("catalog: contract_revision must be 5")
     delivery = _hex(catalog.get("delivery_commit"), 40, "catalog.delivery_commit")
     commits = set()
 
@@ -304,13 +391,15 @@ def _validate_catalog(root: Path, catalog: dict, acceptance: dict) -> None:
             raise ValueError(f"{label}.tc_groups: invalid TC group")
         if "TC-WARNING" in groups:
             validate_cpu_warning_report(root, artifact)
+        if "TC-ANALYSIS" in groups:
+            validate_temperature_analysis_report(root, artifact)
 
     results = catalog.get("requirement_results")
     if not isinstance(results, dict):
         raise ValueError("catalog.requirement_results: must be an object")
     active_ids = set(rows) - RETIRED_IDS
     if set(results) != active_ids:
-        raise ValueError("catalog.requirement_results: must contain all 132 active requirements only; "
+        raise ValueError("catalog.requirement_results: must contain all 133 active requirements only; "
                          f"missing={sorted(active_ids - set(results))}, extra={sorted(set(results) - active_ids)}")
     for requirement_id, result in results.items():
         if not isinstance(result, dict):

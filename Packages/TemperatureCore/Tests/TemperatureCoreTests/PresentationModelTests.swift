@@ -236,7 +236,8 @@ private func sampleSnapshot(
         gapIDs: [],
         cpuPeriodMS: cpuPeriodMS,
         generation: generation,
-        warning: try testWarningSnapshot()
+        warning: try testWarningSnapshot(),
+        analysis: try testAnalysisSnapshot()
     )
 }
 

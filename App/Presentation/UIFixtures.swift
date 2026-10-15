@@ -12,6 +12,24 @@ enum UIFixtures {
         return CPUWarningSnapshot(rule: rule, state: .unableToAssess(reason: .noData), events: [])
     }
 
+    private static func analysisSnapshot(at timestamp: Timestamp, periodMS: Int = 200,
+        rawC: Double = 67.4, direction: TrendDirection = .rising,
+        unavailable: CPUWarningInterruptionReason? = nil) -> CPUAnalysisSnapshot {
+        let rule = warningSnapshot().rule
+        if let unavailable {
+            return CPUAnalysisSnapshot(thresholdC: rule.thresholdC, durationSeconds: rule.durationSeconds,
+                state: .unavailable(reason: unavailable))
+        }
+        let seriesID = sourceDefinitions()[0].seriesID
+        let observation = Sample(sampleID: "fixture:analysis:raw", seriesID: seriesID, segment: 1,
+            timestamp: timestamp, periodMS: periodMS, valueC: rawC, freshness: .unknown,
+            sourceWallUnixNS: nil, memberSampleIDs: ["fixture:cpu12"])
+        let trend = TrendValue(seriesID: seriesID, segment: 1, at: timestamp,
+            slopeCPerSecond: direction == .rising ? 0.05 : 0, direction: direction, pointCount: 51)
+        return CPUAnalysisSnapshot(thresholdC: rule.thresholdC, durationSeconds: rule.durationSeconds,
+            state: .available(observation: observation, assessment: .belowThreshold, trend: trend))
+    }
+
     static func apply(named name: String, to model: PresentationModel) {
         switch name {
         case "basic":
@@ -66,8 +84,9 @@ enum UIFixtures {
                 ],
                 gapIDs: [],
                 cpuPeriodMS: cpuPeriodMS,
-                generation: generation, warning: warningSnapshot()
-            )
+                generation: generation, warning: warningSnapshot(),
+                analysis: analysisSnapshot(at: now, periodMS: cpuPeriodMS)
+            ), systemThermalState: .nominal
         )
     }
 
@@ -78,7 +97,9 @@ enum UIFixtures {
             makeLatest(definition: definition, valueC: temperatures[index], at: now)
         }
         _ = model.apply(snapshot: Snapshot(asOf: now, values: values, gapIDs: [],
-            cpuPeriodMS: cpuPeriodMS, generation: generation, warning: warningSnapshot()))
+            cpuPeriodMS: cpuPeriodMS, generation: generation, warning: warningSnapshot(),
+            analysis: analysisSnapshot(at: now, periodMS: cpuPeriodMS, rawC: 61.2, direction: .stable)),
+            systemThermalState: .nominal)
     }
 
     private static func sourceDefinitions() -> [SeriesDefinition] {
@@ -126,7 +147,8 @@ enum UIFixtures {
         let latest = LatestValue(definition: definition, state: .available(
             ema: EMAValue(sampleID: "fixture:cached", seriesID: definition.seriesID, segment: 1,
                 timestamp: observed, valueC: 58.3), lastSuccessfulAt: observed, lastFailure: failure))
-        _ = model.apply(snapshot: Snapshot(asOf: now, values: [latest], gapIDs: [], cpuPeriodMS: 200, generation: 1, warning: warningSnapshot()))
+        _ = model.apply(snapshot: Snapshot(asOf: now, values: [latest], gapIDs: [], cpuPeriodMS: 200, generation: 1, warning: warningSnapshot(),
+            analysis: analysisSnapshot(at: now, unavailable: .readFailure)), systemThermalState: .nominal)
     }
 
     static func applyUnavailable(to model: PresentationModel) {
@@ -135,7 +157,8 @@ enum UIFixtures {
         let values = [makeLatest(definition: definitions[0], valueC: 61.2, at: now),
             LatestValue(definition: definitions[2], state: .unavailable(capability: .unsupported,
                 reason: "当前设备未发现可读取的SSD温度来源"))]
-        _ = model.apply(snapshot: Snapshot(asOf: now, values: values, gapIDs: [], cpuPeriodMS: 200, generation: 1, warning: warningSnapshot()))
+        _ = model.apply(snapshot: Snapshot(asOf: now, values: values, gapIDs: [], cpuPeriodMS: 200, generation: 1, warning: warningSnapshot(),
+            analysis: analysisSnapshot(at: now, rawC: 61.2, direction: .stable)), systemThermalState: .nominal)
     }
 
     static func applyStale(to model: PresentationModel) {
@@ -172,8 +195,9 @@ enum UIFixtures {
                 ],
                 gapIDs: [],
                 cpuPeriodMS: 200,
-                generation: 1, warning: warningSnapshot()
-            )
+                generation: 1, warning: warningSnapshot(),
+                analysis: analysisSnapshot(at: now, unavailable: .stale)
+            ), systemThermalState: .nominal
         )
     }
 

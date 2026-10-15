@@ -50,11 +50,11 @@ def requirement_sections() -> dict[str, str]:
         if requirement_id in sections:
             fail(f"01-requirements.md: duplicate {requirement_id}")
         sections[requirement_id] = text[match.end() : end]
-    expected = [f"REQ-{number:03d}" for number in range(1, 135)]
+    expected = [f"REQ-{number:03d}" for number in range(1, 136)]
     if list(sections) != expected:
         missing = sorted(set(expected) - set(sections))
         extra = sorted(set(sections) - set(expected))
-        fail(f"01-requirements.md: IDs not exactly REQ-001..134; missing={missing}, extra={extra}")
+        fail(f"01-requirements.md: IDs not exactly REQ-001..135; missing={missing}, extra={extra}")
     return sections
 
 
@@ -66,8 +66,8 @@ def validate_requirements() -> None:
         fail("acceptance-v1.json: requirements must be an array")
         return
     by_id = {row.get("id"): row for row in rows if isinstance(row, dict)}
-    if len(rows) != 134 or len(by_id) != 134 or set(by_id) != set(sections):
-        fail("acceptance-v1.json: must contain each of 134 requirement IDs exactly once")
+    if len(rows) != 135 or len(by_id) != 135 or set(by_id) != set(sections):
+        fail("acceptance-v1.json: must contain each of 135 requirement IDs exactly once")
         return
 
     retired_ids = {requirement_id for requirement_id, row in by_id.items() if row.get("status") == "retired"}
@@ -75,14 +75,14 @@ def validate_requirements() -> None:
         fail(f"acceptance-v1.json: retired IDs are {sorted(retired_ids)}, expected REQ-012/114")
 
     task_text = (DOCS / "22-agent-implementation-plan.md").read_text(encoding="utf-8")
-    defined_tasks = set(re.findall(r"^## (W(?:0\d|1[012]))：", task_text, re.MULTILINE))
-    if defined_tasks != {f"W{number:02d}" for number in range(13)}:
-        fail(f"22-agent-implementation-plan.md: W00..W12 mismatch: {sorted(defined_tasks)}")
+    defined_tasks = set(re.findall(r"^## (W(?:0\d|1[0123]))：", task_text, re.MULTILINE))
+    if defined_tasks != {f"W{number:02d}" for number in range(14)}:
+        fail(f"22-agent-implementation-plan.md: W00..W13 mismatch: {sorted(defined_tasks)}")
 
     test_text = (DOCS / "10-test-strategy.md").read_text(encoding="utf-8")
     defined_tests = set(re.findall(r"^\| (TC-[A-Z0-9-]+) \|", test_text, re.MULTILINE))
-    if len(defined_tests) != 21:
-        fail(f"10-test-strategy.md: expected 21 TC groups, found {len(defined_tests)}")
+    if len(defined_tests) != 22:
+        fail(f"10-test-strategy.md: expected 22 TC groups, found {len(defined_tests)}")
 
     warning_row = by_id["REQ-125"]
     if warning_row.get("tasks") != ["W12"] or warning_row.get("tests") != ["TC-WARNING", "TC-UI", "TC-LIFECYCLE"]:
@@ -91,6 +91,14 @@ def validate_requirements() -> None:
         fail("REQ-125: missing current CPU warning design")
     if set(warning_row.get("acceptance_notes", {}).get("required_evidence_kinds", [])) != {"software", "formal-app-hardware"}:
         fail("REQ-125: requires software and formal-app-hardware warning evidence")
+
+    analysis_row = by_id["REQ-135"]
+    if analysis_row.get("tasks") != ["W13"] or analysis_row.get("tests") != ["TC-ANALYSIS", "TC-TREND", "TC-UI", "TC-LIFECYCLE"]:
+        fail("REQ-135: must retain W13 and TC-ANALYSIS/TC-TREND/TC-UI/TC-LIFECYCLE mapping")
+    if "25-temperature-analysis.md" not in analysis_row.get("design", []):
+        fail("REQ-135: missing current temperature analysis design")
+    if set(analysis_row.get("acceptance_notes", {}).get("required_evidence_kinds", [])) != {"software", "formal-app-hardware"}:
+        fail("REQ-135: requires software and formal-app-hardware analysis evidence")
 
     upstream_boundary_ids = (
         "REQ-009", "REQ-013", "REQ-014", "REQ-070", "REQ-079", "REQ-083",
@@ -138,8 +146,8 @@ def validate_requirements() -> None:
     traceability = (DOCS / "17-traceability.md").read_text(encoding="utf-8")
     trace_rows = re.findall(r"^\| (REQ-\d{3}) \| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \| ([^|]+) \|$", traceability, re.MULTILINE)
     trace_ids = [row[0] for row in trace_rows]
-    if trace_ids != [f"REQ-{number:03d}" for number in range(1, 135)]:
-        fail("17-traceability.md: rows must be REQ-001..REQ-134 exactly once and in order")
+    if trace_ids != [f"REQ-{number:03d}" for number in range(1, 136)]:
+        fail("17-traceability.md: rows must be REQ-001..REQ-135 exactly once and in order")
     for requirement_id, status, design_cell, task_cell, test_cell, result in trace_rows:
         row = by_id[requirement_id]
         design_files = re.findall(r"\[[^\]]+\]\(([^)]+\.md)\)", design_cell)
@@ -163,7 +171,7 @@ def validate_requirements() -> None:
 def validate_contract_values() -> None:
     defaults = load_json(CONTRACTS / "defaults-v1.json")
     exact = {
-        "contract_version": 4,
+        "contract_version": 5,
         "cpu_intervals_ms": [50, 100, 200, 500, 1000],
         "cpu_default_ms": 200,
         "ssd_interval_ms": 500,
@@ -217,8 +225,8 @@ def validate_contract_values() -> None:
         fail("defaults-v1.json: one event reservation exceeds a transaction")
 
     profile = load_json(CONTRACTS / "first-profile-v1.json")
-    if profile.get("contract_version") != 4:
-        fail("first-profile-v1.json: contract_version must be 4")
+    if profile.get("contract_version") != 5:
+        fail("first-profile-v1.json: contract_version must be 5")
     expected_keys = ["Te05", "Te0S", "Te09", "Te0H", "Tp01", "Tp05", "Tp09", "Tp0D", "Tp0V", "Tp0Y", "Tp0b", "Tp0e"]
     if profile.get("model") != "Mac16,13" or profile.get("cpu_keys") != expected_keys:
         fail("first-profile-v1.json: first model or ordered 12-key CPU set changed")
@@ -301,6 +309,9 @@ def validate_third_party_contract() -> None:
     ):
         if token not in api:
             fail(f"api-v1.swift: missing {token}")
+    for token in ("public enum CPUAnalysisState", "public struct CPUAnalysisSnapshot", "public enum SystemThermalState", "public enum TemperatureAdvice", "public enum TemperatureAdvicePolicy", "public struct TemperatureAnalysisSnapshot", "public let analysis: CPUAnalysisSnapshot", "public let analysis: TemperatureAnalysisSnapshot"):
+        if token not in api:
+            fail(f"api-v1.swift: missing temperature analysis contract {token}")
     for token in ("InterconnectLookupStatus", "physicalInterconnectLocation", "interconnectLookupStatus"):
         if token not in api:
             fail(f"api-v1.swift: missing NVMe discovery fact {token}")
@@ -311,21 +322,21 @@ def validate_third_party_contract() -> None:
 
 def validate_task_graph() -> None:
     contract = load_json(CONTRACTS / "tasks-v1.json")
-    if contract.get("contract_revision") != 4:
-        fail("tasks-v1.json: contract_revision must be 4")
+    if contract.get("contract_revision") != 5:
+        fail("tasks-v1.json: contract_revision must be 5")
     rows = contract.get("tasks", [])
     if not isinstance(rows, list):
         fail("tasks-v1.json: tasks must be an array")
         return
-    if len(rows) != 55:
-        fail(f"tasks-v1.json: expected 55 execution tasks, found {len(rows)}")
+    if len(rows) != 60:
+        fail(f"tasks-v1.json: expected 60 execution tasks, found {len(rows)}")
     by_id: dict[str, dict] = {}
     for row in rows:
         if not isinstance(row, dict):
             fail("tasks-v1.json: every task must be an object")
             continue
         task_id = row.get("id")
-        if not isinstance(task_id, str) or not re.fullmatch(r"T(?:0\d|1[012])\.\d", task_id):
+        if not isinstance(task_id, str) or not re.fullmatch(r"T(?:0\d|1[0123])\.\d", task_id):
             fail(f"tasks-v1.json: invalid task ID {task_id!r}")
             continue
         if task_id in by_id:
@@ -337,8 +348,8 @@ def validate_task_graph() -> None:
         if not isinstance(row.get("depends_on"), list):
             fail(f"tasks-v1.json: {task_id}.depends_on must be an array")
 
-    if contract.get("entry_task") != "T00.1" or contract.get("terminal_task") != "T12.5":
-        fail("tasks-v1.json: entry/terminal task must be T00.1/T12.5")
+    if contract.get("entry_task") != "T00.1" or contract.get("terminal_task") != "T13.5":
+        fail("tasks-v1.json: entry/terminal task must be T00.1/T13.5")
     roots = {task_id for task_id, row in by_id.items() if row.get("depends_on") == []}
     if roots != {"T00.1"}:
         fail(f"tasks-v1.json: only T00.1 may be a root, found {sorted(roots)}")
@@ -383,15 +394,15 @@ def validate_task_graph() -> None:
         for dependency in by_id[task_id].get("depends_on", []):
             collect(dependency)
 
-    collect("T12.5")
+    collect("T13.5")
     if ancestors != set(by_id):
         fail(f"tasks-v1.json: tasks not connected to terminal: {sorted(set(by_id) - ancestors)}")
 
     plan = (DOCS / "23-execution-task-breakdown.md").read_text(encoding="utf-8")
-    plan_ids = re.findall(r"^\| - \[ \] (T(?:0\d|1[012])\.\d) ", plan, re.MULTILINE)
+    plan_ids = re.findall(r"^\| - \[ \] (T(?:0\d|1[0123])\.\d) ", plan, re.MULTILINE)
     if plan_ids != [row.get("id") for row in rows if isinstance(row, dict)]:
         fail("23-execution-task-breakdown.md: checkbox task order differs from tasks-v1.json")
-    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[ \] T(?:0\d|1[012])\.\d ", line)]
+    task_lines = [line for line in plan.splitlines() if re.match(r"^\| - \[ \] T(?:0\d|1[0123])\.\d ", line)]
     for line in task_lines:
         columns = [column.strip() for column in line.strip().strip("|").split("|")]
         if len(columns) != 6 or any(not column for column in columns):
@@ -401,10 +412,10 @@ def validate_task_graph() -> None:
             fail(f"23-execution-task-breakdown.md: placeholder marker present: {marker}")
 
     packages = {row.get("work_package") for row in rows if isinstance(row, dict)}
-    if packages != {f"W{number:02d}" for number in range(13)}:
+    if packages != {f"W{number:02d}" for number in range(14)}:
         fail(f"tasks-v1.json: work-package coverage mismatch: {sorted(packages)}")
     expected_counts = {"W00": 5, "W01": 4, "W02": 6, "W03": 4, "W04": 5, "W05": 5,
-                       "W06": 4, "W07": 5, "W08": 3, "W09": 4, "W10": 2, "W11": 3, "W12": 5}
+                       "W06": 4, "W07": 5, "W08": 3, "W09": 4, "W10": 2, "W11": 3, "W12": 5, "W13": 5}
     actual_counts = {package: sum(row.get("work_package") == package for row in rows if isinstance(row, dict))
                      for package in expected_counts}
     if actual_counts != expected_counts:
@@ -556,7 +567,7 @@ def validate_entry_contracts() -> None:
         DOCS / "21-implementation-contracts.md",
     ]
     required_tokens = (
-        "contract revision 4",
+        "contract revision 5",
         "Discovered",
         "Qualified",
         "ReadingOutcome",
@@ -589,7 +600,7 @@ def main() -> int:
     modes.add_argument("--product-acceptance", action="store_true",
                        help="require course-local criteria with passed evidence (not all strict requirements)")
     modes.add_argument("--strict-product-acceptance", action="store_true",
-                       help="require all 132 active strict requirements accepted or explicitly waived")
+                       help="require all 133 active strict requirements accepted or explicitly waived")
     args = parser.parse_args()
     validate_requirements()
     validate_contract_values()
@@ -620,12 +631,12 @@ def main() -> int:
             {
                 "status": "passed",
                 "profile": profile,
-                "requirements": {"total": 134, "active": 132, "retired": 2},
-                "tasks": {"work_packages": 13, "execution_tasks": 55},
-                "test_groups": 21,
-                "contract_revision": 4,
+                "requirements": {"total": 135, "active": 133, "retired": 2},
+                "tasks": {"work_packages": 14, "execution_tasks": 60},
+                "test_groups": 22,
+                "contract_revision": 5,
                 "contracts": ["defaults-v1.json", "first-profile-v1.json", "api-v1.swift", "schema-v1.sql", "third-party-v1.json", "acceptance-v1.json", "tasks-v1.json", "course-delivery-v1.json"],
-                "scope": ("course-local criteria passed; strict 132 requirement qualification and exact-head CI are separate"
+                "scope": ("course-local criteria passed; strict 133 requirement qualification and exact-head CI are separate"
                           if args.product_acceptance else
                           "all active strict requirements accepted or waived; exact-head CI is separate"
                           if args.strict_product_acceptance else

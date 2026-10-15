@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "date": "2026-10-14",
-  "contract_revision": 4,
+  "date": "2026-10-15",
+  "contract_revision": 5,
   "delivery_commit": "958398772918c3cf61cf5eb552bb24759197b755",
   "artifacts": {
     "core-regression": {
@@ -3082,6 +3082,19 @@
         "core-regression",
         "ui-fixtures",
         "source-audit"
+      ]
+    },
+    "REQ-135": {
+      "verification": "pending-product-acceptance",
+      "evidence": [],
+      "covered_cases": [],
+      "outstanding": [
+        "新增温度分析尚待本轮实现、软件及正式App短测"
+      ],
+      "reason": "2026-10-15新增行为，旧CPU预警或旧课程资料不证明分析已实现",
+      "required_evidence_kinds": [
+        "software",
+        "formal-app-hardware"
       ]
     }
   },

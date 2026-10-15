@@ -1,10 +1,10 @@
 # 本机课程交付范围
 
-更新：2026-10-14。当前目标：在用户自己的MacBook Air完成课程演示、交付可运行ad-hoc Release App并合并本轮PR。实施契约为v1族revision4；新增CPU预警API/default，profile硬件定义和SQLite schema不变，保留原50任务并新增W12五任务。修订3原核心测试、App观察与课程门禁已通过；新预警尚待验收，独立审查、CI与合并另按实际结果核对。
+更新：2026-10-15。当前目标为本机课程演示、可运行ad-hoc Release App与课程材料交付。当前实施契约v1族revision5，新增温度分析REQ-135/W13尚待验收；W12修订4历史已通过的证据保留。CPU12硬件profile语义和SQLite schema不变，14W/60T/22TC；最终独立审查、同head五CI与Git合并仍按实际结果核对。
 
 ## 最新直接授权（要点转述）
 
-用户将目标收敛为本机课程演示，授权继续完成当前工作并最终merge交付。优先确认核心CPU温度监测和日常操作可用，不为个人单机用途继续严格132项全资格、五档各10分钟、物理睡眠/唤醒、72/73小时耐久、公证/公开发行或跨机认证，也不补精确skipped、读批p95/p99、首帧及显示延迟指标。本轮采用优化后的最小收尾：必要软件回归及全Core、一次正式App同会话短测和资源/响应观察、一次最终独立审查、同head五CI/零真实blocking后合并，完成即停。
+用户将目标收敛为本机课程演示，授权继续完成当前工作并最终merge交付。优先确认核心CPU温度监测和日常操作可用，不为个人单机用途继续严格133项全资格、五档各10分钟、物理睡眠/唤醒、72/73小时耐久、公证/公开发行或跨机认证，也不补精确skipped、读批p95/p99、首帧及显示延迟指标。本轮采用优化后的最小收尾：必要软件回归及全Core、一次正式App同会话短测和资源/响应观察、一次最终独立审查、同head五CI/零真实blocking后合并，完成即停。
 
 这项最新授权覆盖此前“完成当前工作后暂停”以及“保留五档各10分钟/真实睡眠验证”的执行要求。此前失败、partial、skipped-by-user和not_measured证据仍保持原记录；收缩验收不等于它们通过，不重写历史validation/research。
 
@@ -26,9 +26,9 @@
 | ID | 必需证据与判定边界 |
 |---|---|
 | COURSE-CPU | 正式Release本机真实CPU12、来源/单位、Raw max→EMA可见；结合必要软件异常回归证明失败不补0/旧值。成功短测未触发真实故障时不声称实机故障验证 |
-| COURSE-FUNCTIONS | 正式启动、五档短切换、来源选择、历史范围/点选、关窗继续采样、标准重开同会话、正常退出及清理；菜单/Popover按本机实际操作记录 |
+| COURSE-FUNCTIONS | 新增分析四项须本轮正式App证据；正式启动、五档短切换、来源选择、历史范围/点选、关窗继续采样、标准重开同会话、正常退出及清理；菜单/Popover按本机实际操作记录 |
 | COURSE-RESOURCES | 同一次短测记录App与Worker CPU/RSS、图表与操作响应，无明显异常；记录窗口/档位/时间、结果与限制，不据短测声称无泄漏或跨机达标 |
-| COURSE-REGRESSIONS | 必要关键失败、数据完整性、断管/回收、可选恢复、历史/TTL、软件sleep/wake与退出清理回归保留；不新增物理睡眠或强杀真实App |
+| COURSE-REGRESSIONS | 新增TC-ANALYSIS须本轮软件证据；必要关键失败、数据完整性、断管/回收、可选恢复、历史/TTL、软件sleep/wake与退出清理回归保留；不新增物理睡眠或强杀真实App |
 | COURSE-CORE | 当前完整产品Core通过、核心行覆盖≥80%，含异常路径且分母不缩减；保存原日志与覆盖报告 |
 
 每条criterion绑定明确source_commit、App/Worker身份（适用时）、环境、输入/实际、结果和证据。课程五条不能由声明、整组TC绿灯或旧产品报告替代；旧逐REQ100accepted/31pending/1waived/2retired保留，不批量PASS。
@@ -50,16 +50,20 @@ python3 scripts/validate-handoff.py --product-acceptance
 python3 scripts/validate-handoff.py --strict-product-acceptance
 ```
 
-普通检查验证文档/绑定一致；course-local只判当前五criterion；strict模式保留旧全132项扩展资格，旧pending存在时拒绝。文档结构通过不证明实测真实性，最终审查要核原证据。五项required CI和真实blocking按11由外部流程检查，不能通过删除真实bug标签绕过。
+普通检查验证文档/绑定一致；course-local只判当前五criterion；strict模式保留全133项扩展资格，旧pending存在时拒绝。文档结构通过不证明实测真实性，最终审查要核原证据。五项required CI和真实blocking按11由外部流程检查，不能通过删除真实bug标签绕过。
 
 [7124正式App归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)、[f0软件归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)、[c354原FAILED长测](validation/product-software/W11/2026-10-03-c354b03/README.md)各自保留源码与产物身份。Issue #49既有记录支持CPU开销改善，未证明RSS增长解决；本轮是否仍有可复现异常由一次最终资源/响应观察判定，不能把可选精确性能未测虚称通过或用它强迫继续全资格实验。
 
-## 本轮测试与交付记录
+## 历史课程测试与交付记录
 
-当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
+历史正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
 
 Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)；原取消任务保留，App与有效测试断言不变。最终同head五CI和零blocking仍按Git流程回读。
 
-## 2026-10-14 CPU预警扩展
+## 历史2026-10-14 CPU预警扩展
 
-用户批准[24](24-cpu-warning.md)新增行为，先更新权威文档再开发。五criterion数量保持；COURSE-FUNCTIONS加入REQ125的正式App设置/状态，COURSE-REGRESSIONS加入TC-WARNING；product-acceptance要求新REQ125已验收且对应warning证据，旧无告警结果不适用。新行为pending，历史课程通过仍绑定旧源码/产物。本轮仍为本机短测/Core>=80%/五CI/一次独立审查，不恢复长测或公证。
+用户批准[24](24-cpu-warning.md)新增行为，先更新权威文档再开发。五criterion数量保持；COURSE-FUNCTIONS加入REQ125的正式App设置/状态，COURSE-REGRESSIONS加入TC-WARNING；product-acceptance要求新REQ125已验收且对应warning证据，旧无告警结果不适用。该扩展当时先标pending，后以W12独立证据验收；历史课程通过始终绑定原源码/产物。本轮仍为本机短测/Core>=80%/五CI/一次独立审查，不恢复长测或公证。
+
+## 2026-10-15 温度分析扩展（当前执行入口）
+
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。

@@ -1,6 +1,6 @@
 # 测试、验收向量与证据标准
 
-更新：2026-10-14；实施契约v1族修订4。当前本机课程门槛为[课程范围](course-delivery-scope.md)及[五criterion政策](contracts/course-delivery-v1.json)，全132项资格是可选扩展。软件、fixture、正式Release实机和发行证据分开，旧失败/未测结果保持，不因范围收缩批量通过。当前最小收尾仍进行中。
+更新：2026-10-15；实施契约v1族修订5。当前本机课程门槛为[课程范围](course-delivery-scope.md)及[五criterion政策](contracts/course-delivery-v1.json)，全133项资格是可选扩展。软件、fixture、正式Release实机和发行证据分开，旧失败/未测结果保持，不因范围收缩批量通过。当前最小收尾仍进行中。
 
 ## 自动化和实机分层
 
@@ -22,11 +22,12 @@
 | TC-UI | 菜单栏左右键、Esc、点击外部、⌘W/⌘Q、无值/缓存/过期、浅深色、键盘、小屏 | 符合07；摄氏一位小数；关窗口不断采样；没有逐核温度/自启动；CPU预警按TC-WARNING验收 |
 | TC-UPSTREAM-BOUNDARY | Stats旧值回退、SwiftTempBar缺事件/名称分类、12来源对10物理核、同名不同registryID、Release产物扫描、缺第三方登记/许可 | 旧值不生成新样本；缺事件不生成0°C；名称/数量不产生物理语义；不同registryID不合并；无写SMC/root/helper/fixture；copied/modified未登记即失败 |
 | TC-WORKFLOW | 失败CI、open blocking Issue、过期head检查、未保护main | 必须拒绝合并；merge commit且保留远端分支；通过不能只看旧SHA |
-| TC-DOCS | 134ID/132active/2retired、链接、DDL、参数、任务与正文hash | `validate-handoff.py`通过；已删除项不进入实现任务 |
+| TC-DOCS | 135ID/133active/2retired、链接、DDL、参数、任务与正文hash | `validate-handoff.py`通过；已删除项不进入实现任务 |
 | TC-RELEASE | 当前本机Release/worker ad-hoc签名和身份；可选Developer ID、公证ZIP、Gatekeeper/发行复测 | 本机交付绑定实际SHA；未执行公证不标通过，也不阻塞当前本机课程 |
 | TC-ENDURANCE | 可选72/73h真实运行与五档各10min；必要软件虚拟时间TTL/有界回归保留 | 本轮不执行实机长跑；未测不标通过。72h历史功能、TTL与数据边界不变 |
-| TC-ACCEPTANCE | 当前五课程criterion绑定原证据；旧132项逐REQ矩阵保留 | course-local与旧strict资格分别判定；pending不批量接受，2退役不适用 |
+| TC-ACCEPTANCE | 当前五课程criterion绑定本轮增量证据；旧132项结果与新增REQ135分别记录 | course-local与旧strict资格分别判定；pending不批量接受，2退役不适用 |
 | TC-WARNING | Raw CPU12/elapsed边界、恢复滞回、中断/Receipt/重放、五档、规则保存/50事件、通知权限/去重/60秒/晚回调 | 新REQ125软件与正式App分层证据；不由UI旧值推进；旧无告警证据不适用 |
+| TC-ANALYSIS | 整机热状态、独立CPU Raw判断、已提交10秒EMA趋势、建议及失效边界 | REQ-135新软件与正式App分层证据；旧预警报告不可替代 |
 
 ## 必须覆盖的交叉场景
 
@@ -73,7 +74,7 @@ COURSE-RESOURCES记录时间、档位/图表、owned PID/PPID、CPU单核100%口
 
 取消长跑不删除72h分层历史、容量/TTL120秒清理宽限或软件sleep/wake；CPU成员、周期、单位、失败状态、算法与schema不变。原型/CLI、CI和模拟不替代正式App实机；当前本机短测不替代可选扩展资格。
 
-## 修订4适用回归（2026-10-02）
+## 历史修订4适用回归（2026-10-02）
 
 TC-SENSOR/TC-UPSTREAM-BOUNDARY覆盖NVMe位置事实缺失、父树失败、非Internal、多候选、WorkerProtocol闭合枚举和Battery资格化；TC-SCHEDULE覆盖CPU非零耗时下Battery/SSD同相位不饥饿；TC-DB/TC-RETENTION覆盖临时错误相同payload重试、并发reservation和周期TTL；TC-VALIDATE/TC-ERROR覆盖CPU缺成员、超时恢复/耗尽、日志报告、过期重放拒绝。REQ映射与任务DAG不变，修复证据另存；模拟通过不等于正式硬件通过。最新课程范围将实机长测、公证/发行/跨机与精确性能列为可选，本轮正式App短测和上述必要软件回归仍必需。
 
@@ -84,7 +85,7 @@ python3 scripts/validate-handoff.py --product-acceptance
 python3 scripts/validate-handoff.py --strict-product-acceptance
 ```
 
-course-local检查COURSE-CPU/FUNCTIONS/RESOURCES/REGRESSIONS/CORE，strict保留旧全132项资格；不是同一完成状态。核心≥80%及异常分母不变。最终独立审查、同head五CI和零真实blocking在11的外部流程回读，不让文档CI要求自身未来完成。
+course-local检查COURSE-CPU/FUNCTIONS/RESOURCES/REGRESSIONS/CORE，strict保留全133项资格；不是同一完成状态。核心≥80%及异常分母不变。最终独立审查、同head五CI和零真实blocking在11的外部流程回读，不让文档CI要求自身未来完成。
 
 [7124归档](validation/product-software/W11/2026-10-03-7124dc1/README.md)保留断管错误/子进程回收、完整Core和原正式App短测；[f0归档](validation/product-software/W11/2026-10-03-f0a7dde/README.md)保留Generation/Budget/Wake/SleepAdmissionRace的提交边界同步、失败及负控。旧逐REQ仍100accepted/31pending/1waived/2retired；本轮全Core与正式短测须另绑定实际源码/产物，不因这些链接预先通过。
 
@@ -94,6 +95,10 @@ course-local检查COURSE-CPU/FUNCTIONS/RESOURCES/REGRESSIONS/CORE，strict保留
 
 [本次编排回归](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)：355项/57组通过，核心覆盖88.84%，日志确认独立用例串行；原取消CI记录保留，最终head外部门禁另回读。
 
-## TC-WARNING新增验收（2026-10-14）
+## 历史TC-WARNING新增验收（2026-10-14）
 
 按[24](24-cpu-warning.md)和[五任务计划](superpowers/plans/2026-10-14-cpu-warning.md)运行虚拟Clock阈值/持续/恢复±1ns、Raw/EMA差异、五档换档与墙钟、CPU12完整/未知硬件更新时间、Gap/失败/来源/过期/生命周期、Receipt失败/不匹配/重放、规则修改/禁用、50条淘汰、偏好错误/四字段和通知授权/去重/60秒/晚到/点击。正式App短测只验证正常温度、设置与一致状态及同会话生命周期；受控高温触发软件证据与实机事实分开，不人为加热。旧无告警证据不适用新REQ125，新增行为pending；Core>=80%、五CI与一次最终审查保持。
+
+## 2026-10-15 温度分析
+
+TC-ANALYSIS软件覆盖system-thermal-state、cpu-assessment、warning-independent、trend-window-and-gap、receipt-replay-and-expiry、rule-change、advice-policy；四档/未知热状态、阈值/持续/恢复边界、开关不影响分析、阈值改变等待新读数、Raw与EMA差异、3点/80%及Gap、heldReceipt/重放/TTL均须有断言。正式App覆盖real-cpu-analysis、system-thermal-state、trend-display、warning-disabled、close-reopen、quit；记录真实系统状态与CPU Raw/EMA来源及显示，不人为加热或强求观察到serious/critical。新报告feature=temperature-analysis、contract_version=5，软件与正式App证据分层，原日志hash和source绑定；旧warning报告、CI标签或截图不能证明新增分析。 规范见[25](25-temperature-analysis.md)。

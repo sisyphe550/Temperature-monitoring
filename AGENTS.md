@@ -8,9 +8,9 @@
 
 ## 开发入口
 
-先读[课程交付范围](docs/course-delivery-scope.md)和[docs/00-agent-handoff.md](docs/00-agent-handoff.md)、[需求](docs/01-requirements.md)、[契约](docs/21-implementation-contracts.md)、[工作包计划](docs/22-agent-implementation-plan.md)、[细粒度任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)。当前唯一接口为实施契约v1族的`contract revision 4`；这些文件包含有效方案，无需依赖聊天记录。
+先读[课程交付范围](docs/course-delivery-scope.md)和[docs/00-agent-handoff.md](docs/00-agent-handoff.md)、[需求](docs/01-requirements.md)、[契约](docs/21-implementation-contracts.md)、[工作包计划](docs/22-agent-implementation-plan.md)、[细粒度任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)。当前唯一接口为实施契约v1族的`contract revision 5`；这些文件包含有效方案，无需依赖聊天记录。
 
-- 保留134项REQ映射与原50项任务/DAG；新增W12五项预警任务后共55项；当前验收按course-delivery-v1的core/auxiliary/optional/retired分类及五课程criterion，不要求旧132项全部资格通过。012/114退役，禁止恢复逐物理核心温度/core_id或物理Package保证。
+- 保留135项REQ映射与原50项任务/DAG；新增W12五项预警任务及W13五项分析任务后共60项；当前验收按course-delivery-v1的core/auxiliary/optional/retired分类及五课程criterion，不要求全部133项资格通过。012/114退役，禁止恢复逐物理核心温度/core_id或物理Package保证。
 - 实时内存EMA、Raw/EMA入SQLite、历史分层、会话清理按唯一契约实施。
 - CPU12成员、单项可选故障、来源身份、单位、缺口与幂等不能被静默简化。
 - SensorTransport的`DiscoveredCatalog`必须经Registry成为`QualifiedSourceCatalog`；只有Qualified来源可进入采样、加工、存储和展示。
@@ -24,8 +24,12 @@
 
 当前基线在已合入 main 的 PR #4 文档与 PR #5 门禁实现。按 W00 T00.5 完成规则回读后，从最新 main 建 `feature/<功能>`。不可reset或覆盖用户改动。缺陷建GitHub Issue，blocking未解决不得合并/跨阶段；CI和独立审查通过才交维护者合并。使用merge commit，保留开发分支。
 
-每次修改运行适用检查；文档入口`python3 scripts/validate-handoff.py`，本轮课程门槛为`--product-acceptance`，旧全132项扩展资格为`--strict-product-acceptance`。核心覆盖≥80%且必须含异常路径，正式App实机不能用原型或模拟替代。最新用户授权恢复本机课程最小收尾，覆盖此前暂停及五档10分钟要求；W09仅当前正式App短测（首50ms约330s、其余各8s、同次资源/响应观察），不做压力负载。物理sleep、72/73h耐久、公证/公开发行/跨机认证及精确skipped/p95/p99/首帧/显示测量为可选扩展；72h历史功能和软件生命周期仍保留。未测不写通过，历史validation/research不可回写。
+每次修改运行适用检查；文档入口`python3 scripts/validate-handoff.py`，本轮课程门槛为`--product-acceptance`，全133项扩展资格为`--strict-product-acceptance`。核心覆盖≥80%且必须含异常路径，正式App实机不能用原型或模拟替代。最新用户授权恢复本机课程最小收尾，覆盖此前暂停及五档10分钟要求；W09仅当前正式App短测（首50ms约330s、其余各8s、同次资源/响应观察），不做压力负载。物理sleep、72/73h耐久、公证/公开发行/跨机认证及精确skipped/p95/p99/首帧/显示测量为可选扩展；72h历史功能和软件生命周期仍保留。未测不写通过，历史validation/research不可回写。
 
-一次最终独立审查、同head五项CI和零真实blocking满足后，按用户授权merge commit交付并保留分支，完成即停。课程五criterion不要求CI自身未来结果，外部合并检查按Git流程回读。没有Xcode/目标机时记录具体依赖，不伪造完成；当前最小收尾仍进行中。
+一次最终独立审查、同head五项CI和零真实blocking满足后，按用户授权merge commit交付并保留分支，完成即停。课程五criterion不要求CI自身未来结果，外部合并检查按Git流程回读。没有Xcode/目标机时记录具体依赖，不伪造完成；当前W13温度分析与课程材料同步进行中。
 
-CPU预警新增REQ-125/W12，规范见[24](docs/24-cpu-warning.md)：Raw CPU12/elapsed、匹配Receipt后事件、interrupted无法判断、四字段偏好与有界通知。新增行为未验收，不复用历史“无告警”证据。
+CPU预警新增REQ-125/W12，规范见[24](docs/24-cpu-warning.md)：Raw CPU12/elapsed、匹配Receipt后事件、interrupted无法判断、四字段偏好与有界通知。W12历史软件与正式App短测已验收；新增W13分析另行验收，不复用历史“无告警”或旧预警结果。
+
+## 2026-10-15 温度分析扩展（当前执行入口）
+
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](docs/25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。

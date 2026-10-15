@@ -1,4 +1,4 @@
-// Design contract family v1, contract revision 4. Not the production implementation.
+// Design contract family v1, contract revision 5. Not the production implementation.
 // Copy into Packages/TemperatureCore and split by the file map in docs/08.
 import Foundation
 
@@ -843,6 +843,69 @@ public struct CPUWarningSnapshot: Sendable, Equatable {
     }
 }
 
+public enum CPUThresholdAssessment: Sendable, Equatable {
+    case belowThreshold
+    case pending(since: Timestamp)
+    case sustained
+    case recovering(since: Timestamp)
+}
+
+public enum CPUAnalysisState: Sendable, Equatable {
+    case unavailable(reason: CPUWarningInterruptionReason)
+    case available(observation: Sample, assessment: CPUThresholdAssessment, trend: TrendValue)
+}
+
+public struct CPUAnalysisSnapshot: Sendable, Equatable {
+    public let thresholdC: Double
+    public let durationSeconds: Int
+    public let state: CPUAnalysisState
+
+    public init(thresholdC: Double, durationSeconds: Int, state: CPUAnalysisState) {
+        self.thresholdC = thresholdC
+        self.durationSeconds = durationSeconds
+        self.state = state
+    }
+}
+
+public enum SystemThermalState: Sendable, Equatable {
+    case nominal, fair, serious, critical, unknown
+}
+
+public enum TemperatureAdvice: Sendable, Equatable {
+    case awaitingCPUData, continueObserving, temperatureRising, thresholdReached
+    case sustainedHighTemperature, coolingDown, systemWarm, systemHot, systemCritical
+}
+
+public enum TemperatureAdvicePolicy {
+    public static func advice(cpu: CPUAnalysisSnapshot, systemThermalState: SystemThermalState) -> TemperatureAdvice {
+        switch systemThermalState {
+        case .critical: return .systemCritical
+        case .serious: return .systemHot
+        case .fair: return .systemWarm
+        case .nominal, .unknown: break
+        }
+        guard case let .available(_, assessment, trend) = cpu.state else { return .awaitingCPUData }
+        switch assessment {
+        case .recovering: return .coolingDown
+        case .sustained: return .sustainedHighTemperature
+        case .pending: return .thresholdReached
+        case .belowThreshold: return trend.direction == .rising ? .temperatureRising : .continueObserving
+        }
+    }
+}
+
+public struct TemperatureAnalysisSnapshot: Sendable, Equatable {
+    public let cpu: CPUAnalysisSnapshot
+    public let systemThermalState: SystemThermalState
+    public let advice: TemperatureAdvice
+
+    public init(cpu: CPUAnalysisSnapshot, systemThermalState: SystemThermalState) {
+        self.cpu = cpu
+        self.systemThermalState = systemThermalState
+        self.advice = TemperatureAdvicePolicy.advice(cpu: cpu, systemThermalState: systemThermalState)
+    }
+}
+
 public struct Snapshot: Sendable, Equatable {
     public let asOf: Timestamp
     public let values: [LatestValue]
@@ -850,6 +913,7 @@ public struct Snapshot: Sendable, Equatable {
     public let cpuPeriodMS: Int
     public let generation: UInt64
     public let warning: CPUWarningSnapshot
+    public let analysis: CPUAnalysisSnapshot
 
     public init(
         asOf: Timestamp,
@@ -857,7 +921,8 @@ public struct Snapshot: Sendable, Equatable {
         gapIDs: [GapID],
         cpuPeriodMS: Int,
         generation: UInt64,
-        warning: CPUWarningSnapshot
+        warning: CPUWarningSnapshot,
+        analysis: CPUAnalysisSnapshot
     ) {
         self.asOf = asOf
         self.values = values
@@ -865,6 +930,7 @@ public struct Snapshot: Sendable, Equatable {
         self.cpuPeriodMS = cpuPeriodMS
         self.generation = generation
         self.warning = warning
+        self.analysis = analysis
     }
 }
 
@@ -1051,6 +1117,7 @@ public struct RunningPresentationState: Sendable, Equatable {
     public let sections: [TemperatureSectionState]
     public let chart: HistoryChartState
     public let warning: CPUWarningSnapshot
+    public let analysis: TemperatureAnalysisSnapshot
 
     public init(
         asOf: Timestamp,
@@ -1058,7 +1125,8 @@ public struct RunningPresentationState: Sendable, Equatable {
         primaryCPU: TemperatureValueState,
         sections: [TemperatureSectionState],
         chart: HistoryChartState,
-        warning: CPUWarningSnapshot
+        warning: CPUWarningSnapshot,
+        analysis: TemperatureAnalysisSnapshot
     ) {
         self.asOf = asOf
         self.cpuPeriodMS = cpuPeriodMS
@@ -1066,6 +1134,7 @@ public struct RunningPresentationState: Sendable, Equatable {
         self.sections = sections
         self.chart = chart
         self.warning = warning
+        self.analysis = analysis
     }
 }
 

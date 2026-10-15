@@ -83,3 +83,7 @@ SessionPersistence由同一个actor实现，但SamplingService只能看到reserv
 ## CPU预警数据路径（revision4）
 
 CPU12完整派生Raw样本同时送入同步可复制CPUWarningEvaluator，预警临时副本与既有加工状态一起等待匹配ProcessingReceipt；成功才发布Snapshot.warning。通知只从已发布活跃事件选择候选。PresentationModel把同一CPUWarningSnapshot传入RunningPresentationState，设置更新通过MonitorController串行进入Engine。规则四字段UserDefaults保存，事件最多50条内存；SQLite表与worker协议不变。详细中断、持续和通知约束见[24](24-cpu-warning.md)。
+
+## 2026-10-15 温度分析
+
+温度分析在现有模块化单体内扩展：Core负责可复制CPU判断状态机、现有TrendCalculator和纯建议策略；App通过可注入薄适配器读取ProcessInfo.thermalState；PresentationModel仅合并事实并产生唯一PresentationState。系统热状态独立于CPU温度，不加入CPU12来源或温度SQLite序列。分析无网络、无额外SMC读写、无新后台服务。 规范见[25](25-temperature-analysis.md)。

@@ -64,14 +64,15 @@ struct TemperaturePopoverView: View {
     @ViewBuilder
     private func runningContent(_ running: RunningPresentationState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            CPUWarningStatusView(warning: running.warning, asOf: running.asOf, compact: true)
-            Text("CPU热区最高温度").font(.headline)
+            Text("CPU热区最高温度（EMA）").font(.headline)
             Text(TemperatureFormatting.primaryText(running.primaryCPU))
                 .font(.system(.title2, design: .monospaced))
                 .accessibilityIdentifier("status.temperature")
             Text(TemperatureFormatting.stateDescription(running.primaryCPU))
                 .font(.caption).foregroundStyle(.secondary)
                 .accessibilityIdentifier("temperature.state.cpu.zone.max")
+            TemperatureAnalysisView(analysis: running.analysis, compact: true)
+            CPUWarningStatusView(warning: running.warning, asOf: running.asOf, compact: true)
             ForEach(Array(running.sections.enumerated()), id: \.element.id) { index, section in
                 if index > 0 {
                     Divider()

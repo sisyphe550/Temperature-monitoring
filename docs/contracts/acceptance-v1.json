@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "date": "2026-10-14",
+  "date": "2026-10-15",
   "requirements": [
     {
       "id": "REQ-001",
@@ -4699,7 +4699,7 @@
         "TC-UI",
         "TC-HISTORY"
       ],
-      "body_sha256": "ae375695df5ffaf8ec2195e2353163d6914e731770ea0209fce801adb72994e3",
+      "body_sha256": "c6657b311fc2f1322d4b0648bc278d08e69ca2c94908cab16212f74675e36781",
       "verification": "product-accepted-local",
       "evidence": [
         {
@@ -14540,7 +14540,40 @@
           "software"
         ]
       }
+    },
+    {
+      "id": "REQ-135",
+      "status": "active",
+      "design": [
+        "25-temperature-analysis.md",
+        "05-processing-pipeline.md",
+        "07-native-ui.md",
+        "21-implementation-contracts.md"
+      ],
+      "tasks": [
+        "W13"
+      ],
+      "tests": [
+        "TC-ANALYSIS",
+        "TC-TREND",
+        "TC-UI",
+        "TC-LIFECYCLE"
+      ],
+      "body_sha256": "e9e102ada5d18fe7327d4b0a850c6d86e982015e072fb265a47de2eda99b8395",
+      "verification": "pending-product-acceptance",
+      "evidence": [],
+      "acceptance_notes": {
+        "covered_cases": [],
+        "outstanding": [
+          "新增温度分析尚待本轮实现、软件及正式App短测"
+        ],
+        "reason": "2026-10-15新增行为，旧CPU预警或旧课程资料不证明分析已实现",
+        "required_evidence_kinds": [
+          "software",
+          "formal-app-hardware"
+        ]
+      }
     }
   ],
-  "contract_revision": 4
+  "contract_revision": 5
 }

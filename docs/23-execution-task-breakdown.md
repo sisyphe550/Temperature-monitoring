@@ -2,17 +2,17 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 将W00～W12拆成可独立测试、提交、审查和交接的执行任务，最终交付目标MacBook Air上的本地原生温度监控App及有条件的正式公证包。
+**Goal:** 将W00～W13拆成可独立测试、提交、审查和交接的执行任务，最终交付目标MacBook Air上的本地原生温度监控App、课程报告和汇报PPT；公证包为可选扩展。
 
-**Architecture:** W00～W12是里程碑边界，W01～W12各自对应一个功能PR；W00为仓库引导例外，按文档基线、可信门禁、规则回读三个PR顺序完成。T00.1～T12.5是独立可审查执行单元。硬件、存储、算法可在W01公共契约合入后并行，W05再完成闭环；UI只消费公开快照/历史接口，实机资格与发布不反向修改未经版本化的契约。
+**Architecture:** W00～W13是里程碑边界，W01～W13各自对应一个功能PR；W00为仓库引导例外，按文档基线、可信门禁、规则回读三个PR顺序完成。T00.1～T13.5是独立可审查执行单元。硬件、存储、算法可在W01公共契约合入后并行，W05再完成闭环；UI只消费公开快照/历史接口，实机资格与发布不反向修改未经版本化的契约。
 
 **Tech Stack:** Swift 6、SwiftPM tools 6.0、少量C/IOKit桥接、SwiftUI/AppKit/Charts、系统SQLite3、Swift Testing、XCTest/XCUITest、GitHub Actions。
 
-**Spec:** [01现行需求](01-requirements.md)、[02～13专项设计](02-architecture.md)、[21实施契约](21-implementation-contracts.md)、[22工作包计划](22-agent-implementation-plan.md)。实现只接受contract revision 4；实际导入来源见[third-party-v1.json](contracts/third-party-v1.json)，机器可读依赖图见[tasks-v1.json](contracts/tasks-v1.json)。
+**Spec:** [01现行需求](01-requirements.md)、[02～13专项设计](02-architecture.md)、[21实施契约](21-implementation-contracts.md)、[22工作包计划](22-agent-implementation-plan.md)。实现只接受contract revision 5；实际导入来源见[third-party-v1.json](contracts/third-party-v1.json)，机器可读依赖图见[tasks-v1.json](contracts/tasks-v1.json)。
 
 ## Global Constraints
 
-- 只实现132项现行需求；REQ-012/114退役，禁止恢复逐物理核心温度、`core_id`或物理Package保证。
+- 只实现133项现行需求；REQ-012/114退役，禁止恢复逐物理核心温度、`core_id`或物理Package保证。
 - 首个profile固定`Mac16,13-m4-v1`和12个大小写敏感CPU键；主指标为同批完整Raw集合max后EMA。
 - 实时显示走内存；Raw/EMA/聚合/趋势按契约进入有界队列和SQLite，不能用UI最新值代替持久化。
 - CPU关键，SSD/Battery可选但必须实现探测、Unavailable原因和有限恢复；HID首版只作诊断。
@@ -20,7 +20,7 @@
 - 模拟、CI、原型、正式App实机、签名公证五类证据分开；不得相互替代。
 - SensorTransport原始事实必须经Registry资格化；ReadingOutcome、PersistenceLease/ProcessingReceipt和PresentationState是唯一公开状态边界。
 - copied/modified代码必须登记固定commit、路径、许可hash、notice和修改说明；R04/R07只允许method-only。
-- W01～W12每个工作包一个`feature/<功能>` PR；W00按引导顺序使用当前文档PR、`feature/w00-repository-gates`和规则证据PR。每个T任务形成一个可审查变更；涉及仓库配置、合并或实机运行的任务以不可变报告和外部状态回读为完成证据。依赖W必须先merge到main，W02/W03/W04可从同一W01基线并行。
+- W01～W13每个工作包一个`feature/<功能>` PR；W00按引导顺序使用当前文档PR、`feature/w00-repository-gates`和规则证据PR。每个T任务形成一个可审查变更；涉及仓库配置、合并或实机运行的任务以不可变报告和外部状态回读为完成证据。依赖W必须先merge到main，W02/W03/W04可从同一W01基线并行。
 - 每个任务先写能失败的测试，再实现最小行为；任务级测试通过后才commit，W级全套门禁通过后才请求独立审查。
 
 ## Review Focus
@@ -65,7 +65,7 @@ flowchart LR
   W02 --> W05
   W03 --> W05
   W04 --> W05
-  W05 --> W06 --> W07 --> W08 --> W09 --> W10 --> W11 --> W12
+  W05 --> W06 --> W07 --> W08 --> W09 --> W10 --> W11 --> W12 --> W13
 ```
 
 | 工作包 | 分支建议 | 合入前置 | PR退出条件 |
@@ -83,12 +83,13 @@ flowchart LR
 | W10 | `feature/w10-release` | W09 | 完整本机ad-hoc App与启动说明；公开发行可选 |
 | W11 | `feature/w11-acceptance` | W10或明确的无凭证边界 | 五个课程检查项、一次最终审查和同head合并门禁一致 |
 | W12 | `feature/cpu-warning` | W11最新main | TC-WARNING/正式App短测、Core>=80%、五CI/一次审查及证据 |
+| W13 | `feature/temperature-analysis` | W12最新main | TC-ANALYSIS/正式App短测、Core>=80%、课程材料、五CI/一次审查 |
 
 ## W00：基线与仓库门禁
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T00.1 基线复核 | 无 | 00/11/21/22/23、PR #4、`product-software/W00/<head>/baseline.md` | 核对分支、HEAD、134项映射、open blocking Issue和实际ruleset；新增带时间与SHA的基线记录，不修改历史证据 | `python3 scripts/validate-handoff.py`；`gh pr view 4 --json headRefOid,statusCheckRollup` | 后继取得准确head；`docs: record implementation baseline` |
+| - [ ] T00.1 基线复核 | 无 | 00/11/21/22/23、PR #4、`product-software/W00/<head>/baseline.md` | 核对分支、HEAD、135项映射、open blocking Issue和实际ruleset；新增带时间与SHA的基线记录，不修改历史证据 | `python3 scripts/validate-handoff.py`；`gh pr view 4 --json headRefOid,statusCheckRollup` | 后继取得准确head；`docs: record implementation baseline` |
 | - [ ] T00.2 文档检查固定 | T00.1 | `.github/workflows/handoff-docs.yml`、`scripts/validate-handoff.py` | 检查push/PR均产生唯一命名`handoff-docs`；故意破坏fixture时检查必须失败，恢复后通过 | `python3 scripts/validate-handoff.py`；Swift contract typecheck | CI逻辑不可由PR脚本自我放行；`ci: enforce handoff contracts` |
 | - [ ] T00.3 合入文档基线 | T00.2 | PR #4、GitHub合并状态、门禁分支基线记录 | 维护者核对PR #4 exact head、现有检查和独立审查后用merge commit合入；确认两个parent和远端分支保留，再从该main建门禁分支 | `gh pr checks 4 --watch`；`gh pr view 4 --json headRefOid,mergeCommit,state` | 默认分支先取得完整规范，避免PR自带特权检查自证；外部合并记录进入T00.4报告 |
 | - [ ] T00.4 blocking门禁实现 | T00.3 | `.github/workflows/blocking-issues.yml`、`.github/scripts/{blocking-issues.mjs,blocking-issues.test.mjs}`、`scripts/configure-repository.sh`、`product-software/W00/<head>/gate.md` | 在门禁分支实现分页Issue检查，排除PR；Issue变化重算所有open PR最新head，API错误失败；此时只提交代码和配置脚本，不先把未部署检查设为required | `node --test .github/scripts/blocking-issues.test.mjs`覆盖0/普通/blocking/第二页/关闭/重开/新head/API错误 | 用现有检查审查并merge门禁PR，使workflow先进入默认分支；`ci: add blocking issue gate` |
@@ -98,8 +99,8 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T01.1 SwiftPM骨架 | T00.5 | `Package.swift`、`Contracts/{Identifiers,SensorTypes,PersistenceTypes,PresentationTypes}.swift`空壳、`ContractTests.swift` | 创建Swift 6 package；先写修订4类型编译/旧token缺失门禁，独立测试模块必须能import库 | 测试先因强类型UUID、ReadingOutcome、Lease/Receipt、PresentationState缺失失败 | 提供后续可编译容器；`build: scaffold temperature core package` |
-| - [ ] T01.2 类型与配置加载 | T01.1 | Contracts四文件、`Configuration.swift`、defaults/profile资源、`ConfigurationTests.swift` | 实现UUID强类型、封闭枚举、互斥读取/展示状态及能力协议；只接受contract_version 4 | 覆盖非法/非规范UUID、未知枚举、成功/失败互斥、版本1/缺字段/重复键和旧token不存在 | W02～W07只依赖修订4类型；`feat: add runtime contracts and configuration` |
+| - [ ] T01.1 SwiftPM骨架 | T00.5 | `Package.swift`、`Contracts/{Identifiers,SensorTypes,PersistenceTypes,PresentationTypes}.swift`空壳、`ContractTests.swift` | 创建Swift 6 package；先写修订5类型编译/旧token缺失门禁，独立测试模块必须能import库 | 测试先因强类型UUID、ReadingOutcome、Lease/Receipt、PresentationState缺失失败 | 提供后续可编译容器；`build: scaffold temperature core package` |
+| - [ ] T01.2 类型与配置加载 | T01.1 | Contracts四文件、`Configuration.swift`、defaults/profile资源、`ConfigurationTests.swift` | 实现UUID强类型、封闭枚举、互斥读取/展示状态及能力协议；只接受contract_version 5 | 覆盖非法/非规范UUID、未知枚举、成功/失败互斥、版本1/缺字段/重复键和旧token不存在 | W02～W07只依赖修订5类型；`feat: add runtime contracts and configuration` |
 | - [ ] T01.3 系统与测试时钟 | T01.2 | `Clock.swift`、`TestSupport/TestClock.swift`、`ClockTests.swift` | `mach_continuous_time`相对父会话基准；整数安全换算；ContinuousClock只睡眠；TestClock支持取消 | `swift test ... --filter ClockTests`覆盖墙钟回拨、并发sleep、取消和纳秒大整数 | 输出跨进程共享基准结构；`feat: add continuous session clock` |
 | - [ ] T01.4 核心CI与覆盖基线 | T01.3 | `scripts/check-core-coverage.py`、`.github/workflows/core.yml`、W01报告 | 分母固定Core+SensorRuntime业务Swift，排除测试/UI/C薄桥/worker入口；无匹配测试失败 | 全套`swift test --enable-code-coverage`及人为低于80%的失败fixture | 产生真实`core-tests`检查；`ci: add core test and coverage gate` |
 
@@ -166,7 +167,7 @@ flowchart LR
 
 | 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
 |---|---|---|---|---|---|
-| - [ ] T08.1 生产依赖装配与许可资源 | T07.5 | App入口、`App/Resources/{defaults-v1.json,first-profile-v1.json,third-party-v1.json,Info.plist,ThirdPartyNotices.md}` | 唯一SessionCoordinator；修订4资源逐字匹配；copied/modified逐路径生成notice；R04/R07仅method-only | 资源/许可hash、缺登记/notice、Bundle target、依赖图、Release无fixture/fallback | T08.2取得当前源码App target；`feat: assemble audited production app` |
+| - [ ] T08.1 生产依赖装配与许可资源 | T07.5 | App入口、`App/Resources/{defaults-v1.json,first-profile-v1.json,third-party-v1.json,Info.plist,ThirdPartyNotices.md}` | 唯一SessionCoordinator；修订5资源逐字匹配；copied/modified逐路径生成notice；R04/R07仅method-only | 资源/许可hash、缺登记/notice、Bundle target、依赖图、Release无fixture/fallback | T08.2取得当前源码App target；`feat: assemble audited production app` |
 | - [ ] T08.2 worker嵌入与本地包 | T08.1/T02.6 | `scripts/build-app.sh`、`TemperatureMonitor.xcodeproj/project.pbxproj` | set-euo；固定DerivedData；嵌入同构建worker；先worker后App ad-hoc签名；拒绝旧产物 | 删除worker/资源/完整Xcode/新产物分别失败；codesign verify | 输出`build/TemperatureMonitor.app`；`build: package local temperature monitor app` |
 | - [ ] T08.3 E2E、上游边界与app-build CI | T08.2 | `EndToEndTests.swift`、`.github/workflows/app.yml`、W08报告 | raw→qualified 12源全链、DB BUSY/背压/Gap/退出清理；CI记录完整Xcode/Swift/SDK | Core/coverage/build/XCUITest；TC-UPSTREAM-BOUNDARY；Release扫描无写SMC/root/helper/CLI/fixture；未登记复制夹具失败 | W09只测试该App SHA；`ci: verify production app boundaries` |
 
@@ -194,7 +195,7 @@ flowchart LR
 | - [ ] T11.2 课程收尾 | T11.1 | 完整Core≥80%、最终App短测、一次独立审查 | 必要生产回归；普通同步不加模型/负控/多轮审查/逐文件hash | 真实缺陷不删；原有效断言保留；审查未通过不得合并 | T11.3核最新head；`test: finish course regression and review` |
 | - [ ] T11.3 课程收尾 | T11.2 | PR、五required CI、rules、交付报告 | 用户已授权push/ready/merge commit；零真实blocking；保留分支 | 最新head不变、五checks、merge两parent、远端分支存在 | 交付App/启动说明/范围后停止；`docs: finalize course delivery` |
 
-## W12：CPU温度预警
+## W12：CPU温度预警（历史修订4范围）
 
 任务精确接口和逐项红绿步骤见[五任务实施计划](superpowers/plans/2026-10-14-cpu-warning.md)，规范见[24](24-cpu-warning.md)。
 
@@ -218,7 +219,7 @@ flowchart LR
 
 ## 当前执行入口
 
-保留原50个任务和DAG依赖，新增W12五任务并以T12.5为terminal，共55任务；本轮验收以[课程范围](course-delivery-scope.md)、course policy和新交付报告为准。旧strict pending与历史失败仍保留，不再按旧完整资格清单追加长测。实际CI/独立审查/合并未完成时，不宣称已交付或已合并。
+保留原50个任务和DAG依赖，新增W12五任务及W13五任务，以T13.5为terminal，共60任务；本轮验收以[课程范围](course-delivery-scope.md)、course policy和新交付报告为准。旧strict pending与历史失败仍保留，不再按旧完整资格清单追加长测。实际CI/独立审查/合并未完成时，不宣称已交付或已合并。
 
 ### W12实现、验证与最终退出状态（2026-10-14）
 
@@ -232,4 +233,16 @@ flowchart LR
 | T12.4 | 原生设置/各处状态/事件与本机正式短测完成；实机通知横幅与点击未观察 |
 | T12.5 | 新证据绑定、软件/正式短测、覆盖和一次独立审查完成；同PR head五CI、真实blocking、merge/交付回读待完成 |
 
-当前状态不声明全132项strict资格通过，也不恢复物理sleep/长测/公证/跨机。W12最终退出须按Git流程实际回读后确认。
+W12历史结果不声明全132项strict资格通过，也不恢复物理sleep/长测/公证/跨机。W12最终退出须按Git流程实际回读后确认。
+
+## W13：温度分析
+
+规范见[25](25-temperature-analysis.md)，红绿步骤见[实施计划](superpowers/plans/2026-10-15-temperature-analysis.md)。当前唯一契约revision5；135REQ/133active/2retired、14W/60T/22TC，原55节点依赖不改，terminal=T13.5。
+
+| 任务 | 依赖 | 文件 | 设计与产出 | 先失败/验证命令 | 交接与commit |
+|---|---|---|---|---|---|
+| - [ ] T13.1 规则与纯分析 | T12.5 | Contracts分析类型、Core分析Evaluator/建议Policy及测试 | always-on CPU Raw阈值/持续/恢复与确定建议；四系统档/unknown输入互斥 | 分析Evaluator/Policy suites红绿；阈值与恢复±1ns、开关独立、非法/缺数据无法判断 | T13.2取得可复制纯状态；`feat: add temperature analysis rules` |
+| - [ ] T13.2 提交与趋势 | T13.1 | MonitorEngine、Snapshot、趋势与Receipt回归 | 匹配Receipt后交换；阈值/持续变化等新Raw；最后已提交Raw锚点复用10秒OLS；snapshot不等待mutation或查库 | analysis commit/trend suites；failure/mismatch/replay/heldReceipt/TTL/Gap/source/lifecycle、3点/80%稳定带 | T13.3只消费已提交分析；`feat: integrate committed temperature analysis` |
+| - [ ] T13.3 系统热状态与展示 | T13.2 | App热适配、PresentationModel、Dashboard/Popover、UI测试 | 整机四档/unknown独立报告；同analysis卡和紧凑摘要、Raw/EMA标注与键盘小屏 | 系统适配/Presentation/UI测试；未读不默认nominal，关预警分析仍工作，不以系统状态担保CPU安全 | T13.4取得正式候选；`feat: show thermal analysis and advice` |
+| - [ ] T13.4 回归与本机证据 | T13.3 | 新日期源码软件/正式App证据、acceptance/catalog/course政策 | 定向后一次完整Core≥80%、App/UI与最终App短测；REQ135新证据与五criterion增量 | 文档/binder/course脚本、完整Core/coverage、App/UI、正式真实来源/趋势/关预警/关窗重开/退出 | T13.5取得实际结果与限制；`test: verify temperature analysis delivery` |
+| - [ ] T13.5 课程材料与交付 | T13.4 | 原位置Word/PPT及相关图表、一次最终审查、PR | 同步四分析项/规则实现测试；保留评价表与既有样式，渲染核验；同head五CI/零blocking | 文档及图表检查、一次最终独立审查、Git五CI/merge两parent/远端分支保留 | 交付App/课程报告/PPT及简要边界后停止；`docs: deliver course temperature analysis` |

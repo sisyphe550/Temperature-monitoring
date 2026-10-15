@@ -2,7 +2,7 @@
 
 > 本轮课程交付（2026-10-03）以[course-delivery-scope](course-delivery-scope.md)为准。保留真实CPU、核心操作、异常/数据/资源修复、Core≥80%、必要CI和一次最终独立审查；休眠/72h耐久/公证/公开发行/跨机认证/精确SLO/五档各10分钟为本轮不验收。下文实现语义、来源真实性和容量界限不放松；完整资格路线与历史记录不得当作课程阻塞。用户已授权适用门禁通过后merge commit并保留开发分支。
 
-更新：2026-10-14；实施契约v1族修订4。规范类型和异步接口见[api-v1.swift](contracts/api-v1.swift)，协议是生产实现必须满足的设计契约，不是已完成代码。
+更新：2026-10-15；实施契约v1族修订5。规范类型和异步接口见[api-v1.swift](contracts/api-v1.swift)，协议是生产实现必须满足的设计契约，不是已完成代码。
 
 ## 目标目录与依赖
 
@@ -116,7 +116,7 @@ App单实例锁成功后才创建数据库和worker。stop幂等，停止后任�
 
 实现顺序、每个目标文件和验收向量见[22](22-agent-implementation-plan.md)。状态边界不能以“在UI里临时判断”、裸String ID、直接worker结果或直接SQLite调用绕过这些服务接口。
 
-## 修订4实现衔接（2026-10-02）
+## 历史修订4实现衔接（2026-10-02）
 
 Worker传递NVMe位置与查询状态纯事实，ProfileRegistry消费并给出Qualified/unavailable；SeriesCatalogBuilder对Mac16,13强制完整CPU12，并按连接generation生成Source/Series实例与definitionVersion。来源改变不连接旧曲线。SamplingService所有终结路径释放planned注册，临时故障按预算重资格化；ProcessingCoordinator冻结首次关键错误，Controller写Diagnostics日志/报告，AppSessionRuntime把该错误送入唯一PresentationState。
 
@@ -124,6 +124,10 @@ Worker传递NVMe位置与查询状态纯事实，ProfileRegistry消费并给出Q
 
 WorkerClient在创建stdin pipe后、process.run之前配置该请求端F_SETNOSIGPIPE，尚未发布的创建失败路径关闭六端。原Foundation写入保留，直接/underlying POSIX EPIPE转换为workerExitedUnexpectedly，由现有perform路径回收子进程并返回SENSOR-PROTOCOL-006/underlying=exit；不新增公开错误、generation、contract字段或全局信号状态。公开断管fixture关闭stdin后才发catalog，测试下一次readRaw及实际子PID ESRCH。其他既有异步FileHandle句柄竞态不能由本项推出全部已修复。[本次范围与独立审查](validation/product-software/W11/2026-10-03-7124dc1/README.md)。
 
-## CPU预警构件（revision4）
+## 历史CPU预警构件（revision4）
 
 `Contracts/CPUWarningTypes.swift`定义Rule/State/Event/Snapshot，`Processing/CPUWarningEvaluator.swift`为可复制同步暂算值。`MonitorEngine`负责Receipt交换和过期中断，`SamplingService`/`SessionMonitorController`负责规则更新串行转发，`TemperaturePresentation/PresentationModel`原样转换warning。`TemperaturePresentation/CPUWarningPreferences.swift`及`CPUWarningNotificationPolicy.swift`封装四字段偏好和有界去重/冷却；App的`CPUWarningNotificationService.swift`适配系统授权/投递/同会话窗口。公开API按[contracts](contracts/api-v1.swift)，具体签名、文件和红绿向量按[五任务计划](superpowers/plans/2026-10-14-cpu-warning.md)。
+
+## 2026-10-15 温度分析
+
+Core新增温度分析契约与纯CPU判断Evaluator/建议Policy，业务逻辑纳入既有Core覆盖分母。MonitorEngine负责分析暂算、Receipt后交换、失效中断和以已提交buffer得到趋势。系统热状态Provider由App薄适配器实现，可注入四档/unknown用于软件验证；生命周期停止后不继续发布旧运行状态。PresentationModel将系统热事实与Core分析合为唯一RunningPresentationState.analysis；Dashboard/Popover共用展示，不访问SQLite或重写算法。精确类型和文件按25及本轮实施计划，Schema、worker协议与硬件profile成员不变。 规范见[25](25-temperature-analysis.md)。

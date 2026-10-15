@@ -51,12 +51,10 @@ struct TemperatureDashboard: View {
     private func sourceList(_ running: RunningPresentationState) -> some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                CPUWarningStatusView(warning: running.warning, asOf: running.asOf)
-                CPUWarningEventsView(warning: running.warning)
                 Text("历史比较（最多8个来源版本）").font(.caption).foregroundStyle(.secondary)
                 Toggle(isOn: selection(Self.primaryMetricID)) {
                     VStack(alignment: .leading, spacing: 3) {
-                        Text("CPU热区最高温度").font(.headline)
+                        Text("CPU热区最高温度（EMA）").font(.headline)
                         Text(TemperatureFormatting.primaryText(running.primaryCPU))
                             .font(.system(.title3, design: .monospaced))
                             .accessibilityIdentifier("status.temperature")
@@ -67,6 +65,9 @@ struct TemperatureDashboard: View {
                 .toggleStyle(.checkbox)
                 .accessibilityIdentifier("history.select.cpu.zone.max")
                 .disabled(selectionDisabled(Self.primaryMetricID))
+                TemperatureAnalysisView(analysis: running.analysis)
+                CPUWarningStatusView(warning: running.warning, asOf: running.asOf)
+                CPUWarningEventsView(warning: running.warning)
                 ForEach(running.sections, id: \.id) { section in
                     Text(section.title).font(.subheadline).foregroundStyle(.secondary)
                     ForEach(section.rows, id: \.metricID.rawValue) { row in

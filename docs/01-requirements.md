@@ -6,9 +6,9 @@
 
 每项需求的课程分层由 `requirement_tiers` 唯一定义：`core` 为本轮必验行为，使用正式 App 核心短测与完整 Core 回归组合验证；`auxiliary` 保留功能并按现有证据检查；`optional` 保留设计或工具，但不阻塞本轮交付；`retired` 仅为 012/114。分层不把未验收需求改写为已通过，也不放宽采集真实性、异常状态或资源有界的实现语义。
 
-本轮不要求每条需求分别完成完整正式实机资格，也不重复 M2–M5 阶段验收。真实休眠、72小时、公开发行/公证、跨机型认证、五档各10分钟以及精确 skipped/p95/p99/首帧/显示延迟均不作为课程交付门槛。既有证据和失败记录原样保留；严格 132 项资格状态仍见[追踪矩阵](17-traceability.md)，使用 `--strict-product-acceptance` 单独检查。
+本轮不要求每条需求分别完成完整正式实机资格，也不重复 M2–M5 阶段验收。真实休眠、72小时、公开发行/公证、跨机型认证、五档各10分钟以及精确 skipped/p95/p99/首帧/显示延迟均不作为课程交付门槛。既有证据和失败记录原样保留；严格 133 项资格状态仍见[追踪矩阵](17-traceability.md)，使用 `--strict-product-acceptance` 单独检查。
 
-更新：2026-10-14；实施契约v1族修订4。134个登记编号保持连续，132项现行，REQ-012/114退役。设计决策已明确；既有生产应用与W12 CPU预警已实现，新增行为已有本轮软件及正式短测证据；逐项状态仍须依据证据，不能批量标通过。
+更新：2026-10-15；实施契约v1族修订5。135个登记编号保持连续，133项现行，REQ-012/114退役。设计决策已明确；既有生产应用与W12 CPU预警已实现，新增行为已有本轮软件及正式短测证据；逐项状态仍须依据证据，不能批量标通过。
 
 ## 使用规则
 
@@ -18,7 +18,7 @@
 - 原始C01数值要求保留：CPU五档及默认200ms、SSD500ms、Battery1000ms、重试次数、Raw/EMA5min与1s/10s/1min分级TTL、最长72h且不跨会话。
 - 取消物理Package、逐核、绝对热点、保证硬件同频刷新或一位小数等于测量精度的推断；旧版本由Git历史与15的变更记录追溯。
 - `timestamp`规范分为elapsed_ns与wall_ns；`sensor_id`对应sourceID；`last`统一为latest；聚合表名为04的只读视图。
-- “有方案”不同于“已实现/已验收”。132项均有任务和测试入口，正式完成须逐项附证据，不能用文档检查替代产品测试。
+- “有方案”不同于“已实现/已验收”。133项均有任务和测试入口，正式完成须逐项附证据，不能用文档检查替代产品测试。
 
 本轮适用范围：用户只在本机使用，豁免72/73h耐久、公证、公开发行及跨机型认证。该豁免不删除最长72h会话历史、TTL、有限重试或退出清理功能；本轮修复与实机证据另存，历史报告不回写。
 
@@ -96,7 +96,7 @@
 - 正文：当 Raw Sample 产生时，来源必须先由 Registry 从底层发现事实资格化为本代 QualifiedSource，标签化构件再记录其强类型 `sensor_id`；未资格化来源不得进入算法、存储或界面。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C09删除逐核后同步范围；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-010｜区分 CPU 主指标、CPU 温度来源、SSD 和 Battery
 
@@ -128,7 +128,7 @@
 - 正文：当标签化完成时，数据校验构件应只接收 QualifiedSource 的 ReadingOutcome，并验证成功分支的温度、身份、generation、编码和单位证据；失败分支不得携带或生成温度值。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-014｜建立确定的非法值规则
 
@@ -136,7 +136,7 @@
 - 正文：如果底层事件缺失，或温度值为 null、NaN、Infinity、低于绝对零度、编码/单位不符，则数据校验构件应形成 ReadingOutcome.failure；不得改成 0 °C、复用旧值或构造同时含值与失败的状态。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[05](05-processing-pipeline.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W01/W02/W04与TC-SENSOR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-015｜隔离异常数据
 
@@ -390,10 +390,10 @@
 - 来源：C01（v0.3 对应原条号）；C10交接基线
 - 验收边界：按[04](04-data-storage.md)、[07](07-native-ui.md)的v1契约实现；执行W03/W07与TC-UI/TC-HISTORY，结果见17；有方案不等于已通过。
 
-### REQ-045｜数字面板不直接展示 Raw
+### REQ-045｜主数字面板显示EMA，分析Raw单独标注
 
 - 模式：State-Driven
-- 正文：在实时数字面板存在有效温度数据时，数字面板构件应显示对应传感器的最新 EMA 温度。
+- 正文：在实时数字面板存在有效温度数据时，数字面板构件应显示对应传感器的最新 EMA 温度；独立温度分析卡可以另行显示明确标注为 Raw 的 CPU 热区最高温度作为判断依据，不得将其冒充 EMA 主数值。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线
 - 验收边界：按[04](04-data-storage.md)、[07](07-native-ui.md)的v1契约实现；执行W03/W07与TC-UI/TC-HISTORY，结果见17；有方案不等于已通过。
@@ -606,7 +606,7 @@
 - 正文：在 UI 显示最后成功值时，PresentationModel 应以 cached 状态标明暂未更新，且本次失败不得生成新的 Raw、EMA、count 或 source timestamp；超过期限后应转为 stale 并隐藏数值。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[06](06-error-handling.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W05/W06/W07与TC-ERROR/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[06](06-error-handling.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W05/W06/W07与TC-ERROR/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-071｜建立失败出口
 
@@ -682,7 +682,7 @@
 - 正文：当错误报告生成时，错误报告构件应记录封闭枚举中的稳定错误代码，并按适用范围记录强类型 requestID、sourceID、batchID、gapID 或 watermarkEventID，禁止以可互换自由字符串代替事件身份。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-080｜定位故障模块
 
@@ -714,7 +714,7 @@
 - 正文：同一种故障语义应在不同版本中保持相同 MonitorErrorCode 枚举值；未知协议枚举、无效 UUID 和持久化 Lease 完整性故障应按既定代码失败，不得转成自由字符串或通过重试掩盖。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[06](06-error-handling.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W01/W05/W06与TC-ERROR/TC-VALIDATE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-084｜避免一个代码覆盖多个根因
 
@@ -836,7 +836,7 @@
 - 正文：当 feature branch 含有复制或修改的第三方代码时，合并门禁应验证固定上游提交、路径、许可 hash、本地路径、修改说明和 ThirdPartyNotices；合并完成后仍应保留该远程 feature branch及审计记录。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[11](11-git-github-workflow.md)、[18](18-sources.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W00/W08/W11与TC-WORKFLOW/TC-DOCS/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[11](11-git-github-workflow.md)、[18](18-sources.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W00/W08/W11与TC-WORKFLOW/TC-DOCS/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ## 阶段测试
 
@@ -896,7 +896,7 @@
 - 正文：在首次进入 M2 前，项目应完成本规格列明的设计文档，并使 00、01、21、22、23 及 contracts 中的机器契约共同覆盖身份、接口、存储、测试、第三方来源和执行顺序，不依赖聊天记录补全实现规则。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01（v0.3 对应原条号）；C10交接基线；2026-09-21批准规格
-- 验收边界：按[00](00-agent-handoff.md)、[10](10-test-strategy.md)、[12](12-development-plan.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W11与TC-DOCS/TC-ACCEPTANCE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[00](00-agent-handoff.md)、[10](10-test-strategy.md)、[12](12-development-plan.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W11与TC-DOCS/TC-ACCEPTANCE/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-106｜防止未确定业务规则被编码 Agent 自行填充
 
@@ -938,7 +938,7 @@
 - 正文：项目应将最低运行系统要求保持为 macOS 15.7.3，并分别记录 build_toolchain、deployment_target、runtime_profile 和 qualified_combinations；只有绑定正式 App SHA、签名、机型、系统版本/build及通过用例的组合才能声明支持。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C01；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W02/W08/W09与TC-PLATFORM/TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[09](09-technology-selection.md)、[13](13-operations-distribution.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W02/W08/W09与TC-PLATFORM/TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-111｜最高版本核对
 
@@ -1058,7 +1058,7 @@
 - 正文：CPU 温度监控项目应默认启用可配置的CPU预警：仅以固定12成员同批完整有效Raw最高温度按elapsed时间连续达到触发阈值与持续时间时建立事件（默认≥90°C持续5秒），低于或等于阈值减5°C连续10秒才恢复；失败、缺口、过期或CPU来源变化须中断累计并将活跃事件标为无法判断；设置、界面、事件和系统通知均按24及修订4契约执行。
 - 状态：现行基线；本机课程软件与正式短测已通过，旧“排除告警”证据不适用；同head CI与合并仍待回读
 - 来源：2026-10-14用户批准CPU预警方案；90°C/5秒与恢复规则是产品建议，不是Apple安全限值
-- 验收边界：按[24](24-cpu-warning.md)、[07](07-native-ui.md)及[21](21-implementation-contracts.md)修订4实现；W12与TC-WARNING覆盖触发/恢复、中断、规则保存、通知与Receipt提交边界。规则只存UserDefaults四字段，最近50事件仅本会话内存；正式App设置与正常温度观察和软件虚拟时钟证据分开，禁止人为加热设备。
+- 验收边界：预警行为保留修订4语义，当前公开接口由修订5承载；按[24](24-cpu-warning.md)、[07](07-native-ui.md)及[21](21-implementation-contracts.md)实现；W12与TC-WARNING覆盖触发/恢复、中断、规则保存、通知与Receipt提交边界。规则只存UserDefaults四字段，最近50事件仅本会话内存；正式App设置与正常温度观察和软件虚拟时钟证据分开，禁止人为加热设备。
 
 ### REQ-126｜取消自启动
 
@@ -1114,7 +1114,7 @@
 - 正文：如果某温度来源没有本机验证或固定上游分类依据，则 Registry 应将其标为 unknown 并只供诊断；仅有上游分类时标为 referenceClassified，只有完成正式目标 App 资格验证才可标为 targetQualified，且名称、数量或数组位置不得证明物理核心、E/P 域或 Package。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C03、C04；C09删除逐核范围后保留真实性约束；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W02/W09与TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W02/W09与TC-SENSOR/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
 
 ### REQ-133｜Raw 峰值
 
@@ -1130,4 +1130,15 @@
 - 正文：如果读取接口没有提供可验证的测量更新时间信息，则 ReadingOutcome.success 应将 freshness 标为 unknown 且 source timestamp 为空；PresentationModel 应另以 live、cached、stale 或 unavailable 互斥状态表达应用观测年龄，不得把读取完成时间冒充硬件测量时间。
 - 状态：现行基线；严格资格及课程分层分别见追踪矩阵和课程门禁
 - 来源：C03、C04；C10交接基线；2026-09-21批准规格
-- 验收边界：按[03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订4契约实现；执行W02/W07/W09与TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+- 验收边界：按[03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)的修订5契约实现；执行W02/W07/W09与TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY，结果见17；有方案不等于已通过。
+
+
+## 温度分析
+
+### REQ-135｜温度分析与操作建议
+
+- 模式：State-Driven
+- 正文：温度分析构件应独立于预警和系统通知开关，分列展示 macOS 整机热状态、基于完整同批有效 CPU12 Raw 最高温度与现行阈值/持续及恢复规则的 CPU 判断、既有近10秒 EMA 趋势和对应操作建议；读取失败、成员不完整、缺口、来源或生命周期变化及过期时不得显示温度正常，阈值或持续时间改变后须等待新有效读数重新判断，不得以系统 nominal、未触发预警或缓存值推断 CPU 安全。
+- 状态：现行基线；新增行为pending，须由本轮软件和正式App短测验收
+- 来源：2026-10-15用户批准系统热状态、CPU温度判断、变化趋势和操作建议方案；阈值是产品提醒规则，不是Apple安全上限
+- 验收边界：按[25](25-temperature-analysis.md)、[05](05-processing-pipeline.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md)修订5执行W13/TC-ANALYSIS、TC-TREND、TC-UI及TC-LIFECYCLE。系统四档/未知与高温边界用注入式软件测试；正式App仅记录真实观察，不人为升温。CPU分析与趋势仅消费已提交有效数据，匹配Receipt后交换，失败/重放/迟到/过期不推进；不新增温度表、历史持久化或通知规则。
