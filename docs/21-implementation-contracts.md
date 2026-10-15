@@ -166,7 +166,7 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 
 旧acceptance矩阵/目录保持100accepted/31pending/1waived/2retired事实；core/auxiliary/optional/retired课程分类不通过批量修改旧REQ status获得完成。严格全133、五档10min、物理sleep、72/73h、公证/发行/跨机和精确性能当前是可选扩展。72h历史功能、异常语义、≥80%覆盖、third-party与Release边界保留。
 
-课程五criterion只绑定实际软件与本机产物证据。最终一次独立审查、同head五CI、零真实blocking、仓库保护、merge commit和分支保留由11外部流程核验，不作为CI文档gate要求自身未来成功的先决条件。当前最小收尾仍进行中，不声明未来实测或合并已通过。
+课程五criterion只绑定实际软件与本机产物证据。最终一次独立审查、同head五CI、零真实blocking、仓库保护、merge commit和分支保留由11外部流程核验，不作为CI文档gate要求自身未来成功的先决条件。最终收尾由PR #58及本机交付记录回读，不以文档门禁预先声明未来检查或合并通过。
 
 ## 历史修订4：CPU预警（2026-10-14）
 
@@ -178,4 +178,6 @@ CPUWarningConfiguration的12个Codable字段与defaults.cpu_warning逐项camelCa
 
 ## 2026-10-15 温度分析扩展（当前执行入口）
 
-当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

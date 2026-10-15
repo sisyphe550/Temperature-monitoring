@@ -45,4 +45,3 @@ public struct TemperatureAnalysisSnapshot: Sendable, Equatable {
         self.advice = TemperatureAdvicePolicy.advice(cpu: cpu, systemThermalState: systemThermalState)
     }
 }
-

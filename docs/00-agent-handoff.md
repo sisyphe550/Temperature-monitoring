@@ -1,6 +1,6 @@
 # Agent实施交接入口
 
-更新：2026-10-15；实施契约v1族，contract revision 5。当前目标为本机课程演示App；W13温度分析与课程报告/PPT同步进行中，新增REQ-135尚待实现与验收。W12修订4历史Core413/62、89.18%和正式短测仅证明当时源码/产物。
+更新：2026-10-15；实施契约v1族，contract revision 5。当前目标为本机课程演示App；W13温度分析已实现并通过软件与正式Release短测，REQ-135及五课程criterion已绑定新证据；课程材料与最终Git/CI状态以PR #58和本机交付记录为准。W12修订4历史Core413/62、89.18%和正式短测仅证明当时源码/产物。
 
 ## 先读的资料
 
@@ -52,7 +52,7 @@ bash scripts/build-app.sh
 bash scripts/launch-app.sh
 ```
 
-先保留用户改动，不reset或覆盖；独立功能从最新main建立feature分支。构建输出`build/TemperatureMonitor.app`，正式交付路径/SHA见[课程报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。正式App无fixture验证CPU12/单位、启动、五档短切换、历史、关窗重开与退出；短测访问树不稳定时原有效断言保留，以原生界面补验并记录失败。点选复用相同二进制的既有正式证据。同次观察已填充的五分钟历史，五档短切换；同次观察App/Worker CPU/RSS和交互，不加压力负载。关键失败/数据/生命周期沿用必要软件回归，再运行本轮完整Core及≥80%覆盖。
+先保留用户改动，不reset或覆盖；独立功能从最新main建立feature分支。构建输出`build/TemperatureMonitor.app`，本轮正式App SHA与观察记录见[温度分析正式短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)。正式App无fixture验证CPU12/单位、启动、五档短切换、历史、关窗重开与退出；短测访问树不稳定时原有效断言保留，以原生界面补验并记录失败。本轮新二进制实测历史加载、五档短切换及App/worker CPU/RSS和交互；历史点选及五分钟资源的旧证据保留其原源码边界。最新约4分钟短测不冒充五分钟或耐久，不加压力负载。关键失败/数据/生命周期沿用必要软件回归，再运行本轮完整Core及≥80%覆盖。
 
 ```sh
 python3 scripts/bind-acceptance-evidence.py
@@ -67,9 +67,9 @@ python3 scripts/validate-handoff.py --product-acceptance
 
 发现真实可复现缺陷：复现→Issue→必要修复/回归；不能降低CPU集合、单位、数据完整性、TTL或故障语义。只有单纯可选扩展未测不构成本机课程blocking。当前不安排新长测、物理睡眠、额外负控或公开发布。完整Xcode/本机已具备；没有公证凭证不阻塞本机目标，也不声明公证或跨机通过。
 
-## 本轮测试与交付记录
+## 历史课程测试与交付记录
 
-当前正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
+历史正式App核心观察、完整Core与可运行路径见[课程测试报告](validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
 
 Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录](validation/course-delivery/2026-10-03-8222e0a-ci/README.md)；原取消任务保留，App与有效测试断言不变。最终同head五CI和零blocking仍按Git流程回读。
 
@@ -81,4 +81,6 @@ Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录
 
 ## 2026-10-15 温度分析扩展（当前执行入口）
 
-当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

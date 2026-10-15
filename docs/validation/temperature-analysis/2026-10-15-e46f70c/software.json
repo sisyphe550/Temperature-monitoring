@@ -1,0 +1,131 @@
+{
+  "contract_version": 5,
+  "feature": "temperature-analysis",
+  "kind": "software",
+  "source_commit": "e46f70c5dcda452a1509c5b646128ce44d09221a",
+  "result": "passed",
+  "date": "2026-10-15",
+  "environment": {
+    "execution": "software-tests",
+    "os_version": "15.7.3",
+    "os_build": "24G419",
+    "architecture": "arm64",
+    "xcode_version": "26.3 (17C529)",
+    "scope": "Swift Testing controlled inputs, mock persistence/clock and Debug UI fixtures; not hardware qualification."
+  },
+  "analysis_cases": {
+    "system-thermal-state": {
+      "result": "passed",
+      "observed": "ProcessInfo known four values and unknown mapping; omitted injection fails closed, nominal with invalid CPU remains invalid.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/presentation-targeted.log",
+          "sha256": "e73862a6bfa8f2dcc946018060a36dd3df3aaa6f9c8dfe376c8ecaa4cdc9af75"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        }
+      ]
+    },
+    "cpu-assessment": {
+      "result": "passed",
+      "observed": "Raw rather than EMA; below/pending/sustained/recovery, inclusive elapsed boundaries; incomplete/failed CPU12 never normal.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        }
+      ]
+    },
+    "warning-independent": {
+      "result": "passed",
+      "observed": "Warning and notification switches preserve independent assessment including pending/active/recovery; internal events private and bounded.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        }
+      ]
+    },
+    "trend-window-and-gap": {
+      "result": "passed",
+      "observed": "Existing 10s EMA OLS, 3 points,80% coverage,0.02C/s stable band; insufficient distinct; current segment and same-series source epoch isolated.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        }
+      ]
+    },
+    "receipt-replay-and-expiry": {
+      "result": "passed",
+      "observed": "Matching Receipt only; held/rejected/failed/replayed/older data do not fabricate analysis. Independent expiry rebase works with warning disabled; TTL uses observation period. Snapshot reads do not advance phases.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        }
+      ]
+    },
+    "rule-change": {
+      "result": "passed",
+      "observed": "Threshold/duration change interrupts and waits for new Raw; warning/notification toggles do not reset; history rebuild/fatal/generation protections pass.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/presentation-targeted.log",
+          "sha256": "e73862a6bfa8f2dcc946018060a36dd3df3aaa6f9c8dfe376c8ecaa4cdc9af75"
+        }
+      ]
+    },
+    "advice-policy": {
+      "result": "passed",
+      "observed": "All nine deterministic Core advice priorities and display wording covered. Repeated snapshots never increase observed duration; no unsafe CPU-normal inference.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+          "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/presentation-targeted.log",
+          "sha256": "e73862a6bfa8f2dcc946018060a36dd3df3aaa6f9c8dfe376c8ecaa4cdc9af75"
+        }
+      ]
+    }
+  },
+  "full_core": {
+    "result": "passed",
+    "tests": 445,
+    "suites": 65,
+    "issues": 0,
+    "duration_seconds": 24.645,
+    "command": "swift test --package-path Packages/TemperatureCore --no-parallel --enable-code-coverage",
+    "evidence": [
+      {
+        "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/full-core.log",
+        "sha256": "e094c03befaa624b9634f3b25ff74ea7faade2737d84e1b8d77fd31e807ac4c8"
+      },
+      {
+        "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/core-coverage.log",
+        "sha256": "523e80867a3c1023cc018b19dfce0947905bd49c71fb8abbc5cd9ca774e7c7d5"
+      }
+    ]
+  },
+  "coverage_summary": "Core line coverage: 7586/8493 = 89.32%",
+  "coverage_note": "Original TemperatureCore+SensorRuntime production denominator unchanged. Presentation/UI excluded; advice and analysis business policy inside covered Core.",
+  "targeted": {
+    "core": "120 tests/12 suites",
+    "presentation": "19 tests/2 suites",
+    "new_native_UI": "3 tests,0 failures;8.901s assertions;48.8s total"
+  },
+  "documentation_tests": {
+    "binder": 45,
+    "course_policy": 40,
+    "analysis_evidence": 9
+  },
+  "scope_note": "Software-only system fair/serious/critical/unknown and failure/precise timing paths; not actual thermal stress, sleep or endurance. Development RED logs remain in local staging, no valid assertions removed."
+}

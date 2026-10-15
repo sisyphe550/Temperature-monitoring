@@ -23,7 +23,7 @@ W00按文档基线、可信门禁、规则回读三个PR完成仓库引导。W01
 
 生产App已实现，既有[7124正式短测](validation/product-software/W11/2026-10-03-7124dc1/README.md)与[f0软件回归](validation/product-software/W11/2026-10-03-f0a7dde/README.md)绑定当时源码/产物。当前按五criterion完成必要软件验证、一次约7分钟正式App同会话观察、文档/证据同步及一次最终审查，再回读同head五CI和零真实blocking后按用户授权合并。完成后交付可启动本机App和实际结果，停止扩展。
 
-最新授权覆盖此前暂停及五档各10分钟要求；物理sleep、72/73h、公证/公开发行/跨机、精确skipped/p95/p99/首帧/显示测量不再是当前阻塞项。旧逐REQ100accepted/31pending/1waived/2retired和所有失败/未测证据保持，不声称旧全资格通过。当前最小收尾仍未完成，不提前写合并或未来实机PASS。
+最新授权覆盖此前暂停及五档各10分钟要求；物理sleep、72/73h、公证/公开发行/跨机、精确skipped/p95/p99/首帧/显示测量不再是当前阻塞项。旧逐REQ100accepted/31pending/1waived/2retired和所有失败/未测证据保持，不声称旧全资格通过。当前W13软件与正式Release短测已完成，课程材料和Git最终状态以PR #58及本机交付记录为准，不以静态文档预先声明未来检查结果。
 
 本机Xcode/目标Air已具备；公证凭证和更多机型仅是可选发行/认证的外部输入，不阻塞本机ad-hoc交付。不能承诺未测机型、驱动阻塞的绝对回收或温度计量精度。原50项任务依赖保留，修订4新增W12五项，当前修订5再增W13五项；W09～W11继续适用课程退出条件。
 
@@ -38,3 +38,7 @@ W00按文档基线、可信门禁、规则回读三个PR完成仓库引导。W01
 ## 2026-10-15 温度分析
 
 W13在已合入W12的最新main后执行，分支feature/temperature-analysis。先完成需求/设计/验收/任务与revision5机器契约，再实施Core分析与系统热适配/UI。定向回归后一次完整Core≥80%、必要App/UI与最终正式App核心短测；随后同步课程报告、汇报PPT及图表，进行一次最终独立审查和同head五CI。完成适用Git门禁后merge commit并保留分支，不新增长测或真实休眠。 规范见[25](25-temperature-analysis.md)。
+
+## W13当前退出状态（2026-10-15）
+
+T13.1～T13.4已完成；[本轮软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)、[正式短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)和[独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)已有原证据，REQ135及course-local五criterion通过。T13.5仅剩课程材料、最终同head五CI、merge commit和交付回读；不再新增长测。

@@ -1,0 +1,84 @@
+[0/1] Planning build
+Building for debugging...
+[0/9] Write sources
+[1/9] Write swift-version--58304C5D6DBC2206.txt
+[3/5] Emitting module TemperatureCoreTests
+[4/5] Compiling TemperatureCoreTests TemperatureAnalysisPresentationTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking TemperatureCorePackageTests
+Build complete! (1.91s)
+Test Suite 'Selected tests' started at 2026-10-15 18:59:16.480.
+Test Suite 'TemperatureCorePackageTests.xctest' started at 2026-10-15 18:59:16.481.
+Test Suite 'TemperatureCorePackageTests.xctest' passed at 2026-10-15 18:59:16.481.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.000) seconds
+Test Suite 'Selected tests' passed at 2026-10-15 18:59:16.481.
+	 Executed 0 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+◇ Test run started.
+↳ Testing Library Version: 1501
+↳ Target Platform: arm64e-apple-macos14.0
+◇ Suite PresentationModelTests started.
+◇ Suite TemperatureAnalysisPresentationTests started.
+◇ Test historyChartStatesAreMutuallyExclusive() started.
+◇ Test sustainedBelowTriggerDescribesPriorEventAndUnfinishedRecovery() started.
+◇ Test everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test snapshotGenerationRegressionIsRejected() started.
+◇ Test fatalRejectsSnapshotAndHistoryAnalysisUpdates() started.
+◇ Test fatalStateRejectsLaterRunningSnapshots() started.
+◇ Test staleThresholdUsesMaxThreePeriodsOrTwoSeconds() started.
+◇ Test historyLoadingReadyAndFailedPreserveExactAnalysis() started.
+◇ Test explicitSystemStateUsesCoreAdvicePolicy() started.
+◇ Test omittedSystemStateIsUnknownAndRawIsDistinctFromEMA() started.
+◇ Test snapshotRefreshDoesNotAddUnobservedPendingTime() started.
+◇ Test valueStatesAreMutuallyExclusive() started.
+◇ Test systemLabelsRespectWholeSystemScope(state:) started.
+◇ Test trendLabelsKeepDirectionAndRateUnits(direction:) started.
+◇ Test nominalSystemWithMissingCPUStillCannotAssessCPU() started.
+◇ Test case passing 2 arguments advice → .temperatureRising, expectedMeaning → "温度正在上升" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test pendingAndRecoveryProgressUseLastRawObservation() started.
+◇ Test case passing 2 arguments advice → .thresholdReached, expectedMeaning → "等待持续确认" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 2 arguments advice → .continueObserving, expectedMeaning → "继续观察" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test providerMapsSystemStates(input:expected:) started.
+◇ Test oldGenerationCannotReplaceAnalysisOrSystemState() started.
+◇ Test staleHidesValueAfterThreshold() started.
+◇ Test case passing 2 arguments advice → .systemCritical, expectedMeaning → "整机热状态危急" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 2 arguments advice → .sustainedHighTemperature, expectedMeaning → "曾持续达到设定阈值且尚未恢复" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 2 arguments advice → .coolingDown, expectedMeaning → "恢复观察" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 2 arguments advice → .systemHot, expectedMeaning → "整机热状态严重" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 2 arguments advice → .awaitingCPUData, expectedMeaning → "等待新的完整有效CPU读数" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 1 argument state → .nominal to systemLabelsRespectWholeSystemScope(state:) started.
+◇ Test case passing 1 argument state → .fair to systemLabelsRespectWholeSystemScope(state:) started.
+◇ Test case passing 2 arguments advice → .systemWarm, expectedMeaning → "整机热状态偏高" to everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) started.
+◇ Test case passing 1 argument direction → .falling to trendLabelsKeepDirectionAndRateUnits(direction:) started.
+◇ Test case passing 1 argument direction → .rising to trendLabelsKeepDirectionAndRateUnits(direction:) started.
+◇ Test case passing 1 argument state → .serious to systemLabelsRespectWholeSystemScope(state:) started.
+◇ Test case passing 1 argument state → .unknown to systemLabelsRespectWholeSystemScope(state:) started.
+◇ Test case passing 1 argument direction → .insufficient to trendLabelsKeepDirectionAndRateUnits(direction:) started.
+◇ Test case passing 1 argument state → .critical to systemLabelsRespectWholeSystemScope(state:) started.
+◇ Test case passing 1 argument direction → .stable to trendLabelsKeepDirectionAndRateUnits(direction:) started.
+◇ Test case passing 2 arguments input → 1, expected → .fair to providerMapsSystemStates(input:expected:) started.
+◇ Test case passing 2 arguments input → 2, expected → .serious to providerMapsSystemStates(input:expected:) started.
+◇ Test case passing 2 arguments input → 0, expected → .nominal to providerMapsSystemStates(input:expected:) started.
+◇ Test case passing 2 arguments input → 9223372036854775807, expected → .unknown to providerMapsSystemStates(input:expected:) started.
+◇ Test case passing 2 arguments input → 3, expected → .critical to providerMapsSystemStates(input:expected:) started.
+✔ Test sustainedBelowTriggerDescribesPriorEventAndUnfinishedRecovery() passed after 0.001 seconds.
+✔ Test pendingAndRecoveryProgressUseLastRawObservation() passed after 0.001 seconds.
+✔ Test everyCoreAdviceHasActionableDisplay(advice:expectedMeaning:) with 9 test cases passed after 0.001 seconds.
+✔ Test systemLabelsRespectWholeSystemScope(state:) with 5 test cases passed after 0.001 seconds.
+✔ Test trendLabelsKeepDirectionAndRateUnits(direction:) with 4 test cases passed after 0.001 seconds.
+✔ Test providerMapsSystemStates(input:expected:) with 5 test cases passed after 0.001 seconds.
+✔ Test snapshotGenerationRegressionIsRejected() passed after 0.004 seconds.
+✔ Test fatalStateRejectsLaterRunningSnapshots() passed after 0.004 seconds.
+✔ Test historyChartStatesAreMutuallyExclusive() passed after 0.004 seconds.
+✔ Test staleThresholdUsesMaxThreePeriodsOrTwoSeconds() passed after 0.004 seconds.
+✔ Test historyLoadingReadyAndFailedPreserveExactAnalysis() passed after 0.004 seconds.
+✔ Test explicitSystemStateUsesCoreAdvicePolicy() passed after 0.005 seconds.
+✔ Test nominalSystemWithMissingCPUStillCannotAssessCPU() passed after 0.005 seconds.
+✔ Test valueStatesAreMutuallyExclusive() passed after 0.005 seconds.
+✔ Test fatalRejectsSnapshotAndHistoryAnalysisUpdates() passed after 0.005 seconds.
+✔ Test snapshotRefreshDoesNotAddUnobservedPendingTime() passed after 0.005 seconds.
+✔ Test omittedSystemStateIsUnknownAndRawIsDistinctFromEMA() passed after 0.007 seconds.
+✔ Test staleHidesValueAfterThreshold() passed after 0.007 seconds.
+✔ Suite PresentationModelTests passed after 0.007 seconds.
+✔ Test oldGenerationCannotReplaceAnalysisOrSystemState() passed after 0.007 seconds.
+✔ Suite TemperatureAnalysisPresentationTests passed after 0.007 seconds.
+✔ Test run with 19 tests in 2 suites passed after 0.007 seconds.

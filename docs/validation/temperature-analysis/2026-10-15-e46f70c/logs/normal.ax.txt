@@ -1,0 +1,89 @@
+Window: "温度监测", App: TemperatureMonitor.
+0 standard window 温度监测, Secondary Actions: Raise
+	1 container
+		2 text 温度监测
+		3 pop up button CPU 周期, Value: 200 ms, ID: cpu.period
+		4 button 设置
+		5 button Description: 退出, ID: app.quit
+		6 split group
+			7 scroll area Secondary Actions: Scroll Up, Scroll Down
+				8 text 历史比较（最多8个来源版本）
+				9 checkbox (disabled) Description: CPU热区最高温度（EMA）, 44.3 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 1, ID: history.select.cpu.zone.max
+				10 text 温度分析 系统热状态正常（macOS报告） CPU热区Raw最高温度：44.3 °C CPU未达到设定阈值；参考规则：≥ 90.0 °C持续5秒。 近10秒EMA趋势：下降（-0.127 °C/s） 建议：继续观察温度与趋势；保持通风，按当前工作负载使用。 Raw用于CPU阈值判断；主温度与曲线显示EMA。系统热状态反映整机，参考阈值不代表硬件安全上限。 CPU预警监测中 Raw最高温度 ≥ 90.0 °C，持续5秒 ≤ 85.0 °C持续10秒才恢复；判断使用Raw，温度图显示EMA。
+				11 disclosure triangle Description: 本会话预警记录（0）, Value: off, ID: warning.events
+				12 text CPU
+				13 checkbox Description: Te05, 43.2 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.1
+				14 checkbox Description: Te09, 43.0 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.3
+				15 checkbox Description: Te0H, 42.9 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.4
+				16 checkbox Description: Te0S, 42.5 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.2
+				17 checkbox Description: Tp01, 42.7 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.5
+				18 checkbox Description: Tp05, 43.6 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.6
+				19 checkbox Description: Tp09, 43.4 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.7
+				20 checkbox Description: Tp0D, 44.3 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.8
+				21 checkbox Description: Tp0V, 43.9 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.9
+				22 checkbox Description: Tp0Y, 43.7 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.10
+				23 checkbox Description: Tp0b, 42.4 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.11
+				24 checkbox Description: Tp0e, 43.0 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.12
+				25 text SSD
+				26 checkbox Description: TEMPERATURE, 32.3 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.storage.ssd
+				27 text Battery
+				28 checkbox Description: TB1T, 29.5 °C, 应用读取 19:04:15 · 测量更新时间未知, Value: 0, ID: history.select.power.battery
+				29 text 来源重连会单独分段；图例显示来源版本，曲线不跨断线连接。
+				30 scroll bar (settable, float) 0
+					31 value indicator (settable, float) 0
+					32 increment arrow button
+					33 decrement arrow button
+					34 increment page button
+					35 decrement page button
+			36 splitter (disabled, settable, float) 380
+			37 container
+				38 container history.range
+					39 button Description: 5 分钟, ID: history.range.5 分钟
+					40 button Description: 1 小时, ID: history.range.1 小时
+					41 button Description: 24 小时, ID: history.range.24 小时
+					42 button Description: 72 小时, ID: history.range.72 小时
+				43 container history.chart
+					44 text 平滑温度（EMA）及区间范围 比较：CPU热区最高温度 · 来源1 范围内最高EMA：55.4 °C
+					45 container
+						46 unknown Description: Oct 15, 2026 at 19:03:53.000 to Oct 15, 2026 at 19:03:58.000, Details: starts at 53.3, varies between 55.4 and 46.7, ends at 46.7, CPU热区最高温度 · 来源1, 23 values
+						47 unknown Description: Oct 15, 2026 at 19:03:58.000 to Oct 15, 2026 at 19:04:03.000, Details: 46.6 to 45.7, decreases inconsistently, CPU热区最高温度 · 来源1, 25 values
+						48 unknown Description: Oct 15, 2026 at 19:04:03.000 to Oct 15, 2026 at 19:04:08.000, Details: starts at 45.7, varies between 46.5 and 45, ends at 45, CPU热区最高温度 · 来源1, 25 values
+						49 unknown Description: Oct 15, 2026 at 19:04:08.000 to Oct 15, 2026 at 19:04:13.000, Details: starts at 45, varies between 46 and 44.6, ends at 44.6, CPU热区最高温度 · 来源1, 25 values
+						50 unknown Description: Oct 15, 2026 at 19:04:13.000 to Oct 15, 2026 at 19:04:18.000, Details: 44.6 to 44.4, decreases consistently, CPU热区最高温度 · 来源1, 11 values
+					51 text 点按曲线查看时间、温度、范围和样本数。
+				52 text Value: 当前温度比较（EMA）, ID: temperature.comparison
+				53 scroll area ID: temperature.comparison, Secondary Actions: Scroll Up, Scroll Down
+					54 container
+						55 unknown Description: CPU热区最高温度, Details: 44.3
+						56 unknown Description: Te05, Details: 43.2
+						57 unknown Description: Te09, Details: 43
+						58 unknown Description: Te0H, Details: 42.9
+						59 unknown Description: Te0S, Details: 42.5
+						60 unknown Description: Tp01, Details: 42.7
+						61 unknown Description: Tp05, Details: 43.6
+						62 unknown Description: Tp09, Details: 43.4
+						63 unknown Description: Tp0D, Details: 44.3
+						64 unknown Description: Tp0V, Details: 43.9
+						65 unknown Description: Tp0Y, Details: 43.7
+						66 unknown Description: Tp0b, Details: 42.4
+						67 unknown Description: Tp0e, Details: 43
+						68 unknown Description: TEMPERATURE, Details: 32.3
+						69 unknown Description: TB1T, Details: 29.5
+					70 scroll bar (settable, float) 0
+						71 value indicator (settable, float) 0
+						72 increment arrow button
+						73 decrement arrow button
+						74 increment page button
+						75 decrement page button
+	76 close button
+	77 zoom button
+	78 minimize button
+	79 text 温度监测
+80 menu bar
+	81 TemperatureMonitor
+	82 Edit
+	83 View
+	84 Window
+	85 Help
+
+The focused UI element is 0 standard window 温度监测, Secondary Actions: Raise

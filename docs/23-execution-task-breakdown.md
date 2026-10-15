@@ -246,3 +246,17 @@ W12历史结果不声明全132项strict资格通过，也不恢复物理sleep/�
 | - [ ] T13.3 系统热状态与展示 | T13.2 | App热适配、PresentationModel、Dashboard/Popover、UI测试 | 整机四档/unknown独立报告；同analysis卡和紧凑摘要、Raw/EMA标注与键盘小屏 | 系统适配/Presentation/UI测试；未读不默认nominal，关预警分析仍工作，不以系统状态担保CPU安全 | T13.4取得正式候选；`feat: show thermal analysis and advice` |
 | - [ ] T13.4 回归与本机证据 | T13.3 | 新日期源码软件/正式App证据、acceptance/catalog/course政策 | 定向后一次完整Core≥80%、App/UI与最终App短测；REQ135新证据与五criterion增量 | 文档/binder/course脚本、完整Core/coverage、App/UI、正式真实来源/趋势/关预警/关窗重开/退出 | T13.5取得实际结果与限制；`test: verify temperature analysis delivery` |
 | - [ ] T13.5 课程材料与交付 | T13.4 | 原位置Word/PPT及相关图表、一次最终审查、PR | 同步四分析项/规则实现测试；保留评价表与既有样式，渲染核验；同head五CI/零blocking | 文档及图表检查、一次最终独立审查、Git五CI/merge两parent/远端分支保留 | 交付App/课程报告/PPT及简要边界后停止；`docs: deliver course temperature analysis` |
+
+### W13证据提交前状态快照（2026-10-15，源码e46f70c）
+
+[软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)、[正式Release短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)及[一次最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)分开留证；REQ135及五课程criterion通过。任务定义行保留机器DAG格式，实际完成边界如下。
+
+| 任务 | 实际状态与证据边界 |
+|---|---|
+| T13.1 | 已完成：revision5契约、独立分析Evaluator和Core建议策略，阈值/恢复与开关独立性软件回归通过 |
+| T13.2 | 已完成：Receipt/held/重放/失效/规则更新及已提交10秒EMA趋势接入，针对性与全Core通过 |
+| T13.3 | 已完成：系统热适配、统一分析卡/Popover、Raw/EMA文案及Presentation19项/新增Debug UI3项通过 |
+| T13.4 | 已完成：完整Core445项/65组零issue、89.32%覆盖；本机正式Release核心短测及REQ135/五criterion绑定通过 |
+| T13.5 | 部分完成：一次最终独立审查无功能或阻断缺陷、PR #58已创建；课程材料、最终同head五CI、merge commit及交付回读待完成 |
+
+系统热状态仅实测nominal，其他档位由软件注入覆盖；未观察自然恢复，不把恢复默认阈值写成自然恢复，不新增长测或真实休眠。

@@ -1,6 +1,6 @@
 # 测试、验收向量与证据标准
 
-更新：2026-10-15；实施契约v1族修订5。当前本机课程门槛为[课程范围](course-delivery-scope.md)及[五criterion政策](contracts/course-delivery-v1.json)，全133项资格是可选扩展。软件、fixture、正式Release实机和发行证据分开，旧失败/未测结果保持，不因范围收缩批量通过。当前最小收尾仍进行中。
+更新：2026-10-15；实施契约v1族修订5。当前本机课程门槛为[课程范围](course-delivery-scope.md)及[五criterion政策](contracts/course-delivery-v1.json)，全133项资格是可选扩展。软件、fixture、正式Release实机和发行证据分开，旧失败/未测结果保持，不因范围收缩批量通过。当前温度分析软件、正式短测及课程五criterion已通过；课程材料与最终Git/CI状态以PR #58和本机交付记录为准。
 
 ## 自动化和实机分层
 
@@ -102,3 +102,7 @@ course-local检查COURSE-CPU/FUNCTIONS/RESOURCES/REGRESSIONS/CORE，strict保留
 ## 2026-10-15 温度分析
 
 TC-ANALYSIS软件覆盖system-thermal-state、cpu-assessment、warning-independent、trend-window-and-gap、receipt-replay-and-expiry、rule-change、advice-policy；四档/未知热状态、阈值/持续/恢复边界、开关不影响分析、阈值改变等待新读数、Raw与EMA差异、3点/80%及Gap、heldReceipt/重放/TTL均须有断言。正式App覆盖real-cpu-analysis、system-thermal-state、trend-display、warning-disabled、close-reopen、quit；记录真实系统状态与CPU Raw/EMA来源及显示，不人为加热或强求观察到serious/critical。新报告feature=temperature-analysis、contract_version=5，软件与正式App证据分层，原日志hash和source绑定；旧warning报告、CI标签或截图不能证明新增分析。 规范见[25](25-temperature-analysis.md)。
+
+## 温度分析本轮实际结果（2026-10-15）
+
+[软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)记录完整Core445项/65组零issue、24.645秒和7586/8493=89.32%，定向Core120/12、Presentation19/2及新增本机Debug UI3项零失败；[正式Release](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)覆盖真实CPU12、nominal、Raw/EMA、三向趋势、35°C/5秒、关闭预警仍分析、五档短切换/历史/重开/退出。REQ135及五criterion已绑定新证据；系统其他热状态和自然恢复的实机未观察边界保留，未恢复长测或物理休眠。最终CI/合并独立核对。

@@ -142,7 +142,7 @@
 | REQ-132 | 现行基线 | [03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md) | W02/W09 | TC-SENSOR/TC-UPSTREAM-BOUNDARY | 本地验收通过 |
 | REQ-133 | 现行基线 | [05](05-processing-pipeline.md) | W04 | TC-AGG | 本地验收通过 |
 | REQ-134 | 现行基线 | [03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W02/W07/W09 | TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY | 本地验收通过 |
-| REQ-135 | 现行基线 | [25](25-temperature-analysis.md)、[05](05-processing-pipeline.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W13 | TC-ANALYSIS/TC-TREND/TC-UI/TC-LIFECYCLE | 未完成产品验收 |
+| REQ-135 | 现行基线 | [25](25-temperature-analysis.md)、[05](05-processing-pipeline.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W13 | TC-ANALYSIS/TC-TREND/TC-UI/TC-LIFECYCLE | 本地验收通过 |
 
 ## 证据与更新规则
 
@@ -158,8 +158,8 @@
 
 ## 历史W12验收状态（2026-10-14，源码9583987）
 
-上方新增行为pending段描述开发初期重置旧REQ-125证据的阶段。本轮已用[新软件与正式Release短测证据](validation/cpu-warning/2026-10-14-9583987/README.md)验收REQ-125；binder生成的映射为当前结果。W12当时为100accepted/31pending/1waived/2retired，course-local五criterion通过；当前另增REQ135 pending，未声称全132条strict资格通过。Core413项/62组、覆盖89.18%，同次最终独立审查#54/#55/#56复核PASS；同head CI和merge仍待回读。通知横幅与真实点击未观察，不作为已发生事实。
+上方新增行为pending段描述开发初期重置旧REQ-125证据的阶段。本轮已用[新软件与正式Release短测证据](validation/cpu-warning/2026-10-14-9583987/README.md)验收REQ-125；binder生成的映射为当前结果。W12当时为100accepted/31pending/1waived/2retired，course-local五criterion通过；新增REQ135现已按本轮e46f70c证据验收，未声称全132条strict资格通过。Core413项/62组、覆盖89.18%，同次最终独立审查#54/#55/#56复核PASS；同head CI和merge仍待回读。通知横幅与真实点击未观察，不作为已发生事实。
 
 ## 2026-10-15新增分析
 
-REQ-135/W13/TC-ANALYSIS为新增core且pending，旧REQ125本地验收结果保留在原源码/产物边界。五criterion未取得新分析软件与正式App证据前不能通过当前交付；不回写历史报告。
+REQ-135/W13/TC-ANALYSIS为新增core，现已依据[软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式App](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)本地验收，五criterion通过；旧REQ125结果保持原源码/产物边界。当前101accepted/31pending/1waived/2retired，未声称全133项strict资格通过；课程材料、最终CI和merge仍待收尾，不回写历史报告。

@@ -1,6 +1,6 @@
 # 本机课程交付范围
 
-更新：2026-10-15。当前目标为本机课程演示、可运行ad-hoc Release App与课程材料交付。当前实施契约v1族revision5，新增温度分析REQ-135/W13尚待验收；W12修订4历史已通过的证据保留。CPU12硬件profile语义和SQLite schema不变，14W/60T/22TC；最终独立审查、同head五CI与Git合并仍按实际结果核对。
+更新：2026-10-15。当前目标为本机课程演示、可运行ad-hoc Release App与课程材料交付。当前实施契约v1族revision5，新增温度分析REQ-135/W13已完成实现、软件与正式Release短测并绑定五criterion；W12修订4历史已通过的证据保留。CPU12硬件profile语义和SQLite schema不变，14W/60T/22TC；最终独立审查、同head五CI与Git合并仍按实际结果核对。
 
 ## 最新直接授权（要点转述）
 
@@ -66,4 +66,6 @@ Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录
 
 ## 2026-10-15 温度分析扩展（当前执行入口）
 
-当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

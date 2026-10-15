@@ -1,0 +1,11 @@
+{
+  "source_commit": "e46f70c5dcda452a1509c5b646128ce44d09221a",
+  "binaries_sha256": {
+    "TemperatureMonitor": "79f4330b439fb115145b0252635ab97e9552f198997b43f4f637311f307ea9c6",
+    "SensorWorker": "537eb9a76a6aeb1fa5764a865240a7e1a3f6a502c3d02bf2653ad84c9e9bac82"
+  },
+  "codesign_exit_code": 0,
+  "codesign_stdout": "",
+  "codesign_stderr": "",
+  "fixtures": false
+}

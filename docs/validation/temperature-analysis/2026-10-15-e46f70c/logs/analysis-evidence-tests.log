@@ -1,0 +1,14 @@
+test_both_analysis_evidence_kinds_bind_original_files (__main__.AnalysisEvidenceTests.test_both_analysis_evidence_kinds_bind_original_files) ... ok
+test_case_missing_failed_or_without_original_log_is_rejected (__main__.AnalysisEvidenceTests.test_case_missing_failed_or_without_original_log_is_rejected) ... ok
+test_formal_analysis_rejects_fixture_or_debug_build (__main__.AnalysisEvidenceTests.test_formal_analysis_rejects_fixture_or_debug_build) ... ok
+test_old_revision4_source_cannot_prove_analysis (__main__.AnalysisEvidenceTests.test_old_revision4_source_cannot_prove_analysis) ... ok
+test_original_hash_and_repository_boundary_are_enforced (__main__.AnalysisEvidenceTests.test_original_hash_and_repository_boundary_are_enforced) ... ok
+test_report_identity_must_match_artifact_metadata (__main__.AnalysisEvidenceTests.test_report_identity_must_match_artifact_metadata) ... ok
+test_revision5_defaults_without_analysis_implementation_are_rejected (__main__.AnalysisEvidenceTests.test_revision5_defaults_without_analysis_implementation_are_rejected) ... ok
+test_revision5_source_accepts_enum_advice_policy (__main__.AnalysisEvidenceTests.test_revision5_source_accepts_enum_advice_policy) ... ok
+test_warning_report_cannot_be_relabelled_as_analysis (__main__.AnalysisEvidenceTests.test_warning_report_cannot_be_relabelled_as_analysis) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.214s
+
+OK

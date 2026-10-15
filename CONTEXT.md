@@ -47,7 +47,7 @@ Raw与EMA均保留5分钟，分层历史最多72小时，只在当前会话存�
 
 W12预警沿用修订4语义，当前W13分析扩展公开API至revision5；profile的CPU12/版本及SQLite user_version=1不变，原50任务后增加W12与W13各五任务。完整Core及≥80%覆盖、关键失败/数据/生命周期软件回归、CPU12 Raw max→EMA、来源单位与失败不造值必须保留；本机正式App完成启动、五档短切换、历史、关窗重开与正常退出。同一次短测同次观察已填充的五分钟历史，五档短切换，同时观察App/Worker CPU、RSS和交互，不加压力负载。严格133资格、五档10分钟、物理sleep、72/73h耐久、公证/跨机及精确性能为可选扩展，不阻塞当前本机交付。
 
-2026-10-03原App及2026-10-14 W12预警的软件、正式短测、五criterion和独立审查保持当时证据；当前W13分析尚待本轮实现与验证。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与全133项扩展资格分开判定，不把pending改成passed。
+2026-10-03原App及2026-10-14 W12预警的软件、正式短测、五criterion和独立审查保持当时证据；当前W13分析已完成实现、软件与正式Release短测；本轮证据见下方执行入口。生产修复证据见[7124](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)，测试同步见[f0](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)；旧逐REQ100accepted/31pending/1waived/2retired保留。最终本机交付与全133项扩展资格分开判定，不把pending改成passed。
 
 [c354不可变归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保留原FAILED suite、duration补证、partial物理sleep及not_measured性能；[原产品审查](docs/validation/product-review/2026-10-02-48cd967d/report.md)和[原修复](docs/validation/product-fixes/2026-10-02-a97fd5a/report.md)保留当时范围。历史记录中的当时“必须继续长测/暂停/保持Draft”不重新启用当前已授权取消的门槛。
 
@@ -65,4 +65,6 @@ W12预警沿用修订4语义，当前W13分析扩展公开API至revision5；prof
 
 ## 2026-10-15 温度分析扩展（当前执行入口）
 
-当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](docs/25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](docs/validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](docs/validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](docs/validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

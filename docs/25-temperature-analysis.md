@@ -1,6 +1,6 @@
 # 温度分析设计与验收
 
-更新：2026-10-15；实施契约v1族 contract revision 5。用户已批准“系统热状态、CPU温度判断、变化趋势和操作建议”方案，并授权先同步需求、设计、验收和任务文档后直接开发。当前实现状态为pending，完成以本次源码和正式App证据为准。
+更新：2026-10-15；实施契约v1族 contract revision 5。用户已批准“系统热状态、CPU温度判断、变化趋势和操作建议”方案，并授权先同步需求、设计、验收和任务文档后直接开发。当前已在源码`e46f70c`完成实现与软件/正式Release短测；完整Core445项/65组、覆盖89.32%，REQ-135及五课程criterion通过。证据见[软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)、[正式短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)与[一次最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)。课程材料与最终Git/CI状态以PR #58和本机交付记录为准。
 
 ## 1 目标与范围
 
@@ -80,3 +80,9 @@ REQ-135为核心必验，REQ-125继续负责预警，REQ-045明确分析Raw例�
 - 本项目Processing/Trend.swift、Warnings/CPUWarningEvaluator.swift及既有CPU预警提交边界。
 
 仅参考公开API语义与现有自有算法，本次不复制第三方实现，third-party-v1登记范围不变。
+
+## 2026-10-15 实施结果与边界
+
+T13.1～T13.4已完成。定向Core120项/12组、Presentation19项/2组、新增本机Debug UI3项零失败；完整Core445项/65组零issue、24.645秒，覆盖7586/8493=89.32%，统计范围未缩减。正式Release fixture=false在Mac16,13、macOS15.7.3/24G419观察真实CPU12、Raw/EMA差异、趋势上升/下降/平稳、35°C/5秒持续判断、关闭预警后分析继续、五档短切换/历史/关窗重开/正常退出及清理。系统仅实测nominal；其他热状态、自然恢复和故障/精确时间边界的验证范围见软件与正式报告，不人为升温。
+
+一次最终独立审查未发现功能或阻断缺陷，两处文件尾空行已作纯空白修正。T13.5审查部分已完成；课程Word/PPT/图表及最终同head五CI、merge commit和分支保留的执行回读，以PR #58和本机交付记录为准。

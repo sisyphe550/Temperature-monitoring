@@ -172,7 +172,7 @@
     },
     {
       "id": "COURSE-FUNCTIONS",
-      "description": "正式 App 启动、五档短测切换、历史查看与点选、关窗重开保留会话、正常退出清理会话。 新增CPU预警的设置/统一状态与TC-WARNING按修订4重新验收。 新增温度分析四项须本轮TC-ANALYSIS分层证据，当前pending。",
+      "description": "正式 App 启动、五档短测切换、历史查看与点选、关窗重开保留会话、正常退出清理会话。 新增CPU预警的设置/统一状态与TC-WARNING按修订4重新验收。 新增温度分析四项须本轮TC-ANALYSIS分层证据，本轮软件与正式App分层验证。",
       "requirements": [
         "REQ-001",
         "REQ-002",
@@ -200,7 +200,8 @@
       "evidence": [
         "course-final-formal-app",
         "sigpipe-final-formal-short",
-        "cpu-warning-formal-app"
+        "cpu-warning-formal-app",
+        "temperature-analysis-formal-app"
       ]
     },
     {
@@ -224,7 +225,7 @@
     },
     {
       "id": "COURSE-REGRESSIONS",
-      "description": "保留并通过崩溃、死锁、取消生命周期、SQL 数据/清理、失败不造样本与采样预算等必要核心回归。 新增CPU预警的设置/统一状态与TC-WARNING按修订4重新验收。 新增温度分析四项须本轮TC-ANALYSIS分层证据，当前pending。",
+      "description": "保留并通过崩溃、死锁、取消生命周期、SQL 数据/清理、失败不造样本与采样预算等必要核心回归。 新增CPU预警的设置/统一状态与TC-WARNING按修订4重新验收。 新增温度分析四项须本轮TC-ANALYSIS分层证据，本轮软件与正式App分层验证。",
       "requirements": [
         "REQ-013",
         "REQ-014",
@@ -258,7 +259,8 @@
       ],
       "evidence": [
         "course-final-core",
-        "cpu-warning-software"
+        "cpu-warning-software",
+        "temperature-analysis-software"
       ]
     },
     {
@@ -276,7 +278,8 @@
         "software"
       ],
       "evidence": [
-        "cpu-warning-software"
+        "cpu-warning-software",
+        "temperature-analysis-software"
       ]
     }
   ]

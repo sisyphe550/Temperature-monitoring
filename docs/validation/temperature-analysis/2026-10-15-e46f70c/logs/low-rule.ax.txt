@@ -1,0 +1,5 @@
+The following is a diff from the previous accessibility tree for Window: "设置" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~			91 text field (settable) 触发温度（°C）, Value: 35.0, ID: warning.threshold
+~			95 text ID: warning.rule, Value: 当前规则：启用，≥ 35.0 °C持续5秒。 触发温度 5–120 °C；持续1–300秒。恢复阈值比触发低5 °C，连续10秒。 这是用户设定的提醒规则，不是硬件安全限值。关窗后继续预警，退出后停止检测。 系统通知已允许；实际横幅受系统通知设置影响。 设置已应用并保存。
+~			100 text CPU Te05 51.1 °C 应用读取 19:04:38 · 测量更新时间未知 Te09 51.0 °C 应用读取 19:04:38 · 测量更新时间未知 Te0H 50.4 °C 应用读取 19:04:38 · 测量更新时间未知 Te0S 49.9 °C 应用读取 19:04:38 · 测量更新时间未知 Tp01 52.8 °C 应用读取 19:04:38 · 测量更新时间未知 Tp05 53.5 °C 应用读取 19:04:38 · 测量更新时间未知 Tp09 52.8 °C 应用读取 19:04:38 · 测量更新时间未知 Tp0D 53.9 °C 应用读取 19:04:38 · 测量更新时间未知 Tp0V 54.2 °C 应用读取 19:04:38 · 测量更新时间未知 Tp0Y 54.0 °C 应用读取 19:04:38 · 测量更新时间未知 Tp0b 52.6 °C 应用读取 19:04:38 · 测量更新时间未知 Tp0e 52.8 °C 应用读取 19:04:38 · 测量更新时间未知 SSD TEMPERATURE 34.4 °C 应用读取 19:04:38 · 测量更新时间未知 Battery TB1T 29.4 °C 应用读取 19:04:38 · 测量更新时间未知 悬停来源可查看身份、指标和映射依据。测量更新时间未知；显示的是应用读取时间。
+The focused UI element is 91 text field (settable) Value: 35.0, ID: warning.threshold

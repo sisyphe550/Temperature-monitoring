@@ -563,10 +563,24 @@ W12历史结果不声明全132项strict资格通过，也不恢复物理sleep/�
 
 **设计/接口：** [25](25-temperature-analysis.md)、[设计](superpowers/specs/2026-10-15-temperature-analysis-design.md)、[实施计划](superpowers/plans/2026-10-15-temperature-analysis.md)定义revision5公开类型和系统适配。CPU分析always-on、整机热状态独立、趋势锚定最后已提交有效Raw，纯建议策略纳入Core；schema/worker/profile硬件语义不变。
 
-- [ ] T13.1：契约、纯Evaluator/建议Policy与阈值、恢复及开关独立性红绿测试。
-- [ ] T13.2：匹配Receipt后状态交换、失效/规则改变、已提交buffer趋势及heldReceipt/replay回归。
-- [ ] T13.3：可注入系统热适配、唯一PresentationState分析卡和Popover、UI/辅助功能验证。
-- [ ] T13.4：针对性回归后完整Core≥80%、App/UI与最终正式App核心短测，新REQ135及五criterion证据。
+- [x] T13.1：契约、纯Evaluator/建议Policy与阈值、恢复及开关独立性红绿测试。
+- [x] T13.2：匹配Receipt后状态交换、失效/规则改变、已提交buffer趋势及heldReceipt/replay回归。
+- [x] T13.3：可注入系统热适配、唯一PresentationState分析卡和Popover、UI/辅助功能验证。
+- [x] T13.4：针对性回归后完整Core≥80%、App/UI与最终正式App核心短测，新REQ135及五criterion证据。
 - [ ] T13.5：课程报告/PPT/图表同步、一次最终独立审查、同head五CI与授权Git交付；merge commit并保留分支。
 
-**退出：** 新增分析在本轮软件和正式App分层证据中通过；严禁旧warning标签冒充新结果。未完成前新增REQ135与course-local增量保持pending。不恢复已豁免长测、休眠、公证、跨机或人为加热。
+**退出：** 新增分析在本轮软件和正式App分层证据中通过；严禁旧warning标签冒充新结果。本轮REQ135和course-local增量已按新证据通过；最终CI、课程材料与合并仍须实际完成。不恢复已豁免长测、休眠、公证、跨机或人为加热。
+
+### W13证据提交前状态快照（2026-10-15，源码e46f70c）
+
+[软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)、[正式Release短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)及[一次最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)分开留证；REQ135及五课程criterion通过。任务定义行保留机器DAG格式，实际完成边界如下。
+
+| 任务 | 实际状态与证据边界 |
+|---|---|
+| T13.1 | 已完成：revision5契约、独立分析Evaluator和Core建议策略，阈值/恢复与开关独立性软件回归通过 |
+| T13.2 | 已完成：Receipt/held/重放/失效/规则更新及已提交10秒EMA趋势接入，针对性与全Core通过 |
+| T13.3 | 已完成：系统热适配、统一分析卡/Popover、Raw/EMA文案及Presentation19项/新增Debug UI3项通过 |
+| T13.4 | 已完成：完整Core445项/65组零issue、89.32%覆盖；本机正式Release核心短测及REQ135/五criterion绑定通过 |
+| T13.5 | 部分完成：一次最终独立审查无功能或阻断缺陷、PR #58已创建；课程材料、最终同head五CI、merge commit及交付回读待完成 |
+
+系统热状态仅实测nominal，其他档位由软件注入覆盖；未观察自然恢复，不把恢复默认阈值写成自然恢复，不新增长测或真实休眠。

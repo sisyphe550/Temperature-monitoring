@@ -1,0 +1,6 @@
+{
+  "ps_exit_code": 1,
+  "output": "  PID  PPID ELAPSED  %CPU    RSS COMMAND\n",
+  "stderr": "",
+  "UI_observation": "Normal app.quit clicked; native CUA returned App quit (server -10005)."
+}

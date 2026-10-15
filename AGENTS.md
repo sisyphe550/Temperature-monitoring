@@ -26,10 +26,12 @@
 
 每次修改运行适用检查；文档入口`python3 scripts/validate-handoff.py`，本轮课程门槛为`--product-acceptance`，全133项扩展资格为`--strict-product-acceptance`。核心覆盖≥80%且必须含异常路径，正式App实机不能用原型或模拟替代。最新用户授权恢复本机课程最小收尾，覆盖此前暂停及五档10分钟要求；W09仅当前正式App短测（首50ms约330s、其余各8s、同次资源/响应观察），不做压力负载。物理sleep、72/73h耐久、公证/公开发行/跨机认证及精确skipped/p95/p99/首帧/显示测量为可选扩展；72h历史功能和软件生命周期仍保留。未测不写通过，历史validation/research不可回写。
 
-一次最终独立审查、同head五项CI和零真实blocking满足后，按用户授权merge commit交付并保留分支，完成即停。课程五criterion不要求CI自身未来结果，外部合并检查按Git流程回读。没有Xcode/目标机时记录具体依赖，不伪造完成；当前W13温度分析与课程材料同步进行中。
+一次最终独立审查、同head五项CI和零真实blocking满足后，按用户授权merge commit交付并保留分支，完成即停。课程五criterion不要求CI自身未来结果，外部合并检查按Git流程回读。没有Xcode/目标机时记录具体依赖，不伪造完成；当前W13分析软件与正式短测已完成，课程材料、最终CI与合并收尾进行中。
 
 CPU预警新增REQ-125/W12，规范见[24](docs/24-cpu-warning.md)：Raw CPU12/elapsed、匹配Receipt后事件、interrupted无法判断、四字段偏好与有界通知。W12历史软件与正式App短测已验收；新增W13分析另行验收，不复用历史“无告警”或旧预警结果。
 
 ## 2026-10-15 温度分析扩展（当前执行入口）
 
-当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5；新增REQ-135/W13/TC-ANALYSIS为core且pending。系统热状态、独立CPU Raw判断、10秒EMA趋势及建议统一按[25专项](docs/25-temperature-analysis.md)实施。W12历史证据不证明新分析，五课程criterion须取得本轮增量证据；不恢复长测、真实休眠、公证或跨机认证。先文档后开发，测试后同步课程报告/PPT，最后执行一次独立审查与同head五CI。
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](docs/validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](docs/validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](docs/validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

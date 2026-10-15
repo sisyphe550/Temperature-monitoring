@@ -76,4 +76,4 @@ C10是用户授权完善可实施交接的请求；本轮工程取值和方案�
 
 ## 2026-10-15 温度分析
 
-2026-10-15：用户明确批准温度分析四项及先文档后开发、测试后更新课程材料。新增REQ-135/W13/TC-ANALYSIS、contract revision5；复用现有Raw阈值与EMA趋势，整机热状态不作为CPU安全限值；分析不受预警/通知开关影响。仅阈值或持续时间改变重置分析。现有数据链、CPU12、schema和课程免测范围保持；W12旧证据保留，新行为pending等待本轮证据。 规范见[25](25-temperature-analysis.md)。
+2026-10-15：用户明确批准温度分析四项及先文档后开发、测试后更新课程材料。新增REQ-135/W13/TC-ANALYSIS、contract revision5；复用现有Raw阈值与EMA趋势，整机热状态不作为CPU安全限值；分析不受预警/通知开关影响。仅阈值或持续时间改变重置分析。现有数据链、CPU12、schema和课程免测范围保持；W12旧证据保留，新增分析已由[源码e46f70c软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)和[正式短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)验收；最终CI/合并和课程材料待收尾。 规范见[25](25-temperature-analysis.md)。
