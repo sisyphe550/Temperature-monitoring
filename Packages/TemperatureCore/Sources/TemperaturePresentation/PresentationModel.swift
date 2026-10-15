@@ -17,7 +17,7 @@ public final class PresentationModel {
     }
 
     @discardableResult
-    public func apply(snapshot: Snapshot) -> Bool {
+    public func apply(snapshot: Snapshot, systemThermalState: SystemThermalState = .unknown) -> Bool {
         if case .fatal = state {
             return false
         }
@@ -26,7 +26,7 @@ public final class PresentationModel {
         }
         lastAppliedSnapshotGeneration = snapshot.generation
         currentDefinitions = snapshot.values.map(\.definition)
-        let running = makeRunningState(from: snapshot)
+        let running = makeRunningState(from: snapshot, systemThermalState: systemThermalState)
         state = .running(running)
         return true
     }
@@ -44,7 +44,8 @@ public final class PresentationModel {
                     primaryCPU: running.primaryCPU,
                     sections: running.sections,
                     chart: chartState,
-                    warning: running.warning
+                    warning: running.warning,
+                    analysis: running.analysis
                 )
             )
         }
@@ -100,12 +101,13 @@ public final class PresentationModel {
                 primaryCPU: running.primaryCPU,
                 sections: running.sections,
                 chart: chartState,
-                warning: running.warning
+                warning: running.warning,
+                analysis: running.analysis
             )
         )
     }
 
-    private func makeRunningState(from snapshot: Snapshot) -> RunningPresentationState {
+    private func makeRunningState(from snapshot: Snapshot, systemThermalState: SystemThermalState) -> RunningPresentationState {
         let sections = makeSections(from: snapshot)
         let primaryCPU = primaryCPUValue(from: snapshot)
         return RunningPresentationState(
@@ -114,7 +116,8 @@ public final class PresentationModel {
             primaryCPU: primaryCPU,
             sections: sections,
             chart: chartState,
-            warning: snapshot.warning
+            warning: snapshot.warning,
+            analysis: TemperatureAnalysisSnapshot(cpu: snapshot.analysis, systemThermalState: systemThermalState)
         )
     }
 

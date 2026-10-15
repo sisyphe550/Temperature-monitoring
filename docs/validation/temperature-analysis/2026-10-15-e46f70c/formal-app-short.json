@@ -1,0 +1,160 @@
+{
+  "contract_version": 5,
+  "feature": "temperature-analysis",
+  "kind": "formal-app-hardware",
+  "source_commit": "e46f70c5dcda452a1509c5b646128ce44d09221a",
+  "result": "passed",
+  "date": "2026-10-15",
+  "environment": {
+    "execution": "formal-release-app",
+    "build_configuration": "Release",
+    "fixture": false,
+    "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+    "app_sha256": "79f4330b439fb115145b0252635ab97e9552f198997b43f4f637311f307ea9c6",
+    "worker_sha256": "537eb9a76a6aeb1fa5764a865240a7e1a3f6a502c3d02bf2653ad84c9e9bac82",
+    "model": "Mac16,13",
+    "os_version": "15.7.3",
+    "os_build": "24G419",
+    "observation": "Native CUA AX/screenshots plus scoped process/owned session directory reads; approximately4 minute core session"
+  },
+  "analysis_cases": {
+    "real-cpu-analysis": {
+      "result": "passed",
+      "observed": "Production Release CPU12 keys and degrees C visible; startup no Raw is unable to assess, not zero. 19:04:46 Raw59.9C differs from EMA58.3C. 35C/5s actual lowered rule sustained by19:04:46; real warning triggered19:04:43. Restoring90C/5s gives below-rule, not natural recovery.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/normal.ax.txt",
+          "sha256": "b9e93eed17894db5518e3fb0e45b058c1ae2453fa726159a6256551d3d7b1492"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/low-threshold.ax.txt",
+          "sha256": "5e2c9c87c4d10318f4e3d0563f2a18da7a6f1b1a1aa9447cf5bc1b1ce1fd7563"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/before-close.ax.txt",
+          "sha256": "854f799cdf251b7add3c04507664dabc62ed3d024ef257126cc5eeced333bc8b"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/release-identity.json",
+          "sha256": "1a8d94ffac69992c4a1e66c5406aa7a971df550afc9c6127c280095711b6b721"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/release-boundary.json",
+          "sha256": "516ba2c91aa2906730b7a3fe6080d137cc5275773438a17039e5bf230c8935d8"
+        }
+      ]
+    },
+    "system-thermal-state": {
+      "result": "passed",
+      "observed": "Only nominal actually observed: 系统热状态正常（macOS报告）. CPU assessment separately says below35/90-rule or sustained. No actual fair/serious/critical/unknown hardware claim.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/normal.ax.txt",
+          "sha256": "b9e93eed17894db5518e3fb0e45b058c1ae2453fa726159a6256551d3d7b1492"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/warning-off-analysis.ax.txt",
+          "sha256": "34ab93f2424038f756b9625e725cfbcb5bbc61e3e90f3e49cfa1b194247005b2"
+        }
+      ]
+    },
+    "trend-display": {
+      "result": "passed",
+      "observed": "19:04:15 falling -0.127C/s; 19:05:59 rising+0.065C/s;19:06:46 stable-0.017C/s. All displayed as10sEMA trend, not Raw rate or physical hardware sampling freshness.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/normal.ax.txt",
+          "sha256": "b9e93eed17894db5518e3fb0e45b058c1ae2453fa726159a6256551d3d7b1492"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/sampling-200.ax.txt",
+          "sha256": "e5f5331ff2f16cfb24dab795ca8727c581cbd4f7123c1bac6478886bc2307e2f"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/window-closed.ax.txt",
+          "sha256": "2472d577ccf37c9bc2c702d33ec8a412ebb26d586d8d20adac304e65e4e10b8a"
+        }
+      ]
+    },
+    "warning-disabled": {
+      "result": "passed",
+      "observed": "35C/5s sustained analysis continues while real warning explicitly disabled.19:05:16 Raw47.6C/EMA47.5C with falling-0.562C/s and sustained advice; later timestamps and five short sampling switches continue.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/warning-off-rule.ax.txt",
+          "sha256": "57284d1c1c672eee743c13f8e585141fff95df16a36d012c79f290d62ef7cee3"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/warning-off-analysis.ax.txt",
+          "sha256": "34ab93f2424038f756b9625e725cfbcb5bbc61e3e90f3e49cfa1b194247005b2"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/sampling-1000.ax.txt",
+          "sha256": "1c296c40e13539a44622975cdf88b5a9ff69c4c66e90c690c0a998e259e50ca6"
+        }
+      ]
+    },
+    "close-reopen": {
+      "result": "passed",
+      "observed": "Closed main window and reopened through owned App path. Same App76887/Worker76888 alive while closed; same warning count1 retained; Raw/read time advances19:06:46→19:07:26. CPU+SSD24h history range loads existing session Raw peak89.4C (does not mean24h collected).",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/process-before-close.log",
+          "sha256": "912f3547ca4ef53c5c8538796c58494e77d6d3105bd62ce11b607ee2e3730c7b"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/process-closed.log",
+          "sha256": "886f306a3951e3d032336d09c9bf027cee2459ba5de09856e987cd272a798081"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/before-close.ax.txt",
+          "sha256": "854f799cdf251b7add3c04507664dabc62ed3d024ef257126cc5eeced333bc8b"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/reopened.ax.txt",
+          "sha256": "2760c0889fd4914c02617c1d28749dcd841a5c381b103f644385ab092ce0e9a4"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/history-24h.ax.txt",
+          "sha256": "3eadbb7acb4bc9abc092be36408327e7cf586f90ececfdbbd2082afe1425bd8e"
+        }
+      ]
+    },
+    "quit": {
+      "result": "passed",
+      "observed": "Clicked normal app.quit; native CUA App quit returned. Both owned PIDs absent, session root empty. Restored90C/5s, warning enabled, notifications off,200ms before exit.",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/quit-processes.json",
+          "sha256": "243466641e57fca9673ae9e18f59e56fa12ce00602b44eb7e6629baf933369e1"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/session-cleanup.json",
+          "sha256": "dcdb3a6738b0722e9d4e03812e20a74b1cedd3ecc468d63a68fb1cb4687904d7"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/logs/restored-rule.ax.txt",
+          "sha256": "9209cec29dc6f2a203cae3a1ad8a9a6e294c4f3969edb65bcf497f19178a274d"
+        }
+      ]
+    }
+  },
+  "additional_core_checks": {
+    "sampling": "50/100/200/500/1000ms short switches observed actual read-time and values continue;200ms restored",
+    "resources": "At2m49s App207568KiB/worker14000KiB; at3m31s App215520KiB/worker15760KiB. Two short snapshots show continued response, not endurance or proof of a long-term resource plateau. Existing bounded-storage regression retained."
+  },
+  "not_observed": [
+    "Actual system fair/serious/critical/unknown",
+    "Natural sustained-temperature recovery",
+    "Notification banner/click (off this run)",
+    "Exact formal pending boundary (covered by controlled tests)"
+  ],
+  "not_accepted_this_round": [
+    "真实系统睡眠",
+    "72小时耐久",
+    "五档各10分钟",
+    "公证与公开发行",
+    "跨机型认证",
+    "精确性能SLO"
+  ]
+}

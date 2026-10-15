@@ -45,3 +45,7 @@
 ## W12剩余流程
 
 [当前证据](validation/cpu-warning/2026-10-14-9583987/README.md)已记录Core413/62、89.18%、正式预警短测及同次最终审查#54/#55/#56复核PASS，course-local五criterion通过。待执行仅同PR head五CI、真实blocking与merge/交付回读；不因31项strict pending继续可选长测。通知横幅和真实点击未观察的边界保留，不把API接受等同用户看见。
+
+## 2026-10-15 温度分析
+
+温度分析四项已获授权且实现规则冻结于25，无需再次询问规则阈值或恢复验收长测。Core纯状态/建议、Receipt/TTL/趋势接入、系统适配/UI、软件及正式Release短测已由[本轮证据](validation/temperature-analysis/2026-10-15-e46f70c/software.json)完成；一次最终独立审查无功能或阻断缺陷，剩余课程材料、最终同head五CI、merge与交付回读。未观察的热状态只用软件注入验证，不将正常短测外推全部温度或硬件安全。 规范见[25](25-temperature-analysis.md)。

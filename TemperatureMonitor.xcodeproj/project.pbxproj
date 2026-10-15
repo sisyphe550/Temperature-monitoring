@@ -36,6 +36,7 @@
 		A1000000000000000000009B /* TemperaturePresentation in Frameworks */ = {isa = PBXBuildFile; productRef = A10000000000000000000083 /* TemperaturePresentation */; };
 		C100000000000000000000A1 /* CPUWarningNotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000001 /* CPUWarningNotificationController.swift */; };
 		C100000000000000000000A2 /* CPUWarningViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10000000000000000000002 /* CPUWarningViews.swift */; };
+		D100000000000000000000A1 /* TemperatureAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10000000000000000000001 /* TemperatureAnalysisView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		A10000000000000000000051 /* TemperatureMonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TemperatureMonitorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C10000000000000000000001 /* CPUWarningNotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUWarningNotificationController.swift; sourceTree = "<group>"; };
 		C10000000000000000000002 /* CPUWarningViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CPUWarningViews.swift; sourceTree = "<group>"; };
+		D10000000000000000000001 /* TemperatureAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperatureAnalysisView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 				A1000000000000000000001C /* TemperatureDashboard.swift */,
 				A1000000000000000000001D /* SettingsView.swift */,
 				C10000000000000000000002 /* CPUWarningViews.swift */,
+				D10000000000000000000001 /* TemperatureAnalysisView.swift */,
 				A1000000000000000000001E /* HistoryChartModel.swift */,
 				A1000000000000000000001F /* HistoryChartView.swift */,
 				A10000000000000000000021 /* FatalView.swift */,
@@ -299,6 +302,7 @@
 				A100000000000000000000A3 /* TemperatureDashboard.swift in Sources */,
 				A100000000000000000000A4 /* SettingsView.swift in Sources */,
 				C100000000000000000000A2 /* CPUWarningViews.swift in Sources */,
+				D100000000000000000000A1 /* TemperatureAnalysisView.swift in Sources */,
 				C100000000000000000000A1 /* CPUWarningNotificationController.swift in Sources */,
 				A100000000000000000000A5 /* HistoryChartModel.swift in Sources */,
 				A100000000000000000000A6 /* HistoryChartView.swift in Sources */,

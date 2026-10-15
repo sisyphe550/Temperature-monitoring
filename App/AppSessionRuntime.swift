@@ -16,6 +16,7 @@ final class AppSessionRuntime {
 
     private let presentationModel: PresentationModel
     private let clock: MonitorClock
+    private let systemThermalStateProvider: any SystemThermalStateProviding
     private let coordinator: SessionCoordinator
     private let configuration: RuntimeConfiguration
     private let warningPreferences: CPUWarningPreferences
@@ -43,11 +44,13 @@ final class AppSessionRuntime {
         configuration: RuntimeConfiguration,
         profile: SensorProfile,
         primaryCPUMetricID: MetricID,
+        systemThermalStateProvider: any SystemThermalStateProviding,
         onOpenDashboard: @escaping @MainActor () -> Void
     ) throws {
         self.presentationModel = presentationModel
         self.coordinator = coordinator
         self.clock = clock
+        self.systemThermalStateProvider = systemThermalStateProvider
         self.configuration = configuration
         warningPreferences = try CPUWarningPreferences(configuration: configuration)
         warningNotifications = CPUWarningNotificationController(configuration: configuration, onOpenDashboard: onOpenDashboard)
@@ -107,6 +110,7 @@ final class AppSessionRuntime {
             configuration: configuration,
             profile: profile,
             primaryCPUMetricID: primaryCPUMetricID,
+            systemThermalStateProvider: ProcessInfoThermalStateProvider(),
             onOpenDashboard: onOpenDashboard
         )
     }
@@ -274,7 +278,7 @@ final class AppSessionRuntime {
                     await enterFatal(failure)
                     return
                 }
-                presentationModel.apply(snapshot: snapshot)
+                presentationModel.apply(snapshot: snapshot, systemThermalState: systemThermalStateProvider.currentState())
                 warningNotifications.consume(snapshot: snapshot.warning, at: snapshot.asOf)
                 updateSelectedSeries(from: snapshot, primaryMetricID: primaryCPUMetricID)
                 requestHistoryReload()

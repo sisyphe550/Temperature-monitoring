@@ -350,7 +350,7 @@ public enum Configuration {
     }
 
     static func validate(_ configuration: RuntimeConfiguration) throws {
-        guard configuration.contractVersion == 4 else {
+        guard configuration.contractVersion == 5 else {
             throw ConfigurationError.unsupportedContractVersion(configuration.contractVersion)
         }
         try configuration.cpuWarning.validate()

@@ -9,6 +9,40 @@ final class TemperatureMonitorUITests: XCTestCase {
         continueAfterFailure = false
     }
 
+    func testAnalysisCardSeparatesRawEMAAndWholeSystemState() throws {
+        let app = launch(fixture: "basic", open: "dashboard")
+        let system = app.staticTexts["analysis.systemThermalState"]
+        XCTAssertTrue(system.waitForExistence(timeout: 10))
+        XCTAssertEqual(realText(system), "系统热状态正常（macOS报告）")
+        XCTAssertTrue(realText(app.staticTexts["analysis.raw"]).contains("67.4 °C"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.cpuAssessment"]).contains("未达到设定阈值"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.trend"]).contains("上升"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.trend"]).contains("°C/s"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.advice"]).contains("活动监视器"))
+        XCTAssertEqual(statusValue(from: app.menuBars.statusItems["status.temperature"]), "58.3 °C")
+    }
+
+    func testAnalysisCardKeepsInvalidCPUUnknownEvenWhenSystemNominal() throws {
+        let app = launch(fixture: "stale", open: "dashboard")
+        let assessment = app.staticTexts["analysis.cpuAssessment"]
+        XCTAssertTrue(assessment.waitForExistence(timeout: 10))
+        XCTAssertTrue(realText(assessment).contains("无法判断"))
+        XCTAssertTrue(realText(assessment).contains("过期"))
+        XCTAssertEqual(realText(app.staticTexts["analysis.systemThermalState"]), "系统热状态正常（macOS报告）")
+        XCTAssertTrue(realText(app.staticTexts["analysis.trend"]).contains("数据不足"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.advice"]).contains("等待"))
+        XCTAssertFalse(realText(assessment).contains("正常"))
+    }
+
+    func testPopoverReusesVisibleAnalysisCard() throws {
+        let app = launch(fixture: "basic", open: "popover")
+        XCTAssertTrue(app.staticTexts["analysis.systemThermalState"].waitForExistence(timeout: 10))
+        XCTAssertTrue(realText(app.staticTexts["analysis.raw"]).contains("67.4 °C"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.cpuAssessment"]).contains("未达到设定阈值"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.trend"]).contains("上升"))
+        XCTAssertTrue(realText(app.staticTexts["analysis.advice"]).contains("活动监视器"))
+    }
+
     func testBasicFixtureShowsLiveTemperature() throws {
         let app = launch(fixture: "basic")
         let statusButton = app.menuBars.statusItems["status.temperature"]

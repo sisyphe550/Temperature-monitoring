@@ -1,0 +1,89 @@
+The following is a diff from the previous accessibility tree for Window: "温度监测" with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 90-117
+~86 standard window 温度监测, Secondary Actions: Raise
+~	87 container
+~		88 text 温度监测
+~		89 pop up button CPU 周期, Value: 200 ms, ID: cpu.period
++		90 button 设置
++		91 button Description: 退出, ID: app.quit
++		92 split group
++			93 scroll area Secondary Actions: Scroll Up, Scroll Down
++				94 text 历史比较（最多8个来源版本）
++				95 checkbox (disabled) Description: CPU热区最高温度（EMA）, 58.3 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 1, ID: history.select.cpu.zone.max
++				96 text 温度分析 系统热状态正常（macOS报告） CPU热区Raw最高温度：59.9 °C CPU曾持续达到设定阈值，尚未满足恢复条件；参考规则：≥ 35.0 °C持续5秒。 近10秒EMA趋势：下降（-0.099 °C/s） 建议：曾持续达到设定阈值且尚未恢复；可减少持续负载、查看活动监视器并保持通风。 Raw用于CPU阈值判断；主温度与曲线显示EMA。系统热状态反映整机，参考阈值不代表硬件安全上限。 CPU温度预警 触发于19:04:43；Raw事件峰值 60.3 °C；阈值 35.0 °C。 ≤ 30.0 °C持续10秒才恢复；判断使用Raw，温度图显示EMA。
++				97 disclosure triangle Description: 本会话预警记录（1）, Value: off, ID: warning.events
++				98 text CPU
++				99 checkbox Description: Te05, 51.7 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.1
++				100 checkbox Description: Te09, 51.4 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.3
++				101 checkbox Description: Te0H, 50.2 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.4
++				102 checkbox Description: Te0S, 49.9 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.2
++				103 checkbox Description: Tp01, 56.3 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.5
++				104 checkbox Description: Tp05, 56.4 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.6
++				105 checkbox Description: Tp09, 55.6 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.7
++				106 checkbox Description: Tp0D, 56.5 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.8
++				107 checkbox Description: Tp0V, 58.3 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.9
++				108 checkbox Description: Tp0Y, 57.4 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.10
++				109 checkbox Description: Tp0b, 56.2 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.11
++				110 checkbox Description: Tp0e, 55.7 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.cpu.zone.12
++				111 text SSD
++				112 checkbox Description: TEMPERATURE, 34.3 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.storage.ssd
++				113 text Battery
++				114 checkbox Description: TB1T, 29.4 °C, 应用读取 19:04:46 · 测量更新时间未知, Value: 0, ID: history.select.power.battery
++				115 text 来源重连会单独分段；图例显示来源版本，曲线不跨断线连接。
++				116 scroll bar (settable, float) 0
++					117 value indicator (settable, float) 0
++					118 increment arrow button
++					119 decrement arrow button
++					120 increment page button
++					121 decrement page button
++			122 splitter (disabled, settable, float) 380
++			123 container
++				124 container history.range
++					125 button Description: 5 分钟, ID: history.range.5 分钟
++					126 button Description: 1 小时, ID: history.range.1 小时
++					127 button Description: 24 小时, ID: history.range.24 小时
++					128 button Description: 72 小时, ID: history.range.72 小时
++				129 container history.chart
++					130 text 平滑温度（EMA）及区间范围 比较：CPU热区最高温度 · 来源1 范围内最高EMA：89.1 °C
++					131 container
++						132 unknown Description: Oct 15, 2026 at 19:03:53.000 to Oct 15, 2026 at 19:03:58.000, Details: starts at 53.3, varies between 55.4 and 46.7, ends at 46.7, CPU热区最高温度 · 来源1, 23 values
++						133 unknown Description: Oct 15, 2026 at 19:03:58.000 to Oct 15, 2026 at 19:04:03.000, Details: 46.6 to 45.7, decreases inconsistently, CPU热区最高温度 · 来源1, 25 values
++						134 unknown Description: Oct 15, 2026 at 19:04:03.000 to Oct 15, 2026 at 19:04:08.000, Details: starts at 45.7, varies between 46.5 and 45, ends at 45, CPU热区最高温度 · 来源1, 25 values
++						135 unknown Description: Oct 15, 2026 at 19:04:08.000 to Oct 15, 2026 at 19:04:13.000, Details: starts at 45, varies between 46 and 44.6, ends at 44.6, CPU热区最高温度 · 来源1, 25 values
++						136 unknown Description: Oct 15, 2026 at 19:04:13.000 to Oct 15, 2026 at 19:04:18.000, Details: starts at 44.6, varies between 44.3 and 62.7, ends at 62.7, CPU热区最高温度 · 来源1, 25 values
++						137 unknown Description: Oct 15, 2026 at 19:04:18.000 to Oct 15, 2026 at 19:04:23.000, Details: 63.7 to 81.5, increases consistently, CPU热区最高温度 · 来源1, 25 values
++						138 unknown Description: Oct 15, 2026 at 19:04:23.000 to Oct 15, 2026 at 19:04:28.000, Details: starts at 82.3, varies between 89.1 and 60.8, ends at 60.8, CPU热区最高温度 · 来源1, 25 values
++						139 unknown Description: Oct 15, 2026 at 19:04:28.000 to Oct 15, 2026 at 19:04:33.000, Details: starts at 60.5, varies between 60.5 and 52.5, ends at 54.6, CPU热区最高温度 · 来源1, 25 values
++						140 unknown Description: Oct 15, 2026 at 19:04:33.000 to Oct 15, 2026 at 19:04:38.000, Details: starts at 54.8, varies between 53.5 and 59.9, ends at 55.2, CPU热区最高温度 · 来源1, 25 values
++						141 unknown Description: Oct 15, 2026 at 19:04:38.000 to Oct 15, 2026 at 19:04:43.000, Details: starts at 54.8, varies between 53.5 and 59.4, ends at 59.1, CPU热区最高温度 · 来源1, 25 values
++						142 unknown Description: Oct 15, 2026 at 19:04:43.000 to Oct 15, 2026 at 19:04:48.000, Details: starts at 59.1, varies between 59.1 and 51.9, ends at 54.5, CPU热区最高温度 · 来源1, 17 values
++					143 text 点按曲线查看时间、温度、范围和样本数。
++				144 text Value: 当前温度比较（EMA）, ID: temperature.comparison
++				145 scroll area ID: temperature.comparison, Secondary Actions: Scroll Up, Scroll Down
++					146 container
++						147 unknown Description: CPU热区最高温度, Details: 58.3
++						148 unknown Description: Te05, Details: 51.7
++						149 unknown Description: Te09, Details: 51.4
++						150 unknown Description: Te0H, Details: 50.2
++						151 unknown Description: Te0S, Details: 49.9
++						152 unknown Description: Tp01, Details: 56.3
++						153 unknown Description: Tp05, Details: 56.4
++						154 unknown Description: Tp09, Details: 55.6
++						155 unknown Description: Tp0D, Details: 56.5
++						156 unknown Description: Tp0V, Details: 58.3
++						157 unknown Description: Tp0Y, Details: 57.4
++						158 unknown Description: Tp0b, Details: 56.2
++						159 unknown Description: Tp0e, Details: 55.7
++						160 unknown Description: TEMPERATURE, Details: 34.3
++						161 unknown Description: TB1T, Details: 29.4
++					162 scroll bar (settable, float) 0
++						163 value indicator (settable, float) 0
++						164 increment arrow button
++						165 decrement arrow button
++						166 increment page button
++						167 decrement page button
++	168 close button
++	169 zoom button
++	170 minimize button
++	171 text 温度监测
+The focused UI element is 86 standard window 温度监测, Secondary Actions: Raise

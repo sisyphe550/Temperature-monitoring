@@ -232,7 +232,8 @@ import Testing
                 primaryCPU: .live(valueC: 42.0, observedAt: Fixtures.timestamp(ms: 0)),
                 sections: [section],
                 chart: chart,
-                warning: try testWarningSnapshot()
+                warning: try testWarningSnapshot(),
+                analysis: TemperatureAnalysisSnapshot(cpu: try testAnalysisSnapshot(), systemThermalState: .unknown)
             )
         )
         let failureDecoded = try JSONDecoder().decode(MonitorFailure.self, from: JSONEncoder().encode(failure))
@@ -258,7 +259,7 @@ import Testing
         let profileURL = Fixtures.packageRoot.appendingPathComponent("Sources/TemperatureCore/Resources/first-profile-v1.json")
         let configuration = try Configuration.load(from: defaultsURL)
         let profile = try Configuration.loadProfile(from: profileURL)
-        #expect(configuration.contractVersion == 4)
+        #expect(configuration.contractVersion == 5)
         #expect(profile.cpuKeys.count == 12)
     }
 

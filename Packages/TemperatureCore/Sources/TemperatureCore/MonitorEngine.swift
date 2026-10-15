@@ -31,6 +31,11 @@ public actor MonitorEngine: ProcessingEngine {
     private let configuration: RuntimeConfiguration
     private var warningEvaluator: CPUWarningEvaluator
     private var warningObservedPeriodMS: Int?
+    private var analysisEvaluator: CPUAnalysisEvaluator
+    private var analysisObservedPeriodMS: Int?
+    private var analysisExpiryRevision: UInt64 = 0
+    private var analysisTrendAfterElapsedNS: Int64 = Int64.min
+
     // Snapshots may expire committed data during commit's actor suspension.
     private var warningExpiryRevision: UInt64 = 0
     private var sourceToSeries: [SourceID: SeriesDefinition]
@@ -91,6 +96,9 @@ public actor MonitorEngine: ProcessingEngine {
             recoveryHysteresisC: configuration.cpuWarning.recoveryHysteresisC,
             recoveryDurationSeconds: configuration.cpuWarning.recoveryDurationSeconds,
             eventLimit: configuration.cpuWarning.eventLimit)
+        analysisEvaluator = CPUAnalysisEvaluator(rule: try! configuration.cpuWarningRule,
+            recoveryHysteresisC: configuration.cpuWarning.recoveryHysteresisC,
+            recoveryDurationSeconds: configuration.cpuWarning.recoveryDurationSeconds)
         self.qualifiedSources = qualifiedSources
         self.sessionStartedAt = sessionStartedAt ?? clock.now()
         sourceToSeries = Dictionary(
@@ -128,7 +136,13 @@ public actor MonitorEngine: ProcessingEngine {
         await beginMutation()
         defer { endMutation() }
         let changed = warningEvaluator.snapshot.rule != rule
-        warningEvaluator.updateRule(rule, at: clock.now())
+        let now = clock.now()
+        warningEvaluator.updateRule(rule, at: now)
+        let oldAnalysisRule = analysisEvaluator.snapshot(trend: nil)
+        analysisEvaluator.updateRule(rule, at: now)
+        if oldAnalysisRule.thresholdC != rule.thresholdC || oldAnalysisRule.durationSeconds != rule.durationSeconds {
+            analysisObservedPeriodMS = nil
+        }
         if changed { warningObservedPeriodMS = nil }
     }
 
@@ -171,6 +185,9 @@ public actor MonitorEngine: ProcessingEngine {
         let initialWarningExpiryRevision = warningExpiryRevision
         var stagedWarning = warningEvaluator
         var stagedWarningPeriod = warningObservedPeriodMS
+        let initialAnalysisExpiryRevision = analysisExpiryRevision
+        var stagedAnalysis = analysisEvaluator
+        var stagedAnalysisPeriod = analysisObservedPeriodMS
 
         let now = clock.now()
         var rawSamples: [Sample] = []
@@ -276,6 +293,8 @@ public actor MonitorEngine: ProcessingEngine {
 
         stageCPUWarning(batch: batch, rawSamples: rawSamples, gaps: stagedGaps,
             at: now, evaluator: &stagedWarning, observedPeriodMS: &stagedWarningPeriod)
+        stageCPUAnalysis(batch: batch, rawSamples: rawSamples, gaps: stagedGaps,
+            at: now, evaluator: &stagedAnalysis, observedPeriodMS: &stagedAnalysisPeriod)
         let persistenceBatch = makePersistenceBatch(
             raw: rawSamples,
             ema: emaSamples,
@@ -304,6 +323,14 @@ public actor MonitorEngine: ProcessingEngine {
             stageCPUWarning(batch: batch, rawSamples: rawSamples, gaps: stagedGaps,
                 at: receiptNow, evaluator: &stagedWarning, observedPeriodMS: &stagedWarningPeriod)
         }
+        if analysisExpiryRevision != initialAnalysisExpiryRevision || cpuSampleExpired {
+            stagedAnalysis = analysisEvaluator
+            stagedAnalysisPeriod = analysisObservedPeriodMS
+            stageCPUAnalysis(batch: batch, rawSamples: rawSamples, gaps: stagedGaps,
+                at: receiptNow, evaluator: &stagedAnalysis, observedPeriodMS: &stagedAnalysisPeriod)
+        }
+        analysisEvaluator = stagedAnalysis
+        analysisObservedPeriodMS = stagedAnalysisPeriod
         warningEvaluator = stagedWarning
         warningObservedPeriodMS = stagedWarningPeriod
         acceptedGeneration = max(acceptedGeneration, batch.generation)
@@ -376,6 +403,12 @@ public actor MonitorEngine: ProcessingEngine {
         if warningDefinitionsChanged || warningSourcesChanged {
             warningEvaluator.interrupt(reason: .sourceChange, at: clock.now())
             warningObservedPeriodMS = nil
+            analysisEvaluator.interrupt(reason: .sourceChange, at: clock.now())
+            analysisObservedPeriodMS = nil
+            // A source change can preserve the series ID. Exclude all earlier
+            // EMA points even when that series' persisted segment is unchanged.
+            analysisTrendAfterElapsedNS = definitions.filter { $0.kind == .cpuMain }
+                .compactMap { seriesState[$0.seriesID]?.lastElapsedNS }.max() ?? Int64.min
         }
         let now = clock.now().elapsedNS
         let nextIDs = Set(definitions.map(\.seriesID))
@@ -579,6 +612,7 @@ public actor MonitorEngine: ProcessingEngine {
         // A held IO commit must not block publication of the last committed
         // values. Expiry can only interrupt an event; it never adds samples.
         expireCPUWarning(at: timestamp)
+        expireCPUAnalysis(at: timestamp)
         let values = seriesDefinitions.values
             .sorted { $0.displayName < $1.displayName }
             .map { definition -> LatestValue in
@@ -609,7 +643,8 @@ public actor MonitorEngine: ProcessingEngine {
             gapIDs: Array(activeGapIDs),
             cpuPeriodMS: cpuPeriodMS,
             generation: snapshotGeneration,
-            warning: warningEvaluator.snapshot
+            warning: warningEvaluator.snapshot,
+            analysis: cpuAnalysisSnapshot()
         )
     }
 
@@ -678,6 +713,41 @@ public actor MonitorEngine: ProcessingEngine {
         }
     }
 
+    private func stageCPUAnalysis(batch: ReadBatch, rawSamples: [Sample], gaps: GapChanges,
+        at now: Timestamp, evaluator: inout CPUAnalysisEvaluator, observedPeriodMS: inout Int?) {
+        guard let definition = warningCPUDefinition else { return }
+        let readings = batch.readings.filter { definition.memberSourceIDs.contains($0.sourceID) }
+        guard let latest = readings.map(\.finished).max(by: { $0.elapsedNS < $1.elapsedNS }) else { return }
+        let previous = seriesState[definition.seriesID]
+        guard latest.elapsedNS >= (previous?.lastElapsedNS ?? Int64.min),
+              latest.elapsedNS >= (previous?.minimumElapsedNS ?? 0) else { return }
+        if let sample = rawSamples.first(where: { $0.seriesID == definition.seriesID }) {
+            if gaps.writes.values.contains(where: { $0.seriesID == definition.seriesID }) {
+                evaluator.interrupt(reason: .gap, at: sample.timestamp)
+            }
+            if now.elapsedNS - sample.timestamp.elapsedNS > warningStaleThresholdNS(periodMS: sample.periodMS) {
+                evaluator.interrupt(reason: .stale, at: now)
+                observedPeriodMS = nil
+            } else {
+                evaluator.observe(sample, sessionID: sessionID)
+                observedPeriodMS = sample.periodMS
+            }
+        } else {
+            let failed = readings.contains { if case .failure = $0.outcome { return true }; return false }
+            evaluator.interrupt(reason: failed ? .readFailure : .noData, at: latest)
+            observedPeriodMS = nil
+        }
+    }
+
+    private func cpuAnalysisSnapshot() -> CPUAnalysisSnapshot {
+        guard let observation = analysisEvaluator.observation else { return analysisEvaluator.snapshot(trend: nil) }
+        let ema = buffers.emaSamples(for: observation.seriesID, nowElapsedNS: observation.timestamp.elapsedNS)
+            .filter { $0.timestamp.elapsedNS > analysisTrendAfterElapsedNS }
+        let trend = trendCalculator.compute(seriesID: observation.seriesID, segment: observation.segment, kind: .cpuMain,
+            emaSamples: ema, at: observation.timestamp)
+        return analysisEvaluator.snapshot(trend: trend)
+    }
+
     private func interruptWarningForCommittedTransition(gaps: [Gap], segments: [Segment]) {
         let cpuIDs = Set(cpuDefinitions(in: Array(seriesDefinitions.values)).map(\.seriesID))
         let cpuGaps = gaps.filter { cpuIDs.contains($0.seriesID) }
@@ -691,6 +761,8 @@ public actor MonitorEngine: ProcessingEngine {
         let lifecycle = cpuGaps.contains { $0.reason == .sleep } || cpuSegments.contains { $0.reason == .wake }
         warningEvaluator.interrupt(reason: lifecycle ? .lifecycle : .gap, at: timestamp)
         warningObservedPeriodMS = nil
+        analysisEvaluator.interrupt(reason: lifecycle ? .lifecycle : .gap, at: timestamp)
+        analysisObservedPeriodMS = nil
     }
 
     private func expireCPUWarning(at timestamp: Timestamp) {
@@ -699,6 +771,14 @@ public actor MonitorEngine: ProcessingEngine {
         warningEvaluator.interrupt(reason: .stale, at: timestamp)
         warningObservedPeriodMS = nil
         warningExpiryRevision &+= 1
+    }
+
+    private func expireCPUAnalysis(at timestamp: Timestamp) {
+        guard let last = analysisEvaluator.lastObservedAt, let periodMS = analysisObservedPeriodMS,
+              timestamp.elapsedNS - last.elapsedNS > warningStaleThresholdNS(periodMS: periodMS) else { return }
+        analysisEvaluator.interrupt(reason: .stale, at: timestamp)
+        analysisObservedPeriodMS = nil
+        analysisExpiryRevision &+= 1
     }
 
     private func warningStaleThresholdNS(periodMS: Int) -> Int64 {

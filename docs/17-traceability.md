@@ -2,9 +2,9 @@
 
 ## 课程交付与严格资格的区别
 
-本表保留每条需求的原有严格资格事实，不把取消的验收写成 PASS。课程交付使用[课程范围](course-delivery-scope.md)与[course-delivery-v1.json](contracts/course-delivery-v1.json)中的 134 项分层和五个固定检查项；核心行为由正式 App 短测及完整 Core 回归组合验证。`python3 scripts/validate-handoff.py --product-acceptance` 检查课程交付；`--strict-product-acceptance` 检查全部 132 项严格资格。二者输出明确的 profile。
+本表保留每条需求的原有严格资格事实，不把取消的验收写成 PASS。课程交付使用[课程范围](course-delivery-scope.md)与[course-delivery-v1.json](contracts/course-delivery-v1.json)中的 135 项分层和五个固定检查项；核心行为由正式 App 短测及完整 Core 回归组合验证。`python3 scripts/validate-handoff.py --product-acceptance` 检查课程交付；`--strict-product-acceptance` 检查全部 133 项严格资格。二者输出明确的 profile。
 
-更新：2026-10-14；实施契约v1族修订4；134个编号，132项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
+更新：2026-10-15；实施契约v1族修订5；135个编号，133项现行，2项退役。设计路线完整不等于产品验收完成。机器可读映射见[acceptance-v1.json](contracts/acceptance-v1.json)。
 
 | 需求 | 当前状态 | 设计 | 执行任务 | 验收组 | 产品结果 |
 |---|---|---|---|---|---|
@@ -142,6 +142,7 @@
 | REQ-132 | 现行基线 | [03](03-sensor-acquisition.md)、[19](19-reference-informed-design.md)、[21](21-implementation-contracts.md) | W02/W09 | TC-SENSOR/TC-UPSTREAM-BOUNDARY | 本地验收通过 |
 | REQ-133 | 现行基线 | [05](05-processing-pipeline.md) | W04 | TC-AGG | 本地验收通过 |
 | REQ-134 | 现行基线 | [03](03-sensor-acquisition.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W02/W07/W09 | TC-SENSOR/TC-SCHEDULE/TC-UI/TC-UPSTREAM-BOUNDARY | 本地验收通过 |
+| REQ-135 | 现行基线 | [25](25-temperature-analysis.md)、[05](05-processing-pipeline.md)、[07](07-native-ui.md)、[21](21-implementation-contracts.md) | W13 | TC-ANALYSIS/TC-TREND/TC-UI/TC-LIFECYCLE | 本地验收通过 |
 
 ## 证据与更新规则
 
@@ -149,12 +150,16 @@
 - 012/114保留退役编号；不新增恢复任务，不按测试通过处理删除。
 - 每项通过须附源码SHA、构建、输入/预期/实际、测试日志；实机另附机型/系统build/权限。
 - 修改需求正文时同时更新JSON的body_sha256、设计、任务和测试；执行`scripts/validate-handoff.py`防止漏项。
-- W00～W12定义见[实施计划](22-agent-implementation-plan.md)，测试组详见[10](10-test-strategy.md)。
+- W00～W13定义见[实施计划](22-agent-implementation-plan.md)，测试组详见[10](10-test-strategy.md)。
 
-## REQ-125新增行为的证据边界
+## 历史REQ-125新增行为的证据边界
 
-2026-10-14以[24](24-cpu-warning.md)替代旧排除告警正文。仅该条旧结果从accepted转pending，因此现行逐REQ为99accepted/32pending/1waived/2retired；旧100/31历史记录不回写。新软件TC-WARNING、正式App设置/状态短测和实际通知限制须另存，不能用旧源码无通知API的证据验收。
+2026-10-14以[24](24-cpu-warning.md)替代旧排除告警正文。仅该条旧结果从accepted转pending，当时逐REQ曾为99accepted/32pending/1waived/2retired；旧100/31历史记录不回写。新软件TC-WARNING、正式App设置/状态短测和实际通知限制须另存，不能用旧源码无通知API的证据验收。
 
-## W12当前验收状态（2026-10-14，源码9583987）
+## 历史W12验收状态（2026-10-14，源码9583987）
 
-上方新增行为pending段描述开发初期重置旧REQ-125证据的阶段。本轮已用[新软件与正式Release短测证据](validation/cpu-warning/2026-10-14-9583987/README.md)验收REQ-125；binder生成的映射为当前结果。当前100accepted/31pending/1waived/2retired，course-local五criterion通过，未声称全132条strict资格通过。Core413项/62组、覆盖89.18%，同次最终独立审查#54/#55/#56复核PASS；同head CI和merge仍待回读。通知横幅与真实点击未观察，不作为已发生事实。
+上方新增行为pending段描述开发初期重置旧REQ-125证据的阶段。本轮已用[新软件与正式Release短测证据](validation/cpu-warning/2026-10-14-9583987/README.md)验收REQ-125；binder生成的映射为当前结果。W12当时为100accepted/31pending/1waived/2retired，course-local五criterion通过；新增REQ135现已按本轮e46f70c证据验收，未声称全132条strict资格通过。Core413项/62组、覆盖89.18%，同次最终独立审查#54/#55/#56复核PASS；同head CI和merge仍待回读。通知横幅与真实点击未观察，不作为已发生事实。
+
+## 2026-10-15新增分析
+
+REQ-135/W13/TC-ANALYSIS为新增core，现已依据[软件](validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式App](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)本地验收，五criterion通过；旧REQ125结果保持原源码/产物边界。当前101accepted/31pending/1waived/2retired，未声称全133项strict资格通过；课程材料、最终CI和merge仍待收尾，不回写历史报告。

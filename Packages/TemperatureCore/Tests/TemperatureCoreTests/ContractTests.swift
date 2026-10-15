@@ -68,7 +68,8 @@ import Testing
                 primaryCPU: .loading,
                 sections: [],
                 chart: .loading(previous: []),
-                warning: try testWarningSnapshot()
+                warning: try testWarningSnapshot(),
+                analysis: TemperatureAnalysisSnapshot(cpu: try testAnalysisSnapshot(), systemThermalState: .unknown)
             )
         )
         let fatal = PresentationState.fatal(

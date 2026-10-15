@@ -1,10 +1,10 @@
 # Temperature Monitoring
 
-Apple Silicon MacBook Air本机课程演示项目。实施契约v1族，**contract revision 4**；当前目标为用户本机可运行的ad-hoc Release App。修订4 CPU预警软件及正式App短测、课程五项门禁通过；完整Core413/62、覆盖89.18%。独立审查、同head CI和合并按PR实际结果另核对。
+Apple Silicon MacBook Air本机课程演示项目。实施契约v1族，**contract revision 5**；温度分析REQ-135已完成实现、软件及本机正式Release短测，课程五criterion通过；课程材料与最终Git/CI状态以PR #58和本机交付记录为准。W12 CPU预警历史源码9583987已通过软件及正式App短测（Core413/62、89.18%），其证据不代替新分析验证。
 
 ## 当前范围与接手入口
 
-先读[课程交付范围](docs/course-delivery-scope.md)与[Agent交接入口](docs/00-agent-handoff.md)，再按[工作包](docs/22-agent-implementation-plan.md)、[55项任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)完成收尾。无需从历史聊天重新推导范围。
+先读[课程交付范围](docs/course-delivery-scope.md)与[Agent交接入口](docs/00-agent-handoff.md)，再按[工作包](docs/22-agent-implementation-plan.md)、[60项任务](docs/23-execution-task-breakdown.md)和[Git流程](docs/11-git-github-workflow.md)完成收尾。无需从历史聊天重新推导范围。
 
 - CPU固定12个M4温度来源，同批完整Raw max→EMA，单位°C；不承诺逐物理核心、物理Package或全芯片绝对热点。
 - SSD/Battery保留适配、来源选择与明确Unavailable状态；单项不支持或故障不停止CPU。
@@ -12,7 +12,7 @@ Apple Silicon MacBook Air本机课程演示项目。实施契约v1族，**contra
 - 实时走内存；Raw/EMA批量入SQLite，分层历史最长72小时、仅本会话。关窗继续采集，重开复用会话，正常退出清理监控库。
 - 普通用户自有SensorWorker隔离硬件调用；不引入root、外部采集CLI、SMC写入、自启动或Web后端。
 
-最新用户授权将严格132项资格、五档各10分钟、物理睡眠、72/73小时耐久、公证/公开发行/跨机认证和精确skipped/p95/p99/首帧/显示测量收缩为可选扩展。**72小时历史功能、核心覆盖≥80%、必要异常回归、真实缺陷blocking与Git门禁保留。**五个课程criterion及core/auxiliary/optional/retired分类见[课程政策](docs/contracts/course-delivery-v1.json)；旧逐REQ裁决仍为100accepted/31pending/1waived/2retired，不批量改为PASS。
+最新用户授权将严格133项资格、五档各10分钟、物理睡眠、72/73小时耐久、公证/公开发行/跨机认证和精确skipped/p95/p99/首帧/显示测量收缩为可选扩展。**72小时历史功能、核心覆盖≥80%、必要异常回归、真实缺陷blocking与Git门禁保留。**五个课程criterion及core/auxiliary/optional/retired分类见[课程政策](docs/contracts/course-delivery-v1.json)；旧逐REQ裁决仍为100accepted/31pending/1waived/2retired，不批量改为PASS。
 
 SensorTransport的DiscoveredCatalog底层事实必须经Registry成为QualifiedSourceCatalog来源；ReadingOutcome成功/失败互斥，失败不补0或旧值；PersistenceLease取得匹配ProcessingReceipt后交换状态；界面只绑定PresentationState。实际复制/修改的上游代码以[third-party-v1.json](docs/contracts/third-party-v1.json)和TC-UPSTREAM-BOUNDARY为准。
 
@@ -23,7 +23,7 @@ bash scripts/build-app.sh
 bash scripts/launch-app.sh
 ```
 
-构建脚本当前输出`build/TemperatureMonitor.app`，嵌入同次构建的SensorWorker并ad-hoc签名；最新可运行交付App与二进制SHA见[CPU预警交付报告](docs/validation/cpu-warning/2026-10-14-9583987/report.md)；原课程报告作为历史记录保留。无需公证凭证即可本机运行，不声称全部Air或其他OS支持。
+构建脚本当前输出`build/TemperatureMonitor.app`，嵌入同次构建的SensorWorker并ad-hoc签名；本轮正式App二进制SHA与实测边界见[温度分析正式短测](docs/validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)；原课程报告作为历史记录保留。无需公证凭证即可本机运行，不声称全部Air或其他OS支持。
 
 “应用读取时间”是收到有效值的观测时间；“测量更新时间未知”表示接口未给出可验证硬件测量时间戳，不等于没读到温度。缓存、过期或失败由互斥状态另行表达。
 
@@ -33,7 +33,7 @@ bash scripts/launch-app.sh
 |---|---|
 | [CONTEXT](CONTEXT.md)／[AGENTS](AGENTS.md) | 当前边界与执行纪律 |
 | [00 Agent交接](docs/00-agent-handoff.md) | 阅读顺序、当前状态、启动和完成条件 |
-| [01 需求](docs/01-requirements.md)／[17 追踪](docs/17-traceability.md) | 134编号、132现行、2退役；逐项任务与验收 |
+| [01 需求](docs/01-requirements.md)／[17 追踪](docs/17-traceability.md) | 135编号、133现行、2退役；逐项任务与验收 |
 | [02 架构](docs/02-architecture.md)／[03 接口](docs/03-sensor-acquisition.md) | 数据路径、具体硬件实现与证据 |
 | [04 存储](docs/04-data-storage.md)／[05 算法](docs/05-processing-pipeline.md) | DDL、TTL、EMA、聚合、趋势与幂等 |
 | [06 故障](docs/06-error-handling.md)／[07 界面](docs/07-native-ui.md) | 重试、退出、缓存、布局和交互 |
@@ -43,7 +43,7 @@ bash scripts/launch-app.sh
 | [14 实测](docs/14-feasibility-validation.md)／[15 决策](docs/15-decisions-and-corrections.md) | 已存证据、变更原因与后续验证 |
 | [16 决策与执行依赖](docs/16-open-questions.md)／[18 来源](docs/18-sources.md) | 原OQ处理、官方及讨论出处 |
 | [19 开源比较](docs/19-reference-informed-design.md)／[20 可行性](docs/20-feasibility-and-reuse.md) | 全部参考项目、复用与自有设计边界 |
-| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | contract revision 4精确配置、Swift/SQL、第三方边界、W级里程碑与55个可审查任务 |
+| [21 契约](docs/21-implementation-contracts.md)／[22 工作包](docs/22-agent-implementation-plan.md)／[23 执行任务](docs/23-execution-task-breakdown.md) | contract revision 5精确配置、Swift/SQL、第三方边界、W级里程碑与60个可审查任务 |
 | [课程交付范围](docs/course-delivery-scope.md) | 最新授权、五criterion、最小收尾、扩展验收边界 |
 
 ## 验证入口与历史证据
@@ -54,16 +54,22 @@ python3 scripts/bind-acceptance-evidence.py
 python3 scripts/validate-handoff.py --product-acceptance
 ```
 
-普通文档检查只验证契约/链接/绑定。课程门槛按五criterion判定；`--strict-product-acceptance`保留旧全132项扩展资格，pending存在时拒绝。最终审查、同head五CI、零真实blocking及merge commit另按11回读，不把CI自身未来状态写成文档门禁的先决条件。
+普通文档检查只验证契约/链接/绑定。课程门槛按五criterion判定；`--strict-product-acceptance`保留全133项扩展资格，pending存在时拒绝。最终审查、同head五CI、零真实blocking及merge commit另按11回读，不把CI自身未来状态写成文档门禁的先决条件。
 
 [7124正式App与软件证据](docs/validation/product-software/W11/2026-10-03-7124dc1/README.md)、[f0测试同步证据](docs/validation/product-software/W11/2026-10-03-f0a7dde/README.md)分别绑定原源码/产物；[c354归档](docs/validation/product-software/W11/2026-10-03-c354b03/README.md)保留失败长测、duration观察与未测性能。它们不能预先证明本轮最终短测或合并成功。旧[原型报告](docs/validation/2026-09-15-m4-air/validation-report.md)、[接口审计](docs/research/2026-09-17-handoff-interface-audit.md)与研究记录不回写；新结果另按日期/源码提交归档。
 
-## 本轮测试与交付记录
+## 历史课程测试与交付记录
 
-当前正式App核心观察、完整Core与可运行路径见[课程测试报告](docs/validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
+历史正式App核心观察、完整Core与可运行路径见[课程测试报告](docs/validation/course-delivery/2026-10-03-5984b9e/README.md)。App/worker二进制与已验7124完全一致；自动AX失败及原生补验分开记录。独立审查、CI与合并结果仍须实际回读，不由本段预先宣称。
 
 Core CI的独立用例编排调整及本次355项/88.84%回归见[CI收尾记录](docs/validation/course-delivery/2026-10-03-8222e0a-ci/README.md)；原取消任务保留，App与有效测试断言不变。最终同head五CI和零blocking仍按Git流程回读。
 
-## CPU预警修订4（2026-10-14）
+## 历史CPU预警修订4（2026-10-14）
 
 [CPU预警](docs/24-cpu-warning.md)默认启用90°C持续5秒，恢复低5°C持续10秒；建议值可调整，不是Apple安全限值。系统通知默认关闭；最近50事件仅本会话内存。REQ-125/W12软件与正式App短测通过，完整Core413项、覆盖89.18%，一次最终独立审查及#54/#55/#56修复复核PASS。实机横幅/点击及自然恢复未观察，边界见[新报告](docs/validation/cpu-warning/2026-10-14-9583987/report.md)。Git合并状态以本轮PR实际检查为准；旧课程报告证明的是其原产物。
+
+## 2026-10-15 温度分析扩展（当前执行入口）
+
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](docs/validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](docs/validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](docs/validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

@@ -51,7 +51,7 @@ class EvidenceBindingTests(unittest.TestCase):
         self.delivery_commit = self.git("rev-parse", "HEAD")
 
         rows = []
-        for number in range(1, 135):
+        for number in range(1, 136):
             requirement_id = f"REQ-{number:03d}"
             retired = number in {12, 114}
             tests = ["TC-DOCS"]
@@ -65,11 +65,11 @@ class EvidenceBindingTests(unittest.TestCase):
                          "tests": [] if retired else tests,
                          "design": ["fixture.md"], "tasks": [] if retired else ["W11"],
                          "verification": "not-applicable" if retired else PENDING})
-        self.acceptance = {"version": 1, "contract_revision": 4,
+        self.acceptance = {"version": 1, "contract_revision": 5,
                            "date": "2026-10-03", "requirements": rows,
                            "preserved_metadata": {"note": "keep this"}}
         self.catalog = {
-            "version": 2, "contract_revision": 4, "delivery_commit": self.delivery_commit,
+            "version": 2, "contract_revision": 5, "delivery_commit": self.delivery_commit,
             "artifacts": {
                 "software": self.artifact("software", "passed", ["TC-DOCS", "TC-SCHEDULE", "TC-SENSOR"]),
                 "hardware": self.artifact("formal-app-hardware", "passed", ["TC-SENSOR"]),
@@ -147,6 +147,7 @@ class EvidenceBindingTests(unittest.TestCase):
         # Synthetic payload/Git schema only; no hardware or real App execution.
         if not hasattr(self, "warning_source"):
             defaults = json.loads((SCRIPTS.parent / "docs/contracts/defaults-v1.json").read_text())
+            defaults["contract_version"] = 4  # Preserve historical warning revision schema.
             (self.root / "docs/contracts/defaults-v1.json").write_text(json.dumps(defaults))
             code = self.root / "Packages/TemperatureCore/Sources/TemperatureCore/Warnings/Types.swift"
             code.parent.mkdir(parents=True)
@@ -191,6 +192,21 @@ class EvidenceBindingTests(unittest.TestCase):
             self.write_warning_report(artifact, report)
             self.catalog["artifacts"]["warning-" + kind] = artifact
         self.load()
+
+    def test_revision5_warning_report_requires_matching_source_revision(self) -> None:
+        artifact, report = self.warning_report("software")
+        path = self.root / "docs/contracts/defaults-v1.json"
+        defaults = json.loads(path.read_text()); defaults["contract_version"] = 5
+        path.write_text(json.dumps(defaults))
+        self.git("commit", "--quiet", "-am", "synthetic revision5 warning source")
+        artifact["source_commit"] = report["source_commit"] = self.git("rev-parse", "HEAD")
+        report["contract_version"] = 5
+        self.write_warning_report(artifact, report)
+        self.module().validate_cpu_warning_report(self.root, artifact)
+        report["contract_version"] = 4
+        self.write_warning_report(artifact, report)
+        with self.assertRaisesRegex(ValueError, "source must contain revision4"):
+            self.module().validate_cpu_warning_report(self.root, artifact)
 
     def test_warning_report_identity_cannot_be_relabelled(self) -> None:
         artifact, original = self.warning_report("formal-app-hardware")

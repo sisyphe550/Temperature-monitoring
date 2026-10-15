@@ -96,3 +96,7 @@ C09前端细化另核查MacMonitor的PopoverView／AppDelegate与面板截图、
 - [GitHub rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets)、[Rules REST API](https://docs.github.com/en/rest/repos/rules#create-a-repository-ruleset)：11的强制门禁配置路线；实际查询仍无ruleset，不虚报已启用。
 
 2026-09-18交接更新的检查结果单列在[交接验证记录](research/2026-09-18-handoff-validation.md)。之前研究清单、UI清单与2026-09-15实测证据不回写。
+
+## 2026-10-15 温度分析
+
+本轮新增官方接口依据：Apple ProcessInfo.ThermalState（https://developer.apple.com/documentation/foundation/processinfo/thermalstate-swift.enum）和thermalState（https://developer.apple.com/documentation/foundation/processinfo/thermalstate-swift.property），提供整机热压力四档；未知枚举必须显式unknown。Apple Mac温度使用说明（https://support.apple.com/en-us/102336）不提供本产品CPU热区Raw的统一安全阈值。90°C/5秒仍为可配置产品规则，不写成Apple官方上限。直接调用公开API、复用项目已有算法，不因引用文档新增第三方代码导入。 规范见[25](25-temperature-analysis.md)。

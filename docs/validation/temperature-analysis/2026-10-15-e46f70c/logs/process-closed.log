@@ -1,0 +1,3 @@
+  PID  PPID ELAPSED  %CPU    RSS COMMAND
+76887     1   03:31  26.6 215520 /Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/build/TemperatureMonitor.app/Contents/MacOS/TemperatureMonitor
+76888 76887   03:30   0.6  15760 /Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/build/TemperatureMonitor.app/Contents/MacOS/SensorWorker

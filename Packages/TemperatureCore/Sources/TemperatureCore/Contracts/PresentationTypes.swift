@@ -27,6 +27,7 @@ public struct Snapshot: Sendable, Equatable {
     public let cpuPeriodMS: Int
     public let generation: UInt64
     public let warning: CPUWarningSnapshot
+    public let analysis: CPUAnalysisSnapshot
 
     public init(
         asOf: Timestamp,
@@ -34,7 +35,8 @@ public struct Snapshot: Sendable, Equatable {
         gapIDs: [GapID],
         cpuPeriodMS: Int,
         generation: UInt64,
-        warning: CPUWarningSnapshot
+        warning: CPUWarningSnapshot,
+        analysis: CPUAnalysisSnapshot
     ) {
         self.asOf = asOf
         self.values = values
@@ -42,6 +44,7 @@ public struct Snapshot: Sendable, Equatable {
         self.cpuPeriodMS = cpuPeriodMS
         self.generation = generation
         self.warning = warning
+        self.analysis = analysis
     }
 }
 
@@ -200,6 +203,7 @@ public struct RunningPresentationState: Sendable, Equatable {
     public let sections: [TemperatureSectionState]
     public let chart: HistoryChartState
     public let warning: CPUWarningSnapshot
+    public let analysis: TemperatureAnalysisSnapshot
 
     public init(
         asOf: Timestamp,
@@ -207,7 +211,8 @@ public struct RunningPresentationState: Sendable, Equatable {
         primaryCPU: TemperatureValueState,
         sections: [TemperatureSectionState],
         chart: HistoryChartState,
-        warning: CPUWarningSnapshot
+        warning: CPUWarningSnapshot,
+        analysis: TemperatureAnalysisSnapshot
     ) {
         self.asOf = asOf
         self.cpuPeriodMS = cpuPeriodMS
@@ -215,6 +220,7 @@ public struct RunningPresentationState: Sendable, Equatable {
         self.sections = sections
         self.chart = chart
         self.warning = warning
+        self.analysis = analysis
     }
 }
 

@@ -1,21 +1,21 @@
-# 实施契约v1族：修订4唯一参数、类型与存储定义
+# 实施契约v1族：修订5唯一参数、类型与存储定义
 
-更新：2026-10-14；contract revision 4。当前本机验收适用[课程范围](course-delivery-scope.md)，本修订新增CPU预警公开API和defaults；硬件profile内容及SQLite schema不变。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
+更新：2026-10-15；contract revision 5。当前本机验收适用[课程范围](course-delivery-scope.md)，本修订新增温度分析公开API，复用已有预警规则和趋势参数；硬件profile内容及SQLite schema不变。本文连同01～13是当前实现依据，[已批准设计规格](superpowers/specs/2026-09-21-contract-hardening-and-upstream-reuse-design.md)解释本次收紧原因。历史研究和旧实测报告只作证据，不能恢复被替代的接口或退役需求。
 
 ## 机器可读交付物
 
 | 文件 | 权威内容 | 使用方式 |
 |---|---|---|
-| [defaults-v1.json](contracts/defaults-v1.json) | `contract_version=4`及全部周期、算法、容量和截止时间 | W01加载并拒绝其他修订；数值不得在别处重定义 |
+| [defaults-v1.json](contracts/defaults-v1.json) | `contract_version=5`及全部周期、算法、容量和截止时间 | W01及本轮配置加载拒绝其他修订；数值不得在别处重定义 |
 | [first-profile-v1.json](contracts/first-profile-v1.json) | 首机型、固定成员、可选来源优先级和证据状态 | W02资格化来源；不是正式App兼容报告 |
-| [api-v1.swift](contracts/api-v1.swift) | 修订4值类型、互斥状态和服务接口 | W01拆入08所列文件；通过typecheck不等于产品实现 |
+| [api-v1.swift](contracts/api-v1.swift) | 修订5值类型、互斥状态和服务接口 | W01拆入08所列文件；通过typecheck不等于产品实现 |
 | [schema-v1.sql](contracts/schema-v1.sql) | SQLite DDL、键、索引、视图与PRAGMA | 本次修订不改变存储schema；W03按04实现事务 |
 | [third-party-v1.json](contracts/third-party-v1.json) | 实际复制/修改代码、许可和method-only边界 | 文档校验及W08通知文件门禁 |
-| [acceptance-v1.json](contracts/acceptance-v1.json) | 134项REQ到设计、任务和测试的映射 | W11逐项附证据；012/114保持retired |
-| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T12.5依赖图及W归属 | 23逐任务执行；保留原50项任务/DAG，新增W12五项 |
+| [acceptance-v1.json](contracts/acceptance-v1.json) | 135项REQ到设计、任务和测试的映射 | W11逐项附证据；012/114保持retired |
+| [tasks-v1.json](contracts/tasks-v1.json) | T00.1～T13.5依赖图及W归属 | 23逐任务执行；保留原50项任务/DAG，新增W12/W13各五项 |
 | [course-delivery-v1.json](contracts/course-delivery-v1.json) | core/auxiliary/optional/retired分类与五课程criterion | 独立验收政策，非公开API或schema修订；不覆盖旧逐REQ事实 |
 
-文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=4`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订4，不得同时保留旧路径。
+文件名中的v1表示本产品第一代契约族；JSON中的`contract_version=5`表示本次不向旧公开接口兼容的修订。生产实现只能接受修订5，不得同时保留旧路径。
 
 ## 强类型身份
 
@@ -148,30 +148,36 @@ sqlite3 ':memory:' < docs/contracts/schema-v1.sql
 
 ## 修订3历史迁移与不变量（2026-10-02）
 
-当时修订3为DiscoveredSource增加NVMe传输事实和闭合枚举，WorkerProtocol同名camelCase键；来源资格仍由Registry决定。该历史迁移没有改变schema user_version=1或CPU12。修订2/3旧硬件证据保留原源码和产物身份，不能证明本修订4新增CPU预警通过。
+当时修订3为DiscoveredSource增加NVMe传输事实和闭合枚举，WorkerProtocol同名camelCase键；来源资格仍由Registry决定。该历史迁移没有改变schema user_version=1或CPU12。修订2/3旧硬件证据保留原源码和产物身份，不能证明当时修订4新增CPU预警或本修订5新增分析通过。
 
 ## W11证据绑定工具契约（2026-10-03）
 
-本节证据工具格式继续适用于contract revision4；新增CPU预警在开发阶段将旧REQ-125结果重置为pending；现已用新软件/正式短测证据验收，旧排除告警证据仍不可复用。`acceptance-v1.json`格式version1保留134项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
+本节证据工具格式继续适用于contract revision5；新增CPU预警在开发阶段将旧REQ-125结果重置为pending；现已用新软件/正式短测证据验收，旧排除告警证据仍不可复用。`acceptance-v1.json`格式version1保留135项映射；`acceptance-evidence-catalog-v1.json`的内容格式version2是验收工具格式，不能接收旧TC批量通过目录。
 
 - delivery/source均为真实40位Git commit；source是delivery祖先，delivery是当前HEAD祖先。每artifact文件须在repo内且SHA256匹配；kind=`software/formal-app-hardware/ci/reference/waiver`，result=`passed/partial/waived`，scope/TC/environment明确。
 - 正式App实机environment记录execution=formal-release-app、Release、fixture=false、固定Bundle ID、App/worker SHA256、model和os_build。结构校验不能代替报告人工审核或真实测量。
 - 每个active REQ显式包含verification、evidence、covered_cases、outstanding、reason和非空required_evidence_kinds。accepted仅允许passed非waiver证据，满足映射TC与全部必需kind，无outstanding；pending可保留partial和缺项，不自动提升。
 - 只有REQ127允许用户授权本机整REQ豁免且只要求waiver证据；耐久/发行子用例的豁免不能把其他整REQ标为waived。012/114不得进入结果目录，也不得附pass证据。
-- binder默认dry-run；`--write`在两份文档均校验并stage后写入，IO失败回滚。普通handoff验证绑定一致；当前`--product-acceptance`检查五课程criterion，旧全132active资格由`--strict-product-acceptance`检查，pending存在时拒绝。
+- binder默认dry-run；`--write`在两份文档均校验并stage后写入，IO失败回滚。普通handoff验证绑定一致；当前`--product-acceptance`检查五课程criterion，全133active资格由`--strict-product-acceptance`检查，pending存在时拒绝。
 
 ## 本机课程验收政策（2026-10-03）
 
-[课程范围](course-delivery-scope.md)及course-delivery-v1是用户最新授权的验收政策，不取消CPU12/profile、SQLite schema、原50任务DAG与课程范围；CPU预警扩展以本修订4和W12为准。五criterion为COURSE-CPU、COURSE-FUNCTIONS、COURSE-RESOURCES、COURSE-REGRESSIONS和COURSE-CORE；正式App短测和必要软件证据互补，不能伪称一类证据证明另一类。
+[课程范围](course-delivery-scope.md)及course-delivery-v1是用户最新授权的验收政策，不取消CPU12/profile、SQLite schema、原50任务DAG与课程范围；CPU预警沿用修订4/W12语义，新增分析以修订5/W13为准。五criterion为COURSE-CPU、COURSE-FUNCTIONS、COURSE-RESOURCES、COURSE-REGRESSIONS和COURSE-CORE；正式App短测和必要软件证据互补，不能伪称一类证据证明另一类。
 
-旧acceptance矩阵/目录保持100accepted/31pending/1waived/2retired事实；core/auxiliary/optional/retired课程分类不通过批量修改旧REQ status获得完成。严格全132、五档10min、物理sleep、72/73h、公证/发行/跨机和精确性能当前是可选扩展。72h历史功能、异常语义、≥80%覆盖、third-party与Release边界保留。
+旧acceptance矩阵/目录保持100accepted/31pending/1waived/2retired事实；core/auxiliary/optional/retired课程分类不通过批量修改旧REQ status获得完成。严格全133、五档10min、物理sleep、72/73h、公证/发行/跨机和精确性能当前是可选扩展。72h历史功能、异常语义、≥80%覆盖、third-party与Release边界保留。
 
-课程五criterion只绑定实际软件与本机产物证据。最终一次独立审查、同head五CI、零真实blocking、仓库保护、merge commit和分支保留由11外部流程核验，不作为CI文档gate要求自身未来成功的先决条件。当前最小收尾仍进行中，不声明未来实测或合并已通过。
+课程五criterion只绑定实际软件与本机产物证据。最终一次独立审查、同head五CI、零真实blocking、仓库保护、merge commit和分支保留由11外部流程核验，不作为CI文档gate要求自身未来成功的先决条件。最终收尾由PR #58及本机交付记录回读，不以文档门禁预先声明未来检查或合并通过。
 
-## 修订4：CPU预警（2026-10-14）
+## 历史修订4：CPU预警（2026-10-14）
 
 新增强类型CPUWarningEventID、CPUWarningRule/State/Event/Snapshot和endReason；Snapshot.warning与RunningPresentationState.warning必须显式提供。ProcessingEngine及MonitorController新增setCPUWarningRule(_:) async throws。规则构造与解码校验温度finite5…120、时长整数1…300；RuntimeConfiguration.cpuWarning:CPUWarningConfiguration从defaults.cpu_warning生成`public var cpuWarningRule: CPUWarningRule { get throws }`。12参数及持续/中断/Receipt/通知完整见[24](24-cpu-warning.md)。
 
 defaults和first-profile的contract_version、acceptance/tasks/catalog/course-policy的contract_revision统一4；profile_version=1、CPU12/profile硬件语义、worker协议版本与schema user_version=1不变。134REQ与012/114退役保留；原50DAG不改依赖，新增W12五任务，terminal=T12.5。REQ125开发阶段重新pending且移除旧适用证据；本轮新TC-WARNING软件与正式App证据已满足course-local门禁，同head CI和合并仍独立回读。
 
 CPUWarningConfiguration的12个Codable字段与defaults.cpu_warning逐项camelCase映射：enabled、thresholdC、durationSeconds、systemNotificationsEnabled、thresholdMinC、thresholdMaxC、durationMinSeconds、durationMaxSeconds、recoveryHysteresisC、recoveryDurationSeconds、notificationCooldownSeconds、eventLimit；字段型别分别Bool/Double/Int/Bool/Double/Double/Int/Int/Double/Int/Int/Int。配置加载验证冻结范围和恢复/通知/容量值，不能用try!生成rule。CPUWarningState新增recovering(eventID,since)，该状态仍属于同一个活跃事件，视图不依据since自行推进恢复。
+
+## 2026-10-15 温度分析扩展（当前执行入口）
+
+当前135REQ/133现行/2退役、14W/60T/22TC，contract revision 5。REQ-135/W13/TC-ANALYSIS已在源码`e46f70c`完成实现、本轮[软件验证](validation/temperature-analysis/2026-10-15-e46f70c/software.json)与[正式Release短测](validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json)，课程五criterion通过。完整Core445项/65组、零issue，覆盖7586/8493=89.32%；[本轮唯一最终独立审查](validation/temperature-analysis/2026-10-15-e46f70c/independent-review.md)未发现功能或阻断缺陷。
+
+T13.1～T13.4完成，T13.5独立审查完成；课程报告/PPT/图表由本机交付流程同步，最终同head五CI、merge commit及分支保留以PR #58和本机交付记录为准。实际只观察到系统nominal；fair/serious/critical/unknown与故障、持续及恢复边界由软件注入验证，未把规则调整当自然降温恢复。保留已豁免的长测、真实休眠、公证和跨机认证，不增加验收项目。

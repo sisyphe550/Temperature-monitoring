@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "date": "2026-10-14",
+  "date": "2026-10-15",
   "requirements": [
     {
       "id": "REQ-001",
@@ -4699,7 +4699,7 @@
         "TC-UI",
         "TC-HISTORY"
       ],
-      "body_sha256": "ae375695df5ffaf8ec2195e2353163d6914e731770ea0209fce801adb72994e3",
+      "body_sha256": "c6657b311fc2f1322d4b0648bc278d08e69ca2c94908cab16212f74675e36781",
       "verification": "product-accepted-local",
       "evidence": [
         {
@@ -14540,7 +14540,96 @@
           "software"
         ]
       }
+    },
+    {
+      "id": "REQ-135",
+      "status": "active",
+      "design": [
+        "25-temperature-analysis.md",
+        "05-processing-pipeline.md",
+        "07-native-ui.md",
+        "21-implementation-contracts.md"
+      ],
+      "tasks": [
+        "W13"
+      ],
+      "tests": [
+        "TC-ANALYSIS",
+        "TC-TREND",
+        "TC-UI",
+        "TC-LIFECYCLE"
+      ],
+      "body_sha256": "e9e102ada5d18fe7327d4b0a850c6d86e982015e072fb265a47de2eda99b8395",
+      "verification": "product-accepted-local",
+      "evidence": [
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/software.json",
+          "sha256": "53e860227a610d5fcfc0afcca18250542aaaf6d31ed19b5f3a0694c3793c1383",
+          "source_commit": "e46f70c5dcda452a1509c5b646128ce44d09221a",
+          "kind": "software",
+          "result": "passed",
+          "environment": {
+            "execution": "software-tests",
+            "os_version": "15.7.3",
+            "os_build": "24G419",
+            "architecture": "arm64",
+            "xcode_version": "26.3 (17C529)",
+            "scope": "Swift Testing controlled inputs, mock persistence/clock and Debug UI fixtures; not hardware qualification."
+          },
+          "scope": [
+            "445 tests/65suites,89.32% unchanged Core denominator; analysis deterministic software paths and3 new Debug UI tests"
+          ],
+          "tc_groups": [
+            "TC-ANALYSIS",
+            "TC-TREND",
+            "TC-UI",
+            "TC-LIFECYCLE"
+          ],
+          "artifact_id": "temperature-analysis-software"
+        },
+        {
+          "path": "docs/validation/temperature-analysis/2026-10-15-e46f70c/formal-app-short.json",
+          "sha256": "aa87104780ca079535709fb3db5b351e1806a08cf6606f591feef6f05109cad7",
+          "source_commit": "e46f70c5dcda452a1509c5b646128ce44d09221a",
+          "kind": "formal-app-hardware",
+          "result": "passed",
+          "environment": {
+            "execution": "formal-release-app",
+            "build_configuration": "Release",
+            "fixture": false,
+            "app_bundle_id": "io.github.sisyphe550.TemperatureMonitor",
+            "app_sha256": "79f4330b439fb115145b0252635ab97e9552f198997b43f4f637311f307ea9c6",
+            "worker_sha256": "537eb9a76a6aeb1fa5764a865240a7e1a3f6a502c3d02bf2653ad84c9e9bac82",
+            "model": "Mac16,13",
+            "os_version": "15.7.3",
+            "os_build": "24G419",
+            "observation": "Native CUA AX/screenshots plus scoped process/owned session directory reads; approximately4 minute core session"
+          },
+          "scope": [
+            "This source Release/no fixture: true CPU12 Raw/EMA, observed nominal state,10s trend,35C/5s lowered-rule sustained,warning-off analysis,short five settings/history/reopen/quit"
+          ],
+          "tc_groups": [
+            "TC-ANALYSIS",
+            "TC-TREND",
+            "TC-UI",
+            "TC-LIFECYCLE"
+          ],
+          "artifact_id": "temperature-analysis-formal-app"
+        }
+      ],
+      "acceptance_notes": {
+        "covered_cases": [
+          "software:temperature-analysis/2026-10-15-e46f70c#seven-source-bound-analysis-cases",
+          "formal-app-hardware:temperature-analysis/2026-10-15-e46f70c#six-core-analysis-cases"
+        ],
+        "outstanding": [],
+        "reason": "本机课程范围分层通过；整机仅实测nominal，其他档位/故障/精确时间边界为软件测试；不外推硬件安全、跨机或耐久。",
+        "required_evidence_kinds": [
+          "software",
+          "formal-app-hardware"
+        ]
+      }
     }
   ],
-  "contract_revision": 4
+  "contract_revision": 5
 }

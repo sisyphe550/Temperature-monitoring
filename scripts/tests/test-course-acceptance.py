@@ -38,7 +38,7 @@ class CourseAcceptanceTests(unittest.TestCase):
         self.acceptance = self.make_acceptance()
         self.catalog = {
             "version": 2,
-            "contract_revision": 4,
+            "contract_revision": 5,
             "artifacts": {
                 "hardware": self.artifact("formal-app-hardware", "hardware.json"),
                 "software": self.artifact("software", "coverage.json"),
@@ -51,7 +51,7 @@ class CourseAcceptanceTests(unittest.TestCase):
         self.write_warning_payloads()
         self.policy = {
             "version": 1,
-            "contract_revision": 4,
+            "contract_revision": 5,
             "target": "course-local",
             "authorization": "Synthetic unit-test authorization for course-local scope.",
             "requirement_tiers": {
@@ -77,6 +77,14 @@ class CourseAcceptanceTests(unittest.TestCase):
             self.check(check_id)["requirements"].append("REQ-125")
         self.warning = next(row for row in self.acceptance["requirements"] if row["id"] == "REQ-125")
         self.warning["verification"] = "product-accepted-local"
+        self.analysis = next(row for row in self.acceptance["requirements"] if row["id"] == "REQ-135")
+        self.analysis["verification"] = "product-accepted-local"
+        self.policy["requirement_tiers"]["REQ-135"] = "core"
+        self.write_analysis_payloads()
+        for check_id in ("COURSE-FUNCTIONS", "COURSE-REGRESSIONS"):
+            self.check(check_id)["requirements"].append("REQ-135")
+            kind = "hardware" if check_id == "COURSE-FUNCTIONS" else "software"
+            self.check(check_id)["evidence"].append("analysis-" + kind)
         # Swap another active fixture row to keep the original 31-pending boundary test.
         next(row for row in self.acceptance["requirements"] if row["id"] == "REQ-101")["verification"] = "pending-product-acceptance"
 
@@ -99,7 +107,7 @@ class CourseAcceptanceTests(unittest.TestCase):
         rows = []
         active_ids = [f"REQ-{i:03d}" for i in range(1, 135) if i not in {12, 114}]
         pending_ids = set(active_ids[-31:])
-        for i in range(1, 135):
+        for i in range(1, 136):
             rid = f"REQ-{i:03d}"
             retired = i in {12, 114}
             rows.append({
@@ -114,9 +122,9 @@ class CourseAcceptanceTests(unittest.TestCase):
                 "acceptance_notes": {"required_evidence_kinds": ["software"]},
                 "evidence": [],
             })
-        # Keep exactly 31 pending + 1 waived among 132 active requirements.
+        # Keep exactly 31 pending + 1 waived among 133 active requirements.
         next(row for row in rows if row["id"] == "REQ-102")["verification"] = "pending-product-acceptance"
-        return {"version": 1, "contract_revision": 4, "requirements": rows}
+        return {"version": 1, "contract_revision": 5, "requirements": rows}
 
     def write_warning_payloads(self) -> None:
         import hashlib
@@ -149,6 +157,50 @@ class CourseAcceptanceTests(unittest.TestCase):
                     authorization="authorized", adapter_request="request-accepted",
                     observed_banner=False, notification_click=False)
             path.write_text(json.dumps(report))
+
+    def write_analysis_payloads(self) -> None:
+        import hashlib
+        raw = self.root / "analysis-original.log"
+        raw.write_text("Synthetic analysis schema evidence; no App or hardware executed.\n")
+        reference = {"path": "analysis-original.log", "sha256": hashlib.sha256(raw.read_bytes()).hexdigest()}
+        names = {
+            "software": ["system-thermal-state", "cpu-assessment", "warning-independent", "trend-window-and-gap",
+                         "receipt-replay-and-expiry", "rule-change", "advice-policy"],
+            "hardware": ["real-cpu-analysis", "system-thermal-state", "trend-display", "warning-disabled", "close-reopen", "quit"],
+        }
+        for kind, cases in names.items():
+            artifact = copy.deepcopy(self.catalog["artifacts"][kind])
+            artifact["path"] = "analysis-" + kind + ".json"
+            artifact["tc_groups"] = ["TC-ANALYSIS"]
+            self.catalog["artifacts"]["analysis-" + kind] = artifact
+            report = {"contract_version": 5, "feature": "temperature-analysis",
+                      **{key: copy.deepcopy(artifact[key]) for key in ("kind", "source_commit", "result", "environment")},
+                      "analysis_cases": {name: {"result": "passed", "observed": "Synthetic schema only",
+                                               "evidence": [copy.deepcopy(reference)]} for name in cases}}
+            (self.root / artifact["path"]).write_text(json.dumps(report))
+
+    def test_analysis_pending_allows_structure_but_blocks_completion(self) -> None:
+        self.analysis["verification"] = "pending-product-acceptance"
+        self.assertEqual([], self.errors())
+        self.assert_rejected(complete=True)
+
+    def test_old_warning_evidence_cannot_prove_new_analysis(self) -> None:
+        for check_id in ("COURSE-FUNCTIONS", "COURSE-REGRESSIONS"):
+            self.check(check_id)["evidence"] = [key for key in self.check(check_id)["evidence"] if not key.startswith("analysis-")]
+        self.assertEqual([], self.errors())
+        self.assert_rejected(complete=True)
+
+    def test_warning_report_relabelled_analysis_tag_is_rejected(self) -> None:
+        self.catalog["artifacts"]["analysis-hardware"]["path"] = "hardware.json"
+        self.assert_rejected(complete=True)
+
+    def test_analysis_mapping_cannot_be_removed(self) -> None:
+        for check_id in ("COURSE-FUNCTIONS", "COURSE-REGRESSIONS"):
+            with self.subTest(check_id=check_id):
+                row = self.check(check_id)
+                row["requirements"].remove("REQ-135")
+                self.assert_rejected()
+                row["requirements"].append("REQ-135")
 
     def write_coverage(self, summary: str | None) -> None:
         path = self.root / "coverage.json"
@@ -275,7 +327,7 @@ class CourseAcceptanceTests(unittest.TestCase):
                 self.policy["requirement_tiers"][missing_id] = original
 
     def test_requirement_tier_mapping_rejects_unknown_requirement(self) -> None:
-        self.policy["requirement_tiers"]["REQ-135"] = "optional"
+        self.policy["requirement_tiers"]["REQ-136"] = "optional"
         self.assert_rejected()
 
     def test_requirement_tier_rejects_unknown_tier(self) -> None:

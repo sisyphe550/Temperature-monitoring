@@ -1,0 +1,41 @@
+Window: "设置", App: TemperatureMonitor.
+0 standard window 设置, Secondary Actions: Raise
+	1 scroll area Secondary Actions: Scroll Up, Scroll Down
+		2 heading CPU温度预警（点击应用后生效）
+		3 container
+			4 switch 启用CPU预警, Value: on, ID: warning.enabled
+			5 text field (settable) 触发温度（°C）, Value: 90.0, ID: warning.threshold
+			6 text field (settable) 持续时间（整数秒）, Value: 5, ID: warning.duration
+			7 switch 使用macOS系统通知, Value: off, ID: warning.notifications
+			8 button Description: 应用预警设置, ID: warning.apply
+			9 text ID: warning.rule, Value: 当前规则：启用，≥ 90.0 °C持续5秒。 触发温度 5–120 °C；持续1–300秒。恢复阈值比触发低5 °C，连续10秒。 这是用户设定的提醒规则，不是硬件安全限值。关窗后继续预警，退出后停止检测。 系统通知已允许；实际横幅受系统通知设置影响。 设置已应用并保存。
+		10 heading CPU 采样周期
+		11 pop up button CPU 周期, Value: 200 ms, ID: cpu.period
+		12 heading 温度来源
+		13 container
+			14 text CPU Te05 45.3 °C 应用读取 19:06:29 · 测量更新时间未知 Te09 45.1 °C 应用读取 19:06:29 · 测量更新时间未知 Te0H 44.6 °C 应用读取 19:06:29 · 测量更新时间未知 Te0S 44.2 °C 应用读取 19:06:29 · 测量更新时间未知 Tp01 47.7 °C 应用读取 19:06:29 · 测量更新时间未知 Tp05 48.1 °C 应用读取 19:06:29 · 测量更新时间未知 Tp09 47.5 °C 应用读取 19:06:29 · 测量更新时间未知 Tp0D 48.2 °C 应用读取 19:06:29 · 测量更新时间未知 Tp0V 49.5 °C 应用读取 19:06:29 · 测量更新时间未知 Tp0Y 48.5 °C 应用读取 19:06:29 · 测量更新时间未知 Tp0b 47.2 °C 应用读取 19:06:29 · 测量更新时间未知 Tp0e 47.2 °C 应用读取 19:06:29 · 测量更新时间未知 SSD TEMPERATURE 31.9 °C 应用读取 19:06:28 · 测量更新时间未知 Battery TB1T 29.2 °C 应用读取 19:06:28 · 测量更新时间未知 悬停来源可查看身份、指标和映射依据。测量更新时间未知；显示的是应用读取时间。
+		15 heading 诊断
+		16 container
+			17 button Description: 打开日志目录, ID: settings.logs
+			18 button Description: 打开错误报告目录, ID: settings.reports
+		19 heading 关于
+		20 container
+			21 text 版本, Value: 0.1.0
+			22 button Description: 第三方许可与声明, ID: settings.licenses
+		23 scroll bar (settable, float) 0
+			24 value indicator (settable, float) 0
+			25 increment arrow button
+			26 decrement arrow button
+			27 increment page button
+			28 decrement page button
+	29 close button
+	30 zoom button (disabled)
+	31 text 设置
+32 menu bar
+	33 TemperatureMonitor
+	34 Edit
+	35 View
+	36 Window
+	37 Help
+
+The focused UI element is 5 text field (settable) Value: 90.0, ID: warning.threshold

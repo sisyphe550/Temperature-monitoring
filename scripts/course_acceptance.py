@@ -5,10 +5,10 @@ import json
 from pathlib import Path
 import re
 
-from acceptance_evidence import validate_cpu_warning_report
+from acceptance_evidence import validate_cpu_warning_report, validate_temperature_analysis_report
 
 POLICY_PATH = Path("docs/contracts/course-delivery-v1.json")
-REQUIREMENT_IDS = {f"REQ-{number:03d}" for number in range(1, 135)}
+REQUIREMENT_IDS = {f"REQ-{number:03d}" for number in range(1, 136)}
 RETIRED_IDS = {"REQ-012", "REQ-114"}
 CHECK_KINDS = {
     "COURSE-CPU": "formal-app-hardware",
@@ -58,7 +58,7 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
 
     Ordinary handoff permits criteria awaiting evidence. Completion requires every
     selected artifact passed, required kinds present, and production Core >=80%.
-    This does not declare all 132 strict requirements accepted or replace head CI.
+    This does not declare all 133 strict requirements accepted or replace head CI.
     """
     errors: list[str] = []
     try:
@@ -68,21 +68,21 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
         return [f"course-delivery-v1.json: invalid policy: {error}"]
     if not isinstance(policy, dict):
         return ["course-delivery-v1.json: top level must be an object"]
-    for key, expected in (("version", 1), ("contract_revision", 4), ("target", "course-local")):
+    for key, expected in (("version", 1), ("contract_revision", 5), ("target", "course-local")):
         if type(policy.get(key)) is not type(expected) or policy.get(key) != expected:
             errors.append(f"course policy {key}: must be {expected!r}")
     if not isinstance(policy.get("authorization"), str) or not policy["authorization"].strip():
         errors.append("course policy authorization: must be non-empty")
     rows = acceptance.get("requirements", [])
     ids = [row.get("id") for row in rows if isinstance(row, dict)] if isinstance(rows, list) else []
-    if len(ids) != 134 or set(ids) != REQUIREMENT_IDS:
-        errors.append("course policy acceptance: must contain all 134 requirement IDs exactly once")
+    if len(ids) != 135 or set(ids) != REQUIREMENT_IDS:
+        errors.append("course policy acceptance: must contain all 135 requirement IDs exactly once")
     tiers = policy.get("requirement_tiers")
     if not isinstance(tiers, dict):
         errors.append("course policy requirement_tiers: must be an object")
         tiers = {}
     if set(tiers) != REQUIREMENT_IDS:
-        errors.append("course policy requirement_tiers: must map all 134 requirement IDs exactly once")
+        errors.append("course policy requirement_tiers: must map all 135 requirement IDs exactly once")
     for rid, tier in tiers.items():
         if not isinstance(tier, str) or tier not in {"core", "auxiliary", "optional", "retired"}:
             errors.append(f"course policy {rid}: unknown tier {tier!r}")
@@ -131,6 +131,8 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
         warning_criterion = check_id in {"COURSE-FUNCTIONS", "COURSE-REGRESSIONS"}
         if warning_criterion and "REQ-125" not in requirements:
             errors.append(f"{check_id}: must include revision4 CPU warning REQ-125")
+        if warning_criterion and "REQ-135" not in requirements:
+            errors.append(f"{check_id}: must include revision5 temperature analysis REQ-135")
         evidence = strings(row.get("evidence"), f"{check_id}.evidence")
         missing = set(evidence) - set(artifacts)
         if missing:
@@ -160,12 +162,30 @@ def validate_course_policy(root: Path, acceptance: dict, catalog: dict,
                         validate_cpu_warning_report(root, artifact, check_source=False)
                     except ValueError as error:
                         errors.append(f"{check_id}: {error}")
+            if warning_criterion:
+                analysis_reports = [artifact for artifact in selected
+                                    if artifact.get("kind") == CHECK_KINDS[check_id]
+                                    and artifact.get("result") == "passed"
+                                    and "TC-ANALYSIS" in artifact.get("tc_groups", [])]
+                if not analysis_reports:
+                    errors.append(f"{check_id}: requires passed TC-ANALYSIS {CHECK_KINDS[check_id]} evidence")
+                for artifact in analysis_reports:
+                    try:
+                        validate_temperature_analysis_report(root, artifact, check_source=False)
+                    except ValueError as error:
+                        errors.append(f"{check_id}: {error}")
             if check_id == "COURSE-CORE" and not any(
                     artifact.get("kind") == "software" and artifact.get("result") == "passed"
                     and _coverage(root, artifact) for artifact in selected):
                 errors.append("COURSE-CORE: requires production Core line coverage >=80% in evidence")
     if tiers.get("REQ-125") != "core":
         errors.append("course policy REQ-125: CPU warning must remain core")
+    if tiers.get("REQ-135") != "core":
+        errors.append("course policy REQ-135: temperature analysis must remain core")
+    if require_complete:
+        analysis = next((row for row in rows if isinstance(row, dict) and row.get("id") == "REQ-135"), {})
+        if analysis.get("verification") != "product-accepted-local":
+            errors.append("course temperature analysis REQ-135: new behavior requires product-accepted-local evidence")
     if require_complete:
         warning = next((row for row in rows if isinstance(row, dict) and row.get("id") == "REQ-125"), {})
         if warning.get("verification") != "product-accepted-local":

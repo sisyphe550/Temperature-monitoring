@@ -1,0 +1,97 @@
+COMMAND: ['xcodebuild', '-project', 'TemperatureMonitor.xcodeproj', '-scheme', 'TemperatureMonitor', '-configuration', 'Debug', '-destination', 'platform=macOS', '-derivedDataPath', '/Users/sisyphus/Code/Go/Temperature monitoring/build/temperature-analysis-20261015/ui/DerivedData', '-resultBundlePath', '/Users/sisyphus/Code/Go/Temperature monitoring/build/temperature-analysis-20261015/ui/AnalysisUI.xcresult', 'test-without-building', '-test-timeouts-enabled', 'YES', '-maximum-test-execution-time-allowance', '30', '-only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testAnalysisCardSeparatesRawEMAAndWholeSystemState', '-only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testAnalysisCardKeepsInvalidCPUUnknownEvenWhenSystemNominal', '-only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testPopoverReusesVisibleAnalysisCard']
+TOTAL_TIMEOUT_SECONDS: 120
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project TemperatureMonitor.xcodeproj -scheme TemperatureMonitor -configuration Debug -destination platform=macOS -derivedDataPath "/Users/sisyphus/Code/Go/Temperature monitoring/build/temperature-analysis-20261015/ui/DerivedData" -resultBundlePath "/Users/sisyphus/Code/Go/Temperature monitoring/build/temperature-analysis-20261015/ui/AnalysisUI.xcresult" test-without-building -test-timeouts-enabled YES -maximum-test-execution-time-allowance 30 "-only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testAnalysisCardSeparatesRawEMAAndWholeSystemState" "-only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testAnalysisCardKeepsInvalidCPUUnknownEvenWhenSystemNominal" "-only-testing:TemperatureMonitorUITests/TemperatureMonitorUITests/testPopoverReusesVisibleAnalysisCard"
+
+Resolve Package Graph
+
+
+Resolved source packages:
+  TemperatureCore: /Users/sisyphus/.codex/worktrees/cpu-warning/Temperature monitoring/Packages/TemperatureCore @ local
+
+Writing result bundle at path:
+	/Users/sisyphus/Code/Go/Temperature monitoring/build/temperature-analysis-20261015/ui/AnalysisUI.xcresult
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00008132-000178392699801C, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00008132-000178392699801C, name:My Mac }
+2026-10-15 19:00:08.327368+0800 TemperatureMonitorUITests-Runner[74544:7947461] [Default] Running tests...
+Test Suite 'Selected tests' started at 2026-10-15 19:00:44.197.
+Test Suite 'TemperatureMonitorUITests.xctest' started at 2026-10-15 19:00:44.199.
+Test Suite 'TemperatureMonitorUITests' started at 2026-10-15 19:00:44.200.
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testAnalysisCardKeepsInvalidCPUUnknownEvenWhenSystemNominal]' started.
+    t =     0.00s Start Test at 2026-10-15 19:00:44.202
+    t =     0.33s Set Up
+    t =     0.34s Open io.github.sisyphe550.TemperatureMonitor
+    t =     0.34s     Launch io.github.sisyphe550.TemperatureMonitor
+    t =     1.10s         Wait for accessibility to load
+    t =     1.16s         Setting up automation session
+    t =     1.17s         Wait for io.github.sisyphe550.TemperatureMonitor to idle
+    t =     1.18s Waiting 10.0s for "analysis.cpuAssessment" StaticText to exist
+    t =     2.22s     Checking `Expect predicate `existsNoRetry == 1` for object "analysis.cpuAssessment" StaticText`
+    t =     2.22s         Checking existence of `"analysis.cpuAssessment" StaticText`
+    t =     2.35s Find the "analysis.cpuAssessment" StaticText
+    t =     2.41s Find the "analysis.cpuAssessment" StaticText
+    t =     2.45s Find the "analysis.systemThermalState" StaticText
+    t =     2.48s Find the "analysis.trend" StaticText
+    t =     2.51s Find the "analysis.advice" StaticText
+    t =     2.54s Find the "analysis.cpuAssessment" StaticText
+    t =     2.57s Tear Down
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testAnalysisCardKeepsInvalidCPUUnknownEvenWhenSystemNominal]' passed (2.817 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testAnalysisCardSeparatesRawEMAAndWholeSystemState]' started.
+    t =     0.00s Start Test at 2026-10-15 19:00:47.020
+    t =     0.14s Set Up
+    t =     0.14s Open io.github.sisyphe550.TemperatureMonitor
+    t =     0.14s     Launch io.github.sisyphe550.TemperatureMonitor
+    t =     0.14s         Terminate io.github.sisyphe550.TemperatureMonitor:74577
+    t =     1.46s         Wait for accessibility to load
+    t =     1.52s         Setting up automation session
+    t =     1.52s         Wait for io.github.sisyphe550.TemperatureMonitor to idle
+    t =     1.53s Waiting 10.0s for "analysis.systemThermalState" StaticText to exist
+    t =     2.57s     Checking `Expect predicate `existsNoRetry == 1` for object "analysis.systemThermalState" StaticText`
+    t =     2.57s         Checking existence of `"analysis.systemThermalState" StaticText`
+    t =     2.66s Find the "analysis.systemThermalState" StaticText
+    t =     2.71s Find the "analysis.raw" StaticText
+    t =     2.75s Find the "analysis.cpuAssessment" StaticText
+    t =     2.78s Find the "analysis.trend" StaticText
+    t =     2.80s Find the "analysis.trend" StaticText
+    t =     2.83s Find the "analysis.advice" StaticText
+    t =     2.86s Find the "status.temperature" StatusItem
+    t =     2.89s Tear Down
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testAnalysisCardSeparatesRawEMAAndWholeSystemState]' passed (3.124 seconds).
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testPopoverReusesVisibleAnalysisCard]' started.
+    t =     0.00s Start Test at 2026-10-15 19:00:50.144
+    t =     0.13s Set Up
+    t =     0.13s Open io.github.sisyphe550.TemperatureMonitor
+    t =     0.13s     Launch io.github.sisyphe550.TemperatureMonitor
+    t =     0.13s         Terminate io.github.sisyphe550.TemperatureMonitor:74583
+    t =     1.46s         Wait for accessibility to load
+    t =     1.48s         Setting up automation session
+    t =     1.48s         Wait for io.github.sisyphe550.TemperatureMonitor to idle
+    t =     1.49s Waiting 10.0s for "analysis.systemThermalState" StaticText to exist
+    t =     2.52s     Checking `Expect predicate `existsNoRetry == 1` for object "analysis.systemThermalState" StaticText`
+    t =     2.52s         Checking existence of `"analysis.systemThermalState" StaticText`
+    t =     2.63s Find the "analysis.raw" StaticText
+    t =     2.68s Find the "analysis.cpuAssessment" StaticText
+    t =     2.70s Find the "analysis.trend" StaticText
+    t =     2.72s Find the "analysis.advice" StaticText
+    t =     2.73s Tear Down
+Test Case '-[TemperatureMonitorUITests.TemperatureMonitorUITests testPopoverReusesVisibleAnalysisCard]' passed (2.961 seconds).
+Test Suite 'TemperatureMonitorUITests' passed at 2026-10-15 19:00:53.105.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 8.901 (8.905) seconds
+Test Suite 'TemperatureMonitorUITests.xctest' passed at 2026-10-15 19:00:53.105.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 8.901 (8.906) seconds
+Test Suite 'Selected tests' passed at 2026-10-15 19:00:53.106.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 8.901 (8.908) seconds
+2026-10-15 19:00:53.422 xcodebuild[74526:7946895] [MT] IDETestOperationsObserverDebug: 46.256 elapsed -- Testing started completed.
+2026-10-15 19:00:53.422 xcodebuild[74526:7946895] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-10-15 19:00:53.422 xcodebuild[74526:7946895] [MT] IDETestOperationsObserverDebug: 46.256 sec, +46.256 sec -- end
+
+Test session results, code coverage, and logs:
+	/Users/sisyphus/Code/Go/Temperature monitoring/build/temperature-analysis-20261015/ui/AnalysisUI.xcresult
+
+** TEST EXECUTE SUCCEEDED **
+
+Testing started
+
+HARNESS_RESULT: 0; elapsed_seconds: 48.8
