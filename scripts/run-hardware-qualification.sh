@@ -85,8 +85,4 @@ fi
 if [[ -n "${CHECKPOINT_INTERVAL}" ]]; then
   ARGS+=(--checkpoint-interval-seconds "${CHECKPOINT_INTERVAL}")
 fi
-if [[ "${USE_PROBE}" -eq 1 ]]; then
-  ARGS+=(--use-probe)
-fi
-
 python3 "${ROOT}/scripts/product_qualification.py" "${ARGS[@]}"

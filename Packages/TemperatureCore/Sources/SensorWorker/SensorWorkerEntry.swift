@@ -20,7 +20,6 @@ struct SensorWorkerEntry {
             }
             try writeResponseLine(responseLine)
         }
-        session.closeConnections()
     }
 
     private static func writeResponseLine(_ line: String) throws {

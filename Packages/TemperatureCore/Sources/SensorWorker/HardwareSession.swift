@@ -12,8 +12,6 @@ final class HardwareSession {
 
     private struct HIDServiceInfo {
         let index: Int32
-        let productName: String
-        let registryID: String
     }
 
     private struct NVMeDeviceInfo {
@@ -38,9 +36,6 @@ final class HardwareSession {
 
     func discover(generation: UInt64) -> DiscoveredCatalog {
         closeConnections()
-        smcKeys.removeAll(keepingCapacity: true)
-        hidServices.removeAll(keepingCapacity: true)
-        nvmeDevices.removeAll(keepingCapacity: true)
 
         var sources: [DiscoveredSource] = []
         sources.append(contentsOf: discoverSMCSources())
@@ -171,7 +166,7 @@ final class HardwareSession {
             )
             let registryID = String(format: "00000000-0000-4000-8000-%012x", index + 1)
             hidServices.append(
-                HIDServiceInfo(index: index, productName: productName, registryID: registryID)
+                HIDServiceInfo(index: index)
             )
             sources.append(
                 DiscoveredSource(

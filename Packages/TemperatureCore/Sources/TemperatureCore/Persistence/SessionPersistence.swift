@@ -64,7 +64,6 @@ public actor SessionPersistenceActor: SessionPersistence {
     private var snapshotGeneration: UInt64 = 0
     private var currentQueryToken: QueryCancellationToken?
     private var retentionPolicy: RetentionPolicy?
-    private var lastPruneElapsedNS: Int64?
     private var configuration: RuntimeConfiguration?
     private var queue: BoundedQueue?
     private var writer: StorageWriter?
@@ -206,7 +205,6 @@ public actor SessionPersistenceActor: SessionPersistence {
         // Admit before waiting: close drains every write admitted before it.
         try ensureQueueReady(operation: "commit")
         let admittedAt = ContinuousClock.now
-        let admittedWallTime = Date()
         await acquireOperation()
         defer { releaseOperation() }
         guard let store, let session = openedSession, queue != nil else {
@@ -240,7 +238,7 @@ public actor SessionPersistenceActor: SessionPersistence {
         }
         try queue?.consumeReservation(
             id: lease.reservationID, owner: lease.owner, generation: lease.generation,
-            batch: batch, recordCount: recordCount, byteCount: byteCount, now: admittedWallTime,
+            batch: batch, recordCount: recordCount, byteCount: byteCount,
             enqueuedContinuouslyAt: admittedAt
         )
         return try await flushUntil(batchID: batch.batchID, store: store, sessionID: session.sessionID)
@@ -304,7 +302,6 @@ public actor SessionPersistenceActor: SessionPersistence {
                 capacityPaused = try await runIO {
                     try RetentionEngine(store: store, policy: policy).prune(nowElapsedNS: nowElapsedNS)
                 }
-                lastPruneElapsedNS = nowElapsedNS
                 return
             } catch let error as RetentionError {
                 throw Self.mapRetentionError(error, operation: "prune")

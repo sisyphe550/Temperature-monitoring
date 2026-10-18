@@ -15,7 +15,7 @@ import Testing
             } else {
                 let batch = storageEmptyBatch()
                 try queue.consumeReservation(id: id, owner: owner, generation: 1, batch: batch,
-                    recordCount: 0, byteCount: 100, now: Date())
+                    recordCount: 0, byteCount: 100)
                 _ = try queue.dequeueThrough(batchID: batch.batchID)
             }
         }

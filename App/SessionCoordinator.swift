@@ -5,8 +5,6 @@ import TemperatureCore
 public enum SessionCoordinatorError: Error, Sendable, Equatable {
     case alreadyRunning
     case notRunning
-    case instanceAlreadyHeld
-    case startupFailed(String)
 }
 
 public actor SessionCoordinator {
@@ -49,7 +47,6 @@ public actor SessionCoordinator {
         )
         _ = try cleanup.cleanupOrphanedSessions(paths: paths, excludingSessionID: nil)
         sessionID = sessionMetadata.sessionID
-        metadata = sessionMetadata
         let sessionDirectory = paths.sessionDirectory(sessionID: sessionMetadata.sessionID)
         try FileManager.default.createDirectory(at: sessionDirectory, withIntermediateDirectories: true)
         try cleanup.writeMarker(for: sessionMetadata.sessionID, in: sessionDirectory)
@@ -117,8 +114,6 @@ public actor SessionCoordinator {
         else { lifecycleWaiters.removeFirst().resume() }
     }
 
-    public var shutdownBudgetMS: Int { configuration.shutdownBudgetMS }
-
     public func recordShutdownDeadlineExceeded(incompleteSteps: [String] = ["await_runtime_stop", "delete_session_directory"]) {
         guard let metadata else { return }
         let directory = paths.appSupportRoot.appendingPathComponent("Diagnostics", isDirectory: true)
@@ -166,10 +161,6 @@ public actor SessionCoordinator {
     public func freezeForFatal() async { await controller?.freezeForFatal() }
 
     public func lastRuntimeFailure() async -> MonitorFailure? { await controller?.lastAcceptFailure() }
-
-    public func currentFatalReceipt() -> FatalDisplayReceipt? {
-        fatalReceipt
-    }
 
     public func snapshots() async -> AsyncStream<Snapshot>? {
         await controller?.snapshots()

@@ -15,7 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNNER = ROOT / "scripts" / "run-hardware-qualification.sh"
 APP = ROOT / "build" / "TemperatureMonitor.app"
 PROFILE = ROOT / "docs" / "contracts" / "first-profile-v1.json"
-MODULE = ROOT / "scripts" / "product_qualification.py"
 
 
 def run(command: list[str], *, check: bool = True) -> subprocess.CompletedProcess[str]:

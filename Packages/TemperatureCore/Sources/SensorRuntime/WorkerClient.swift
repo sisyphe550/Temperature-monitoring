@@ -180,26 +180,26 @@ public actor WorkerClient: SensorTransport, SensorConnectionGeneration {
                 deadlineMS: deadlineMS
             )
         } catch WorkerClientError.requestTimedOut {
-            try await handleTransportFailure(operation: wireRequest.command.rawValue, timedOut: true)
+            try await terminateWorker()
             throw WorkerProtocol.timeoutFailure(operation: wireRequest.command.rawValue)
         } catch let error as WorkerProtocolError {
             throw WorkerProtocol.monitorFailure(for: error, operation: wireRequest.command.rawValue)
         } catch WorkerClientError.endOfStream {
-            try await handleTransportFailure(operation: wireRequest.command.rawValue, timedOut: false)
+            try await terminateWorker()
             throw WorkerProtocol.protocolFailure(operation: wireRequest.command.rawValue, underlyingCode: "eof")
         } catch WorkerClientError.workerExitedUnexpectedly {
-            try await handleTransportFailure(operation: wireRequest.command.rawValue, timedOut: false)
+            try await terminateWorker()
             throw WorkerProtocol.protocolFailure(operation: wireRequest.command.rawValue, underlyingCode: "exit")
         } catch WorkerClientError.workerRecoveryFailed {
             recoveryDisabled = true
             throw WorkerProtocol.recoveryFailure(operation: wireRequest.command.rawValue)
         } catch {
-            try? await handleTransportFailure(operation: wireRequest.command.rawValue, timedOut: false)
+            try? await terminateWorker()
             throw error
         }
 
         if ioHandles.process.isRunning == false {
-            try await handleTransportFailure(operation: wireRequest.command.rawValue, timedOut: false)
+            try await terminateWorker()
         }
 
         do {
@@ -207,12 +207,6 @@ public actor WorkerClient: SensorTransport, SensorConnectionGeneration {
         } catch let error as WorkerProtocolError {
             throw WorkerProtocol.monitorFailure(for: error, operation: wireRequest.command.rawValue)
         }
-    }
-
-    private func handleTransportFailure(operation: String, timedOut: Bool) async throws {
-        _ = operation
-        _ = timedOut
-        try await terminateWorker()
     }
 
     private func submitRequest(

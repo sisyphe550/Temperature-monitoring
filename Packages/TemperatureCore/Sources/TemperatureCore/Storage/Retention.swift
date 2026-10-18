@@ -290,15 +290,4 @@ extension SQLiteStore {
             bindings: [.int64(elapsedNS)]
         )
     }
-
-    func minRawElapsedNS() throws -> Int64? {
-        try queryInt64("SELECT MIN(elapsed_ns) FROM raw_samples")
-    }
-
-    func minAggregateEndElapsedNS(widthSeconds: Int) throws -> Int64? {
-        try queryRow(
-            sql: "SELECT MIN(end_elapsed_ns) FROM aggregates WHERE width_s = ?",
-            bindings: [.int64(Int64(widthSeconds))]
-        ) { sqlite3_column_int64($0, 0) }
-    }
 }

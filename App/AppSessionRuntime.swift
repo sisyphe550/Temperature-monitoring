@@ -124,10 +124,6 @@ final class AppSessionRuntime {
 
     func setFatalHandler(_ handler: @escaping @MainActor (FatalDisplayReceipt) -> Void) { fatalHandler = handler }
 
-    var canApplyLiveControls: Bool {
-        snapshotTask != nil
-    }
-
     func start() {
         guard snapshotTask == nil else {
             return
