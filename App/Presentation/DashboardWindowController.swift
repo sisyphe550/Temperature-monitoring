@@ -3,12 +3,7 @@ import SwiftUI
 
 @MainActor
 final class DashboardWindowController: NSWindowController, NSWindowDelegate {
-    private let presentationModel: PresentationModel
-    private weak var actions: PresentationActions?
-
     init(presentationModel: PresentationModel, actions: PresentationActions) {
-        self.presentationModel = presentationModel
-        self.actions = actions
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 960, height: 680),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
@@ -47,12 +42,7 @@ final class DashboardWindowController: NSWindowController, NSWindowDelegate {
 
 @MainActor
 final class SettingsWindowController: NSWindowController, NSWindowDelegate {
-    private let presentationModel: PresentationModel
-    private weak var actions: PresentationActions?
-
     init(presentationModel: PresentationModel, actions: PresentationActions) {
-        self.presentationModel = presentationModel
-        self.actions = actions
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 480, height: 360),
             styleMask: [.titled, .closable],

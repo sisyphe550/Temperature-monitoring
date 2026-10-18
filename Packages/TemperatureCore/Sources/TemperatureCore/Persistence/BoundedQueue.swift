@@ -19,7 +19,6 @@ struct BoundedQueue {
     struct QueuedBatch: Equatable {
         let batch: PersistenceBatch
         let reservationID: UUID
-        let enqueuedAt: Date
         let enqueuedContinuouslyAt: ContinuousClock.Instant
         let recordCount: Int
         let byteCount: Int
@@ -146,7 +145,6 @@ struct BoundedQueue {
         batch: PersistenceBatch,
         recordCount: Int,
         byteCount: Int,
-        now: Date,
         enqueuedContinuouslyAt: ContinuousClock.Instant = ContinuousClock.now
     ) throws {
         try validateReservation(
@@ -161,7 +159,6 @@ struct BoundedQueue {
             QueuedBatch(
                 batch: batch,
                 reservationID: id,
-                enqueuedAt: now,
                 enqueuedContinuouslyAt: enqueuedContinuouslyAt,
                 recordCount: recordCount,
                 byteCount: byteCount
@@ -181,38 +178,6 @@ struct BoundedQueue {
         updateBackpressureLatch()
     }
 
-    mutating func dequeueFlushable(
-        flushRecordThreshold: Int,
-        flushAgeMS: Int,
-        now: Date
-    ) -> [QueuedBatch] {
-        guard !pending.isEmpty else {
-            return []
-        }
-        let oldestAgeMS = Int(now.timeIntervalSince(pending[0].enqueuedAt) * 1000)
-        let pendingTotal = pendingRecords
-        guard pendingTotal >= flushRecordThreshold || oldestAgeMS >= flushAgeMS else {
-            return []
-        }
-
-        var selected: [QueuedBatch] = []
-        var accumulated = 0
-        var index = 0
-        while index < pending.count, accumulated < flushRecordThreshold {
-            let item = pending[index]
-            selected.append(item)
-            accumulated += item.recordCount
-            index += 1
-        }
-        pending.removeFirst(index)
-        return selected
-    }
-
-    mutating func requeueFront(_ batches: [QueuedBatch]) {
-        pending.insert(contentsOf: batches, at: 0)
-        updateBackpressureLatch()
-    }
-
     mutating func dequeueThrough(batchID: BatchID) throws -> [QueuedBatch] {
         guard let index = pending.firstIndex(where: { $0.batch.batchID == batchID }) else {
             throw BoundedQueueError.unknownBatch
@@ -221,13 +186,6 @@ struct BoundedQueue {
         pending.removeFirst(index + 1)
         updateBackpressureLatch()
         return selected
-    }
-
-    func oldestPendingAgeMS(now: Date) -> Int? {
-        guard let first = pending.first else {
-            return nil
-        }
-        return Int(now.timeIntervalSince(first.enqueuedAt) * 1000)
     }
 
     @discardableResult

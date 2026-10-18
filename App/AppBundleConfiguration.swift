@@ -10,14 +10,6 @@ enum AppBundleConfiguration {
         try Configuration.loadProfile(from: try resourceURL(name: "first-profile-v1", extension: "json"))
     }
 
-    static func thirdPartyManifestURL() throws -> URL {
-        try resourceURL(name: "third-party-v1", extension: "json")
-    }
-
-    static func thirdPartyNoticesURL() throws -> URL {
-        try resourceURL(name: "ThirdPartyNotices", extension: "md")
-    }
-
     private static func resourceURL(name: String, extension: String) throws -> URL {
         if let bundled = Bundle.main.url(forResource: name, withExtension: `extension`) {
             return bundled

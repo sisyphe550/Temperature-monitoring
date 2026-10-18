@@ -17,7 +17,6 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT = ROOT / "docs" / "contracts" / "product-qualification-v1.json"
 PACKAGE = ROOT / "Packages" / "TemperatureCore"
-FORBIDDEN_PROBE = ROOT / "prototypes" / "sensor-probe" / ".build" / "release" / "sensor-probe"
 WORKER_FLAGS = ["-Xswiftc", "-target", "-Xswiftc", "arm64-apple-macos15.7.3"]
 MIN_SCHEDULE_DURATION = int(
     __import__("os").environ.get("QUALIFICATION_MIN_SCHEDULE_SECONDS", "600")

@@ -117,11 +117,6 @@ final class SQLiteStore: @unchecked Sendable {
         }
     }
 
-    func validateSchemaForExistingDatabase() throws {
-        try quickCheck()
-        try validateSchema()
-    }
-
     func execSQL(_ sql: String) throws {
         try exec(sql)
     }
